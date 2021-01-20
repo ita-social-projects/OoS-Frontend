@@ -2,9 +2,9 @@ name: Run tests
 
 on:
   push:
-    branches: [master, dev/*, feat/create-workflow]
+    branches: [master, develop]
   pull_request:
-    branches: [master, dev/*, feat/create-workflow]
+    branches: [master, develop]
 
 jobs:
   build:
@@ -12,11 +12,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Run tests
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
