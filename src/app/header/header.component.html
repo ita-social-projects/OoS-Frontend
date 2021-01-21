@@ -1,0 +1,10 @@
+<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
+  <div>Позашкілля</div>
+  <div *ngIf="isAuthorized; else isUnauthorized">
+    Увійти
+  </div>
+
+  <ng-template #isUnauthorized>
+    Зареєструватися
+  </ng-template>
+</div>
