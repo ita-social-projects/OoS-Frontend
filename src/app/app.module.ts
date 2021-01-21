@@ -9,6 +9,7 @@ import { AppState } from './shared/app.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,12 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
     NgxsModule.forRoot([
       AppState,
     ]),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      disabled: environment.production
+    }),
+    NgxsLoggerPluginModule.forRoot({
+      disabled: environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

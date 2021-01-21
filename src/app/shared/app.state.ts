@@ -14,8 +14,8 @@ export interface AppStateModel {
 export class AppState {
 
     @Action(ToggleLoading)
-    static toggleLoading({ getState, patchState }: StateContext<AppStateModel>): void {
-        patchState({ isLoading: !getState().isLoading});
+    static toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
+        patchState({ isLoading: payload});
     }
 
 }
