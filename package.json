@@ -9,8 +9,7 @@
     "test:coverage": "jest --coverage",
     "test-watch": "jest --watch",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "debug": "--inspect-brk ./node_modules/jest/bin/jest.js --runInBand"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +32,7 @@
     "@angular-devkit/build-angular": "~0.1100.7",
     "@angular/cli": "~11.0.7",
     "@angular/compiler-cli": "~11.0.9",
+    "@types/jasmine": "~3.6.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
