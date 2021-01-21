@@ -20,4 +20,4 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: ng test
+      - run: yarn run test
