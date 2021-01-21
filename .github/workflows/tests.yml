@@ -15,14 +15,9 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Run tests
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Run tests
+        uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}  
-          
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: test # will run `yarn test` command
-      
-        
+          node-version: ${{ matrix.node-version }}
+      - run: yarn test
