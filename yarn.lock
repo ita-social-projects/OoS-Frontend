@@ -161,10 +161,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/cdk@^11.0.4":
-  version "11.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.0.4.tgz#ecdf9206b10cc0f1dc7217948b43b01604cb1406"
-  integrity sha512-suhAhsZEv+lLwm8dc524cMvO7gHPi+z2+4tueNS+zDiIObdZc4fs+KoOlnRMdYwba++X/V8mHXuDEQetl3GFcw==
+"@angular/cdk@^11.1.0":
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.1.0.tgz#35a5f60b79265cbd340c9ed1519b5c460ee5d6da"
+  integrity sha512-yFEHtdp0o/xGnYebrU/PQqWVIlB7SaP3cSviq/LTv/h2EINn3PzU/Zhdhg0k0fk09BrKoS+o8AVIddduIdDpYw==
   dependencies:
     tslib "^2.0.0"
   optionalDependencies:
@@ -245,6 +245,13 @@
   version "11.0.9"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-11.0.9.tgz#5e509af2d2580a07f9ddfe3b99ce86ae67689daf"
   integrity sha512-J0ff3UK2Cw7Z0eNLtUXrpMFvmmkvPPZWLYIwimyc1pZys7qsIVT6cy2ybGEOhbJgC6qt3fo0DoJV3pGXTalb8A==
+  dependencies:
+    tslib "^2.0.0"
+
+"@angular/flex-layout@^11.0.0-beta.33":
+  version "11.0.0-beta.33"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-11.0.0-beta.33.tgz#c2d08f90164701b66a62b8c4365b4e22c1e95789"
+  integrity sha512-unfhw3abZuKtdwQicRStHCYGbANPTHYg4WNRQk/RC5Mxq+4WOp4Q8HI7GqRHCGUYDCGUP7w1sU/oDt8f09nM8w==
   dependencies:
     tslib "^2.0.0"
 
