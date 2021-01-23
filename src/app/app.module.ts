@@ -10,6 +10,12 @@ import { ShellComponent } from './shell/shell.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
+import { AppState } from './shared/app.state';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { environment } from 'src/environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +27,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    NgxsModule.forRoot([
+      AppState,
+    ]),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      disabled: environment.production
+    }),
+    NgxsLoggerPluginModule.forRoot({
+      disabled: environment.production
+    }),
     ShellModule,
     FlexLayoutModule
   ],
