@@ -14,7 +14,8 @@ export interface AppStateModel {
 export class AppState {
 
     @Action(ToggleLoading)
-    static toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
+    // tslint:disable-next-statement
+    toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
         patchState({ isLoading: payload});
     }
 

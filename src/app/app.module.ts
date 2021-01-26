@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
-import { ShellComponent } from './shell/shell.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -19,12 +18,10 @@ import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    ShellComponent
-    
+    HeaderComponent
   ],
   imports: [
-  BrowserModule,
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxsModule.forRoot([
