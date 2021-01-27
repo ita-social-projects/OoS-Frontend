@@ -4,22 +4,24 @@ import { MainComponent } from './main/main.component';
 import { RouterModule } from '@angular/router';
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell.component';
-import { ResultComponent } from './result/result.component';
-
-const routes = [
-  { path: 'result', component: ResultComponent }
-]
+import { ResultComponent } from './main/result/result.component';
+import { FilteredDataComponent } from './main/result/filtered-data/filtered-data.component';
+import { MapComponent } from './main/result/map/map.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
     MainComponent,
     ShellComponent,
-    ResultComponent
+    ResultComponent,
+    FilteredDataComponent,
+    MapComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
-    ShellRoutingModule
+    ShellRoutingModule,
+    MatButtonToggleModule
   ],
   exports: [
     ShellComponent
