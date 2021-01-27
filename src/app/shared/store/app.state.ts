@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
 import { ToggleLoading } from './app.actions';
 
@@ -11,10 +12,11 @@ export interface AppStateModel {
         isLoading: true,
     }
 })
+@Injectable()
 export class AppState {
 
     @Action(ToggleLoading)
-    static toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
+    toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
         patchState({ isLoading: payload});
     }
 
