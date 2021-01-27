@@ -1,36 +1,19 @@
-<div class="filter">
-    <h2 class="filter__header">Знайди найкращі гуртки у своєму місті!</h2>
-    <div class="filter__searchbar">
-        <input class="filter__searchbar-input" type="text"  placeholder="Баскетбол / Динамо / ЦТДЮ / Драма / JavaScript"> 
-        <button mat-button class="filter__searchbar-btn" ></button>
-    </div>
-    <div class="filter__metaData">
-        <input type="text" class="filter__metaData-city" placeholder="Київ">
-        <button mat-button class="filter__metaData-ownershipToggle">Форма власності</button>
-        <button mat-button class="filter__metaData-ageToggle">Вік
-        </button>
-        <div>
-            <div class="filter__metaData-age" >
-                від <input type="number" placeholder="0">
-                до <input type="number" placeholder="16">
-            </div>
-        </div>
-        <label class="filter__metaData-set">
-            <input type="checkbox">
-            Лише з відкритм набором
-        </label>
-        
-    </div> 
-    <div class="filter__categories">
-        <button mat-button class="filter__categories-btn">Спорт</button>
-        <button mat-button class="filter__categories-btn">Музика</button>
-        <button mat-button class="filter__categories-btn">Туризм</button>
-        <button mat-button class="filter__categories-btn">Мистецвто</button>
-        <button mat-button class="filter__categories-btn">Конструювання</button>
-        <button mat-button class="filter__categories-btn">Драматургія</button>
-        <button mat-button class="filter__categories-btn">Дошкільна підготовка</button>
-        <button mat-button class="filter__categories-btn">Мови</button>
-        <button mat-button class="filter__categories-btn">Програмування</button>
-        <button mat-button class="filter__categories-btn">Наука</button>
-    </div>
+<div 
+fxLayout='column' 
+fxLayoutAlign='space-evenly center' 
+fxLayoutGap='20px'>
+  <h2 fxLayoutAlign='start'>Знайди найкращі гуртки у своєму місті!</h2>
+  <app-searchbar></app-searchbar>
+
+  <div class="filter__metaData" fxLayout='row' fxLayoutAlign='space-evenly center'>
+    <input type="text" placeholder="Київ">
+    <app-ownership-type-filter></app-ownership-type-filter>
+    <app-age-filter></app-age-filter>
+    <label>
+      <input type="checkbox">
+      Лише з відкритм набором
+    </label>
+  </div> 
+
+  <app-categories-filter></app-categories-filter>
 </div>

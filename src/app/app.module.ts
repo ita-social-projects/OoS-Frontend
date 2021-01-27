@@ -20,7 +20,7 @@ import { ShellComponent } from './shell/shell.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    ShellComponent
+    ShellComponent,
   ],
   imports: [
   BrowserModule,
