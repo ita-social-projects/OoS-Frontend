@@ -1,14 +1,14 @@
-<mat-button-toggle-group #group="matButtonToggleGroup">
-  <mat-button-toggle value="filtered-data" aria-label="filtered-data">
+<mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedVal" (change)="onValChange(group.value)">
+  <mat-button-toggle value="show-data" aria-label="show-data">
     Список
   </mat-button-toggle>
   <mat-button-toggle value="map" aria-label="map">
     Карта
   </mat-button-toggle>
 </mat-button-toggle-group>
-<div *ngIf="group.value==='map'; else filteredData">
-  <app-map></app-map>
+<div *ngIf="group.value==='map'; else ShowData">
+  <app-map [data]="data$"></app-map>
 </div>
-<ng-template #filteredData>
-  <app-filtered-data></app-filtered-data>
+<ng-template #ShowData>
+  <app-show-data [data]="data$"></app-show-data>
 </ng-template>  
