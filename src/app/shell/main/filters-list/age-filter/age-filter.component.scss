@@ -1,0 +1,35 @@
+.filter__age{
+  position: relative;
+  &-modal {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid black;
+    width: 150px;
+    height: 45px;
+    z-index: 1;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.5s ease all;
+    align-items: center;
+    justify-content: space-around;
+    input {
+      padding: 0;
+      width: 30px;
+    }
+  }
+}
+.input_show{
+  display: flex;
+  animation: modalShow 0.5s ease;
+}
+
+@keyframes modalShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
