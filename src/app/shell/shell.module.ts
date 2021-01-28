@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ShellRoutingModule } from './shell-routing.module';
+import { ShellComponent } from './shell.component';
 
 import { MainComponent } from './main/main.component';
 import { FiltersListComponent } from './main/filters-list/filters-list.component';
@@ -17,18 +18,29 @@ import { CategoriesFilterComponent } from './main/filters-list/categories-filter
 @NgModule({
   declarations: [
     MainComponent,
+<<<<<<< HEAD
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
     OwnershipTypeFilterComponent,
     CategoriesFilterComponent
+=======
+    ShellComponent
+>>>>>>> origin/develop
   ],
   imports: [
     CommonModule,
     RouterModule,
+<<<<<<< HEAD
     ShellRoutingModule,
     MatButtonModule,
     FlexLayoutModule
+=======
+    ShellRoutingModule
+  ],
+  exports: [
+    ShellComponent
+>>>>>>> origin/develop
   ]
 })
 export class ShellModule { }
