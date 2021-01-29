@@ -1,16 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-<<<<<<< HEAD
 import { AppRoutingModule } from './app-routing.module';
-=======
-import { HeaderComponent } from './header/header.component';
-import { ShellModule } from './shell/shell.module';
->>>>>>> origin/develop
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { AppState } from './shared/store/app.state';
+import { FilterState } from './shared/store/filter.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -21,22 +17,20 @@ import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
 import { ShellComponent } from './shell/shell.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-<<<<<<< HEAD
     HeaderComponent,
     ShellComponent,
-=======
-    HeaderComponent
->>>>>>> origin/develop
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxsModule.forRoot([
-      AppState
+      AppState,
+      FilterState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production

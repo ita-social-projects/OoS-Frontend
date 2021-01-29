@@ -4,7 +4,7 @@
   <div 
   class="filter__age-modal" 
   [class.input_show]='showModalFilter'>
-    від <input type="number" placeholder="0">
-    до <input type="number" placeholder="16">
+    від <input type="number" maxlength="2" placeholder="0" [value]="minAge" (input)='setMinAge($event.target.value)'>
+    до <input type="number" maxlength="2" placeholder="16">
   </div>
 </div>
