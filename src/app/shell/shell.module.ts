@@ -13,34 +13,37 @@ import { AgeFilterComponent } from './main/filters-list/age-filter/age-filter.co
 import { SearchbarComponent } from './main/filters-list/searchbar/searchbar.component';
 import { OwnershipTypeFilterComponent } from './main/filters-list/ownership-type-filter/ownership-type-filter.component';
 import { CategoriesFilterComponent } from './main/filters-list/categories-filter/categories-filter.component';
+import { CityFilterComponent } from './main/filters-list/city-filter/city-filter.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input'
+import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
   declarations: [
     MainComponent,
-<<<<<<< HEAD
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
     OwnershipTypeFilterComponent,
-    CategoriesFilterComponent
-=======
-    ShellComponent
->>>>>>> origin/develop
+    CategoriesFilterComponent,
+    CityFilterComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-<<<<<<< HEAD
     ShellRoutingModule,
     MatButtonModule,
-    FlexLayoutModule
-=======
-    ShellRoutingModule
-  ],
-  exports: [
-    ShellComponent
->>>>>>> origin/develop
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    HttpClientModule
   ]
 })
 export class ShellModule { }

@@ -1,0 +1,15 @@
+<form>
+    <mat-icon> place</mat-icon>
+    <mat-form-field >
+        <input type="text" class="filter__metaData-city"
+        matInput
+        [formControl]="cityControl"
+        [matAutocomplete]="auto"
+        >
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)">
+            <mat-option [disabled]= "noCity" *ngFor="let city of filteredCities$ | async" [value]="city">
+                {{city}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>
