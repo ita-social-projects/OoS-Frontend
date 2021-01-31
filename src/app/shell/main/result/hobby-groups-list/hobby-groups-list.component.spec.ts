@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowDataComponent } from './show-data.component';
+import { HobbyGroupsListComponent } from './hobby-groups-list.component';
 
-describe('ShowDataComponent', () => {
-  let component: ShowDataComponent;
-  let fixture: ComponentFixture<ShowDataComponent>;
+describe('HobbyGroupsListComponent', () => {
+  let component: HobbyGroupsListComponent;
+  let fixture: ComponentFixture<HobbyGroupsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShowDataComponent ]
+      declarations: [ HobbyGroupsListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShowDataComponent);
+    fixture = TestBed.createComponent(HobbyGroupsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

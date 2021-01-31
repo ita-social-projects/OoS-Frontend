@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UpdateCurrentView } from '../../../shared/result.actions';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { EditResultView } from '../../../shared/result.actions';
 
 @Component({
   selector: 'app-result',
@@ -9,21 +8,17 @@ import { EditResultView } from '../../../shared/result.actions';
   styleUrls: ['./result.component.scss']
 })
 export class ResultComponent implements OnInit {
-  data$: Observable<Object[]>;
-  public selectedVal: string;
+  public currentView: string;
 
-  constructor(private store: Store) {
-    this.data$ = this.store.select(state => state.ShowData);
-    // To do: change "state.ShowData" when state will be configured
-  }
+  constructor(private store: Store) {}
   
   ngOnInit(): void {
-    this.selectedVal ='show-data';
+    this.currentView ='show-data';
   }
 
-  public onValChange(val: string) {
-    this.selectedVal = val;
-    this.store.dispatch(new EditResultView(val));
+  public SetCurrentView(view: string) {
+    this.currentView = view;
+    this.store.dispatch(new UpdateCurrentView(view));
     // To do: finish action when state will be configured
   }
 

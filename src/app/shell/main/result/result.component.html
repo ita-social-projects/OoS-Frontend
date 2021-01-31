@@ -1,4 +1,4 @@
-<mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedVal" (change)="onValChange(group.value)">
+<mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
   <mat-button-toggle value="show-data" aria-label="show-data">
     Список
   </mat-button-toggle>
@@ -7,8 +7,8 @@
   </mat-button-toggle>
 </mat-button-toggle-group>
 <div *ngIf="group.value==='map'; else ShowData">
-  <app-map [data]="data$"></app-map>
+  <app-map></app-map>
 </div>
 <ng-template #ShowData>
-  <app-show-data [data]="data$"></app-show-data>
+  <app-hobby-groups-list></app-hobby-groups-list>
 </ng-template>  

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell.component';
 import { ResultComponent } from './main/result/result.component';
-import { ShowDataComponent } from './main/result/show-data/show-data.component';
+import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
 import { MapComponent } from './main/result/map/map.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
@@ -14,7 +14,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MainComponent,
     ShellComponent,
     ResultComponent,
-    ShowDataComponent,
+    HobbyGroupsListComponent,
     MapComponent,
   ],
   imports: [
