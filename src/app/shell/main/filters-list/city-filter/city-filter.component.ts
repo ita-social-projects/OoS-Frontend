@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, SelectorOptions, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { SelectCity } from '../../../../shared/store/app.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
@@ -22,6 +22,7 @@ export class CityFilterComponent implements OnInit {
   cityControl = new FormControl();
   cities: string[] = [];
   noCity: boolean=false;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(MetaDataState.filteredCities)
   filteredCities$: Observable<string[]>;
@@ -55,6 +56,7 @@ export class CityFilterComponent implements OnInit {
   onInit(){
     this.cityControl.valueChanges
       .pipe(
+        takeUntil(this.destroy$),
         debounceTime(300),
         distinctUntilChanged(),
         startWith(''),   
