@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
 import { ShellComponent } from './shell/shell.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ShellComponent } from './shell/shell.component';
       disabled: environment.production
     }),
     FlexLayoutModule,
-    ShellModule
+    ShellModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -21,7 +21,7 @@ export interface FilterStateModel {
     stateOwnership: true,
     privateOwnership: true,
     isRecruiting: true,
-    ageFrom: 12,
+    ageFrom: null,
     ageTo: null,
     categories: []
   }
