@@ -1,0 +1,10 @@
+<div class="filter__age">
+  <button mat-stroked-button (click)='toggleModalFilter()'>Вік
+  </button>
+  <div 
+  class="filter__age-modal" 
+  [class.input_show]='showModalFilter'>
+    від <input type="number" placeholder="0">
+    до <input type="number" placeholder="16">
+  </div>
+</div>

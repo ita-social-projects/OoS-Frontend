@@ -1,0 +1,19 @@
+<div 
+fxLayout='column' 
+fxLayoutAlign='space-evenly center' 
+fxLayoutGap='20px'>
+  <h2 fxLayoutAlign='start'>Знайди найкращі гуртки у своєму місті!</h2>
+  <app-searchbar></app-searchbar>
+
+  <div class="filter__metaData" fxLayout='row' fxLayoutAlign='space-evenly center'>
+    <input type="text" placeholder="Київ">
+    <app-ownership-type-filter></app-ownership-type-filter>
+    <app-age-filter></app-age-filter>
+    <label>
+      <input type="checkbox">
+      Лише з відкритм набором
+    </label>
+  </div> 
+
+  <app-categories-filter></app-categories-filter>
+</div>
