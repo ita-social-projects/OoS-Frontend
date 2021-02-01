@@ -17,8 +17,8 @@ import { MetaDataState } from './shared/store/meta-data.state';
 
 @NgModule({
   declarations: [
-    AppComponent,
     HeaderComponent,
+    AppComponent,
     ShellComponent,
   ],
   imports: [
