@@ -21,6 +21,7 @@ export class AppState {
   toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
       patchState({ isLoading: payload});
   }
+  
   @Action(SelectCity)
     selectCity({ patchState }: StateContext<AppStateModel>, { payload }: SelectCity): void {
       patchState({ city: payload});

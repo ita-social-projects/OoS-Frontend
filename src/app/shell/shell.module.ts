@@ -5,11 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ShellRoutingModule } from './shell-routing.module';
-import { ShellComponent } from './shell.component';
 import { ResultComponent } from './main/result/result.component';
 import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
 import { MapComponent } from './main/result/map/map.component';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 import { MainComponent } from './main/main.component';
@@ -27,16 +26,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
+
 @NgModule({
   declarations: [
     MainComponent,
-    ShellComponent,
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
     OwnershipTypeFilterComponent,
     CategoriesFilterComponent,
-    CityFilterComponent
+    CityFilterComponent,
+    MapComponent,
+    ResultComponent,
+    HobbyGroupsListComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ReactiveFormsModule,
     MatIconModule,
     MatAutocompleteModule,
-    HttpClientModule
+    HttpClientModule,
+    MatButtonToggleModule
   ]
 })
 export class ShellModule { }
