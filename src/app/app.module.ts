@@ -12,17 +12,22 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
 
+import { ShellComponent } from './shell/shell.component';
+import { MetaDataState } from './shared/store/meta-data.state';
+
 @NgModule({
   declarations: [
+    HeaderComponent,
     AppComponent,
-    HeaderComponent
+    ShellComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxsModule.forRoot([
-      AppState
+      AppState,
+      MetaDataState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production

@@ -5,8 +5,8 @@ fxLayoutGap='20px'>
   <h2 fxLayoutAlign='start'>Знайди найкращі гуртки у своєму місті!</h2>
   <app-searchbar></app-searchbar>
 
-  <div class="filter__metaData" fxLayout='row' fxLayoutAlign='space-evenly center'>
-    <input type="text" placeholder="Київ">
+  <div fxLayout='row' fxLayoutAlign='space-evenly center'>
+    <app-city-filter></app-city-filter>
     <app-ownership-type-filter></app-ownership-type-filter>
     <app-age-filter></app-age-filter>
     <label>
