@@ -31,29 +31,18 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   declarations: [
     MainComponent,
     ShellComponent,
-<<<<<<< HEAD
-=======
-    ResultComponent,
-    HobbyGroupsListComponent,
-    MapComponent,
->>>>>>> develop
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
     OwnershipTypeFilterComponent,
-<<<<<<< HEAD
     CategoriesFilterComponent,
     CityFilterComponent
-=======
-    CategoriesFilterComponent
->>>>>>> develop
   ],
   imports: [
     CommonModule,
     RouterModule,
     ShellRoutingModule,
     MatButtonModule,
-<<<<<<< HEAD
     FlexLayoutModule,
     MatFormFieldModule,
     MatInputModule,
@@ -61,12 +50,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     MatAutocompleteModule,
     HttpClientModule
-=======
-    FlexLayoutModule
-  ],
-  exports: [
-    ShellComponent
->>>>>>> develop
   ]
 })
 export class ShellModule { }
