@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell.component';
 
+
 import { MainComponent } from './main/main.component';
 import { FiltersListComponent } from './main/filters-list/filters-list.component';
 import { AgeFilterComponent } from './main/filters-list/age-filter/age-filter.component';
@@ -26,9 +27,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   declarations: [
     MainComponent,
     ShellComponent,
-    ResultComponent,
-    HobbyGroupsListComponent,
-    MapComponent,
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
