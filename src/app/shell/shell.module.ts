@@ -6,6 +6,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell.component';
+import { ResultComponent } from './main/result/result.component';
+import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
+import { MapComponent } from './main/result/map/map.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 import { MainComponent } from './main/main.component';
@@ -27,18 +31,29 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   declarations: [
     MainComponent,
     ShellComponent,
+<<<<<<< HEAD
+=======
+    ResultComponent,
+    HobbyGroupsListComponent,
+    MapComponent,
+>>>>>>> develop
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
     OwnershipTypeFilterComponent,
+<<<<<<< HEAD
     CategoriesFilterComponent,
     CityFilterComponent
+=======
+    CategoriesFilterComponent
+>>>>>>> develop
   ],
   imports: [
     CommonModule,
     RouterModule,
     ShellRoutingModule,
     MatButtonModule,
+<<<<<<< HEAD
     FlexLayoutModule,
     MatFormFieldModule,
     MatInputModule,
@@ -46,6 +61,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     MatAutocompleteModule,
     HttpClientModule
+=======
+    FlexLayoutModule
+  ],
+  exports: [
+    ShellComponent
+>>>>>>> develop
   ]
 })
 export class ShellModule { }

@@ -12,6 +12,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
 
+<<<<<<< HEAD
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 
@@ -20,6 +21,12 @@ import { MetaDataState } from './shared/store/meta-data.state';
     HeaderComponent,
     AppComponent,
     ShellComponent,
+=======
+@NgModule({
+  declarations: [
+    AppComponent,
+    HeaderComponent
+>>>>>>> develop
   ],
   imports: [
     BrowserModule,
