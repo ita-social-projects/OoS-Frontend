@@ -25,6 +25,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     MainComponent,
+    ShellComponent,
+    ResultComponent,
+    HobbyGroupsListComponent,
+    MapComponent,
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
