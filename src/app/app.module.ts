@@ -7,12 +7,14 @@ import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppState } from './shared/store/app.state';
+import { FilterState } from './shared/store/filter.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
 
 import { ShellComponent } from './shell/shell.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MetaDataState } from './shared/store/meta-data.state';
 
 @NgModule({
@@ -27,6 +29,7 @@ import { MetaDataState } from './shared/store/meta-data.state';
     BrowserAnimationsModule,
     NgxsModule.forRoot([
       AppState,
+      FilterState
       MetaDataState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -36,7 +39,8 @@ import { MetaDataState } from './shared/store/meta-data.state';
       disabled: environment.production
     }),
     FlexLayoutModule,
-    ShellModule
+    ShellModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -19,12 +19,11 @@ export class AppState {
 
   @Action(ToggleLoading)
   toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-      patchState({ isLoading: payload});
+    patchState({ isLoading: payload});
   }
   
   @Action(SelectCity)
     selectCity({ patchState }: StateContext<AppStateModel>, { payload }: SelectCity): void {
       patchState({ city: payload});
   }
-
 }

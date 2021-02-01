@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ResultComponent } from './main/result/result.component';
@@ -16,6 +17,7 @@ import { AgeFilterComponent } from './main/filters-list/age-filter/age-filter.co
 import { SearchbarComponent } from './main/filters-list/searchbar/searchbar.component';
 import { OwnershipTypeFilterComponent } from './main/filters-list/ownership-type-filter/ownership-type-filter.component';
 import { CategoriesFilterComponent } from './main/filters-list/categories-filter/categories-filter.component';
+import { DigitOnlyDirective } from '../shared/directives/digit-only.directive';
 import { CityFilterComponent } from './main/filters-list/city-filter/city-filter.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +25,6 @@ import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
 
 
 
@@ -35,6 +36,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     SearchbarComponent,
     OwnershipTypeFilterComponent,
     CategoriesFilterComponent,
+    DigitOnlyDirective,
     CityFilterComponent,
     MapComponent,
     ResultComponent,
