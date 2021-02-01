@@ -6,6 +6,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ShellComponent } from './shell.component';
+import { ResultComponent } from './main/result/result.component';
+import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
+import { MapComponent } from './main/result/map/map.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import { MainComponent } from './main/main.component';
 import { FiltersListComponent } from './main/filters-list/filters-list.component';
@@ -18,29 +22,25 @@ import { CategoriesFilterComponent } from './main/filters-list/categories-filter
 @NgModule({
   declarations: [
     MainComponent,
-<<<<<<< HEAD
+    ShellComponent,
+    ResultComponent,
+    HobbyGroupsListComponent,
+    MapComponent,
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
     OwnershipTypeFilterComponent,
     CategoriesFilterComponent
-=======
-    ShellComponent
->>>>>>> origin/develop
   ],
   imports: [
     CommonModule,
     RouterModule,
-<<<<<<< HEAD
     ShellRoutingModule,
     MatButtonModule,
     FlexLayoutModule
-=======
-    ShellRoutingModule
   ],
   exports: [
     ShellComponent
->>>>>>> origin/develop
   ]
 })
 export class ShellModule { }
