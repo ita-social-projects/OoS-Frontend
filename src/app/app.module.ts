@@ -29,7 +29,7 @@ import { MetaDataState } from './shared/store/meta-data.state';
     BrowserAnimationsModule,
     NgxsModule.forRoot([
       AppState,
-      FilterState
+      FilterState,
       MetaDataState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
