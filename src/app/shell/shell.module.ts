@@ -10,7 +10,6 @@ import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-
 import { MapComponent } from './main/result/map/map.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-
 import { MainComponent } from './main/main.component';
 import { FiltersListComponent } from './main/filters-list/filters-list.component';
 import { AgeFilterComponent } from './main/filters-list/age-filter/age-filter.component';
@@ -24,6 +23,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 
 
