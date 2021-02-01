@@ -12,9 +12,9 @@ export class CityFilterService {
   constructor(private http: HttpClient) { }
 
   fetchCities(): Observable<any>{
-      return this.http.get<any>(url)
-        .pipe(map((data)=>{
-          return data.Ukraine;
-        }))
+    return this.http.get<any>(url)
+      .pipe(map((data)=>{
+        return data.Ukraine;
+      }))
     }
 }

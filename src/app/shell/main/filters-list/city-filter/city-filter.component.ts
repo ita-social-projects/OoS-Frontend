@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, SelectorOptions, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -68,5 +68,8 @@ export class CityFilterComponent implements OnInit {
         };
       });
   }
-
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }
