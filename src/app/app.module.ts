@@ -16,12 +16,14 @@ import { environment } from 'src/environments/environment';
 import { ShellComponent } from './shell/shell.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MetaDataState } from './shared/store/meta-data.state';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     AppComponent,
     ShellComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
