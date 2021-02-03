@@ -1,0 +1,64 @@
+<div class="container">
+  <div mat-dialog-content>
+    <h3 class="header">Введіть інформацію про себе</h3>
+    <div class="close-btn">
+      <a (click)="close()">
+        <mat-icon>close</mat-icon>
+      </a>
+    </div>
+    <mat-divider></mat-divider>
+    <form class="form-control" [formGroup]="options">
+      <mat-form-field [floatLabel]="floatLabelControl.value">
+        <mat-label>Назва надавача послуг</mat-label>
+        <input matInput placeholder="ФОП Іванов/ ЦТДЮ ІЗ/ТОВ 'Освіта'">
+      </mat-form-field>
+      <mat-form-field [floatLabel]="floatLabelControl.value">
+        <mat-label>Email</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field [floatLabel]="floatLabelControl.value">
+        <mat-label>Пароль</mat-label>
+        <input matInput placeholder="Мінімум 8 символів">
+      </mat-form-field>
+      <mat-form-field [floatLabel]="floatLabelControl.value">
+        <mat-label>Підтвердіть пароль</mat-label>
+        <input matInput placeholder="Мінімум 8 сімволів">
+      </mat-form-field>
+      <button class="reg-button" mat-raised-button color="primary">
+        Додати детальну інформацію
+      </button>
+      <div class="divider"></div>
+      <p class="mat-caption">Або увийдить за допомогою</p>
+      <div class="social-media">
+        <div class="social-media-item">
+          <a href="">
+            <img
+              src="https://www.flaticon.com/svg/vstatic/svg/1384/1384005.svg?token=exp=1612115619~hmac=71cc8baf4938497c4559e10cc49cee24"
+              alt="facebook-icon">
+          </a>
+        </div>
+        <div class="social-media-item">
+          <a href="">
+            <img
+              src="https://www.flaticon.com/svg/vstatic/svg/299/299409.svg?token=exp=1612115660~hmac=cd9930d0724dd7bb93f2f15fba12207e"
+              alt="google-icon">
+          </a>
+        </div>
+        <div class="social-media-item">
+          <a href="">
+            <img
+              src="https://www.flaticon.com/svg/vstatic/svg/1384/1384017.svg?token=exp=1612115757~hmac=266b62d3d6e5e010c3401075c5befda0"
+              alt="twitter-icon">
+          </a>
+        </div>
+        <div class="social-media-item">
+          <a href="">
+            <img
+              src="https://www.flaticon.com/svg/vstatic/svg/1384/1384046.svg?token=exp=1612115825~hmac=ab97f9be0aad8e7a465c649f82d38fdc"
+              alt="linkedin-icon">
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

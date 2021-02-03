@@ -12,11 +12,13 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ShellComponent } from './shell/shell.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
+import { MaterialModule } from './shared/material/material.module';
+import { RegistrationComponent } from './shared/modals/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { FooterComponent } from './footer/footer.component';
     AppComponent,
     ShellComponent,
     FooterComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,9 @@ import { FooterComponent } from './footer/footer.component';
     }),
     FlexLayoutModule,
     ShellModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

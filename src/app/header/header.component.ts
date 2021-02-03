@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { RegistrationComponent } from '../shared/modals/registration/registration.component';
 
 @Component({
   selector: 'app-header',
@@ -7,11 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  isAuthorized = true;
+  isAuthorized = false;
 
-  constructor() { }
+  constructor(private modalDialog: MatDialog) { }
 
   ngOnInit(): void {
+  }
+  openModal() {
+    this.modalDialog.open(RegistrationComponent);
   }
 
 }
