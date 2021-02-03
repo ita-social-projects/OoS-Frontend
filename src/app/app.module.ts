@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
+import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RegistrationComponent } from './shared/modals/registration/registration.component';
 
@@ -24,6 +25,7 @@ import { RegistrationComponent } from './shared/modals/registration/registration
     HeaderComponent,
     AppComponent,
     ShellComponent,
+    FooterComponent,
     RegistrationComponent,
   ],
   imports: [
