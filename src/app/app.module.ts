@@ -7,22 +7,35 @@ import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppState } from './shared/store/app.state';
+import { FilterState } from './shared/store/filter.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { ShellComponent } from './shell/shell.component';
+import { MetaDataState } from './shared/store/meta-data.state';
+import { FooterComponent } from './footer/footer.component';
+import { MaterialModule } from './shared/material/material.module';
+import { RegistrationComponent } from './shared/modals/registration/registration.component';
 
 @NgModule({
   declarations: [
+    HeaderComponent,
     AppComponent,
-    HeaderComponent
+    ShellComponent,
+    FooterComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxsModule.forRoot([
-      AppState
+      AppState,
+      FilterState,
+      MetaDataState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
@@ -31,7 +44,10 @@ import { environment } from 'src/environments/environment';
       disabled: environment.production
     }),
     FlexLayoutModule,
-    ShellModule
+    ShellModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

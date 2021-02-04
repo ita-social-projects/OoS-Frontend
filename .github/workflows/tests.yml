@@ -1,0 +1,25 @@
+name: Run tests
+
+on:
+  push:
+    branches: [master, develop, feat/create-workflow]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn version
+      - run: yarn install
+      - run: yarn test
