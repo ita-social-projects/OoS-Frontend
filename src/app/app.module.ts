@@ -12,7 +12,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
-
+import { FormsModule } from '@angular/forms';
 import { ShellComponent } from './shell/shell.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MetaDataState } from './shared/store/meta-data.state';
@@ -24,6 +24,7 @@ import { MetaDataState } from './shared/store/meta-data.state';
     ShellComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

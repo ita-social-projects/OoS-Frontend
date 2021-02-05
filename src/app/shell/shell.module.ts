@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ResultComponent } from './main/result/result.component';
@@ -44,6 +45,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ShellRoutingModule,
     MatButtonModule,
     FlexLayoutModule,
