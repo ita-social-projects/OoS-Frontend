@@ -1,5 +1,5 @@
 <div>
-  <mat-form-field floatLabel=never>
+  <mat-form-field class ="search-field" floatLabel=never >
   <input type="text" [formControl]="searchValue" (input)="onInput()" (focus)="checkPlaceHolder()" (blur)="checkPlaceHolder()" matInput placeholder=" {{placeHolder}} "> 
   </mat-form-field> 
   <button mat-stroked-button>

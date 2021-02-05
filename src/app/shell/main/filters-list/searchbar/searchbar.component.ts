@@ -39,9 +39,9 @@ export class SearchbarComponent implements OnInit {
       return;
     } else {
       this.placeHolder = 'Введіть назву або тип гуртка'
-      
       return
     }
   }
+  
 
 }

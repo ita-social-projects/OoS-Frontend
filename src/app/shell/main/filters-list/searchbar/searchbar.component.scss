@@ -1,7 +1,13 @@
 span{
    display: block;
 }
-// mat-form-field {
-//    margin-left: 2rem;
-//    width: calc(100% - 2rem);
-// }
+
+.search-field{
+   width:20vw;
+}
+.mat-form-field{
+   font-size: 20px;
+}
+button{
+   border-radius: 10px;
+}
