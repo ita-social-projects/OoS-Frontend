@@ -1,0 +1,50 @@
+.container {
+  width: 300px;
+  min-height: 200px;
+  display: flex;
+  position: relative;
+
+  .header {
+    margin: 0;
+  }
+
+  mat-divider {
+    margin-top: 10px;
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .reg-button {
+    width: 100%;
+  }
+
+  .social-media {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+    &-item {
+      img {
+        width: 40px;
+      }
+    }
+  }
+
+  .divider {
+    width: 90%;
+    border-bottom: 1px solid black;
+    margin: 15px auto 0;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    cursor: pointer;
+  }
+}
+
+
