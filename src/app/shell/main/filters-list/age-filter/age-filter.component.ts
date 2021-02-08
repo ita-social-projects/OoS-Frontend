@@ -90,7 +90,8 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
     this.showModalFilter = !this.showModalFilter;
   }
 
-  @HostListener('document:click', ['$event'])onClick(event) {
+  @HostListener('document:click', ['$event'])
+  onClick(event) {
       if (!event.target.closest('.filter__age')) {
         this.showModalFilter = false;
       }
