@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators'
@@ -88,6 +88,13 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   toggleModalFilter(): void{
     this.showModalFilter = !this.showModalFilter;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event) {
+      if (!event.target.closest('.filter__age')) {
+        this.showModalFilter = false;
+      }
   }
 
   ngOnDestroy(): void {
