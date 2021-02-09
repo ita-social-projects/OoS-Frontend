@@ -22,7 +22,7 @@ jobs:
       - name: Install Angular CLI
         run: yarn add @angular/cli
       - name: Run build
-        run: ng build --prod
+        run: yarn run build --prod
       - name: Run tests
         if: ${{ success() }}
         run: yarn test
