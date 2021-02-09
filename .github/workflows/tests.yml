@@ -19,6 +19,7 @@ jobs:
       #   uses: c-hive/gha-yarn-cache@v1
       - name: Install dependencies
         run: yarn install
+      - name: Install Angular CLI
         run: yarn add @angular/cli
       - name: Run build
         run: yarn run build --prod
