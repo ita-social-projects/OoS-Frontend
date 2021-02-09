@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Run build
-        run: ng build --prod
+        run: yarn build --prod
       - name: Run tests
         if: ${{ success() }}
         run: yarn test
