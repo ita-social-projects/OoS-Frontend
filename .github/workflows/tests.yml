@@ -16,15 +16,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Cache node modules
-        uses: c-hive/gha-yarn-cache@v1
+        uses: actions/cache@v1
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn install
-      # - name: Install Angular CLI
-      #   run: yarn add @angular/cli
+      - name: Install Angular CLI
+        run: yarn add @angular/cli
       - name: Run build
-        run: |
-          yarn install
-          yarn run build --prod
+        run: yarn run build --prod
       - name: Run tests
         if: ${{ success() }}
         run: yarn test
