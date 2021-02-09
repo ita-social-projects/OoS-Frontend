@@ -10,7 +10,7 @@ jobs:
         node-version: [12.x]
     steps:
       - name: Pull the source code to GitHub workspace
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Set up a Node environment
         uses: actions/setup-node@v1
         with:
