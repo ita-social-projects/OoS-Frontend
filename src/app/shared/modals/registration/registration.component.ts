@@ -16,6 +16,8 @@ export class RegistrationComponent {
     this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => console.log('is authenticated', auth));
+      
+
   }
 
   login(): void {
