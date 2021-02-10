@@ -1,6 +1,6 @@
 <div>
   <mat-form-field class ="search-field" floatLabel=never >
-    <input type="text"  maxlength="200" [formControl]="searchValue" matInput placeholder=" Введіть назву або ип гуртка."> 
+    <input type="text"  maxlength="200" [formControl]="searchValue" matInput placeholder=" Введіть назву або тип гуртка."> 
     <mat-error *ngIf="searchValue && searchValue.errors">Пошук не може містити спеціальні символи.</mat-error>
   </mat-form-field> 
   <button mat-stroked-button>

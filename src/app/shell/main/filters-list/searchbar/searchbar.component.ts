@@ -13,9 +13,9 @@ export class SearchbarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  searchValidator(control: FormControl) { 
+  searchValidator(control: FormControl) : object | null  { 
     let value = control.value;
-    if(value && !/^[а-яА-ЯІі\s]*$/.test(value)){
+    if(value && !/^[а-яА-ЯІі\- a-zA-Z\s ]*$/.test(value)){
       return {
         isInvalid: true
       }
