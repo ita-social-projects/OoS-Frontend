@@ -20,6 +20,5 @@ export class RegistrationComponent {
 
   login(): void {
     this.oidcSecurityService.authorize();
-    console.log('work')
   }
 }
