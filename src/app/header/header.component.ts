@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {OidcSecurityService} from 'angular-auth-oidc-client';
 
 import { RegistrationComponent } from '../shared/modals/registration/registration.component';
 
@@ -13,12 +12,13 @@ export class HeaderComponent implements OnInit {
 
   isAuthorized = false;
 
-  constructor(public oidcSecurityService: OidcSecurityService, private modalDialog: MatDialog) { }
+  constructor(private modalDialog: MatDialog) { }
 
   ngOnInit(): void {
   }
   openModal() {
     this.modalDialog.open(RegistrationComponent);
   }
+  
 
 }

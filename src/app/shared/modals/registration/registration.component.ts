@@ -16,11 +16,19 @@ export class RegistrationComponent {
     this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => console.log('is authenticated', auth));
-      
-
+      setTimeout(() => this.login(), 10000);
   }
 
   login(): void {
     this.oidcSecurityService.authorize();
+  }
+  logout(): void {
+    let isAuth: boolean;
+    this.oidcSecurityService.checkAuth().subscribe(value => {
+      isAuth = value;
+    });
+    if (isAuth) {
+      this.oidcSecurityService.logoff();
+    }
   }
 }
