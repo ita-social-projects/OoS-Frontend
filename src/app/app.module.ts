@@ -19,6 +19,7 @@ import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RegistrationComponent } from './shared/modals/registration/registration.component';
+import { RegistrationModule } from './shared/modals/registration/registration.module';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { RegistrationComponent } from './shared/modals/registration/registration
     ShellModule,
     ReactiveFormsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    RegistrationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
