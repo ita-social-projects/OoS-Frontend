@@ -1,12 +1,21 @@
 <div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
   <div>Позашкілля</div>
-  <div *ngIf="isAuthorized; else isUnauthorized">
-    Увійти
-  </div>
+  <ng-container
+    *ngIf="(isAuthorized$ | async) then YesAuthorized; else NotAuthorized">
+  </ng-container>
 
-  <ng-template #isUnauthorized>
+  <ng-template #NotAuthorized>
     <button mat-raised-button (click)="openModal()">
       Зареєструватися
+    </button>
+  </ng-template>
+
+  <ng-template #YesAuthorized>
+    <button mat-raised-button (click)="logout()">
+      Вийти з акаунту
+    </button>
+    <button mat-raised-button (click)="callApi()">
+      Call API
     </button>
   </ng-template>
 </div>

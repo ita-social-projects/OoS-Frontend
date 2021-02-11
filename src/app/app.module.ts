@@ -20,6 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RegistrationComponent } from './shared/modals/registration/registration.component';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
+import { UserRegistrationState } from './shared/store/user-registration.state';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { RegistrationModule } from './shared/modals/registration/registration.mo
     NgxsModule.forRoot([
       AppState,
       FilterState,
-      MetaDataState
+      MetaDataState,
+      UserRegistrationState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
