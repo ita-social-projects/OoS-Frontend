@@ -24,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { OrderingComponent } from './main/result/hobby-groups-list/ordering/ordering.component';
 
 
 
@@ -39,7 +40,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CityFilterComponent,
     MapComponent,
     ResultComponent,
-    HobbyGroupsListComponent
+    HobbyGroupsListComponent,
+    OrderingComponent
   ],
   imports: [
     CommonModule,
