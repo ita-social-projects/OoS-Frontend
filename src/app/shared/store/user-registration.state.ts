@@ -4,6 +4,8 @@ import { CallApi, Login, Logout, CheckAuth } from './user-registration.actions';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { catchError, tap } from 'rxjs/operators';
+import { Observable, pipe, throwError } from 'rxjs';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
@@ -60,12 +62,21 @@ export class UserRegistrationState {
   
   @Action(CheckAuth)
   CheckAuth({ patchState }: StateContext<UserRegistrationStateModel>): void {
-      this.oidcSecurityService
+    this.oidcSecurityService
       .checkAuth()
-      .subscribe((auth) => {
+      .pipe(
+        tap(response => {
+          return response;
+        }),
+        catchError(err => {
+          alert("eroor")
+          return throwError(err);
+        })
+      )
+      /*.subscribe((auth) => {
         console.log('is authenticated', auth)
         patchState({ isAuthorized: auth});
-      });
+      });*/
   }
   
 }

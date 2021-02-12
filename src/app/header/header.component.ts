@@ -7,6 +7,7 @@ import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
 import { CallApi, Logout, CheckAuth } from '../shared/store/user-registration.actions';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,7 +22,7 @@ export class HeaderComponent implements OnInit {
     public store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth());
+    this.store.dispatch(new CheckAuth())
   }
   openModal() {
     this.modalDialog.open(RegistrationComponent);
