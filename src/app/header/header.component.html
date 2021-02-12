@@ -4,13 +4,13 @@
     *ngIf="(isAuthorized$ | async) then YesAuthorized; else NotAuthorized">
   </ng-container>
 
-  <ng-template #NotAuthorized>
+  <ng-template #isUnauthorized>
     <button mat-raised-button (click)="openModal()">
       Зареєструватися
     </button>
   </ng-template>
 
-  <ng-template #YesAuthorized>
+  <ng-template #isAuthorized>
     <button mat-raised-button (click)="logout()">
       Вийти з акаунту
     </button>
