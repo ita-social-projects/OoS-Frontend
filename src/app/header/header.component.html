@@ -2,7 +2,9 @@
   <div>Позашкілля</div>
   <div *ngIf="isUnauthorized; else isAuthorized">
     Увійти
-    Зареєструватися
+     <button mat-raised-button (click)="openModal()">
+      Зареєструватися
+    </button>
   </div>
 
   <ng-template #isAuthorized>
@@ -24,7 +26,6 @@
       </mat-menu>
 
     </div>
-  </ng-template>
 </div>
     
 

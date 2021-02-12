@@ -1,25 +1,26 @@
-name: Run tests
+name: Build and test
 
-on:
-  push:
-    branches: [master, develop, feat/create-workflow]
-  pull_request:
-    branches: [master, develop]
+on: [push, pull_request]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [12.x]
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Run tests
+      - name: Pull the source code to GitHub workspace
+        uses: actions/checkout@v2
+      - name: Set up a Node environment
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn version
-      - run: yarn install
-      - run: yarn test
+      - name: Cache node modules
+        uses: c-hive/gha-yarn-cache@v1
+      - name: Install dependencies
+        run: yarn install
+      - name: Run build
+        run: yarn run build --prod
+      - name: Run tests
+        if: ${{ success() }}
+        run: yarn test

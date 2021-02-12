@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { RegistrationComponent } from '../shared/modals/registration/registration.component';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +15,12 @@ export class HeaderComponent implements OnInit {
     firstName: 'Іванов В. М'
   }
 
-  constructor() { }
+  constructor(private modalDialog: MatDialog) { }
 
   ngOnInit(): void {
+  }
+  openModal() {
+    this.modalDialog.open(RegistrationComponent);
   }
 
 }
