@@ -10,12 +10,8 @@ export class RegistrationComponent {
   
   constructor(public store: Store) {}
 
-  ngOnInit(): void {
-   
-  }
-
-  login(): void {
+  ngOnInit(): void {  }
+    login(): void {
    this.store.dispatch(new Login())  
   }
-  
 }
