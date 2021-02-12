@@ -1,7 +1,7 @@
 <div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
   <div>Позашкілля</div>
   <ng-container
-    *ngIf="(isAuthorized$ | async) then YesAuthorized; else NotAuthorized">
+    *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized">
   </ng-container>
 
   <ng-template #isUnauthorized>
