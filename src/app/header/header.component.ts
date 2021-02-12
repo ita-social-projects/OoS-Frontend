@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  isAuthorized = true;
+  isUnauthorized = false;
+  user = {
+    firstName: 'Іванов В. М'
+  }
 
   constructor() { }
 
