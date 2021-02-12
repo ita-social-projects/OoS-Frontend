@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Select, SelectorOptions, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { SelectCity } from '../../../../shared/store/app.actions';
+import { SelectCity } from '../../../../shared/store/filter.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 
 import { CityFilterService } from '../../../../shared/filters-services/city-filter.service';
