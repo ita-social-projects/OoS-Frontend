@@ -3,6 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CityFilterComponent } from './city-filter.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
@@ -13,9 +14,11 @@ describe('CityFilterComponent', () => {
       imports: [
         MatFormFieldModule,
         MatAutocompleteModule,
-        MatIconModule
+        MatIconModule,
+        ReactiveFormsModule
+        
       ],
-      declarations: [ CityFilterComponent ]
+      declarations: [ CityFilterComponent]
     })
     .compileComponents();
   });

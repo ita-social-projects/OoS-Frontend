@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -9,7 +9,7 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatDialogModule
+        MatButtonModule
       ],
       declarations: [ HeaderComponent ]
     })
