@@ -8,8 +8,10 @@
   <ng-template #isAuthorized>
     <div class="authorization">
       <button mat-raised-button color="primary"
-        matBadge="8" matBadgePosition="before" matBadgeColor="accent">
-        Action
+        matBadge="2" matBadgePosition="before" matBadgeColor="accent">
+        <i> 
+          <mat-icon class="icon-message"> email</mat-icon>
+        </i>
       </button>
 
       <button mat-button [matMenuTriggerFor]="log">
