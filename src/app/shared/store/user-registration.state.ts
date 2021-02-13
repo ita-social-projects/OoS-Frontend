@@ -69,14 +69,14 @@ export class UserRegistrationState {
           return response;
         }),
         catchError(err => {
-          alert("eroor")
+          console.log("Error is"+ err);
           return throwError(err);
         })
       )
-      /*.subscribe((auth) => {
+      .subscribe((auth) => {
         console.log('is authenticated', auth)
         patchState({ isAuthorized: auth});
-      });*/
+      });
   }
   
 }
