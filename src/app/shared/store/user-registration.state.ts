@@ -4,8 +4,6 @@ import { CallApi, Login, Logout, CheckAuth } from './user-registration.actions';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { catchError, tap } from 'rxjs/operators';
-import { Observable, pipe, throwError } from 'rxjs';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
