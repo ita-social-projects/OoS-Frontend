@@ -64,19 +64,9 @@ export class UserRegistrationState {
   CheckAuth({ patchState }: StateContext<UserRegistrationStateModel>): void {
     this.oidcSecurityService
       .checkAuth()
-      .pipe(
-        tap(response => {
-          return response;
-        }),
-        catchError(err => {
-          console.log("Error is"+ err);
-          return throwError(err);
-        })
-      )
       .subscribe((auth) => {
         console.log('is authenticated', auth)
         patchState({ isAuthorized: auth});
       });
   }
-  
 }
