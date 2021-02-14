@@ -25,6 +25,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
+import { OrganizationCardListComponent } from '../shared/organization-card/organization-card-list.component';
 
 
 
@@ -40,7 +41,8 @@ import { MatChipsModule } from '@angular/material/chips';
     CityFilterComponent,
     MapComponent,
     ResultComponent,
-    HobbyGroupsListComponent
+    HobbyGroupsListComponent,
+    OrganizationCardListComponent
   ],
   imports: [
     CommonModule,

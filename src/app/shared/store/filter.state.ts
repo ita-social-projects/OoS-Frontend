@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
+import { orgCard } from 'src/app/mock-org-cards';
 import { setMinAge, setMaxAge } from './filter.actions';
 
 export interface FilterStateModel {
@@ -11,6 +12,7 @@ export interface FilterStateModel {
   ageFrom: number;
   ageTo: number;
   categories: [];
+  organizationCards: orgCard[];
 }
 
 @State<FilterStateModel>({
@@ -23,7 +25,8 @@ export interface FilterStateModel {
     isRecruiting: true,
     ageFrom: null,
     ageTo: null,
-    categories: []
+    categories: [],
+    organizationCards: []
   }
 })
 @Injectable()

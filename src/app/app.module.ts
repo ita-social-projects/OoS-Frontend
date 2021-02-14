@@ -26,7 +26,7 @@ import { RegistrationComponent } from './shared/modals/registration/registration
     AppComponent,
     ShellComponent,
     FooterComponent,
-    RegistrationComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
