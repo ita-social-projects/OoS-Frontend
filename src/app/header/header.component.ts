@@ -5,8 +5,7 @@ import { RegistrationComponent } from '../shared/modals/registration/registratio
 import { Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth} from '../shared/store/user-registration.actions';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { CallApi, Logout, CheckAuth } from '../shared/store/user-registration.actions';
 
 
 @Component({
@@ -20,20 +19,20 @@ export class HeaderComponent implements OnInit {
   isAuthorized$: Observable<boolean>;
 
   constructor(private modalDialog: MatDialog,
-    public store: Store,
-    private snackBar: MatSnackBar) { }
+    public store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth());
+    this.store.dispatch(new CheckAuth())
   }
   openModal() {
     this.modalDialog.open(RegistrationComponent);
-    
   }
   logout(): void {
     this.store.dispatch(new Logout())  
   }
-  showSnackbar(content, action, duration): void {
-    this.snackBar.open(content, action, duration);
+  callApi(): void {
+  this.store.dispatch(new CallApi())  
   }
+  
+
 }
