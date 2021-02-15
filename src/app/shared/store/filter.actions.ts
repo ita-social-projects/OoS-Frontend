@@ -6,3 +6,6 @@ export class setMaxAge {
   static readonly type = '[filter] set max age';
   constructor(public payload: number) {}
 }
+export class getCards {
+  static readonly type = '[filter] get organization cards';
+}

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
+
 import { orgCard } from 'src/app/mock-org-cards';
-import { setMinAge, setMaxAge } from './filter.actions';
+import { OrgCardsService } from 'src/app/shared/services/org-cards.service';
+import { setMinAge, setMaxAge, getCards } from './filter.actions';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -32,6 +35,8 @@ export interface FilterStateModel {
 @Injectable()
 export class FilterState {
 
+  constructor(private cardsService: OrgCardsService){}
+
   @Action(setMinAge)
     setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
       patchState({ ageFrom: payload })
@@ -40,5 +45,12 @@ export class FilterState {
     setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
       patchState({ ageTo: payload })
     }
-
+  @Action(getCards)
+    getCards({ patchState }: StateContext<FilterStateModel>) {
+      return this.cardsService.getCards().pipe(
+        tap(organizationCards => {
+          patchState({ organizationCards })
+        })
+      )
+    }
 }
