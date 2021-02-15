@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   }
   openModal() {
     this.modalDialog.open(RegistrationComponent);
+    
   }
   logout(): void {
     this.store.dispatch(new Logout())  
