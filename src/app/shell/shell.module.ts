@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ResultComponent } from './main/result/result.component';
-import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
+import { OrganizationCardsListComponent } from './main/result/organization-cards-list/organization-cards-list.component';
 import { MapComponent } from './main/result/map/map.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
@@ -25,7 +25,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
-import { OrganizationCardListComponent } from '../shared/organization-card/organization-card-list.component';
+import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
 
 
 
@@ -41,8 +41,8 @@ import { OrganizationCardListComponent } from '../shared/organization-card/organ
     CityFilterComponent,
     MapComponent,
     ResultComponent,
-    HobbyGroupsListComponent,
-    OrganizationCardListComponent
+    OrganizationCardsListComponent,
+    OrganizationCardComponent
   ],
   imports: [
     CommonModule,

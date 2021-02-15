@@ -4,15 +4,15 @@ import { Observable, of } from 'rxjs';
 import { orgCard, ORGCARDS } from 'src/app/mock-org-cards';
 
 @Component({
-  selector: 'app-organization-card-list',
-  templateUrl: './organization-card-list.component.html',
-  styleUrls: ['./organization-card-list.component.scss']
+  selector: 'app-organization-cards-list',
+  templateUrl: './organization-cards-list.component.html',
+  styleUrls: ['./organization-cards-list.component.scss']
 })
-export class OrganizationCardListComponent implements OnInit {
+export class OrganizationCardsListComponent implements OnInit {
   public cards: orgCard[];
-  
-  constructor() { }
 
+  constructor() {}
+  
   ngOnInit(): void {
     this.getCards().subscribe(cards => this.cards = cards);
   }

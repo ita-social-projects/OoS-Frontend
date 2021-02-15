@@ -1,6 +1,7 @@
-.cards {
-  margin: 70px 0;
-  padding: 0 2%;
+.card {
+  border: 1px solid black;
+  width: 200px;
+  margin: 15px 3% 0 3%;
   &_header {
     height: 90px;
     display: flex;
@@ -9,7 +10,6 @@
     padding: 5px;
     background-color: #FBAB7E;
     background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
-    
   }
   &_city, &_ownership, &_price {
     background-color: grey;
@@ -34,11 +34,6 @@
   }
   &_price {
     width: 100px;
-  }
-  &_wrapper {
-    border: 1px solid black;
-    width: 200px;
-    margin-top: 15px;
   }
   &_type {
     display: flex;
