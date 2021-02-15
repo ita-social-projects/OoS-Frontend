@@ -67,4 +67,8 @@ export class UserRegistrationState {
         patchState({ isAuthorized: auth});
       });
   }
+  @Action(CheckAuthFail)
+  CheckAuthFail({ payload }: CheckAuthFail): void {
+    this.snackBar.open(payload);
+  }
 }
