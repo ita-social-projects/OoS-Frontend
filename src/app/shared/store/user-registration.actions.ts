@@ -14,3 +14,7 @@ export class CheckAuth {
   static readonly type = '[user] checks auth';
   constructor() {}
 }
+export class CheckAuthFail {
+  static readonly type = '[user] has auth failed';
+  constructor(public payload: string) {}
+}

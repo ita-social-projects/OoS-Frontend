@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { CallApi, Login, Logout, CheckAuth } from './user-registration.actions';
+import { CallApi, Login, Logout, CheckAuth, CheckAuthFail } from './user-registration.actions';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
@@ -19,7 +20,8 @@ export interface UserRegistrationStateModel {
 export class UserRegistrationState {
   constructor(
     public oidcSecurityService: OidcSecurityService,
-    public http: HttpClient
+    public http: HttpClient,
+    public snackBar: MatSnackBar
     ) {}
 
   @Selector()
@@ -69,6 +71,9 @@ export class UserRegistrationState {
   }
   @Action(CheckAuthFail)
   CheckAuthFail({ payload }: CheckAuthFail): void {
-    this.snackBar.open(payload);
+    this.snackBar.open('Check your connection', "Try again!", {
+      duration: 5000,
+      panelClass: ['red-snackbar'],
+      });
   }
 }
