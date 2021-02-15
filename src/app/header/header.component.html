@@ -14,8 +14,8 @@
     <button mat-raised-button (click)="logout()">
       Вийти з акаунту
     </button>
-    <button mat-raised-button (click)="callApi()">
-      Call API
-    </button>
   </ng-template>
 </div>
+<button mat-raised-button color="primary" (click)="showSnackbar('Net is offline, Trying to reconnect ....', 'Try again', '5000')">
+  Simple Snackbar
+</button>
