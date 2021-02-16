@@ -7,13 +7,13 @@
   background-color: white;
   border: 1px solid rgba(0,0,0,.12);
   width: 120px;
-    .option{
-      cursor: pointer;
-      &:hover{
-        background-color: rgb(239, 239, 239);
-      }
+  .option{
+    cursor: pointer;
+    &:hover{
+      background-color: rgb(239, 239, 239);
     }
-      .option-inner{
-        pointer-events: none;
-      }
+    .option-inner{
+      pointer-events: none;
+    }
+  }  
 }

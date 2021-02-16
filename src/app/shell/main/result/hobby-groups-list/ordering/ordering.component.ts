@@ -54,7 +54,7 @@ export class OrderingComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event']) onClick(event) {
-    if(!event.target.closest('.ordering')) {
+    if(!event.target.closest('.ordering-button')) {
       this.visible = false;
     }
   }
