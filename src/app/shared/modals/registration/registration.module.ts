@@ -4,13 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AuthModule, LogLevel, OidcConfigService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export function configureAuth(oidcConfigService: OidcConfigService): any {
  
   return () =>{ 
       oidcConfigService.withConfig({
         clientId: 'angular',
-        stsServer: 'http://localhost:5443',
+        stsServer: environment.stsServer,
         responseType: 'code',
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
