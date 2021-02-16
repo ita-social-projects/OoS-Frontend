@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Pull the source code to GitHub workspace
         uses: actions/checkout@v2
-      - name: Set up a Node environment
+      - name: Set up Node environment
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}

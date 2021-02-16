@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
-import { setMinAge, setMaxAge } from './filter.actions';
+import { setMinAge, setMaxAge, SetOrder } from './filter.actions';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -11,6 +11,7 @@ export interface FilterStateModel {
   ageFrom: number;
   ageTo: number;
   categories: [];
+  order: string;
 }
 
 @State<FilterStateModel>({
@@ -23,7 +24,8 @@ export interface FilterStateModel {
     isRecruiting: true,
     ageFrom: null,
     ageTo: null,
-    categories: []
+    categories: [],
+    order: 'ratingDesc'
   }
 })
 @Injectable()
@@ -37,5 +39,9 @@ export class FilterState {
     setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
       patchState({ ageTo: payload })
     }
+  @Action(SetOrder)
+  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
+    patchState({ order: payload});
+  }
 
 }
