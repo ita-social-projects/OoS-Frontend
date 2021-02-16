@@ -11,7 +11,8 @@ export class RegistrationComponent {
   constructor(public store: Store) {}
 
   ngOnInit(): void {  }
-    login(): void {
-   this.store.dispatch(new Login())  
+  
+  login(): void {
+    this.store.dispatch(new Login())  
   }
 }
