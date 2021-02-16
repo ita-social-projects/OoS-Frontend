@@ -11,12 +11,15 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
   return () =>{ 
       oidcConfigService.withConfig({
         clientId: 'angular',
+        stsServer: 'http://localhost:5443',
         stsServer: environment.stsServer,
         responseType: 'code',
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
         scope: 'openid outofschoolapi.read',
         logLevel: LogLevel.Debug,})  
+    
+    
   }
     
 }
