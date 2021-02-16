@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
-import { setMinAge, setMaxAge, SetOrder } from './filter.actions';
+import { setMinAge, setMaxAge, SetOrder, SelectCity } from './filter.actions';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -42,6 +42,10 @@ export class FilterState {
   @Action(SetOrder)
   setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
     patchState({ order: payload});
+  }
+  @Action(SelectCity)
+  selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
+    patchState({ city: payload});
   }
 
 }
