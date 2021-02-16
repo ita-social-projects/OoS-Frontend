@@ -38,9 +38,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     RegistrationComponent,
   ],
   imports: [
+
+    FormsModule,
+
     MatBadgeModule,
     MatMenuModule,
     MatIconModule,
+
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
