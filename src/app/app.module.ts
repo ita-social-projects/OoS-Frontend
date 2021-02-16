@@ -74,16 +74,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       useClass: HttpErrorInterceptor,
       multi: true
     }
-  ],
-  
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    }
-  ],
-          
+  ],        
   bootstrap: [AppComponent]
 })
 export class AppModule { }
