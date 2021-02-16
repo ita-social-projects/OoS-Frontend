@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatMenuModule } from '@angular/material/menu';
+import  {MatIconModule } from '@angular/material/icon'
+import { MatBadgeModule } from '@angular/material/badge';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
@@ -25,6 +28,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -34,6 +38,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     RegistrationComponent,
   ],
   imports: [
+
+    FormsModule,
+
+    MatBadgeModule,
+    MatMenuModule,
+    MatIconModule,
+
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -64,6 +75,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       multi: true
     }
   ],
+  
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ],
+          
   bootstrap: [AppComponent]
 })
 export class AppModule { }

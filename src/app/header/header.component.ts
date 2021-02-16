@@ -15,6 +15,10 @@ import { CallApi, Logout, CheckAuth } from '../shared/store/user-registration.ac
 })
 export class HeaderComponent implements OnInit {
 
+  user = {
+    firstName: 'Іванов В. М'
+  }
+
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
 
