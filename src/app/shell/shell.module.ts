@@ -10,6 +10,7 @@ import { ResultComponent } from './main/result/result.component';
 import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
 import { MapComponent } from './main/result/map/map.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { MainComponent } from './main/main.component';
 import { FiltersListComponent } from './main/filters-list/filters-list.component';
@@ -24,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 
 
@@ -53,7 +55,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     MatAutocompleteModule,
     HttpClientModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    LeafletModule
   ]
 })
 export class ShellModule { }
