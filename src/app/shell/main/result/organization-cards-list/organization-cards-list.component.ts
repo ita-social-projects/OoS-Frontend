@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { orgCard, ORGCARDS } from 'src/app/mock-org-cards';
+import { orgCard } from 'src/app/shared/models/org-card.model';
 import { getCards } from 'src/app/shared/store/filter.actions';
-import { FilterStateModel } from 'src/app/shared/store/filter.state';
+import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-organization-cards-list',
@@ -14,13 +14,13 @@ import { FilterStateModel } from 'src/app/shared/store/filter.state';
 export class OrganizationCardsListComponent implements OnInit {
   public cards: orgCard[];
 
-  @Select() filter$: Observable<FilterStateModel>
+  @Select(FilterState.orgCards) orgCards$: Observable<orgCard[]>
 
   constructor(private store: Store) {}
   
   ngOnInit(): void {
     this.store.dispatch(new getCards())
-    this.filter$.subscribe(filter => this.cards = filter.organizationCards)
+    this.orgCards$.subscribe(orgCards => this.cards = orgCards)
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { orgCard } from 'src/app/mock-org-cards';
+import { orgCard } from '../models/org-card.model';
 
 @Component({
   selector: 'app-organization-card',
