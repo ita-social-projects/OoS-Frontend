@@ -19,6 +19,11 @@ import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RegistrationComponent } from './shared/modals/registration/registration.component';
+import { RegistrationModule } from './shared/modals/registration/registration.module';
+import { UserRegistrationState } from './shared/store/user-registration.state';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { RegistrationComponent } from './shared/modals/registration/registration
     NgxsModule.forRoot([
       AppState,
       FilterState,
-      MetaDataState
+      MetaDataState,
+      UserRegistrationState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
@@ -47,9 +53,17 @@ import { RegistrationComponent } from './shared/modals/registration/registration
     ShellModule,
     ReactiveFormsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    RegistrationModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
