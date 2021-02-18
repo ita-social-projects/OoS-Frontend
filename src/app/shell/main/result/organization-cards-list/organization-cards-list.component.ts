@@ -20,7 +20,7 @@ export class OrganizationCardsListComponent implements OnInit {
   
   ngOnInit(): void {
     this.store.dispatch(new getCards())
-    this.orgCards$.subscribe(orgCards => this.cards = orgCards)
+    this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards)
   }
 
 }

@@ -1,4 +1,9 @@
 <div>
-  <input type="text"  placeholder="Баскетбол / Динамо / ЦТДЮ / Драма / JavaScript"> 
-  <button mat-stroked-button>Search</button>
-</div>
+  <mat-form-field class ="search-field" floatLabel=never >
+    <input type="text"  maxlength="200" [formControl]="searchValue" matInput placeholder=" Введіть назву або тип гуртка."> 
+    <mat-error *ngIf="searchValue && searchValue.errors">Пошук не може містити спеціальні символи.</mat-error>
+  </mat-form-field> 
+  <button mat-stroked-button>
+    <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+  </button>
+</div>  

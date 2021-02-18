@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { RegistrationComponent } from '../shared/modals/registration/registration.component';
+import { Select, Store } from '@ngxs/store';
+import { UserRegistrationState } from '../shared/store/user-registration.state';
+import { Observable } from 'rxjs';
+import { CallApi, Logout, CheckAuth } from '../shared/store/user-registration.actions';
+
 
 @Component({
   selector: 'app-header',
@@ -10,14 +15,28 @@ import { RegistrationComponent } from '../shared/modals/registration/registratio
 })
 export class HeaderComponent implements OnInit {
 
-  isAuthorized = false;
+  user = {
+    firstName: 'Іванов В. М'
+  }
 
-  constructor(private modalDialog: MatDialog) { }
+  @Select(UserRegistrationState.isAuthorized)
+  isAuthorized$: Observable<boolean>;
+
+  constructor(private modalDialog: MatDialog,
+    public store: Store) { }
 
   ngOnInit(): void {
+    this.store.dispatch(new CheckAuth())
   }
   openModal() {
     this.modalDialog.open(RegistrationComponent);
   }
+  logout(): void {
+    this.store.dispatch(new Logout())  
+  }
+  callApi(): void {
+  this.store.dispatch(new CallApi())  
+  }
+  
 
 }

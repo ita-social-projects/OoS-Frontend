@@ -10,6 +10,7 @@ import { ResultComponent } from './main/result/result.component';
 import { OrganizationCardsListComponent } from './main/result/organization-cards-list/organization-cards-list.component';
 import { MapComponent } from './main/result/map/map.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { MainComponent } from './main/main.component';
 import { FiltersListComponent } from './main/filters-list/filters-list.component';
@@ -26,7 +27,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
-
 
 
 @NgModule({
@@ -57,7 +57,8 @@ import { OrganizationCardComponent } from '../shared/organization-card/organizat
     MatAutocompleteModule,
     HttpClientModule,
     MatButtonToggleModule,
-    MatChipsModule
+    MatChipsModule,
+    LeafletModule
   ]
 })
 export class ShellModule { }
