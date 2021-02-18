@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card_header">
+    <div class="card_type">
+      <div class="card_city">{{card.city}}</div>
+      <div class="card_ownership">{{card.ownership}}</div>
+    </div>
+    <div class="card_rates">
+      <div class="card_price" *ngIf='!card.price'>безкоштовно</div>
+      <div class="card_rate">{{card.rate}}</div>
+    </div>
+  </div>
+  <h3 class="card_title">{{card.title}}</h3>
+  <div class="card_footer">
+    <h4 class="card_owner">{{card.owner}}</h4>
+    <h5 class="card_age">Вік: {{card.ageFrom}}-{{card.ageTo}}</h5>
+    <ul class="card_types">
+      <li class="card_item" *ngFor='let category of card.category'>{{category}}</li>
+    </ul>
+  </div>
+</div>
