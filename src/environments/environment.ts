@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  stsServer: 'http://localhost:5443'
+  stsServer: 'http://192.168.99.100:5443'
+  // stsServer: 'http://localhost:5443'
 };
 
 /*
