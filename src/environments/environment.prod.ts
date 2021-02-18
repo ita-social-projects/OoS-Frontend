@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  stsServer: 'http://localhost:5443'
 };
