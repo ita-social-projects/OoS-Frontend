@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { RegistrationComponent } from '../shared/modals/registration/registration.component';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
@@ -45,7 +44,7 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     this.store.dispatch(new Logout())  
   }
-  registration(): void{
+  login(): void{
     this.store.dispatch(new Login())
   }
 }
