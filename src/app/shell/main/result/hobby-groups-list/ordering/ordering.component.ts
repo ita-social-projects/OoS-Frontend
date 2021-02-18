@@ -1,55 +1,24 @@
-import { HostListener } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { SetOrder } from 'src/app/shared/store/filter.actions';
-
-interface Option {
-  value: string;
-  viewValue: string;
-}
+import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Option } from '../hobby-groups-list.component';
 
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
   styleUrls: ['./ordering.component.scss']
 })
-export class OrderingComponent implements OnInit {
-  
-  @Select(state => state.filter.order) order$: Observable<any>;
-  options: Option[] = [
-    {value: 'ratingDesc', viewValue: 'Рейтинг'},
-    {value: 'ratingAsc', viewValue: 'Рейтинг'},
-    {value: 'priceDesc', viewValue: 'Ціна'},
-    {value: 'priceAsc', viewValue: 'Ціна'}
-  ];
-  selectedOption: Option;
+export class OrderingComponent {
+
+  @Input() options: Option[];
+  @Input() selectedOption: Option;
+  @Output() order = new EventEmitter<string>();
   visible: boolean = false;
-
-  constructor(private store: Store) { }
-
-  ngOnInit(): void { 
-    this.order$.subscribe(
-      order => {
-        this.selectedOption = this.options.find(option => option.value === order);
-      },
-      error => {
-        this.selectedOption = this.options[0];
-      }
-    );
-  }
-
-  setOrder(order: string){
-    this.store.dispatch(new SetOrder(order));
-  }
 
   toggleOptions(){
     this.visible = !this.visible;
   }
 
-  selectOption(id){
-    this.selectedOption = this.options[id];
-    this.setOrder(this.selectedOption.value);
+  selectOrder(id: number){
+    this.order.emit(this.options[id].value);
     this.toggleOptions();
   }
 
@@ -58,5 +27,4 @@ export class OrderingComponent implements OnInit {
       this.visible = false;
     }
   }
-
 }

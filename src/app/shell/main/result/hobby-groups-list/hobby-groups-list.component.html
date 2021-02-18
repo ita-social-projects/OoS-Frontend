@@ -1,4 +1,8 @@
 <div fxLayoutAlign="left center">
   <span>Знайдено Х пропозицій</span>
-  <app-ordering></app-ordering>
+  <app-ordering 
+    [options]="options" 
+    [selectedOption]="selectedOption" 
+    (order)="onChangeOrder($event)">
+  </app-ordering>
 </div>

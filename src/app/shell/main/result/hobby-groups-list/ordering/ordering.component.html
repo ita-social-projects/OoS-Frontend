@@ -8,7 +8,12 @@
   </ng-template>
 </button>
 <div class="options" *ngIf="visible">
-  <div class="option" *ngFor="let option of options; index as i" [id]="i" (click)="selectOption($event.target.id)">
+  <div 
+    class="option" 
+    *ngFor="let option of options; index as i" 
+    [id]="i" 
+    (click)="selectOrder($event.target.id)"
+  >
     <div class="option-inner" *ngIf="option != selectedOption">
       {{option.viewValue}} 
       <span class="material-icons" *ngIf="option.value.includes('Asc'); else down">

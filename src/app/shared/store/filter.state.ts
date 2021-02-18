@@ -39,13 +39,13 @@ export class FilterState {
     setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
       patchState({ ageTo: payload })
     }
-  @Action(SetOrder)
-  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
-    patchState({ order: payload});
-  }
   @Action(SelectCity)
   selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
     patchState({ city: payload});
+  }
+  @Action(SetOrder)
+  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
+    patchState({ order: payload});
   }
 
 }
