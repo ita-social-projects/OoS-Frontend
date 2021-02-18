@@ -45,16 +45,14 @@ export class FilterState {
     setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
       patchState({ ageFrom: payload })
     }
-
   @Action(setMaxAge)
     setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
       patchState({ ageTo: payload })
     }
-    @Action(SelectCity)
-    selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
-      patchState({ city: payload});
-    }
-
+  @Action(SelectCity)
+  selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
+    patchState({ city: payload});
+  }
   @Action(getCards)
     getCards({ patchState }: StateContext<FilterStateModel>) {
       return this.cardsService.getCards().subscribe(
