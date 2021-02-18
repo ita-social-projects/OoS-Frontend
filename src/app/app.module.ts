@@ -66,7 +66,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MaterialModule,
     FormsModule,
     RegistrationModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    
   ],
   providers: [
     {
