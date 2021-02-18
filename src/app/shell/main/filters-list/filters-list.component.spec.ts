@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Component } from '@angular/core';
 import { FiltersListComponent } from './filters-list.component';
 
 describe('FiltersListComponent', () => {
@@ -8,7 +8,8 @@ describe('FiltersListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FiltersListComponent ]
+      declarations: [ FiltersListComponent,
+        MockCityFilterComponent, ]
     })
     .compileComponents();
   });
@@ -23,3 +24,9 @@ describe('FiltersListComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-city-filter',
+  template: ''
+})
+class MockCityFilterComponent{}
