@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import Geocoder from 'leaflet-control-geocoder';
+import { GeolocationService } from './geolocation.service';
+import { Store } from '@ngxs/store';
+import { SetLocation } from '../shared/store/user.actions';
+import { UserStateModel } from '../shared/store/user.state';
 
 @Component({
   selector: 'app-shell',
@@ -8,22 +11,10 @@ import Geocoder from 'leaflet-control-geocoder';
 })
 export class ShellComponent implements OnInit {
 
-  constructor() { }
-
-  navigatorRecievedCoords(data): void {
-    const crd = data.coords;
-    new Geocoder().options.geocoder.reverse({lat: crd.latitude, lng: crd.longitude}, 8, (result) =>{
-     //this.SaveToState({city: result[0].properties.address.city, lng: crd.longitude, lat: crd.latitude})
-    })
-  };
-
-  navigatorRecievedError(err): void {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-  };
+  constructor(public geolocationService: GeolocationService, public store: Store) { }
 
   ngOnInit(): void {
-    //this.GeolocationService.handleUserLocation()
-    navigator.geolocation.getCurrentPosition(this.navigatorRecievedCoords, this.navigatorRecievedError);
+    this.geolocationService.handleUserLocation((location) => this.store.dispatch(new SetLocation(location)));
   }
 
 }

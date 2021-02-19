@@ -27,6 +27,7 @@ import { UserRegistrationState } from './shared/store/user-registration.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserState } from './shared/store/user.state';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
       AppState,
       FilterState,
       MetaDataState,
-      UserRegistrationState
+      UserRegistrationState,
+      UserState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
