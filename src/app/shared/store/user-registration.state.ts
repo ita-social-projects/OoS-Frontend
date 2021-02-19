@@ -29,7 +29,6 @@ export class UserRegistrationState {
   @Action(Login)
   Login({  dispatch }: StateContext<UserRegistrationStateModel>): void {
     this.oidcSecurityService.authorize();
-    dispatch(new CheckAuth()); 
   }
   @Action(Logout)
   Logout({  dispatch  }: StateContext<UserRegistrationStateModel>): void {
