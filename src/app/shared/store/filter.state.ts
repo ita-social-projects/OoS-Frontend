@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext } from '@ngxs/store';
-import { setMinAge, setMaxAge, SelectCity } from './filter.actions';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+
+import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
+import { orgCard } from '../models/org-card.model';
+import { setMinAge, setMaxAge, SelectCity, getCards } from './filter.actions';
 
 
 export interface FilterStateModel {
@@ -12,8 +15,8 @@ export interface FilterStateModel {
   ageFrom: number;
   ageTo: number;
   categories: [];
+  organizationCards: orgCard[];
 }
-
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
@@ -24,11 +27,19 @@ export interface FilterStateModel {
     isRecruiting: true,
     ageFrom: null,
     ageTo: null,
-    categories: []
+    categories: [],
+    organizationCards: []
   }
 })
 @Injectable()
 export class FilterState {
+
+  @Selector()
+  static orgCards(state: FilterStateModel) {
+    return state.organizationCards
+  }
+
+  constructor(private cardsService: OrgCardsService){}
 
   @Action(setMinAge)
     setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
@@ -38,9 +49,14 @@ export class FilterState {
     setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
       patchState({ ageTo: payload })
     }
-    @Action(SelectCity)
-    selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
-      patchState({ city: payload});
+  @Action(SelectCity)
+  selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
+    patchState({ city: payload});
+  }
+  @Action(getCards)
+    getCards({ patchState }: StateContext<FilterStateModel>) {
+      return this.cardsService.getCards().subscribe(
+        (organizationCards: orgCard[]) => patchState({organizationCards})
+      )
     }
-
 }
