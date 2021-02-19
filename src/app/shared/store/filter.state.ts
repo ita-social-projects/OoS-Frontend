@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-
+import { State, Action, StateContext, Selector  } from '@ngxs/store';
+import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards  } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
-import { setMinAge, setMaxAge, SelectCity, getCards } from './filter.actions';
-
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -15,6 +13,7 @@ export interface FilterStateModel {
   ageFrom: number;
   ageTo: number;
   categories: [];
+  order: string;
   organizationCards: orgCard[];
 }
 @State<FilterStateModel>({
@@ -28,6 +27,7 @@ export interface FilterStateModel {
     ageFrom: null,
     ageTo: null,
     categories: [],
+    order: 'ratingDesc',
     organizationCards: []
   }
 })
@@ -52,6 +52,10 @@ export class FilterState {
   @Action(SelectCity)
   selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
     patchState({ city: payload});
+  }
+  @Action(SetOrder)
+  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
+    patchState({ order: payload});
   }
   @Action(getCards)
     getCards({ patchState }: StateContext<FilterStateModel>) {

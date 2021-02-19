@@ -25,6 +25,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { OrderingComponent } from './main/result/organization-cards-list/ordering/ordering.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
 
@@ -42,6 +43,7 @@ import { OrganizationCardComponent } from '../shared/organization-card/organizat
     MapComponent,
     ResultComponent,
     OrganizationCardsListComponent,
+    OrderingComponent,
     OrganizationCardComponent
   ],
   imports: [
