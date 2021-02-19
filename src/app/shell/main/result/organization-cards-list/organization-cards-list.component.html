@@ -5,4 +5,9 @@
     [selectedOption]="selectedOption" 
     (onChange)="onChangeOrder($event)">
   </app-ordering>
+</div>  
+<div class="cards" fxLayout="row wrap" fxLayoutGap='2%' fxLayoutAlign="flex-start" >
+  <ng-container> 
+    <app-organization-card *ngFor="let card of cards" [card]="card"></app-organization-card> 
+  </ng-container>
 </div>

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext } from '@ngxs/store';
-import { setMinAge, setMaxAge, SetOrder, SelectCity } from './filter.actions';
+import { State, Action, StateContext, Selector  } from '@ngxs/store';
+import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards  } from './filter.actions';
+import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
+import { orgCard } from '../models/org-card.model';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -12,8 +14,8 @@ export interface FilterStateModel {
   ageTo: number;
   categories: [];
   order: string;
+  organizationCards: orgCard[];
 }
-
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
@@ -25,11 +27,19 @@ export interface FilterStateModel {
     ageFrom: null,
     ageTo: null,
     categories: [],
-    order: 'ratingDesc'
+    order: 'ratingDesc',
+    organizationCards: []
   }
 })
 @Injectable()
 export class FilterState {
+
+  @Selector()
+  static orgCards(state: FilterStateModel) {
+    return state.organizationCards
+  }
+
+  constructor(private cardsService: OrgCardsService){}
 
   @Action(setMinAge)
     setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
@@ -47,5 +57,10 @@ export class FilterState {
   setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
     patchState({ order: payload});
   }
-
+  @Action(getCards)
+    getCards({ patchState }: StateContext<FilterStateModel>) {
+      return this.cardsService.getCards().subscribe(
+        (organizationCards: orgCard[]) => patchState({organizationCards})
+      )
+    }
 }

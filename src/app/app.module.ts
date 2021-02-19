@@ -21,7 +21,6 @@ import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
-import { RegistrationComponent } from './shared/modals/registration/registration.component';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
 import { UserRegistrationState } from './shared/store/user-registration.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -34,8 +33,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HeaderComponent,
     AppComponent,
     ShellComponent,
-    FooterComponent,
-    RegistrationComponent,
+    FooterComponent
   ],
   imports: [
 
@@ -66,7 +64,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MaterialModule,
     FormsModule,
     RegistrationModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    
   ],
   providers: [
     {
