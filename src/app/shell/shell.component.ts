@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Geocoder from 'leaflet-control-geocoder';
 
 @Component({
   selector: 'app-shell',
@@ -11,11 +12,9 @@ export class ShellComponent implements OnInit {
 
   navigatorRecievedCoords(data): void {
     const crd = data.coords;
-  //call action and send into it coords, remove console logs
-    console.log('Ваше текущее метоположение:');
-    console.log(`Широта: ${crd.latitude}`);
-    console.log(`Долгота: ${crd.longitude}`);
-    console.log(`Плюс-минус ${crd.accuracy} метров.`);
+    new Geocoder().options.geocoder.reverse({lat: crd.latitude, lng: crd.longitude}, 8, (result) =>{
+     //this.SaveToState({city: result[0].properties.address.city, lng: crd.longitude, lat: crd.latitude})
+    })
   };
 
   navigatorRecievedError(err): void {
@@ -23,6 +22,7 @@ export class ShellComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    //this.GeolocationService.handleUserLocation()
     navigator.geolocation.getCurrentPosition(this.navigatorRecievedCoords, this.navigatorRecievedError);
   }
 
