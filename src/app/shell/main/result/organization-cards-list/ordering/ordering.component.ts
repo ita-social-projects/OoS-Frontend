@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
-import { Option } from '../hobby-groups-list.component';
+import { Option } from '../organization-cards-list.component';
 
 @Component({
   selector: 'app-ordering',

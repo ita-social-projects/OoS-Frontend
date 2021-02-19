@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HobbyGroupsListComponent } from './hobby-groups-list.component';
+import { OrganizationCardsListComponent } from './organization-cards-list.component';
 import { OrderingComponent } from './ordering/ordering.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -7,14 +7,14 @@ import { Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterState } from 'src/app/shared/store/filter.state';
 
-describe('HobbyGroupsListComponent', () => {
-  let component: HobbyGroupsListComponent;
-  let fixture: ComponentFixture<HobbyGroupsListComponent>;
+describe('OrganizationCardsListComponent', () => {
+  let component: OrganizationCardsListComponent;
+  let fixture: ComponentFixture<OrganizationCardsListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ 
-        HobbyGroupsListComponent,
+        OrganizationCardsListComponent,
         OrderingComponent
       ],
       imports: [
@@ -30,7 +30,7 @@ describe('HobbyGroupsListComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HobbyGroupsListComponent);
+    fixture = TestBed.createComponent(OrganizationCardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

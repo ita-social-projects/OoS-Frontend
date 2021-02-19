@@ -9,11 +9,11 @@ export interface Option {
 }
 
 @Component({
-  selector: 'app-hobby-groups-list',
-  templateUrl: './hobby-groups-list.component.html',
-  styleUrls: ['./hobby-groups-list.component.scss']
+  selector: 'app-organization-cards-list',
+  templateUrl: './organization-cards-list.component.html',
+  styleUrls: ['./organization-cards-list.component.scss']
 })
-export class HobbyGroupsListComponent implements OnInit {
+export class OrganizationCardsListComponent implements OnInit {
 
   stateCards: Observable<Object[]>;
   public cards: Array<Object> = [];
