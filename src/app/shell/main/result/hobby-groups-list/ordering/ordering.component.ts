@@ -10,7 +10,7 @@ export class OrderingComponent {
 
   @Input() options: Option[];
   @Input() selectedOption: Option;
-  @Output() order = new EventEmitter<string>();
+  @Output() onChange = new EventEmitter<string>();
   visible: boolean = false;
 
   toggleOptions(){
@@ -18,7 +18,7 @@ export class OrderingComponent {
   }
 
   selectOrder(id: number){
-    this.order.emit(this.options[id].value);
+    this.onChange.emit(this.options[id].value);
     this.toggleOptions();
   }
 
