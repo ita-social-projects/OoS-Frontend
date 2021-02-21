@@ -17,10 +17,7 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
         postLogoutRedirectUri: window.location.origin,
         scope: 'openid outofschoolapi.read',
         logLevel: LogLevel.Debug,})  
-    
-    
-  }
-    
+  }  
 }
 
 @NgModule({

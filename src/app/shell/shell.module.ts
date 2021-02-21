@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ShellRoutingModule } from './shell-routing.module';
 import { ResultComponent } from './main/result/result.component';
-import { HobbyGroupsListComponent } from './main/result/hobby-groups-list/hobby-groups-list.component';
+import { OrganizationCardsListComponent } from './main/result/organization-cards-list/organization-cards-list.component';
 import { MapComponent } from './main/result/map/map.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
@@ -25,8 +25,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
-
+import { OrderingComponent } from './main/result/organization-cards-list/ordering/ordering.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
 
 
 @NgModule({
@@ -41,7 +42,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CityFilterComponent,
     MapComponent,
     ResultComponent,
-    HobbyGroupsListComponent
+    OrganizationCardsListComponent,
+    OrderingComponent,
+    OrganizationCardComponent
   ],
   imports: [
     CommonModule,
@@ -56,6 +59,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatAutocompleteModule,
     HttpClientModule,
     MatButtonToggleModule,
+    MatChipsModule,
     LeafletModule
   ]
 })

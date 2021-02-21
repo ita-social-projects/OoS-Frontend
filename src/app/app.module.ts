@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatMenuModule } from '@angular/material/menu';
-import  {MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon'
 import { MatBadgeModule } from '@angular/material/badge';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
@@ -21,7 +21,6 @@ import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
-import { RegistrationComponent } from './shared/modals/registration/registration.component';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
 import { UserRegistrationState } from './shared/store/user-registration.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -35,8 +34,7 @@ import { UserState } from './shared/store/user.state';
     HeaderComponent,
     AppComponent,
     ShellComponent,
-    FooterComponent,
-    RegistrationComponent,
+    FooterComponent
   ],
   imports: [
 
@@ -68,7 +66,8 @@ import { UserState } from './shared/store/user.state';
     MaterialModule,
     FormsModule,
     RegistrationModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    
   ],
   providers: [
     {
@@ -76,7 +75,7 @@ import { UserState } from './shared/store/user.state';
       useClass: HttpErrorInterceptor,
       multi: true
     }
-  ],        
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

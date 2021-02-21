@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { RegistrationComponent } from '../shared/modals/registration/registration.component';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import { CallApi, Logout, CheckAuth } from '../shared/store/user-registration.actions';
+import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,20 +24,27 @@ export class HeaderComponent implements OnInit {
   isAuthorized$: Observable<boolean>;
 
   constructor(private modalDialog: MatDialog,
-    public store: Store) { }
+    public store: Store,
+    private actions$: Actions,
+    public snackBar: MatSnackBar,
+    private router: Router) { 
+      actions$.pipe(
+        ofAction(AuthFail)
+      ).subscribe(action => {
+          this.snackBar.open('Check your connection', 'Try again!', {
+          duration: 5000,
+          panelClass: ['red-snackbar'],
+          });
+      })
+    }
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth())
   }
-  openModal() {
-    this.modalDialog.open(RegistrationComponent);
-  }
   logout(): void {
     this.store.dispatch(new Logout())  
   }
-  callApi(): void {
-  this.store.dispatch(new CallApi())  
+  login(): void{
+    this.store.dispatch(new Login())
   }
-  
-
 }
