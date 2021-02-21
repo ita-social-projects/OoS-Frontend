@@ -14,3 +14,53 @@ h1{
 .material-icon{
    line-height:none;
 }
+.header{
+   &-cover {
+      position: relative;
+      overflow: hidden;
+   }
+   &_overflow {
+      overflow: visible;
+   }
+}
+.registration {
+   &_window {
+      height: 170px;
+      width: 300px;
+      border: 1px solid black;
+      border-radius: 5px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      right: 10px;
+      top: 50px;
+      transition: 0.7s ease all;
+   }
+   &_header {
+      font-size: 16px;
+      padding: 10px;
+      border-bottom: 1px solid grey;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+   }
+   &_btns {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      padding: 20px;
+   }
+   &_organization, &_customer {
+      font-size: 15px;
+      width: 100%;
+      padding: 0;
+      text-align: center;
+   }
+   &_show {
+      display: flex;
+   }
+}

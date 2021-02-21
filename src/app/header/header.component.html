@@ -1,12 +1,30 @@
-<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
+<div class="header-cover" [class.header_overflow]='showModalReg' fxLayout="row" fxLayoutAlign="space-between">
   <div>Позашкілля</div>
   <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized">
     
   </div>
   <ng-template #isUnauthorized>
-     <button mat-raised-button (click)="login()">
-      Увійти
-    </button>
+    <div class="buttons_wrapper">
+      <button mat-stroked-button (click)="login()">
+        Увійти
+      </button>
+      <button mat-stroked-button class="registration_button" (click)='toggleModalReg()'>
+        Реєстрація
+      </button>
+    </div>
+    <div class="registration_window" [class.registration_show]='showModalReg'>
+      <div class="registration_header">
+        Зареєструватися як...
+      </div>
+      <div class="registration_btns">
+        <button mat-stroked-button class="registration_organization">
+          Заклад позашкільної освіти
+        </button>
+        <button mat-stroked-button class="registration_customer">
+          Користувач
+        </button>
+      </div>
+    </div>
   </ng-template>
 
   <ng-template #isAuthorized>
@@ -30,4 +48,4 @@
     </div>
   
   </ng-template>
-  </div>
+</div>

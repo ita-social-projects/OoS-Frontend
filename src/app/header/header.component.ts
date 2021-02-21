@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { HostListener } from '@angular/core';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class HeaderComponent implements OnInit {
   user = {
     firstName: 'Іванов В. М'
   }
+  showModalReg: boolean = false;
 
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
@@ -46,5 +48,15 @@ export class HeaderComponent implements OnInit {
   }
   login(): void{
     this.store.dispatch(new Login())
+  }
+
+  toggleModalReg(): void {
+    this.showModalReg = !this.showModalReg;
+  }
+  @HostListener('document:click', ['$event'])
+  onClick(event) {
+      if (!event.target.closest('.registration_button, .registration_window')) {
+        this.showModalReg = false;
+      }
   }
 }
