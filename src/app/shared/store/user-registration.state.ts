@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Login, Logout, CheckAuth, AuthFail } from './user-registration.actions';
+import {Login, Logout, CheckAuth, AuthFail, UserName} from './user-registration.actions';
 
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import jwt_decode from 'jwt-decode';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
+  userName: string;
 }
 
 @State<UserRegistrationStateModel>({
   name: 'user',
   defaults: {
     isAuthorized: false,
+    userName: ''
   }
 })
 @Injectable()
@@ -22,8 +25,12 @@ export class UserRegistrationState {
     public http: HttpClient) {}
 
   @Selector()
-    static isAuthorized(state: UserRegistrationStateModel) {
+    static isAuthorized(state: UserRegistrationStateModel): any {
     return state.isAuthorized;
+  }
+  @Selector()
+  static userName(state: UserRegistrationStateModel): any {
+    return state.userName;
   }
 
   @Action(Login)
@@ -40,12 +47,16 @@ export class UserRegistrationState {
     this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => {
-        console.log('is authenticated', auth)
+        console.log('is authenticated', auth);
         patchState({ isAuthorized: auth});
       });
   }
   @Action(AuthFail)
   AuthFail(): void {
-      console.log("Authorization failed");
+      console.log('Authorization failed');
     }
+  @Action(UserName)
+  UserName({  patchState }: StateContext<UserRegistrationStateModel>): void {
+    patchState({userName: jwt_decode(this.oidcSecurityService.getToken())['name']});
+  }
   }

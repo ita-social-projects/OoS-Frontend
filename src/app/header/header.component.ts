@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
+import {Logout, CheckAuth, AuthFail, Login, UserName} from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -18,16 +18,18 @@ export class HeaderComponent implements OnInit {
 
   user = {
     firstName: 'Іванов В. М'
-  }
+  };
 
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
+  @Select(UserRegistrationState.userName)
+  userName$: Observable<string>;
 
   constructor(private modalDialog: MatDialog,
-    public store: Store,
-    private actions$: Actions,
-    public snackBar: MatSnackBar,
-    private router: Router) { 
+              public store: Store,
+              private actions$: Actions,
+              public snackBar: MatSnackBar,
+              private router: Router) {
       actions$.pipe(
         ofAction(AuthFail)
       ).subscribe(action => {
@@ -35,16 +37,21 @@ export class HeaderComponent implements OnInit {
           duration: 5000,
           panelClass: ['red-snackbar'],
           });
-      })
+      });
     }
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth())
+    this.store.dispatch(new CheckAuth());
+    this.isAuthorized$.subscribe(name => {
+      if (name === true){
+        this.store.dispatch(new UserName());
+      }
+    });
   }
   logout(): void {
-    this.store.dispatch(new Logout())  
+    this.store.dispatch(new Logout());
   }
   login(): void{
-    this.store.dispatch(new Login())
+    this.store.dispatch(new Login());
   }
 }

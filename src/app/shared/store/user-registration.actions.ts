@@ -14,3 +14,7 @@ export class AuthFail {
   static readonly type = '[user] has auth failed';
   constructor() {}
 }
+export class UserName {
+  static readonly type = '[user] name added';
+  constructor() {}
+}
