@@ -27,15 +27,15 @@ export class UserRegistrationState {
     public http: HttpClient) {}
 
   @Selector()
-    static isAuthorized(state: UserRegistrationStateModel): any {
+    static isAuthorized(state: UserRegistrationStateModel): boolean {
     return state.isAuthorized;
   }
   @Selector()
-  static userName(state: UserRegistrationStateModel): any {
+  static userName(state: UserRegistrationStateModel): string {
     return state.userName;
   }
   @Selector()
-  static role(state: UserRegistrationStateModel): any {
+  static role(state: UserRegistrationStateModel): string {
     return state.role;
   }
 

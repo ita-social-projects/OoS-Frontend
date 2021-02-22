@@ -39,13 +39,13 @@ export class HeaderComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth());
     this.isAuthorized$.subscribe(name => {
       if (name === true){
         this.store.dispatch(new UserName());
         this.store.dispatch(new Role());
       }
     });
+    this.store.dispatch(new CheckAuth());
   }
   logout(): void {
     this.store.dispatch(new Logout());
