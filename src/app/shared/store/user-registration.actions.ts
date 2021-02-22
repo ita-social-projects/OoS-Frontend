@@ -18,3 +18,7 @@ export class UserName {
   static readonly type = '[user] name added';
   constructor() {}
 }
+export class Role {
+  static readonly type = '[role] added';
+  constructor() {}
+}

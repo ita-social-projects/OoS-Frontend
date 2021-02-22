@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import {Logout, CheckAuth, AuthFail, Login, UserName} from '../shared/store/user-registration.actions';
+import {Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -16,14 +16,12 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  user = {
-    firstName: 'Іванов В. М'
-  };
-
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(UserRegistrationState.userName)
   userName$: Observable<string>;
+  @Select(UserRegistrationState.role)
+  role$: Observable<string>;
 
   constructor(private modalDialog: MatDialog,
               public store: Store,
@@ -45,6 +43,7 @@ export class HeaderComponent implements OnInit {
     this.isAuthorized$.subscribe(name => {
       if (name === true){
         this.store.dispatch(new UserName());
+        this.store.dispatch(new Role());
       }
     });
   }
