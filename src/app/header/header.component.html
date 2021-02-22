@@ -1,7 +1,7 @@
 <div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
   <div>Позашкілля</div>
   <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized">
-    
+
   </div>
   <ng-template #isUnauthorized>
      <button mat-raised-button (click)="login()">
@@ -13,13 +13,13 @@
     <div class="authorization">
       <button mat-raised-button color="primary"
         matBadge="2" matBadgePosition="before" matBadgeColor="accent">
-        <i> 
+        <i>
           <mat-icon class="icon-message"> email</mat-icon>
         </i>
       </button>
 
       <button mat-button [matMenuTriggerFor]="log">
-        <h1>{{user.firstName}}</h1>
+        <h1>{{userName$ | async}}</h1>
       </button>
       <mat-menu #log="matMenu">
         <button mat-menu-item>Гуртки</button>
@@ -28,6 +28,6 @@
       </mat-menu>
 
     </div>
-  
+
   </ng-template>
   </div>
