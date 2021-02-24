@@ -1,0 +1,17 @@
+
+form{
+  display: flex;
+  flex-direction: column;
+  .checkbox {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .reg-section{
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+h2{
+  margin: 0 auto;
+}
