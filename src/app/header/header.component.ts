@@ -20,9 +20,9 @@ enum RoleLinks{
 })
 export class HeaderComponent implements OnInit {
 
-  urlConfig:string="";
-  urlActivities:string="";
   role:string="";
+  roles=RoleLinks;
+  
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(UserRegistrationState.userName)
@@ -46,16 +46,12 @@ export class HeaderComponent implements OnInit {
     }
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
+    this.role = this.store.selectSnapshot<string>(UserRegistrationState.role);
   }
   logout(): void {
     this.store.dispatch(new Logout());
   }
   login(): void{
     this.store.dispatch(new Login());
-  }
-  linksGenerating(){
-    this.role = this.store.selectSnapshot<string>(UserRegistrationState.role);
-    this.urlActivities=`./${RoleLinks[this.role]}/activities`;
-    this.urlConfig=`./${RoleLinks[this.role]}/config`;
   }
 }
