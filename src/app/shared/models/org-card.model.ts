@@ -9,3 +9,11 @@ export interface orgCard {
   ageTo: number;
   category: string[];
 }
+
+export interface activitiesCard {
+  title: string;
+  picture: string;
+  participants: number;
+  messages: number;
+  isRecruiting: boolean;
+}

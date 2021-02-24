@@ -1,0 +1,30 @@
+[
+  {
+  "title": "Балалайка",
+  "picture": "",
+  "participants": "5",
+  "messages": "6",
+  "isRecruiting": "true"
+  },
+  {
+  "title": "Танці шманці",
+  "picture": "",
+  "participants": "10",
+  "messages": "1",
+  "isRecruiting": "true"
+  },
+  {
+  "title": "Компухторні ігри",
+  "picture": "",
+  "participants": "7",
+  "messages": "2",
+  "isRecruiting": "false"
+  },
+  {
+  "title": "Клуб Наруто Узумакі",
+  "picture": "",
+  "participants": "15",
+  "messages": "0",
+  "isRecruiting": "false"
+  }
+]

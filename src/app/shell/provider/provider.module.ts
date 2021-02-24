@@ -5,6 +5,8 @@ import { ProviderConfigComponent } from './provider-config/provider-config.compo
 import { ProviderRoutingModule } from './provider-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     ProviderRoutingModule,
     FlexLayoutModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule
   ]
 })
 export class ProviderModule { }
