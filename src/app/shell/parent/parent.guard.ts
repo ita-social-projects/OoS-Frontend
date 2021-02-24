@@ -7,14 +7,14 @@ import { UserRegistrationState } from '../../shared/store/user-registration.stat
 @Injectable({
   providedIn: 'root'
 })
-export class ProviderGuard implements CanLoad {
+export class ParentGuard implements CanLoad {
   constructor(public store: Store) {}
 
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const role=this.store.selectSnapshot<string>(UserRegistrationState.role);
-    if(role==='organization'){
+    if(role==='parent'){
       return true;
     }else{
       return false;

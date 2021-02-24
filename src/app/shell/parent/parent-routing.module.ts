@@ -6,7 +6,8 @@ import { ParentConfigComponent } from './parent-config/parent-config.component';
 
 const routes: Routes = [
   { path: 'activities', component: ParentActivitiesComponent },
-  { path: 'config', component: ParentConfigComponent }];
+  { path: 'config', component: ParentConfigComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

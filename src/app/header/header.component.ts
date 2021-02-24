@@ -16,13 +16,15 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  urlConfig:string="";
+  urlActivities:string="";
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(UserRegistrationState.userName)
   userName$: Observable<string>;
   @Select(UserRegistrationState.role)
   role$: Observable<string>;
-
+  
   constructor(private modalDialog: MatDialog,
               public store: Store,
               private actions$: Actions,
@@ -40,11 +42,20 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
+    this.linksGenerating();
+   
   }
   logout(): void {
     this.store.dispatch(new Logout());
   }
   login(): void{
     this.store.dispatch(new Login());
+  }
+  linksGenerating(){
+    
+    let role = this.store.selectSnapshot<string>(UserRegistrationState.role);
+    let urlRole = (role==='organization') ? 'provider':'parent';
+    this.urlActivities=`./${urlRole}/activities`;
+    this.urlConfig=`./${urlRole}/config`;
   }
 }
