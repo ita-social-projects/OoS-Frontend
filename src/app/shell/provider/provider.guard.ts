@@ -14,11 +14,6 @@ export class ProviderGuard implements CanLoad {
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const role=this.store.selectSnapshot<string>(UserRegistrationState.role);
-    if(role==='organization'){
-      return true;
-    }else{
-      return false;
-    }
-    
+      return role==='organization';
   }
 }
