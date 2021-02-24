@@ -66,8 +66,7 @@ import { UserState } from './shared/store/user.state';
     MaterialModule,
     FormsModule,
     RegistrationModule,
-    MatSnackBarModule,
-    
+    MatSnackBarModule
   ],
   providers: [
     {

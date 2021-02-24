@@ -56,8 +56,8 @@ export class UserRegistrationState {
         console.log('is authenticated', auth);
         patchState({ isAuthorized: auth});
         if (auth) {
-          patchState({role: jwt_decode(this.oidcSecurityService.getToken()).role});
-          patchState({userName: jwt_decode(this.oidcSecurityService.getToken()).name});
+          patchState({role: jwt_decode(this.oidcSecurityService.getToken())['role']});
+          patchState({userName: jwt_decode(this.oidcSecurityService.getToken())['name']});
         }
       });
   }

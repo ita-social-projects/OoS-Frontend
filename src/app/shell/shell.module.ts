@@ -28,6 +28,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { OrderingComponent } from './main/result/organization-cards-list/ordering/ordering.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
+import { ParentGuard } from './parent/parent.guard';
+import { ProviderGuard } from './provider/provider.guard';
 
 
 @NgModule({
@@ -61,6 +63,10 @@ import { OrganizationCardComponent } from '../shared/organization-card/organizat
     MatButtonToggleModule,
     MatChipsModule,
     LeafletModule
+  ],
+  providers: [
+    ParentGuard,
+    ProviderGuard
   ]
 })
 export class ShellModule { }

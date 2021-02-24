@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import {Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/store/user-registration.actions';
+import { Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -16,13 +16,15 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  urlConfig:string="";
+  urlActivities:string="";
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(UserRegistrationState.userName)
   userName$: Observable<string>;
   @Select(UserRegistrationState.role)
   role$: Observable<string>;
-
+  
   constructor(private modalDialog: MatDialog,
               public store: Store,
               private actions$: Actions,
@@ -37,7 +39,6 @@ export class HeaderComponent implements OnInit {
           });
       });
     }
-
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
   }
@@ -46,5 +47,11 @@ export class HeaderComponent implements OnInit {
   }
   login(): void{
     this.store.dispatch(new Login());
+  }
+  linksGenerating(){
+    let role = this.store.selectSnapshot<string>(UserRegistrationState.role);
+    let urlRole = (role==='organization') ? 'provider':'parent';
+    this.urlActivities=`./${urlRole}/activities`;
+    this.urlConfig=`./${urlRole}/config`;
   }
 }

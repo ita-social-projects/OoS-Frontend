@@ -18,12 +18,12 @@
         </i>
       </button>
 
-      <button mat-button [matMenuTriggerFor]="log">
+      <button mat-button [matMenuTriggerFor]="log" (click)="linksGenerating();">
         <h1>{{userName$ | async}}</h1>
       </button>
       <mat-menu #log="matMenu">
-        <button mat-menu-item>Гуртки</button>
-        <button mat-menu-item>Налаштування</button>
+        <button mat-menu-item><a routerLink={{urlActivities}}>Гуртки</a></button>
+        <button mat-menu-item><a routerLink={{urlConfig}}>Налаштування</a></button>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </mat-menu>
 
