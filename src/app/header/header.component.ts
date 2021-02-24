@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import {Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/store/user-registration.actions';
+import { Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
