@@ -8,6 +8,10 @@ import { Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/sto
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+enum RoleLinks{
+  organization='provider',
+  parent ='parent'
+}
 
 @Component({
   selector: 'app-header',
@@ -18,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
   urlConfig:string="";
   urlActivities:string="";
+  role:string="";
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(UserRegistrationState.userName)
@@ -49,9 +54,8 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new Login());
   }
   linksGenerating(){
-    let role = this.store.selectSnapshot<string>(UserRegistrationState.role);
-    let urlRole = (role==='organization') ? 'provider':'parent';
-    this.urlActivities=`./${urlRole}/activities`;
-    this.urlConfig=`./${urlRole}/config`;
+    this.role = this.store.selectSnapshot<string>(UserRegistrationState.role);
+    this.urlActivities=`./${RoleLinks[this.role]}/activities`;
+    this.urlConfig=`./${RoleLinks[this.role]}/config`;
   }
 }
