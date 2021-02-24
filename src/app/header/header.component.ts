@@ -39,11 +39,8 @@ export class HeaderComponent implements OnInit {
           });
       });
     }
-
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
-    this.linksGenerating();
-   
   }
   logout(): void {
     this.store.dispatch(new Logout());
@@ -52,7 +49,6 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new Login());
   }
   linksGenerating(){
-    
     let role = this.store.selectSnapshot<string>(UserRegistrationState.role);
     let urlRole = (role==='organization') ? 'provider':'parent';
     this.urlActivities=`./${urlRole}/activities`;

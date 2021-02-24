@@ -18,7 +18,7 @@
         </i>
       </button>
 
-      <button mat-button [matMenuTriggerFor]="log">
+      <button mat-button [matMenuTriggerFor]="log" (click)="linksGenerating();">
         <h1>{{userName$ | async}}</h1>
       </button>
       <mat-menu #log="matMenu">
