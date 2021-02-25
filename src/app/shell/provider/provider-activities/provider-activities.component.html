@@ -5,46 +5,10 @@ fxLayoutGap='20px'>
   <h2 fxLayoutAlign='center'>Управління гуртками та секціями</h2>
   <hr fxLayoutAlign='center' width="500" size="2" color="gray" />
   <br />
-  <div class="container">
-    <mat-card fxLayout='row' fxLayoutAlign='space-between center'>
-      <div fxLayout='row' fxLayoutAlign='start'>
-        <div class="card__image">
-          <img mat-card-image src="" alt="activity-pic">
-        </div>
-        <div fxLayout='column' fxLayoutAlign='start'>
-          <mat-card-header fxLayout='row' fxLayoutAlign='space-between'>
-              <mat-card-title>{{card.title}}</mat-card-title>
-              <div *ngIf="(card.isRecruiting | async) then isRecruiting; else isUnrecruiting">
-              </div>
-              
-              <ng-template #isRecruiting>
-                <mat-chip color="warn">Набір відкрито</mat-chip>
-             </ng-template>
-              <ng-template #isUnrecruiting>
-                <mat-chip color="warn">Набір закрито</mat-chip>
-              </ng-template>
-              
-          </mat-card-header>
-          <div class="card__main">
-              <div class="participants" fxLayout='row' fxLayoutAlign='space-between'>
-                <button mat-stroked-button>Учасники</button>
-                <p>Заявок: {{card.participants}}</p>
-              </div>
-              <div class="messages" fxLayout='row' fxLayoutAlign='space-between'>
-                <button mat-stroked-button>Повідомлення</button>
-                <p>Нових: {{card.messages}}</p>
-              </div>
-          </div>
-        </div>
-      </div>
-      <div class="card__config" fxLayout='column' fxLayoutAlign='space-between end'>
-        <button mat-button>Призупинити набір</button>
-        <button mat-button>Редагувати</button>
-      </div>
-      
-
-
-    </mat-card>
+  <div class="cards" fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' >
+    <ng-container> 
+      <app-activities-card *ngFor="let card of cards" [card]="card"></app-activities-card> 
+    </ng-container>
   </div>
   <button mat-raised-button>Додати новий гурток/секцію</button>
   

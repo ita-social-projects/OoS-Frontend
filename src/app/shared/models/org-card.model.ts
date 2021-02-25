@@ -8,10 +8,6 @@ export interface orgCard {
   ageFrom: number;
   ageTo: number;
   category: string[];
-}
-
-export interface activitiesCard {
-  title: string;
   picture: string;
   participants: number;
   messages: number;
