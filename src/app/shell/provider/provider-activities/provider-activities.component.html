@@ -1,1 +1,14 @@
-<p>provider-activities works!</p>
+<div 
+fxLayout='column' 
+fxLayoutAlign='space-evenly center' 
+fxLayoutGap='20px'>
+  <h2 fxLayoutAlign='center'>Управління гуртками та секціями</h2>
+  <hr fxLayoutAlign='center' width="500" size="2" color="gray" />
+  <br />
+  <div class="cards" fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' >
+    <ng-container> 
+      <app-activities-card *ngFor="let card of cards" [card]="card"></app-activities-card> 
+    </ng-container>
+  </div>
+  <button mat-raised-button>Додати новий гурток/секцію</button>
+</div>

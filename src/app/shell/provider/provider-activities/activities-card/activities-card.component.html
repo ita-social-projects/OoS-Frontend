@@ -1,0 +1,34 @@
+<div class="container">
+    <mat-card fxLayout='row' fxLayoutAlign='space-between center'>
+      <div fxLayout='row' fxLayoutAlign='start'>
+        <div class="card__image">
+          <img mat-card-image src="" alt="activity-pic">
+        </div>
+        <div fxLayout='column' fxLayoutAlign='start'>
+          <mat-card-header fxLayout='row' fxLayoutAlign='space-between'>
+              <mat-card-title>{{card.title}}</mat-card-title>
+              <div *ngIf="card.isRecruiting; else isUnrecruiting">
+                <mat-chip color="warn">Набір відкрито</mat-chip>
+              </div>
+              <ng-template #isUnrecruiting>
+                <mat-chip color="warn">Набір закрито</mat-chip>
+              </ng-template>
+          </mat-card-header>
+          <div class="card__main">
+              <div class="participants" fxLayout='row' fxLayoutAlign='space-between center'>
+                <button mat-stroked-button>Учасники</button>
+                <p>Заявок: {{card.participants}}</p>
+              </div>
+              <div class="messages" fxLayout='row' fxLayoutAlign='space-between center'>
+                <button mat-stroked-button>Повідомлення</button>
+                <p>Нових: {{card.messages}}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="card__config" fxLayout='column' fxLayoutAlign='space-between end'>
+        <button mat-button>Призупинити набір</button>
+        <button mat-button>Редагувати</button>
+      </div>
+    </mat-card>
+  </div>

@@ -8,4 +8,8 @@ export interface orgCard {
   ageFrom: number;
   ageTo: number;
   category: string[];
+  picture: string;
+  participants: number;
+  messages: number;
+  isRecruiting: boolean;
 }
