@@ -1,0 +1,23 @@
+h1{
+   text-align: center;
+}
+// .wrapper{
+//    display: inline-block;
+//    vertical-align: baseline;
+// }
+form{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   line-height:25px;
+   
+}
+input{
+   margin-left: 1em;
+   padding: .3em;
+   margin-bottom: .3em;
+}
+
+label{
+   margin: 1%;
+}

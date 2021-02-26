@@ -43,6 +43,7 @@ import { UserState } from './shared/store/user.state';
     MatBadgeModule,
     MatMenuModule,
     MatIconModule,
+    ReactiveFormsModule, 
 
     BrowserModule,
     AppRoutingModule,
@@ -62,7 +63,7 @@ import { UserState } from './shared/store/user.state';
     }),
     FlexLayoutModule,
     ShellModule,
-    ReactiveFormsModule,
+    
     MaterialModule,
     FormsModule,
     RegistrationModule,
