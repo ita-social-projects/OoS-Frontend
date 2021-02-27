@@ -1,0 +1,26 @@
+<div class="wrapper">
+<h1>Налаштування</h1>
+<form >
+   
+<p><img alt="Ваше фото"></p>
+<label>
+   Прізвище:
+   <input type ="text" formControlName ="surname" placeholder="Введіть ваше прізвище">
+</label>
+<label>
+   Ім'я:
+   <input type ="text" formControlName ="name" placeholder="Введіть ваше ім'я">
+</label>
+<label>
+   По-батькові:
+   <input type ="text" formControlName ="lastName" placeholder="Введіть ваше по-батькові">
+</label>
+<label>
+   Телефон:
+   <input type ="text" formControlName ="phoneNumber" placeholder="Введіть ваш номер">
+</label>
+</form>
+<ng-container> 
+   <app-child-card *ngFor="let card of cards" [card]="card"></app-child-card> 
+ </ng-container>
+</div>

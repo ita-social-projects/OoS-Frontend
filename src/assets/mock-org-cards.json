@@ -8,7 +8,11 @@
     "rate": "*****",
     "ageFrom": "7",
     "ageTo": "13",
-    "category": ["Дошкільна підготовка", "Музика", "Драмматургія"]
+    "category": ["Дошкільна підготовка", "Музика", "Драмматургія"],
+    "picture": "",
+    "participants": "12",
+    "messages": "2",
+    "isRecruiting": "false"
   },
   {
     "title": "Гра на гітарі",
@@ -19,7 +23,11 @@
     "rate": "****",
     "ageFrom": "7",
     "ageTo": "16",
-    "category": ["Музика"]
+    "category": ["Музика"],
+    "picture": "",
+    "participants": "10",
+    "messages": "1",
+    "isRecruiting": "false"
   },
   {
     "title": "Волейбол",
@@ -30,7 +38,11 @@
     "rate": "*****",
     "ageFrom": "7",
     "ageTo": "13",
-    "category": ["Спорт"]
+    "category": ["Спорт"],
+    "picture": "",
+    "participants": "21",
+    "messages": "12",
+    "isRecruiting": "false"
   },
   {
     "title": "Читання",
@@ -41,7 +53,11 @@
     "rate": "*****",
     "ageFrom": "7",
     "ageTo": "13",
-    "category": ["Дошкільна підготовка"]
+    "category": ["Дошкільна підготовка"],
+    "picture": "",
+    "participants": "4",
+    "messages": "4",
+    "isRecruiting": "true"
   },
   {
     "title": "Творчий гурток",
@@ -52,7 +68,11 @@
     "rate": "*****",
     "ageFrom": "7",
     "ageTo": "13",
-    "category": ["Дошкільна підготовка", "Музика", "Драмматургія"]
+    "category": ["Дошкільна підготовка", "Музика", "Драмматургія"],
+    "picture": "",
+    "participants": "15",
+    "messages": "5",
+    "isRecruiting": "false"
   },
   {
     "title": "Гра на гітарі",
@@ -63,7 +83,11 @@
     "rate": "****",
     "ageFrom": "7",
     "ageTo": "16",
-    "category": ["Музика"]
+    "category": ["Музика"],
+    "picture": "",
+    "participants": "2",
+    "messages": "0",
+    "isRecruiting": "true"
   },
   {
     "title": "Волейбол",
@@ -74,7 +98,11 @@
     "rate": "*****",
     "ageFrom": "7",
     "ageTo": "13",
-    "category": ["Спорт"]
+    "category": ["Спорт"],
+    "picture": "",
+    "participants": "7",
+    "messages": "1",
+    "isRecruiting": "false"
   },
   {
     "title": "Читання",
@@ -85,6 +113,10 @@
     "rate": "*****",
     "ageFrom": "7",
     "ageTo": "13",
-    "category": ["Дошкільна підготовка"]
+    "category": ["Дошкільна підготовка"],
+    "picture": "",
+    "participants": "10",
+    "messages": "0",
+    "isRecruiting": "true"
   }
 ]
