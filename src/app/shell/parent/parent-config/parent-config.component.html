@@ -1,6 +1,7 @@
 <div class="wrapper">
 <h1>Налаштування</h1>
 <form >
+   
 <p><img alt="Ваше фото"></p>
 <label>
    Прізвище:
@@ -18,7 +19,8 @@
    Телефон:
    <input type ="text" formControlName ="phoneNumber" placeholder="Введіть ваш номер">
 </label>
-
 </form>
-
+<ng-container> 
+   <app-child-card *ngFor="let card of cards" [card]="card"></app-child-card> 
+ </ng-container>
 </div>

@@ -21,6 +21,8 @@
       <button mat-button [matMenuTriggerFor]="log">
         <h1>{{userName$ | async}}</h1>
       </button>
+      {{roles}}
+      {{role}}
       <mat-menu #log="matMenu">
         <button mat-menu-item><a [routerLink]="'./' + roles[role]+'/' + 'activities'">Гуртки</a></button>
         <button mat-menu-item><a [routerLink]="'./' + roles[role]+'/' + 'config'">Налаштування</a></button>
