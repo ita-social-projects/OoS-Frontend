@@ -23,11 +23,11 @@ import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from './shared/material/material.module';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
 import { UserRegistrationState } from './shared/store/user-registration.state';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
+
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserState } from './shared/store/user.state';
-import { HttpTokenInterceptor } from './shared/interceptors/http-token.interceptor';
+import { InterceptorProviders } from './shared/interceptors/interceptorProviders';
+
 
 
 @NgModule({
@@ -70,16 +70,7 @@ import { HttpTokenInterceptor } from './shared/interceptors/http-token.intercept
     MatSnackBarModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpTokenInterceptor,
-      multi: true
-    }
+    InterceptorProviders,
   ],
   bootstrap: [AppComponent]
 })
