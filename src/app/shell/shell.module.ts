@@ -30,8 +30,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
-import { ProviderRegistrationComponent } from './provider-registration/provider-registration.component';
-import {MaterialModule} from '../shared/material/material.module';
+import { MaterialModule } from '../shared/material/material.module';
 
 
 @NgModule({
@@ -48,8 +47,7 @@ import {MaterialModule} from '../shared/material/material.module';
     ResultComponent,
     OrganizationCardsListComponent,
     OrderingComponent,
-    OrganizationCardComponent,
-    ProviderRegistrationComponent
+    OrganizationCardComponent
   ],
   imports: [
     CommonModule,

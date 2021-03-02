@@ -1,1 +1,83 @@
-<p>provider-config works!</p>
+<div class="container">
+    <h2>реєстрація нового надавача послуг</h2>
+    <form>
+      <mat-form-field appearance="fill">
+        <mat-label>Тип организациїї</mat-label>
+        <mat-select>
+          <mat-option value="option">ФОП</mat-option>
+          <mat-option value="option">Громадська організація</mat-option>
+          <mat-option value="option">ТОВ</mat-option>
+          <mat-option value="option">ПП</mat-option>
+          <mat-option value="option">Заклад освіти</mat-option>
+          <mat-option value="option">Інше</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Назва/ПІБ(для ФОП)</mat-label>
+        <input matInput placeholder="Іванов/ЦТДЮ/Освіта">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Назва/ПІБ(для ФОП)</mat-label>
+        <input matInput placeholder="Іванов/ЦТДЮ/Освіта">
+      </mat-form-field>
+      <mat-form-field appearance="legacy">
+        <mat-label>Телефон</mat-label>
+        <input matInput placeholder="Іванов/ЦТДЮ/Освіта" value="+380">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>Телефон</mat-label>
+        <input matInput placeholder="Іванов/ЦТДЮ/Освіта" value="+380">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>Веб сайт</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>facebook</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>Instagram</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <hr>
+      <h2>Опис</h2>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <textarea matInput placeholder="" cols="30" rows="10">
+         </textarea>
+      </mat-form-field>
+      <hr>
+      <h2>Юридична інформація</h2>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>ЄДРПОУ/ІПН(Серія та номер паспорту якщо видсутній за религийнімі переконанямі</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>Логін</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="MatFormFieldControl">
+        <mat-label>Пароль</mat-label>
+        <input matInput placeholder="">
+      </mat-form-field>
+      <div class="checkbox">
+        <mat-checkbox>
+        </mat-checkbox>
+        <mat-label>Даю згоду на обробку персональних даннних</mat-label>
+      </div>
+      <div class="checkbox">
+        <mat-checkbox>
+        </mat-checkbox>
+        <mat-label>я не робот</mat-label>
+      </div>
+      <div class="reg-section">
+        <button mat-raised-button color="warn">Відмініти</button>
+        <button mat-raised-button color="primary">зареєструватися</button>
+      </div>
+    </form>
+  </div>
+  
