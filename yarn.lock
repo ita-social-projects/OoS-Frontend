@@ -2014,6 +2014,11 @@ angular-auth-oidc-client@^11.5.0:
     jsrsasign-reduced "^8.0.15"
     tslib "^2.0.0"
 
+angular2-jwt@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/angular2-jwt/-/angular2-jwt-0.2.3.tgz#54efdda3ceedba85f6a37b165f22ac22b8adf021"
+  integrity sha1-VO/do87tuoX2o3sWXyKsIrit8CE=
+
 ansi-colors@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-4.1.1.tgz#cbb9ae256bf750af1eab344f229aa27fe94ba348"

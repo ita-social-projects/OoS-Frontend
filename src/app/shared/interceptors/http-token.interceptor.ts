@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Select } from '@ngxs/store';
+
+import { AuthService } from '../services/org-cards/auth.service';
+import { Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../store/user-registration.state';
 
 ​
@@ -11,31 +12,33 @@ import { UserRegistrationState } from '../store/user-registration.state';
 export class HttpTokenInterceptor implements HttpInterceptor {
 ​
 constructor(
-    private oidcSecurityService: OidcSecurityService,
-    private http: HttpClient) {}
+  public auth: AuthService,
+  public store: Store) {}
 
-@Select(UserRegistrationState.role)
-role$: Observable<string>;
-​
-public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-​
-    let token = this.oidcSecurityService.getToken();
-    const role = this.oidcSecurityService.getToken()['role'];
-    const tokenTitle = (role === this.role$) ? 'Authorization' : 'token';
+    @Select(UserRegistrationState.role)
+    role$: Observable<string>;
 
-    if (this.role$ === role && token !== null) {
-      token = `Bearer ${token}`;
-      console.log('This thing works')
-    }
-    if (typeof token === 'string') {
-      return next.handle(request.clone({
-        setHeaders: { [tokenTitle]: token }
-      })).pipe(catchError((error) => {
-        return throwError(error);
-      }));
-    }
-    return next.handle(request).pipe(catchError((error) => {
-      return throwError(error);
-    }));
-  }
-}
+    public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      ​
+          let token = this.auth.getToken();
+          const role = this.store.selectSnapshot<string>(UserRegistrationState.role);
+      ​
+          const tokenTitle = (role) ?  'token': 'Authorization';
+          // 'token !== null' added to avoid pass condition when "typeof token === 'string'" and token is set to 'Bearer null'
+          if (role && token !== null) {
+            token = `Bearer ${token}`;
+            console.log('Http token interceptor works!')
+          }
+      ​
+          if (typeof token === 'string') {
+            return next.handle(request.clone({
+              setHeaders: { [tokenTitle]: token }
+            })).pipe(catchError((error) => {
+              return throwError(error);
+            }));
+          }
+          return next.handle(request).pipe(catchError((error) => {
+            return throwError(error);
+          }));
+        }
+      }
