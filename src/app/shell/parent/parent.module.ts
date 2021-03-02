@@ -35,8 +35,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     FlexLayoutModule,
     MatRadioModule,
     MatDatepickerModule
-    
-    
+     
   ]
 })
 export class ParentModule { }
