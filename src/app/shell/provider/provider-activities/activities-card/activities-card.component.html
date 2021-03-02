@@ -7,12 +7,7 @@
         <div fxLayout='column' fxLayoutAlign='start'>
           <mat-card-header fxLayout='row' fxLayoutAlign='space-between'>
               <mat-card-title>{{card.title}}</mat-card-title>
-              <div *ngIf="card.isRecruiting; else isUnrecruiting">
-                <mat-chip color="warn">Набір відкрито</mat-chip>
-              </div>
-              <ng-template #isUnrecruiting>
-                <mat-chip color="warn">Набір закрито</mat-chip>
-              </ng-template>
+              <mat-chip color="{{card.isRecruiting? 'primary' : 'warn'}}" selected="true">{{card.isRecruiting? 'Набір відкрито' : 'Набір закрито'}}</mat-chip>
           </mat-card-header>
           <div class="card__main">
               <div class="participants" fxLayout='row' fxLayoutAlign='space-between center'>
