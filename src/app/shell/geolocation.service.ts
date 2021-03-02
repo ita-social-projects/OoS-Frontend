@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
-import { UserStateModel } from '../shared/store/user.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeolocationService {
-  userCoords: UserStateModel = {
+  userCoords = {
     lat: null,
     lng: null,
     city: ''

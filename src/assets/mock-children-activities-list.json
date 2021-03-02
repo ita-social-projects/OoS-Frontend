@@ -1,0 +1,38 @@
+[
+  {
+  "name": "Олександр",
+  "surname": "Іванов",
+  "lastName": "Іванович",
+  "activitiesList": [
+    {
+      "activityName": "Гра на гітарі",
+      "providerName": "ЦТДЮ 13",
+      "address": "м. Київ, вул. Центральна, 12/34",
+      "status": "підтверджено"
+    },
+    {
+      "activityName": "Футбол",
+      "providerName": "ЦТДЮ 13",
+      "address": "м. Київ, вул. Центральна, 12/34",
+      "status": "очікує підтвердження"
+    }]
+  },
+  {
+  "name": "Сергій",
+  "surname": "Іванов",
+  "lastName": "Іванович",
+  "activitiesList": [
+    {
+      "activityName": "Футбол",
+      "providerName": "ЦТДЮ 13",
+      "address": "м. Київ, вул. Центральна, 12/34",
+      "status": "підтверджено"
+    }]
+  },
+  {
+    "name": "Іван",
+    "surname": "Іванов",
+    "lastName": "Іванович",
+    "activitiesList": []
+  }
+]
