@@ -2,19 +2,15 @@
     text-align: center;
     padding: 2%;
  }
+ .parent{
+   max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+ }
 
-// .parent{
-//    max-width: 600px;
-//    display: flex;
-//    flex-direction: column;
-//    margin: 0 auto;
-// }
-// .form{
-//    display: flex;
-//    flex-direction: column;
-// }
-// .md-card-image{
-//    margin: 0.5rem;
-//    padding: 2rem;
-//    border: 1px solid black;
-//  }
+ img{
+    margin: 0.5rem;
+    padding: 2rem;
+   border: 1px solid black;
+ }

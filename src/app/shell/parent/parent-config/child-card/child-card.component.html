@@ -1,24 +1,19 @@
-
 <div >
- <p>{{card.name}}</p>
- <p>{{card.surname}}</p>
+<mat-card class="child" fxLayoutAlign='center' fxLayout ="row">
+  <img src ="" alt="Photo">
+<mat-card-content fxLayoutAlign='space-between center' fxLayout ="column">
+  <p> Прізвище: {{card.surname}}</p>
+  <p> Ім'я: {{card.name}}</p>
+  <p> По-батькові: {{card.lastName}}</p>
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button value="Жінка">Жінка</mat-radio-button>
+    <mat-radio-button value="Чоловік">Чоловік</mat-radio-button>
+  </mat-radio-group>
+  <mat-label>Оберіть дату : </mat-label>
+  <input matInput [matDatepicker]="picker">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker touchUi #picker></mat-datepicker>
+        
+</mat-card-content>
+</mat-card>
 </div>
-<mat-card fxLayout='row' fxLayoutAlign='space-between center' class="child">
-   <div fxLayout='row' fxLayoutAlign='start'>
-     <div class="card__image">
-       <img mat-card-image src="" alt="Photo">
-     </div>
-     <div fxLayout='column' fxLayoutAlign='start'>
-      
-     </div>
-     <!-- <md-input-container class="input-container-fix">
-      <md-select ng-model="someModel">
-        <md-select-header>
-          <span> Соціальна група :</span>
-        </md-select-header>
-       
-      </md-select>
-    </md-input-container> -->
-   </div>
-   
- </mat-card>
