@@ -17,6 +17,11 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from 'src/environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';  
+import { MatChipsModule } from '@angular/material/chips';
+
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
@@ -44,6 +49,11 @@ import { UserState } from './shared/store/user.state';
     MatMenuModule,
     MatIconModule,
     ReactiveFormsModule, 
+
+    MatCardModule,
+    MatButtonToggleModule,
+    MatButtonModule,
+    MatChipsModule,
 
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,14 @@
+.child{
+   max-width: 600px;
+   display: flex;
+   flex-direction: column;
+   margin: 0 auto;
+}
+h1{
+   text-align: center;
+}
+.card__image{
+   margin: 0.5rem;
+   padding: 2rem;
+   border: 1px solid black;
+ }

@@ -7,6 +7,7 @@ import { UserStateModel } from '../shared/store/user.state';
 })
 export class GeolocationService {
   userCoords: UserStateModel = {
+    childCards: [],
     lat: null,
     lng: null,
     city: ''

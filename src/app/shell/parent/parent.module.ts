@@ -5,13 +5,31 @@ import { ParentActivitiesComponent } from './parent-activities/parent-activities
 import { ParentConfigComponent } from './parent-config/parent-config.component';
 import { ChildCardComponent } from './parent-config/child-card/child-card.component';
 
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';  
+import { MatChipsModule } from '@angular/material/chips';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
+
+
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
-    ParentConfigComponent, ChildCardComponent],
+    ParentConfigComponent, 
+    ChildCardComponent
+  ],
+
   imports: [
     CommonModule,
-    ParentRoutingModule
+    ParentRoutingModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule
+    
   ]
 })
 export class ParentModule { }

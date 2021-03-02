@@ -1,23 +1,20 @@
-h1{
-   text-align: center;
-}
-// .wrapper{
-//    display: inline-block;
-//    vertical-align: baseline;
-// }
-form{
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   line-height:25px;
-   
-}
-input{
-   margin-left: 1em;
-   padding: .3em;
-   margin-bottom: .3em;
-}
+ h1{
+    text-align: center;
+    padding: 2%;
+ }
 
-label{
-   margin: 1%;
-}
+// .parent{
+//    max-width: 600px;
+//    display: flex;
+//    flex-direction: column;
+//    margin: 0 auto;
+// }
+// .form{
+//    display: flex;
+//    flex-direction: column;
+// }
+// .md-card-image{
+//    margin: 0.5rem;
+//    padding: 2rem;
+//    border: 1px solid black;
+//  }
