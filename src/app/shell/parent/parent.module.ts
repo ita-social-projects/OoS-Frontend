@@ -3,21 +3,23 @@ import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
 import { ParentActivitiesComponent } from './parent-activities/parent-activities.component';
 import { ParentConfigComponent } from './parent-config/parent-config.component';
+import { ChildActivitiesComponent } from './parent-activities/child-activities/child-activities.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatButtonModule } from '@angular/material/button';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';  
 import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
-    ParentConfigComponent
+    ParentConfigComponent,
+    ChildActivitiesComponent
   ],
 
   imports: [
