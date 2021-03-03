@@ -1,28 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/org-cards/auth.service';
+import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Select, Store } from '@ngxs/store';
+import { catchError } from 'rxjs/operators';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Select } from '@ngxs/store';
 import { UserRegistrationState } from '../store/user-registration.state';
 
+​
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
-  constructor(
-    public auth: AuthService,
-    public store: Store) {}
+​
+constructor(
+    private oidcSecurityService: OidcSecurityService,
+    private http: HttpClient) {}
 
-  @Select(UserRegistrationState.role)
-  role$: Observable<string>;
-    
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+@Select(UserRegistrationState.role)
+role$: Observable<string>;
+​
+public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+​
+    let token = this.oidcSecurityService.getToken();
+    const role = this.oidcSecurityService.getToken()['role'];
+    const tokenTitle = (role === this.role$) ? 'Authorization' : 'token';
 
-    let token = this.auth.getToken();
-    const role = this.store.selectSnapshot<string>(UserRegistrationState.role);
-    const tokenTitle = (role) ?  'token': 'Authorization';
-    alert('Http token interceptor works!')
-    if (role && token !== null) {
+    if (this.role$ === role && token !== null) {
       token = `Bearer ${token}`;
+      console.log('This thing works')
     }
     if (typeof token === 'string') {
       return next.handle(request.clone({
