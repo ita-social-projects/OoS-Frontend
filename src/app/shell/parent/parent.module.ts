@@ -7,17 +7,32 @@ import { ChildActivitiesComponent } from './parent-activities/child-activities/c
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatRadioModule } from '@angular/material/radio';
+
+
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
-    ParentConfigComponent, 
+    ParentConfigComponent,
     ChildActivitiesComponent
   ],
+
   imports: [
     CommonModule,
     ParentRoutingModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
     FlexLayoutModule,
-    MatButtonModule
+    MatRadioModule
   ]
 })
 export class ParentModule { }
