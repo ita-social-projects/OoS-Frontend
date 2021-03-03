@@ -9,7 +9,7 @@ import { orgCard } from '../../models/org-card.model';
 })
 export class OrgCardsService {
 
-  dataUrl = '/assets/mock-org-cards.json'
+  dataUrl = 'http://localhost:5000/Workshop/GetWorkshops'
 
   constructor(private http: HttpClient) { }
 
