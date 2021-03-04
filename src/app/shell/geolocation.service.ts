@@ -5,12 +5,8 @@ import Geocoder from 'leaflet-control-geocoder';
   providedIn: 'root'
 })
 export class GeolocationService {
-<<<<<<< HEAD
-  userCoords: UserStateModel = {
-    childCards: [],
-=======
   userCoords = {
->>>>>>> develop
+    childCards: [],
     lat: null,
     lng: null,
     city: ''

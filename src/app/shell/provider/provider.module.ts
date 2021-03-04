@@ -27,15 +27,11 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
-<<<<<<< HEAD
-
-=======
     MatFormFieldModule,
     MatDialogModule,
     MatSelectModule,
     MatCheckboxModule,
     MatInputModule
->>>>>>> develop
   ]
 })
 export class ProviderModule { }
