@@ -22,7 +22,7 @@ public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpE
 ​
     let token = this.oidcSecurityService.getToken();
 
-    let tokenTitle= (token) ? `Bearer ${token}`: null;
+   let tokenTitle= (token) ? `Bearer ${token}`: null;
     
     if (typeof(token) === 'string') {
       return next.handle(request.clone({
@@ -36,4 +36,5 @@ public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpE
       return throwError(error);
     }));
   }
+
 }
