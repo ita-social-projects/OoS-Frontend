@@ -22,7 +22,7 @@ import { DigitOnlyDirective } from '../shared/directives/digit-only.directive';
 import { CityFilterComponent } from './main/filters-list/city-filter/city-filter.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input'
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { OrderingComponent } from './main/result/organization-cards-list/ordering/ordering.component';
@@ -30,6 +30,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { OrganizationCardComponent } from '../shared/organization-card/organization-card.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
+import { MaterialModule } from '../shared/material/material.module';
 
 
 @NgModule({
@@ -62,11 +63,13 @@ import { ProviderGuard } from './provider/provider.guard';
     HttpClientModule,
     MatButtonToggleModule,
     MatChipsModule,
-    LeafletModule
+    LeafletModule,
+    MaterialModule
   ],
   providers: [
     ParentGuard,
-    ProviderGuard
+    ProviderGuard,
+    LeafletModule,
   ]
 })
 export class ShellModule { }

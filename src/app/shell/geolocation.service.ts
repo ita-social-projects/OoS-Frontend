@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
-import { UserStateModel } from '../shared/store/user.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeolocationService {
+<<<<<<< HEAD
   userCoords: UserStateModel = {
     childCards: [],
+=======
+  userCoords = {
+>>>>>>> develop
     lat: null,
     lng: null,
     city: ''

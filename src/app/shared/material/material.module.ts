@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 const materialComponent = [
   MatButtonModule,
-  MatDialogModule,
+  MatDialogModule
 ];
 
 @NgModule({
@@ -13,4 +13,5 @@ const materialComponent = [
     materialComponent
   ],
 })
-export class MaterialModule { }
+export class MaterialModule {
+}

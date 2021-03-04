@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
 import { ParentActivitiesComponent } from './parent-activities/parent-activities.component';
 import { ParentConfigComponent } from './parent-config/parent-config.component';
+
 import { ChildCardComponent } from './parent-config/child-card/child-card.component';
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -15,13 +16,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRadioModule } from '@angular/material/radio';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { MatSelectModule } from '@angular/material/select';
+import { ChildActivitiesComponent } from './parent-activities/child-activities/child-activities.component';
+
+
 
 
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
     ParentConfigComponent, 
-    ChildCardComponent
+    ChildCardComponent,
+    ChildActivitiesComponent
   ],
 
   imports: [
@@ -35,10 +40,6 @@ import { MatRadioModule } from '@angular/material/radio';
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule,
-    
-    
-
-    
   ]
 })
 export class ParentModule { }

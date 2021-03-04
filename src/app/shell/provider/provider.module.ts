@@ -9,6 +9,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { ActivitiesCardComponent } from './provider-activities/activities-card/activities-card.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,15 @@ import { ActivitiesCardComponent } from './provider-activities/activities-card/a
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
+<<<<<<< HEAD
 
+=======
+    MatFormFieldModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule
+>>>>>>> develop
   ]
 })
 export class ProviderModule { }
