@@ -36,5 +36,4 @@ public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpE
       return throwError(error);
     }));
   }
-
 }
