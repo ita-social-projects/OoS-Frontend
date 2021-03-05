@@ -14,14 +14,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatRadioModule } from '@angular/material/radio';
 
-
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
-    ParentConfigComponent,
+    ParentConfigComponent, 
     ChildActivitiesComponent
   ],
-
   imports: [
     CommonModule,
     ParentRoutingModule,

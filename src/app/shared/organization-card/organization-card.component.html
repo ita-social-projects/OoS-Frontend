@@ -11,8 +11,8 @@
   </div>
   <h3 class="card_title">{{card.title}}</h3>
   <div class="card_footer">
-    <h4 class="card_owner">{{card.owner}}</h4>
-    <h5 class="card_age">Вік: {{card.ageFrom}}-{{card.ageTo}}</h5>
+    <p class="card_owner">{{card.owner}}</p>
+    <p class="card_age">Вік: {{card.ageFrom}}-{{card.ageTo}}</p>
     <ul class="card_types">
       <li class="card_item" *ngFor='let category of card.category'>{{category}}</li>
     </ul>

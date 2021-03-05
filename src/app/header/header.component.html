@@ -1,11 +1,11 @@
-<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
-  <div><a routerLink="">Позашкілля</a></div>
+<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2><a routerLink="">ПОЗА<span class="logo-emphasized">ШКІЛЛЯ</span></a></h2>
   <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized">
 
   </div>
   <ng-template #isUnauthorized>
      <button mat-raised-button (click)="login()">
-      Увійти
+      УВІЙТИ
     </button>
   </ng-template>
 
