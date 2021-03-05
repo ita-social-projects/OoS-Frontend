@@ -12,7 +12,7 @@ export interface UserStateModel {
 }
 
 @State<UserStateModel>({
-  name: 'location',
+  name: 'user',
   defaults: {
     city: "",
     lng: null,
