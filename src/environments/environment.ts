@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  stsServer: 'http://localhost:5443'
+  stsServer: 'http://localhost:5443',
+  serverUrl:'http://localhost:5000',
 };
 
 /*

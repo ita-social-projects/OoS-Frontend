@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
 import { ParentActivitiesComponent } from './parent-activities/parent-activities.component';
@@ -13,6 +13,17 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatRadioModule } from '@angular/material/radio';
+import { HttpRequest } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { ChildrenActivitiesListService } from 'src/app/shared/services/children-activities-list/children-activities-list.service';
+
+export function configureRequest(request: HttpRequest<any>): any {
+  return () =>{ 
+    request.clone({
+      url: environment.serverUrl + request.url,
+    })
+  }
+}
 
 
 @NgModule({
@@ -33,6 +44,15 @@ import { MatRadioModule } from '@angular/material/radio';
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule
+  ],
+  providers: [
+    ChildrenActivitiesListService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: configureRequest,
+      deps: [HttpRequest],
+      multi: true,
+    }
   ]
 })
 export class ParentModule { }
