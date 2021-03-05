@@ -46,7 +46,9 @@ export class HeaderComponent implements OnInit {
     }
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
-    this.role = this.store.selectSnapshot<string>(UserRegistrationState.role);
+    this.role$.subscribe(()=>{
+      this.role = this.store.selectSnapshot<string>(UserRegistrationState.role);
+    })
   }
   logout(): void {
     this.store.dispatch(new Logout());
