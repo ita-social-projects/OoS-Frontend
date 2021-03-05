@@ -13,15 +13,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatRadioModule } from '@angular/material/radio';
-import { HttpRequest } from '@angular/common/http';
+import { HttpHandler, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ChildrenActivitiesListService } from 'src/app/shared/services/children-activities-list/children-activities-list.service';
 
-export function configureRequest(request: HttpRequest<any>): any {
+export function configureRequest(request: HttpRequest<any>, next: HttpHandler): any {
   return () =>{ 
-    request.clone({
-      url: environment.serverUrl + request.url,
-    })
+    next.handle(request.clone({
+      url: environment.serverUrl + request.url
+    }))
   }
 }
 
