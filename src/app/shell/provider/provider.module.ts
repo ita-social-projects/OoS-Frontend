@@ -13,24 +13,26 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     ProviderActivitiesComponent,
     ProviderConfigComponent,
     ActivitiesCardComponent],
-  imports: [
-    CommonModule,
-    ProviderRoutingModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatInputModule
-  ]
+    imports: [
+        CommonModule,
+        ProviderRoutingModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatInputModule,
+        ReactiveFormsModule
+    ]
 })
 export class ProviderModule { }
