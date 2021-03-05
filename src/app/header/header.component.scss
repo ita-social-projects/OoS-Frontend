@@ -1,3 +1,14 @@
+.header-cover{
+  background: #3849F9;
+  padding: 1.5rem 5rem;
+  color: #FFFFFF;
+  box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
+  .logo-emphasized{
+    background-color: #FFBD00;
+    color: #3849F9;
+  }
+}
+
 .authorization{
    display: flex;
    margin:1%;
