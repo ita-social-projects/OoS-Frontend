@@ -13,18 +13,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatRadioModule } from '@angular/material/radio';
-import { HttpHandler, HttpRequest } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { ChildrenActivitiesListService } from 'src/app/shared/services/children-activities-list/children-activities-list.service';
-
-export function configureRequest(request: HttpRequest<any>, next: HttpHandler): any {
-  return () =>{ 
-    next.handle(request.clone({
-      url: environment.serverUrl + request.url
-    }))
-  }
-}
-
+import { ChildrenActivitiesListService } from '../../shared/services/children-activities-list/children-activities-list.service';
 
 @NgModule({
   declarations: [
@@ -46,13 +35,7 @@ export function configureRequest(request: HttpRequest<any>, next: HttpHandler): 
     MatRadioModule
   ],
   providers: [
-    ChildrenActivitiesListService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: configureRequest,
-      deps: [HttpRequest],
-      multi: true,
-    }
+    ChildrenActivitiesListService
   ]
 })
 export class ParentModule { }

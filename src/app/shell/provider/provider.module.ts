@@ -13,19 +13,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
-import { HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
-import { environment } from 'src/environments/environment';
-import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
-import { APP_INITIALIZER } from '@angular/core';
+import { ProviderActivitiesService } from '../../shared/services/provider-activities/provider-activities.service';
 
-export function configureRequest(request: HttpRequest<any>): any {
-  return () =>{ 
-    request.clone({
-      url: environment.serverUrl + request.url,
-    })
-  }
-}
 
 @NgModule({
   declarations: [
@@ -46,13 +35,7 @@ export function configureRequest(request: HttpRequest<any>): any {
     MatInputModule
   ],
   providers: [
-    ProviderActivitiesService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: configureRequest,
-      deps: [HttpRequest],
-      multi: true,
-    }
+    ProviderActivitiesService
   ]
 })
 export class ProviderModule { }

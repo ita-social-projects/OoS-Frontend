@@ -8,7 +8,7 @@ import { ChildActivities } from '../../models/child-activities.model';
 })
 export class ChildrenActivitiesListService {
 
-  dataUrl = '/Child/GetChildren';
+  dataUrl = 'http://localhost:5000/Child/GetChildren';
 
   constructor(private http: HttpClient) { }
 
