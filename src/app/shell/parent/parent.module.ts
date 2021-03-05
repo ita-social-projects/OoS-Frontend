@@ -18,10 +18,9 @@ import { ChildrenActivitiesListService } from '../../shared/services/children-ac
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
-    ParentConfigComponent,
+    ParentConfigComponent, 
     ChildActivitiesComponent
   ],
-
   imports: [
     CommonModule,
     ParentRoutingModule,
