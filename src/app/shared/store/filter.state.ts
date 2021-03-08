@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector  } from '@ngxs/store';
-import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards  } from './filter.actions';
+import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards, getPopCards  } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
 
@@ -62,5 +62,10 @@ export class FilterState {
       return this.cardsService.getCards().subscribe(
         (organizationCards: orgCard[]) => patchState({organizationCards})
       )
+    }
+  @Action(getPopCards)
+    getPopCards({ patchState }: StateContext<FilterStateModel>) {
+      return this.cardsService.getCards()
+      .subscribe((organizationCards: orgCard[]) => patchState({organizationCards}))
     }
 }

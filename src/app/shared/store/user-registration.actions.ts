@@ -1,24 +1,16 @@
 export class Login {
-  static readonly type = '[userRegistration] logins';
+  static readonly type = '[user] logins';
   constructor() {}
 }
 export class Logout {
-  static readonly type = '[userRegistration] logouts';
+  static readonly type = '[user] logouts';
   constructor() {}
 }
 export class CheckAuth {
-  static readonly type = '[userRegistration] checks auth';
+  static readonly type = '[user] checks auth';
   constructor() {}
 }
 export class AuthFail {
-  static readonly type = '[userRegistration] has auth failed';
-  constructor() {}
-}
-export class UserName {
-  static readonly type = '[userRegistration] name added';
-  constructor() {}
-}
-export class Role {
-  static readonly type = '[role] added';
+  static readonly type = '[user] has auth failed';
   constructor() {}
 }

@@ -2,9 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon'
-import { MatBadgeModule } from '@angular/material/badge';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { ShellModule } from './shell/shell.module';
@@ -20,14 +17,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
-import { MaterialModule } from './shared/material/material.module';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
 import { UserRegistrationState } from './shared/store/user-registration.state';
-
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserState } from './shared/store/user.state';
-import { InterceptorProviders } from './shared/interceptors/interceptorProviders';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -38,13 +32,8 @@ import { InterceptorProviders } from './shared/interceptors/interceptorProviders
     FooterComponent
   ],
   imports: [
-
+    SharedModule,
     FormsModule,
-
-    MatBadgeModule,
-    MatMenuModule,
-    MatIconModule,
-
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -52,8 +41,7 @@ import { InterceptorProviders } from './shared/interceptors/interceptorProviders
       AppState,
       FilterState,
       MetaDataState,
-      UserRegistrationState,
-      UserState
+      UserRegistrationState
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
@@ -64,13 +52,14 @@ import { InterceptorProviders } from './shared/interceptors/interceptorProviders
     FlexLayoutModule,
     ShellModule,
     ReactiveFormsModule,
-    MaterialModule,
-    FormsModule,
     RegistrationModule,
-    MatSnackBarModule
   ],
   providers: [
-    InterceptorProviders,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

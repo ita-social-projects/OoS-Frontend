@@ -1,2 +1,42 @@
-<app-filters-list></app-filters-list>
-<app-result></app-result>
+<div class="main">
+  <div class="main_categories">
+    <div class="main_header" fxLayoutAlign="space-between center">
+      <div class="main_title">Найпопулярніші категорії</div>
+      <a href="#" class="main_link">Переглянути всі -></a>
+    </div>
+    <app-categories-filter></app-categories-filter>
+  </div>
+
+  <div class="main_cards">
+    <div class="main_header" fxLayoutAlign="space-between center">
+      <div class="main_title">Найпопулярніші гуртки</div>
+      <a href="#" class="main_link">Переглянути всі -></a>
+    </div>
+    <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center" >
+      <ng-container> 
+        <app-organization-card *ngFor="let card of cards | slice:0:4" [card]="card"></app-organization-card> 
+      </ng-container>
+    </div> 
+  </div>
+
+
+
+
+  <div class="main_registration" fxLayoutAlign="space-between center">
+    <div class="main_description">
+      <div class="main_question">
+        Надаєш освітні послуги?
+      </div>
+      <div class="main_hint">
+        Зареєструйся - допоможемо залучити нових учнів!
+      </div>
+    </div>
+    <div class="main_button-wrapper">
+      <button mat-stroked-button class="main_button">ЗАРЕЄСТРУВАТИСЯ</button>
+    </div>
+  </div>
+</div>
+
+
+
+
