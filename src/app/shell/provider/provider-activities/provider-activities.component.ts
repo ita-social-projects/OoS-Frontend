@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { orgCard } from '../../../shared/models/org-card.model';
-
-import { getCards } from '../../../shared/store/filter.actions';
-import { FilterState } from '../../../shared/store/filter.state';
+import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
+import { actCard } from '../../../shared/models/activities-card.model';
 
 
 
@@ -14,14 +10,14 @@ import { FilterState } from '../../../shared/store/filter.state';
   styleUrls: ['./provider-activities.component.scss']
 })
 export class ProviderActivitiesComponent implements OnInit {
+  public cards: actCard[];
 
-  @Select(FilterState.orgCards) orgCard$: Observable<orgCard[]>;
-  public cards: orgCard[];
-
-  constructor(private store: Store) { }
+  constructor(private providerActivititesService: ProviderActivitiesService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new getCards())
-    this.orgCard$.subscribe((orgCards: orgCard[]) => this.cards = orgCards)
+    this.providerActivititesService.getCards()
+      .subscribe((data)=>{
+        this.cards=data;
+    })
   }
 }

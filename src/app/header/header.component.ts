@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 enum RoleLinks{
-  organization='provider',
+  provider='provider',
   parent ='parent'
 }
 

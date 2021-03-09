@@ -3,18 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const url='https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6ee538beca8914133259b401ba47a550313e8984/countries.json' //fake url
 @Injectable({
   providedIn: 'root'
 })
 export class CityFilterService {
 
+  dataUrl = '/assets/mock-cities.json';
+
   constructor(private http: HttpClient) { }
 
   fetchCities(): Observable<any>{
-    return this.http.get<any>(url)
+    return this.http.get<any>(this.dataUrl)
       .pipe(map((data)=>{
-        return data.Ukraine;
+        return data;
       }))
     }
 }
