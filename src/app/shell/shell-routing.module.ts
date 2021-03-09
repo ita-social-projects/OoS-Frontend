@@ -1,12 +1,14 @@
 import {NgModule} from '@angular/core';
 import {MainComponent} from './main/main.component';
+import {ResultComponent} from './main/result/result.component';
 import {ProviderGuard} from './provider/provider.guard';
 import {ParentGuard} from './parent/parent.guard';
 import {Routes, RouterModule} from '@angular/router';
-import {ResultComponent} from './main/result/result.component';
 
 
 const routes: Routes = [
+  {path: '', component: MainComponent},
+  {path: 'result', component: ResultComponent},
   {path: '', component: MainComponent},
   {path: 'result', component: ResultComponent},
   {
