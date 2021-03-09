@@ -27,6 +27,7 @@ public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpE
     
     if (typeof(token) === 'string') {
       return next.handle(request.clone({
+        url: environment.serverUrl + request.url,
         setHeaders: { Authorization: tokenTitle }
       }))
         .pipe(catchError((error) => {

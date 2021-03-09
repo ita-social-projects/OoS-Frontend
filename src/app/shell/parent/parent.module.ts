@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatRadioModule } from '@angular/material/radio';
 import { ChildrenActivitiesListService } from '../../shared/services/children-activities-list/children-activities-list.service';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
@@ -31,7 +31,8 @@ import { ChildrenActivitiesListService } from '../../shared/services/children-ac
     MatFormFieldModule,
     MatInputModule,
     FlexLayoutModule,
-    MatRadioModule
+    MatRadioModule,
+    HttpClientModule
   ],
   providers: [
     ChildrenActivitiesListService
