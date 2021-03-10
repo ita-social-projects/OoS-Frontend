@@ -1,11 +1,11 @@
-<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between">
-  <div><a routerLink="">Позашкілля</a></div>
+<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between center">
+  <h2><a routerLink="">ПОЗА<span class="logo-emphasized">ШКІЛЛЯ</span></a></h2>
   <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized">
 
   </div>
   <ng-template #isUnauthorized>
      <button mat-raised-button (click)="login()">
-      Увійти
+      УВІЙТИ
     </button>
   </ng-template>
 
@@ -22,8 +22,8 @@
         <h1>{{userName$ | async}}</h1>
       </button>
       <mat-menu #log="matMenu">
-        <button mat-menu-item><a [routerLink]="'./' + roles[role]+'/' + 'activities'">Гуртки</a></button>
-        <button mat-menu-item><a [routerLink]="'./' + roles[role]+'/' + 'config'">Налаштування</a></button>
+        <button mat-menu-item><a [routerLink]="'./' + role+'/' + 'activities'">Гуртки</a></button>
+        <button mat-menu-item><a [routerLink]="'./' + role+'/' + 'config'">Налаштування</a></button>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </mat-menu>
 

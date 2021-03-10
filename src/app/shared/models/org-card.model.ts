@@ -4,7 +4,7 @@ export interface orgCard {
   city: string;
   ownership: string;
   price: number | boolean;
-  rate: string; //temp
+  rate: string; 
   ageFrom: number;
   ageTo: number;
   category: string[];

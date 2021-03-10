@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { SetOrder } from 'src/app/shared/store/filter.actions';
-import { orgCard } from 'src/app/shared/models/org-card.model';
-import { getCards } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
+import { FilterState } from '../../../../shared/store/filter.state';
+import { orgCard } from '../../../../shared/models/org-card.model';
+import { getCards, SetOrder } from '../../../../shared/store/filter.actions';
+
 
 export interface Option {
   value: string;
