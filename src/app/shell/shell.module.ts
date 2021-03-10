@@ -47,7 +47,8 @@ import { MaterialModule } from '../shared/material/material.module';
     ResultComponent,
     OrganizationCardsListComponent,
     OrderingComponent,
-    OrganizationCardComponent
+    OrganizationCardComponent,
+    OrganizationCardComponent,
   ],
   imports: [
     CommonModule,
@@ -69,6 +70,8 @@ import { MaterialModule } from '../shared/material/material.module';
     ParentGuard,
     ProviderGuard,
     LeafletModule,
+    MaterialModule,
+    MaterialModule
   ]
 })
 export class ShellModule { }
