@@ -18,9 +18,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ChildActivitiesComponent } from './parent-activities/child-activities/child-activities.component';
 
 
-
 import { ChildrenActivitiesListService } from '../../shared/services/children-activities-list/children-activities-list.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ChildCardService } from 'src/app/shared/services/child-cards/child-cards.service';
+import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -46,8 +47,11 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    ChildrenActivitiesListService
+    ChildrenActivitiesListService,
+    ChildCardService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
 
   ]
+ 
 })
 export class ParentModule { }

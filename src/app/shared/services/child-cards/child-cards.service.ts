@@ -10,7 +10,7 @@ import { ChildCard} from '../../models/child-card.model'
 })
 export class ChildCardService {
 
-  dataUrl = 'http://localhost:5000/Child/GetChildren'
+  dataUrl = '/Child/GetChildren'
 
   constructor(private http: HttpClient) { }
 
