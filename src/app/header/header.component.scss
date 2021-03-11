@@ -15,7 +15,7 @@ h1{
    line-height:none;
 }
 .header{
-   padding: 24px 70px 40px 70px;
+   padding: 2rem 5rem 3rem 5rem;
    background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
    &_wrapper{
       display: flex;
@@ -26,15 +26,16 @@ h1{
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
    }
    &_btns{
       gap: 40px
    }
    &_login{
       border-radius: 20px;
-      padding: 10px 30px;
-      font-size: 13px;
-      line-height: 13px;
+      padding: 0.8rem 1.3rem;
+      font-size: 0.8rem;
+      line-height: 0.8rem;
       border-color: white;
       color: white;
    }
@@ -42,11 +43,11 @@ h1{
       background: none;
       color: white;
       outline: none;
-      font-size: 13px;
+      font-size: 0.8rem;
    }
    &_logo{
-      font-size: 24px;
-      line-height: 27px;
+      font-size: 1.5rem;
+      line-height: 1.7rem;
       color: white;
       &-orange{
          color: blue;
@@ -55,15 +56,15 @@ h1{
    }
    &_title{
       margin-top: 70px;
-      font-size: 36px;
+      font-size: 2.2rem;
       color: white;
-      line-height: 40px;
+      line-height: 3rem;
       font-weight: bold;
    }
    &_descr{
       font-weight: bold;
-      font-size: 24px;
-      line-height: 27px;
+      font-size: 1.5rem;
+      line-height: 1.7rem;
       color: rgba(255, 255, 255, 0.7);
       margin-top: 16px;
    }
@@ -84,5 +85,13 @@ h1{
    }
    &_city{
       border-right: 1px solid #E3E3E3;
+   }
+}
+
+@media (max-width: 1024px) {
+   .header{
+      &_search{
+         width: 100%;
+      }
    }
 }
