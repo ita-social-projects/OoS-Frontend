@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card_header">
+    <img src="assets/icons/{{card.category}}_bg.png" alt="{{card.category}}" class="card_image">
+    <button class="card_favorite">
+      <img src="assets/icons/favorite.png" alt="favorite">
+    </button>
+    <a href="#" class="card_category">
+      <img src="assets/icons/{{card.category}}.png" alt="{{card.category}}" class="card_category-img">
+    </a>
+  </div>
+  <div class="card_body">
+    <h3 class="card_title">
+      {{card.title}}
+    </h3>
+    <ul class="card_data">
+      <li class="card_data-item">
+        <img src="assets/icons/rate.png" alt="rate" class="card_data-icon">
+        {{card.rate}} <span class="card_rate-span">({{card.votes}})</span>
+      </li>
+      <li class="card_data-item">
+        <img src="assets/icons/name.png" alt="name" class="card_data-icon">
+        <a href="#" class="card_owner">
+          {{card.owner}}
+        </a>
+      </li>
+      <li class="card_data-item">
+        <img src="assets/icons/age.png" alt="age" class="card_data-icon">
+        {{card.ageFrom}}-{{card.ageTo}}
+      </li>
+      <li class="card_data-item">
+        <img src="assets/icons/price.png" alt="price" class="card_data-icon">
+        {{card.price}}
+      </li>
+      <li class="card_data-item">
+        <img src="assets/icons/address.png" alt="address" class="card_data-icon">
+        {{card.address}}
+      </li>
+      <div class="card_footer">
+        <a href="#" class="card_link">
+          Детальніше ->
+        </a>
+      </div>
+    </ul>
+  </div>
+</div>

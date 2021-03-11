@@ -9,6 +9,9 @@ export class setMaxAge {
 export class getCards {
   static readonly type = '[filter] get organization cards';
 }
+export class getPopCards {
+  static readonly type = '[filter] get 4 most popular organization cards';
+}
 export class SelectCity {
   static readonly type = '[app] selects city';
   constructor(public payload: string) {}

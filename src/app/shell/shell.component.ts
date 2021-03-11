@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { GeolocationService } from './geolocation.service';
-import { Store } from '@ngxs/store';
-import { SetLocation } from '../shared/store/user.actions';
-import { UserStateModel } from '../shared/store/user.state';
 
 @Component({
   selector: 'app-shell',
@@ -11,10 +7,9 @@ import { UserStateModel } from '../shared/store/user.state';
 })
 export class ShellComponent implements OnInit {
 
-  constructor(public geolocationService: GeolocationService, public store: Store) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.geolocationService.handleUserLocation((location) => this.store.dispatch(new SetLocation(location)));
   }
 
 }

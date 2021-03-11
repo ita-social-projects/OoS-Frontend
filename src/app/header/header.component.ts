@@ -4,9 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, AuthFail, Login, UserName, Role} from '../shared/store/user-registration.actions';
+import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { HostListener } from '@angular/core';
 
 enum RoleLinks{
   provider='provider',
@@ -20,21 +21,19 @@ enum RoleLinks{
 })
 export class HeaderComponent implements OnInit {
 
-  role:string="";
-  roles=RoleLinks;
-  
+  user = {
+    firstName: 'Іванов В. М'
+  }
+  showModalReg: boolean = false;
+
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
-  @Select(UserRegistrationState.userName)
-  userName$: Observable<string>;
-  @Select(UserRegistrationState.role)
-  role$: Observable<string>;
-  
+
   constructor(private modalDialog: MatDialog,
-              public store: Store,
-              private actions$: Actions,
-              public snackBar: MatSnackBar,
-              private router: Router) {
+    public store: Store,
+    private actions$: Actions,
+    public snackBar: MatSnackBar,
+    private router: Router) { 
       actions$.pipe(
         ofAction(AuthFail)
       ).subscribe(action => {
@@ -42,18 +41,16 @@ export class HeaderComponent implements OnInit {
           duration: 5000,
           panelClass: ['red-snackbar'],
           });
-      });
+      })
     }
+
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth());
-    this.role$.subscribe(()=>{
-      this.role = this.store.selectSnapshot<string>(UserRegistrationState.role);
-    })
+    this.store.dispatch(new CheckAuth())
   }
   logout(): void {
-    this.store.dispatch(new Logout());
+    this.store.dispatch(new Logout())  
   }
   login(): void{
-    this.store.dispatch(new Login());
+    this.store.dispatch(new Login())
   }
 }

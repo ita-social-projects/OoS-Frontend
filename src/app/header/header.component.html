@@ -1,23 +1,43 @@
-<div class="header-cover" fxLayout="row" fxLayoutAlign="space-between center">
-  <h2><a routerLink="">ПОЗА<span class="logo-emphasized">ШКІЛЛЯ</span></a></h2>
-  <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized">
-
-  </div>
-  <ng-template #isUnauthorized>
-     <button mat-raised-button (click)="login()">
-      УВІЙТИ
-    </button>
-  </ng-template>
-
-  <ng-template #isAuthorized>
-    <div class="authorization">
-      <button mat-raised-button color="primary"
-        matBadge="2" matBadgePosition="before" matBadgeColor="accent">
-        <i>
-          <mat-icon class="icon-message"> email</mat-icon>
-        </i>
+<div class="header">
+  <div class="header_top">
+    <div class="header_logo">ПОЗА<span class="header_logo-orange">ШКІЛЛЯ</span></div>
+    <div class="header_btns">
+      <button mat-flat-button class="header_lang">
+        Україньскою
       </button>
+      <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized"></div>
+    </div>
+  </div>
+  <div class="header_wrapper">
+    <div class="header_title">
+      Знайдіть найкращі гуртки у своєму місті!
+    </div>
+    <div class="header_descr">
+      Понад 500 найрізноманітніших гуртків 
+    </div>
+    <div class="header_search">
+      <app-city-filter class="header_city"></app-city-filter>
+      <app-searchbar class="header_bar"></app-searchbar>
+    </div>
+  </div>
+</div>
 
+<ng-template #isUnauthorized>
+  <div>
+    <button mat-stroked-button class="header_login" (click)="login()">
+      УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #isAuthorized>
+  <div class="authorization">
+    <button mat-raised-button color="primary"
+      matBadge="2" matBadgePosition="before" matBadgeColor="accent">
+      <i> 
+        <mat-icon class="icon-message"> email</mat-icon>
+      </i>
+    </button>
       <button mat-button [matMenuTriggerFor]="log">
         <h1>{{userName$ | async}}</h1>
       </button>
@@ -26,8 +46,5 @@
         <button mat-menu-item><a [routerLink]="'./' + role+'/' + 'config'">Налаштування</a></button>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </mat-menu>
-
-    </div>
-
-  </ng-template>
   </div>
+</ng-template>

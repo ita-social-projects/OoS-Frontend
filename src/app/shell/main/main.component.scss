@@ -1,0 +1,61 @@
+.main{
+  padding: 48px 70px;
+  &_registration{
+    padding: 32px 40px;
+    background: #3849F9;
+    border-radius: 5px;
+    position: relative;
+    height: 125px;
+    margin-top: 64px;
+    &::before{
+      content: '';
+      display: block;
+      position: absolute;
+      background-image: url(../../../assets/images/half_circle.png);
+      height: 100%;
+      width: 62px;
+      left: 0;
+      top: 0;
+    }
+  }
+  &_button{
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 13px;
+    line-height: 13px;
+    border-color: white;
+    color: white;
+  }
+  &_question{
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 27px;
+    color: #FFFFFF;
+  }
+  &_hint{
+    margin-top: 16px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 18px;
+    color: #FFFFFF;
+  }
+  &_title{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    color: #000000;
+  }
+  &_link{
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 18px;
+    color: #3849F9;
+    text-decoration: none;
+  }
+  &_header{
+    margin-bottom: 24px;
+  }
+  &_categories{
+    margin-bottom: 48px;
+  }
+}
