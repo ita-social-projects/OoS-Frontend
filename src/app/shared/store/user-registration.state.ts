@@ -7,12 +7,17 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
+  userName:string;
+  role:string;
 }
 
 @State<UserRegistrationStateModel>({
   name: 'user',
   defaults: {
     isAuthorized: false,
+    userName:'',
+    role: ''
+    
   }
 })
 @Injectable()
@@ -25,7 +30,14 @@ export class UserRegistrationState {
     static isAuthorized(state: UserRegistrationStateModel) {
     return state.isAuthorized;
   }
-
+  @Selector()
+  static userName(state: UserRegistrationStateModel): string {
+    return state.userName;
+  }
+  @Selector()
+  static role(state: UserRegistrationStateModel): string {
+    return state.role;
+  }
   @Action(Login)
   Login({  dispatch }: StateContext<UserRegistrationStateModel>): void {
     this.oidcSecurityService.authorize();
@@ -42,10 +54,18 @@ export class UserRegistrationState {
       .subscribe((auth) => {
         console.log('is authenticated', auth)
         patchState({ isAuthorized: auth});
-      });
-  }
+        if (auth) {
+          patchState({role: jwt_decode(this.oidcSecurityService.getToken())['role']});
+          patchState({userName: jwt_decode(this.oidcSecurityService.getToken())['name']});
+        }
+      })
+    }
   @Action(AuthFail)
   AuthFail(): void {
       console.log("Authorization failed");
     }
   }
+function jwt_decode(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+
