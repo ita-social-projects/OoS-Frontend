@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
 import { ParentActivitiesComponent } from './parent-activities/parent-activities.component';
@@ -14,19 +14,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRadioModule } from '@angular/material/radio';
+
 import { ChildActivitiesComponent } from './parent-activities/child-activities/child-activities.component';
 
 
 
+import { ChildrenActivitiesListService } from '../../shared/services/children-activities-list/children-activities-list.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
     ParentConfigComponent, 
+
     ChildCardComponent,
+
     ChildActivitiesComponent
   ],
-
   imports: [
     CommonModule,
     ParentRoutingModule,
@@ -38,6 +42,12 @@ import { ChildActivitiesComponent } from './parent-activities/child-activities/c
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule,
+
+    HttpClientModule
+  ],
+  providers: [
+    ChildrenActivitiesListService
+
   ]
 })
 export class ParentModule { }

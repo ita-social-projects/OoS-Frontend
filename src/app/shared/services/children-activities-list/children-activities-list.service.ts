@@ -8,7 +8,7 @@ import { ChildActivities } from '../../models/child-activities.model';
 })
 export class ChildrenActivitiesListService {
 
-  dataUrl = '/assets/mock-children-list.json';
+  dataUrl = '/Child/GetChildren';
 
   constructor(private http: HttpClient) { }
 

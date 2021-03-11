@@ -31,9 +31,8 @@ import { UserRegistrationState } from './shared/store/user-registration.state';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserState } from './shared/store/user.state';
-import { InterceptorProviders } from './shared/interceptors/interceptorProviders';
-
-
+import { HttpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -81,7 +80,7 @@ import { InterceptorProviders } from './shared/interceptors/interceptorProviders
     MatSnackBarModule
   ],
   providers: [
-    InterceptorProviders,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

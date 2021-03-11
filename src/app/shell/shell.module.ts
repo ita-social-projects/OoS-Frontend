@@ -20,7 +20,7 @@ import { OwnershipTypeFilterComponent } from './main/filters-list/ownership-type
 import { CategoriesFilterComponent } from './main/filters-list/categories-filter/categories-filter.component';
 import { DigitOnlyDirective } from '../shared/directives/digit-only.directive';
 import { CityFilterComponent } from './main/filters-list/city-filter/city-filter.component';
-import { HttpClientModule } from '@angular/common/http';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,7 +47,8 @@ import { MaterialModule } from '../shared/material/material.module';
     ResultComponent,
     OrganizationCardsListComponent,
     OrderingComponent,
-    OrganizationCardComponent
+    OrganizationCardComponent,
+    OrganizationCardComponent,
   ],
   imports: [
     CommonModule,
@@ -60,7 +61,6 @@ import { MaterialModule } from '../shared/material/material.module';
     ReactiveFormsModule,
     MatIconModule,
     MatAutocompleteModule,
-    HttpClientModule,
     MatButtonToggleModule,
     MatChipsModule,
     LeafletModule,
@@ -70,6 +70,8 @@ import { MaterialModule } from '../shared/material/material.module';
     ParentGuard,
     ProviderGuard,
     LeafletModule,
+    MaterialModule,
+    MaterialModule
   ]
 })
 export class ShellModule { }

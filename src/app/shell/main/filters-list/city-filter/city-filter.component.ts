@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { SelectCity } from '../../../../shared/store/filter.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 
-import { CityFilterService } from '../../../../shared/filters-services/city-filter.service';
+import { CityFilterService } from '../../../../shared/services/filters-services/city-filter/city-filter.service';
 import { CityList } from '../../../../shared/store/meta-data.actions';
 
 
