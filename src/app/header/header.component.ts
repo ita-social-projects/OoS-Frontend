@@ -9,6 +9,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { HostListener } from '@angular/core';
 
+enum RoleLinks{
+  provider='provider',
+  parent ='parent'
+}
 
 @Component({
   selector: 'app-header',

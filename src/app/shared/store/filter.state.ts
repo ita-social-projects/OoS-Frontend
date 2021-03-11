@@ -3,6 +3,8 @@ import { State, Action, StateContext, Selector  } from '@ngxs/store';
 import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards, getPopCards  } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
+import { actCard } from '../models/activities-card.model';
+import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -38,8 +40,7 @@ export class FilterState {
   static orgCards(state: FilterStateModel) {
     return state.organizationCards
   }
-
-  constructor(private cardsService: OrgCardsService){}
+  constructor(private cardsService: OrgCardsService, private cardsActivitiesService: ProviderActivitiesService){}
 
   @Action(setMinAge)
     setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
@@ -61,6 +62,7 @@ export class FilterState {
     getCards({ patchState }: StateContext<FilterStateModel>) {
       return this.cardsService.getCards().subscribe(
         (organizationCards: orgCard[]) => patchState({organizationCards})
+
       )
     }
   @Action(getPopCards)

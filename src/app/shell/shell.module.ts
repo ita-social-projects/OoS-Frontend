@@ -21,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     MapComponent,
     ResultComponent,
     OrganizationCardsListComponent,
-    OrderingComponent,
+    OrderingComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +31,10 @@ import { SharedModule } from '../shared/shared.module';
     HttpClientModule,
     LeafletModule,
     SharedModule
+  ],
+  providers: [
+    ParentGuard,
+    ProviderGuard
   ]
 })
 export class ShellModule { }
