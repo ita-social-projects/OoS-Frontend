@@ -63,6 +63,8 @@ export class FilterState {
     getCards({ patchState }: StateContext<FilterStateModel>) {
       return this.cardsService.getCards().subscribe(
         (organizationCards: orgCard[]) => patchState({organizationCards})
-    )
+
+      )
+    }
   }
-}
+ 

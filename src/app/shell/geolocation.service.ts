@@ -6,6 +6,7 @@ import Geocoder from 'leaflet-control-geocoder';
 })
 export class GeolocationService {
   userCoords = {
+    childCards: [],
     lat: null,
     lng: null,
     city: ''
