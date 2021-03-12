@@ -29,7 +29,10 @@ export class HeaderComponent implements OnInit {
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(UserRegistrationState.userName)
-  userName$: Observable<boolean>;
+  userName$: Observable<string>;
+  @Select(UserRegistrationState.role)
+  userRole$: Observable<string>;
+  role: string;
 
   constructor(private modalDialog: MatDialog,
               public store: Store,
@@ -47,6 +50,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
+    this.userRole$.subscribe(value => {
+      this.role = value;
+    });
   }
   logout(): void {
     this.store.dispatch(new Logout());

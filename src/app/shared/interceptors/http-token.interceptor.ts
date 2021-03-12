@@ -20,12 +20,12 @@ role$: Observable<string>;
 ​
 public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 ​
-  let token = this.oidcSecurityService.getToken();
-  
+  const token = this.oidcSecurityService.getToken();
 
-  let tokenTitle= (token) ? `Bearer ${token}`: null;
-    
-    if (typeof(token) === 'string') {
+
+  const tokenTitle = (token) ? `Bearer ${token}` : null;
+
+  if (typeof(token) === 'string') {
       return next.handle(request.clone({
         url: environment.serverUrl + request.url,
         setHeaders: { Authorization: tokenTitle }
@@ -34,7 +34,7 @@ public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpE
         return throwError(error);
       }));
     }
-    return next.handle(request).pipe(catchError((error) => {
+  return next.handle(request).pipe(catchError((error) => {
       return throwError(error);
     }));
   }

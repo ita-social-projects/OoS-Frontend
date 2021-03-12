@@ -13,7 +13,7 @@
       Знайдіть найкращі гуртки у своєму місті!
     </div>
     <div class="header_descr">
-      Понад 500 найрізноманітніших гуртків 
+      Понад 500 найрізноманітніших гуртків
     </div>
     <div class="header_search">
       <app-city-filter class="header_city"></app-city-filter>
@@ -34,7 +34,7 @@
   <div class="authorization">
     <button mat-raised-button color="primary"
       matBadge="2" matBadgePosition="before" matBadgeColor="accent">
-      <i> 
+      <i>
         <mat-icon class="icon-message"> email</mat-icon>
       </i>
     </button>
@@ -42,7 +42,7 @@
         <h1>{{userName$ | async}}</h1>
       </button>
       <mat-menu #log="matMenu">
-        <button mat-menu-item><a [routerLink]="'./' + role+'/' + 'activities'">Гуртки</a></button>
+        <button mat-menu-item><a [routerLink]="'./' + role +'/' + 'activities'">Гуртки</a></button>
         <button mat-menu-item><a [routerLink]="'./' + role+'/' + 'config'">Налаштування</a></button>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </mat-menu>
