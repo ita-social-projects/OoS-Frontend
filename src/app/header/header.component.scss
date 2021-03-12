@@ -6,7 +6,10 @@
 h1{
    margin:0 auto;
 }
-
+a, a:link, a:visited, a:hover, a:active{
+   text-decoration: none;
+   color: inherit;
+} 
 .mat-button{
    border:1px solid gray;
 }
