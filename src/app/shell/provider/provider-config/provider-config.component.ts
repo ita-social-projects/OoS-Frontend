@@ -35,8 +35,55 @@ export class ProviderConfigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.http.post('http://localhost:5000/Organization/CreateOrganization', this.data)
-    //   .subscribe(value => console.log(value));
+    this.http.post('http://localhost:5000/Provider/Create', {
+      "id": 0,
+      "title": "string",
+      "shortTitle": "string",
+      "website": "string",
+      "facebook": "string",
+      "instagram": "string",
+      "description": "string",
+      "mfo": "string",
+      "edrpou": "string",
+      "koatuu": "string",
+      "inpp": "string",
+      "director": "string",
+      "directorPosition": "string",
+      "authorityHolder": "string",
+      "directorBirthDay": "2021-03-11",
+      "directorPhonenumber": "string",
+      "managerialBody": "string",
+      "ownership": 0,
+      "type": 0,
+      "form": "string",
+      "profile": 0,
+      "index": "string",
+      "isSubmitPZ1": true,
+      "attachedDocuments": "string",
+      "addressId": 0,
+      "userId": "string",
+      "user": {
+        "id": "string",
+        "userName": "string",
+        "normalizedUserName": "string",
+        "email": "string",
+        "normalizedEmail": "string",
+        "emailConfirmed": true,
+        "passwordHash": "string",
+        "securityStamp": "string",
+        "concurrencyStamp": "string",
+        "phoneNumber": "string",
+        "phoneNumberConfirmed": true,
+        "twoFactorEnabled": true,
+        "lockoutEnd": "2021-03-11T10:48:01.648Z",
+        "lockoutEnabled": true,
+        "accessFailedCount": 0,
+        "creatingTime": "2021-03-11T10:48:01.648Z",
+        "lastLogin": "2021-03-11T10:48:01.648Z"
+      }
+    })
+      .subscribe(value => console.log(value));
+    this.http.get('http://localhost:5000/Provider/GetProviders').subscribe(value => console.log(value));
   }
 
   onSubmit(): void {

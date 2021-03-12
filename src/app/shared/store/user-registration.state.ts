@@ -4,20 +4,21 @@ import { Login, Logout, CheckAuth, AuthFail } from './user-registration.actions'
 
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import jwt_decode from 'jwt-decode';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
-  userName:string;
-  role:string;
+  userName: string;
+  role: string;
 }
 
 @State<UserRegistrationStateModel>({
   name: 'user',
   defaults: {
     isAuthorized: false,
-    userName:'',
+    userName: '',
     role: ''
-    
+
   }
 })
 @Injectable()
@@ -52,20 +53,20 @@ export class UserRegistrationState {
     this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => {
-        console.log('is authenticated', auth)
+        console.log('is authenticated', auth);
         patchState({ isAuthorized: auth});
         if (auth) {
           patchState({role: jwt_decode(this.oidcSecurityService.getToken())['role']});
           patchState({userName: jwt_decode(this.oidcSecurityService.getToken())['name']});
         }
-      })
+      });
     }
   @Action(AuthFail)
   AuthFail(): void {
-      console.log("Authorization failed");
+      console.log('Authorization failed');
     }
   }
-function jwt_decode(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+// function jwt_decode(arg0: string): any {
+//   throw new Error('Function not implemented.');
+// }
 

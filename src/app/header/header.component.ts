@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 import { HostListener } from '@angular/core';
 
 enum RoleLinks{
-  provider='provider',
-  parent ='parent'
+  provider= 'provider',
+  parent = 'parent'
 }
 
 @Component({
@@ -23,17 +23,18 @@ export class HeaderComponent implements OnInit {
 
   user = {
     firstName: 'Іванов В. М'
-  }
-  showModalReg: boolean = false;
+  };
+  showModalReg = false;
 
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
+  @Select(UserRegistrationState.userName)
+  userName$: Observable<boolean>;
 
   constructor(private modalDialog: MatDialog,
-    public store: Store,
-    private actions$: Actions,
-    public snackBar: MatSnackBar,
-    private router: Router) { 
+              public store: Store,
+              private actions$: Actions,
+              public snackBar: MatSnackBar) {
       actions$.pipe(
         ofAction(AuthFail)
       ).subscribe(action => {
@@ -41,16 +42,16 @@ export class HeaderComponent implements OnInit {
           duration: 5000,
           panelClass: ['red-snackbar'],
           });
-      })
+      });
     }
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth())
+    this.store.dispatch(new CheckAuth());
   }
   logout(): void {
-    this.store.dispatch(new Logout())  
+    this.store.dispatch(new Logout());
   }
   login(): void{
-    this.store.dispatch(new Login())
+    this.store.dispatch(new Login());
   }
 }
