@@ -19,7 +19,14 @@ a, a:link, a:visited, a:hover, a:active{
 }
 .header{
    padding: 2rem 5rem 3rem 5rem;
-   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+   
+   &_main{
+      background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+   }
+   &_not_main{
+      background: #3849F9;
+      max-height: 83px;
+   }
    &_wrapper{
       display: flex;
       flex-direction: column;
@@ -27,9 +34,9 @@ a, a:link, a:visited, a:hover, a:active{
    }
    &_top, &_btns{
       display: flex;
+      flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
    }
    &_btns{
       gap: 40px

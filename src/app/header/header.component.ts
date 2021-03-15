@@ -8,6 +8,7 @@ import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registr
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { HostListener } from '@angular/core';
+import { AppState } from '../shared/store/app.state';
 
 enum RoleLinks{
   provider= 'provider',
@@ -32,6 +33,8 @@ export class HeaderComponent implements OnInit {
   userName$: Observable<string>;
   @Select(UserRegistrationState.role)
   userRole$: Observable<string>;
+  @Select(AppState.isMainPage)
+  isMainPage$: Observable<boolean>;
   role: string;
 
   constructor(private modalDialog: MatDialog,
@@ -48,7 +51,7 @@ export class HeaderComponent implements OnInit {
       });
     }
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
     this.store.dispatch(new CheckAuth());
     this.userRole$.subscribe(value => {
       this.role = value;

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { ChangePage } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-config',
@@ -31,10 +33,11 @@ export class ProviderConfigComponent implements OnInit {
     robotCheck: new FormControl('', Validators.required)
   });
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private store: Store) {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new ChangePage(false));
     this.http.post('http://localhost:5000/Provider/Create', {
       "id": 0,
       "title": "string",
