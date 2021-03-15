@@ -64,7 +64,7 @@
     line-height: 18px;
     color: #333333;
     &-item{
-      margin: 13px 0; 
+      margin: 13px 0;
       &:nth-child(4){
         .card_data-icon{
           margin-right: 13px;
@@ -92,7 +92,9 @@
     padding: 16px;
   }
   &_link{
-    display: block;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     text-align: right;
     text-decoration: none;
     font-weight: bold;
