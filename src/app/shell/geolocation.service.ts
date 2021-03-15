@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
 
 @Injectable({
@@ -11,8 +11,10 @@ export class GeolocationService {
     lng: null,
     city: ''
   };
-  constructor() {}
-  
+
+  constructor() {
+  }
+
   navigatorRecievedError(err): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   };
@@ -20,19 +22,19 @@ export class GeolocationService {
   handleUserLocation(callback): void {
     navigator.geolocation.getCurrentPosition(
       (data) => {
-        this.userCoords.lat = data.coords.latitude; 
+        this.userCoords.lat = data.coords.latitude;
         this.userCoords.lng = data.coords.longitude;
         new Geocoder().options.geocoder.reverse(
-          { lat: this.userCoords.lat, lng: this.userCoords.lng }, 
-          8, 
-          (result) =>{ 
+          {lat: this.userCoords.lat, lng: this.userCoords.lng},
+          8,
+          (result) => {
             this.userCoords.city = result[0].properties.address.city;
             callback(this.userCoords);
           }
         );
-      }, 
+      },
       this.navigatorRecievedError
     );
-    
+
   }
 }
