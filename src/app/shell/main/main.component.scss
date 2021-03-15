@@ -46,11 +46,13 @@
     color: #000000;
   }
   &_link{
+    display: flex;
     font-weight: bold;
     font-size: 13px;
     line-height: 18px;
     color: #3849F9;
     text-decoration: none;
+    align-items: center;
   }
   &_header{
     margin-bottom: 24px;
