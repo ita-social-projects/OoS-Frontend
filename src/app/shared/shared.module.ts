@@ -10,6 +10,7 @@ import { CityFilterComponent } from './components/filters-list/city-filter/city-
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -28,6 +29,7 @@ import { OrganizationCardComponent } from './components/organization-card/organi
     MaterialModule,
     CommonModule,
     ReactiveFormsModule,
+    FlexLayoutModule
   ],
   exports: [
     FiltersListComponent,
