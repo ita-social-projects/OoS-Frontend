@@ -83,7 +83,7 @@ export class ProviderConfigComponent implements OnInit {
       }
     })
       .subscribe(value => console.log(value));
-    this.http.get('http://localhost:5000/Provider/GetProviders').subscribe(value => console.log(value));
+    this.http.get('http://localhost:5000/Provider/GetProviders').subscribe(value => alert(value));
   }
 
   onSubmit(): void {

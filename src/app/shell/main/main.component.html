@@ -2,7 +2,9 @@
   <div class="main_categories">
     <div class="main_header" fxLayoutAlign="space-between center">
       <div class="main_title">Найпопулярніші категорії</div>
-      <a href="#" class="main_link">Переглянути всі -></a>
+      <a href="#" class="main_link">Переглянути всі <span class="material-icons">
+        arrow_right_alt
+        </span></a>
     </div>
     <app-categories-filter></app-categories-filter>
   </div>
@@ -10,16 +12,16 @@
   <div class="main_cards">
     <div class="main_header" fxLayoutAlign="space-between center">
       <div class="main_title">Найпопулярніші гуртки</div>
-      <a href="#" class="main_link">Переглянути всі -></a>
+      <a href="#" class="main_link">Переглянути всі <span class="material-icons">
+      arrow_right_alt
+      </span></a>
     </div>
-    <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center" >
-      <ng-container> 
-        <app-organization-card *ngFor="let card of cards | slice:0:4" [card]="card"></app-organization-card> 
+    <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <ng-container>
+        <app-organization-card *ngFor="let card of cards | slice:0:4" [card]="card"></app-organization-card>
       </ng-container>
-    </div> 
+    </div>
   </div>
-
-
 
 
   <div class="main_registration" fxLayoutAlign="space-between center">
