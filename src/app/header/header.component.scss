@@ -22,7 +22,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
   }
   &_btns {
     gap: 40px
@@ -82,6 +82,20 @@ h1 {
   .header {
     &_search {
       width: 100%;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .header {
+    &_top, &_btns {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    &_btns {
+      margin-top: 1rem;
     }
   }
 }
