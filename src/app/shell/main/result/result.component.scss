@@ -1,0 +1,18 @@
+.shell-search {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // margin-top: 30px;
+  width: 55%;
+  height: 52px;
+  gap: 15px;
+  border-radius: 60px;
+  padding: 0 20px;
+  .shell-searchbar {
+    flex-grow: 1;
+  }
+  .shell-city {
+    border-right: 1px solid #E3E3E3;
+  }
+}
