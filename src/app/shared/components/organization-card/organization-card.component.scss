@@ -1,6 +1,6 @@
 .card {
   width: 300px;
-  height: 440px;
+  // height: 440px;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
@@ -59,12 +59,10 @@
   &_data{
     list-style: none;
     padding: 0;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 18px;
+    margin: 0;
     color: #333333;
     &-item{
-      margin: 13px 0;
+      margin: 1rem 0;
       &:nth-child(4){
         .card_data-icon{
           margin-right: 13px;
@@ -86,10 +84,10 @@
     }
   }
   &_owner{
-    text-decoration: none;
+    color: #3849F9;
   }
-  &_body, &_footer{
-    padding: 16px;
+  &_body {
+    padding: 1rem;
   }
   &_link{
     display: flex;
@@ -103,9 +101,9 @@
     color: #3849F9;
   }
   &_title{
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 20px;
-    color: #000000;
+    margin-bottom: 18px;
+  }
+  &_footer{
+    margin-top: 19px;
   }
 }
