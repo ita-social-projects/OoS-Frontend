@@ -16,8 +16,8 @@
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
-<div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start">
-  <app-filters-list></app-filters-list>
+<div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1.5rem'>
+  <app-filters-list fxFlex style="background-color: yellow;"></app-filters-list>
   <!-- <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
     <mat-button-toggle value="show-data" aria-label="show-data">
       Список
@@ -26,10 +26,12 @@
       Карта
     </mat-button-toggle>
   </mat-button-toggle-group> -->
-  <div *ngIf="group.value==='map'; else ShowData">
-    <app-map></app-map>
+  <div class="cards-list-wrapper" fxFlex="80"> <!--fxFlex="74.6875"> -->
+    <div *ngIf="group.value==='map'; else ShowData">
+      <app-map></app-map>
+    </div>
+    <ng-template #ShowData>
+      <app-organization-cards-list class="cards"></app-organization-cards-list>
+    </ng-template>  
   </div>
-  <ng-template #ShowData>
-    <app-organization-cards-list class="cards"></app-organization-cards-list>
-  </ng-template>  
 </div>
