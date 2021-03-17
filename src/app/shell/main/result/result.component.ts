@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UpdateCurrentView } from '../../../shared/result.actions';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { SetOrder } from 'src/app/shared/store/filter.actions';
+
+export interface Option {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-result',
@@ -8,18 +15,40 @@ import { Store } from '@ngxs/store';
   styleUrls: ['./result.component.scss']
 })
 export class ResultComponent implements OnInit {
+
+  @Select(state => state.filter.order) order$: Observable<any>;
+  
+  options: Option[] = [
+    {value: 'ratingDesc', viewValue: 'Рейтинг'},
+    {value: 'ratingAsc', viewValue: 'Рейтинг'},
+    {value: 'priceDesc', viewValue: 'Ціна'},
+    {value: 'priceAsc', viewValue: 'Ціна'}
+  ];
+  selectedOption: Option;
+
   public currentView: string;
 
   constructor(private store: Store) {}
   
   ngOnInit(): void {
     this.currentView ='show-data';
+    this.order$.subscribe(order => {
+      this.selectedOption = this.options.find(option => option.value === order);
+    });
   }
 
   public SetCurrentView(view: string) {
     this.currentView = view;
     this.store.dispatch(new UpdateCurrentView(view));
     // To do: finish action when state will be configured
+  }
+
+  setOrder(order: string) {
+    this.store.dispatch(new SetOrder(order));
+  }
+
+  onChangeOrder(order: string) {
+    this.setOrder(order);
   }
 
 }

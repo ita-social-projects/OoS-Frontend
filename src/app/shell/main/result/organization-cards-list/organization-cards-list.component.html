@@ -1,12 +1,13 @@
 <div fxLayoutAlign="left center">
   <!-- <h3>Знайдено Х пропозицій</h3> -->
-  <app-ordering 
+  <!-- <app-ordering 
     [options]="options" 
     [selectedOption]="selectedOption" 
     (onChange)="onChangeOrder($event)">
-  </app-ordering>
+  </app-ordering> -->
 </div>  
-<div class="cards" fxLayout="row wrap" fxLayoutGap='1.5rem grid' fxLayoutAlign="flex-start" >
+<div class="cards" fxLayout="row wrap" fxLayoutGap='1rem grid' fxLayoutAlign="flex-start" >
+<!-- <div class="cards" fxLayout="row wrap" fxLayoutGap='2%' fxLayoutAlign="flex-start" > -->
   <ng-container> 
     <app-organization-card *ngFor="let card of cards" [card]="card"></app-organization-card> 
   </ng-container>
