@@ -41,11 +41,14 @@ h1 {
     outline: none;
     font-weight: bold;
   }
-  &_logo {
-    color: white;
-    &-orange {
-      color: blue;
-      background-color: #FFBD00;
+  .header_logo-wrapper {
+    background-color: #FFBD00;
+    padding: 0.4375rem 0 0.3125rem;
+    padding: 5px 0 3px;
+    .header_logo {
+      color: #3849F9;
+      margin-inline-start: -0.125rem;
+      margin-inline-end: -0.125rem;
     }
   }
   &_title {
