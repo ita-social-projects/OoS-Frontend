@@ -1,22 +1,39 @@
-<div class="view-control-panel" fxLayout="row" fxLayoutAlign="space-between center">
-  <h3>Знайдено Х гуртків</h3>
-  <button class="filters-toggle-btn">FFF</button>
-  <div class="shell-search">
-    <app-city-filter class="shell-city"></app-city-filter>
-    <app-searchbar class="shell-searchbar"></app-searchbar>
+<div class="view-control-panel" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1rem'>
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <h3>Знайдено Х гуртків</h3>
+    <button class="filters-toggle-btn">F</button>
   </div>
-  <!-- <app-ordering></app-ordering> -->
-  <div>OrderingComponent</div>
-  <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
-    <mat-button-toggle value="show-data" aria-label="show-data">
-      Список
-    </mat-button-toggle>
-    <mat-button-toggle value="map" aria-label="map">
-      Карта
-    </mat-button-toggle>
-  </mat-button-toggle-group>
+  <div fxFlex="74.6875" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="shell-search">
+      <app-city-filter class="shell-city"></app-city-filter>
+      <app-searchbar class="shell-searchbar"></app-searchbar>
+    </div>
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1rem'>
+      <app-ordering 
+        [options]="options" 
+        [selectedOption]="selectedOption" 
+        (onChange)="onChangeOrder($event)">
+      </app-ordering>
+      <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
+        <mat-button-toggle value="show-data" aria-label="show-data">
+          Список
+        </mat-button-toggle>
+        <mat-button-toggle value="map" aria-label="map">
+          Карта
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
 </div>
-<div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1.5rem'>
+<!-- <div class="cards-list-wrapper">
+  <div *ngIf="group.value==='map'; else ShowData">
+    <app-map></app-map>
+  </div>
+  <ng-template #ShowData>
+    <app-organization-cards-list class="cards"></app-organization-cards-list>
+  </ng-template>  
+</div> -->
+<div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1rem'>
   <app-filters-list fxFlex style="background-color: yellow;"></app-filters-list>
   <!-- <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
     <mat-button-toggle value="show-data" aria-label="show-data">
@@ -26,7 +43,7 @@
       Карта
     </mat-button-toggle>
   </mat-button-toggle-group> -->
-  <div class="cards-list-wrapper" fxFlex="80"> <!--fxFlex="74.6875"> -->
+  <div class="cards-list-wrapper" fxFlex="74.6875"> <!--fxFlex="74.6875"> -->
     <div *ngIf="group.value==='map'; else ShowData">
       <app-map></app-map>
     </div>

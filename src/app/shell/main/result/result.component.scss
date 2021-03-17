@@ -1,19 +1,50 @@
+.view-control-panel{
+  margin-bottom: 1.0625rem;
+  .filters-toggle-btn{
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
+    border: 1px solid #3849F9;
+    color: #3849F9;
+    box-sizing: border-box;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 60px;
+    outline: none;
+    cursor: pointer;
+  }
+}
 .shell-search {
   background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   // margin-top: 30px;
-  width: 55%;
-  height: 52px;
+  width: 50%;
+  height: 34px;
   gap: 15px;
   border-radius: 60px;
   padding: 0 20px;
   .shell-searchbar {
     flex-grow: 1;
+    width: 70%;
   }
   .shell-city {
     border-right: 1px solid #E3E3E3;
+    width: 30%;
+  }
+}
+.mat-button-toggle-group {
+  height: 34px;
+  align-items: center;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  .mat-button-toggle-checked{
+    background-color: rgba(56, 73, 249, 0.07);
+    // border: 1px solid #3849F9;
+    color: #3849F9;
   }
 }
 .cards-list-wrapper{
