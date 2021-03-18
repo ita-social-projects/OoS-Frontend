@@ -3,10 +3,6 @@
   margin:  1%;
 }
 
-h1 {
-  margin: 0 auto;
-}
-
 .mat-button {
   border: 1px solid gray;
 }
@@ -28,28 +24,17 @@ h1 {
     gap: 40px
   }
   &_login {
+    width: 15rem;
+    height: 2.125rem;
     border-radius: 20px;
-    padding: 0.625rem 1.875rem;
-    line-height: 0.9rem;
     border-color: white;
     color: white;
-    font-weight: bold;
   }
   &_lang {
     background: none;
     color: white;
     outline: none;
     font-weight: bold;
-  }
-  .header_logo-wrapper {
-    background-color: #FFBD00;
-    padding: 0.4375rem 0 0.3125rem;
-    padding: 5px 0 3px;
-    .header_logo {
-      color: #3849F9;
-      margin-inline-start: -0.125rem;
-      margin-inline-end: -0.125rem;
-    }
   }
   &_title {
     margin-top: 70px;

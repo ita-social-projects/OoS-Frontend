@@ -54,7 +54,33 @@ a {
   text-decoration: none;
   color: inherit;
 }
+// button {
+  // font-family: "Innerspace" !important;
+  // border-radius: 20px !important;
+  // font-weight: 700 !important;
+  // font-size: 13px !important;
+  // line-height: 15px !important;
+// }
 
 div.cdk-overlay-pane {
   width: auto !important; /** workaround for issue #101 **/
 }
+
+@import '~@angular/material/theming';
+
+$config: mat-typography-config(
+  $font-family: "Innerspace",
+  $button: mat-typography-level(13px, 15px, 700)
+);
+
+@include mat-button-typography($config);
+
+// @mixin mat-button-typography($config) {
+//   .mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
+//     @include mat-typography-level-to-styles($config, button);
+//     border-radius: 20px;
+//   }
+// }
+
+@include mat-button-typography($config);
+// @include mat-core($config);
