@@ -20,6 +20,13 @@
     align-items: center;
     // flex-wrap: wrap;
   }
+  &_logo-wrapper{
+    position: relative;
+    .logo{
+      position: absolute;
+      transform: translate(0, -41%);
+    }
+  }
   &_btns {
     gap: 40px
   }
