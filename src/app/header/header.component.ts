@@ -54,7 +54,6 @@ export class HeaderComponent implements OnInit {
     this.userRole$.subscribe(value => {
       this.role = value;
     });
-    
   }
   logout(): void {
     this.store.dispatch(new Logout());
