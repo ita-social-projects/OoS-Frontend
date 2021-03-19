@@ -8,6 +8,7 @@ import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registr
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { HostListener } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 enum RoleLinks{
   provider= 'provider',
@@ -34,10 +35,10 @@ export class HeaderComponent implements OnInit {
   userRole$: Observable<string>;
   role: string;
 
-  constructor(private modalDialog: MatDialog,
-              public store: Store,
+  constructor(public store: Store,
               private actions$: Actions,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar,
+              public oidcSecurityService: OidcSecurityService) {
       actions$.pipe(
         ofAction(AuthFail)
       ).subscribe(action => {
