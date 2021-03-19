@@ -73,14 +73,25 @@ $config: mat-typography-config(
   $button: mat-typography-level(13px, 15px, 700)
 );
 
-@include mat-button-typography($config);
-
+@mixin mat-button-toggle-typography($config) {
+  .mat-button-toggle, .mat-button-toggle-button {
+    @include mat-typography-level-to-styles($config, button);
+    font-family: "Open Sans", sans-serif;
+  }
+}
+@mixin mat-form-typography($config) {
+  .mat-form-field {
+    font-family: "Open Sans", sans-serif;
+  }
+}
 // @mixin mat-button-typography($config) {
 //   .mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
 //     @include mat-typography-level-to-styles($config, button);
 //     border-radius: 20px;
 //   }
 // }
-
 @include mat-button-typography($config);
+@include mat-button-toggle-typography($config);
+@include mat-form-typography($config);
+
 // @include mat-core($config);
