@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
+  checkSessionChanged:boolean,
   userName: string;
   role: string;
 }
@@ -16,6 +17,7 @@ export interface UserRegistrationStateModel {
   name: 'userRegistration',
   defaults: {
     isAuthorized: false,
+    checkSessionChanged:false,
     userName: '',
     role: ''
 
@@ -28,7 +30,7 @@ export class UserRegistrationState {
     public http: HttpClient) {}
 
   @Selector()
-    static isAuthorized(state: UserRegistrationStateModel) {
+  static isAuthorized(state: UserRegistrationStateModel) {
     return state.isAuthorized;
   }
   @Selector()
@@ -49,8 +51,8 @@ export class UserRegistrationState {
     dispatch(new CheckAuth());
   }
   @Action(CheckAuth)
-  CheckAuth({ patchState }: StateContext<UserRegistrationStateModel>): void {
-    this.oidcSecurityService
+  CheckAuth({ dispatch, patchState }: StateContext<UserRegistrationStateModel>): void {
+      this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => {
         console.log('is authenticated', auth);

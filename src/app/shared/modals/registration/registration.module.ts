@@ -16,7 +16,7 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
         scope: 'openid outofschoolapi.read',
-        logLevel: LogLevel.Debug,})  
+        logLevel: LogLevel.Debug,})
   }  
 }
 
