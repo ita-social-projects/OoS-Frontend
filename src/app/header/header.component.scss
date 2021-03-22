@@ -22,12 +22,9 @@ a, a:link, a:visited, a:hover, a:active {
 
 .header {
   padding: 2rem 5rem 3rem 5rem;
- 
-  &_main_page{
-    background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
-  }
-
-  &_not_main_page{
+  background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+  
+  &_secondary{
     background: #3849F9;
     max-height: 83px;
   }
