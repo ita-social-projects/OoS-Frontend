@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
 import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { HostListener } from '@angular/core';
 import { AppState } from '../shared/store/app.state';
 
 enum RoleLinks{
@@ -34,7 +37,8 @@ export class HeaderComponent implements OnInit {
   isMainPage$: Observable<boolean>;
   role: string;
 
-  constructor(public store: Store,
+  constructor(private modalDialog: MatDialog,
+              public store: Store,
               private actions$: Actions,
               public snackBar: MatSnackBar) {
       actions$.pipe(
