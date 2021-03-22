@@ -1,9 +1,9 @@
 <div class="header" [ngClass]="(isMainPage$ | async) ? '' : 'header_secondary'">
   <div class="header_top">
-    <div class="header_logo"><a href="">ПОЗА<span class="header_logo-orange">ШКІЛЛЯ</span></a></div>
+    <h2 class="header_logo"><a routerLink="">ПОЗА<span class="header_logo-orange">ШКІЛЛЯ</span></a></h2>
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
-        Україньскою
+        Українською
       </button>
       <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized"></div>
     </div>
