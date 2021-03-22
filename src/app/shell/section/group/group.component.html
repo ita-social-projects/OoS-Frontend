@@ -1,0 +1,74 @@
+<div class="container">
+  <!--  navigation-->
+  <div class="section-link">
+    <ul class="section-link_list">
+      <li class="section-link_list_item"><a>Головна</a></li>
+      <li class="section-link_list_item"><span class="material-icons arrow">arrow_right_alt</span></li>
+      <li class="section-link-list_item"><a>Найпопулярніші гуртки</a></li>
+      <li class="section-link_list_item"><span class="material-icons arrow">arrow_right_alt</span></li>
+      <li class="section-link_list_item"><a>Бальні танці</a></li>
+    </ul>
+  </div>
+  <!--  navigation over-->
+  <!--  main page -->
+  <div class="main">
+    <div class="main_information">
+      <!--      carousel section-->
+
+      <div class="carousel">
+        <div class="carousel_image"><img src="assets/images/groupimages/dance.png" alt=""></div>
+      </div>
+      <!--      carousel section over-->
+      <!--      header-->
+      <div class="main_information-wrapper">
+        <div class="header">
+          <div class="header_main"><h2>Бальні танці</h2></div>
+          <div class="header_remain-time">
+            Набір тривае
+          </div>
+          <div class="header_icon"><img src="assets/icons/basketball.png" alt=""></div>
+        </div>
+        <!--      header over-->
+        <!--      rate -->
+        <div class="rate">
+          <div class="rate_icon">
+            <img src="assets/icons/rate.png" alt="">
+          </div>
+          <div class="rate_number">
+            4.9 <a href="">(27)</a>
+          </div>
+        </div>
+        <!--        rate over-->
+        <!--        group-->
+        <div class="group-name">
+          <div class="group-name_icon"><img src="assets/icons/home.svg" alt=""></div>
+          <div class="group-name_icon"><a href="">Школа бальних танців "Зохан"</a></div>
+        </div>
+        <!--        group over-->
+        <!--        navigation-->
+        <div class="navigation">
+          <mat-tab-group mat-align-tabs="start">
+            <mat-tab label="ПРО ГУРТОК ">
+              <app-about-group></app-about-group>
+            </mat-tab>
+            <mat-tab label="ПРО ШКОЛУ">
+              <app-about-school></app-about-school>
+            </mat-tab>
+            <mat-tab label="ВЧИТЕЛИ">
+              <app-teachers></app-teachers>
+            </mat-tab>
+            <mat-tab label="ІНШИ ГУРТКИ ШКОЛИ">
+              <app-school-classes></app-school-classes>
+            </mat-tab>
+            <mat-tab label="ВІДГУКИ">
+              <app-group-comments></app-group-comments>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+    <div class="main_sidebar">
+
+    </div>
+  </div>
+</div>

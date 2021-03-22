@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+}
+
+.container {
+  .cards {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+
+
+    .card {
+      display: flex;
+      width: 302px;
+      height: 370px;
+      background: #FFFFFF;
+      box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+      border-radius: 5px;
+      margin-right: 24px;
+
+      mat-card {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+
+        img {
+          margin-bottom: 0;
+        }
+
+        mat-card-title {
+          margin-left: 16px;
+        }
+
+        mat-card-content {
+          margin: 0;
+          padding: 0;
+
+          p {
+            padding: 8px 17px 0 16px;
+            font-size: 13px;
+            line-height: 18px;
+            color: #333333;
+          }
+        }
+      }
+    }
+    .card:last-child{
+      margin-right: 0;
+    }
+  }
+
+}
+
+
+

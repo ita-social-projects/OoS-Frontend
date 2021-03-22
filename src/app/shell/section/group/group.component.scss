@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+
+  .section-link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 11px 0 17px;
+
+    &_list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style-type: none;
+
+      &_item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+
+    &_information {
+      display: flex;
+      flex-direction: column;
+      width: 954px;
+      min-height: 750px;
+      margin-right: 24px;
+
+      &-wrapper {
+        padding: 24px;
+      }
+
+      .carousel {
+        width: 954px;
+        height: 319px;
+
+        .carousel_image {
+          width: 100%;
+          height: 319px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+
+      .header {
+        display: flex;
+        width: 100%;
+        position: relative;
+        align-items: center;
+
+        &_main {
+          h2 {
+            font-size: 33px;
+          }
+        }
+
+        &_remain-time {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FFFFFF;
+          width: 106px;
+          height: 24px;
+          background-color: #99CD56;
+          border-radius: 16px;
+          margin-left: 32px;
+          text-align: center;
+          font-size: 11px;
+
+        }
+
+        &_icon {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 0;
+        }
+      }
+
+      .rate {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 24px;
+
+        &_number {
+          margin-left: 9px;
+        }
+      }
+
+      .group-name {
+        display: flex;
+        margin-top: 16px;
+
+        &_icon:last-child {
+          margin-left: 8px;
+        }
+      }
+    }
+
+    &_sidebar {
+      background-color: black;
+      width: 382px;
+      min-height: 750px;
+    }
+  }
+
+}

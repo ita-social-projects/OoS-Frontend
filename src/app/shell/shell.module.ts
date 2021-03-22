@@ -15,6 +15,8 @@ import { OrderingComponent } from './main/result/organization-cards-list/orderin
 import { SharedModule } from '../shared/shared.module';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
+import {GroupModel} from './section/group/group.model';
+import { GroupCommentsComponent } from './section/group/group-pages/group-comments/group-comments.component';
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { ProviderGuard } from './provider/provider.guard';
     FlexLayoutModule,
     HttpClientModule,
     LeafletModule,
-    SharedModule
+    SharedModule,
+    GroupModel,
   ],
   providers: [
     ParentGuard,

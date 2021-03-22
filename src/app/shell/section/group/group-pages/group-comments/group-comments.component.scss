@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 0 11px 0 24px;
+
+  .reviews {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+
+    &_rate {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 24px;
+
+      &-icon {
+        margin-left: 25.33px;
+      }
+
+      &-number {
+        margin-left: 9px;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 25px;
+        color: #333333;
+
+        a {
+          font-weight: normal;
+          font-size: 18px;
+          line-height: 25px;
+          margin-left: 4px;
+          color: #AAAAAA;
+        }
+      }
+    }
+
+    &_comment {
+      &-button {
+        box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+        width: 254px;
+        height: 40px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border: 1px solid #AAAAAA;
+        border-radius: 20px;
+        padding: 14px 55px 12px 46px;
+        cursor: pointer;
+
+        .button-text {
+          font-style: normal;
+          font-weight: bold;
+          font-size: 13px;
+          line-height: 15px;
+          text-align: center;
+          color: #272425;
+        }
+      }
+    }
+  }
+
+  .comment-section {
+    display: flex;
+    flex-direction: column;
+
+    &_item {
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0 24px 0;
+
+      .comment-header {
+        display: flex;
+
+        &_rate {
+          margin-left: 17px;
+          &-name {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 20px;
+            color: #000000;
+          }
+          &-star{
+            margin-top: 9px;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 18px;
+            color: #333333;
+          }
+        }
+      }
+      .comment-text{
+        margin-top: 21px;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 18px;
+
+        color: #333333;
+      }
+    }
+  }
+
+
+}
+

@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@mixin header {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #444444;
+}
+
+@mixin basic-text {
+  margin-top: 8px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+}
+
+$spacing: 24px;
+.header {
+  @include header;
+}
+
+.container {
+    padding: 0 11px 0 24px;
+
+  .description {
+    margin-top: 32px;
+    font-size: 13px;
+    color: #333333;
+    line-height: 17.7px;
+  }
+
+  .program {
+    margin-top: 19px;
+
+    &_info {
+      @include basic-text;
+    }
+  }
+
+  .groups {
+    margin-top: $spacing;
+
+    &_list {
+      @include basic-text;
+
+      li {
+        list-style-type: none;
+      }
+
+      li:before {
+        content: "-";
+        padding-right: 6px;
+      }
+    }
+  }
+
+  .schedule {
+    margin-top: $spacing;
+
+    &_time-list {
+      @include basic-text;
+
+      li {
+        list-style-type: none;
+      }
+    }
+  }
+
+  .lesson-duration {
+    margin-top: $spacing;
+
+    &_info {
+      @include basic-text;
+    }
+  }
+
+  .price {
+    margin-top: $spacing;
+
+    &_list {
+      @include basic-text;
+
+      li {
+        list-style-type: none;
+      }
+    }
+  }
+}
+
+
