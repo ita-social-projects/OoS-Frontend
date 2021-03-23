@@ -20,3 +20,7 @@ export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) {}
 }
+
+export class GetActivities {
+  static readonly type = '[filter] Get Activities';
+}

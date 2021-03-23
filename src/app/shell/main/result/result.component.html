@@ -42,9 +42,9 @@
     <mat-button-toggle value="map" aria-label="map">
       Карта
     </mat-button-toggle>
-  </mat-button-toggle-group> -->
+  </mat-button-toggle-group> *ngIf="group.value==='map'; else ShowData" -->
   <div class="cards-list-wrapper"> <!--fxFlex="74.6875"> -->
-    <div *ngIf="group.value==='map'; else ShowData">
+    <div >
       <app-map></app-map>
     </div>
     <ng-template #ShowData>

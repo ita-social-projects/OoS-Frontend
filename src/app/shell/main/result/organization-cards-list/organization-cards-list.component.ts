@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {FilterState} from '../../../../shared/store/filter.state';
 import {orgCard} from '../../../../shared/models/org-card.model';
-import {getCards, SetOrder} from '../../../../shared/store/filter.actions';
+import {GetActivities, SetOrder, getCards} from '../../../../shared/store/filter.actions';
 
 
 // export interface Option {
@@ -22,6 +22,8 @@ export class OrganizationCardsListComponent implements OnInit {
   // @Select(state => state.filter.order) order$: Observable<any>;
 
   public cards: orgCard[];
+  // @Input() cards: orgCard[];
+
   // options: Option[] = [
   //   {value: 'ratingDesc', viewValue: 'Рейтинг'},
   //   {value: 'ratingAsc', viewValue: 'Рейтинг'},
@@ -36,6 +38,7 @@ export class OrganizationCardsListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new getCards())
     this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards)
+
     // this.order$.subscribe(order => {
     //   this.selectedOption = this.options.find(option => option.value === order);
     // });

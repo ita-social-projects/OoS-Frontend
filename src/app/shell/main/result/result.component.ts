@@ -27,6 +27,7 @@ export class ResultComponent implements OnInit {
   selectedOption: Option;
 
   public currentView: string;
+  // public cards: orgCard[];
 
   constructor(private store: Store) {}
   
