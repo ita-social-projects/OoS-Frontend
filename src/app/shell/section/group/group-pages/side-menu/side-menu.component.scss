@@ -1,0 +1,201 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .icon {
+    margin-right: 9px;
+  }
+
+  .item {
+    width: 302px;
+    min-height: 272px;
+    background: #FFFFFF;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+    padding: 24px;
+    margin-top: 24px;
+  }
+
+  .interaction {
+    &_price {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 27px;
+      color: #000000;
+    }
+
+    &_time {
+      margin-top: 16px;
+      font-weight: bold;
+      font-size: 11px;
+      line-height: 15px;
+      color: #E93D5C;
+    }
+
+    &_assign-button {
+      .button {
+        cursor: pointer;
+        outline: none;
+        margin-top: 24px;
+        width: 254px;
+        height: 40px;
+        background: #3849F9;
+        border: 1px solid #3849F9;
+        box-sizing: border-box;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 15px;
+        text-align: center;
+        color: #FFFFFF;
+      }
+    }
+
+    &_message-button {
+      .button {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        width: 254px;
+        height: 40px;
+        border: 1px solid #AAAAAA;
+        box-sizing: border-box;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 15px;
+        background: #FFFFFF;
+        color: #272425;
+
+        img {
+          margin: 0 9px 0 25px;
+        }
+      }
+    }
+
+    &_add-favorite {
+      margin-top: 27px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 19px;
+      text-align: center;
+      color: #000000;
+    }
+  }
+
+  .contacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    &_header {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 20px;
+      color: #444444;
+    }
+
+    &_info {
+      margin-top: 24px;
+
+      &-address {
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 18px;
+        color: #333333;
+      }
+
+      &-location {
+        margin-top: 7px;
+        margin-left: 24px;
+        font-weight: bold;
+        font-size: 11px;
+        line-height: 12px;
+        color: #3849F9;
+      }
+    }
+
+    &_access-time {
+      margin-top: 16px;
+      font-weight: normal;
+      font-size: 13px;
+      color: #333333
+    }
+
+    &_phone {
+      margin-top: 16px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #3849F9;
+
+    }
+
+    &_email {
+      margin-top: 16px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #333333;
+    }
+
+    &_web-page {
+      margin-top: 16px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #3849F9;
+    }
+
+    &_social-media {
+      margin-top: 16px;
+
+      img:first-child {
+        margin-left: 20px;
+      }
+
+      img:last-child {
+        margin-left: 24px;
+      }
+    }
+  }
+
+  .schedule {
+    &_header {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 20px;
+      color: #444444;
+    }
+
+    &_datepicker {
+      width: 245px;
+      min-height: 170px;
+    }
+    &_detail-info{
+      margin-top: 16px;
+    .button{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 245px;
+      cursor: pointer;
+      height: 34px;
+      border: 1px solid #AAAAAA;
+      box-sizing: border-box;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      line-height: 15px;
+      text-align: center;
+      color: #272425;
+    }
+    }
+  }
+}

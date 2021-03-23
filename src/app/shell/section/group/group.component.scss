@@ -12,6 +12,7 @@
     align-items: center;
     padding: 0 11px 0 17px;
 
+
     &_list {
       display: flex;
       justify-content: center;
@@ -31,29 +32,29 @@
     justify-content: space-between;
     margin-top: 24px;
 
+
     &_information {
       display: flex;
       flex-direction: column;
       width: 954px;
       min-height: 750px;
       margin-right: 24px;
+      background: #FFFFFF;
+
 
       &-wrapper {
         padding: 24px;
       }
 
       .carousel {
-        width: 954px;
-        height: 319px;
 
-        .carousel_image {
-          width: 100%;
-          height: 319px;
+        max-width: 954px;
+        max-height: 319px;
 
-          img {
-            width: 100%;
-            height: 100%;
-          }
+        img {
+          width: 100%; /* or any custom size */
+          height: 100%;
+          object-fit: none;
         }
       }
 
@@ -114,8 +115,7 @@
     }
 
     &_sidebar {
-      background-color: black;
-      width: 382px;
+      width: 302px;
       min-height: 750px;
     }
   }

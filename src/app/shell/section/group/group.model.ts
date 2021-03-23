@@ -6,6 +6,9 @@ import {AboutSchoolComponent} from './group-pages/about-school/about-school.comp
 import {TeachersComponent} from './group-pages/teachers/teachers.component';
 import {SchoolClassesComponent} from './group-pages/school-classes/school-classes.component';
 import {GroupCommentsComponent} from './group-pages/group-comments/group-comments.component';
+import {SideMenuComponent} from './group-pages/side-menu/side-menu.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -14,10 +17,11 @@ import {GroupCommentsComponent} from './group-pages/group-comments/group-comment
     AboutSchoolComponent,
     TeachersComponent,
     SchoolClassesComponent,
-    GroupCommentsComponent
+    GroupCommentsComponent,
+    SideMenuComponent
   ],
-  imports: [MaterialModule],
-  providers: []
+  imports: [MaterialModule, FlexLayoutModule],
+  providers: [  MatDatepickerModule, FlexLayoutModule]
 })
 export class GroupModel{
 }
