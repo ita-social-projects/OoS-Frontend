@@ -34,7 +34,7 @@
   </ng-template>  
 </div> -->
 <div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1rem'>
-  <app-filters-list></app-filters-list>
+  <app-filters-list fxFlex="302px"></app-filters-list>
   <!-- <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
     <mat-button-toggle value="show-data" aria-label="show-data">
       Список
@@ -43,12 +43,12 @@
       Карта
     </mat-button-toggle>
   </mat-button-toggle-group> *ngIf="group.value==='map'; else ShowData" -->
-  <div class="cards-list-wrapper"> <!--fxFlex="74.6875"> -->
-    <div >
+  <div class="cards-list-wrapper" fxFlex> <!--fxFlex="74.6875"> -->
+    <div *ngIf="group.value==='map'; else ShowData">
       <app-map></app-map>
     </div>
     <ng-template #ShowData>
-      <app-organization-cards-list class="cards" [cards]="cards"></app-organization-cards-list>
+      <app-organization-cards-list class="cards"></app-organization-cards-list>
     </ng-template>  
   </div>
 </div>
