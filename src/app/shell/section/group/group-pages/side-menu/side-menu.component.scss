@@ -21,6 +21,9 @@
     padding: 24px;
     margin-top: 24px;
   }
+  .item:first-child{
+    margin-top: 0;
+  }
 
   .interaction {
     &_price {
