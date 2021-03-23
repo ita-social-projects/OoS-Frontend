@@ -5,21 +5,24 @@
 }
 
 .container {
+  width: 100%;
+  max-width: 302px;
   display: flex;
   flex-direction: column;
 
   .icon {
-    margin-right: 9px;
+    margin-right: 0.563rem;
   }
 
   .item {
-    width: 302px;
+    width: 100%;
+    max-width: 302px;
     min-height: 272px;
     background: #FFFFFF;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 5px;
-    padding: 24px;
-    margin-top: 24px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
   }
   .item:first-child{
     margin-top: 0;
@@ -28,16 +31,16 @@
   .interaction {
     &_price {
       font-weight: bold;
-      font-size: 24px;
-      line-height: 27px;
+      font-size: 1.5rem;
+      line-height: 1.688rem;
       color: #000000;
     }
 
     &_time {
-      margin-top: 16px;
+      margin-top: 1rem;
       font-weight: bold;
-      font-size: 11px;
-      line-height: 15px;
+      font-size: 0.688rem;
+      line-height: 0.938rem;
       color: #E93D5C;
     }
 
@@ -45,16 +48,17 @@
       .button {
         cursor: pointer;
         outline: none;
-        margin-top: 24px;
-        width: 254px;
+        margin-top: 1rem;
+        width: 100%;
+        max-width: 254px;
         height: 40px;
         background: #3849F9;
         border: 1px solid #3849F9;
         box-sizing: border-box;
         border-radius: 20px;
         font-weight: bold;
-        font-size: 13px;
-        line-height: 15px;
+        font-size: 0.813rem;
+        line-height: 0.938rem;
         text-align: center;
         color: #FFFFFF;
       }
@@ -62,17 +66,18 @@
 
     &_message-button {
       .button {
-        margin-top: 16px;
+        margin-top: 1rem;
         display: flex;
         align-items: center;
-        width: 254px;
+        width: 100%;
+        max-width: 254px;
         height: 40px;
         border: 1px solid #AAAAAA;
         box-sizing: border-box;
         border-radius: 20px;
         font-weight: bold;
-        font-size: 13px;
-        line-height: 15px;
+        font-size: 0.813rem;
+        line-height: 0.938rem;
         background: #FFFFFF;
         color: #272425;
 
@@ -83,10 +88,10 @@
     }
 
     &_add-favorite {
-      margin-top: 27px;
+      margin-top: 0.563rem;
       font-weight: normal;
-      font-size: 13px;
-      line-height: 19px;
+      font-size: 0.813rem;
+      line-height: 1.188rem;
       text-align: center;
       color: #000000;
     }
@@ -99,27 +104,27 @@
 
     &_header {
       font-weight: bold;
-      font-size: 18px;
-      line-height: 20px;
+      font-size: 1.125rem;
+      line-height: 1.25rem;
       color: #444444;
     }
 
     &_info {
-      margin-top: 24px;
+      margin-top: 1.5rem;
 
       &-address {
         font-weight: normal;
-        font-size: 13px;
-        line-height: 18px;
+        font-size: 0.813rem;
+        line-height:1.125rem;
         color: #333333;
       }
 
       &-location {
-        margin-top: 7px;
-        margin-left: 24px;
+        margin-top: 0.438rem;
+        margin-left: 1.5rem;
         font-weight: bold;
-        font-size: 11px;
-        line-height: 12px;
+        font-size: 0.688rem;
+        line-height: 0.75rem;
         color: #3849F9;
       }
     }
@@ -132,10 +137,10 @@
     }
 
     &_phone {
-      margin-top: 16px;
+      margin-top: 1rem;
       font-weight: normal;
-      font-size: 13px;
-      line-height: 18px;
+      font-size: 0.813rem;
+      line-height: 1.125rem;
       color: #3849F9;
 
     }
@@ -149,22 +154,22 @@
     }
 
     &_web-page {
-      margin-top: 16px;
+      margin-top: 1rem;
       font-weight: normal;
-      font-size: 13px;
-      line-height: 18px;
+      font-size: 0.813rem;
+      line-height: 1.125rem;
       color: #3849F9;
     }
 
     &_social-media {
-      margin-top: 16px;
+      margin-top: 1rem;
 
       img:first-child {
-        margin-left: 20px;
+        margin-left: 1.25rem;
       }
 
       img:last-child {
-        margin-left: 24px;
+        margin-left: 1.5rem;
       }
     }
   }
@@ -172,8 +177,8 @@
   .schedule {
     &_header {
       font-weight: bold;
-      font-size: 18px;
-      line-height: 20px;
+      font-size: 1.125rem;
+      line-height: 1.25rem;
       color: #444444;
     }
 
@@ -182,19 +187,20 @@
       min-height: 170px;
     }
     &_detail-info{
-      margin-top: 16px;
+      margin-top: 1rem;
     .button{
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 245px;
+      width: 100%;
+      max-width: 245px;
       cursor: pointer;
       height: 34px;
       border: 1px solid #AAAAAA;
       box-sizing: border-box;
       border-radius: 20px;
       font-weight: bold;
-      font-size: 13px;
+      font-size: 0.813rem;
       line-height: 15px;
       text-align: center;
       color: #272425;

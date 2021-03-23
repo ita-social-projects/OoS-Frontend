@@ -6,6 +6,8 @@
 }
 
 .container {
+  width: 100%;
+  max-width: 1280px;
   display: flex;
   flex-direction: column;
 
@@ -13,7 +15,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 11px 0 17px;
+    padding: 0 0.688rem 0 1.063rem;
 
 
     &_list {
@@ -33,15 +35,16 @@
   .main {
     display: flex;
     justify-content: space-between;
-    margin-top: 24px;
+    margin-top: 1.5rem;
 
 
     &_information {
       display: flex;
       flex-direction: column;
-      width: 954px;
+      width: 100%;
+      max-width: 954px;
       min-height: 750px;
-      margin-right: 24px;
+      margin-right: 1.5rem;
       background: #FFFFFF;
 
 
@@ -51,7 +54,7 @@
 
       .carousel {
 
-        max-width: 954px;
+        width: 100%;
         max-height: 319px;
 
         img {
@@ -69,7 +72,7 @@
 
         &_main {
           h2 {
-            font-size: 33px;
+            font-size: 2.063rem;
           }
         }
 
@@ -79,12 +82,12 @@
           justify-content: center;
           color: #FFFFFF;
           width: 106px;
-          height: 24px;
+          height: 1.5rem;
           background-color: #99CD56;
           border-radius: 16px;
-          margin-left: 32px;
+          margin-left: 2rem;
           text-align: center;
-          font-size: 11px;
+          font-size: 0.688rem;
 
         }
 
@@ -103,7 +106,7 @@
         margin-top: 24px;
 
         &_number {
-          margin-left: 9px;
+          margin-left: 0.563rem;
         }
       }
 
@@ -112,13 +115,14 @@
         margin-top: 16px;
 
         &_icon:last-child {
-          margin-left: 8px;
+          margin-left: 0.5rem;
         }
       }
     }
 
     &_sidebar {
-      width: 302px;
+      width: 100%;
+      max-width: 302px;
       min-height: 750px;
     }
   }

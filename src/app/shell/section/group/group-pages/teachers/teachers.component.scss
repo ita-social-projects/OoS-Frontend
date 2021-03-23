@@ -7,19 +7,21 @@
 
 .container {
   .cards {
-    margin-top: 32px;
+    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 
 
     .card {
+      width: 100%;
       display: flex;
-      width: 302px;
+      max-width: 302px;
       height: 370px;
       background: #FFFFFF;
       box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
       border-radius: 5px;
-      margin-right: 24px;
+      margin-right: 1.5rem;
 
       mat-card {
         margin: 0;
@@ -32,7 +34,7 @@
         }
 
         mat-card-title {
-          margin-left: 16px;
+          margin-left: 1rem;
         }
 
         mat-card-content {
@@ -40,9 +42,9 @@
           padding: 0;
 
           p {
-            padding: 8px 17px 0 16px;
-            font-size: 13px;
-            line-height: 18px;
+            padding: 0.5rem 1.063rem 0 1rem;
+            font-size: 0.813rem;
+            line-height: 1.125rem;
             color: #333333;
           }
         }
