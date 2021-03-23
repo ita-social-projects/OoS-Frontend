@@ -85,3 +85,31 @@ h1 {
     }
   }
 }
+@media (max-width : 1200px){
+  .header_btns{
+    flex-wrap: nowrap;
+  }
+}
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
+
+@media(max-width: 705px){
+  .category_card[_ngcontent-plu-c162]{
+    margin: 2%;
+  }
+}
+@media(max-width:425px){
+  .header_login {
+    padding: 0.325rem 1rem;
+    font-size: 9px;
+}
+}
+@media(max-width: 415px){
+  .main_title{
+    font-size: 12px;
+  }
+}
+.icon-account{
+  color:white;
+}

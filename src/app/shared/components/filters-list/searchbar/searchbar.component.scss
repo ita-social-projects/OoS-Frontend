@@ -30,3 +30,9 @@ button{
    border: none;
    height: 100%;
 }
+@media(max-width: 415px){
+   .search {
+    font-size: inherit !important;
+   }
+   
+ }

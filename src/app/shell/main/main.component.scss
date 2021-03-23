@@ -61,3 +61,15 @@
     margin-bottom: 48px;
   }
 }
+@media(max-width: 415px){
+  .main_title[_ngcontent-hiw-c164] {
+    font-size: 16px !important;
+  }
+}
+@media(max-width: 415px){
+  .main_registration {
+   padding: 10px;
+   height: inherit;
+   width: fit-content;
+  }
+}
