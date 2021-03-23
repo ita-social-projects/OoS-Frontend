@@ -1,4 +1,4 @@
-.cards{
+.cards {
   display: flex;
   margin-top: 32px;
 
@@ -11,10 +11,12 @@
     transition: 0.4s ease all;
     position: relative;
     margin-right: 24px;
-    .mat-card-image{
+
+    .mat-card-image {
       margin-bottom: -24px;
     }
-    &::after{
+
+    &::after {
       content: '';
       display: block;
       position: absolute;
@@ -27,13 +29,16 @@
       transition: 0.4s ease all;
       pointer-events: none;
     }
-    &:hover{
-      &::after{
+
+    &:hover {
+      &::after {
         border: 2px solid #3849F9;
       }
+
       box-shadow: none;
     }
-    &_header{
+
+    &_header {
       position: relative;
       background: #EBEBEB;
       height: 185px;
@@ -43,7 +48,8 @@
       justify-content: center;
       border-radius: 5px 5px 0 0;
     }
-    &_favorite{
+
+    &_favorite {
       position: absolute;
       top: 12px;
       right: 13px;
@@ -53,53 +59,64 @@
       width: auto;
       padding: 0;
     }
-    &_category{
+
+    &_category {
       position: absolute;
       top: 53px;
       right: 13px;
       height: 30px;
       width: 30px;
-      &-img{
+
+      &-img {
         height: 100%;
         width: auto;
       }
     }
-    &_data{
+
+    &_data {
       list-style: none;
       padding: 0;
       font-weight: normal;
       font-size: 13px;
       line-height: 18px;
       color: #333333;
-      &-item{
+
+      &-item {
         margin: 13px 0;
-        &:nth-child(4){
-          .card_data-icon{
+
+        &:nth-child(4) {
+          .card_data-icon {
             margin-right: 13px;
           }
         }
-        &:nth-child(5){
-          .card_data-icon{
+
+        &:nth-child(5) {
+          .card_data-icon {
             margin-right: 11px;
           }
         }
       }
-      &-icon{
+
+      &-icon {
         margin-right: 9px;
       }
     }
-    &_rate{
-      &-span{
+
+    &_rate {
+      &-span {
         color: #AAAAAA;
       }
     }
-    &_owner{
+
+    &_owner {
       text-decoration: none;
     }
-    &_body{
+
+    &_body {
       padding: 16px;
     }
-    &_link{
+
+    &_link {
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -110,14 +127,16 @@
       line-height: 18px;
       color: #3849F9;
     }
-    &_title{
+
+    &_title {
       font-weight: bold;
       font-size: 18px;
       line-height: 20px;
       color: #000000;
     }
   }
-  .card:last-child{
+
+  .card:last-child {
     margin-right: 0;
   }
 }

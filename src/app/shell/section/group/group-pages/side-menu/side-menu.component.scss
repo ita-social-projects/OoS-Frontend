@@ -24,7 +24,8 @@
     padding: 1.5rem;
     margin-top: 1.5rem;
   }
-  .item:first-child{
+
+  .item:first-child {
     margin-top: 0;
   }
 
@@ -115,7 +116,7 @@
       &-address {
         font-weight: normal;
         font-size: 0.813rem;
-        line-height:1.125rem;
+        line-height: 1.125rem;
         color: #333333;
       }
 
@@ -186,25 +187,27 @@
       width: 245px;
       min-height: 170px;
     }
-    &_detail-info{
+
+    &_detail-info {
       margin-top: 1rem;
-    .button{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 245px;
-      cursor: pointer;
-      height: 34px;
-      border: 1px solid #AAAAAA;
-      box-sizing: border-box;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 0.813rem;
-      line-height: 15px;
-      text-align: center;
-      color: #272425;
-    }
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 245px;
+        cursor: pointer;
+        height: 34px;
+        border: 1px solid #AAAAAA;
+        box-sizing: border-box;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.813rem;
+        line-height: 15px;
+        text-align: center;
+        color: #272425;
+      }
     }
   }
 }
