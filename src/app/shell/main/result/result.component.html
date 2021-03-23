@@ -1,9 +1,9 @@
 <div class="view-control-panel" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1rem'>
-  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxFlex="302px" fxLayout="row" fxLayoutAlign="space-between center">
     <h3>Знайдено Х гуртків</h3>
     <button class="filters-toggle-btn">F</button>
   </div>
-  <div fxFlex="74.6875" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
     <div class="shell-search">
       <app-city-filter class="shell-city"></app-city-filter>
       <app-searchbar class="shell-searchbar"></app-searchbar>
@@ -34,7 +34,7 @@
   </ng-template>  
 </div> -->
 <div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1rem'>
-  <app-filters-list fxFlex style="background-color: yellow;"></app-filters-list>
+  <app-filters-list></app-filters-list>
   <!-- <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
     <mat-button-toggle value="show-data" aria-label="show-data">
       Список
@@ -43,12 +43,12 @@
       Карта
     </mat-button-toggle>
   </mat-button-toggle-group> -->
-  <div class="cards-list-wrapper" fxFlex="74.6875"> <!--fxFlex="74.6875"> -->
+  <div class="cards-list-wrapper"> <!--fxFlex="74.6875"> -->
     <div *ngIf="group.value==='map'; else ShowData">
       <app-map></app-map>
     </div>
     <ng-template #ShowData>
-      <app-organization-cards-list class="cards"></app-organization-cards-list>
+      <app-organization-cards-list class="cards" [cards]="cards"></app-organization-cards-list>
     </ng-template>  
   </div>
 </div>

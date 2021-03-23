@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
 
 @font-face {
   font-family: "Innerspace";
@@ -54,19 +54,11 @@ a {
   text-decoration: none;
   color: inherit;
 }
-// button {
-  // font-family: "Innerspace" !important;
-  // border-radius: 20px !important;
-  // font-weight: 700 !important;
-  // font-size: 13px !important;
-  // line-height: 15px !important;
-// }
 
 div.cdk-overlay-pane {
   width: auto !important; /** workaround for issue #101 **/
 }
 
-@import '~@angular/material/theming';
 
 $config: mat-typography-config(
   $font-family: "Innerspace",
