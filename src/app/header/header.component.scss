@@ -1,10 +1,15 @@
 .authorization {
   display: flex;
-  margin:  1%;
+  margin: 1%;
 }
 
 h1 {
   margin: 0 auto;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: inherit;
 }
 
 .mat-button {
@@ -16,48 +21,74 @@ h1 {
 }
 
 .header {
-  padding: 1.5rem 5rem 2.5rem;
+  padding: 2rem 5rem 3rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+
+  &_secondary{
+    background: #3849F9;
+    max-height: 83px;
+  }
+
+  &_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   &_top, &_btns {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
   }
+
   &_btns {
     gap: 40px
   }
+
   &_login {
     border-radius: 20px;
-    padding: 0.625rem 1.875rem;
-    line-height: 0.9rem;
+    padding: 0.8rem 1.3rem;
+    font-size: 0.8rem;
+    line-height: 0.8rem;
     border-color: white;
     color: white;
-    font-weight: bold;
   }
+
   &_lang {
     background: none;
     color: white;
     outline: none;
-    font-weight: bold;
+    font-size: 0.8rem;
   }
+
   &_logo {
+    font-size: 1.5rem;
+    line-height: 1.7rem;
     color: white;
+
     &-orange {
       color: blue;
       background-color: #FFBD00;
     }
   }
+
   &_title {
     margin-top: 70px;
+    font-size: 2.2rem;
     color: white;
     line-height: 3rem;
+    font-weight: bold;
   }
+
   &_descr {
+    font-weight: bold;
+    font-size: 1.5rem;
     line-height: 1.7rem;
     color: rgba(255, 255, 255, 0.7);
     margin-top: 16px;
   }
+
   &_search {
     background: white;
     display: flex;
@@ -70,9 +101,11 @@ h1 {
     border-radius: 60px;
     padding: 0 20px;
   }
+
   &_bar {
     flex-grow: 1;
   }
+
   &_city {
     border-right: 1px solid #E3E3E3;
   }
@@ -85,6 +118,7 @@ h1 {
     }
   }
 }
+
 @media (max-width : 1200px){
   .header_btns{
     flex-wrap: nowrap;
@@ -113,3 +147,21 @@ h1 {
 .icon-account{
   color:white;
 }
+
+
+@media (max-width: 415px) {
+  .header {
+    &_top, &_btns {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    &_btns {
+      margin-top: 1rem;
+    }
+  }
+}
+

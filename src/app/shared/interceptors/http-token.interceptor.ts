@@ -3,7 +3,8 @@ import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { UserRegistrationState } from '../store/user-registration.state';
 import { environment } from 'src/environments/environment';
 
 ​
@@ -13,6 +14,9 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 constructor(
     public store: Store,
     private oidcSecurityService: OidcSecurityService) {}
+
+@Select(UserRegistrationState.role)
+role$: Observable<string>;
 ​
 public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 ​
