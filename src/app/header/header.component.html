@@ -3,7 +3,8 @@
     <div class="header_logo"><a href="">ПОЗА<span class="header_logo-orange">ШКІЛЛЯ</span></a></div>
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
-        Україньскою
+        <mat-icon>language</mat-icon>
+        Укр
       </button>
       <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized"></div>
     </div>
@@ -35,7 +36,8 @@
     <button mat-raised-button color="primary"
       matBadge="2" matBadgePosition="before" matBadgeColor="accent">
       <i>
-        <mat-icon class="icon-message"> email</mat-icon>
+        <mat-icon class= "icon-account">account_circle</mat-icon>
+        <!-- <mat-icon class="icon-message"> email</mat-icon> -->
       </i>
     </button>
       <button mat-button [matMenuTriggerFor]="log">

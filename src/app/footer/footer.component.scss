@@ -1,4 +1,21 @@
 .footer{
-  background: #EBEBEB;
-  padding: 32px 80px;
+  background-color: #EBEBEB;
+  padding: 2rem 5rem;
+}
+@media(max-width: 415px){
+  .footer{
+   display: contents;
+   padding: 1rem;
+  }
+}
+@media(max-width: 415px){
+  img{
+   width:100%;
+  }
+}
+@media(max-width: 415px){
+  a{
+  padding: 2%;
+  }
+
 }
