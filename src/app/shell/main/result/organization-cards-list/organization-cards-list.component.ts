@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Select, Store} from '@ngxs/store';
 import {FilterState} from '../../../../shared/store/filter.state';
 import {orgCard} from '../../../../shared/models/org-card.model';
-import {GetActivities, SetOrder, getCards} from '../../../../shared/store/filter.actions';
+import {GetActivities, SetOrder, getCards, GetWorkshops} from '../../../../shared/store/filter.actions';
 
 
 // export interface Option {
@@ -36,7 +36,7 @@ export class OrganizationCardsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new getCards())
+    this.store.dispatch(new GetWorkshops())
     this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards)
 
     // this.order$.subscribe(order => {

@@ -24,3 +24,7 @@ export class SetOrder {
 export class GetActivities {
   static readonly type = '[filter] Get Activities';
 }
+
+export class GetWorkshops {
+  static readonly type = '[filter] Get Workshops';
+}

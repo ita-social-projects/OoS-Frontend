@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector  } from '@ngxs/store';
-import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards, getPopCards, GetActivities  } from './filter.actions';
+import { setMinAge, setMaxAge, SetOrder, SelectCity, getCards, getPopCards, GetActivities, GetWorkshops  } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
 import { actCard } from '../models/activities-card.model';
@@ -22,12 +22,12 @@ export interface FilterStateModel {
   name: 'filter',
   defaults: {
     searchQuery: '',
-    city: 'kyiv',
+    city: 'Kyiv',
     stateOwnership: true,
     privateOwnership: true,
     isRecruiting: true,
-    ageFrom: null,
-    ageTo: null,
+    ageFrom: 0,
+    ageTo: 16,
     categories: ['art', 'music', 'sport'],
     order: 'ratingDesc',
     organizationCards: []
@@ -68,6 +68,12 @@ export class FilterState {
   getPopCards({ patchState }: StateContext<FilterStateModel>) {
     return this.cardsService.getCards1()
     .subscribe((organizationCards: orgCard[]) => patchState({organizationCards}))
+  }
+
+  @Action(GetWorkshops)
+  getWorkshops(ctx: StateContext<FilterStateModel>) {
+    return this.cardsService.getWorkshops(ctx.getState())
+    .subscribe((organizationCards: orgCard[]) => ctx.patchState({organizationCards}))
   }
 
   // @Action(GetActivities)
