@@ -53,7 +53,7 @@ export class FilterState {
     return state.organizationCards
   }
   @Selector()
-  static teacherCards(state: FilterStateModel) {
+  static teacherCards(state: FilterStateModel): TeacherCard[] {
     return state.teachersCards;
   }
   constructor(private cardsService: OrgCardsService, private cardsActivitiesService: ProviderActivitiesService, private teacherCardService: TeacherCardsService){}
@@ -88,11 +88,11 @@ export class FilterState {
     }
 
   @Action(GetTeachersCards)
-  GetTeachersCards({ patchState }: any) {
-    return this.teacherCardService.getTeachersInfo()
+  GetTeachersCards({ patchState }: StateContext<FilterStateModel>): void {
+    this.teacherCardService.getTeachersInfo()
       .subscribe(
         (  teachersCards: TeacherCard[]) => {
-          patchState({teachersCards});
+          patchState({  teachersCards });
         }
       );
   }
