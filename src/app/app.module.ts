@@ -48,6 +48,7 @@ import { UserState } from './shared/store/user.state';
       //ProviderState,
      // ParentState
     ]),
+    
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),

@@ -41,7 +41,7 @@ import { NgxsModule } from '@ngxs/store';
         MatInputModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgxsModule.forRoot([ProviderState])
+        NgxsModule.forFeature([ProviderState]),
     ],
 
   providers: [
