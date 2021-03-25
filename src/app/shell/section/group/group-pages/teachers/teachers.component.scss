@@ -5,18 +5,18 @@
 
 }
 
-.container {
-  .cards {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
+section {
+  margin-top: 2rem;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
     .card {
-      width: 100%;
+      width: 33%;
       display: flex;
-      max-width: 302px;
+      justify-content: center;
+      align-items: center;
       height: 370px;
       background: #FFFFFF;
       box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -54,8 +54,22 @@
     .card:last-child {
       margin-right: 0;
     }
-  }
 
+
+}
+@media (max-width: 375px) {
+  .container{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  .card{
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+    .card:last-child {
+      margin-right: 1.5rem;
+    }
+  }
 }
 
 

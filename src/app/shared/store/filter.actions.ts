@@ -20,3 +20,6 @@ export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) {}
 }
+export class GetTeachersCards {
+  static readonly type = '[filter] get teachers cards';
+}

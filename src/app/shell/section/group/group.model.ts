@@ -9,6 +9,8 @@ import {GroupCommentsComponent} from './group-pages/group-comments/group-comment
 import {SideMenuComponent} from './group-pages/side-menu/side-menu.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {CommonModule} from '@angular/common';
+import {SharedModule} from '../../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,10 +20,10 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     TeachersComponent,
     SchoolClassesComponent,
     GroupCommentsComponent,
-    SideMenuComponent
+    SideMenuComponent,
   ],
-  imports: [MaterialModule, FlexLayoutModule],
-  providers: [  MatDatepickerModule, FlexLayoutModule]
+  imports: [CommonModule, MaterialModule, FlexLayoutModule, SharedModule],
+  providers: [MatDatepickerModule, FlexLayoutModule,]
 })
 export class GroupModel{
 }

@@ -15,6 +15,6 @@ export class OrgCardsService {
   constructor(private http: HttpClient) { }
 
   getCards(): Observable<orgCard[]> {
-    return this.http.get<orgCard[]>(this.dataUrl)
+    return this.http.get<orgCard[]>(this.dataUrl);
   }
 }
