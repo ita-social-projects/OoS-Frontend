@@ -1,7 +1,17 @@
 <div class="view-control-panel" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1.5rem'>
   <div fxFlex="302px" fxLayout="row" fxLayoutAlign="space-between center">
     <h3>Знайдено Х гуртків</h3>
-    <button class="filters-toggle-btn">F</button>
+    <button  
+    class="filters-toggle-btn" 
+    [ngClass]="isFiltersVisible ? 'visible' : 'hidden'" 
+    (click)="isFiltersVisible = !isFiltersVisible">
+      <span class="material-icons btn-icon">
+        <img src="assets/icons/blue-filter-icon.svg" class="btn-icon" *ngIf="isFiltersVisible; else hidden">
+        <ng-template #hidden>
+          <img src="assets/icons/filter-icon.svg" class="btn-icon">
+        </ng-template>
+      </span>
+    </button>
   </div>
   <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
     <div class="shell-search">
@@ -25,25 +35,55 @@
     </div>
   </div>
 </div>
-<!-- <div class="cards-list-wrapper">
-  <div *ngIf="group.value==='map'; else ShowData">
-    <app-map></app-map>
-  </div>
-  <ng-template #ShowData>
-    <app-organization-cards-list class="cards"></app-organization-cards-list>
-  </ng-template>  
-</div> -->
-<div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1.5rem'>
-  <app-filters-list fxFlex="302px"></app-filters-list>
-  <!-- <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
-    <mat-button-toggle value="show-data" aria-label="show-data">
-      Список
-    </mat-button-toggle>
-    <mat-button-toggle value="map" aria-label="map">
-      Карта
-    </mat-button-toggle>
-  </mat-button-toggle-group> *ngIf="group.value==='map'; else ShowData" -->
-  <div class="cards-list-wrapper" fxFlex> <!--fxFlex="74.6875"> -->
+
+<mat-drawer-container>
+  <mat-drawer mode="side" [(opened)]="isFiltersVisible">
+    <app-filters-list></app-filters-list>
+  </mat-drawer>
+  <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
+    <div *ngIf="group.value==='map'; else ShowData">
+      <app-map></app-map>
+    </div>
+    <ng-template #ShowData>
+      <app-organization-cards-list class="cards"></app-organization-cards-list>
+    </ng-template> 
+  </mat-drawer-content>
+</mat-drawer-container>
+
+
+<!-- <mat-drawer-container fxLayoutGap="1.5rem">
+  <mat-drawer #side mode="side" opened [(opened)]="isFiltersVisible">
+    <app-filters-list></app-filters-list>
+  </mat-drawer>
+  <mat-drawer-content fxFlex>
+    <div *ngIf="group.value==='map'; else ShowData">
+      <app-map></app-map>
+    </div>
+    <ng-template #ShowData>
+      <app-organization-cards-list class="cards"></app-organization-cards-list>
+    </ng-template>
+  </mat-drawer-content>
+</mat-drawer-container> -->
+
+
+<!-- <mat-drawer-container fxLayoutGap='1.5rem'>
+  <mat-drawer class="filters" mode="side" opened fxFlex="302px" [(opened)]="isFiltersVisible">
+    <app-filters-list></app-filters-list>
+  </mat-drawer>
+  <mat-drawer-content class="results" fxFlex>
+    <div *ngIf="group.value==='map'; else ShowData">
+      <app-map></app-map>
+    </div>
+    <ng-template #ShowData>
+      <app-organization-cards-list class="cards"></app-organization-cards-list>
+    </ng-template>
+  </mat-drawer-content>
+</mat-drawer-container> -->
+
+
+<!-- <div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1.5rem'>
+  <app-filters-list fxFlex="302px"></app-filters-list>  
+  <div class="cards-list-wrapper" fxFlex>
     <div *ngIf="group.value==='map'; else ShowData">
       <app-map></app-map>
     </div>
@@ -51,4 +91,4 @@
       <app-organization-cards-list class="cards"></app-organization-cards-list>
     </ng-template>  
   </div>
-</div>
+</div> -->

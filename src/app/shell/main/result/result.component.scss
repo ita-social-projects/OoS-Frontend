@@ -3,14 +3,26 @@
   .filters-toggle-btn{
     width: 34px;
     height: 34px;
-    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
-    border: 1px solid #3849F9;
-    color: #3849F9;
     box-sizing: border-box;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 60px;
     outline: none;
     cursor: pointer;
+    border: none;
+    padding: 0;
+    .btn-icon{
+      // width: 1rem;
+      // height: 1rem;
+      line-height: 8px;
+    }
+  }
+  .visible {
+    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
+    border: 1px solid #3849F9;
+    color: #3849F9;
+  }
+  .hidden {
+    background: #FFFFFF;
   }
 }
 .shell-search {
@@ -46,4 +58,31 @@
     // border: 1px solid #3849F9;
     color: #3849F9;
   }
+}
+
+// .app-filters-list{
+//   // transform: matrix(1, 0, 0, 1, -302, 0);
+//   // transition: 4s ease all;
+//   transition-duration: 2s;
+//   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+//   transition-property: visibility;
+// }
+
+.mat-drawer-container {
+  background-color: inherit;
+  color: inherit;
+  .mat-drawer {
+    background-color: inherit;
+  }
+  .mat-drawer-content {
+    background-color: inherit;
+    color: inherit;
+    // margin-left: 326px;
+    overflow: hidden;
+  }
+  
+}
+.mat-drawer-side {
+  border: none;
+  color: #444444;
 }
