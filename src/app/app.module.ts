@@ -45,8 +45,6 @@ import { UserState } from './shared/store/user.state';
       FilterState,
       MetaDataState,
       UserRegistrationState
-      //ProviderState,
-     // ParentState
     ]),
     
     NgxsReduxDevtoolsPluginModule.forRoot({

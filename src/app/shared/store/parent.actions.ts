@@ -2,7 +2,7 @@ export class GetChildrenActivitiesList {
   static readonly type = '[parent] gets child activities';
   constructor() {}
 }
-export class getChildCards {
+export class GetChildCards {
   static readonly type = '[parent] gets children cards';
   constructor() {}
 }
