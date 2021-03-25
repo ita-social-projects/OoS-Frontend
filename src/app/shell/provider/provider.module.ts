@@ -19,6 +19,8 @@ import { ProviderActivitiesService } from '../../shared/services/provider-activi
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { ProviderState } from 'src/app/shared/store/provider.state';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { HttpClientModule } from '@angular/common/http';
         MatCheckboxModule,
         MatInputModule,
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        NgxsModule.forRoot([ProviderState])
     ],
 
   providers: [
