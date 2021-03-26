@@ -1,6 +1,5 @@
 steps:
-  - name: 'gcr.io/cloud-builders/node'
-    entrypoint: yarn
+  - name: 'gcr.io/cloud-builders/yarn'
     args: [ 'install' ]
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'sh'
@@ -14,8 +13,7 @@ steps:
           serverUrl: 'https://api.oos.dmytrominochkin.cloud',
         };
         EOF
-  - name: 'gcr.io/cloud-builders/node'
-    entrypoint: npm
+  - name: 'gcr.io/cloud-builders/npm'
     args: [ 'run', 'build:prod' ]
   - name: 'gcr.io/cloud-builders/gsutil'
     args: ['-m', 'rsync', '-d', '-r', 'dist/out-of-school/', 'gs://oos.dmytrominochkin.cloud']
