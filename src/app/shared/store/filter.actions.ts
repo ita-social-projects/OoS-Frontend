@@ -22,5 +22,4 @@ export class SetOrder {
 }
 export class GetTeachersCards {
   static readonly type = '[filter] get teachers cards';
-  constructor(public payload: []) {}
 }

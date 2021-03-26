@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {GetTeachersCards} from '../../../../../shared/store/filter.actions';
-import {Select, Store} from '@ngxs/store';
-import {FilterState} from '../../../../../shared/store/filter.state';
-import {Observable} from 'rxjs';
-import {TeacherCard} from '../../../../../shared/models/teachers-card.model';
+import { GetTeachersCards } from '../../../../../shared/store/filter.actions';
+import { Select, Store } from '@ngxs/store';
+import { FilterState } from '../../../../../shared/store/filter.state';
+import { Observable } from 'rxjs';
+import { TeacherCard } from '../../../../../shared/models/teachers-card.model';
 
 @Component({
   selector: 'app-teachers',
@@ -12,9 +12,10 @@ import {TeacherCard} from '../../../../../shared/models/teachers-card.model';
 })
 export class TeachersComponent implements OnInit {
   @Select(FilterState.teacherCards) $teachersCards: Observable<TeacherCard[]>;
-teacherCard = [];
+  teacherCard = [];
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new GetTeachersCards());

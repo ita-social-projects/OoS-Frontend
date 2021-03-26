@@ -10,6 +10,7 @@ import { CityFilterComponent } from './components/filters-list/city-filter/city-
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
+import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 
 
 
@@ -23,6 +24,7 @@ import { OrganizationCardComponent } from './components/organization-card/organi
     CityFilterComponent,
     DigitOnlyDirective,
     OrganizationCardComponent,
+    TeacherCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -38,7 +40,8 @@ import { OrganizationCardComponent } from './components/organization-card/organi
     CityFilterComponent,
     DigitOnlyDirective,
     OrganizationCardComponent,
-    MaterialModule
+    MaterialModule,
+    TeacherCardComponent
   ]
 })
 export class SharedModule { }

@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {TeacherCard} from '../../models/teachers-card.model';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { TeacherCard } from '../../models/teachers-card.model';
 
 @Injectable({providedIn: 'root'})
 export class TeacherCardsService {
