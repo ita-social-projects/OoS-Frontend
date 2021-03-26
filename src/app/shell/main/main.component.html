@@ -1,20 +1,20 @@
 <div class="main">
   <div class="main_categories">
     <div class="main_header" fxLayoutAlign="space-between center">
-      <div class="main_title">Найпопулярніші категорії</div>
-      <a routerLink="/result" class="main_link">Переглянути всі <span class="material-icons">
-        arrow_right_alt
-        </span></a>
+      <h3>Найпопулярніші напрямки</h3>
+      <a routerLink="/result" class="main_link">
+        Переглянути всі <span class="material-icons arrow">arrow_right_alt</span>
+      </a>
     </div>
     <app-categories-filter></app-categories-filter>
   </div>
 
   <div class="main_cards">
     <div class="main_header" fxLayoutAlign="space-between center">
-      <div class="main_title">Найпопулярніші гуртки</div>
-      <a href="#" class="main_link">Переглянути всі <span class="material-icons">
-      arrow_right_alt
-      </span></a>
+      <h3>Найпопулярніші гуртки</h3>
+      <a routerLink="/result" class="main_link">
+        Переглянути всі <span class="material-icons arrow">arrow_right_alt</span>
+      </a>
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
@@ -23,15 +23,14 @@
     </div>
   </div>
 
-
   <div class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
-      <div class="main_question">
+      <h2 class="main_question">
         Надаєш освітні послуги?
-      </div>
-      <div class="main_hint">
+      </h2>
+      <h4 class="main_hint">
         Зареєструйся - допоможемо залучити нових учнів!
-      </div>
+      </h4>
     </div>
     <div class="main_button-wrapper">
       <button mat-stroked-button class="main_button">ЗАРЕЄСТРУВАТИСЯ</button>

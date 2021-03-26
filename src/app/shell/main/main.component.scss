@@ -1,12 +1,11 @@
 .main{
-  // padding: 48px 70px;
   &_registration{
     padding: 32px 40px;
     background: #3849F9;
     border-radius: 5px;
     position: relative;
     height: 125px;
-    margin-top: 64px;
+    margin: 4rem 0 3rem;
     &::before{
       content: '';
       display: block;
@@ -34,27 +33,19 @@
   }
   &_hint{
     margin-top: 16px;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 18px;
     color: #FFFFFF;
-  }
-  &_title{
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 20px;
-    color: #000000;
   }
   &_link{
     display: flex;
     font-weight: bold;
-    font-size: 13px;
-    line-height: 18px;
     color: #3849F9;
-    text-decoration: none;
     align-items: center;
+    .arrow{
+      margin-left: 8px;
+    }
   }
   &_header{
+    margin-top: 48px;
     margin-bottom: 24px;
   }
   &_categories{

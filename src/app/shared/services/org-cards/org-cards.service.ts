@@ -39,9 +39,7 @@ export class OrgCardsService {
   }
 
   getWorkshops(filters: FilterStateModel): Observable<orgCard[]> {
-    const options = 
-     { params: this.setParams(filters) };
-    console.log(options);
+    const options = { params: this.setParams(filters) };
     return this.http.get<orgCard[]>(this.dataUrl, options);
   }
 

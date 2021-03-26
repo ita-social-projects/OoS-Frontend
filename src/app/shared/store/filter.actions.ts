@@ -14,6 +14,14 @@ export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) {}
 }
+export class AddCategory {
+  static readonly type = '[filter] Add Categoty';
+  constructor(public payload: string) {}
+}
+export class SetCategory {
+  static readonly type = '[filter] Set Categoty';
+  constructor(public payload: string) {}
+}
 export class GetWorkshops {
   static readonly type = '[filter] Get Workshops';
 }
