@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UpdateCurrentView } from '../../../shared/result.actions';
+import { UpdateCurrentView } from '../../shared/result.actions';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { SetOrder } from 'src/app/shared/store/filter.actions';

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { FilterState } from '../../../../shared/store/filter.state';
-import { orgCard } from '../../../../shared/models/org-card.model';
-import { GetWorkshops } from '../../../../shared/store/filter.actions';
+import { FilterState } from '../../../shared/store/filter.state';
+import { orgCard } from '../../../shared/models/org-card.model';
+import { GetWorkshops } from '../../../shared/store/filter.actions';
 
 
 @Component({
