@@ -7,13 +7,13 @@ import {
   SelectCity,
   getCards,
   getPopCards,
-  GetTeachersCards
+  GetTeachersCards,
 } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
 import { actCard } from '../models/activities-card.model';
 import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
-import {TeacherCardsService} from '../services/teachers-cards/teacher-cards.service';
+import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
 
 export interface FilterStateModel {

@@ -41,7 +41,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
     DigitOnlyDirective,
     OrganizationCardComponent,
     MaterialModule,
-    TeacherCardComponent
+    TeacherCardComponent,
   ]
 })
 export class SharedModule { }
