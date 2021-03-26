@@ -8,7 +8,6 @@ import { getPopCards } from '../../../../../shared/store/filter.actions';
 @Component({
   selector: 'app-school-classes',
   templateUrl: './school-classes.component.html',
-  styleUrls: ['./school-classes.component.scss']
 })
 export class SchoolClassesComponent implements OnInit {
 

@@ -19,7 +19,7 @@ aside {
     max-width: 302px;
     min-height: 272px;
     background: #FFFFFF;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 0.375rem 1rem rgba(0, 0, 0, 0.08);
     border-radius: 5px;
     padding: 1.5rem;
     margin-top: 1.5rem;
@@ -83,7 +83,7 @@ aside {
         color: #272425;
 
         img {
-          margin: 0 9px 0 25px;
+          margin: 0 0.563rem 0 1.563rem;
         }
       }
     }
@@ -199,12 +199,12 @@ aside {
         max-width: 245px;
         cursor: pointer;
         height: 34px;
-        border: 1px solid #AAAAAA;
+        border: 0.063rem solid #AAAAAA;
         box-sizing: border-box;
         border-radius: 20px;
         font-weight: bold;
         font-size: 0.813rem;
-        line-height: 15px;
+        line-height: 0.938rem;
         text-align: center;
         color: #272425;
       }

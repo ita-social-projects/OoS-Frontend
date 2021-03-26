@@ -5,36 +5,36 @@
 }
 
 section {
-  padding: 0 11px 0 24px;
+  padding: 0 0.688rem 0 1.5rem;
 
   .reviews {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 24px;
+    margin-top: 1.5rem;
 
     &_rate {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      margin-top: 24px;
+      margin-top: 1.5rem;
 
       &-icon {
-        margin-left: 25.33px;
+        margin-left: 1.583rem;
       }
 
       &-number {
-        margin-left: 9px;
+        margin-left: 0.563rem;
         font-weight: bold;
-        font-size: 18px;
-        line-height: 25px;
+        font-size: 1.125rem;
+        line-height: 1.563rem;
         color: #333333;
 
         a {
           font-weight: normal;
-          font-size: 18px;
-          line-height: 25px;
-          margin-left: 4px;
+          font-size: 1.125rem;
+          line-height: 1.563rem;
+          margin-left: 0.25rem;
           color: #AAAAAA;
         }
       }
@@ -42,22 +42,23 @@ section {
 
     &_comment {
       &-button {
-        box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
-        width: 254px;
+        box-shadow: 0 0 0.313rem -0.063rem rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 254px;
         height: 40px;
         display: flex;
         justify-content: space-around;
         align-items: center;
-        border: 1px solid #AAAAAA;
+        border: 0.063rem solid #AAAAAA;
         border-radius: 20px;
-        padding: 14px 55px 12px 46px;
+        padding: 0.875rem 3.438rem 0.75rem 2.875rem;
         cursor: pointer;
 
         .button-text {
           font-style: normal;
           font-weight: bold;
-          font-size: 13px;
-          line-height: 15px;
+          font-size: 0.813rem;
+          line-height: 0.938rem;
           text-align: center;
           color: #272425;
         }
@@ -72,38 +73,37 @@ section {
     &_item {
       display: flex;
       flex-direction: column;
-      padding: 24px 0 24px 0;
+      padding: 1.5rem 0 1.5rem 0;
 
       .comment-header {
         display: flex;
 
         &_rate {
-          margin-left: 17px;
+          margin-left: 1.063rem;
 
           &-name {
             font-style: normal;
             font-weight: bold;
-            font-size: 18px;
-            line-height: 20px;
+            font-size: 1.125rem;
+            line-height: 1.25rem;
             color: #000000;
           }
 
           &-star {
-            margin-top: 9px;
+            margin-top: 0.563rem;
             font-weight: normal;
-            font-size: 13px;
-            line-height: 18px;
+            font-size: 0.813rem;
+            line-height: 1.125rem;
             color: #333333;
           }
         }
       }
 
       .comment-text {
-        margin-top: 21px;
+        margin-top: 1.313rem;
         font-weight: normal;
-        font-size: 13px;
-        line-height: 18px;
-
+        font-size: 0.813rem;
+        line-height: 1.125rem;
         color: #333333;
       }
     }

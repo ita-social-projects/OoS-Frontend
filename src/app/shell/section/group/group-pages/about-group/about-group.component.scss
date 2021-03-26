@@ -7,37 +7,37 @@
 @mixin header {
   font-style: normal;
   font-weight: bold;
-  font-size: 13px;
-  line-height: 15px;
+  font-size: 0.813rem;
+  line-height: 0.938rem;
   color: #444444;
 }
 
 @mixin basic-text {
-  margin-top: 8px;
+  margin-top: 0.5rem;
   font-style: normal;
   font-weight: normal;
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
   color: #333333;
 }
 
-$spacing: 24px;
+$spacing: 1.5rem;
 .header {
   @include header;
 }
 
 section {
-  padding: 0 11px 0 24px;
+  padding: 0 0.688rem 0 1.5rem;
 
   .description {
-    margin-top: 32px;
-    font-size: 13px;
+    margin-top: 2rem;
+    font-size: 0.813rem;
     color: #333333;
-    line-height: 17.7px;
+    line-height: 1.106rem;
   }
 
   .program {
-    margin-top: 19px;
+    margin-top: 1.188rem;
 
     &_info {
       @include basic-text;
@@ -56,7 +56,7 @@ section {
 
       li:before {
         content: "-";
-        padding-right: 6px;
+        padding-right: 0.375rem;
       }
     }
   }
