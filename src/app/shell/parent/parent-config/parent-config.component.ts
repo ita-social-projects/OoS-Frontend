@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ChildCard } from 'src/app/shared/models/child-card.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
-import { getChildCards } from 'src/app/shared/store/parent.actions';
+import { GetChildCards } from 'src/app/shared/store/parent.actions';
 import { ParentState } from 'src/app/shared/store/parent.state';
 
 
@@ -23,7 +23,7 @@ export class ParentConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.store.dispatch(new getChildCards())
+    this.store.dispatch(new GetChildCards())
     this.cards$.subscribe(cards => this.cards = cards);
   }
 }
