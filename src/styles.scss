@@ -76,14 +76,7 @@ $config: mat-typography-config(
     font-family: "Open Sans", sans-serif;
   }
 }
-// @mixin mat-button-typography($config) {
-//   .mat-button, .mat-raised-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button, .mat-fab, .mat-mini-fab {
-//     @include mat-typography-level-to-styles($config, button);
-//     border-radius: 20px;
-//   }
-// }
 @include mat-button-typography($config);
 @include mat-button-toggle-typography($config);
 @include mat-form-typography($config);
-
 // @include mat-core($config);

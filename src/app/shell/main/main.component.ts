@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { orgCard } from 'src/app/shared/models/org-card.model';
-import { getPopCards } from 'src/app/shared/store/filter.actions';
+import { GetPopWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
@@ -19,7 +19,7 @@ export class MainComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new getPopCards());
+    this.store.dispatch(new GetPopWorkshops());
     this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards)
   }
 

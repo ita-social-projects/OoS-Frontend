@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrganizationCardsListComponent } from './organization-cards-list.component';
-import { OrderingComponent } from './ordering/ordering.component';
+import { OrderingComponent } from '../ordering/ordering.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';

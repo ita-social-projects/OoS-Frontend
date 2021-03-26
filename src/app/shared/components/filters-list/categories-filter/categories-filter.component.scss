@@ -26,26 +26,21 @@
     width: 68px;
   }
   &_title{
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 20px;
-    color: #000000;
     text-align: center;
     margin-bottom: 9;
   }
   &_link{
     font-weight: bold;
-    font-size: 13px;
     line-height: 15px;
     color: #3849F9;
     text-align: center;
     text-decoration: none;
     a {
       display: flex;
-      text-decoration: none;
       justify-content: center;
       align-items: center;
       color: #3849F9;
+      font-family: "Innerspace";
     }
   }
 }

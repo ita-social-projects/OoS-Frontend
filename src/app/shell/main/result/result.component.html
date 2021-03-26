@@ -35,7 +35,6 @@
     </div>
   </div>
 </div>
-
 <mat-drawer-container>
   <mat-drawer mode="side" [(opened)]="isFiltersVisible">
     <app-filters-list></app-filters-list>
@@ -49,46 +48,3 @@
     </ng-template> 
   </mat-drawer-content>
 </mat-drawer-container>
-
-
-<!-- <mat-drawer-container fxLayoutGap="1.5rem">
-  <mat-drawer #side mode="side" opened [(opened)]="isFiltersVisible">
-    <app-filters-list></app-filters-list>
-  </mat-drawer>
-  <mat-drawer-content fxFlex>
-    <div *ngIf="group.value==='map'; else ShowData">
-      <app-map></app-map>
-    </div>
-    <ng-template #ShowData>
-      <app-organization-cards-list class="cards"></app-organization-cards-list>
-    </ng-template>
-  </mat-drawer-content>
-</mat-drawer-container> -->
-
-
-<!-- <mat-drawer-container fxLayoutGap='1.5rem'>
-  <mat-drawer class="filters" mode="side" opened fxFlex="302px" [(opened)]="isFiltersVisible">
-    <app-filters-list></app-filters-list>
-  </mat-drawer>
-  <mat-drawer-content class="results" fxFlex>
-    <div *ngIf="group.value==='map'; else ShowData">
-      <app-map></app-map>
-    </div>
-    <ng-template #ShowData>
-      <app-organization-cards-list class="cards"></app-organization-cards-list>
-    </ng-template>
-  </mat-drawer-content>
-</mat-drawer-container> -->
-
-
-<!-- <div class="results-wrapper" fxLayout="row" fxLayoutAlign=" start" fxLayoutGap='1.5rem'>
-  <app-filters-list fxFlex="302px"></app-filters-list>  
-  <div class="cards-list-wrapper" fxFlex>
-    <div *ngIf="group.value==='map'; else ShowData">
-      <app-map></app-map>
-    </div>
-    <ng-template #ShowData>
-      <app-organization-cards-list class="cards"></app-organization-cards-list>
-    </ng-template>  
-  </div>
-</div> -->

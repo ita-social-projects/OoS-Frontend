@@ -11,7 +11,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 import { MainComponent } from './main/main.component';
 import { HttpClientModule } from '@angular/common/http';
-import { OrderingComponent } from './main/result/organization-cards-list/ordering/ordering.component';
+import { OrderingComponent } from './main/result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';

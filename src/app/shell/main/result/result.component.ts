@@ -27,7 +27,6 @@ export class ResultComponent implements OnInit {
   selectedOption: Option;
 
   public currentView: string;
-  // public cards: orgCard[];
   isFiltersVisible: boolean = true;
 
   constructor(private store: Store) {}

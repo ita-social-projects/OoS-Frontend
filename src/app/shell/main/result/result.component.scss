@@ -11,8 +11,6 @@
     border: none;
     padding: 0;
     .btn-icon{
-      // width: 1rem;
-      // height: 1rem;
       line-height: 8px;
     }
   }
@@ -60,14 +58,6 @@
   }
 }
 
-// .app-filters-list{
-//   // transform: matrix(1, 0, 0, 1, -302, 0);
-//   // transition: 4s ease all;
-//   transition-duration: 2s;
-//   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-//   transition-property: visibility;
-// }
-
 .mat-drawer-container {
   background-color: inherit;
   color: inherit;
@@ -77,10 +67,8 @@
   .mat-drawer-content {
     background-color: inherit;
     color: inherit;
-    // margin-left: 326px;
     overflow: hidden;
   }
-  
 }
 .mat-drawer-side {
   border: none;

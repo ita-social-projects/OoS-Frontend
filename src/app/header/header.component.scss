@@ -18,7 +18,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // flex-wrap: wrap;
   }
   &_logo-wrapper{
     position: relative;
@@ -40,16 +39,12 @@
   &_lang {
     background: none;
     color: white;
-    outline: none;
-    font-weight: bold;
   }
   &_title {
     margin-top: 70px;
     color: white;
-    line-height: 3rem;
   }
   &_descr {
-    line-height: 1.7rem;
     color: rgba(255, 255, 255, 0.7);
     margin-top: 16px;
   }
