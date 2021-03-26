@@ -1,0 +1,21 @@
+steps:
+  - name: 'gcr.io/cloud-builders/node'
+    entrypoint: yarn
+    args: [ 'install' ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cat <<EOF > src/environments/environment.prod.ts
+        export const environment = {
+          production: true,
+          stsServer: 'https://auth.oos.dmytrominochkin.cloud',
+          serverUrl: 'https://api.oos.dmytrominochkin.cloud',
+        };
+        EOF
+  - name: 'gcr.io/cloud-builders/node'
+    entrypoint: npm
+    args: [ 'run', 'build:prod' ]
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-d', '-r', 'dist/out-of-school/', 'gs://oos.dmytrominochkin.cloud']
