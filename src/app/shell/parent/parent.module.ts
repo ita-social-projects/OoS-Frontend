@@ -22,6 +22,8 @@ import { ChildrenActivitiesListService } from '../../shared/services/children-ac
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ChildCardService } from 'src/app/shared/services/child-cards/child-cards.service';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
+import { NgxsModule } from '@ngxs/store';
+import { ParentState } from 'src/app/shared/store/parent.state';
 
 @NgModule({
   declarations: [
@@ -43,8 +45,8 @@ import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.int
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule,
-
-    HttpClientModule
+    HttpClientModule,
+    NgxsModule.forFeature([ParentState]),
   ],
   providers: [
     ChildrenActivitiesListService,

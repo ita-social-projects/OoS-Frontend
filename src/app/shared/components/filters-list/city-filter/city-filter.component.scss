@@ -13,3 +13,9 @@
 .mat-form-field{
   width: 143px;
 }
+@media(max-width: 411px){
+  .mat-form-field{
+    width: 60px;
+  }
+  
+}

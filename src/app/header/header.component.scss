@@ -1,6 +1,6 @@
 .authorization {
   display: flex;
-  margin:  1%;
+  margin: 1%;
 }
 
 .mat-button {
@@ -12,23 +12,39 @@
 }
 
 .header {
-  padding: 1.5rem 5rem 2.5rem;
+  padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+
+  &_secondary{
+    background: #3849F9;
+    max-height: 83px;
+    box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
+  }
+
+  &_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   &_top, &_btns {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  &_logo-wrapper{
+
+  &_logo-wrapper {
     position: relative;
     .logo{
       position: absolute;
       transform: translate(0, -41%);
     }
   }
+
   &_btns {
     gap: 40px
   }
+
   &_login {
     width: 15rem;
     height: 2.125rem;
@@ -36,33 +52,40 @@
     border-color: white;
     color: white;
   }
+
   &_lang {
     background: none;
     color: white;
   }
+
   &_title {
     margin-top: 70px;
     color: white;
   }
+
   &_descr {
     color: rgba(255, 255, 255, 0.7);
-    margin-top: 16px;
+    margin-top: 1rem;
   }
+
   &_search {
     background: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 30px;
+    margin-bottom: 1rem;
     width: 55%;
     height: 52px;
     gap: 15px;
     border-radius: 60px;
     padding: 0 20px;
   }
+
   &_bar {
     flex-grow: 1;
   }
+
   &_city {
     border-right: 1px solid #E3E3E3;
   }
@@ -80,6 +103,46 @@
   .header {
     &_top, &_btns {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    &_btns {
+      margin-top: 1rem;
+    }
+  }
+}
+
+@media (max-width : 1200px) {
+  .header_btns {
+    flex-wrap: nowrap;
+  }
+}
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
+
+@media(max-width: 705px) {
+  .category_card[_ngcontent-plu-c162] {
+    margin: 2%;
+  }
+}
+@media(max-width: 425px) {
+  .header_login {
+    padding: 0.325rem 1rem;
+    font-size: 9px;
+  }
+}
+
+.icon-account {
+  color:white;
+}
+
+@media (max-width: 415px) {
+  .header {
+    &_top, &_btns {
+      display: flex;
+      flex-direction: row;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;

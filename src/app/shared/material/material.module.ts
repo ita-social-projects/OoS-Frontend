@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatAutocompleteModule }  from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -13,6 +13,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   exports: [
@@ -29,7 +33,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatAutocompleteModule,
     MatCardModule,
     MatSelectModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }

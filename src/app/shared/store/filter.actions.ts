@@ -28,3 +28,6 @@ export class GetWorkshops {
 export class GetPopWorkshops {
   static readonly type = '[filter] get 4 most popular organization cards';
 }
+  export class GetTeachersCards {
+  static readonly type = '[filter] get teachers cards';
+}

@@ -1,35 +1,38 @@
-<div class="header">
+<div class="header" [ngClass]="(isMainPage$ | async) ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
       <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
     </div>
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
+        <mat-icon>language</mat-icon>
         УКР
       </button>
       <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
-  <div class="header_wrapper" fxLayout="column" fxLayoutAlign="none center">
-    <h1 class="header_title">
-      Знайдіть найкращі гуртки у своєму місті!
-    </h1>
-    <h2 class="header_descr">
-      Понад 500 найрізноманітніших гуртків
-    </h2>
-    <div class="header_search">
-      <app-city-filter class="header_city"></app-city-filter>
-      <app-searchbar class="header_bar"></app-searchbar>
-    </div>
-  </div>
+  <div *ngIf="(isMainPage$ | async) then isMainPage;" class="header_wrapper"></div>
 </div>
 
+<ng-template #isMainPage>
+  <div fxLayout="column" fxLayoutAlign="none center">
+  <h1 class="header_title">
+    Знайдіть найкращі гуртки у своєму місті!
+  </h1>
+  <h2 class="header_descr">
+    Понад 500 найрізноманітніших гуртків
+  </h2>
+  <div class="header_search">
+    <app-city-filter class="header_city"></app-city-filter>
+    <app-searchbar class="header_bar"></app-searchbar>
+  </div>
+</div>
+</ng-template>
+
 <ng-template #isUnauthorized>
-  <div>
     <button mat-stroked-button class="header_login" (click)="login()">
       УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
     </button>
-  </div>
 </ng-template>
 
 <ng-template #isAuthorized>
@@ -37,7 +40,8 @@
     <button mat-raised-button color="primary"
       matBadge="2" matBadgePosition="before" matBadgeColor="accent">
       <i>
-        <mat-icon class="icon-message"> email</mat-icon>
+        <mat-icon class= "icon-account">account_circle</mat-icon>
+        <!-- <mat-icon class="icon-message"> email</mat-icon> -->
       </i>
     </button>
       <button mat-button [matMenuTriggerFor]="log">
@@ -48,5 +52,5 @@
         <button mat-menu-item><a [routerLink]="'./' + role+'/' + 'config'">Налаштування</a></button>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </mat-menu>
-  </div>
+    </div>
 </ng-template>

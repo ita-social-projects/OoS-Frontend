@@ -11,6 +11,8 @@ import { MaterialModule } from './material/material.module';
 import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
+import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
+
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import { RouterModule } from '@angular/router';
     CityFilterComponent,
     DigitOnlyDirective,
     OrganizationCardComponent,
+    TeacherCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -38,7 +41,8 @@ import { RouterModule } from '@angular/router';
     CityFilterComponent,
     DigitOnlyDirective,
     OrganizationCardComponent,
-    MaterialModule
+    MaterialModule,
+    TeacherCardComponent,
   ]
 })
 export class SharedModule { }

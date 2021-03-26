@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder } from '@angular/forms'
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ChildCard } from 'src/app/shared/models/child-card.model';
-import { ChildCardService } from 'src/app/shared/services/child-cards/child-cards.service';
+import { ChangePage } from 'src/app/shared/store/app.actions';
+import { GetChildCards } from 'src/app/shared/store/parent.actions';
+import { ParentState } from 'src/app/shared/store/parent.state';
 
 
 @Component({
@@ -14,17 +16,14 @@ import { ChildCardService } from 'src/app/shared/services/child-cards/child-card
 export class ParentConfigComponent implements OnInit {
   form: FormGroup;
 
-
+  @Select(ParentState.childrenList) cards$: Observable<ChildCard[]>;
   public cards: ChildCard[];
 
-  constructor(private fb:FormBuilder, private childCardsService : ChildCardService) { }
-
+  constructor(private fb:FormBuilder, private store: Store) { }
 
   ngOnInit(): void {
-    this.childCardsService.getCards()
-    .subscribe((data)=>{
-      this.cards=data;
-  })
-
-}
+    this.store.dispatch(new ChangePage(false));
+    this.store.dispatch(new GetChildCards())
+    this.cards$.subscribe(cards => this.cards = cards);
+  }
 }

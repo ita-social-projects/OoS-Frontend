@@ -107,3 +107,15 @@
     margin-top: 1.1875rem;
   }
 }
+
+@media(max-width: 415px) {
+  .card_header{
+    height: auto !important;
+  }
+}
+@media(max-width: 415px) {
+  .card{
+    width: inherit;
+    margin: 1rem;
+  }
+}

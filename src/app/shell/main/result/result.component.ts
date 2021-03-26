@@ -3,6 +3,7 @@ import { UpdateCurrentView } from '../../../shared/result.actions';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { SetOrder } from 'src/app/shared/store/filter.actions';
+import { ChangePage } from 'src/app/shared/store/app.actions';
 
 export interface Option {
   value: string;
@@ -32,6 +33,7 @@ export class ResultComponent implements OnInit {
   constructor(private store: Store) {}
   
   ngOnInit(): void {
+    this.store.dispatch(new ChangePage(false));
     this.currentView ='show-data';
     this.order$.subscribe(order => {
       this.selectedOption = this.options.find(option => option.value === order);

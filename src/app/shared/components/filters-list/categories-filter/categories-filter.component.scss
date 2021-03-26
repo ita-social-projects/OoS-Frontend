@@ -43,3 +43,9 @@
     }
   }
 }
+
+@media(max-width: 415px) {
+  .category_card {
+    margin: 0.5rem !important;
+  }
+}
