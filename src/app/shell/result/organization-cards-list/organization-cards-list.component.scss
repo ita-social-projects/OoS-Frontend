@@ -1,21 +1,21 @@
 .placeholder {
   min-width: 285px;
 }
-pagination-controls{
+pagination-controls {
   font-family: "Innerspace";
   font-weight: bold;
   display: flex;
   align-items: center;
-  li{
+  li {
     color: #444444;
   }
-  li.current{
+  li.current {
     color: #3849F9;
     background-color: inherit;
   }
 }
 
-.pagination ::ng-deep .ngx-pagination{
+.pagination ::ng-deep .ngx-pagination {
   display: flex;
   align-items: center;
   padding-inline-start: 0px;
