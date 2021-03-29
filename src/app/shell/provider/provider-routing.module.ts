@@ -6,7 +6,8 @@ import { ProviderConfigComponent } from './provider-config/provider-config.compo
 
 const routes: Routes = [
   { path: 'activities', component: ProviderActivitiesComponent },
-  { path: 'config', component: ProviderConfigComponent }
+  { path: 'config', component: ProviderConfigComponent },
+ 
 ];
 
 @NgModule({

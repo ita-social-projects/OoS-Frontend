@@ -2,14 +2,36 @@
 <mat-card class="child" fxLayoutAlign='center' fxLayout ="row">
   <img src ="" alt="Photo">
 <mat-card-content fxLayoutAlign='space-between center' fxLayout ="column">
-  <p> Прізвище: {{card.surname}}</p>
+  <!-- <p> Прізвище: {{card.surname}}</p>
   <p> Ім'я: {{card.name}}</p>
-  <p> По-батькові: {{card.lastName}}</p>
+  <p> По-батькові: {{card.lastName}}</p> -->
   <mat-radio-group aria-label="Select an option">
     <mat-radio-button value="Жінка">Жінка</mat-radio-button>
     <mat-radio-button value="Чоловік">Чоловік</mat-radio-button>
   </mat-radio-group>
-        
+
+  <p>add-child works!</p>
+  <form>
+    <h1 class="h1-child">Додати дані про дитину</h1>
+    <div class="span">
+      <span>Щоб відслідковувати заяки і активності вашої дитини. </span>
+      <p>Ви завжди можете додати цю інформацію у вашому особистому кабінеті.</p> 
+    </div>
+    <label>Прізвище*</label>
+    <mat-form-field>
+      <input matInput>
+    </mat-form-field>
+    <label>Ім'я*</label>
+    <mat-form-field>
+      <input matInput>
+    </mat-form-field>
+    <label>По-батькові</label>
+    <mat-form-field>
+      <input matInput>
+    </mat-form-field>
+    <label>Дата народження</label>
+   </form>
+   
 </mat-card-content>
 </mat-card>
 </div>

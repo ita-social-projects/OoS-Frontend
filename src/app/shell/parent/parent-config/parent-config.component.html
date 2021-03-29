@@ -10,7 +10,14 @@
               
      </mat-card-content>
    </mat-card>
-  <h1>Інфо про дітей</h1>
+   <div class="button-submit">
+    <button mat-button><a [routerLink]="./add-child"></a>
+      <span><mat-icon>add</mat-icon> </span>
+      Додати ще одну дитину
+    </button>
+     
+   </div>
+  
   <ng-container> 
      <app-child-card *ngFor="let card of cards" [card]="card"></app-child-card> 
    </ng-container>

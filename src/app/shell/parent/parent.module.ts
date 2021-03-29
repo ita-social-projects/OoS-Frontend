@@ -25,6 +25,9 @@ import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.int
 import { NgxsModule } from '@ngxs/store';
 import { ParentState } from 'src/app/shared/store/parent.state';
 
+import { MatIconModule } from '@angular/material/icon';
+import { AddChildComponent } from './parent-config/add-child/add-child/add-child.component'
+
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
@@ -32,7 +35,11 @@ import { ParentState } from 'src/app/shared/store/parent.state';
 
     ChildCardComponent,
 
-    ChildActivitiesComponent
+    ChildActivitiesComponent,
+
+    AddChildComponent,
+
+    
   ],
   imports: [
     CommonModule,
@@ -47,6 +54,7 @@ import { ParentState } from 'src/app/shared/store/parent.state';
     MatRadioModule,
     HttpClientModule,
     NgxsModule.forFeature([ParentState]),
+    MatIconModule
   ],
   providers: [
     ChildrenActivitiesListService,
