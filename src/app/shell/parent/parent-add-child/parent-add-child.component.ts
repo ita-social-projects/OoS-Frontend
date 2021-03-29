@@ -19,6 +19,6 @@ export class ParentAddChildComponent implements OnInit {
     this.forms = 1;
   }
  addChild(){
-   this.forms = this.forms++;
+   this.forms = this.forms;
  }
 }
