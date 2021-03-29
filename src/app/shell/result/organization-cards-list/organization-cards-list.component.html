@@ -1,11 +1,40 @@
 <div class="cards" fxLayout="row wrap" fxLayoutGap='1.5rem grid' fxLayoutAlign="flex-start" >
   <ng-container> 
-    <app-organization-card fxFlex *ngFor="let card of cards" [card]="card"></app-organization-card> 
+    <app-organization-card  fxFlex 
+                            *ngFor="let card of cards | paginate: { itemsPerPage: 3, currentPage: currentPage }" 
+                            [card]="card">
+    </app-organization-card> 
     <div fxFlex class="placeholder-wrapper"><div class="placeholder"></div></div>
     <div fxFlex class="placeholder-wrapper"><div class="placeholder"></div></div>
     <div fxFlex class="placeholder-wrapper"><div class="placeholder"></div></div>
     <div fxFlex class="placeholder-wrapper"><div class="placeholder"></div></div>
     <div fxFlex class="placeholder-wrapper"><div class="placeholder"></div></div>
     <div fxFlex class="placeholder-wrapper"><div class="placeholder"></div></div>
+    <!-- <pagination-controls  (pageChange)="page = $event"
+                          (pageBoundsCorrection)="pageChanged($event)"
+                          maxSize="7"
+                          directionLinks="true"
+                          autoHide="true"
+                          responsive="true"
+                          previousLabel="Previous"
+                          nextLabel="Next"
+                          screenReaderPaginationLabel="Pagination"
+                          screenReaderPageLabel="page"
+                          screenReaderCurrentLabel="You're on page">
+    </pagination-controls> -->
   </ng-container>
+</div>
+<div class="pagination-wrapper" fxLayoutAlign="center">
+  <pagination-controls  class="pagination"
+                        (pageChange)="currentPage = $event"
+                        maxSize="8"
+                        directionLinks="true"
+                        autoHide="true"
+                        responsive="true"
+                        previousLabel=""
+                        nextLabel=""
+                        screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">    
+  </pagination-controls>
 </div>

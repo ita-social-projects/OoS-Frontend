@@ -16,6 +16,7 @@ export class OrganizationCardsListComponent implements OnInit {
   @Select(FilterState.orgCards) orgCards$: Observable<orgCard[]>;
 
   public cards: orgCard[];
+  currentPage: number = 1;
 
   constructor(private store: Store) {
   }
