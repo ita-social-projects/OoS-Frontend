@@ -26,7 +26,8 @@ import { NgxsModule } from '@ngxs/store';
 import { ParentState } from 'src/app/shared/store/parent.state';
 
 import { MatIconModule } from '@angular/material/icon';
-import { AddChildComponent } from './parent-config/add-child/add-child/add-child.component'
+
+import { ParentAddChildComponent } from './parent-add-child/parent-add-child.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { AddChildComponent } from './parent-config/add-child/add-child/add-child
 
     ChildActivitiesComponent,
 
-    AddChildComponent,
+    ParentAddChildComponent,
 
     
   ],
