@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 
@@ -10,7 +10,6 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 export class ParentAddChildComponent implements OnInit {
 
   public forms = [1];
-
   
   constructor( private store: Store) { }
 

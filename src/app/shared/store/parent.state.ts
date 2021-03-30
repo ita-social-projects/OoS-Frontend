@@ -15,7 +15,7 @@ export interface ParentStateModel {
   name: 'parent',
   defaults: {
     childActivities: [],
-    children: []
+    children: [],
   }
 })
 @Injectable()

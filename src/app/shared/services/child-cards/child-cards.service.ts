@@ -10,11 +10,11 @@ import { ChildCard} from '../../models/child-card.model'
 })
 export class ChildCardService {
 
-  dataUrl = '/Child/GetChildren'
+  //dataUrl = '/Child/Get'
 
   constructor(private http: HttpClient) { }
 
   getCards(): Observable<ChildCard[]> {
-    return this.http.get<ChildCard[]>(this.dataUrl)
+    return this.http.get<ChildCard[]>('/Child/Get')
   }
 }

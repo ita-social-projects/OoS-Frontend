@@ -29,16 +29,14 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ParentAddChildComponent } from './parent-add-child/parent-add-child.component';
 import { ChildFormComponent } from './parent-add-child/child-form/child-form.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     ParentActivitiesComponent, 
     ParentConfigComponent, 
-
     ChildCardComponent,
-
     ChildActivitiesComponent,
-
     ParentAddChildComponent,
 
     ChildFormComponent,
@@ -58,7 +56,8 @@ import { ChildFormComponent } from './parent-add-child/child-form/child-form.com
     MatRadioModule,
     HttpClientModule,
     NgxsModule.forFeature([ParentState]),
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [
     ChildrenActivitiesListService,
