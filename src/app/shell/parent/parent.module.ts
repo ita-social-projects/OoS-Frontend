@@ -27,7 +27,8 @@ import { ParentState } from 'src/app/shared/store/parent.state';
 
 import { MatIconModule } from '@angular/material/icon';
 
-import { ParentAddChildComponent } from './parent-add-child/parent-add-child.component'
+import { ParentAddChildComponent } from './parent-add-child/parent-add-child.component';
+import { ChildFormComponent } from './parent-add-child/child-form/child-form.component'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,8 @@ import { ParentAddChildComponent } from './parent-add-child/parent-add-child.com
     ChildActivitiesComponent,
 
     ParentAddChildComponent,
+
+    ChildFormComponent,
 
     
   ],

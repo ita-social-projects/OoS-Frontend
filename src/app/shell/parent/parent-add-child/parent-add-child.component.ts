@@ -9,16 +9,17 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 })
 export class ParentAddChildComponent implements OnInit {
 
-  public forms : number;
+  public forms = [1];
 
   
   constructor( private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.forms = 1;
+    
   }
  addChild(){
-   this.forms = this.forms;
- }
+  this.forms.push(this.forms.length+1);
+}
+
 }
