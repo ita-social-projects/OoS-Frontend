@@ -21,12 +21,15 @@ import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.int
 import { HttpClientModule } from '@angular/common/http';
 import { ProviderState } from 'src/app/shared/store/provider.state';
 import { NgxsModule } from '@ngxs/store';
+import { MatTabsModule } from '@angular/material/tabs';
+import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 
 @NgModule({
   declarations: [
     ProviderActivitiesComponent,
     ProviderConfigComponent,
-    ActivitiesCardComponent],
+    ActivitiesCardComponent,
+    PersonalCabinetComponent],
     imports: [
         CommonModule,
         ProviderRoutingModule,
@@ -42,6 +45,7 @@ import { NgxsModule } from '@ngxs/store';
         ReactiveFormsModule,
         HttpClientModule,
         NgxsModule.forFeature([ProviderState]),
+        MatTabsModule
     ],
 
   providers: [

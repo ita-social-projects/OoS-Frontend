@@ -1,0 +1,18 @@
+.container{
+  max-width: 1279px;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin:80px;
+}
+.title{
+    font-weight: 700;
+}
+::ng-deep .mat-tab-label{
+    font-weight: 700;
+    opacity: 1;
+}
+::ng-deep .mat-tab-label-active {
+    color: #3849F9;
+    opacity: 1;
+}

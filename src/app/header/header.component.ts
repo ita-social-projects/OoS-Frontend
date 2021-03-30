@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppState } from '../shared/store/app.state';
 
 enum RoleLinks{
-  provider= 'provider',
+  provider= 'provider/cabinet',
   parent = 'parent'
 }
 
