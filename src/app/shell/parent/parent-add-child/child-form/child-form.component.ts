@@ -6,12 +6,13 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./child-form.component.scss']
 })
 export class ChildFormComponent implements OnInit {
+  
 
   constructor() { }
 
 
   ngOnInit(): void {
-    
+
   }
 
 }
