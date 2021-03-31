@@ -41,6 +41,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
     ChildFormComponent,
 
+ 
+
     
   ],
   imports: [

@@ -10,6 +10,7 @@ import { ChildCardComponent } from '../../parent-config/child-card/child-card.co
   styleUrls: ['./child-form.component.scss']
 })
 export class ChildFormComponent implements OnInit {
+  
 
   child: ChildCard = new ChildCard() ;
   childFormGroup: FormGroup;
