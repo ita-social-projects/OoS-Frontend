@@ -8,11 +8,14 @@
 .title{
     font-weight: 700;
 }
-::ng-deep .mat-tab-label{
+.nav{
     font-weight: 700;
     opacity: 1;
+    &_link{
+        
+    }
 }
-::ng-deep .mat-tab-label-active {
+::ng-deep .mat-tab-link-active {
     color: #3849F9;
     opacity: 1;
 }

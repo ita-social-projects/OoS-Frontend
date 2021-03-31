@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
   role: string;
+  roles= RoleLinks;
 
   constructor(public store: Store,
               private actions$: Actions,

@@ -1,16 +1,12 @@
 <div class="container">
   <h1 class="title">КАБІНЕТ КОРИСТУВАЧА</h1>
-  <!-- <nav>
-    <ul>
-      <li><a routerLink="./activities" routerLinkActive="active">First Component</a></li>
-      <li><a routerLink="./config" routerLinkActive="active">First Component</a></li>
-    </ul>
-  </nav> -->
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Особиста інформація" [routerLink]="'./config'"></mat-tab>
-    <mat-tab label="Інформація про заклад">Тут інфо</mat-tab>
-    <mat-tab label="Гуртки" [routerLink]="'./activities'"></mat-tab>
-    <mat-tab label="Заявки">Тут заявки</mat-tab>
-  </mat-tab-group>
-</div>
+
+<nav class="nav" mat-tab-nav-bar>
+  <a class="nav_link" mat-tab-link [routerLink]="'./config'"  routerLinkActive #rla1="routerLinkActive"
+  [active]="rla1.isActive" >Особиста інформація</a>
+  <a class="nav_link" mat-tab-link >Інформація про заклад</a>
+  <a class="nav_link" mat-tab-link [routerLink]="'./activities'" routerLinkActive #rla2="routerLinkActive"
+  [active]="rla2.isActive">Гуртки</a>
+  <a class="nav_link" mat-tab-link >Заявки</a>
+</nav>
 <router-outlet></router-outlet>
