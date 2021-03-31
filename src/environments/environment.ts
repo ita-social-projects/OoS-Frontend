@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  stsServer: 'http://localhost:5443',
-  serverUrl: 'http://api.oos.dmytrominochkin.cloud',
+  production: true,
+  stsServer: 'https://auth.oos.dmytrominochkin.cloud',
+  serverUrl: 'https://api.oos.dmytrominochkin.cloud',
 };
 
 /*
