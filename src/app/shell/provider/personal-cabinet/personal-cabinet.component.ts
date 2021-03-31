@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -8,14 +7,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PersonalCabinetComponent implements OnInit {
 
-  
-  id: string;
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) { 
+  constructor() { 
   }
 
   ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id'); 
-    console.log(this.id )
   }
 
 }
