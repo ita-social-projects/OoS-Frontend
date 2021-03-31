@@ -12,5 +12,10 @@
 .active  {
   color: #3849F9;
   opacity: 1;
-  border-bottom: 2px solid #3849F9; 
+  border-bottom: 2px solid #3849F9;
+}
+::ng-deep .mat-tab-link{
+  min-width:0px !important;
+  padding: inherit !important;
+  margin: 10px;
 }
