@@ -49,6 +49,9 @@
   }
   &_categories{
     margin-bottom: 48px;
+    .categories-wrapper{
+      flex-wrap: wrap;
+    }
   }
 }
 

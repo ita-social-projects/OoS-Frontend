@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { SetCategory } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-categories-filter',
@@ -11,13 +9,9 @@ export class CategoriesFilterComponent implements OnInit {
 
   selectedCategory: string;
 
-  constructor(private store: Store) {}
+  constructor() {}
 
   ngOnInit(): void {
-  }
-
-  selectCategory(category: string){
-    this.store.dispatch(new SetCategory(category));
   }
 
 }

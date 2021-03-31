@@ -32,7 +32,7 @@ export class OrgCardsService {
     }
     if(filters.categories.length > 0){
       for(let i = 0; i < filters.categories.length; i++){
-        params = params.append('category.title', filters.categories[i]);
+        params = params.append('category.id', filters.categories[i].toString());
       }
     }
     return params;

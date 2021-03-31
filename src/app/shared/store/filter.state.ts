@@ -9,7 +9,8 @@ import {
   GetPopWorkshops, 
   SetCategory, 
   AddCategory, 
-  GetTeachersCards 
+  GetTeachersCards, 
+  GetCategories
 } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
@@ -18,6 +19,8 @@ import { ProviderActivitiesService } from '../services/provider-activities/provi
 import { patch, append } from '@ngxs/store/operators';
 import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
+import { Category } from '../models/category.model';
+import { CategoriesService } from '../services/categories/categories.service';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -25,10 +28,11 @@ export interface FilterStateModel {
   isRecruiting: boolean;
   ageFrom: number;
   ageTo: number;
-  categories: string[];
+  categories: number[];
   order: string;
   organizationCards: orgCard[];
   teachersCards: TeacherCard[];
+  categoriesCards: Category[];
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -42,6 +46,7 @@ export interface FilterStateModel {
     order: 'ratingDesc',
     organizationCards: [],
     teachersCards: [],
+    categoriesCards: []
   }
 })
 @Injectable()
@@ -49,18 +54,23 @@ export class FilterState {
 
   @Selector()
   static orgCards(state: FilterStateModel) {
-    return state.organizationCards
+    return state.organizationCards;
   }
   @Selector()
   static teacherCards(state: FilterStateModel): TeacherCard[] {
     return state.teachersCards;
   }
+  @Selector()
+  static categoriesCards(state: FilterStateModel): Category[] {
+    return state.categoriesCards;
+  }
 
   constructor(
     private cardsService: OrgCardsService, 
     private cardsActivitiesService: ProviderActivitiesService, 
-    private teacherCardService: TeacherCardsService
-  ){}
+    private teacherCardService: TeacherCardsService,
+    private categoriesService: CategoriesService
+  ) {}
 
   @Action(setMinAge)
   setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
@@ -118,6 +128,12 @@ export class FilterState {
       .subscribe((teachersCards: TeacherCard[]) => {
         patchState({  teachersCards });
       });
+  }
+  
+  @Action(GetCategories)
+  getCategories({ patchState }: StateContext<FilterStateModel>) {
+    return this.categoriesService.getCategories()
+    .subscribe((categoriesCards: Category[]) => patchState({categoriesCards}))
   }
 
 }

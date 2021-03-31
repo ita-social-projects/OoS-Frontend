@@ -1,10 +1,9 @@
-.shell {
+section {
   padding: 0 5rem;
 }
 
-@media(max-width: 415px){
-  .shell{
+@media(max-width: 415px) {
+  section {
     padding: 2px;
-    
   }
 }

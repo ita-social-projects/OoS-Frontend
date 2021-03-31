@@ -12,6 +12,7 @@ import { OrganizationCardComponent } from './components/organization-card/organi
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
+import { CategoryCardComponent } from './components/category-card/category-card.component';
 
 
 
@@ -25,6 +26,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
     DigitOnlyDirective,
     OrganizationCardComponent,
     TeacherCardComponent,
+    CategoryCardComponent
   ],
   imports: [
     MaterialModule,
@@ -43,6 +45,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
     OrganizationCardComponent,
     MaterialModule,
     TeacherCardComponent,
+    CategoryCardComponent
   ]
 })
 export class SharedModule { }

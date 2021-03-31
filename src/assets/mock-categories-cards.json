@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Спорт",
+    "picture": "assets/icons/sport.png"
+  },
+  {
+    "id": 2,
+    "title": "Мистецтво",
+    "picture": "assets/icons/art.png"
+  },
+  {
+    "id": 3,
+    "title": "Конструювання",
+    "picture": "assets/icons/robo.png"
+  },
+  {
+    "id": 4,
+    "title": "Драматургія",
+    "picture": "assets/icons/drama.png"
+  },
+  {
+    "id": 5,
+    "title": "Музика",
+    "picture": "assets/icons/music.png"
+  },
+  {
+    "id": 6,
+    "title": "Мови",
+    "picture": "assets/icons/lang.png"
+  }
+]

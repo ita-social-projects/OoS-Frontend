@@ -6,7 +6,11 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <app-categories-filter></app-categories-filter>
+    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1.5rem grid">
+      <app-category-card  *ngFor="let categoryCard of categoriesCards$ | async "  
+                          [categoryCard]=categoryCard>
+      </app-category-card>
+    </div>
   </div>
 
   <div class="main_cards">
@@ -18,7 +22,7 @@
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
-        <app-organization-card *ngFor="let card of cards | slice:0:4" [card]="card"></app-organization-card>
+        <app-organization-card *ngFor="let card of orgCards$ | async | slice:0:4" [card]="card"></app-organization-card>
       </ng-container>
     </div>
   </div>
