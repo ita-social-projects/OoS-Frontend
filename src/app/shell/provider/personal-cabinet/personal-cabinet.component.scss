@@ -1,21 +1,16 @@
 .container{
-  max-width: 1279px;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
   margin:80px;
 }
-.title{
-    font-weight: 700;
+.title, .nav{
+  margin:10px;
+  font-weight: 700;
+  opacity: 1;
 }
-.nav{
-    font-weight: 700;
-    opacity: 1;
-    &_link{
-        
-    }
-}
-::ng-deep .mat-tab-link-active {
-    color: #3849F9;
-    opacity: 1;
+.active  {
+  color: #3849F9;
+  opacity: 1;
+  border-bottom: 2px solid #3849F9; 
 }
