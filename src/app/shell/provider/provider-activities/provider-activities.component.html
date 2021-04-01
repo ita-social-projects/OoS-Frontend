@@ -1,3 +1,13 @@
+<div *ngIf="(cards | async) then ActivitiesList; else AddNewActivity"></div>
+
+<ng-template #AddNewActivity>
+  <div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center' >
+    <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
+    <a [routerLink]="'../../create-activity'"><button class="btn" mat-raised-button >Додати гурток</button></a>
+  </div>
+</ng-template>
+
+<ng-template #ActivitiesList>
 <div 
 fxLayout='column' 
 fxLayoutAlign='space-evenly center' 
@@ -12,3 +22,4 @@ fxLayoutGap='20px'>
   </div>
   <button mat-raised-button>Додати новий гурток/секцію</button>
 </div>
+</ng-template>

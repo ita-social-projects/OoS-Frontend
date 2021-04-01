@@ -23,13 +23,20 @@ import { ProviderState } from 'src/app/shared/store/provider.state';
 import { NgxsModule } from '@ngxs/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
+import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
+import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
 
 @NgModule({
   declarations: [
     ProviderActivitiesComponent,
     ProviderConfigComponent,
     ActivitiesCardComponent,
-    PersonalCabinetComponent],
+    PersonalCabinetComponent,
+    ProviderOrgInfoComponent,
+    ProviderRequestsComponent,
+    CreateActivityComponent
+  ],
     imports: [
         CommonModule,
         ProviderRoutingModule,
