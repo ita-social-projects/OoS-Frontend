@@ -1,10 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { Category } from '../../models/category.model';
 import { SetCategory } from '../../store/filter.actions';
-import { GetCategoriesIcons } from '../../store/meta-data.actions';
-import { MetaDataState } from '../../store/meta-data.state';
 
 
 @Component({
@@ -15,16 +12,11 @@ import { MetaDataState } from '../../store/meta-data.state';
 export class CategoryCardComponent implements OnInit {
 
   @Input() categoryCard: Category;
-
-  @Select(MetaDataState.categoriesIcons) icons$: Observable<any>;
-
-  icons: {};
+  @Input() icons: {};
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetCategoriesIcons());
-    this.icons$.subscribe(data => this.icons = data);
   }
 
   selectCategory(id: number){
