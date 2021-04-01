@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppState } from '../shared/store/app.state';
 
 enum RoleLinks{
-  provider= 'provider',
+  provider= 'provider/cabinet',
   parent = 'parent'
 }
 
@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
   role: string;
+  roles= RoleLinks;
 
   constructor(public store: Store,
               private actions$: Actions,
