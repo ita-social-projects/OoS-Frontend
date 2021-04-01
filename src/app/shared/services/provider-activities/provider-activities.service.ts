@@ -9,7 +9,7 @@ import { actCard } from '../../models/activities-card.model';
 })
 export class ProviderActivitiesService {
 
-  dataUrl = '/Workshop/GetWorkshops'
+  dataUrl = '/Workshop/Get'
 
   constructor(private http: HttpClient) { }
 
