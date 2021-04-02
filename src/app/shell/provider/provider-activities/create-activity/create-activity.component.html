@@ -8,53 +8,86 @@
   <mat-horizontal-stepper #stepper>
     
     <mat-step [stepControl]="firstFormGroup">
-       <form [formGroup]="firstFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+      <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
-        <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
-        <form fxLayout='column' fxLayoutAlign='center space-between'>
-          <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
-          <select class="step_input">
-            <option class="step_option"value="gruop">Гурток</option>
-            <option value="section">Секція</option>
-            <option value="class">Клас</option>
-          </select>
-        </form>
-        <form>
-          <label class="step_label">Назва<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Назва гуртки" formControlName="firstCtrl" required>
-        </form>
-        <form>
-          <label class="step_label">Телефон<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Номер телефону" formControlName="firstCtrl" required>
-        </form>
-        <form>
-          <label class="step_label">Емейл<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Емейл" formControlName="firstCtrl" required>
-        </form>
-        <form>
-          <label class="step_label">Веб сайт<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
-        </form>
-        <form>
-          <label class="step_label">Facebook</label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
-        </form>
-        <form>
-          <label class="step_label">Instagram</label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
-        </form>
-        
-        <span class="step_line" fxLayout='column' fxLayoutAlign='center space-between'></span>
-        
-        <form>
-          <label class="step_label">Вік-дітей</label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
-        </form>
-        <div>
-          <p>Go to a different step to see the error state</p>
-          <button mat-button matStepperNext>Next</button>
+        <div class="form-wrapper">
+          <div class="checkbox">
+            <mat-checkbox class="example-margin" formControlName="firstCtrl" required>Використати контактні дані
+              надавача освітніх послуг
+            </mat-checkbox>
+          </div>
+          <div class="logo">
+            <div class="logo_header">Логотип</div>
+            <div class="logo_load-image">
+              <img src="assets/icons/plus.png" alt="logo_img">
+            </div>
+          </div>
+          <div class="group-type">
+            <label for="standard-select">Гурток/Секція/Клас*</label>
+            <div class="select">
+              <div class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
+              <select id="standard-select">
+                <option value="Option 1" selected>Гурток</option>
+                <option value="Option 2">Секція</option>
+                <option value="Option 3">Клас</option>
+              </select>
+            </div>
+          </div>
+          <div class="group-name">
+            <label for="groupNameForm">Назва*</label>
+            <input type="text" id="groupNameForm">
+          </div>
+          <div class="phone">
+            <label for="phoneForm">Телефон*</label>
+            <input type="text" id="phoneForm">
+          </div>
+          <div class="email">
+            <label for="emailForm">Емейл*</label>
+            <input type="email" id="emailForm">
+          </div>
+          <div class="web-page">
+            <label for="webPageForm">Веб сайт</label>
+            <input type="text" id="webPageForm">
+          </div>
+          <div class="facebook">
+            <label for="facebook">Facebook</label>
+            <input type="text" id="facebook">
+          </div>
+          <div class="instagram">
+            <label for="instagram">Instagram</label>
+            <input type="text" id="instagram">
+          </div>
+          <div class="divider">
+          </div>
+          <div class="child-age">
+            <div class="child-age_header">Вік дітей</div>
+            <div class="child-age_field">
+              <div class="child-age_from">
+                <input type="text" id="childFromForm" type="number">
+              </div>
+              <div class="child-age_divider"></div>
+              <div class="child-age_to">
+                <input type="text" type="number">
+              </div>
+            </div>
+
+          </div>
+          <div class="lessons-amount">
+            <div class="lessons-amount_header">Кількість занятть</div>
+            <div class="lessons-amount_field">
+              <div class="lessons-amount_form">
+                <input type="text" type="number">
+              </div>
+              <div class="lessons-amount_label">
+                в тиждень
+              </div>
+            </div>
+          </div>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
         </div>
-      </form> 
+      </form>
     </mat-step>
 
 
