@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-create-activity',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateActivityComponent implements OnInit {
 
-  constructor() { }
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
 
-  ngOnInit(): void {
+  constructor(private _formBuilder: FormBuilder) {}
+
+  ngOnInit() {
+    this.firstFormGroup = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
 }
