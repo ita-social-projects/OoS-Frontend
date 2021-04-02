@@ -42,6 +42,42 @@ input[type=number] {
   margin-top: 32px;
 }
 
+@mixin primary-button {
+  margin-left: 32px;
+  width: 92px;
+  height: 34px;
+  background: #3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #FFFFFF;
+}
+
+@mixin white-button {
+  background: transparent;
+  width: 139px;
+  height: 34px;
+  border: 1px solid #686868;
+  box-sizing: border-box;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  text-align: center;
+  color: #444444;
+}
+
+@mixin button-container {
+  width: 410px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+
 section {
   margin: 0 auto;
   width: 100%;
@@ -51,6 +87,34 @@ section {
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
+
+  .header {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    color: #444444;
+  }
+
+  .subheader {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: center;
+    color: #AAAAAA;
+  }
+
+  span {
+    color: red;
+    margin-right: 0.5px;
+  }
+
+  label {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 15px;
+    color: #333333;
+  }
 
   .form-wrapper {
     padding: 0 122px 0 56px;
@@ -63,6 +127,21 @@ section {
       line-height: 20px;
       text-align: center;
       color: #444444;
+      margin-top: 12px;
+    }
+
+    .header-address {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 20px;
+      color: #272425;
+      margin-top: 18px;
+    }
+
+    .divider {
+      width: 410px;
+      margin-top: 24px;
+      border-bottom: 1px solid #E3E3E3;
     }
 
     .header-bottom {
@@ -72,6 +151,13 @@ section {
       text-align: center;
       color: #AAAAAA;
       margin-top: 16px;
+    }
+
+    .checkbox {
+      font-size: 13px;
+      line-height: 18px;
+      color: #444444;
+      margin-top: 24px;
     }
 
     .form-ownership, .organization-type {
@@ -99,6 +185,13 @@ section {
     .ceo-birthday {
       margin-top: 16px;
 
+      mat-label {
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 15px;
+        color: #333333;
+      }
+
       &_date {
         width: 160px;
         position: relative;
@@ -112,6 +205,7 @@ section {
       }
 
       input {
+        margin-top: 8px;
         appearance: none;
         padding-left: 16px;
         width: 160px;
@@ -122,52 +216,133 @@ section {
       }
     }
 
-    .buttons1 {
-      width: 410px;
+    .photo-header {
+      font-weight: bold;
+      font-size: 13px;
+      line-height: 15px;
+      color: #333333;
+    }
+
+    .photo-subheader {
+      margin-top: 8px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #AAAAAA;
+    }
+
+    .logo {
+      width: 95px;
+      height: 58px;
+      background: rgba(56, 73, 249, 0.1);
+      border: 1px dashed #3849F9;
+      box-sizing: border-box;
+      border-radius: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 32px;
+      margin-top: 16px;
+      cursor: pointer;
+    }
 
-      &_next {
-        button {
-          margin-left: 32px;
-          width: 92px;
-          height: 34px;
-          background: #3849F9;
-          border: 1px solid #3849F9;
-          box-sizing: border-box;
-          border-radius: 20px;
-          font-weight: bold;
-          font-size: 13px;
-          line-height: 15px;
-          color: #FFFFFF;
-        }
+    .logo:hover {
+      background: rgba(56, 73, 249, 0.3);
+    }
+
+    .description {
+      margin-top: 35px;
+
+      &_header {
+        width: 410px;
+        display: flex;
+        justify-content: space-between;
       }
-      &_reset {
-        button {
-          background: transparent;
-          width: 139px;
-          height: 34px;
-          border: 1px solid #686868;
+
+      &_form {
+        textarea {
+          width: 410px;
+          height: 238px;
+          left: 515px;
+          top: 482px;
+          border: 1px solid #E3E3E3;
           box-sizing: border-box;
-          border-radius: 20px;
-          font-weight: bold;
-          font-size: 13px;
-          line-height: 15px;
-          text-align: center;
-          color: #444444;
+          border-radius: 21px;
+          padding: 8px 26px 8px 16px;
         }
       }
     }
 
+    .photo-checkbox {
+      margin-top: 24px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #333333;
+
+      mat-checkbox:nth-child(2) {
+        margin-top: 16px;
+      }
+    }
+
+    .buttons1 {
+      @include button-container;
+
+      &_next {
+        button {
+          @include primary-button;
+        }
+      }
+
+      &_reset {
+        button {
+          @include white-button;
+        }
+      }
+    }
+
+    .buttons2 {
+      @include button-container;
+      justify-content: space-between;
+
+      &_next, &_back {
+        @include primary-button;
+        margin: 0;
+      }
+
+      .reset {
+        @include white-button;
+      }
+    }
+
     .org-full-name, .org-short-name, .ceo-name, .id-code, .phone, .email,
-    .web-page, .facebook, .instagram, .owner-name {
+    .web-page, .facebook, .instagram, .owner-name,
+    .region, .city, .district, .street, .building {
       margin-top: 16px;
 
       input {
+        margin-top: 8px;
         @include form-style;
       }
+    }
+  }
+
+  .buttons3 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 48px;
+
+    &_back {
+      @include primary-button;
+    }
+
+    .reset {
+      @include white-button;
+    }
+
+    &_reg {
+      @include primary-button;
+      margin: 0;
+      width: 169px;
     }
   }
 }
