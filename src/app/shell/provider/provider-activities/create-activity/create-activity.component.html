@@ -70,11 +70,11 @@
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
         <ng-template matStepLabel>Опис</ng-template>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Опис</label>
           <textarea class="step_textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</label>
           <input class="step_input" placeholder="Пандус/спец. обладнання" formControlName="resources">
         </form>
@@ -86,25 +86,49 @@
             <option value="class">Опція3</option>
           </select>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Ключові слова</label>
           <textarea class="step_textarea" placeholder="Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу" formControlName="keyWords"></textarea>
         </form>
-        <div>
-          <p>Go to a different step to see the error state</p>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+        <div fxLayout='row' fxLayoutAlign='center center'>
+          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
+          <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </form>
     </mat-step>
     
     <mat-step>
-      <ng-template matStepLabel>Контакти</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+      <form [formGroup]="thirdFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+        <ng-template matStepLabel>Контакти</ng-template>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
+          <label class="step_label">Місто<span class="step_required">*</span></label>
+          <select class="step_input"  formControlName="city">
+            <option value="group" selected>Київ</option>
+            <option value="section">Івано-Францівськ</option>
+            <option value="class">Одеса</option>
+          </select>
+        </form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
+          <label class="step_label">Вулиця<span class="step_required">*</span></label>
+          <input class="step_input" type="text"  formControlName="street" required>
+        </form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
+          <label class="step_label">Будинок<span class="step_required">*</span></label>
+          <input class="step_input" type="number" formControlName="building" required>
+        </form>
+      </form>
+      <div fxLayout='row' fxLayoutAlign='center center'>
+        <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+        <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
+        <button class="btn" mat-raised-button matStepperNext>Далі</button>
       </div>
+      <div fxLayout='row' fxLayoutAlign='center center'>
+        <span class="step_line step_line_adress" fxLayout='column' fxLayoutAlign='center space-between'></span>
+          <span>Або позначти на карті</span>
+        <span class="step_line" fxLayout='column' fxLayoutAlign='center space-between'></span>
+      </div>
+      
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Викладачі</ng-template>

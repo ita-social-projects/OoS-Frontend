@@ -33,7 +33,6 @@
     }
     &_label{
       font-weight: 500;
-      margin: 0 1rem;
     }
     &_required{
       color:red;
@@ -43,13 +42,13 @@
       border: 1px solid #E3E3E3;
       box-sizing: border-box;
       border-radius: 21px;
+      margin-bottom: 1.2rem;
     }
     &_input{
       border: 1px solid #E3E3E3;
       box-sizing: border-box;
       border-radius: 21px;
       padding:0.5rem;
-      margin-bottom: 0.5rem;
       margin-bottom: 1.2rem;
       &_age{
         max-width: 80px;
@@ -63,11 +62,16 @@
     }
     &_line{
       max-height: 0;
-      min-width: 10px;
       border: 1px solid #E3E3E3;
       margin: 1rem 0 2rem 0;
-
       &_age{
+        max-width: 10px;
+        position: relative;
+        top: 5px;
+        margin: 10px;
+      }
+      &_adress{
+        max-width: 10px;
         position: relative;
         top: 5px;
         margin: 10px;
@@ -86,12 +90,20 @@
     color: #444444;
     background-color:transparent;
     border-color: #444444;
-    margin-right: 2rem;
+    margin: 0 2rem;
   }
 }
 
 input:focus,
+textarea:focus,
 select:focus,
 button:focus {
     outline: none;
+}
+::placeholder {
+  color:#333333;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  padding: 10px;
 }

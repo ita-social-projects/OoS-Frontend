@@ -1,4 +1,4 @@
-interface Workshop{
+export class Workshop {
   type:string;
   title:string;
   phone:number;
@@ -7,10 +7,9 @@ interface Workshop{
   age:{
       from:number;
       to:number;
-  },
+  }
   classAmount:number;
-}
-class Workshop {
+
   constructor(type, title, phone,email, ageFrom, ageTo, classAmount) {
     this.type = type;
     this.title = title;

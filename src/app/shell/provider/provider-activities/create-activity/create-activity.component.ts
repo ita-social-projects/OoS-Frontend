@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { Workshop } from 'src/app/shared/models/workshop.mode';
 
 
 
@@ -14,6 +15,7 @@ export class CreateActivityComponent implements OnInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.firstFormGroup = this.formBuilder.group({
@@ -32,10 +34,15 @@ export class CreateActivityComponent implements OnInit {
       direction: new FormControl(''),
       keyWords: new FormControl('')
     });
+    this.thirdFormGroup = this.formBuilder.group({
+      city: new FormControl(''),
+      street: new FormControl(''), 
+      building: new FormControl('')
+    });
   }
 
   ngOnInit() {
-    
+
   }
 
   onNextStep() {
