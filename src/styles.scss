@@ -5,23 +5,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 div.cdk-overlay-pane{
   width: auto !important; /** workaround for issue #101 **/
 }
-.mat-step-label{
-  font-family:Open Sans;
-  font-weight: 700;
-  color:#AAAAAA !important;
-}
-.mat-step-icon{
-  border: 2px solid #AAAAAA;
-  box-sizing: border-box;
-  color:#AAAAAA!important;
-  background-color:transparent!important;
-}
- .mat-step-icon-selected {
-  border: 2px solid #3849F9;
-  box-sizing: border-box;
-  color:#3849F9 !important;
-  background-color:transparent!important;
-}
-.mat-step-label-selected{
-  color:#3849F9 !important;
-}

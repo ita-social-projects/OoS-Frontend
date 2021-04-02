@@ -30,7 +30,7 @@ const routes: Routes = [
     
   ]
  },
- {path: 'create-activity/:id', component: CreateActivityComponent} 
+ {path: 'create-activity', component: CreateActivityComponent} 
 ];
 
 @NgModule({
