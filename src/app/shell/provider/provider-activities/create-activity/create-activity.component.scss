@@ -7,6 +7,7 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding:0 40px;
+  margin:1.5rem;
     &_title{
       font-family:Open Sans;
       font-weight: 700;
@@ -18,7 +19,7 @@
       font-family:Open Sans;
       font-weight: 700;
       color: #AAAAAA;
-      padding: 60;
+      padding: 0.2rem;
     }
   .step{
     &_form{
@@ -44,9 +45,27 @@
       padding:0.5rem;
       margin-bottom: 0.5rem;
       margin-bottom: 1.2rem;
+      &_age{
+        max-width: 80px;
+      }
+      &_text{
+        font-family:Open Sans;
+      font-weight: 700;
+      color: #AAAAAA;
+      padding: 5px;
+      }
     }
     &_line{
+      max-height: 0;
+      min-width: 10px;
       border: 1px solid #E3E3E3;
+      margin: 1rem 0 2rem 0;
+
+      &_age{
+        position: relative;
+        top: 5px;
+        margin: 10px;
+      }
     }
   }
 }

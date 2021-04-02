@@ -14,41 +14,51 @@
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
           <select class="step_input">
-            <option class="step_option"value="gruop">Гурток</option>
+            <option class="step_option"value="group">Гурток</option>
             <option value="section">Секція</option>
             <option value="class">Клас</option>
           </select>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Назва<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Назва гуртки" formControlName="firstCtrl" required>
+          <input class="step_input"  placeholder="Назва гуртки" formControlName="firstCtrl" required>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Телефон<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Номер телефону" formControlName="firstCtrl" required>
+          <input class="step_input"  placeholder="Номер телефону" formControlName="firstCtrl" required>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Емейл<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Емейл" formControlName="firstCtrl" required>
+          <input class="step_input"  placeholder="Емейл" formControlName="firstCtrl" required>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Веб сайт<span class="step_required">*</span></label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <input class="step_input" placeholder="Веб сайт" formControlName="firstCtrl" required>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Facebook</label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <input class="step_input" placeholder="Веб сайт" formControlName="firstCtrl" required>
         </form>
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Instagram</label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <input class="step_input" placeholder="Веб сайт" formControlName="firstCtrl" required>
         </form>
         
         <span class="step_line" fxLayout='column' fxLayoutAlign='center space-between'></span>
         
-        <form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Вік-дітей</label>
-          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <div fxLayout='row' fxLayoutAlign='start'>
+            <input class="step_input step_input_age" type="number" formControlName="firstCtrl"> <span class="step_line step_line_age"></span>
+            <input class="step_input step_input_age" type="number" formControlName="firstCtrl" >
+          </div>
+        </form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
+          <label class="step_label">Кількість занять</label>
+          <div fxLayout='row' fxLayoutAlign='start'>
+            <input class="step_input step_input_age" type="number"formControlName="firstCtrl" > 
+            <p class="step_input_text">в тиждень</p>
+          </div>
         </form>
         <div>
           <p>Go to a different step to see the error state</p>
