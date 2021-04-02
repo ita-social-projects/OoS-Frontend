@@ -57,32 +57,7 @@ section {
       margin-top: 16px;
     }
 
-    .logo {
-      margin-top: 16px;
-
-      &_header {
-        font-weight: bold;
-        font-size: 13px;
-        line-height: 15px;
-        color: #333333;
-      }
-
-      &_load-image {
-        cursor: pointer;
-        display: flex;
-        margin-top: 8px;
-        justify-content: center;
-        align-items: center;
-        width: 95px;
-        height: 58px;
-        background: rgba(56, 73, 249, 0.1);
-        border: 1px dashed #3849F9;
-
-        border-radius: 5px;
-      }
-    }
-
-    .group-type {
+    .form-ownership, .organization-type {
       margin-top: 16px;
 
       select {
@@ -139,30 +114,7 @@ section {
 
     }
 
-    .lessons-amount {
-      display: flex;
-      flex-direction: column;
-      margin-top: 32px;
-
-      &_field {
-        display: flex;
-        align-items: center;
-
-        input {
-          @include form-style-small;
-        }
-
-        .lessons-amount_label {
-          margin-left: 8px;
-          font-weight: bold;
-          font-size: 13px;
-          line-height: 18px;
-          color: #AAAAAA;
-        }
-      }
-    }
-
-    .group-name, .phone, .email, .web-page, .facebook, .instagram {
+    .org-full-name, .org-short-name, .ceo-name, {
       margin-top: 16px;
 
       input {
