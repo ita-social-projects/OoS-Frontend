@@ -1,48 +1,52 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector  } from '@ngxs/store';
-import {
-  setMinAge,
-  setMaxAge,
-  SetOrder,
-  SelectCity,
-  getCards,
-  getPopCards,
-  GetTeachersCards,
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { 
+  setMinAge, 
+  setMaxAge, 
+  SetOrder, 
+  SelectCity, 
+  GetWorkshops, 
+  GetPopWorkshops, 
+  SetCategory, 
+  AddCategory, 
+  GetTeachersCards, 
+  GetCategories
 } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
 import { actCard } from '../models/activities-card.model';
 import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
+import { patch, append } from '@ngxs/store/operators';
 import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
+import { Category } from '../models/category.model';
+import { CategoriesService } from '../services/categories/categories.service';
 
 export interface FilterStateModel {
   searchQuery: string;
   city: string;
-  stateOwnership: boolean;
-  privateOwnership: boolean;
   isRecruiting: boolean;
   ageFrom: number;
   ageTo: number;
-  categories: [];
+  categories: number[];
   order: string;
   organizationCards: orgCard[];
   teachersCards: TeacherCard[];
+  categoriesCards: Category[];
 }
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
     searchQuery: '',
     city: '',
-    stateOwnership: true,
-    privateOwnership: true,
     isRecruiting: true,
-    ageFrom: null,
-    ageTo: null,
+    ageFrom: 0,
+    ageTo: 16,
     categories: [],
     order: 'ratingDesc',
     organizationCards: [],
     teachersCards: [],
+    categoriesCards: []
   }
 })
 @Injectable()
@@ -50,51 +54,86 @@ export class FilterState {
 
   @Selector()
   static orgCards(state: FilterStateModel) {
-    return state.organizationCards
+    return state.organizationCards;
   }
   @Selector()
   static teacherCards(state: FilterStateModel): TeacherCard[] {
     return state.teachersCards;
   }
-  constructor(private cardsService: OrgCardsService, private cardsActivitiesService: ProviderActivitiesService, private teacherCardService: TeacherCardsService){}
+  @Selector()
+  static categoriesCards(state: FilterStateModel): Category[] {
+    return state.categoriesCards;
+  }
+
+  constructor(
+    private cardsService: OrgCardsService, 
+    private cardsActivitiesService: ProviderActivitiesService, 
+    private teacherCardService: TeacherCardsService,
+    private categoriesService: CategoriesService
+  ) {}
 
   @Action(setMinAge)
-    setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
-      patchState({ ageFrom: payload })
-    }
+  setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
+    patchState({ ageFrom: payload })
+  }
+
   @Action(setMaxAge)
-    setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
-      patchState({ ageTo: payload })
-    }
+  setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
+    patchState({ ageTo: payload })
+  }
+
   @Action(SelectCity)
   selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
     patchState({ city: payload});
   }
+  
   @Action(SetOrder)
-  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder){
+  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder) {
     patchState({ order: payload});
   }
-  @Action(getCards)
-    getCards({ patchState }: StateContext<FilterStateModel>) {
-      return this.cardsService.getCards().subscribe(
-        (organizationCards: orgCard[]) => patchState({organizationCards})
 
-      )
-    }
-  @Action(getPopCards)
-    getPopCards({ patchState }: StateContext<FilterStateModel>) {
-      return this.cardsService.getCards()
-      .subscribe((organizationCards: orgCard[]) => patchState({organizationCards}))
-    }
+  @Action(AddCategory)
+  addCategory(ctx: StateContext<FilterStateModel>, { payload }: AddCategory) {
+    ctx.setState(
+      patch({
+        categories: append([payload])
+      })
+    );
+  }
+
+  @Action(SetCategory)
+  setCategory(ctx: StateContext<FilterStateModel>, { payload }: SetCategory) {
+    ctx.setState(
+      patch({
+        categories: [payload]
+      })
+    );
+  }
+
+  @Action(GetWorkshops)
+  getWorkshops(ctx: StateContext<FilterStateModel>) {
+    return this.cardsService.getWorkshops(ctx.getState())
+    .subscribe((organizationCards: orgCard[]) => ctx.patchState({organizationCards}))
+  }
+
+  @Action(GetPopWorkshops)
+  getPopWorkshops({ patchState }: StateContext<FilterStateModel>) {
+    return this.cardsService.getPopWorkshops()
+    .subscribe((organizationCards: orgCard[]) => patchState({organizationCards}))
+  }
 
   @Action(GetTeachersCards)
   GetTeachersCards({ patchState }: StateContext<FilterStateModel>): void {
     this.teacherCardService.getTeachersInfo()
-      .subscribe(
-        (  teachersCards: TeacherCard[]) => {
-          patchState({  teachersCards });
-        }
-      );
+      .subscribe((teachersCards: TeacherCard[]) => {
+        patchState({  teachersCards });
+      });
+  }
+  
+  @Action(GetCategories)
+  getCategories({ patchState }: StateContext<FilterStateModel>) {
+    return this.categoriesService.getCategories()
+    .subscribe((categoriesCards: Category[]) => patchState({categoriesCards}))
   }
 
 }
