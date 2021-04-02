@@ -1,0 +1,10 @@
+<div class="container">
+  <h1 class="title">КАБІНЕТ КОРИСТУВАЧА</h1>
+
+<nav class="nav" mat-tab-nav-bar>
+  <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА ІНФОРМАЦІЯ</a>
+  <a mat-tab-link [routerLinkActive]="['active']">ІНФОРМАЦІЯ ПРО ЗАКЛАД</a>
+  <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./activities'">ГУРТКИ</a>
+  <a mat-tab-link [routerLinkActive]="['active']">ЗАЯВКИ</a>
+</nav>
+<router-outlet></router-outlet>
