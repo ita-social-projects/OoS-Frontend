@@ -21,27 +21,27 @@
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Назва<span class="step_required">*</span></label>
-          <input class="step_input"  placeholder="Назва гуртки" formControlName="firstCtrl" required>
+          <input class="step_input" type="text"  formControlName="firstCtrl" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Телефон<span class="step_required">*</span></label>
-          <input class="step_input"  placeholder="Номер телефону" formControlName="firstCtrl" required>
+          <input class="step_input" type="number"  formControlName="firstCtrl" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Емейл<span class="step_required">*</span></label>
-          <input class="step_input"  placeholder="Емейл" formControlName="firstCtrl" required>
+          <input class="step_input" type="email" formControlName="firstCtrl" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Веб сайт<span class="step_required">*</span></label>
-          <input class="step_input" placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <input class="step_input" type="text" formControlName="firstCtrl" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Facebook</label>
-          <input class="step_input" placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <input class="step_input" type="text" formControlName="firstCtrl" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Instagram</label>
-          <input class="step_input" placeholder="Веб сайт" formControlName="firstCtrl" required>
+          <input class="step_input" type="text" formControlName="firstCtrl" required>
         </form>
         
         <span class="step_line" fxLayout='column' fxLayoutAlign='center space-between'></span>
@@ -60,11 +60,12 @@
             <p class="step_input_text">в тиждень</p>
           </div>
         </form>
-        <div>
-          <p>Go to a different step to see the error state</p>
-          <button mat-button matStepperNext>Next</button>
+        <div fxLayout='row' fxLayoutAlign='center center'>
+          <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
+          <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
-      </form> 
+      </form>
+ 
     </mat-step>
 
 

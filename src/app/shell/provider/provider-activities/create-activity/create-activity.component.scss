@@ -69,3 +69,18 @@
     }
   }
 }
+.btn{
+  min-width: 40px;
+  color:white;
+  background-color:#3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 5px;
+  &_cancel{
+    color: #444444;
+    background-color:transparent;
+    border-color: #444444;
+    margin-right: 2rem;
+  }
+}
