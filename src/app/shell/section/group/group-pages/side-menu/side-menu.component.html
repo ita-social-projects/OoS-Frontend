@@ -46,7 +46,17 @@
   <div class=" item schedule">
     <div class="schedule_header">РОЗКЛАД ЗАНЯТЬ</div>
     <div class="schedule_datepicker">
-      <mat-calendar></mat-calendar>
+      <mat-datepicker-toggle [for]="resultPicker"></mat-datepicker-toggle>
+      <mat-form-field>
+        <mat-label>Pick a date</mat-label>
+        <input matInput
+               #resultPickerModel="ngModel"
+               [matDatepicker]="resultPicker"
+               [(ngModel)]="date"
+        >
+        <mat-datepicker #resultPicker [dateClass]="dateClass">
+        </mat-datepicker>
+      </mat-form-field>
     </div>
     <div class="schedule_detail-info">
       <div class="button">

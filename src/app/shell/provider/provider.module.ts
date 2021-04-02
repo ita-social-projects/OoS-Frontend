@@ -23,6 +23,7 @@ import { ProviderState } from 'src/app/shared/store/provider.state';
 import { NgxsModule } from '@ngxs/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import {MaterialModule} from "../../shared/material/material.module";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
         ReactiveFormsModule,
         HttpClientModule,
         NgxsModule.forFeature([ProviderState]),
-        MatTabsModule
+        MatTabsModule,
+        MaterialModule
     ],
 
   providers: [
