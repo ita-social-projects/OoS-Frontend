@@ -26,6 +26,7 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
 import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { CreateActivityComponent } from './provider-activities/create-activity/c
         ReactiveFormsModule,
         HttpClientModule,
         NgxsModule.forFeature([ProviderState]),
-        MatTabsModule
+        MatTabsModule,
+        MatStepperModule
     ],
 
   providers: [

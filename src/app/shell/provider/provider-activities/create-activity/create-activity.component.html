@@ -1,1 +1,96 @@
-<p>create-activity works!</p>
+<div fxLayout='row' fxLayoutAlign='center center'>
+  <div class="wrapper">
+    <div fxLayout='column' fxLayoutAlign='center center'>
+      <h3 class="wrapper_title">НОВИЙ ГУРТОК</h3>
+      <p class="wrapper_text">Додайте новий гурток, секцію фбо групу для навчання</p>
+    </div>
+    
+  <mat-horizontal-stepper #stepper>
+    
+    <mat-step [stepControl]="firstFormGroup">
+       <form [formGroup]="firstFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+        <ng-template matStepLabel>Про гурток</ng-template>
+        <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
+          <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
+          <select class="step_input">
+            <option class="step_option"value="gruop">Гурток</option>
+            <option value="section">Секція</option>
+            <option value="class">Клас</option>
+          </select>
+        </form>
+        <form>
+          <label class="step_label">Назва<span class="step_required">*</span></label>
+          <input class="step_input" matInput placeholder="Назва гуртки" formControlName="firstCtrl" required>
+        </form>
+        <form>
+          <label class="step_label">Телефон<span class="step_required">*</span></label>
+          <input class="step_input" matInput placeholder="Номер телефону" formControlName="firstCtrl" required>
+        </form>
+        <form>
+          <label class="step_label">Емейл<span class="step_required">*</span></label>
+          <input class="step_input" matInput placeholder="Емейл" formControlName="firstCtrl" required>
+        </form>
+        <form>
+          <label class="step_label">Веб сайт<span class="step_required">*</span></label>
+          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+        </form>
+        <form>
+          <label class="step_label">Facebook</label>
+          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+        </form>
+        <form>
+          <label class="step_label">Instagram</label>
+          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+        </form>
+        
+        <span class="step_line" fxLayout='column' fxLayoutAlign='center space-between'></span>
+        
+        <form>
+          <label class="step_label">Вік-дітей</label>
+          <input class="step_input" matInput placeholder="Веб сайт" formControlName="firstCtrl" required>
+        </form>
+        <div>
+          <p>Go to a different step to see the error state</p>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form> 
+    </mat-step>
+
+
+
+    <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Опис</ng-template>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="Ex. 1 Main St, New York, NY" formControlName="secondCtrl"
+                required>
+        </mat-form-field>
+        <div>
+          <p>Go to a different step to see the error state</p>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Контакти</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Викладачі</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  </div>
+</div>
+
