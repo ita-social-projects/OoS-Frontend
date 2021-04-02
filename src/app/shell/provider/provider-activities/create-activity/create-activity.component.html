@@ -13,7 +13,7 @@
         <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
-          <select class="step_input">
+          <select class="step_input"  formControlName="type">
             <option value="group" selected>Гурток</option>
             <option value="section">Секція</option>
             <option value="class">Клас</option>
@@ -21,27 +21,27 @@
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Назва<span class="step_required">*</span></label>
-          <input class="step_input" type="text"  formControlName="firstCtrl" required>
+          <input class="step_input" type="text"  formControlName="title" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Телефон<span class="step_required">*</span></label>
-          <input class="step_input" type="number"  formControlName="firstCtrl" required>
+          <input class="step_input" type="number"  formControlName="phone" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Емейл<span class="step_required">*</span></label>
-          <input class="step_input" type="email" formControlName="firstCtrl" required>
+          <input class="step_input" type="email" formControlName="email" required>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Веб сайт<span class="step_required">*</span></label>
-          <input class="step_input" type="text" formControlName="firstCtrl" required>
+          <input class="step_input" type="text">
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Facebook</label>
-          <input class="step_input" type="text" formControlName="firstCtrl" required>
+          <input class="step_input" type="text" >
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Instagram</label>
-          <input class="step_input" type="text" formControlName="firstCtrl" required>
+          <input class="step_input" type="text" >
         </form>
         
         <span class="step_line" fxLayout='column' fxLayoutAlign='center space-between'></span>
@@ -49,35 +49,47 @@
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Вік-дітей</label>
           <div fxLayout='row' fxLayoutAlign='start'>
-            <input class="step_input step_input_age" type="number" formControlName="firstCtrl"> <span class="step_line step_line_age"></span>
-            <input class="step_input step_input_age" type="number" formControlName="firstCtrl" >
+            <input class="step_input step_input_age" type="number" formControlName="ageFrom"> <span class="step_line step_line_age"></span>
+            <input class="step_input step_input_age" type="number" formControlName="ageTo" >
           </div>
         </form>
         <form fxLayout='column' fxLayoutAlign='center space-between'>
           <label class="step_label">Кількість занять</label>
           <div fxLayout='row' fxLayoutAlign='start'>
-            <input class="step_input step_input_age" type="number"formControlName="firstCtrl" > 
+            <input class="step_input step_input_age" type="number" formControlName="classAmount" > 
             <p class="step_input_text">в тиждень</p>
           </div>
         </form>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="onNextStep">Далі</button>
         </div>
       </form>
- 
+
     </mat-step>
-
-
-
-    <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
-      <form [formGroup]="secondFormGroup">
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
         <ng-template matStepLabel>Опис</ng-template>
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput placeholder="Ex. 1 Main St, New York, NY" formControlName="secondCtrl"
-                required>
-        </mat-form-field>
+        <form>
+          <label class="step_label">Опис</label>
+          <textarea class="step_textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
+        </form>
+        <form>
+          <label class="step_label">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</label>
+          <input class="step_input" placeholder="Пандус/спец. обладнання" formControlName="resources">
+        </form>
+        <form fxLayout='column' fxLayoutAlign='center space-between'>
+          <label class="step_label">Напрямок за яким здійснюється навчання<span class="step_required">*</span></label>
+          <select class="step_input" placeholder="Почніть вводити напрямок або виберіть зі списку" formControlName="direction">
+            <option value="group">Опція1</option>
+            <option value="section">Опція2</option>
+            <option value="class">Опція3</option>
+          </select>
+        </form>
+        <form>
+          <label class="step_label">Ключові слова</label>
+          <textarea class="step_textarea" placeholder="Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу" formControlName="keyWords"></textarea>
+        </form>
         <div>
           <p>Go to a different step to see the error state</p>
           <button mat-button matStepperPrevious>Back</button>
@@ -85,6 +97,7 @@
         </div>
       </form>
     </mat-step>
+    
     <mat-step>
       <ng-template matStepLabel>Контакти</ng-template>
       <p>You are now done.</p>
