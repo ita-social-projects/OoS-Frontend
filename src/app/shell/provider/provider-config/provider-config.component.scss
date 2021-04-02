@@ -4,6 +4,16 @@
   padding: 0;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 @mixin form-style {
   width: 410px;
   height: 34px;
@@ -13,6 +23,7 @@
   border: 1px solid #E3E3E3;
   box-sizing: border-box;
   border-radius: 21px;
+
 }
 
 @mixin form-style-small {
@@ -23,6 +34,12 @@
   border: 1px solid #EBEBEB;
   box-sizing: border-box;
   border-radius: 20px;
+}
+
+@mixin divider {
+  border-bottom: 1px solid #E3E3E3;
+  width: 410px;
+  margin-top: 32px;
 }
 
 section {
@@ -79,42 +96,73 @@ section {
       }
     }
 
-    .divider {
-      border-bottom: 1px solid #E3E3E3;
-      width: 410px;
-      margin-top: 32px;
-    }
+    .ceo-birthday {
+      margin-top: 16px;
 
-    .child-age {
-      width: 410px;
-      display: flex;
-      flex-direction: column;
+      &_date {
+        width: 160px;
+        position: relative;
 
-      .child-age_field {
-        display: flex;
-
-        .child-age_from, .child-age_to {
-          input {
-            appearance: none;
-          }
-        }
-
-        .child-age_divider {
-          margin: 0 3px 0 3px;
-          align-self: center;
-          width: 16px;
-          height: 1px;
-          background: #EBEBEB;
-        }
-
-        input {
-          @include form-style-small;
+        mat-datepicker-toggle {
+          position: absolute;
+          right: 5%;
+          top: 50%;
+          transform: translateY(-50%);
         }
       }
 
+      input {
+        appearance: none;
+        padding-left: 16px;
+        width: 160px;
+        height: 34px;
+        border: 1px solid #E3E3E3;
+        box-sizing: border-box;
+        border-radius: 21px;
+      }
     }
 
-    .org-full-name, .org-short-name, .ceo-name, {
+    .buttons1 {
+      width: 410px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 32px;
+
+      &_next {
+        button {
+          margin-left: 32px;
+          width: 92px;
+          height: 34px;
+          background: #3849F9;
+          border: 1px solid #3849F9;
+          box-sizing: border-box;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 13px;
+          line-height: 15px;
+          color: #FFFFFF;
+        }
+      }
+      &_reset {
+        button {
+          background: transparent;
+          width: 139px;
+          height: 34px;
+          border: 1px solid #686868;
+          box-sizing: border-box;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 13px;
+          line-height: 15px;
+          text-align: center;
+          color: #444444;
+        }
+      }
+    }
+
+    .org-full-name, .org-short-name, .ceo-name, .id-code, .phone, .email,
+    .web-page, .facebook, .instagram, .owner-name {
       margin-top: 16px;
 
       input {

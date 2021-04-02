@@ -45,14 +45,17 @@
               <input type="text" id="ceoName">
             </div>
             <div class="ceo-birthday">
-              <mat-label>Choose a date</mat-label>
-              <input matInput [matDatepicker]="picker">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-
+              <mat-label>Дата народження керівника*</mat-label>
+              <div class="ceo-birthday_date">
+                <input matInput [matDatepicker]="picker" placeholder="01.01.2010">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </div>
             </div>
-<!--            -->
-
+            <div class="id-code">
+              <label for="idCode">ЄДРПОУ/ІПН*</label>
+              <input type="number" id="idCode">
+            </div>
             <div class="phone">
               <label for="phoneForm">Телефон*</label>
               <input type="text" id="phoneForm">
@@ -73,35 +76,19 @@
               <label for="instagram">Instagram</label>
               <input type="text" id="instagram">
             </div>
-            <div class="divider">
+            <div class="owner-name">
+              <label for="ownerName">Засновник*</label>
+              <input type="text" id="ownerName">
             </div>
-            <div class="child-age">
-              <div class="child-age_header">Вік дітей</div>
-              <div class="child-age_field">
-                <div class="child-age_from">
-                  <input type="text" id="childFromForm" type="number">
-                </div>
-                <div class="child-age_divider"></div>
-                <div class="child-age_to">
-                  <input type="text" type="number">
-                </div>
+            <div class="buttons1">
+              <div class="buttons1_reset">
+                <button>СКАСУВАТИ</button>
               </div>
+              <div class="buttons1_next">
+                <button mat-button matStepperNext>ДАЛІ</button>
+              </div>
+            </div>
 
-            </div>
-            <div class="lessons-amount">
-              <div class="lessons-amount_header">Кількість занятть</div>
-              <div class="lessons-amount_field">
-                <div class="lessons-amount_form">
-                  <input type="text" type="number">
-                </div>
-                <div class="lessons-amount_label">
-                  в тиждень
-                </div>
-              </div>
-            </div>
-            <div>
-              <button mat-button matStepperNext>Next</button>
-            </div>
           </div>
         </form>
 
