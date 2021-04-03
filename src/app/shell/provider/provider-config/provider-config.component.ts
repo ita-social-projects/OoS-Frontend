@@ -9,8 +9,11 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class ProviderConfigComponent implements OnInit {
   isLinear = false;
+  selectedLogos = [];
   orgFormGroup: FormGroup;
   addressFormGroup: FormGroup;
+  photoFormGroup: FormGroup;
+
 
 
   constructor() {
@@ -42,7 +45,6 @@ export class ProviderConfigComponent implements OnInit {
         street: new FormControl(null, Validators.required),
         building: new FormControl(null, Validators.required),
       }),
-
       actualAddress: new FormGroup({
         region: new FormControl(null, Validators.required),
         city: new FormControl(null, Validators.required),
@@ -51,11 +53,27 @@ export class ProviderConfigComponent implements OnInit {
         building: new FormControl(null, Validators.required),
       })
     });
+    this.photoFormGroup = new FormGroup({
+      photo: new FormControl(null, Validators.required),
+      text: new FormControl(null, Validators.required)
+    });
   }
 
 
-  go() {
-    console.log(this.orgFormGroup);
-    console.log(this.addressFormGroup);
+  go(): void {
+  }
+
+  onFileSelected(event): any {
+    this.readThis(event);
+  }
+
+  readThis(inputValue: any): any {
+    const file: File = inputValue.target.files[0];
+    const myReader: FileReader = new FileReader();
+    myReader.onloadend = (e) => {
+      this.selectedLogos.push(myReader.result);
+    };
+
+    myReader.readAsDataURL(file);
   }
 }

@@ -77,7 +77,8 @@ input[type=number] {
   align-items: center;
   margin-top: 32px;
 }
-::ng-deep .mat-horizontal-stepper-header{
+
+::ng-deep .mat-horizontal-stepper-header {
   pointer-events: none !important;
 }
 
@@ -237,21 +238,45 @@ section {
     }
 
     .logo {
-      width: 95px;
+      width: 100%;
       height: 58px;
-      background: rgba(56, 73, 249, 0.1);
-      border: 1px dashed #3849F9;
-      box-sizing: border-box;
-      border-radius: 5px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      margin-top: 16px;
-      cursor: pointer;
-    }
 
-    .logo:hover {
-      background: rgba(56, 73, 249, 0.3);
+      &_button {
+        label {
+          width: 95px;
+          height: 58px;
+          background: rgba(56, 73, 249, 0.1);
+          border: 1px dashed #3849F9;
+          box-sizing: border-box;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+
+        label:hover {
+          transition: all 0.3s ease-out;
+          background: rgba(56, 73, 249, 0.3);
+        }
+
+        input {
+          display: none;
+        }
+      }
+      &_images {
+        width: 100%;
+        max-width: 95px;
+        height: 58px;
+
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
 
     .description {
