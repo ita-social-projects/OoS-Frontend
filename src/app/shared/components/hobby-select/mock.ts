@@ -1,4 +1,4 @@
-import iData from "../../models/direction-data.model";
+import iData from '../../models/direction-data.model';
 
 const data: iData[] = [
     {   direction: 'Музика',
