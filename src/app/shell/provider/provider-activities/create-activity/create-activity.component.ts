@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import { Workshop } from 'src/app/shared/models/workshop.mode';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 
 
@@ -12,13 +13,16 @@ import { Workshop } from 'src/app/shared/models/workshop.mode';
 export class CreateActivityComponent implements OnInit {
 
   workshop;
+  url='/Workshop/Create';
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
+  WorkshopFormArray: FormArray;
+  AboutFormGroup: FormGroup;
+  DescriptionFormGroup: FormGroup;
+  ContactsFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.firstFormGroup = this.formBuilder.group({
+  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+    
+    this.AboutFormGroup = this.formBuilder.group({
       type: new FormControl(''),
       title: new FormControl(''), 
       phone: new FormControl(''),
@@ -27,14 +31,14 @@ export class CreateActivityComponent implements OnInit {
       ageTo: new FormControl(''),
       classAmount: new FormControl('')
     });
-    this.secondFormGroup = this.formBuilder.group({
+    this.DescriptionFormGroup = this.formBuilder.group({
       photos: new FormControl(''),
       description: new FormControl(''), 
       resources: new FormControl(''),
       direction: new FormControl(''),
       keyWords: new FormControl('')
     });
-    this.thirdFormGroup = this.formBuilder.group({
+    this.ContactsFormGroup = this.formBuilder.group({
       city: new FormControl(''),
       street: new FormControl(''), 
       building: new FormControl('')
@@ -45,8 +49,14 @@ export class CreateActivityComponent implements OnInit {
 
   }
 
-  onNextStep() {
-    
+  onSubmit() {
+    const about = this.AboutFormGroup.value;
+    const description = this.DescriptionFormGroup.value;
+    const contacts = this.ContactsFormGroup.value;
+
+    this.workshop= new Workshop(about, description, contacts);
+
+    this.http.post(this.url, this.workshop);
   }
 
 }

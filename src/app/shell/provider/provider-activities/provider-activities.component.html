@@ -1,4 +1,4 @@
-<div *ngIf="(cards | async) then ActivitiesList; else AddNewActivity"></div>
+<div *ngIf="(cards$ | async).length then ActivitiesList; else AddNewActivity"></div>
 
 <ng-template #AddNewActivity>
   <div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center' >

@@ -15,14 +15,14 @@ import { actCard } from '../../../shared/models/activities-card.model';
 export class ProviderActivitiesComponent implements OnInit {
   
 
-  @Select(ProviderState.activitiesList) cards$: Observable<actCard[]>;
-  public cards: actCard[];
+  @Select(ProviderState.activitiesList) 
+  cards$: Observable<actCard[]>;
 
   constructor(private providerActivititesService: ProviderActivitiesService, private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetActivitiesCards())
-    this.cards$.subscribe(cards => this.cards = cards);
+
   }
 }
