@@ -1,25 +1,36 @@
 export class setMinAge {
-  static readonly type = '[filter] set min age';
+  static readonly type = '[filter] Set Min Age';
   constructor(public payload: number) {}
 }
 export class setMaxAge {
-  static readonly type = '[filter] set max age';
+  static readonly type = '[filter] Set Max Age';
   constructor(public payload: number) {}
 }
-export class getCards {
-  static readonly type = '[filter] get organization cards';
-}
-export class getPopCards {
-  static readonly type = '[filter] get 4 most popular organization cards';
-}
 export class SelectCity {
-  static readonly type = '[app] selects city';
+  static readonly type = '[app] Select City';
   constructor(public payload: string) {}
 }
 export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) {}
 }
+export class AddCategory {
+  static readonly type = '[filter] Add Categoty';
+  constructor(public payload: number) {}
+}
+export class SetCategory {
+  static readonly type = '[filter] Set Categoty';
+  constructor(public payload: number) {}
+}
+export class GetWorkshops {
+  static readonly type = '[filter] Get Workshops';
+}
+export class GetPopWorkshops {
+  static readonly type = '[filter] Get 4 Most Popular Organization Cards';
+}
 export class GetTeachersCards {
-  static readonly type = '[filter] get teachers cards';
+  static readonly type = '[filter] Get Teachers Cards';
+}
+export class GetCategories {
+  static readonly type = '[filter] Get Categories';
 }

@@ -1,0 +1,11 @@
+<mat-card class="category">
+  <img class="icon" src="{{ icons[categoryCard.id] }}" alt="{{ categoryCard.title }}">
+  <div class="details">
+    <h3 class="title">{{ categoryCard.title }}</h3>
+    <div class="link">
+      <a routerLink="/result" (click)="selectCategory(categoryCard.id)">
+        254 гуртки <span class="material-icons arrow">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</mat-card>
