@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
+import { HobbySelectComponent } from './components/hobby-select/hobby-select.component';
 
 
 
@@ -25,6 +26,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
     DigitOnlyDirective,
     OrganizationCardComponent,
     TeacherCardComponent,
+    HobbySelectComponent,
   ],
   imports: [
     MaterialModule,
@@ -42,6 +44,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
     OrganizationCardComponent,
     MaterialModule,
     TeacherCardComponent,
+    HobbySelectComponent,
   ]
 })
 export class SharedModule { }
