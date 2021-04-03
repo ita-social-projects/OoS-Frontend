@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { FilterState } from '../../../../../shared/store/filter.state';
 import { Observable } from 'rxjs';
 import { orgCard } from '../../../../../shared/models/org-card.model';
-import { getPopCards } from '../../../../../shared/store/filter.actions';
+import { GetPopWorkshops } from '../../../../../shared/store/filter.actions';
 
 @Component({
   selector: 'app-school-classes',
@@ -19,7 +19,7 @@ export class SchoolClassesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new getPopCards());
+    this.store.dispatch(new GetPopWorkshops());
     this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards);
   }
 }
