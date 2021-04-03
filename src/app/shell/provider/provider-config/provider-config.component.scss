@@ -77,12 +77,15 @@ input[type=number] {
   align-items: center;
   margin-top: 32px;
 }
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
+}
 
 section {
   margin: 0 auto;
   width: 100%;
   max-width: 654px;
-  height: 1369px;
+  height: 100%;
   padding: 48px;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -94,9 +97,11 @@ section {
     line-height: 20px;
     text-align: center;
     color: #444444;
+    margin-top: 48px;
   }
 
   .subheader {
+    margin-top: 16px;
     font-weight: bold;
     font-size: 13px;
     line-height: 18px;
