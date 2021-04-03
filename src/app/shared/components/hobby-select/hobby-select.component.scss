@@ -3,46 +3,23 @@
     flex-direction: column;
     justify-content: space-between;
     .custom-select {
+        box-sizing: border-box;
         transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        border: 1px solid #ced4da;
-        border-radius: 30px;
+        border: 1px solid #E3E3E3;
+        border-radius: 21px;
         width: 100%;
-        height: calc(1.5em + 0.75rem + 2px);
-        padding: .375rem 1.75rem .375rem .75rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 22px;
         color: #495057;
         vertical-align: middle;
         appearance: none;
-        margin: 5px;
-        background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px;
+        padding: 0.5rem;
+        margin-bottom: 1.2rem;
+        background: url("../../../../assets/icons/dropdown_arrow.svg") no-repeat right .75rem center/14px 12px;
         &:focus {
             outline: none;
         }
-
-    //     -webkit-writing-mode: horizontal-tb !important;
-    // text-rendering: auto;
-    // color: -internal-light-dark(black, white);
-    // letter-spacing: normal;
-    // word-spacing: normal;
-    // text-transform: none;
-    // text-indent: 0px;
-    // text-shadow: none;
-    // display: inline-block;
-    // text-align: start;
-    // appearance: auto;
-    // background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
-    // -webkit-rtl-ordering: logical;
-    // cursor: text;
-    // margin: 0em;
-    // font: 400 13.3333px Arial;
-    // padding: 1px 2px;
-    // border-width: 2px;
-    // border-style: inset;
-    // border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-    // border-image: initial;
-
     }
     select.browser-default {
         display: block !important;
