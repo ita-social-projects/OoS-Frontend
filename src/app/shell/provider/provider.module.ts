@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { ProviderActivitiesService } from '../../shared/services/provider-activities/provider-activities.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
@@ -23,7 +23,7 @@ import { ProviderState } from 'src/app/shared/store/provider.state';
 import { NgxsModule } from '@ngxs/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-import {MaterialModule} from "../../shared/material/material.module";
+import { MaterialModule } from '../../shared/material/material.module';
 
 @NgModule({
   declarations: [

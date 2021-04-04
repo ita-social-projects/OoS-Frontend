@@ -1,0 +1,18 @@
+.error.input::ng-deep {
+  margin-top: 8px;
+  appearance: none;
+  padding-left: 16px;
+  width: 160px;
+  height: 34px;
+  border: 1px solid red;
+  box-sizing: border-box;
+  border-radius: 21px;
+}
+
+.disabled-button {
+  opacity: 0.5;
+}
+
+.highlight-text {
+  color: red;
+}

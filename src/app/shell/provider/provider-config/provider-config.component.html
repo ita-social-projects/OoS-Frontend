@@ -34,14 +34,19 @@
             </div>
             <div class="org-full-name">
               <label for="groupNameFull">Повна назва організації<span class="important">*</span></label>
-              <input type="text" id="groupNameFull" formControlName="orgFullName">
+              <input
+                type="text"
+                id="groupNameFull"
+                formControlName="orgFullName"
+                [ngClass]="{'error': !orgFormGroup.get('orgFullName').valid && orgFormGroup.get('orgFullName').touched}"
+              >
             </div>
             <div class="org-short-name">
               <label for="groupNameShort">Скорочена назва організації<span class="important">*</span></label>
               <input type="text" id="groupNameShort" formControlName="orgShortName">
             </div>
             <div class="ceo-name">
-              <label for="ceoName">ПІБ керівника*</label>
+              <label for="ceoName">ПІБ керівника<span class="important">*</span></label>
               <input type="text" id="ceoName" formControlName="ceoName">
             </div>
             <div class="ceo-birthday">
@@ -85,19 +90,17 @@
                 <button>СКАСУВАТИ</button>
               </div>
               <div class="buttons1_next">
-                <button mat-button matStepperNext>ДАЛІ</button>
-
-                <!--                   [disabled]="!orgFormGroup.valid"  (click)="go()"-->
-
+                <button
+                  mat-button matStepperNext [disabled]="orgFormGroup.valid"
+                  [ngClass]="{'disabled-button':!orgFormGroup.valid}"
+                >ДАЛІ
+                </button>
               </div>
             </div>
           </div>
         </form>
-
       </mat-step>
-      <!-- #docregion label -->
       <mat-step [stepControl]="addressFormGroup" label="Контакти">
-        <!-- #enddocregion label -->
         <form [formGroup]="addressFormGroup">
           <div class="form-wrapper">
             <ng-container formGroupName="legalAddress">
@@ -123,7 +126,6 @@
                 <input type="text" id="building" formControlName="building">
               </div>
             </ng-container>
-            <!--            -->
             <div class="divider">
             </div>
             <div class="header-address">Фактична адреса</div>
@@ -156,12 +158,15 @@
             <div class="buttons2">
               <button class="buttons2_back" mat-button matStepperPrevious>НАЗАД</button>
               <button class="reset">СКАСУВАТИ</button>
-              <button class="buttons2_next" mat-button matStepperNext (click)="go()">ДАЛІ</button>
+              <button class="buttons2_next" mat-button matStepperNext
+                      [ngClass]="{'disabled-button':!addressFormGroup.valid}"
+                      [disabled]="addressFormGroup.valid"
+              >ДАЛІ
+              </button>
             </div>
           </div>
         </form>
       </mat-step>
-
       <mat-step>
         <ng-template matStepLabel>Фото</ng-template>
         <form [formGroup]="photoFormGroup">
@@ -169,14 +174,15 @@
             <div class="photo-header">Фото</div>
             <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум 4 фото</div>
             <div class="logo">
-              <div class="logo_button">
+              <div class="logo_button" *ngIf="(photoFormGroup.controls['photos']).value.length < 4">
                 <label for="customFile">
                   <input type="file" formControlName="photo" (change)="onFileSelected($event)"
                          accept=".jpg, .jpeg, .png" id="customFile">
                   <img src="assets/icons/plus.png" alt="logo_img">
                 </label>
               </div>
-              <ng-container *ngFor="let img of selectedLogos">
+              <ng-container
+                *ngFor="let img of selectedLogos;">
                 <div class="logo_images">
                   <img src="{{img}}" alt="">
                 </div>
@@ -185,7 +191,9 @@
             <div class="description">
               <div class="description_header">
                 <label for="text-desc">Опис*</label>
-                <p>0/500</p>
+                <p><span
+                  [ngClass]="{'highlight-text': !photoFormGroup.controls['text'].valid && photoFormGroup.controls['text'].touched }"
+                  class="default">{{photoFormGroup.controls['text'].value.length}}</span>/500</p>
               </div>
               <div class="description_form">
                 <textarea name="" id="text-desc" cols="30" rows="10"
@@ -193,17 +201,21 @@
               </div>
             </div>
             <div class="photo-checkbox">
-              <mat-checkbox required>Я надаю згоду на обробку персональних даних
+              <mat-checkbox formControlName="personalInfoAgreement">Я надаю згоду на обробку персональних даних
               </mat-checkbox>
-              <mat-checkbox required>Я не робот
+              <mat-checkbox formControlName="notRobot">Я не робот
               </mat-checkbox>
             </div>
           </div>
         </form>
         <div class="buttons3">
           <button mat-button matStepperPrevious class="buttons3_back">НАЗАД</button>
-          <button mat-button class="reset" (click)="stepper.reset()">СКАСУВАТИ</button>
-          <button mat-button matStepperPrevious class="buttons3_reg" (click)="go()">ЗАРЕЄСТРУВАТИ</button>
+          <button mat-button class="reset">СКАСУВАТИ</button>
+          <button mat-button matStepperPrevious class="buttons3_reg"
+                  [ngClass]="{'disabled-button':!photoFormGroup.valid}"
+                  [disabled]="photoFormGroup.valid"
+                  >ЗАРЕЄСТРУВАТИ
+          </button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

@@ -14,6 +14,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+
 @mixin form-style {
   width: 410px;
   height: 34px;
@@ -110,7 +111,7 @@ section {
     color: #AAAAAA;
   }
 
-  span {
+  .important {
     color: red;
     margin-right: 0.5px;
   }
@@ -238,7 +239,8 @@ section {
     }
 
     .logo {
-      width: 100%;
+
+      width: 410px;
       height: 58px;
       display: flex;
       align-items: center;
@@ -266,12 +268,17 @@ section {
           display: none;
         }
       }
+
       &_images {
+        margin-left: 8px;
         width: 100%;
         max-width: 95px;
         height: 58px;
+        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+        background: #FFFFFF;
 
         img {
+          border-radius: 5px;
           object-fit: cover;
           width: 100%;
           height: 100%;
