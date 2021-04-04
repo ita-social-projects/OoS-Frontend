@@ -27,9 +27,10 @@ import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.
 import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
 import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
 import { MatStepperModule } from '@angular/material/stepper';
-import { InputResetDirective } from 'src/app/shared/directives/resetMaterial/input-reset.directive';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 @NgModule({
@@ -40,8 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
     PersonalCabinetComponent,
     ProviderOrgInfoComponent,
     ProviderRequestsComponent,
-    CreateActivityComponent,
-    InputResetDirective
+    CreateActivityComponent
   ],
     imports: [
         CommonModule,
@@ -61,7 +61,9 @@ import { MatIconModule } from '@angular/material/icon';
         MatTabsModule,
         MatStepperModule,
         MatAutocompleteModule,
-        MatIconModule
+        MatIconModule,
+        SharedModule,
+        LeafletModule
     ],
 
   providers: [

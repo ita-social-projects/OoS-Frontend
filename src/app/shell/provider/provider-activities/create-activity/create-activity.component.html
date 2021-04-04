@@ -10,19 +10,28 @@
     <mat-step [stepControl]="AboutFormGroup">
        <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
         <ng-template matStepLabel>Про гурток</ng-template>
-        <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
         
-          <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
+        
+        <mat-form-field >
+          <label class="step_label">Назва<span class="step_required">*</span></label>
+          <input matInput class="step_input" type="text"  formControlName="title" required>
+          </mat-form-field >
+        
+        
+        
+        
+        <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
+          <label class="step_label">Логотип</label>
+          <app-image-input></app-image-input>
+          <label >Гурток/Секція/Клас<span class="step_required">*</span></label>
           <mat-select class="step_input"  formControlName="type">
             <mat-option value="group" selected>Гурток</mat-option>
             <mat-option value="section">Секція</mat-option>
             <mat-option value="class">Клас</mat-option>
           </mat-select>
         
-        
-          <label class="step_label">Назва<span class="step_required">*</span></label>
-          <input matInput class="step_input" type="text"  formControlName="title" required>
-        
+          
+
           <label class="step_label">Телефон<span class="step_required">*</span></label>
           <input matInput class="step_input" type="tel"  formControlName="phone" required>
         
@@ -132,7 +141,8 @@
       <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
       <div fxLayout='row' fxLayoutAlign='center center'>
           <p>Або позначти на карті</p>
-          <div class="map" leaflet> </div>      </div>
+          <div class="map" leaflet> </div>      
+      </div>
       <div fxLayout='row' fxLayoutAlign='center center'>
         <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
         <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
