@@ -31,6 +31,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CreateAddressComponent } from './provider-activities/create-activity/create-address/create-address.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     PersonalCabinetComponent,
     ProviderOrgInfoComponent,
     ProviderRequestsComponent,
-    CreateActivityComponent
+    CreateActivityComponent,
+    CreateAddressComponent
   ],
     imports: [
         CommonModule,

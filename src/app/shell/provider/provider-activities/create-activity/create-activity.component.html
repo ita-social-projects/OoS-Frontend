@@ -152,34 +152,7 @@
     </mat-step>
     
     <mat-step [stepControl]="ContactsFormGroup">
-      <form [formGroup]="ContactsFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
-        <ng-template matStepLabel>Контакти</ng-template>
-
-        <label class="step_label">Місто<span class="step_required">*</span></label>
-        <mat-select class="step_input"  formControlName="city" required>
-          <mat-option value="group" selected>Київ</mat-option>
-          <mat-option value="section">Івано-Францівськ</mat-option>
-          <mat-option value="class">Одеса</mat-option>
-        </mat-select>
-
-        <mat-form-field>
-          <label class="step_label">Вулиця<span class="step_required">*</span></label>
-          <input matInput required class="step_input" type="text"  formControlName="street" >
-        </mat-form-field>
-
-        <label class="step_label">Будинок<span class="step_required">*</span></label>
-        <mat-form-field>
-          <input matInput required class="step_input" type="number" formControlName="building" >
-        </mat-form-field>
-      </form>
-      <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
-      <div fxLayout='column' fxLayoutAlign='center center'>
-          <p>Або позначти на карті</p>
-          <div class="map" leaflet> </div>
-          <button style="margin-bottom:20px; color: blue;" class="btn_cancel" type="submit" mat-raised-button>Підтвердити</button>      
-      </div>
-
-
+      <app-create-address></app-create-address>
       <div fxLayout='row' fxLayoutAlign='center center'>
         <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
         <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>

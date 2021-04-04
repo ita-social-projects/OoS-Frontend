@@ -36,8 +36,8 @@ export class CreateTeacherComponent implements OnInit {
     const teacherFormGroup = this.fb.group({
       lastName: new FormControl(''),
       firstName: new FormControl(''), 
-      secondName: new FormControl(''),
-      birthDate: new FormControl(''),
+      middleName: new FormControl(''),
+      birthDay: new FormControl(''),
       description: new FormControl(''),
     });
 

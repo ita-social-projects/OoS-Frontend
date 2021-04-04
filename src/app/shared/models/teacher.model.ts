@@ -1,17 +1,17 @@
 export class Teacher {
-    name:string;
-    lastName:string;
-    secondName:string;
-    birthDate:string;
-    description:string;
-    img:string;
+  firstName:string;
+  lastName:string;
+  middleName:string;
+  birthDay:Date;
+  description:string;
+  img:string;
   
-    constructor(info) {
-      this.name = info.name;
-      this.lastName= info.lastName;
-      this.secondName= info.secondName;
-      this.birthDate= info.birthDate;
-      this.description= info.description;
-      this.img= info.img;
-    }
+  constructor(info) {
+    this.firstName = info.firstName;
+    this.lastName= info.lastName;
+    this.middleName= info.middleName;
+    this.birthDay= info.birthDay;
+    this.description= info.description;
+    //this.img= info.img;
   }
+}

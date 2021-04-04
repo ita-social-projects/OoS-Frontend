@@ -1,0 +1,33 @@
+.step{
+  &_label{
+    font-weight: 500;
+    }
+  &_required{
+    color:red;
+  }
+  &_input{
+    border: 1px solid #E3E3E3;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding:0.5rem;
+  }
+}
+
+input:focus,
+button:focus {
+    outline: none;
+}
+::placeholder {
+  color:#333333;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+}
+
+::ng-deep .mat-form-field-underline,
+::ng-deep .mat-form-field-label-wrapper {
+  display: none;
+}
+::ng-deep .mat-form-field-infix {
+  border:none;
+}

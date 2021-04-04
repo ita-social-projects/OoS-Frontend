@@ -22,7 +22,7 @@ export class Workshop {
   }
 
 
-  constructor(about, description, contacts) {
+  constructor(about, description) {
     //this.type = about.type;
     this.title = about.title;
     this.phone= about.phone;

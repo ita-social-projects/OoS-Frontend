@@ -64,11 +64,6 @@ export class CreateActivityComponent implements OnInit {
       head: new FormControl(''),
       keyWords: new FormControl(''),
     });
-    this.ContactsFormGroup = this.formBuilder.group({
-      city: new FormControl(''),
-      street: new FormControl(''), 
-      building: new FormControl('')
-    });
   }
   
   ngOnInit() {
@@ -79,9 +74,8 @@ export class CreateActivityComponent implements OnInit {
     const about = this.AboutFormGroup.value;
     const description = this.DescriptionFormGroup.value;
     description.keyWords = this.keyWords;
-    const contacts = this.ContactsFormGroup.value;
 
-    this.workshop= new Workshop(about, description, contacts);
+    this.workshop= new Workshop(about, description);
 
     console.log(this.workshop)
 

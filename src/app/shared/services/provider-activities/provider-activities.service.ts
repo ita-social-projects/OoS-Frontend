@@ -10,15 +10,18 @@ import { Workshop } from '../../models/workshop.model';
 })
 export class ProviderActivitiesService {
 
-  createUrl = '/Workshop/Get'
-  getUrl = '/Workshop/Get'
-
   constructor(private http: HttpClient) { }
 
   getCards(): Observable<actCard[]> {
-    return this.http.get<actCard[]>(this.getUrl)
+    return this.http.get<actCard[]>('/Workshop/Get')
   }
   createWorkshop(workshop): Observable<Workshop> {
-    return this.http.post<Workshop>(this.createUrl, workshop)
+    return this.http.post<Workshop>('/Workshop/Create', workshop)
+  }
+  createAddress(address): Observable<Workshop> {
+    return this.http.post<Workshop>('/Workshop/Create', address)
+  }
+  createTeachers(teachers): Observable<Workshop> {
+    return this.http.post<Workshop>('/Teacher/Create', teachers)
   }
 }
