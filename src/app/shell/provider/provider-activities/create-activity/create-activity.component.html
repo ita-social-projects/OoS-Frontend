@@ -62,12 +62,16 @@
 
         <div fxLayout='row' fxLayoutAlign='start'>
           <mat-form-field>
-            <p class="step_input_text">Від</p>
-            <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required>
+            <div fxLayout='row' fxLayoutAlign='start'>
+              <p class="step_input_text">Від</p>
+              <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required>
+            </div>
           </mat-form-field> 
           <mat-form-field>
-            <p class="step_input_text">До</p>
-            <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" required>
+            <div fxLayout='row' fxLayoutAlign='start'>
+              <p class="step_input_text">До</p>
+              <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" required>
+            </div>
           </mat-form-field>
         </div>
         

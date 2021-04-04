@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Teacher } from '../../models/teacher.model';
 
 @Component({
   selector: 'app-create-teacher',
@@ -21,7 +22,14 @@ export class CreateTeacherComponent implements OnInit {
     this.teacherFormArray.push(this.newForm());
   }
   onSubmit(): void {
-    console.log(this.teacherFormArray.value);
+    let teacher:Teacher;
+    const teachers=[];
+    for(let i=0; i<this.teacherFormArray.controls.length;i++){
+      teacher = new Teacher(this.teacherFormArray.controls[i].value);
+      console.log(teacher)
+      teachers.push(teacher)
+    }
+    console.log(teachers);
   }
 
   newForm(): FormGroup {
@@ -37,8 +45,6 @@ export class CreateTeacherComponent implements OnInit {
   }
   deleteForm(index):void{
     this.teacherFormArray.removeAt(index)
-
-    console.log(this.teacherFormArray);
   }
 
 }
