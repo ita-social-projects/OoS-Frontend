@@ -13,7 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
-import { ImageInputComponent } from './components/image-input/image-input.component';
+import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
     OrganizationCardComponent,
     TeacherCardComponent,
     CategoryCardComponent,
-    ImageInputComponent
+    CreateTeacherComponent
   ],
   imports: [
     MaterialModule,
@@ -46,7 +46,7 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
     MaterialModule,
     TeacherCardComponent,
     CategoryCardComponent,
-    ImageInputComponent
+    CreateTeacherComponent
   ]
 })
 export class SharedModule { }

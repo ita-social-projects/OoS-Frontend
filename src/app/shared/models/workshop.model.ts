@@ -1,35 +1,47 @@
 export class Workshop {
   type:string;
   title:string;
-  phone:number;
+  phone:string;
   email:string;
   website:string;
-  Minage:number;
-  MaxAge:number;
-  classAmount:number;
+  minAge:number;
+  maxAge:number;
+  daysPerWeek:number;
   photos:string;
   description:string;
+  head:string;
   resources:string;
   direction:string;
   keyWords:string;
-  city:string;
-  street:string;
-  building:number;
+  price:number;
+  address:{
+    id:number;
+    city:string;
+    street:string;
+    buildingNumber:number;
+  }
 
 
   constructor(about, description, contacts) {
-    this.type = about.type;
+    //this.type = about.type;
     this.title = about.title;
     this.phone= about.phone;
     this.email= about.email;
-    this.Minage= about.ageFrom;
-    this.MaxAge= about.ageTo;
-    this.classAmount= about.classAmount;
+    this.minAge= about.ageFrom;
+    this.maxAge= about.ageTo;
+    this.daysPerWeek= about.classAmount;
     this.photos=description.photos;
     this.description=description.description;
-    this.keyWords=description.keyWords;
-    this.city=contacts.city;
-    this.street=contacts.street;
-    this.building=contacts.building;
+    this.description=description.head;
+    //this.keyWords=description.keyWords;
+   
+    //this.address.city=contacts.city;
+    //this.address.street=contacts.street;
+    //this.address.buildingNumber=contacts.building;
+
+    
+    
+    //this.address.id=1;
+    this.price=200;
   }
 }

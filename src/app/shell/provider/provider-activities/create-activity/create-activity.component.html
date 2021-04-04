@@ -5,8 +5,8 @@
       <p class="wrapper_text">Додайте новий гурток, секцію фбо групу для навчання</p>
     </div>
     
-  <mat-horizontal-stepper linear>
-    
+  <mat-horizontal-stepper >
+    <!-- linear -->
     <mat-step [stepControl]="AboutFormGroup">
        <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
         <ng-template matStepLabel>Про гурток</ng-template>
@@ -60,19 +60,21 @@
         
         <label class="step_label">Вік-дітей</label>
 
-        <mat-form-field>
-          <div fxLayout='row' fxLayoutAlign='start'>
+        <div fxLayout='row' fxLayoutAlign='start'>
+          <mat-form-field>
             <p class="step_input_text">Від</p>
-            <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom"> 
+            <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required>
+          </mat-form-field> 
+          <mat-form-field>
             <p class="step_input_text">До</p>
-            <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" >
-          </div>
-        </mat-form-field>
+            <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" required>
+          </mat-form-field>
+        </div>
         
           <label class="step_label">Кількість занять</label>
           <mat-form-field >
             <div fxLayout='row' fxLayoutAlign='start'>
-              <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" > 
+              <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" required> 
               <p class="step_input_text">в тиждень</p>
             </div>
           </mat-form-field>
@@ -90,7 +92,12 @@
         
         <label class="step_label">Опис</label>
         <mat-form-field>
-          <textarea matInput class="step_textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
+          <textarea matInput class="step_textarea" placeholder="Максимум 500 символів" formControlName="description" required></textarea>
+        </mat-form-field>
+
+        <label class="step_label">Директор</label>
+        <mat-form-field>
+          <input matInput class="step_input" placeholder="П.І.Б." formControlName="head" required>
         </mat-form-field>
 
         <label class="step_label">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</label>
@@ -176,10 +183,11 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Викладачі</ng-template>
+      <app-create-teacher></app-create-teacher>
       <p fxLayout='row' fxLayoutAlign='center center'>Ви завершили реєстрацію гуртка</p>
       <div fxLayout='row' fxLayoutAlign='center center'>
         <button class="btn"  mat-button matStepperPrevious>Назад</button>
-        <button  class="btn" mat-button type="submit" (click)="onSubmit()">Завершити</button>
+        <button  class="btn" mat-button type="submit" (click)="onSubmit()"><a [routerLink]="'./../../cabinet/activities'">Завершити</a></button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

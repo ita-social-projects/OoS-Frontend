@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -6,8 +6,9 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map, startWith} from 'rxjs/operators';
+import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
 
 
 
@@ -28,6 +29,7 @@ export class CreateActivityComponent implements OnInit {
   allkeyWords: string[] = ['Спорт', 'Танці', 'Музика', 'Мистецтво', 'Наука'];
 
   workshop;
+  allWorkshops;
   url='/Workshop/Create';
 
   WorkshopFormArray: FormArray;
@@ -38,7 +40,7 @@ export class CreateActivityComponent implements OnInit {
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private providerActivititesService:  ProviderActivitiesService) {
 
     this.filteredKeyWords = this.keyWordsCtrl.valueChanges.pipe(
       startWith(null),
@@ -59,6 +61,7 @@ export class CreateActivityComponent implements OnInit {
       description: new FormControl(''), 
       resources: new FormControl(''),
       direction: new FormControl(''),
+      head: new FormControl(''),
       keyWords: new FormControl(''),
     });
     this.ContactsFormGroup = this.formBuilder.group({
@@ -82,19 +85,18 @@ export class CreateActivityComponent implements OnInit {
 
     console.log(this.workshop)
 
-    this.http.post(this.url, this.workshop);
+    
+    this.providerActivititesService.createWorkshop(this.workshop);
   }
-
+  
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.keyWords.push(value.trim());
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
