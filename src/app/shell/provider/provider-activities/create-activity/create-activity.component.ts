@@ -119,4 +119,8 @@ export class CreateActivityComponent implements OnInit {
     return this.allkeyWords.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  upload(event):void{
+    console.log(event.target.files)
+   }
+
 }

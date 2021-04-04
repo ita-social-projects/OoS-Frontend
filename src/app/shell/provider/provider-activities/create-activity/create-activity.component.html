@@ -10,66 +10,93 @@
     <mat-step [stepControl]="AboutFormGroup">
        <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
         <ng-template matStepLabel>Про гурток</ng-template>
+        
         <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
-          <label class="step_label">Логотип</label>
-          <app-image-input></app-image-input>
-          <label >Гурток/Секція/Клас<span class="step_required">*</span></label>
+        <label class="step_label">Логотип
+          <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon> </div>
+          <input class="image-input" type="file" class="file-upload" (click)="upload($event)">
+        </label>
+          
+        <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
+        <mat-form-field >
           <mat-select class="step_input"  formControlName="type">
             <mat-option value="group" selected>Гурток</mat-option>
             <mat-option value="section">Секція</mat-option>
             <mat-option value="class">Клас</mat-option>
           </mat-select>
+        </mat-form-field>
         
-        
-          <label class="step_label">Назва<span class="step_required">*</span></label>
+        <label class="step_label">Назва<span class="step_required">*</span></label>
+        <mat-form-field >
           <input matInput class="step_input" type="text"  formControlName="title" required>
+        </mat-form-field >
         
-          <label class="step_label">Телефон<span class="step_required">*</span></label>
+        <label class="step_label">Телефон<span class="step_required">*</span></label>
+        <mat-form-field >
           <input matInput class="step_input" type="tel"  formControlName="phone" required>
+        </mat-form-field>
         
-          <label class="step_label">Емейл<span class="step_required">*</span></label>
+        <label class="step_label">Емейл<span class="step_required">*</span></label>
+        <mat-form-field>
           <input matInput class="step_input" type="email" formControlName="email" required>
-        
-          <label class="step_label">Веб сайт</label>
+        </mat-form-field>
+          
+        <label class="step_label">Веб сайт</label>
+        <mat-form-field >
           <input matInput class="step_input" type="text">
-        
-          <label class="step_label">Facebook</label>
+        </mat-form-field>
+
+        <label class="step_label">Facebook</label>
+        <mat-form-field>
           <input matInput class="step_input" type="text" >
-        
-          <label class="step_label">Instagram</label>
+        </mat-form-field>
+
+        <label class="step_label">Instagram</label>
+        <mat-form-field>
           <input matInput class="step_input" type="text" >
-       
-          <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
+        </mat-form-field>
+
+        <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
         
-        
-          <label class="step_label">Вік-дітей</label>
+        <label class="step_label">Вік-дітей</label>
+
+        <mat-form-field>
           <div fxLayout='row' fxLayoutAlign='start'>
-            <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom"> <span class="step_line_age"></span>
+            <p class="step_input_text">Від</p>
+            <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom"> 
+            <p class="step_input_text">До</p>
             <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" >
           </div>
+        </mat-form-field>
         
           <label class="step_label">Кількість занять</label>
-          <div fxLayout='row' fxLayoutAlign='start'>
-            <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" > 
-            <p class="step_input_text">в тиждень</p>
-          </div>
+          <mat-form-field >
+            <div fxLayout='row' fxLayoutAlign='start'>
+              <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" > 
+              <p class="step_input_text">в тиждень</p>
+            </div>
+          </mat-form-field>
 
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button mat-raised-button class="btn btn_cancel" ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button> 
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </form>
-
     </mat-step>
+
     <mat-step [stepControl]="DescriptionFormGroup">
       <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
         <ng-template matStepLabel>Опис</ng-template>
-
-          <label class="step_label">Опис</label>
+        
+        <label class="step_label">Опис</label>
+        <mat-form-field>
           <textarea matInput class="step_textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
+        </mat-form-field>
 
-          <label class="step_label">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</label>
+        <label class="step_label">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</label>
+        <mat-form-field>
           <input matInput class="step_input" placeholder="Пандус/спец. обладнання" formControlName="resources">
+        </mat-form-field>
 
           <label class="step_label">Напрямок за яким здійснюється навчання<span class="step_required">*</span></label>
           <mat-select class="step_input" placeholder="Почніть вводити напрямок або виберіть зі списку" formControlName="direction">
@@ -117,18 +144,22 @@
       <form [formGroup]="ContactsFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
         <ng-template matStepLabel>Контакти</ng-template>
 
-          <label class="step_label">Місто<span class="step_required">*</span></label>
-          <mat-select class="step_input"  formControlName="city" required>
-            <mat-option value="group" selected>Київ</mat-option>
-            <mat-option value="section">Івано-Францівськ</mat-option>
-            <mat-option value="class">Одеса</mat-option>
-          </mat-select>
+        <label class="step_label">Місто<span class="step_required">*</span></label>
+        <mat-select class="step_input"  formControlName="city" required>
+          <mat-option value="group" selected>Київ</mat-option>
+          <mat-option value="section">Івано-Францівськ</mat-option>
+          <mat-option value="class">Одеса</mat-option>
+        </mat-select>
 
+        <mat-form-field>
           <label class="step_label">Вулиця<span class="step_required">*</span></label>
           <input matInput required class="step_input" type="text"  formControlName="street" >
+        </mat-form-field>
 
-          <label class="step_label">Будинок<span class="step_required">*</span></label>
+        <label class="step_label">Будинок<span class="step_required">*</span></label>
+        <mat-form-field>
           <input matInput required class="step_input" type="number" formControlName="building" >
+        </mat-form-field>
       </form>
       <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
       <div fxLayout='row' fxLayoutAlign='center center'>

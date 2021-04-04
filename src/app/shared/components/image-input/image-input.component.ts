@@ -15,8 +15,6 @@ export class ImageInputComponent implements OnInit {
   ngOnInit(): void {
   }
 
-   upload(event):void{
-    console.log(event.target.files)
-   }
+   
 
 }
