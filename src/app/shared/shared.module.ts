@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
+import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CreateTeacherComponent } from './components/create-teacher/create-teach
     OrganizationCardComponent,
     TeacherCardComponent,
     CategoryCardComponent,
-    CreateTeacherComponent
+    CreateTeacherComponent,
+    TeacherFormComponent
   ],
   imports: [
     MaterialModule,

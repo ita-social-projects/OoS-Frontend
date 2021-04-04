@@ -13,7 +13,7 @@
         
         <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
         <label class="step_label">Логотип
-          <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon> </div>
+          <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
           <input class="image-input" type="file" class="file-upload" (click)="upload($event)">
         </label>
           
@@ -58,7 +58,7 @@
 
         <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
         
-        <label class="step_label">Вік-дітей</label>
+        <label class="step_label">Вік-дітей<span class="step_required">*</span></label>
 
         <div fxLayout='row' fxLayoutAlign='start'>
           <mat-form-field>
@@ -71,7 +71,7 @@
           </mat-form-field>
         </div>
         
-          <label class="step_label">Кількість занять</label>
+          <label class="step_label">Кількість занять<span class="step_required">*</span></label>
           <mat-form-field >
             <div fxLayout='row' fxLayoutAlign='start'>
               <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" required> 
@@ -90,12 +90,12 @@
       <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
         <ng-template matStepLabel>Опис</ng-template>
         
-        <label class="step_label">Опис</label>
+        <label class="step_label">Опис<span class="step_required">*</span></label>
         <mat-form-field>
           <textarea matInput class="step_textarea" placeholder="Максимум 500 символів" formControlName="description" required></textarea>
         </mat-form-field>
 
-        <label class="step_label">Директор</label>
+        <label class="step_label">Директор<span class="step_required">*</span></label>
         <mat-form-field>
           <input matInput class="step_input" placeholder="П.І.Б." formControlName="head" required>
         </mat-form-field>
@@ -169,10 +169,13 @@
         </mat-form-field>
       </form>
       <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
-      <div fxLayout='row' fxLayoutAlign='center center'>
+      <div fxLayout='column' fxLayoutAlign='center center'>
           <p>Або позначти на карті</p>
-          <div class="map" leaflet> </div>      
+          <div class="map" leaflet> </div>
+          <button style="margin-bottom:20px; color: blue;" class="btn_cancel" type="submit" mat-raised-button>Підтвердити</button>      
       </div>
+
+
       <div fxLayout='row' fxLayoutAlign='center center'>
         <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
         <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>

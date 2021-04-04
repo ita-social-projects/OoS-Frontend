@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-create-teacher',
@@ -7,9 +8,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateTeacherComponent implements OnInit {
 
-  constructor() { }
+  teacherFormArray = new FormArray([]);
+
+  constructor(private fb: FormBuilder) {
+   }
 
   ngOnInit(): void {
+    this.teacherFormArray.push(this.newForm());
+  }
+
+  addTeacher(): void {
+    this.teacherFormArray.push(this.newForm());
+  }
+  onSubmit(): void {
+    console.log(this.teacherFormArray.value);
+  }
+
+  newForm(): FormGroup {
+    const teacherFormGroup = this.fb.group({
+      lastName: new FormControl(''),
+      firstName: new FormControl(''), 
+      secondName: new FormControl(''),
+      birthDate: new FormControl(''),
+      description: new FormControl(''),
+    });
+
+    return teacherFormGroup;
+  }
+  deleteForm(index):void{
+    this.teacherFormArray.removeAt(index)
+
+    console.log(this.teacherFormArray);
   }
 
 }
