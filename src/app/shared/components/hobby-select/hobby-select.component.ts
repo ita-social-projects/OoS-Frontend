@@ -9,7 +9,6 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./hobby-select.component.scss']
 })
 export class HobbySelectComponent implements OnInit {
-
   constructor(private service: HobbyService) { }
 
   data: iData[] = [];
@@ -52,5 +51,4 @@ export class HobbySelectComponent implements OnInit {
   handleStudySelect(value: string): void {
     this.selectedStudy.setValue(value);
   }
-
 }

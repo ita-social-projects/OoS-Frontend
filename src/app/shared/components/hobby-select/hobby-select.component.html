@@ -1,26 +1,26 @@
 <div class="hobby-select">
-    <select 
-        class="browser-default custom-select" 
-        [formControl]="selectedDirection" 
-        (change)="handleDirectionSelect($event.target.value)"
-    >
-        <option value="">Оберіть напрямок</option>
-        <option *ngFor="let option of direction" [value]="option">{{ option }}</option>
-    </select>
-    <select *ngIf="selectedDirection.value !== ''"
-        class="browser-default custom-select" 
-        [formControl]="selectedFaculty"
-        (change)="handleFacultySelect($event.target.value)"
-    >
-        <option value="">Оберіть відділення</option>
-        <option *ngFor="let option of faculty" [value]="option">{{ option }}</option>
-    </select>
-    <select *ngIf="selectedFaculty.value !== ''"
-        class="browser-default custom-select"
-        [formControl]="selectedStudy"
-        (change)="handleStudySelect($event.target.value)"
-    >
-        <option value="">Оберіть клас</option>
-        <option *ngFor="let option of study" [value]="option">{{ option }}</option>
-    </select>
+  <select 
+    class="browser-default custom-select" 
+    [formControl]="selectedDirection" 
+    (change)="handleDirectionSelect($event.target.value)"
+  >
+    <option value="">Оберіть напрямок</option>
+    <option *ngFor="let option of direction" [value]="option">{{ option }}</option>
+  </select>
+  <select *ngIf="selectedDirection.value !== ''"
+    class="browser-default custom-select" 
+    [formControl]="selectedFaculty"
+    (change)="handleFacultySelect($event.target.value)"
+  >
+    <option value="">Оберіть відділення</option>
+    <option *ngFor="let option of faculty" [value]="option">{{ option }}</option>
+  </select>
+  <select *ngIf="selectedFaculty.value !== ''"
+    class="browser-default custom-select"
+    [formControl]="selectedStudy"
+    (change)="handleStudySelect($event.target.value)"
+  >
+    <option value="">Оберіть клас</option>
+    <option *ngFor="let option of study" [value]="option">{{ option }}</option>
+  </select>
 </div>
