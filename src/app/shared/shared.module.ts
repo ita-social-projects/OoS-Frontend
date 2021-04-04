@@ -12,6 +12,7 @@ import { OrganizationCardComponent } from './components/organization-card/organi
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
+import { HobbySelectComponent } from './components/hobby-select/hobby-select.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 
 
@@ -26,6 +27,7 @@ import { CategoryCardComponent } from './components/category-card/category-card.
     DigitOnlyDirective,
     OrganizationCardComponent,
     TeacherCardComponent,
+    HobbySelectComponent,
     CategoryCardComponent
   ],
   imports: [
@@ -45,6 +47,7 @@ import { CategoryCardComponent } from './components/category-card/category-card.
     OrganizationCardComponent,
     MaterialModule,
     TeacherCardComponent,
+    HobbySelectComponent,
     CategoryCardComponent
   ]
 })
