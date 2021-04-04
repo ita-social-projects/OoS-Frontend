@@ -10,16 +10,6 @@
     <mat-step [stepControl]="AboutFormGroup">
        <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
         <ng-template matStepLabel>Про гурток</ng-template>
-        
-        
-        <mat-form-field >
-          <label class="step_label">Назва<span class="step_required">*</span></label>
-          <input matInput class="step_input" type="text"  formControlName="title" required>
-          </mat-form-field >
-        
-        
-        
-        
         <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
           <label class="step_label">Логотип</label>
           <app-image-input></app-image-input>
@@ -30,8 +20,10 @@
             <mat-option value="class">Клас</mat-option>
           </mat-select>
         
-          
-
+        
+          <label class="step_label">Назва<span class="step_required">*</span></label>
+          <input matInput class="step_input" type="text"  formControlName="title" required>
+        
           <label class="step_label">Телефон<span class="step_required">*</span></label>
           <input matInput class="step_input" type="tel"  formControlName="phone" required>
         
