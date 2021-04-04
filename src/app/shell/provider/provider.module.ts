@@ -27,6 +27,10 @@ import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.
 import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
 import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { InputResetDirective } from 'src/app/shared/directives/resetMaterial/input-reset.directive';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +40,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     PersonalCabinetComponent,
     ProviderOrgInfoComponent,
     ProviderRequestsComponent,
-    CreateActivityComponent
+    CreateActivityComponent,
+    InputResetDirective
   ],
     imports: [
         CommonModule,
@@ -54,7 +59,9 @@ import { MatStepperModule } from '@angular/material/stepper';
         HttpClientModule,
         NgxsModule.forFeature([ProviderState]),
         MatTabsModule,
-        MatStepperModule
+        MatStepperModule,
+        MatAutocompleteModule,
+        MatIconModule
     ],
 
   providers: [

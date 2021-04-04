@@ -42,6 +42,7 @@
       border: 1px solid #E3E3E3;
       box-sizing: border-box;
       border-radius: 21px;
+      padding: 1.2rem;
       margin-bottom: 1.2rem;
     }
     &_input{
@@ -60,22 +61,14 @@
       padding: 5px;
       }
     }
-    &_line{
+    &_line_age{
       max-height: 0;
       border: 1px solid #E3E3E3;
       margin: 1rem 0 2rem 0;
-      &_age{
-        max-width: 10px;
-        position: relative;
-        top: 5px;
-        margin: 10px;
-      }
-      &_adress{
-        max-width: 10px;
-        position: relative;
-        top: 5px;
-        margin: 10px;
-      }
+      min-width: 10px;
+      position: relative;
+      top: 5px;
+      margin: 10px;
     }
   }
 }
@@ -105,5 +98,7 @@ button:focus {
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
-  padding: 10px;
+}
+.example-chip-list {
+  width: 100%;
 }
