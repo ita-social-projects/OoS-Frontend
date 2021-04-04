@@ -5,8 +5,8 @@
       <p class="wrapper_text">Додайте новий гурток, секцію фбо групу для навчання</p>
     </div>
     
-  <mat-horizontal-stepper >
-    <!-- linear -->
+  <mat-horizontal-stepper linear>
+    <!--  -->
     <mat-step [stepControl]="AboutFormGroup">
        <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
         <ng-template matStepLabel>Про гурток</ng-template>
@@ -151,14 +151,14 @@
       </form>
     </mat-step>
     
-    <mat-step [stepControl]="ContactsFormGroup">
-      <app-create-address></app-create-address>
+    <mat-step [stepControl]="AddressFormGroup">
+      <ng-template matStepLabel>Контакти</ng-template>
+      <app-create-address (addressForm)="addressForm($event)"></app-create-address>
       <div fxLayout='row' fxLayoutAlign='center center'>
         <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
         <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
         <button class="btn" mat-raised-button matStepperNext>Далі</button>
       </div>
-      
       
     </mat-step>
     <mat-step>

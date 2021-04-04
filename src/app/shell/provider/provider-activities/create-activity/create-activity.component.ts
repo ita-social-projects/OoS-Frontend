@@ -35,7 +35,7 @@ export class CreateActivityComponent implements OnInit {
   WorkshopFormArray: FormArray;
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
-  ContactsFormGroup: FormGroup;
+  AddressFormGroup: FormGroup;
 
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -118,5 +118,10 @@ export class CreateActivityComponent implements OnInit {
   upload(event):void{
     console.log(event.target.files)
    }
+
+   addressForm(form):void{
+     this.AddressFormGroup=form;
+   }
+
 
 }

@@ -3,8 +3,8 @@ export class Address {
   street:string;
   buildingNumber:string;
     
-  constructor(info) {
-    this.city = info.city;
+  constructor(info, city) {
+    this.city = city;
     this.street= info.street;
     this.buildingNumber= info.buildingNumber;
   }
