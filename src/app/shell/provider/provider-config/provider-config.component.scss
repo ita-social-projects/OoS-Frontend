@@ -4,7 +4,6 @@
 
 @mixin form-style {
   width: 100%;
-  //max-width: 410px;
   height: 34px;
   padding: 0.5rem 0.875rem 0.5rem 1rem;
   font-size: 0.813rem;
@@ -21,7 +20,6 @@
   height: 34px;
   background: #FFFFFF;
   border: 0.063rem solid #EBEBEB;
-  box-sizing: border-box;
   border-radius: 1.25rem;
 }
 
@@ -244,6 +242,7 @@ section {
 
       &_button {
         width: 100%;
+
         label {
           width: 100%;
           max-width: 95px;

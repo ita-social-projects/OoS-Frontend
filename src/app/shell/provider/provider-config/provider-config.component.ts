@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-provider-config',
@@ -24,7 +24,7 @@ export class ProviderConfigComponent implements OnInit {
       orgShortName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       ceoName: new FormControl(null, [Validators.required]),
       ceoBirthday: new FormControl(null, Validators.required),
-      personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$'), ]),
+      personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$')]),
       phone: new FormControl(380, [Validators.required, Validators.maxLength(10)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       webPage: new FormControl(null),
@@ -58,21 +58,20 @@ export class ProviderConfigComponent implements OnInit {
     });
   }
 
-  onFileSelected(event): any {
+  onFileSelected(event): void {
     (this.photoFormGroup.controls.photos as FormArray)
       .push(new FormControl(event.target.files[0]));
-    console.log(event.target.files[0]);
     if (typeof event.target.files[0].name === 'string') {
-      this.read(event.target.files[0]);
+      this.imageDecoder(event.target.files[0]);
     }
   }
 
-  read(file): any {
+  imageDecoder(file: File): void {
     const myReader = new FileReader();
-
     myReader.onload = () => {
       this.selectedLogos.push(myReader.result);
     };
-    myReader.readAsDataURL(file);
+    return myReader.readAsDataURL(file);
   }
 }
+
