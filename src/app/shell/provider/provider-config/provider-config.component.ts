@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-provider-config',
@@ -12,6 +12,10 @@ export class ProviderConfigComponent implements OnInit {
   orgFormGroup: FormGroup;
   addressFormGroup: FormGroup;
   photoFormGroup: FormGroup;
+  ownerShipList = ['Державна', 'Комунальна', 'Приватна'];
+  organizationTypeList = ['ФОП', 'Громадська організація', 'ТОВ', 'ПП', 'Заклад освіти', 'Інше'];
+  valueOwnership = false;
+  valueOrgType = false;
 
   constructor() {
   }
@@ -72,6 +76,31 @@ export class ProviderConfigComponent implements OnInit {
       this.selectedLogos.push(myReader.result);
     };
     return myReader.readAsDataURL(file);
+  }
+
+  showSelect(event): void {
+    switch (event.target.getAttribute('formControlName')) {
+      case 'ownership':
+        this.valueOwnership = !this.valueOwnership;
+        break;
+      case 'organizationType':
+        this.valueOrgType = !this.valueOrgType;
+        break;
+    }
+  }
+
+  setValue(value, controlName): void {
+    switch (controlName.getAttribute('formControlName')) {
+      case 'ownership':
+        this.orgFormGroup.get('ownership').setValue(value);
+        this.valueOwnership = !this.valueOwnership;
+        break;
+      case 'organizationType':
+        console.log(controlName);
+        this.orgFormGroup.get('organizationType').setValue(value);
+        this.valueOrgType = !this.valueOrgType;
+        break;
+    }
   }
 }
 

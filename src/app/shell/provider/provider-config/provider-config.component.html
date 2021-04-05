@@ -7,29 +7,35 @@
         <form [formGroup]="orgFormGroup">
           <ng-template matStepLabel>Інформація про заклад</ng-template>
           <div class="form-wrapper">
+
             <div class="form-ownership">
-              <label for="formOwner">Форма власності<span class="important">*</span></label>
-              <div class="select">
-                <div class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
-                <select id="formOwner" formControlName="ownership">
-                  <option value="Державна" selected>Державна</option>
-                  <option value="Комунальна">Комунальна</option>
-                  <option value="Приватна">Приватна</option>
-                </select>
+              <label for="">Форма власності<span class="important">*</span></label>
+              <div class="custom-select">
+                <div class="select">
+                  <div *ngIf="!valueOwnership" class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
+                  <div *ngIf="valueOwnership" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
+                  <input readonly (click)="showSelect($event)" formControlName="ownership" #ownership>
+                </div>
+                <div class="box" *ngIf="valueOwnership">
+                  <ng-container *ngFor="let option of ownerShipList">
+                    <div class="box_item" (click)="setValue(option, ownership)">{{option}}</div>
+                  </ng-container>
+                </div>
               </div>
             </div>
             <div class="organization-type">
-              <label for="orgType">Форма власності<span class="important">*</span></label>
-              <div class="select">
-                <div class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
-                <select formControlName="organizationType" id="orgType">
-                  <option value="ФОП" selected>ФОП</option>
-                  <option value="Громадська організація">Громадська організація</option>
-                  <option value="ТОВ">ТОВ</option>
-                  <option value="ПП">ПП</option>
-                  <option value="Заклад освіти">Заклад освіти</option>
-                  <option value="Інше">Інше</option>
-                </select>
+              <label for="">Тип організації<span class="important">*</span></label>
+              <div class="custom-select">
+                <div class="select">
+                  <div *ngIf="!valueOrgType" class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
+                  <div *ngIf="valueOrgType" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
+                  <input readonly (click)="showSelect($event)" formControlName="organizationType" #orgType>
+                </div>
+                <div class="box" *ngIf="valueOrgType">
+                  <ng-container *ngFor="let option of organizationTypeList">
+                    <div class="box_item" (click)="setValue(option, orgType)">{{option}}</div>
+                  </ng-container>
+                </div>
               </div>
             </div>
             <div class="org-full-name">

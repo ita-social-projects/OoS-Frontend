@@ -350,15 +350,44 @@ section {
         @include white-button;
       }
     }
-
+    .custom-select{
+      margin: 0;
+      width: 100%;
+      position: relative;
+      input {
+        margin-top: 0.5rem;
+        @include form-style;
+        cursor: pointer;
+      }
+      .box{
+        @include form-style;
+        padding: 0;
+        border-radius: 0.313rem;
+        height: auto;
+        position: absolute;
+        z-index: 100;
+        background: white;
+        &_item{
+          padding: 0.563rem 0 0.563rem 1rem;
+          width: 100%;
+          font-weight: normal;
+          font-size: 0.813rem;
+          line-height: 1.125rem;
+          color: #000000;
+          height: 36px;
+          cursor: pointer;
+        }
+        &_item:hover{
+          background: #F8F8F8;
+        }
+      }
+    }
     .org-full-name, .org-short-name, .ceo-name, .id-code, .phone, .email,
     .web-page, .facebook, .instagram, .owner-name,
     .region, .city, .district, .street, .building {
-      width: 100%;
       margin-top: 1rem;
-
       input {
-        margin-top: 0.5rem;
+        margin-top: 0.438rem;
         @include form-style;
       }
     }
