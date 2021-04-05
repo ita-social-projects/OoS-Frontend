@@ -1,9 +1,9 @@
-<form [formGroup]="childFormGroup" fxLayout="column" fxLayoutAlign="start" (ngSubmit)="onSubmit()">
-  <label>Прізвище*</label>
+<form [formGroup]="ChildFormGroup" fxLayout="column" fxLayoutAlign="start" (ngSubmit)="onSubmit()">
+  <label>Прізвище<span class="requires">*</span></label>
   <mat-form-field>
     <input matInput formControlName="lastName">
   </mat-form-field>
-  <label>Ім'я*</label>
+  <label>Ім'я<span class="requires">*</span></label>
   <mat-form-field>
     <input matInput formControlName="firstName">
   </mat-form-field>
@@ -11,10 +11,23 @@
   <mat-form-field>
     <input matInput formControlName="secondName">
   </mat-form-field>
-  <label>Дата народження</label>
+  <label>Дата народження <span class="requires">*</span></label>
+  <mat-form-field appearance="fill">
+    <input matInput [matDatepicker]="picker" formControlName =" birthDay" >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <label>Стать <span class="requires">*</span></label>
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button value="1">Чоловіча</mat-radio-button>
+    <mat-radio-button value="2">Жіноча</mat-radio-button>
+  </mat-radio-group>
+  <label>Соціальна група</label>
+  <mat-select formControlName="type">
+    <mat-option value="true" selected>Відсутня</mat-option>
+    <mat-option value="false">Присутня</mat-option>
+  </mat-select>
   <div fxLayout="row" fxLayoutAlign="center">
-    <button mat-stroked-button type="submit"  >Submit</button>
-
-    <button mat-stroked-button (click)="show()" >Show Child</button>
+    <button class="btn_reset" type="reset" mat-button (click)="delete()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину</button>
   </div>
  </form>

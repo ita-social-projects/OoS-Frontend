@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ChildCard} from '../../models/child-card.model'
+import { ChildCard} from '../../models/child.model'
 
 
 @Injectable({

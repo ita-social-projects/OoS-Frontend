@@ -1,8 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { ChildCard } from 'src/app/shared/models/child-card.model';
-import { ChildCardComponent } from '../../parent-config/child-card/child-card.component';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-child-form',
@@ -12,31 +9,19 @@ import { ChildCardComponent } from '../../parent-config/child-card/child-card.co
 export class ChildFormComponent implements OnInit {
   
 
-  child: ChildCard = new ChildCard() ;
-  childFormGroup: FormGroup;
-  
-
-  constructor(private fb: FormBuilder, private http: HttpClient) { 
-    this.childFormGroup = this.fb.group({
-      lastName: new FormControl(''),
-      firstName: new FormControl(''), 
-      secondName: new FormControl(''),
-    });
+  constructor() { 
   }
+  @Input() ChildrFormGroup: FormGroup;
+  @Input() index: number;
+  @Output() deleteForm = new EventEmitter();
 
   ngOnInit(): void {
-  }
 
-  onSubmit() {
+  }
+  delete():void {
     
-
-    this.child= <ChildCard> this.childFormGroup.value;
-    this.http.post('http://api.oos.dmytrominochkin.cloud/Child/Create', this.child)
-    
+    this.ChildrFormGroup.reset();
+    this.deleteForm.emit(this.index);
   }
 
-  show():void{
-    let data= this.http.get<ChildCard[]>('/Child/Get');
-
-  }
 }

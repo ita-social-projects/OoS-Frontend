@@ -6,12 +6,16 @@
   </div>
   
   <ng-container> 
-    <app-child-form *ngFor="let form of forms"></app-child-form> 
+    <app-child-form *ngFor="let form of childrenFormArray.controls" [ChildFormGroup]="form" [index]="childrenrFormArray.controls.indexOf(form)"  (deleteForm)="deleteForm($event)"></app-child-form> 
+
   </ng-container>
 
+
    <div class="add-button">
+    <span><mat-icon>add</mat-icon> </span>
      <button mat-button (click)="addChild()">Додати ще</button>
    </div>
+   <button class="btn" type="submit" mat-raised-button matStepperPrevious (click)="onSubmit()">Підтвердити</button>
 </div>
   
 

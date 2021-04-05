@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms'
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ChildCard } from 'src/app/shared/models/child-card.model';
+import { ChildCard } from 'src/app/shared/models/child.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { GetChildCards } from 'src/app/shared/store/parent.actions';
 import { ParentState } from 'src/app/shared/store/parent.state';
