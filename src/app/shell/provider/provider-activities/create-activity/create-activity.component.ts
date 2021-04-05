@@ -72,9 +72,7 @@ export class CreateActivityComponent implements OnInit {
     });
   }
   
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   onSubmit() {
     const about = this.AboutFormGroup.value;
