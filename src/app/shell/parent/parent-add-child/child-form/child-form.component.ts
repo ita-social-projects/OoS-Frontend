@@ -11,7 +11,7 @@ export class ChildFormComponent implements OnInit {
 
   constructor() { 
   }
-  @Input() ChildrFormGroup: FormGroup;
+  @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Output() deleteForm = new EventEmitter();
 
@@ -20,7 +20,6 @@ export class ChildFormComponent implements OnInit {
   }
   delete():void {
     
-    this.ChildrFormGroup.reset();
     this.deleteForm.emit(this.index);
   }
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ChildCard} from '../../models/child.model'
+import { Child} from '../../models/child.model'
 
 
 @Injectable({
@@ -14,7 +14,7 @@ export class ChildCardService {
 
   constructor(private http: HttpClient) { }
 
-  getCards(): Observable<ChildCard[]> {
-    return this.http.get<ChildCard[]>('/Child/Get')
+  getCards(): Observable<Child[]> {
+    return this.http.get<Child[]>('/Child/Get')
   }
 }

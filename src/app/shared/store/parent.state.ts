@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { ChildActivities } from 'src/app/shared/models/child-activities.model';
-import { ChildCard } from 'src/app/shared/models/child.model';
+import { Child } from 'src/app/shared/models/child.model';
 import { ChildrenActivitiesListService } from 'src/app/shared/services/children-activities-list/children-activities-list.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { GetChildCards, GetChildrenActivitiesList } from './parent.actions';
 
 export interface ParentStateModel {
   childActivities: ChildActivities[];
-  children: ChildCard[];
+  children: Child[];
 
 }
 @State<ParentStateModel>({
@@ -39,7 +39,7 @@ export class ParentState {
   @Action(GetChildCards)
   GetChildCards({ patchState }: StateContext<ParentStateModel>) {
       return this.childCardsService.getCards().subscribe(
-        (children: ChildCard[]) => patchState({children})
+        (children: Child[]) => patchState({children})
       )
   }   
 }

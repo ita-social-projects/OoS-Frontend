@@ -11,7 +11,7 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 })
 export class ParentAddChildComponent implements OnInit {
 
-  public forms = [1];
+  // public forms = [1];
   childrenFormArray = new FormArray([]);
   
   constructor( private store: Store, private fb : FormBuilder) {
@@ -21,7 +21,7 @@ export class ParentAddChildComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.childrenFormArray.push(this.newForm());
-    
+
   }
   newForm(): FormGroup{
     const childFormGroup = this.fb.group({
@@ -29,6 +29,9 @@ export class ParentAddChildComponent implements OnInit {
       firstName: new FormControl(''), 
       secondName: new FormControl(''),
       birthDay: new FormControl(''),
+      gender: new FormControl(''),
+      type: new FormControl('')
+
     });
     return childFormGroup;
   }
@@ -40,14 +43,17 @@ export class ParentAddChildComponent implements OnInit {
   this.childrenFormArray.removeAt(index)
 }
 
-onSubmit() {
+  onSubmit() {
   let child:Child;
+
   const children=[];
   
- for(let i = 0; i < this.childrenFormArray.length; i++){
+  for(let i = 0; i < this.childrenFormArray.length; i++){
   child = new Child(this.childrenFormArray.controls[i].value);
-
+  children.push(child);
+  
  }
+ console.log(children);
   
 }
 }
