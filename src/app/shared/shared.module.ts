@@ -12,6 +12,7 @@ import { OrganizationCardComponent } from './components/organization-card/organi
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
+import { HobbySelectComponent } from './components/hobby-select/hobby-select.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
@@ -28,7 +29,9 @@ import { TeacherFormComponent } from './components/create-teacher/teacher-form/t
     TeacherCardComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
-    TeacherFormComponent
+    TeacherFormComponent,
+    HobbySelectComponent,
+    CategoryCardComponent
   ],
   imports: [
     MaterialModule,
@@ -48,7 +51,9 @@ import { TeacherFormComponent } from './components/create-teacher/teacher-form/t
     MaterialModule,
     TeacherCardComponent,
     CategoryCardComponent,
-    CreateTeacherComponent
+    CreateTeacherComponent,
+    HobbySelectComponent,
+    CategoryCardComponent
   ]
 })
 export class SharedModule { }
