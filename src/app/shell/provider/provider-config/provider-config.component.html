@@ -59,7 +59,7 @@
             </div>
             <div class="id-code">
               <label for="idCode">ЄДРПОУ/ІПН<span class="important">*</span></label>
-              <input type="number" id="idCode" formControlName="personalId">
+              <input type="text" id="idCode" formControlName="personalId">
             </div>
             <div class="phone">
               <label for="phoneForm">Телефон<span class="important">*</span></label>
@@ -190,10 +190,11 @@
             </div>
             <div class="description">
               <div class="description_header">
-                <label for="text-desc">Опис*</label>
-                <p><span
-                  [ngClass]="{'highlight-text': !photoFormGroup.controls['text'].valid && photoFormGroup.controls['text'].touched }"
-                  class="default">{{photoFormGroup.controls['text'].value.length}}</span>/500</p>
+                <label for="text-desc">Опис<span class="important">*</span></label>
+                <p>
+                  <span
+                    [ngClass]="{'highlight-text': !photoFormGroup.controls['text'].valid && photoFormGroup.controls['text'].touched }"
+                    class="default">{{photoFormGroup.controls['text'].value.length}}</span>/500</p>
               </div>
               <div class="description_form">
                 <textarea name="" id="text-desc" cols="30" rows="10"
@@ -214,7 +215,7 @@
           <button mat-button matStepperPrevious class="buttons3_reg"
                   [ngClass]="{'disabled-button':!photoFormGroup.valid}"
                   [disabled]="photoFormGroup.valid"
-                  >ЗАРЕЄСТРУВАТИ
+          >ЗАРЕЄСТРУВАТИ
           </button>
         </div>
       </mat-step>

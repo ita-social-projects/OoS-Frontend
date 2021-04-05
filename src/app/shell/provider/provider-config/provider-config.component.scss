@@ -1,71 +1,75 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 @mixin form-style {
-  width: 410px;
+  width: 100%;
+  //max-width: 410px;
   height: 34px;
-  padding: 8px 14px 8px 16px;
-  font-size: 13px;
-  line-height: 18px;
-  border: 1px solid #E3E3E3;
-  box-sizing: border-box;
-  border-radius: 21px;
+  padding: 0.5rem 0.875rem 0.5rem 1rem;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
+  border: 0.063rem solid #E3E3E3;
+  border-radius: 1.313rem;
 
 }
 
 @mixin form-style-small {
   text-align: center;
-  width: 85px;
+  width: 100%;
+  max-width: 85px;
   height: 34px;
   background: #FFFFFF;
-  border: 1px solid #EBEBEB;
+  border: 0.063rem solid #EBEBEB;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 }
 
 @mixin divider {
-  border-bottom: 1px solid #E3E3E3;
-  width: 410px;
-  margin-top: 32px;
+  border-bottom: 0.063rem solid #E3E3E3;
+  width: 100%;
+  max-width: 410px;
+  margin-top: 2rem;
 }
 
 @mixin primary-button {
-  margin-left: 32px;
-  width: 92px;
+  margin-left: 2rem;
+  width: 100%;
+  max-width: 92px;
   height: 34px;
   background: #3849F9;
-  border: 1px solid #3849F9;
+  border: 0.063rem solid #3849F9;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   font-weight: bold;
-  font-size: 13px;
-  line-height: 15px;
+  font-size: 0.813rem;
+  line-height: 0.938rem;
   color: #FFFFFF;
 }
 
 @mixin white-button {
   background: transparent;
-  width: 139px;
+  width: 100%;
+  max-width: 139px;
   height: 34px;
-  border: 1px solid #686868;
+  padding: 0.625rem 1.875rem 0.563rem 1.875rem;
+  border: 0.063rem solid #686868;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   font-weight: bold;
-  font-size: 13px;
-  line-height: 15px;
+  font-size: 0.813rem;
+  line-height: 0.938rem;
   text-align: center;
   color: #444444;
 }
 
 @mixin button-container {
-  width: 410px;
+  width: 100%;
+  max-width: 410px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 32px;
+  margin-top: 2rem;
 }
 
 ::ng-deep .mat-horizontal-stepper-header {
@@ -77,87 +81,91 @@ section {
   width: 100%;
   max-width: 654px;
   height: 100%;
-  padding: 48px;
+  padding: 3rem;
   background: #FFFFFF;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0.375rem 1rem rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
   .header {
     font-weight: bold;
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 1.125rem;
+    line-height: 1.25rem;
     text-align: center;
     color: #444444;
-    margin-top: 48px;
+    margin-top: 3rem;
   }
 
   .subheader {
-    margin-top: 16px;
+    margin-top: 1rem;
     font-weight: bold;
-    font-size: 13px;
-    line-height: 18px;
+    font-size: 0.813rem;
+    line-height: 1.125rem;
     text-align: center;
     color: #AAAAAA;
   }
 
   .important {
     color: red;
-    margin-right: 0.5px;
+    margin-right: 0.031rem;
   }
 
   label {
     font-weight: bold;
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 0.813rem;
+    line-height: 0.938rem;
     color: #333333;
   }
 
   .form-wrapper {
-    padding: 0 122px 0 56px;
+
+    width: 100%;
+    max-width: 410px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
     .header {
       font-weight: bold;
-      font-size: 18px;
-      line-height: 20px;
+      font-size: 1.125rem;
+      line-height: 1.25rem;
       text-align: center;
       color: #444444;
-      margin-top: 12px;
+      margin-top: 0.75rem;
     }
 
     .header-address {
       font-weight: bold;
-      font-size: 18px;
-      line-height: 20px;
+      font-size: 1.125rem;
+      line-height: 1.25rem;
       color: #272425;
-      margin-top: 18px;
+      margin-top: 1.125rem;
     }
 
     .divider {
-      width: 410px;
-      margin-top: 24px;
-      border-bottom: 1px solid #E3E3E3;
+      width: 100%;
+      margin-top: 1.5rem;
+      border-bottom: 0.063rem solid #E3E3E3;
     }
 
     .header-bottom {
       font-weight: bold;
-      font-size: 13px;
-      line-height: 18px;
+      font-size: 0.813rem;
+      line-height: 1.125rem;
       text-align: center;
       color: #AAAAAA;
-      margin-top: 16px;
+      margin-top: 1rem;
     }
 
     .checkbox {
-      font-size: 13px;
-      line-height: 18px;
+      font-size: 0.813rem;
+      line-height: 1.125rem;
       color: #444444;
-      margin-top: 24px;
+      margin-top: 1.5rem;
     }
 
     .form-ownership, .organization-type {
-      margin-top: 16px;
+      margin-top: 1rem;
 
       select {
         @include form-style;
@@ -166,7 +174,7 @@ section {
       }
 
       .select {
-        width: 410px;
+        width: 100%;
         position: relative;
 
         .select-arrow {
@@ -179,69 +187,71 @@ section {
     }
 
     .ceo-birthday {
-      margin-top: 16px;
+      margin-top: 1rem;
 
       mat-label {
         font-weight: bold;
-        font-size: 13px;
-        line-height: 15px;
+        font-size: 0.813rem;
+        line-height: 0.938rem;
         color: #333333;
       }
 
       &_date {
-        width: 160px;
+        width: 100%;
+        max-width: 160px;
         position: relative;
 
         mat-datepicker-toggle {
           position: absolute;
           right: 5%;
-          top: 50%;
+          top: 58%;
           transform: translateY(-50%);
         }
       }
 
       input {
-        margin-top: 8px;
+        margin-top: 0.5rem;
         appearance: none;
-        padding-left: 16px;
-        width: 160px;
+        padding-left: 1rem;
+        width: 100%;
         height: 34px;
-        border: 1px solid #E3E3E3;
+        border: 0.063rem solid #E3E3E3;
         box-sizing: border-box;
-        border-radius: 21px;
+        border-radius: 1.313rem;
       }
     }
 
     .photo-header {
       font-weight: bold;
-      font-size: 13px;
-      line-height: 15px;
+      font-size: 0.813rem;
+      line-height: 0.938rem;
       color: #333333;
     }
 
     .photo-subheader {
-      margin-top: 8px;
+      margin-top: 0.5rem;
       font-weight: normal;
-      font-size: 13px;
-      line-height: 18px;
+      font-size: 0.813rem;
+      line-height: 1.125rem;
       color: #AAAAAA;
     }
 
     .logo {
-
-      width: 410px;
+      width: 100%;
       height: 58px;
       display: flex;
       align-items: center;
 
       &_button {
+        width: 100%;
         label {
-          width: 95px;
+          width: 100%;
+          max-width: 95px;
           height: 58px;
           background: rgba(56, 73, 249, 0.1);
-          border: 1px dashed #3849F9;
+          border: 0.063rem dashed #3849F9;
           box-sizing: border-box;
-          border-radius: 5px;
+          border-radius: 0.313rem;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -259,15 +269,15 @@ section {
       }
 
       &_images {
-        margin-left: 8px;
+        margin-left: 0.5rem;
         width: 100%;
         max-width: 95px;
         height: 58px;
-        box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0.375rem 1rem rgba(0, 0, 0, 0.08);
         background: #FFFFFF;
 
         img {
-          border-radius: 5px;
+          border-radius: 0.313rem;
           object-fit: cover;
           width: 100%;
           height: 100%;
@@ -276,37 +286,39 @@ section {
     }
 
     .description {
-      margin-top: 35px;
+      margin-top: 2.188rem;
 
       &_header {
-        width: 410px;
+
+        width: 100%;
         display: flex;
         justify-content: space-between;
       }
 
       &_form {
         textarea {
-          width: 410px;
+          width: 100%;
           height: 238px;
-          left: 515px;
-          top: 482px;
-          border: 1px solid #E3E3E3;
+          resize: none;
+          border: 0.063rem solid #E3E3E3;
           box-sizing: border-box;
-          border-radius: 21px;
-          padding: 8px 26px 8px 16px;
+          border-radius: 1.313rem;
+          padding: 0.5rem 1.625rem 0.5rem 1rem;
         }
       }
     }
 
     .photo-checkbox {
-      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1.5rem;
       font-weight: normal;
-      font-size: 13px;
-      line-height: 18px;
+      font-size: 0.813rem;
+      line-height: 1.125rem;
       color: #333333;
 
       mat-checkbox:nth-child(2) {
-        margin-top: 16px;
+        margin-top: 1rem;
       }
     }
 
@@ -343,10 +355,11 @@ section {
     .org-full-name, .org-short-name, .ceo-name, .id-code, .phone, .email,
     .web-page, .facebook, .instagram, .owner-name,
     .region, .city, .district, .street, .building {
-      margin-top: 16px;
+      width: 100%;
+      margin-top: 1rem;
 
       input {
-        margin-top: 8px;
+        margin-top: 0.5rem;
         @include form-style;
       }
     }
@@ -355,7 +368,7 @@ section {
   .buttons3 {
     display: flex;
     justify-content: space-between;
-    margin-top: 48px;
+    margin-top: 3rem;
 
     &_back {
       @include primary-button;
@@ -368,7 +381,8 @@ section {
     &_reg {
       @include primary-button;
       margin: 0;
-      width: 169px;
+      width: 100%;
+      max-width: 169px;
     }
   }
 }
