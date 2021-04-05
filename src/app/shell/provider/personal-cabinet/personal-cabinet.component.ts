@@ -7,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonalCabinetComponent implements OnInit {
 
-  constructor() { 
+  constructor() {
   }
 
   ngOnInit(): void {
   }
 
 }
+
