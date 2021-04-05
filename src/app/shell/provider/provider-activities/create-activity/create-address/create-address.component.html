@@ -5,9 +5,10 @@
     <input type="text" class="step_input" 
       required
       matInput
+      [formControl]="AddressFormGroup.get('city')"
       [matAutocomplete]="auto"
       >
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [formControl]="AddressFormGroup.get('cityControl')">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)">
       <mat-option [disabled]= "noCity" *ngFor="let city of filteredCities$ | async" [value]="city">
           {{city}}
       </mat-option>
@@ -27,5 +28,4 @@
 <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
 <div fxLayout='column' fxLayoutAlign='center center'>
   <p>Або позначти на карті</p>
-  <button style="margin-bottom:20px; color: blue;" class="btn_cancel" type="submit" mat-raised-button>Підтвердити</button>      
 </div>

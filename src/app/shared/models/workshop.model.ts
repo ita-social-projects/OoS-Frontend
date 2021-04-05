@@ -1,3 +1,6 @@
+import { Address } from "./address.model";
+import { Teacher } from "./teacher.model";
+
 export class Workshop {
   type:string;
   title:string;
@@ -14,15 +17,10 @@ export class Workshop {
   direction:string;
   keyWords:string;
   price:number;
-  address:{
-    id:number;
-    city:string;
-    street:string;
-    buildingNumber:number;
-  }
+  address:Address;
+  teachers:Teacher[];
 
-
-  constructor(about, description) {
+  constructor(about, description, address, teachers) {
     //this.type = about.type;
     this.title = about.title;
     this.phone= about.phone;
@@ -33,15 +31,8 @@ export class Workshop {
     this.photos=description.photos;
     this.description=description.description;
     this.description=description.head;
-    //this.keyWords=description.keyWords;
-   
-    //this.address.city=contacts.city;
-    //this.address.street=contacts.street;
-    //this.address.buildingNumber=contacts.building;
-
-    
-    
-    //this.address.id=1;
+    this.address=address;
+    this.teachers=teachers;
     this.price=200;
   }
 }

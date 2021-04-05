@@ -16,16 +16,13 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 })
 export class CreateAddressComponent implements OnInit {
 
-  //for autocomplete
-  
+  AddressFormGroup: FormGroup;
+
+  @Output() addressForm = new EventEmitter();
   cities: string[] = [];
   noCity: boolean=false;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  AddressFormGroup: FormGroup;
-  
-  @Output() addressForm = new EventEmitter();
-  
+  selectedCity:string;
 
   @Select(MetaDataState.filteredCities)
   filteredCities$: Observable<string[]>;
@@ -37,7 +34,7 @@ export class CreateAddressComponent implements OnInit {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl(''), 
       buildingNumber: new FormControl(''),
-      city:new FormControl('')
+      city: new FormControl()
     });
    }
 
@@ -47,10 +44,8 @@ export class CreateAddressComponent implements OnInit {
       .subscribe((data)=>{
         this.cities=data;
     })
-    
     this.onInit();
   }
-  
   passFormController():void {
     this.addressForm.emit(this.AddressFormGroup);
   }
@@ -66,8 +61,9 @@ export class CreateAddressComponent implements OnInit {
       return filteredCities;
     }
   }
+
   onInit(){
-    this.AddressFormGroup.get('cityControl').valueChanges
+    this.AddressFormGroup.get('city').valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -86,6 +82,8 @@ export class CreateAddressComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-
+  onSelect(event){
+    this.selectedCity = event.option.value;
+  }
 
 }

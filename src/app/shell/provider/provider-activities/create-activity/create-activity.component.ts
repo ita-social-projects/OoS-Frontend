@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -7,10 +7,11 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable, throwError} from 'rxjs';
-import {catchError, map, startWith} from 'rxjs/operators';
+import { map, startWith} from 'rxjs/operators';
 import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
 import { Address } from 'src/app/shared/models/address.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -30,20 +31,22 @@ export class CreateActivityComponent implements OnInit {
   keyWords: string[] = ['Театр'];
   allkeyWords: string[] = ['Спорт', 'Танці', 'Музика', 'Мистецтво', 'Наука'];
 
-  workshop: Workshop;
-  teachers:string[];
-  allWorkshops;
+  workshop:Workshop;
+  url='/Workshop/Create';
 
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private providerActivititesService:  ProviderActivitiesService) {
+  constructor(private formBuilder: FormBuilder, 
+    private http: HttpClient, 
+    private providerActivititesService:  ProviderActivitiesService,
+    private route: ActivatedRoute,
+    private router: Router ) {
 
     this.filteredKeyWords = this.keyWordsCtrl.valueChanges.pipe(
       startWith(null),
@@ -77,22 +80,19 @@ export class CreateActivityComponent implements OnInit {
     const about = this.AboutFormGroup.value;
     const description = this.DescriptionFormGroup.value;
     const info = this.AddressFormGroup.value;
-    
-    description.keyWords = this.keyWords;
-
-    
-    let address= new Address(info);
-    this.workshop= new Workshop(about, description);
+    const address= new Address(info);
     const teachers=[];
-    
     for(let i=0; i<this.TeacherFormArray.controls.length;i++){
-      let teacher: Teacher = new Teacher(this.TeacherFormArray.controls[i].value);
-      teachers.push(teacher)
+       let teacher: Teacher = new Teacher(this.TeacherFormArray.controls[i].value);
+       teachers.push(teacher)
     }
-   
-    console.log(address)
-    console.log(this.workshop)
-    console.log(teachers)
+    
+    this.workshop= new Workshop(about,description,address,teachers);
+
+    this.http.post('Workshop/Create', this.workshop);
+     
+     this.router.navigate(['provider/cabinet', 'activities']);
+    
   }
   
   add(event: MatChipInputEvent): void {
@@ -134,10 +134,9 @@ export class CreateActivityComponent implements OnInit {
    addressForm(form):void{
      this.AddressFormGroup=form;
    }
-  
-   teachersArray(Array){
-     this.TeacherFormArray=Array;
-  }
+   teacherArray(array):void{
+    this.TeacherFormArray=array;
+   }
 
 
 }

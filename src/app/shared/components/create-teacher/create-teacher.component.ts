@@ -10,18 +10,21 @@ import { Teacher } from '../../models/teacher.model';
 export class CreateTeacherComponent implements OnInit {
 
   teacherFormArray = new FormArray([]);
-  @Output() TeachersArray = new EventEmitter();
+  @Output() teacherArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+   }
 
   ngOnInit(): void {
     this.addTeacher();
   }
-
   addTeacher(): void {
     this.teacherFormArray.push(this.newForm());
+    this.passFormController();
   }
-
+  passFormController():void {
+    this.teacherArray.emit(this.teacherFormArray);
+  }
   newForm(): FormGroup {
     const teacherFormGroup = this.fb.group({
       lastName: new FormControl(''),
@@ -30,14 +33,11 @@ export class CreateTeacherComponent implements OnInit {
       birthDay: new FormControl(''),
       description: new FormControl(''),
     });
+
     return teacherFormGroup;
   }
-
-  onSubmit(): void {
-    
-  }
-  
   deleteForm(index):void{
     this.teacherFormArray.removeAt(index)
   }
+
 }
