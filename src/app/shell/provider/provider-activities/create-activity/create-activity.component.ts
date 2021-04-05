@@ -9,6 +9,8 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map, startWith} from 'rxjs/operators';
 import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
+import { Address } from 'src/app/shared/models/address.model';
+import { Teacher } from 'src/app/shared/models/teacher.model';
 
 
 
@@ -28,14 +30,15 @@ export class CreateActivityComponent implements OnInit {
   keyWords: string[] = ['Театр'];
   allkeyWords: string[] = ['Спорт', 'Танці', 'Музика', 'Мистецтво', 'Наука'];
 
-  workshop;
+  workshop: Workshop;
+  teachers:string[];
   allWorkshops;
-  url='/Workshop/Create';
 
-  WorkshopFormArray: FormArray;
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
   AddressFormGroup: FormGroup;
+  TeacherFormArray: FormArray;
+
 
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -73,14 +76,23 @@ export class CreateActivityComponent implements OnInit {
   onSubmit() {
     const about = this.AboutFormGroup.value;
     const description = this.DescriptionFormGroup.value;
+    const info = this.AddressFormGroup.value;
+    
     description.keyWords = this.keyWords;
 
-    this.workshop= new Workshop(about, description);
-
-    console.log(this.workshop)
-
     
-    this.providerActivititesService.createWorkshop(this.workshop);
+    let address= new Address(info);
+    this.workshop= new Workshop(about, description);
+    const teachers=[];
+    
+    for(let i=0; i<this.TeacherFormArray.controls.length;i++){
+      let teacher: Teacher = new Teacher(this.TeacherFormArray.controls[i].value);
+      teachers.push(teacher)
+    }
+   
+    console.log(address)
+    console.log(this.workshop)
+    console.log(teachers)
   }
   
   add(event: MatChipInputEvent): void {
@@ -122,6 +134,10 @@ export class CreateActivityComponent implements OnInit {
    addressForm(form):void{
      this.AddressFormGroup=form;
    }
+  
+   teachersArray(Array){
+     this.TeacherFormArray=Array;
+  }
 
 
 }

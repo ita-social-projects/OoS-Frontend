@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Teacher } from '../../models/teacher.model';
 
@@ -10,26 +10,16 @@ import { Teacher } from '../../models/teacher.model';
 export class CreateTeacherComponent implements OnInit {
 
   teacherFormArray = new FormArray([]);
+  @Output() TeachersArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
-   }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.teacherFormArray.push(this.newForm());
+    this.addTeacher();
   }
 
   addTeacher(): void {
     this.teacherFormArray.push(this.newForm());
-  }
-  onSubmit(): void {
-    let teacher:Teacher;
-    const teachers=[];
-    for(let i=0; i<this.teacherFormArray.controls.length;i++){
-      teacher = new Teacher(this.teacherFormArray.controls[i].value);
-      console.log(teacher)
-      teachers.push(teacher)
-    }
-    console.log(teachers);
   }
 
   newForm(): FormGroup {
@@ -40,11 +30,14 @@ export class CreateTeacherComponent implements OnInit {
       birthDay: new FormControl(''),
       description: new FormControl(''),
     });
-
     return teacherFormGroup;
   }
+
+  onSubmit(): void {
+    
+  }
+  
   deleteForm(index):void{
     this.teacherFormArray.removeAt(index)
   }
-
 }
