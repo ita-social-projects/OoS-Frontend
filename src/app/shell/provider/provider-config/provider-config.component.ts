@@ -29,7 +29,7 @@ export class ProviderConfigComponent implements OnInit {
       ceoName: new FormControl(null, [Validators.required]),
       ceoBirthday: new FormControl(null, Validators.required),
       personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$')]),
-      phone: new FormControl(380, [Validators.required, Validators.maxLength(10)]),
+      phone: new FormControl(380, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       webPage: new FormControl(null),
       facebook: new FormControl(null),
@@ -89,14 +89,13 @@ export class ProviderConfigComponent implements OnInit {
     }
   }
 
-  setValue(value, controlName): void {
+  setValue(value: string, controlName): void {
     switch (controlName.getAttribute('formControlName')) {
       case 'ownership':
         this.orgFormGroup.get('ownership').setValue(value);
         this.valueOwnership = !this.valueOwnership;
         break;
       case 'organizationType':
-        console.log(controlName);
         this.orgFormGroup.get('organizationType').setValue(value);
         this.valueOrgType = !this.valueOrgType;
         break;

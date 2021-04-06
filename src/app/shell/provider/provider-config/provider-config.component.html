@@ -12,9 +12,12 @@
               <label for="">Форма власності<span class="important">*</span></label>
               <div class="custom-select">
                 <div class="select">
-                  <div *ngIf="!valueOwnership" class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
+                  <div *ngIf="!valueOwnership" class="select-arrow"><img src="assets/icons/select_arrow.png" alt="">
+                  </div>
                   <div *ngIf="valueOwnership" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
-                  <input readonly (click)="showSelect($event)" formControlName="ownership" #ownership>
+                  <input readonly
+                         (click)="showSelect($event)"
+                         formControlName="ownership" #ownership>
                 </div>
                 <div class="box" *ngIf="valueOwnership">
                   <ng-container *ngFor="let option of ownerShipList">
@@ -29,7 +32,9 @@
                 <div class="select">
                   <div *ngIf="!valueOrgType" class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
                   <div *ngIf="valueOrgType" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
-                  <input readonly (click)="showSelect($event)" formControlName="organizationType" #orgType>
+                  <input readonly
+                         (click)="showSelect($event)"
+                         formControlName="organizationType" #orgType>
                 </div>
                 <div class="box" *ngIf="valueOrgType">
                   <ng-container *ngFor="let option of organizationTypeList">

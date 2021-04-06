@@ -17,7 +17,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatDividerModule} from "@angular/material/divider";
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -40,7 +40,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatGridListModule,
     MatStepperModule,
     MatFormFieldModule,
-    MatDividerModule
+    MatDividerModule,
+
   ]
 })
 export class MaterialModule { }

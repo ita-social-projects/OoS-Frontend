@@ -5,6 +5,7 @@ import { orgCard } from 'src/app/shared/models/org-card.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { getPopCards } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
+import { UserRegistrationState } from '../../shared/store/user-registration.state';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +17,8 @@ export class MainComponent implements OnInit {
   @Select(FilterState.orgCards) orgCards$: Observable<orgCard[]>;
 
   public cards: orgCard[];
+  @Select(UserRegistrationState.isAuthorized)
+  isAuthorized$: Observable<boolean>;
 
   constructor(private store: Store) { }
 

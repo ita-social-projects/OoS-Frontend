@@ -1,6 +1,8 @@
-.error.input::ng-deep {
-border: 1px solid red;
+input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+  outline: none;
+  box-shadow: 0 0 0.063rem 0.063rem #C72A21;
 }
+
 
 .disabled-button {
   opacity: 0.5;
@@ -9,3 +11,4 @@ border: 1px solid red;
 .highlight-text {
   color: red;
 }
+
