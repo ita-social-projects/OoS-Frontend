@@ -2,6 +2,10 @@
   background-color: #EBEBEB;
   padding: 0 5rem;
   height: 117px;
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
   #mon-logo {
     width: 230px;
     height: 41px;
