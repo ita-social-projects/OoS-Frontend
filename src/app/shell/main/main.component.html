@@ -1,44 +1,43 @@
 <div class="main">
   <div class="main_categories">
     <div class="main_header" fxLayoutAlign="space-between center">
-      <div class="main_title">Найпопулярніші категорії</div>
-      <a href="#" class="main_link">Переглянути всі <span class="material-icons">
-        arrow_right_alt
-        </span></a>
+      <h3>Найпопулярніші напрямки</h3>
+      <a routerLink="/result" class="main_link">
+        Переглянути всі <span class="material-icons arrow">arrow_forward</span>
+      </a>
     </div>
-    <app-categories-filter></app-categories-filter>
+    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1.5rem grid">
+      <app-category-card  *ngFor="let categoryCard of categoriesCards$ | async "  
+                          [categoryCard]=categoryCard
+                          [icons]="icons$ | async">
+      </app-category-card>
+    </div>
   </div>
 
   <div class="main_cards">
     <div class="main_header" fxLayoutAlign="space-between center">
-      <div class="main_title">Найпопулярніші гуртки</div>
-      <a href="#" class="main_link">Переглянути всі <span class="material-icons">
-      arrow_right_alt
-      </span></a>
+      <h3>Найпопулярніші гуртки</h3>
+      <a routerLink="/result" class="main_link">
+        Переглянути всі <span class="material-icons arrow">arrow_forward</span>
+      </a>
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
-        <app-organization-card *ngFor="let card of cards | slice:0:4" [card]="card"></app-organization-card>
+        <app-organization-card *ngFor="let card of orgCards$ | async | slice:0:4" [card]="card"></app-organization-card>
       </ng-container>
     </div>
   </div>
-
-
   <div *ngIf="!(isAuthorized$ | async)" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
-      <div class="main_question">
+      <h2 class="main_question">
         Надаєш освітні послуги?
-      </div>
-      <div class="main_hint">
+      </h2>
+      <h4 class="main_hint">
         Зареєструйся - допоможемо залучити нових учнів!
-      </div>
+      </h4>
     </div>
     <div class="main_button-wrapper">
       <button mat-stroked-button class="main_button">ЗАРЕЄСТРУВАТИСЯ</button>
     </div>
   </div>
 </div>
-
-
-
-

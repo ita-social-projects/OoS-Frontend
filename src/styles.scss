@@ -1,7 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-div.cdk-overlay-pane{
+@font-face {
+  font-family: "Innerspace";
+  src: 
+    local("Innerspace"), 
+    url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format("truetype"),
+    url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format("truetype");
+}
+
+html, body { 
+  height: 100%; 
+}
+body { 
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+  background-color: #F8F8F8;
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Innerspace";
+  color: #000000;
+  margin: 0;
+}
+h1 {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+h2 {
+  font-size: 1.5rem;
+  line-height: 1.6875rem;
+}
+h3 {
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+}
+h4 {
+  font-size: 1rem;
+  line-height: 1.125rem;
+}
+h5 {
+  font-size: 0.8125rem;
+  line-height: 0.9375rem;
+}
+h6 {
+  font-size: 0.6875rem;
+  line-height: 0.9375rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+div.cdk-overlay-pane {
   width: auto !important; /** workaround for issue #101 **/
 }
+
+
+$config: mat-typography-config(
+  $font-family: "Innerspace",
+  $button: mat-typography-level(13px, 15px, 700)
+);
+
+@mixin mat-button-toggle-typography($config) {
+  .mat-button-toggle, .mat-button-toggle-button {
+    @include mat-typography-level-to-styles($config, button);
+    font-family: "Open Sans", sans-serif;
+  }
+}
+@mixin mat-form-typography($config) {
+  .mat-form-field {
+    font-family: "Open Sans", sans-serif;
+  }
+}
+@include mat-button-typography($config);
+@include mat-button-toggle-typography($config);
+@include mat-form-typography($config);
+// @include mat-core($config);
