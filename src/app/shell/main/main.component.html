@@ -27,8 +27,7 @@
       </ng-container>
     </div>
   </div>
-
-  <div class="main_registration" fxLayoutAlign="space-between center">
+  <div *ngIf="!(isAuthorized$ | async)" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
       <h2 class="main_question">
         Надаєш освітні послуги?

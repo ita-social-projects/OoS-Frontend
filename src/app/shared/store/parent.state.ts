@@ -28,7 +28,7 @@ export class ParentState {
   static children(state: ParentStateModel) {
     return state.children
   }
-  
+
   constructor(private childrenActivitiesListService: ChildrenActivitiesListService, private childCardsService : ChildCardService){}
   @Action(GetChildrenActivitiesList)
   GetChildrenActivitiesList({ patchState }: StateContext<ParentStateModel>) {
@@ -41,5 +41,5 @@ export class ParentState {
       return this.childCardsService.getCards().subscribe(
         (children: ChildCard[]) => patchState({children})
       )
-  }   
+  }
 }

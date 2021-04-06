@@ -1,95 +1,105 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { ChangePage } from 'src/app/shared/store/app.actions';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-provider-config',
   templateUrl: './provider-config.component.html',
-  styleUrls: ['./provider-config.component.scss']
+  styleUrls: ['./provider-config.component.scss', 'validation.component.scss']
 })
 export class ProviderConfigComponent implements OnInit {
-  providerForm = new FormGroup({
-    organizationType: new FormControl('', Validators.required),
-    fullName: new FormControl('', Validators.required),
-    mobilePhone: new FormControl('+380', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    webSite: new FormControl(''),
-    faceBook: new FormControl(''),
-    instagram: new FormControl(''),
-    description: new FormControl(''),
-    address: new FormGroup({
-      city: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      building: new FormControl('', Validators.required),
-    }),
-    edrpou: new FormControl('', Validators.required),
-    user: new FormGroup({
-      login: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-    }),
-    dataProcessingPermission: new FormControl('', Validators.required),
-    robotCheck: new FormControl('', Validators.required)
-  });
+  isLinear = false;
+  selectedLogos = [];
+  orgFormGroup: FormGroup;
+  addressFormGroup: FormGroup;
+  photoFormGroup: FormGroup;
+  ownerShipList = ['Державна', 'Комунальна', 'Приватна'];
+  organizationTypeList = ['ФОП', 'Громадська організація', 'ТОВ', 'ПП', 'Заклад освіти', 'Інше'];
+  valueOwnership = false;
+  valueOrgType = false;
 
-  constructor(private http: HttpClient, private store: Store) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new ChangePage(false));
-    this.http.post('http://localhost:5000/Provider/Create', {
-      "id": 0,
-      "title": "string",
-      "shortTitle": "string",
-      "website": "string",
-      "facebook": "string",
-      "instagram": "string",
-      "description": "string",
-      "mfo": "string",
-      "edrpou": "string",
-      "koatuu": "string",
-      "inpp": "string",
-      "director": "string",
-      "directorPosition": "string",
-      "authorityHolder": "string",
-      "directorBirthDay": "2021-03-11",
-      "directorPhonenumber": "string",
-      "managerialBody": "string",
-      "ownership": 0,
-      "type": 0,
-      "form": "string",
-      "profile": 0,
-      "index": "string",
-      "isSubmitPZ1": true,
-      "attachedDocuments": "string",
-      "addressId": 0,
-      "userId": "string",
-      "user": {
-        "id": "string",
-        "userName": "string",
-        "normalizedUserName": "string",
-        "email": "string",
-        "normalizedEmail": "string",
-        "emailConfirmed": true,
-        "passwordHash": "string",
-        "securityStamp": "string",
-        "concurrencyStamp": "string",
-        "phoneNumber": "string",
-        "phoneNumberConfirmed": true,
-        "twoFactorEnabled": true,
-        "lockoutEnd": "2021-03-11T10:48:01.648Z",
-        "lockoutEnabled": true,
-        "accessFailedCount": 0,
-        "creatingTime": "2021-03-11T10:48:01.648Z",
-        "lastLogin": "2021-03-11T10:48:01.648Z"
-      }
-    })
-      .subscribe(value => console.log(value));
-    this.http.get('http://localhost:5000/Provider/GetProviders').subscribe(value => alert(value));
+    this.orgFormGroup = new FormGroup({
+      ownership: new FormControl(null, Validators.required),
+      organizationType: new FormControl(null, Validators.required),
+      orgFullName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      orgShortName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      ceoName: new FormControl(null, [Validators.required]),
+      ceoBirthday: new FormControl(null, Validators.required),
+      personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$')]),
+      phone: new FormControl(380, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      webPage: new FormControl(null),
+      facebook: new FormControl(null),
+      instagram: new FormControl(null),
+      ownerName: new FormControl(null, Validators.required),
+
+    });
+    this.addressFormGroup = new FormGroup({
+      legalAddress: new FormGroup({
+        region: new FormControl(null, Validators.required),
+        city: new FormControl(null, Validators.required),
+        district: new FormControl(null, Validators.required),
+        street: new FormControl(null, Validators.required),
+        building: new FormControl(null, Validators.required),
+      }),
+      actualAddress: new FormGroup({
+        region: new FormControl(null, Validators.required),
+        city: new FormControl(null, Validators.required),
+        district: new FormControl(null, Validators.required),
+        street: new FormControl(null, Validators.required),
+        building: new FormControl(null, Validators.required),
+      })
+    });
+    this.photoFormGroup = new FormGroup({
+      photo: new FormControl(null),
+      photos: new FormArray([]),
+      text: new FormControl('', [Validators.maxLength(500), Validators.required]),
+      personalInfoAgreement: new FormControl(false, Validators.requiredTrue),
+      notRobot: new FormControl(false, Validators.requiredTrue)
+    });
   }
 
-  onSubmit(): void {
-    console.log(this.providerForm);
+  onFileSelected(event): void {
+    (this.photoFormGroup.controls.photos as FormArray)
+      .push(new FormControl(event.target.files[0]));
+    if (typeof event.target.files[0].name === 'string') {
+      this.imageDecoder(event.target.files[0]);
+    }
+  }
+
+  imageDecoder(file: File): void {
+    const myReader = new FileReader();
+    myReader.onload = () => {
+      this.selectedLogos.push(myReader.result);
+    };
+    return myReader.readAsDataURL(file);
+  }
+
+  showSelect(event): void {
+    switch (event.target.getAttribute('formControlName')) {
+      case 'ownership':
+        this.valueOwnership = !this.valueOwnership;
+        break;
+      case 'organizationType':
+        this.valueOrgType = !this.valueOrgType;
+        break;
+    }
+  }
+
+  setValue(value: string, controlName): void {
+    switch (controlName.getAttribute('formControlName')) {
+      case 'ownership':
+        this.orgFormGroup.get('ownership').setValue(value);
+        this.valueOwnership = !this.valueOwnership;
+        break;
+      case 'organizationType':
+        this.orgFormGroup.get('organizationType').setValue(value);
+        this.valueOrgType = !this.valueOrgType;
+        break;
+    }
   }
 }
+
