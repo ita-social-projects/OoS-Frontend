@@ -22,7 +22,10 @@
   
   <label class="step_label"> Телефон <span class="step_required">*</span></label>
   <mat-form-field >
-    <input matInput class="step_input" type="tel" formControlName="phone" required>
+    <div fxLayout='row' fxLayoutAlign='start'>
+      <span class="step_input_text">+380</span>
+      <input matInput class="step_input" type="tel" formControlName="phone" ui-number-mask ui-hide-group-sep minlength="9" maxlength="9" required>
+    </div>
   </mat-form-field>
   
   <label class="step_label"> Емейл <span class="step_required">*</span></label>
@@ -52,13 +55,19 @@
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step_input_text">Від</p>
-        <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required>
+        <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom"  
+        maxlength="2" 
+        min="1" 
+        max="16">
       </div>
     </mat-form-field> 
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step_input_text">До</p>
-        <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" required>
+        <input matInput class="step_input step_input_age" ng-model="number" formControlName="ageTo" required 
+        maxlength="2" 
+        min="1" 
+        max="16">
       </div>
     </mat-form-field>
   </div>
@@ -66,7 +75,10 @@
   <label class="step_label">Кількість занять<span class="step_required">*</span></label>
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
-      <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" required> 
+      <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" required 
+      maxlength="1" 
+      min="1" 
+      max="7"> 
       <p class="step_input_text">в тиждень</p>
     </div>
   </mat-form-field>
