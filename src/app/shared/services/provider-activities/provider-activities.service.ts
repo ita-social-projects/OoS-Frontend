@@ -15,6 +15,6 @@ export class ProviderActivitiesService {
   }
 
   createWorkshop( workshop ): void {
-    this.http.post('/Workshop/Create', workshop).subscribe();
+    this.http.post('/Workshop/Create', workshop).subscribe(workshop => console.log(workshop));
   }
 }

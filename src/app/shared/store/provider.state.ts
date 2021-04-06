@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { actCard } from '../models/activities-card.model';
 import { Address } from '../models/address.model';
@@ -32,8 +31,8 @@ export class ProviderState {
   constructor(
     private providerActivititesService: ProviderActivitiesService, 
     private childCardsService : ChildCardService,
-    private http: HttpClient,
-    private router: Router, 
+    private router: Router,
+    private route: ActivatedRoute 
     ){}
 
   @Action(GetActivitiesCards)
@@ -45,12 +44,12 @@ export class ProviderState {
 
   @Action(CreateWorkshop)
   createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { about, description, address, teachers }: CreateWorkshop): void {
-    const adr = dispatch(new CreateAddress(address));
-    const tchrs = dispatch(new CreateTeachers(teachers));
-    const workshop = new Workshop(about,description, adr, tchrs );
+    let adr, tchrs;
+    dispatch(new CreateAddress(address)).subscribe( data => adr = data);
+    dispatch(new CreateTeachers(teachers)).subscribe( data => tchrs = data);;
+    const workshop = new Workshop( about.value, description.value, adr, tchrs );
 
     this.providerActivititesService.createWorkshop(workshop);
-    this.router.navigate(['provider/cabinet', 'activities']);
   }
 
   @Action(CreateAddress)
