@@ -1,6 +1,19 @@
 .footer {
   background-color: #EBEBEB;
-  padding: 2rem 5rem;
+  padding: 0 5rem;
+  height: 117px;
+  #mon-logo {
+    width: 230px;
+    height: 41px;
+  }
+  #mkip-logo {
+    width: 323px;
+    height: 96px;
+  }
+  #min-sport-logo {
+    width: 83px;
+    height: 41px;
+  }
 }
 @media(max-width: 415px) {
   .footer {
