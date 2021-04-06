@@ -25,14 +25,15 @@ export class Workshop {
     this.title = about.title;
     this.phone= about.phone;
     this.email= about.email;
-    this.minAge= about.ageFrom;
-    this.maxAge= about.ageTo;
-    this.daysPerWeek= about.classAmount;
-    this.photos=description.photos;
-    this.description=description.description;
-    this.description=description.head;
-    this.address=address;
-    this.teachers=teachers;
-    this.price=200;
+    this.minAge = about.ageFrom;
+    this.maxAge = about.ageTo;
+    this.head = description.head;
+    this.daysPerWeek = about.classAmount;
+    this.photos = description.photos;
+    this.description = description.description;
+    this.description = description.head;
+    this.address = address;
+    this.teachers = teachers;
+    this.price = 200;
   }
 }

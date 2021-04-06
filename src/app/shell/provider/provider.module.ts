@@ -17,9 +17,9 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ProviderActivitiesService } from '../../shared/services/provider-activities/provider-activities.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
+import { HttpTokenInterceptor } from './../../shared/interceptors/http-token.interceptor';
 import { HttpClientModule } from '@angular/common/http';
-import { ProviderState } from 'src/app/shared/store/provider.state';
+import { ProviderState } from './../..//shared/store/provider.state';
 import { NgxsModule } from '@ngxs/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
@@ -29,9 +29,11 @@ import { CreateActivityComponent } from './provider-activities/create-activity/c
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from './../../shared/shared.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CreateAddressComponent } from './provider-activities/create-activity/create-address/create-address.component';
+import { CreateAboutFormComponent } from './provider-activities/create-activity/create-about-form/create-about-form.component';
+import { CreateDescriptionFormComponent } from './provider-activities/create-activity/create-description-form/create-description-form.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { CreateAddressComponent } from './provider-activities/create-activity/cr
     ProviderOrgInfoComponent,
     ProviderRequestsComponent,
     CreateActivityComponent,
-    CreateAddressComponent
+    CreateAddressComponent,
+    CreateAboutFormComponent,
+    CreateDescriptionFormComponent
   ],
     imports: [
         CommonModule,

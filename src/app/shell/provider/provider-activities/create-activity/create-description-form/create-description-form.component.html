@@ -1,0 +1,49 @@
+<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+	
+  <label class="step_label"> Опис <span class="step_required">*</span></label>
+	<mat-form-field>
+		<textarea matInput class="step_textarea" placeholder="Максимум 500 символів" formControlName="description" required></textarea>
+	</mat-form-field>
+
+	<label class="step_label"> Директор <span class="step_required">*</span></label>
+	<mat-form-field>
+		<input matInput class="step_input" placeholder="П.І.Б." formControlName="head" required>
+	</mat-form-field>
+
+	<label class="step_label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
+	<mat-form-field>
+		<input matInput class="step_input" placeholder="Пандус/спец. обладнання" formControlName="resources">
+	</mat-form-field>
+
+	<label class="step_label"> Напрямок за яким здійснюється навчання <span class="step_required">*</span></label>
+	<mat-select class="step_input" placeholder="Почніть вводити напрямок або виберіть зі списку" formControlName="direction">
+		<mat-option value="напрямок1"> Напрямок1 </mat-option>
+    <mat-option value="напрямок2"> Напрямок2 </mat-option>
+	</mat-select>
+	 
+	<label class="step_label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу
+		<div class="step_input" style="min-height:100px">
+		  <mat-chip-list #chipList>
+				<mat-chip
+					*ngFor="let keyWord of keyWords"
+					(removed)="removeKeyWord(keyWord)">
+					{{keyWord}}
+					<mat-icon matChipRemove>cancel</mat-icon>
+				</mat-chip>
+				<input
+					#keyWordsInput
+					formControlName="keyWords"
+					[matAutocomplete]="auto"
+					[matChipInputFor]="chipList"
+					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+					(matChipInputTokenEnd)="addKeyWord($event)"
+					>
+			</mat-chip-list>
+			</div>
+		</label>
+		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedKeyWord($event)">
+			<mat-option *ngFor="let keyWord of filteredKeyWords | async" [value]="keyWord">
+				{{keyWord}}
+			</mat-option>
+		</mat-autocomplete>
+</form>

@@ -1,0 +1,73 @@
+<form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
+  <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
+  
+  <label class="step_label">Логотип
+    <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
+    <input class="image-input" type="file" class="file-upload" (click)="uploadLogo($event)">
+  </label>
+    
+  <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
+  <mat-form-field >
+    <mat-select class="step_input" formControlName="type">
+      <mat-option value="group" selected> Гурток </mat-option>
+      <mat-option value="section" > Секція </mat-option>
+      <mat-option value="class" > Клас </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <label class="step_label"> Назва <span class="step_required">*</span></label>
+  <mat-form-field >
+    <input matInput class="step_input" type="text" formControlName="title" required>
+  </mat-form-field >
+  
+  <label class="step_label"> Телефон <span class="step_required">*</span></label>
+  <mat-form-field >
+    <input matInput class="step_input" type="tel" formControlName="phone" required>
+  </mat-form-field>
+  
+  <label class="step_label"> Емейл <span class="step_required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step_input" type="email" formControlName="email" required>
+  </mat-form-field>
+    
+  <label class="step_label">Веб сайт</label>
+  <mat-form-field >
+    <input matInput class="step_input" type="text">
+  </mat-form-field>
+
+  <label class="step_label">Facebook</label>
+  <mat-form-field>
+    <input matInput class="step_input" type="text" >
+  </mat-form-field>
+
+  <label class="step_label">Instagram</label>
+  <mat-form-field>
+    <input matInput class="step_input" type="text" >
+  </mat-form-field>
+
+  <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
+  
+  <label class="step_label"> Вік-дітей <span class="step_required">*</span></label>
+  <div fxLayout='row' fxLayoutAlign='start'>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='start'>
+        <p class="step_input_text">Від</p>
+        <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required>
+      </div>
+    </mat-form-field> 
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='start'>
+        <p class="step_input_text">До</p>
+        <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" required>
+      </div>
+    </mat-form-field>
+  </div>
+  
+  <label class="step_label">Кількість занять<span class="step_required">*</span></label>
+  <mat-form-field >
+    <div fxLayout='row' fxLayoutAlign='start'>
+      <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" required> 
+      <p class="step_input_text">в тиждень</p>
+    </div>
+  </mat-form-field>
+</form>

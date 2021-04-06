@@ -19,56 +19,6 @@
       color: #AAAAAA;
       padding: 0.2rem;
     }
-  .step{
-    &_form{
-      margin: 0 40px;
-    }
-    &_check-box{
-      font-family:Open Sans;
-      font-weight: 400;
-      color:#444444;
-      padding:0.5rem;
-    }
-    &_label{
-      font-weight: 500;
-    }
-    &_required{
-      color:red;
-    }
-    &_textarea{
-      min-height: 200px;
-      border: 1px solid #E3E3E3;
-      box-sizing: border-box;
-      border-radius: 21px;
-      padding: 1.2rem;
-      margin-bottom: 1.2rem;
-    }
-    &_input{
-      border: 1px solid #E3E3E3;
-      box-sizing: border-box;
-      border-radius: 21px;
-      padding:0.5rem;
-
-      &_age{
-        max-width: 80px;
-      }
-      &_text{
-        font-family:Open Sans;
-      font-weight: 700;
-      color: #AAAAAA;
-      padding: 5px;
-      }
-    }
-    &_line_age{
-      max-height: 0;
-      border: 1px solid #E3E3E3;
-      margin: 1rem 0 2rem 0;
-      min-width: 10px;
-      position: relative;
-      top: 5px;
-      margin: 10px;
-    }
-  }
 }
 .btn{
   color:white;
@@ -83,54 +33,4 @@
     background-color:transparent;
     border-color: #444444;
   }
-}
-input:focus,
-textarea:focus,
-select:focus,
-button:focus {
-    outline: none;
-}
-::placeholder {
-  color:#333333;
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-}
-.example-chip-list {
-  width: 100%;
-}
-
-.div-input{
-  width: 95px;
-  height: 58px;
-  background: rgba(56, 73, 249, 0.1);
-  border: 1px dashed #3849F9;
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin: 1rem;
-
-  &:hover{
-    cursor:pointer;
-    opacity: 0.5;
-  }
-}
-
-.mat-icon-add {
-  position: relative;
-  top: 17px;
-  left: 35px;
-  vertical-align: middle;
-  height: 26px;
-  color: #3849F9;
-}
-input[type="file"] {
-  display: none;
-}
-
-::ng-deep .mat-form-field-underline,
-::ng-deep .mat-form-field-label-wrapper {
-  display: none;
-}
-::ng-deep .mat-form-field-infix {
-  border:none;
 }

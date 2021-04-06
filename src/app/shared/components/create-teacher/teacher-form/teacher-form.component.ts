@@ -19,10 +19,10 @@ export class TeacherFormComponent implements OnInit {
   }
 
   upload(event):void {
-    console.log(event.target.files)
+    let photo =event.target.files;
   }
+  
   delete():void {
-    this.TeacherFormGroup.reset();
     this.deleteForm.emit(this.index);
   }
 }

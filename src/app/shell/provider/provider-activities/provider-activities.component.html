@@ -1,17 +1,15 @@
-<div *ngIf="(cards$ | async).length then ActivitiesList; else AddNewActivity"></div>
+<div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center' >
+  <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
+  <a [routerLink]="'../../create-activity/param'"><button class="btn" mat-raised-button >Додати гурток</button></a>
+</div>
 
-<ng-template #AddNewActivity>
-  <div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center' >
-    <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-    <a [routerLink]="'../../create-activity/param'"><button class="btn" mat-raised-button >Додати гурток</button></a>
-  </div>
-</ng-template>
+<div *ngIf="(cards$ | async).length then ActivitiesList"></div>
 
 <ng-template #ActivitiesList>
-<div 
-fxLayout='column' 
-fxLayoutAlign='space-evenly center' 
-fxLayoutGap='20px'>
+  <div 
+  fxLayout='column' 
+  fxLayoutAlign='space-evenly center' 
+  fxLayoutGap='20px'>
   <h2 fxLayoutAlign='center'>Управління гуртками та секціями</h2>
   <hr fxLayoutAlign='center' width="500" size="2" color="gray" />
   <br />
@@ -20,6 +18,5 @@ fxLayoutGap='20px'>
       <app-activities-card *ngFor="let card of cards" [card]="card"></app-activities-card> 
     </ng-container>
   </div>
-  <button mat-raised-button>Додати новий гурток/секцію</button>
 </div>
 </ng-template>

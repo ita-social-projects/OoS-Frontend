@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
-import { ChangePage } from 'src/app/shared/store/app.actions';
-import { GetActivitiesCards } from 'src/app/shared/store/provider.actions';
-import { ProviderState } from 'src/app/shared/store/provider.state';
+import { ChangePage } from '../../../shared/store/app.actions';
+import { GetActivitiesCards } from '../../../shared/store/provider.actions';
+import { ProviderState } from '../../../shared/store/provider.state';
 import { actCard } from '../../../shared/models/activities-card.model';
 
 @Component({
@@ -19,7 +18,7 @@ export class ProviderActivitiesComponent implements OnInit {
   cards$: Observable<actCard[]>;
   public cards: actCard[];
 
-  constructor(private providerActivititesService: ProviderActivitiesService, private store: Store) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
@@ -27,6 +26,5 @@ export class ProviderActivitiesComponent implements OnInit {
     this.cards$.subscribe(cards => 
       this.cards = cards
     );
-    console.log(this.cards);
   }
 }

@@ -5,172 +5,46 @@
       <p class="wrapper_text">Додайте новий гурток, секцію фбо групу для навчання</p>
     </div>
     
-  <mat-horizontal-stepper linear>
-    <mat-step [stepControl]="AboutFormGroup">
-       <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form" >
+    <mat-horizontal-stepper linear>
+      <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
-        
-        <mat-checkbox class="step_check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
-        <label class="step_label">Логотип
-          <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
-          <input class="image-input" type="file" class="file-upload" (click)="upload($event)">
-        </label>
-          
-        <label class="step_label">Гурток/Секція/Клас<span class="step_required">*</span></label>
-        <mat-form-field >
-          <mat-select class="step_input"  formControlName="type">
-            <mat-option value="group" selected>Гурток</mat-option>
-            <mat-option value="section">Секція</mat-option>
-            <mat-option value="class">Клас</mat-option>
-          </mat-select>
-        </mat-form-field>
-        
-        <label class="step_label">Назва<span class="step_required">*</span></label>
-        <mat-form-field >
-          <input matInput class="step_input" type="text"  formControlName="title" required>
-        </mat-form-field >
-        
-        <label class="step_label">Телефон<span class="step_required">*</span></label>
-        <mat-form-field >
-          <input matInput class="step_input" type="tel"  formControlName="phone" required>
-        </mat-form-field>
-        
-        <label class="step_label">Емейл<span class="step_required">*</span></label>
-        <mat-form-field>
-          <input matInput class="step_input" type="email" formControlName="email" required>
-        </mat-form-field>
-          
-        <label class="step_label">Веб сайт</label>
-        <mat-form-field >
-          <input matInput class="step_input" type="text">
-        </mat-form-field>
-
-        <label class="step_label">Facebook</label>
-        <mat-form-field>
-          <input matInput class="step_input" type="text" >
-        </mat-form-field>
-
-        <label class="step_label">Instagram</label>
-        <mat-form-field>
-          <input matInput class="step_input" type="text" >
-        </mat-form-field>
-
-        <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
-        
-        <label class="step_label">Вік-дітей<span class="step_required">*</span></label>
-
-        <div fxLayout='row' fxLayoutAlign='start'>
-          <mat-form-field>
-            <div fxLayout='row' fxLayoutAlign='start'>
-              <p class="step_input_text">Від</p>
-              <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required>
-            </div>
-          </mat-form-field> 
-          <mat-form-field>
-            <div fxLayout='row' fxLayoutAlign='start'>
-              <p class="step_input_text">До</p>
-              <input  matInput class="step_input step_input_age" type="number" formControlName="ageTo" required>
-            </div>
-          </mat-form-field>
-        </div>
-        
-          <label class="step_label">Кількість занять<span class="step_required">*</span></label>
-          <mat-form-field >
-            <div fxLayout='row' fxLayoutAlign='start'>
-              <input matInput class="step_input step_input_age" type="number" formControlName="classAmount" required> 
-              <p class="step_input_text">в тиждень</p>
-            </div>
-          </mat-form-field>
-
+        <app-create-about-form (aboutFormGroup)="receiveAboutFormGroup($event)"></app-create-about-form>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button mat-raised-button class="btn btn_cancel" ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button> 
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
-      </form>
-    </mat-step>
+      </mat-step>
 
-    <mat-step [stepControl]="DescriptionFormGroup">
-      <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+      <mat-step [stepControl]="DescriptionFormGroup">
         <ng-template matStepLabel>Опис</ng-template>
-        
-        <label class="step_label">Опис<span class="step_required">*</span></label>
-        <mat-form-field>
-          <textarea matInput class="step_textarea" placeholder="Максимум 500 символів" formControlName="description" required></textarea>
-        </mat-form-field>
-
-        <label class="step_label">Директор<span class="step_required">*</span></label>
-        <mat-form-field>
-          <input matInput class="step_input" placeholder="П.І.Б." formControlName="head" required>
-        </mat-form-field>
-
-        <label class="step_label">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</label>
-        <mat-form-field>
-          <input matInput class="step_input" placeholder="Пандус/спец. обладнання" formControlName="resources">
-        </mat-form-field>
-
-          <label class="step_label">Напрямок за яким здійснюється навчання<span class="step_required">*</span></label>
-          <mat-select class="step_input" placeholder="Почніть вводити напрямок або виберіть зі списку" formControlName="direction">
-            <mat-option value="group">{{allkeyWords[0]}}</mat-option>
-            <mat-option value="section">{{allkeyWords[1]}}</mat-option>
-            <mat-option value="class">{{allkeyWords[2]}}</mat-option>
-          </mat-select>
-         
-          <label class="step_label">Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу
-            <div class="step_input" style="min-height:100px">
-            <mat-chip-list #chipList>
-              <mat-chip
-                *ngFor="let keyWord of keyWords"
-                [selectable]="selectable"
-                [removable]="removable"
-                (removed)="remove(keyWord)">
-                {{keyWord}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-              <input
-                #keyWordsInput
-                formControlName="keyWords"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"
-                >
-            </mat-chip-list>
-            </div>
-          </label>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-              <mat-option *ngFor="let keyWord of filteredKeyWords | async" [value]="keyWord">
-                {{keyWord}}
-              </mat-option>
-            </mat-autocomplete>
-            
+        <app-create-description-form (descriptionFormGroup)="receiveDescriptionFormGroup($event)" ></app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
+          <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'"> Скасувати </a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
-      </form>
-    </mat-step>
+      </mat-step>
     
-    <mat-step [stepControl]="AddressFormGroup">
-      <ng-template matStepLabel>Контакти</ng-template>
-      <app-create-address (addressForm)="addressForm($event)"></app-create-address>
+      <mat-step [stepControl]="AddressFormGroup">
+        <ng-template matStepLabel>Контакти</ng-template>
+        <app-create-address (addressFormGroup)="receiveAddressFormGroup($event)"></app-create-address>
+        <div fxLayout='row' fxLayoutAlign='center center'>
+          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button>
+          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+        </div> 
+      </mat-step>
+    
+      <mat-step>
+        <ng-template matStepLabel>Викладачі</ng-template>
+        <app-create-teacher (teacherFormArray)="receiveTeacherFormArray($event)" ></app-create-teacher>
+        <div fxLayout='row' fxLayoutAlign='center center'>
+          <button class="btn"  mat-button matStepperPrevious>Назад</button>
+          <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button>
+          <button class="btn" mat-button type="submit" (click)="onSubmit()">Завершити</button>
+        </div>
+      </mat-step>
 
-      
-      <div fxLayout='row' fxLayoutAlign='center center'>
-        <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-        <button class="btn btn_cancel" mat-raised-button matStepperNext>Скасувати</button>
-        <button class="btn" mat-raised-button matStepperNext>Далі</button>
-      </div>
-      
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Викладачі</ng-template>
-      <app-create-teacher (teacherArray)="teacherArray($event)"></app-create-teacher>
-      <div fxLayout='row' fxLayoutAlign='center center'>
-        <button class="btn"  mat-button matStepperPrevious>Назад</button>
-        <button  class="btn" mat-button type="submit" (click)="onSubmit()">Завершити</button>
-      </div>
-    </mat-step>
-  </mat-horizontal-stepper>
+    </mat-horizontal-stepper>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="container" fxLayout="column" fxLayoutAlign="center">
   <ng-container> 
-    <app-teacher-form *ngFor="let form of teacherFormArray.controls" [TeacherFormGroup]="form" [index]="teacherFormArray.controls.indexOf(form)"  (deleteForm)="deleteForm($event)">
+    <app-teacher-form *ngFor="let form of TeacherFormArray.controls" [TeacherFormGroup]="form" [index]="TeacherFormArray.controls.indexOf(form)"  (deleteForm)="deleteForm($event)">
     </app-teacher-form> 
   </ng-container>
   <button class="btn" mat-button (click)="addTeacher()"><mat-icon class="mat-icon-add">add</mat-icon>Додати ще одного викладача</button>

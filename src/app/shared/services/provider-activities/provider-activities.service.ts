@@ -13,4 +13,8 @@ export class ProviderActivitiesService {
   getCards(): Observable<actCard[]> {
     return this.http.get<actCard[]>('/Workshop/Get')
   }
+
+  createWorkshop( workshop ): void {
+    this.http.post('/Workshop/Create', workshop).subscribe();
+  }
 }

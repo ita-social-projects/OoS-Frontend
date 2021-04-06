@@ -9,22 +9,20 @@ import { Teacher } from '../../models/teacher.model';
 })
 export class CreateTeacherComponent implements OnInit {
 
-  teacherFormArray = new FormArray([]);
-  @Output() teacherArray = new EventEmitter();
+  TeacherFormArray = new FormArray([]);
+  @Output() teacherFormArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
-   }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.addTeacher();
   }
+
   addTeacher(): void {
-    this.teacherFormArray.push(this.newForm());
-    this.passFormController();
+    this.TeacherFormArray.push(this.newForm());
+    this.teacherFormArray.emit(this.TeacherFormArray);
   }
-  passFormController():void {
-    this.teacherArray.emit(this.teacherFormArray);
-  }
+
   newForm(): FormGroup {
     const teacherFormGroup = this.fb.group({
       lastName: new FormControl(''),
@@ -33,11 +31,11 @@ export class CreateTeacherComponent implements OnInit {
       birthDay: new FormControl(''),
       description: new FormControl(''),
     });
-
     return teacherFormGroup;
   }
+  
   deleteForm(index):void{
-    this.teacherFormArray.removeAt(index)
+    this.TeacherFormArray.removeAt(index)
   }
 
 }

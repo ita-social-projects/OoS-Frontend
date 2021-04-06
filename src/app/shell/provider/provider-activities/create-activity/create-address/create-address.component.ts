@@ -3,11 +3,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
-import { Address } from 'src/app/shared/models/address.model';
-import { CityFilterService } from 'src/app/shared/services/filters-services/city-filter/city-filter.service';
-import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
-import { CityList } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { CityFilterService } from './../../../../../shared/services/filters-services/city-filter/city-filter.service';
+import { CityList } from './../../../../../shared/store/meta-data.actions';
+import { MetaDataState } from './../../../../../shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-address',
@@ -18,7 +16,7 @@ export class CreateAddressComponent implements OnInit {
 
   AddressFormGroup: FormGroup;
 
-  @Output() addressForm = new EventEmitter();
+  @Output() addressFormGroup = new EventEmitter();
   cities: string[] = [];
   noCity: boolean=false;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -27,27 +25,27 @@ export class CreateAddressComponent implements OnInit {
   @Select(MetaDataState.filteredCities)
   filteredCities$: Observable<string[]>;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     public filterCityService: CityFilterService, 
-    public store: Store,
-    private providerActivititesService: ProviderActivitiesService) {
+    public store: Store
+    ){
+    
     this.AddressFormGroup = this.formBuilder.group({
-      street: new FormControl(''), 
-      buildingNumber: new FormControl(''),
-      city: new FormControl()
+    street: new FormControl(''), 
+    buildingNumber: new FormControl(''),
+    city: new FormControl()
     });
-   }
+  }
 
   ngOnInit(): void {
-    this.passFormController();
+    this.addressFormGroup.emit(this.AddressFormGroup);
+    
     this.filterCityService.fetchCities()
       .subscribe((data)=>{
         this.cities=data;
     })
     this.onInit();
-  }
-  passFormController():void {
-    this.addressForm.emit(this.AddressFormGroup);
   }
 
   private _filter(value: string): string[] {
