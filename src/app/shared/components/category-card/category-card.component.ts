@@ -25,15 +25,15 @@ export class CategoryCardComponent implements OnInit {
     this.store.dispatch(new SetCategory(id));
   }
 
-  getWord(){
-    if(this.workshopsAmount%100 >= 10 && this.workshopsAmount%100 <= 20){
+  getWord() : string {
+    if(this.workshopsAmount % 100 >= 10 && this.workshopsAmount % 100 <= 20){
      return "гуртків";
     } else {
-      if(this.workshopsAmount%10 === 0 || this.workshopsAmount%10 > 4){
+      if(this.workshopsAmount % 10 === 0 || this.workshopsAmount % 10 > 4){
         return "гуртків";
-      } else if(this.workshopsAmount%10 === 1){
+      } else if(this.workshopsAmount % 10 === 1){
         return "гурток";
-      } else if(this.workshopsAmount%10 > 1 && this.workshopsAmount%10 < 5){
+      } else if(this.workshopsAmount % 10 > 1 && this.workshopsAmount % 10 < 5){
         return "гуртки";
       }
     }
