@@ -24,6 +24,9 @@
     }
   }
 }
+.form_border{
+  border-bottom: 2px solid gray;
+}
 .btn{
   color:white;
   background-color:#3849F9;
@@ -47,8 +50,7 @@ button:focus {
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
-}
-  
+} 
 .div-input{
   width: 95px;
   height: 58px;
@@ -57,13 +59,11 @@ button:focus {
   box-sizing: border-box;
   border-radius: 5px;
   margin: 1rem;
-  
-&:hover{
-  cursor:pointer;
-  opacity: 0.5;
+  &:hover{
+    cursor:pointer;
+    opacity: 0.5;
   }
 }
-  
 .mat-icon-add {
   position: relative;
   top: 17px;
@@ -78,14 +78,10 @@ button:focus {
 input[type="file"] {
   display: none;
 }
-  
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
 ::ng-deep .mat-form-field-infix {
   border:none;
-}
-.form_border{
-  border-bottom: 2px solid gray;
 }

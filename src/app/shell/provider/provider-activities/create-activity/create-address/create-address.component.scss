@@ -12,7 +12,9 @@
     padding:0.5rem;
   }
 }
-
+.form_line{
+  border-top: 2px solid grey;
+}
 input:focus,
 button:focus {
     outline: none;
