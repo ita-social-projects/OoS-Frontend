@@ -12,8 +12,10 @@ export class CreateActivityComponent implements OnInit {
 
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
+  SelectFormGroup: FormGroup;
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
+  
 
   constructor( private store: Store,
       ) {}
@@ -24,6 +26,7 @@ export class CreateActivityComponent implements OnInit {
     this.store.dispatch(new CreateWorkshop( 
       this.AboutFormGroup, 
       this.DescriptionFormGroup,
+      this.SelectFormGroup,
       this.AddressFormGroup,
       this.TeacherFormArray)
     );
@@ -39,5 +42,8 @@ export class CreateActivityComponent implements OnInit {
   }
   receiveDescriptionFormGroup ( form ) : void {
     this.DescriptionFormGroup = form;
+  }
+  receiveSelectFormGroup( form ) : void {
+    this.SelectFormGroup = form;
   }
 }
