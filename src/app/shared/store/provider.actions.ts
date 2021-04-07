@@ -5,7 +5,7 @@ export class GetActivitiesCards {
 }
 export class CreateWorkshop {
   static readonly type = '[provider] create Workshop';
-  constructor( public about: FormGroup,  public description: FormGroup, public select: FormGroup, public address: FormGroup, public teachers: FormArray ) {}
+  constructor( public about: FormGroup,  public description: FormGroup, public address: FormGroup, public teachers: FormArray ) {}
 }
 export class CreateAddress {
   static readonly type = '[provider] create Address';

@@ -17,7 +17,7 @@
 
       <mat-step [stepControl]="DescriptionFormGroup">
         <ng-template matStepLabel>Опис</ng-template>
-        <app-create-description-form (selectFormGroup)="receiveSelectFormGroup($event)" (descriptionFormGroup)="receiveDescriptionFormGroup($event)" ></app-create-description-form>
+        <app-create-description-form (descriptionFormGroup)="receiveDescriptionFormGroup($event)" ></app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'"> Скасувати </a></button>

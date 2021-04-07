@@ -1,23 +1,23 @@
 <div class="hobby-select">
   <select 
     class="browser-default custom-select" 
-    [formControlName]="SelectFormGroup.get('selectedDirection')" 
+    [formControl]="selectedDirection" 
     (change)="handleDirectionSelect($event.target.value)"
   >
     <option value="">Оберіть напрямок</option>
     <option *ngFor="let option of direction" [value]="option">{{ option }}</option>
   </select>
-  <select *ngIf="SelectFormGroup.get('selectedDirection').value !== ''"
+  <select *ngIf="selectedDirection.value !== ''"
     class="browser-default custom-select" 
-    [formControlName]="SelectFormGroup.get('selectedDirection')"
+    [formControl]="selectedFaculty"
     (change)="handleFacultySelect($event.target.value)"
   >
     <option value="">Оберіть відділення</option>
     <option *ngFor="let option of faculty" [value]="option">{{ option }}</option>
   </select>
-  <select *ngIf="SelectFormGroup.get('selectedFaculty').value !== ''"
+  <select *ngIf="selectedFaculty.value !== ''"
     class="browser-default custom-select"
-    [formControlName]="SelectFormGroup.get('selectedFaculty')"
+    [formControl]="selectedStudy"
     (change)="handleStudySelect($event.target.value)"
   >
     <option value="">Оберіть клас</option>
