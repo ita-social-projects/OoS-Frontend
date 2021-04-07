@@ -15,25 +15,30 @@ export class Workshop {
   head:string;
   resources:string;
   direction:string;
+  faculty:string;
+  study:string;
   keyWords:string;
   price:number;
   address:Address;
   teachers:Teacher[];
 
-  constructor(about, description, address, teachers) {
-    //this.type = about.type;
+  constructor(about, description, select, address, teachers) {
+    this.type = about.type;
     this.title = about.title;
     this.phone= about.phone;
     this.email= about.email;
     this.minAge = about.ageFrom;
     this.maxAge = about.ageTo;
+    this.price = 200;
     this.head = description.head;
     this.daysPerWeek = about.classAmount;
     this.photos = description.photos;
     this.description = description.description;
-    this.description = description.head;
+    this.direction = select.direction;
+    this.faculty = select.faculty;
+    this.study = select.study;
+    this.head = description.head;
     this.address = address;
     this.teachers = teachers;
-    this.price = 200;
   }
 }

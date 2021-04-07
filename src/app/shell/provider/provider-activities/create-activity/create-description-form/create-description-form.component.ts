@@ -15,6 +15,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   
   DescriptionFormGroup: FormGroup;
   @Output() passDescriptionFormGroup = new EventEmitter();
+  @Output() passSelectFormGroup = new EventEmitter();
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredKeyWords: Observable<string[]>;
@@ -29,7 +30,6 @@ export class CreateDescriptionFormComponent implements OnInit {
       photos: new FormControl(''),
       description: new FormControl(''), 
       resources: new FormControl(''),
-      direction: new FormControl(''),
       head: new FormControl(''),
       keyWords: new FormControl(''),
     });
@@ -65,6 +65,10 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   private _filter(value: string): string[] {
     return this.allkeyWords.filter(word => word.toLowerCase().indexOf(value.toLowerCase()) === 0);
+  }
+
+  receiveSelectFormGroup ( form ) : void {
+    this.passSelectFormGroup.emit(form);
   }
 
 }

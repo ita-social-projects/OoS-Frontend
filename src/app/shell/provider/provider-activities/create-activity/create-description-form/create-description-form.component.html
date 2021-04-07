@@ -16,10 +16,11 @@
 	</mat-form-field>
 
 	<label class="step_label"> Напрямок за яким здійснюється навчання <span class="step_required">*</span></label>
-	<mat-select class="step_input" placeholder="Почніть вводити напрямок або виберіть зі списку" formControlName="direction">
+	<app-hobby-select (selectFormGroup)="receiveSelectFormGroup($event)"></app-hobby-select>
+	<!-- <mat-select class="step_input" placeholder="Почніть вводити напрямок або виберіть зі списку" formControlName="direction">
 		<mat-option value="напрямок1"> Напрямок1 </mat-option>
-    <mat-option value="напрямок2"> Напрямок2 </mat-option>
-	</mat-select>
+    <mat-option value="напрямок2"> Напрямок2 </mat-option> -->
+	<!-- </mat-select> -->
 	 
 	<label class="step_label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу
 		<div class="step_input" style="min-height:100px">
