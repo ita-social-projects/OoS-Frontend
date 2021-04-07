@@ -5,6 +5,8 @@
 
 <div *ngIf="(cards$ | async).length then ActivitiesList"></div>
 
+
+
 <ng-template #ActivitiesList>
   <div 
   fxLayout='column' 
@@ -15,7 +17,7 @@
   <br />
   <div class="cards" fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' >
     <ng-container> 
-      <app-activities-card *ngFor="let card of cards" [card]="card"></app-activities-card> 
+      <app-organization-card *ngFor="let card of cards" [card]="card"></app-organization-card>
     </ng-container>
   </div>
 </div>
