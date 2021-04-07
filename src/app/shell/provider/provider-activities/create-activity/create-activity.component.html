@@ -8,7 +8,7 @@
     <mat-horizontal-stepper linear>
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
-        <app-create-about-form (aboutFormGroup)="receiveAboutFormGroup($event)"></app-create-about-form>
+        <app-create-about-form (PassAboutFormGroup)="receiveAboutFormGroup($event)"></app-create-about-form>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button mat-raised-button class="btn btn_cancel" ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button> 
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
@@ -17,7 +17,7 @@
 
       <mat-step [stepControl]="DescriptionFormGroup">
         <ng-template matStepLabel>Опис</ng-template>
-        <app-create-description-form (descriptionFormGroup)="receiveDescriptionFormGroup($event)" ></app-create-description-form>
+        <app-create-description-form (PassDescriptionFormGroup)="receiveDescriptionFormGroup($event)" ></app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'"> Скасувати </a></button>
@@ -27,7 +27,7 @@
     
       <mat-step [stepControl]="AddressFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
-        <app-create-address (addressFormGroup)="receiveAddressFormGroup($event)"></app-create-address>
+        <app-create-address (PassAddressFormGroup)="receiveAddressFormGroup($event)"></app-create-address>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button>
@@ -37,7 +37,7 @@
     
       <mat-step>
         <ng-template matStepLabel>Викладачі</ng-template>
-        <app-create-teacher (teacherFormArray)="receiveTeacherFormArray($event)" ></app-create-teacher>
+        <app-create-teacher (PassTeacherFormArray)="receiveTeacherFormArray($event)" ></app-create-teacher>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn"  mat-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button>

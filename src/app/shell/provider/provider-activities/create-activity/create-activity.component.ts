@@ -37,7 +37,7 @@ export class CreateActivityComponent implements OnInit {
   receiveAboutFormGroup ( form ) : void {
     this.AboutFormGroup = form;
   }
-  receiveDescriptionFormGroup ( form ) : void {
+  receiveDescriptionFormGroup( form ) : void {
     this.DescriptionFormGroup = form;
   }
 }

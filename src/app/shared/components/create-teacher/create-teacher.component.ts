@@ -36,5 +36,4 @@ export class CreateTeacherComponent implements OnInit {
   deleteForm(index):void{
     this.TeacherFormArray.removeAt(index)
   }
-
 }

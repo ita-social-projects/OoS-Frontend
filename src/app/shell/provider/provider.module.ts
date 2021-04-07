@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { ActivitiesCardComponent } from './provider-activities/activities-card/activities-card.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
@@ -40,7 +39,6 @@ import { CreateDescriptionFormComponent } from './provider-activities/create-act
   declarations: [
     ProviderActivitiesComponent,
     ProviderConfigComponent,
-    ActivitiesCardComponent,
     PersonalCabinetComponent,
     ProviderOrgInfoComponent,
     ProviderRequestsComponent,
