@@ -2,26 +2,32 @@
   &_form{
     margin: 0 40px;
   }
+
   &_check-box{
     font-family:Open Sans;
     font-weight: 400;
     color:#444444;
     padding:0.5rem;
   }
+
   &_label{
     font-weight: 500;
   }
+
   &_required{
     color:red;
   }
+
   &_input{
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
+
     &_age{
       max-width: 80px;
     }
+
     &_text{
     font-family:Open Sans;
     font-weight: 700;
@@ -39,12 +45,14 @@
     margin: 10px;
   }
 }
+
 input:focus,
 textarea:focus,
 select:focus,
 button:focus {
   outline: none;
 }
+
 ::placeholder {
   color:#333333;
   font-family: Open Sans;
@@ -59,11 +67,13 @@ button:focus {
   box-sizing: border-box;
   border-radius: 5px;
   margin: 1rem;
+
   &:hover{
     cursor:pointer;
     opacity: 0.5;
   }
 }
+
 .mat-icon-add {
   position: relative;
   top: 17px;

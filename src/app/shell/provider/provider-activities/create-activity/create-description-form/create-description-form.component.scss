@@ -2,12 +2,15 @@
   &_form{
     margin: 0 40px;
   }
+
   &_label{
     font-weight: 500;
   }
+
   &_required{
     color:red;
   }
+
   &_textarea{
     min-height: 200px;
     border: 1px solid #E3E3E3;
@@ -15,6 +18,7 @@
     border-radius: 21px;
     padding: 1.2rem;
   }
+
   &_input{
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
@@ -30,16 +34,19 @@ select:focus,
 button:focus {
   outline: none;
 }
+
 ::placeholder {
   color:#333333;
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
 }  
+
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
+
 ::ng-deep .mat-form-field-infix {
   border:none;
 }
