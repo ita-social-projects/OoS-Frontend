@@ -4,20 +4,22 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
 
 import { ProviderActivitiesComponent } from './provider-activities/provider-activities.component';
 import { ProviderConfigComponent } from './provider-config/provider-config.component';
+import { CanDeactivateGuard } from './provider-config/can-leave.guard';
 
 const routes: Routes = [
-  { path: 'cabinet', component: PersonalCabinetComponent, 
+  { path: 'cabinet', component: PersonalCabinetComponent,
   children: [
     {
-      path: 'activities', 
-      component: ProviderActivitiesComponent, 
+      path: 'activities',
+      component: ProviderActivitiesComponent,
     },
     {
-      path: 'config', 
-      component: ProviderConfigComponent, 
+      path: 'config',
+      component: ProviderConfigComponent,
+      canDeactivate: [CanDeactivateGuard]
     },
   ]
- } 
+ }
 ];
 
 @NgModule({

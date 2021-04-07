@@ -82,7 +82,7 @@
             </div>
             <div class="web-page">
               <label for="webPageForm">Веб сайт</label>
-              <input type="text" id="webPageForm" formControlName="webPage">
+              <input type="text" id="webPageForm" formControlName="webPage" placeholder="380XXXXXXX">
             </div>
             <div class="facebook">
               <label for="facebook">Facebook</label>
@@ -97,16 +97,13 @@
               <input type="text" id="ownerName" formControlName="ownerName">
             </div>
             <div class="buttons1">
-              <div class="buttons1_reset">
-                <button>СКАСУВАТИ</button>
-              </div>
-              <div class="buttons1_next">
-                <button
-                  mat-button matStepperNext [disabled]="orgFormGroup.valid"
-                  [ngClass]="{'disabled-button':!orgFormGroup.valid}"
-                >ДАЛІ
-                </button>
-              </div>
+              <button class="buttons1_reset" type="button" (click)="formReset()">СКАСУВАТИ</button>
+              <button class="buttons1_next"
+                      type="button"
+                      matStepperNext [disabled]="orgFormGroup.valid"
+                      [ngClass]="{'disabled-button':!orgFormGroup.valid}"
+              >ДАЛІ
+              </button>
             </div>
           </div>
         </form>
@@ -167,9 +164,9 @@
               </div>
             </ng-container>
             <div class="buttons2">
-              <button class="buttons2_back" mat-button matStepperPrevious>НАЗАД</button>
-              <button class="reset">СКАСУВАТИ</button>
-              <button class="buttons2_next" mat-button matStepperNext
+              <button class="buttons2_back" matStepperPrevious>НАЗАД</button>
+              <button type="button" class="buttons2_reset" (click)="formReset()">СКАСУВАТИ</button>
+              <button class="buttons2_next" matStepperNext
                       [ngClass]="{'disabled-button':!addressFormGroup.valid}"
                       [disabled]="addressFormGroup.valid"
               >ДАЛІ
@@ -204,12 +201,14 @@
                 <label for="text-desc">Опис<span class="important">*</span></label>
                 <p>
                   <span
-                    [ngClass]="{'highlight-text': !photoFormGroup.controls['text'].valid && photoFormGroup.controls['text'].touched }"
-                    class="default">{{photoFormGroup.controls['text'].value.length}}</span>/500</p>
+                    [ngClass]="{'highlight-text': !(photoFormGroup.controls['text']).valid && (photoFormGroup.controls['text']).touched }"
+                    class="default">{{(textValue) ? textValue.split('').length : '0'}}</span>/500</p>
               </div>
               <div class="description_form">
                 <textarea name="" id="text-desc" cols="30" rows="10"
-                          placeholder="Додайте опис вашого закладу" formControlName="text"></textarea>
+                          placeholder="Додайте опис вашого закладу"
+                          [(ngModel)]="textValue"
+                          formControlName="text"></textarea>
               </div>
             </div>
             <div class="photo-checkbox">
@@ -219,16 +218,16 @@
               </mat-checkbox>
             </div>
           </div>
+          <div class="buttons3">
+            <button matStepperPrevious class="buttons3_back">НАЗАД</button>
+            <button class="buttons3_reset" (click)="formReset()">СКАСУВАТИ</button>
+            <button matStepperPrevious class="buttons3_reg"
+                    [ngClass]="{'disabled-button':!photoFormGroup.valid}"
+                    [disabled]="photoFormGroup.valid"
+            >ЗАРЕЄСТРУВАТИ
+            </button>
+          </div>
         </form>
-        <div class="buttons3">
-          <button mat-button matStepperPrevious class="buttons3_back">НАЗАД</button>
-          <button mat-button class="reset">СКАСУВАТИ</button>
-          <button mat-button matStepperPrevious class="buttons3_reg"
-                  [ngClass]="{'disabled-button':!photoFormGroup.valid}"
-                  [disabled]="photoFormGroup.valid"
-          >ЗАРЕЄСТРУВАТИ
-          </button>
-        </div>
       </mat-step>
     </mat-horizontal-stepper>
   </div>

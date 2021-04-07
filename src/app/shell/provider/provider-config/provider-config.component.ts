@@ -16,6 +16,7 @@ export class ProviderConfigComponent implements OnInit {
   organizationTypeList = ['ФОП', 'Громадська організація', 'ТОВ', 'ПП', 'Заклад освіти', 'Інше'];
   valueOwnership = false;
   valueOrgType = false;
+  textValue = '';
 
   constructor() {
   }
@@ -29,7 +30,7 @@ export class ProviderConfigComponent implements OnInit {
       ceoName: new FormControl(null, [Validators.required]),
       ceoBirthday: new FormControl(null, Validators.required),
       personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$')]),
-      phone: new FormControl(380, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
+      phone: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       webPage: new FormControl(null),
       facebook: new FormControl(null),
@@ -101,5 +102,18 @@ export class ProviderConfigComponent implements OnInit {
         break;
     }
   }
+
+  formReset(): void {
+    if (this.orgFormGroup.dirty || this.addressFormGroup.dirty || this.photoFormGroup.dirty) {
+      const value = confirm('Скасувати реєстрацію нового закладу?');
+      if (value === true) {
+        this.orgFormGroup.reset();
+        this.addressFormGroup.reset();
+        this.photoFormGroup.reset();
+        this.selectedLogos = [];
+      }
+    }
+  }
 }
+
 

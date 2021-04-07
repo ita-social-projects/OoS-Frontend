@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProviderActivitiesService } from '../../shared/services/provider-activities/provider-activities.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
@@ -24,6 +24,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { MaterialModule } from '../../shared/material/material.module';
+import { CanDeactivateGuard } from './provider-config/can-leave.guard';
 
 @NgModule({
   declarations: [
@@ -47,12 +48,14 @@ import { MaterialModule } from '../../shared/material/material.module';
         HttpClientModule,
         NgxsModule.forFeature([ProviderState]),
         MatTabsModule,
-        MaterialModule
+        MaterialModule,
+        FormsModule,
     ],
 
   providers: [
     ProviderActivitiesService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
+    CanDeactivateGuard
   ]
 
 })
