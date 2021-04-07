@@ -16,7 +16,7 @@ export class CreateAddressComponent implements OnInit {
 
   AddressFormGroup: FormGroup;
 
-  @Output() addressFormGroup = new EventEmitter();
+  @Output() passAddressFormGroup = new EventEmitter();
   cities: string[] = [];
   noCity: boolean=false;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -39,7 +39,7 @@ export class CreateAddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addressFormGroup.emit(this.AddressFormGroup);
+    this.passAddressFormGroup.emit(this.AddressFormGroup);
     
     this.filterCityService.fetchCities()
       .subscribe((data)=>{

@@ -9,7 +9,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CreateTeacherComponent implements OnInit {
 
   TeacherFormArray = new FormArray([]);
-  @Output() teacherFormArray = new EventEmitter();
+  @Output() passTeacherFormArray = new EventEmitter();
 
   constructor(private fb: FormBuilder) {}
 
@@ -19,7 +19,7 @@ export class CreateTeacherComponent implements OnInit {
 
   addTeacher(): void {
     this.TeacherFormArray.push(this.newForm());
-    this.teacherFormArray.emit(this.TeacherFormArray);
+    this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
   newForm(): FormGroup {

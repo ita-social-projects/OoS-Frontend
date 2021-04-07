@@ -14,7 +14,7 @@ import { map, startWith} from 'rxjs/operators';
 export class CreateDescriptionFormComponent implements OnInit {
   
   DescriptionFormGroup: FormGroup;
-  @Output() descriptionFormGroup = new EventEmitter();
+  @Output() passDescriptionFormGroup = new EventEmitter();
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredKeyWords: Observable<string[]>;
@@ -36,7 +36,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.descriptionFormGroup.emit(this.DescriptionFormGroup);
+    this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
 
     this.filteredKeyWords = this.DescriptionFormGroup.get('keyWords').valueChanges.pipe(
       startWith(''),

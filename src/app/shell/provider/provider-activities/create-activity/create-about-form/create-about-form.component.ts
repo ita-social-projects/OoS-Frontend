@@ -9,7 +9,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CreateAboutFormComponent implements OnInit {
 
   AboutFormGroup: FormGroup;
-  @Output() aboutFormGroup = new EventEmitter();
+  @Output() PassAboutFormGroup = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
     this.AboutFormGroup = this.formBuilder.group({
@@ -24,7 +24,7 @@ export class CreateAboutFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.aboutFormGroup.emit(this.AboutFormGroup);
+    this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
 
   uploadLogo(event):void{
