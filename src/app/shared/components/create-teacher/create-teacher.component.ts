@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Teacher } from '../../models/teacher.model';
 
 @Component({
   selector: 'app-create-teacher',
