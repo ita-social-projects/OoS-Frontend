@@ -1,9 +1,9 @@
 
 export class Child {
-  firstName:string;
-  lastName:string;
-  secondName:string;
-  birthDay:Date;
+  firstName: string;
+  lastName: string;
+  secondName: string;
+  birthDay: Date;
   type: Boolean;
   gender: string;
 

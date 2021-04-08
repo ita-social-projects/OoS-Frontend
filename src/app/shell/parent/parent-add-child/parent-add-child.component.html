@@ -4,23 +4,16 @@
     <span>Щоб відслідковувати заяки і активності вашої дитини. </span>
     <p>Ви завжди можете додати цю інформацію у вашому особистому кабінеті.</p> 
   </div>
-  
   <ng-container> 
     <app-child-form *ngFor="let form of childrenFormArray.controls" [ChildFormGroup]="form" [index]="childrenFormArray.controls.indexOf(form)"  (deleteForm)="deleteForm($event)"></app-child-form> 
-
   </ng-container>
-
-
-   <div class="add-button">
-    <span><mat-icon>add</mat-icon> </span>
-     <button mat-button (click)="addChild()">Додати ще</button>
-   </div>
-   <div class="buttons">
+  <div class="add-button"> 
+    <button mat-button (click)="addChild()"><span class="add-icon"><mat-icon>add</mat-icon> </span>Додати ще одну дитину</button>
+  </div>
+  <div class="buttons">
     <button class="btn" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="'./../config'">Додати пiзнiше</a></button>
     <button class="btn" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="''">Зберегти</a></button>
- 
-   </div>
-  
+  </div>
 </div>
   
 

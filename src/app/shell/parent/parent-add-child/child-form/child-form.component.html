@@ -1,4 +1,5 @@
-<form [formGroup]="ChildFormGroup" fxLayout="column" fxLayoutAlign="center">
+<div class="wrapper">
+<form [formGroup]="ChildFormGroup" fxLayout="column"  fxLayoutAlign="start">
   <label>Прізвище<span class="requires">*</span></label>
   <mat-form-field>
     <input matInput formControlName="lastName">
@@ -28,7 +29,8 @@
     <mat-option value="false">Присутня</mat-option>
   </mat-select>
   <div fxLayout="row" fxLayoutAlign="center">
-    <button class="btn_reset" type="reset" mat-button (click)="delete()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину</button>
+    <button class="button-reset" type="reset" mat-button (click)="delete()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину</button>
   </div>
  </form >
+</div>
  <hr fxLayout='row' fxLayoutAlign='center' width="500" size="2" color="gray" />

@@ -11,7 +11,6 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 })
 export class ParentAddChildComponent implements OnInit {
 
-  // public forms = [1];
   childrenFormArray = new FormArray([]);
   
   constructor( private store: Store, private fb : FormBuilder) {
@@ -37,23 +36,21 @@ export class ParentAddChildComponent implements OnInit {
   }
 
   addChild(){
-  this.childrenFormArray.push(this.newForm());
+    this.childrenFormArray.push(this.newForm());
 }
   deleteForm(index):void{
-  this.childrenFormArray.removeAt(index)
+    this.childrenFormArray.removeAt(index)
 }
 
   onSubmit() {
   let child:Child;
-
   const children=[];
   
   for(let i = 0; i < this.childrenFormArray.length; i++){
   child = new Child(this.childrenFormArray.controls[i].value);
   children.push(child);
-  
- }
+  }
+
  console.log(children);
-  
-}
+  }
 }
