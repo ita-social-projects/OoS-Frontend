@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ProviderConfigService} from './provider-config.service';
+
 
 @Component({
   selector: 'app-provider-config',
@@ -18,10 +20,13 @@ export class ProviderConfigComponent implements OnInit {
   valueOrgType = false;
   textValue = '';
 
-  constructor() {
+  constructor(private method: ProviderConfigService) {
   }
 
+
+
   ngOnInit(): void {
+    this.method.method();
     this.orgFormGroup = new FormGroup({
       ownership: new FormControl(null, Validators.required),
       organizationType: new FormControl(null, Validators.required),

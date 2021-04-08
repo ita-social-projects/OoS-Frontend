@@ -4,7 +4,7 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
 
 import { ProviderActivitiesComponent } from './provider-activities/provider-activities.component';
 import { ProviderConfigComponent } from './provider-config/provider-config.component';
-import { CanDeactivateGuard } from './provider-config/can-leave.guard';
+import {CanDeactivateGuard} from './provider-config/can-leave-guard.service';
 
 const routes: Routes = [
   { path: 'cabinet', component: PersonalCabinetComponent,
