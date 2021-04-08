@@ -26,7 +26,7 @@
 		  <mat-chip-list #chipList>
 				<mat-chip
 					*ngFor="let keyWord of keyWords"
-					(removed)="removeKeyWord(keyWord)">
+					(removed)="onRemoveKeyWord(keyWord)">
 					{{keyWord}}
 					<mat-icon matChipRemove>cancel</mat-icon>
 				</mat-chip>
@@ -36,12 +36,12 @@
 					[matAutocomplete]="auto"
 					[matChipInputFor]="chipList"
 					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-					(matChipInputTokenEnd)="addKeyWord($event)"
+					(matChipInputTokenEnd)="onAddKeyWord($event)"
 					>
 			</mat-chip-list>
 			</div>
 		</label>
-		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedKeyWord($event)">
+		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
 			<mat-option *ngFor="let keyWord of filteredKeyWords | async" [value]="keyWord">
 				{{keyWord}}
 			</mat-option>

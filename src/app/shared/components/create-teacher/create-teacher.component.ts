@@ -14,15 +14,15 @@ export class CreateTeacherComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.addTeacher();
+    this.onAddTeacher();
   }
 
-  addTeacher(): void {
-    this.TeacherFormArray.push(this.newForm());
+  onAddTeacher(): void {
+    this.TeacherFormArray.push(this.onCreateNewForm());
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
-  newForm(): FormGroup {
+  onCreateNewForm(): FormGroup {
     const teacherFormGroup = this.fb.group({
       lastName: new FormControl(''),
       firstName: new FormControl(''), 
@@ -33,7 +33,7 @@ export class CreateTeacherComponent implements OnInit {
     return teacherFormGroup;
   }
   
-  deleteForm(index):void{
+  onDeleteForm(index):void{
     this.TeacherFormArray.removeAt(index)
   }
 }

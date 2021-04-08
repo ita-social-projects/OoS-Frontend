@@ -3,7 +3,7 @@
     
   <label class="form_label">Фото викладача
     <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
-    <input class="image-input" type="file" class="file-upload" (click)="uploadPhoto($event)">
+    <input class="image-input" type="file" class="file-upload" (click)="onUploadPhoto($event)">
   </label>
     
 
@@ -33,5 +33,5 @@
   </mat-form-field>
 </form>
 <div class="form_border" fxLayout='row' fxLayoutAlign='center'>
-  <button class="btn_reset" type="reset" mat-button (click)="deleteTeacher()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача</button>
+  <button class="btn_reset" type="reset" mat-button (click)="onDeleteTeacher()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача</button>
 </div>

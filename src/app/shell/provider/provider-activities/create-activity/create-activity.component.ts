@@ -28,16 +28,16 @@ export class CreateActivityComponent implements OnInit {
       this.TeacherFormArray)
     );
   }
-  receiveAddressFormGroup ( form ):void{
+  onReceiveAddressFormGroup ( form ):void{
     this.AddressFormGroup = form;
   }
-  receiveTeacherFormArray( array ):void{
+  onReceiveTeacherFormArray( array ):void{
     this.TeacherFormArray = array;
   }
-  receiveAboutFormGroup ( form ) : void {
+  onReceiveAboutFormGroup ( form ) : void {
     this.AboutFormGroup = form;
   }
-  receiveDescriptionFormGroup( form ) : void {
+  onReceiveDescriptionFormGroup( form ) : void {
     this.DescriptionFormGroup = form;
   }
 }

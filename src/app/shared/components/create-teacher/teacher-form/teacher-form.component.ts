@@ -18,11 +18,11 @@ export class TeacherFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  uploadPhoto(event): void {
+  onUploadPhoto(event): void {
     let photo =event.target.files;
   }
   
-  deleteTeacher(): void {
+  onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
   }
 }

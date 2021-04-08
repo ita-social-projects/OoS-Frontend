@@ -43,7 +43,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       map((keyWord: string | null) => keyWord ? this._filter(keyWord) : this.allkeyWords.slice()));
   }
 
-  addKeyWord(event: MatChipInputEvent): void {
+  onAddKeyWord(event: MatChipInputEvent): void {
     if ((event.value || '').trim()) {
       this.keyWords.push(event.value.trim());
     }
@@ -52,13 +52,13 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
   }
 
-  removeKeyWord(word: string): void {
+  onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
     }
   }
 
-  selectedKeyWord(event: MatAutocompleteSelectedEvent): void {
+  onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
     this.keyWords.push(event.option.viewValue);
     this.keyWordsInput.nativeElement.value = '';
   }

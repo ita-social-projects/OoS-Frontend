@@ -27,7 +27,7 @@ export class CreateAboutFormComponent implements OnInit {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
 
-  uploadLogo(event):void{
+  onUploadLogo(event):void{
     return null;
   }
 }
