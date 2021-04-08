@@ -1,6 +1,6 @@
 <div class="wrapper">
 <form [formGroup]="ChildFormGroup" fxLayout="column"  fxLayoutAlign="start">
-  <label>Прізвище<span class="requires">*</span></label>
+  <label class="label-top">Прізвище<span class="requires">*</span></label>
   <mat-form-field>
     <input matInput formControlName="lastName">
   </mat-form-field>
@@ -13,17 +13,17 @@
     <input matInput formControlName="secondName">
   </mat-form-field>
   <label>Дата народження <span class="requires">*</span></label>
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" class="input-date">
     <input matInput [matDatepicker]="picker" formControlName ="birthDay" >
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <label>Стать <span class="requires">*</span></label>
+  <label class="label-padding">Стать <span class="requires">*</span></label>
   <mat-radio-group aria-label="Select an option" formControlName="gender">
     <mat-radio-button value="man">Чоловіча</mat-radio-button>
     <mat-radio-button value="woman">Жіноча</mat-radio-button>
   </mat-radio-group>
-  <label>Соціальна група</label>
+  <label class="label-padding">Соціальна група</label>
   <mat-select formControlName="type">
     <mat-option value="true" selected>Відсутня</mat-option>
     <mat-option value="false">Присутня</mat-option>
@@ -33,4 +33,5 @@
   </div>
  </form >
 </div>
- <hr fxLayout='row' fxLayoutAlign='center' width="500" size="2" color="gray" />
+ 
+ 

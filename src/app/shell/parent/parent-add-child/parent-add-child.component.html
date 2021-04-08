@@ -10,9 +10,15 @@
   <div class="add-button"> 
     <button mat-button (click)="addChild()"><span class="add-icon"><mat-icon>add</mat-icon> </span>Додати ще одну дитину</button>
   </div>
+  <div fxLayout="row" fxLayoutAlign="center" class="span-width">
+    <span>
+     Додаючи дані про дитину я погоджуюсь з <button class="button-reset">Правилами користування </button>
+     та надаю згоду на обробку персональних даних
+    </span>
+  </div>
   <div class="buttons">
-    <button class="btn" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="'./../config'">Додати пiзнiше</a></button>
-    <button class="btn" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="''">Зберегти</a></button>
+    <button class="button" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="'./../config'">Додати пiзнiше</a></button>
+    <button class="button button-blue" type="submit" mat-raised-button  (click)="onSubmit()"><a class="a-color" [routerLink]="''">Зберегти</a></button>
   </div>
 </div>
   

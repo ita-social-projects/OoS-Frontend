@@ -1,3 +1,9 @@
+  form{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .label-top{
+    padding-top: 1rem;
+  }
   .mat-input-element{
     width: 410px;
     height: 34px;
@@ -6,6 +12,9 @@
     border-radius: 21px;
     padding-left: 20px;
     display: flex;
+  }
+  .input-date{
+    width: 40%;
   }
   label{
     font-style: normal;
@@ -16,11 +25,16 @@
   }
   .button-reset{
     color: #3849F9;
-    
+    margin: 1rem;
   }
+  // ::ng-deep .mat-form-field-flex .ng-tns-c88-6 {
+  //   width:50%;
+  // }
   ::ng-deep .mat-form-field .mat-form-field-flex{
     background-color: white !important; 
-    padding: inherit;
+  }
+  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: inherit !important;
   }
   .requires{
     color: red;
@@ -33,33 +47,42 @@
     border-radius: 21px;
     padding-left: 20px;
   }
-  ::ng-deep .mat-radio-outer-circle {
-    .mat-radio-checked & {
-      border-color: #3849F9 !important;
-        }
-    }
-    
-  ::ng-deep .mat-radio-inner-circle {
-    background-color: white !important;
-    }
-    
-  ::ng-deep .mat-radio-ripple .mat-ripple-element {
-    background-color:#3849F9 !important;
-    }
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: #3849F9 !important;
+  }
+  
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color:#3849F9!important;  
+  }
+  
+  ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+   border-color:#3849F9!important; 
+  }
   .wrapper{
     display: flex;
     justify-content: center;
     }
     
-  ::ng-deep  .mat-form-field-infix{
+  ::ng-deep .mat-form-field-infix{
     border-top: none !important;
     }
-  //  ::ng-deep .mat-datepicker-toggle {
-  //    display: none;
-  //  }
-  ::ng-deep .mat-input-element .mat-datepicker-input .cdk-text-field-autofill-monitored {
-    width: 40% !important;
-   }
+ 
   ::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix{
     padding: none !important;
    }
+  
+  ::ng-deep .mat-form-field-wrapper{
+    padding-bottom: inherit;
+  }
+  ::ng-deep .mat-radio-group {
+    padding-bottom: 1.25em;
+  }
+  .label-padding{
+    padding: .4375em 0
+  }
+  ::ng-deep .mat-select-value{
+    width: 92% !important;
+  }
+  ::ng-deep .mat-radio-label-content {
+    padding-right: 1.5rem !important;
+  }
