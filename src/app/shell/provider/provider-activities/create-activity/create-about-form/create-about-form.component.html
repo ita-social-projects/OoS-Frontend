@@ -55,7 +55,7 @@
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step_input_text">Від</p>
-        <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom"  
+        <input matInput class="step_input step_input_age" type="number" formControlName="ageFrom" required  
         maxlength="2" 
         min="1" 
         max="16">
@@ -82,4 +82,18 @@
       <p class="step_input_text">в тиждень</p>
     </div>
   </mat-form-field>
+
+  <label class="step_label">Вартість<span class="step_required">*</span></label>
+    <mat-radio-group [formControl]="radioBtn" color="primary" >
+      <mat-radio-button #radio1 name="radioBtn1" [value]="false" (change)="this.AboutFormGroup.get('price').setValue(0)">Безкоштовно</mat-radio-button>
+      <div fxLayout='row' fxLayoutAlign='start center'>
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
+        <input matInput class="step_input step_input_age" [formControl]="this.AboutFormGroup.get('price')" type="number">
+        <p class="step_input_text">грн за</p>
+        <mat-button-toggle-group color="primary" class="input_button_group"  formControlName="priceType">
+          <mat-button-toggle value="lesson">Заняття</mat-button-toggle>
+          <mat-button-toggle value="month">Місяць</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </mat-radio-group>
 </form>

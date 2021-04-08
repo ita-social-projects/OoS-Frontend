@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-provider-config',
   templateUrl: './provider-config.component.html',
-  styleUrls: ['./provider-config.component.scss', 'validation.component.scss']
+  styleUrls: ['./provider-config.component.scss', './../validation.component.scss']
 })
 export class ProviderConfigComponent implements OnInit {
   isLinear = false;

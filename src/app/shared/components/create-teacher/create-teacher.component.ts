@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-create-teacher',
   templateUrl: './create-teacher.component.html',
-  styleUrls: ['./create-teacher.component.scss']
+  styleUrls: ['./create-teacher.component.scss','./validation.component.scss']
 })
 export class CreateTeacherComponent implements OnInit {
 

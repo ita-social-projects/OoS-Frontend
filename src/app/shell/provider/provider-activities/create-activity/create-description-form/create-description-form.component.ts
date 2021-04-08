@@ -9,7 +9,7 @@ import { map, startWith} from 'rxjs/operators';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
-  styleUrls: ['./create-description-form.component.scss']
+  styleUrls: ['./create-description-form.component.scss', './../../../validation.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit {
   

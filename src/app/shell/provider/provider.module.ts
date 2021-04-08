@@ -33,7 +33,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CreateAddressComponent } from './provider-activities/create-activity/create-address/create-address.component';
 import { CreateAboutFormComponent } from './provider-activities/create-activity/create-about-form/create-about-form.component';
 import { CreateDescriptionFormComponent } from './provider-activities/create-activity/create-description-form/create-description-form.component';
-
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,9 @@ import { CreateDescriptionFormComponent } from './provider-activities/create-act
         MatAutocompleteModule,
         MatIconModule,
         SharedModule,
-        LeafletModule
+        LeafletModule,
+        MatRadioModule,
+        FormsModule
     ],
 
   providers: [

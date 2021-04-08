@@ -2,14 +2,12 @@
   &_form{
     margin: 0 40px;
   }
-
   &_check-box{
     font-family:Open Sans;
     font-weight: 400;
     color:#444444;
     padding:0.5rem;
   }
-
   &_label{
     font-weight: 500;
   }
@@ -73,7 +71,12 @@ button:focus {
     opacity: 0.5;
   }
 }
-
+::ng-deep .mat-button-toggle-group{
+  border-radius: 20px !important;
+}
+::ng-deep.mat-button-toggle-checked{
+  color: #3849F9 !important;
+}
 .mat-icon-add {
   position: relative;
   top: 17px;
@@ -84,6 +87,10 @@ button:focus {
 }
 input[type="file"] {
   display: none;
+}
+input:disabled {
+  background-color: rgba(240, 240, 240, 0.945);
+  opacity: 0.5;
 }
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {

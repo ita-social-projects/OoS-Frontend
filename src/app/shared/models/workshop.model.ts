@@ -27,6 +27,7 @@ export class Workshop {
     this.email= about.email;
     this.minAge = about.ageFrom;
     this.maxAge = about.ageTo;
+    this.price = about.price;
     this.head = description.head;
     this.daysPerWeek = about.classAmount;
     this.photos = description.photos;
@@ -34,6 +35,6 @@ export class Workshop {
     this.description = description.head;
     this.address = address;
     this.teachers = teachers;
-    this.price = 200;
+    this.price = about.price;
   }
 }
