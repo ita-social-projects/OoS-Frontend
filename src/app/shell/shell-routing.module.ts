@@ -8,8 +8,8 @@ import {GroupComponent} from './section/group/group.component';
 
 
 const routes: Routes = [
-  {path: '', component: MainComponent},
-  {path: 'result', component: ResultComponent},
+  {path: '', component: MainComponent, data: {breadCrumb: 'Головна'}},
+  {path: 'result', component: ResultComponent, data: {breadCrumb: 'Найпопулярніші гуртки'}},
   {
     path: 'provider',
     loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),

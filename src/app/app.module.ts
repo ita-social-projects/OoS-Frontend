@@ -25,6 +25,7 @@ import { SharedModule } from './shared/shared.module';
 import { ProviderState } from './shared/store/provider.state';
 import { ParentState } from './shared/store/parent.state';
 import { UserState } from './shared/store/user.state';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import { UserState } from './shared/store/user.state';
       MetaDataState,
       UserRegistrationState
     ]),
-    
+    NgxsRouterPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
