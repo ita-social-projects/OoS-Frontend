@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ProviderActivitiesService } from 'src/app/shared/services/provider-activities/provider-activities.service';
-import { ChangePage } from 'src/app/shared/store/app.actions';
-import { GetActivitiesCards } from 'src/app/shared/store/provider.actions';
-import { ProviderState } from 'src/app/shared/store/provider.state';
-import { actCard } from '../../../shared/models/activities-card.model';
+import { orgCard } from '../../../shared/models/org-card.model';
+import { ChangePage } from '../../../shared/store/app.actions';
+import { GetActivitiesCards } from '../../../shared/store/provider.actions';
+import { ProviderState } from '../../../shared/store/provider.state';
 
 @Component({
   selector: 'app-provider-activities',
@@ -15,14 +14,17 @@ import { actCard } from '../../../shared/models/activities-card.model';
 export class ProviderActivitiesComponent implements OnInit {
   
 
-  @Select(ProviderState.activitiesList) cards$: Observable<actCard[]>;
-  public cards: actCard[];
+  @Select(ProviderState.activitiesList) 
+  cards$: Observable<orgCard[]>;
+  public cards: orgCard[];
 
-  constructor(private providerActivititesService: ProviderActivitiesService, private store: Store) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetActivitiesCards())
-    this.cards$.subscribe(cards => this.cards = cards);
+    this.cards$.subscribe(cards => 
+      this.cards = cards
+    );
   }
 }

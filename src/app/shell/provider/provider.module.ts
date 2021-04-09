@@ -8,53 +8,71 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 
-import {ActivitiesCardComponent} from './provider-activities/activities-card/activities-card.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatInputModule} from '@angular/material/input';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ProviderActivitiesService} from '../../shared/services/provider-activities/provider-activities.service';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {HttpTokenInterceptor} from '../../shared/interceptors/http-token.interceptor';
-import {HttpClientModule} from '@angular/common/http';
-import {ProviderState} from 'src/app/shared/store/provider.state';
-import {NgxsModule} from '@ngxs/store';
-import {MatTabsModule} from '@angular/material/tabs';
-import {PersonalCabinetComponent} from './personal-cabinet/personal-cabinet.component';
-import {MaterialModule} from '../../shared/material/material.module';
-import {ProviderConfigService} from './provider-config/provider-config.service';
-import {ProviderConfigModalComponent} from './provider-config/provider-config-modal/provider-config-modal.component';
-import {CanDeactivateGuard} from './provider-config/can-leave-guard.service';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProviderActivitiesService } from '../../shared/services/provider-activities/provider-activities.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpTokenInterceptor } from './../../shared/interceptors/http-token.interceptor';
+import { HttpClientModule } from '@angular/common/http';
+import { ProviderState } from './../..//shared/store/provider.state';
+import { NgxsModule } from '@ngxs/store';
+import { MatTabsModule } from '@angular/material/tabs';
+import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
+import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
+import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from './../../shared/shared.module';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CreateAddressComponent } from './provider-activities/create-activity/create-address/create-address.component';
+import { CreateAboutFormComponent } from './provider-activities/create-activity/create-about-form/create-about-form.component';
+import { CreateDescriptionFormComponent } from './provider-activities/create-activity/create-description-form/create-description-form.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
+import { ProviderConfigService } from './provider-config/provider-config.service';
+import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 @NgModule({
   declarations: [
     ProviderActivitiesComponent,
     ProviderConfigComponent,
-    ActivitiesCardComponent,
     PersonalCabinetComponent,
-    ProviderConfigModalComponent,
+    ProviderOrgInfoComponent,
+    ProviderRequestsComponent,
+    CreateActivityComponent,
+    CreateAddressComponent,
+    CreateAboutFormComponent,
+    CreateDescriptionFormComponent
   ],
-  imports: [
-    CommonModule,
-    ProviderRoutingModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgxsModule.forFeature([ProviderState]),
-    MatTabsModule,
-    MaterialModule,
-    FormsModule,
-  ],
+    imports: [
+        CommonModule,
+        ProviderRoutingModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatCardModule,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgxsModule.forFeature([ProviderState]),
+        MatTabsModule,
+        MatStepperModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        SharedModule,
+        LeafletModule,
+        MatRadioModule,
+        FormsModule
+    ],
 
   providers: [
     ProviderActivitiesService,

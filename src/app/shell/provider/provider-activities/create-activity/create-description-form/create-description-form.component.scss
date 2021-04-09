@@ -1,0 +1,47 @@
+.step{
+  &-form{
+    margin: 0 40px;
+  }
+  &-label{
+    font-weight: 500;
+  }
+  &-required{
+    color:red;
+  }
+  &-textarea{
+    min-height: 200px;
+    border: 1px solid #E3E3E3;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding: 1.2rem;
+  }
+  &-input{
+    border: 1px solid #E3E3E3;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding: 0.5rem;
+    margin: 1rem 0;
+  }
+}
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none;
+}
+::placeholder {
+  color:#333333;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+}  
+::ng-deep .mat-form-field-underline,
+::ng-deep .mat-form-field-label-wrapper {
+  display: none;
+}
+::ng-deep .mat-form-field-infix {
+  border:none;
+}
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+  padding-bottom: 0;
+}

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HobbySelectComponent } from './hobby-select.component';
+import { CreateActivityComponent } from './create-activity.component';
 
-describe('HobbySelectComponent', () => {
-  let component: HobbySelectComponent;
-  let fixture: ComponentFixture<HobbySelectComponent>;
+describe('CreateActivityComponent', () => {
+  let component: CreateActivityComponent;
+  let fixture: ComponentFixture<CreateActivityComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HobbySelectComponent ]
+      declarations: [ CreateActivityComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HobbySelectComponent);
+    fixture = TestBed.createComponent(CreateActivityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
