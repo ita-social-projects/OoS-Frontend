@@ -35,7 +35,8 @@ import { CreateAboutFormComponent } from './provider-activities/create-activity/
 import { CreateDescriptionFormComponent } from './provider-activities/create-activity/create-description-form/create-description-form.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
-
+import { ProviderConfigService } from './provider-config/provider-config.service';
+import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 @NgModule({
   declarations: [
     ProviderActivitiesComponent,
