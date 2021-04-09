@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProviderConfigService } from './provider-config.service';
+import { ProviderConfigModalComponent } from './provider-config-modal/provider-config-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-provider-config',
@@ -16,8 +20,9 @@ export class ProviderConfigComponent implements OnInit {
   organizationTypeList = ['ФОП', 'Громадська організація', 'ТОВ', 'ПП', 'Заклад освіти', 'Інше'];
   valueOwnership = false;
   valueOrgType = false;
+  textValue = '';
 
-  constructor() {
+  constructor(private providerConfigService: ProviderConfigService, private modal: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -29,7 +34,7 @@ export class ProviderConfigComponent implements OnInit {
       ceoName: new FormControl(null, [Validators.required]),
       ceoBirthday: new FormControl(null, Validators.required),
       personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$')]),
-      phone: new FormControl(380, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
+      phone: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       webPage: new FormControl(null),
       facebook: new FormControl(null),
@@ -89,7 +94,15 @@ export class ProviderConfigComponent implements OnInit {
     }
   }
 
-  setValue(value: string, controlName): void {
+  /**
+   * Getting value from custom select and setting it into controller
+   *
+   *
+   * @param value - The first input is string
+   * @param controlName - The second input is htmlElement
+   */
+
+  setValue(value: string, controlName: HTMLElement): void {
     switch (controlName.getAttribute('formControlName')) {
       case 'ownership':
         this.orgFormGroup.get('ownership').setValue(value);
@@ -101,5 +114,27 @@ export class ProviderConfigComponent implements OnInit {
         break;
     }
   }
+
+  /**
+   * showing modal that asking permission to reset form
+   *
+   * @remarks
+   * This method is part of the {@link ProviderConfigModalComponent }.
+   *
+   */
+  formReset(): void {
+    if (this.orgFormGroup.dirty || this.addressFormGroup.dirty || this.photoFormGroup.dirty) {
+      const refModal = this.modal.open(ProviderConfigModalComponent);
+      refModal.afterClosed().subscribe(value => {
+        if (value) {
+          this.orgFormGroup.reset();
+          this.addressFormGroup.reset();
+          this.photoFormGroup.reset();
+          this.selectedLogos = [];
+        }
+      });
+    }
+  }
 }
+
 

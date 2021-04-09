@@ -9,7 +9,7 @@ import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.
 import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
 
 const routes: Routes = [
-  { path: 'cabinet', component: PersonalCabinetComponent, 
+  { path: 'cabinet', component: PersonalCabinetComponent,
   children: [
     {
       path: 'config', 

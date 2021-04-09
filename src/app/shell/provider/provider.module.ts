@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProviderActivitiesComponent } from './provider-activities/provider-activities.component';
-import { ProviderConfigComponent } from './provider-config/provider-config.component';
-import { ProviderRoutingModule } from './provider-routing.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ProviderActivitiesComponent} from './provider-activities/provider-activities.component';
+import {ProviderConfigComponent} from './provider-config/provider-config.component';
+import {ProviderRoutingModule} from './provider-routing.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -75,8 +75,11 @@ import { FormsModule } from '@angular/forms';
 
   providers: [
     ProviderActivitiesService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
-  ]
+    ProviderConfigService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true},
+    CanDeactivateGuard
+  ],
 
 })
-export class ProviderModule { }
+export class ProviderModule {
+}
