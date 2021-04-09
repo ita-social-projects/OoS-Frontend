@@ -1,11 +1,9 @@
 <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form" >
   <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
-  
   <label class="step-label">Логотип
     <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
     <input class="image-input" type="file" class="file-upload" (click)="onUploadLogo($event)">
   </label>
-    
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field >
     <mat-select class="step-input" formControlName="type">
@@ -14,12 +12,10 @@
       <mat-option value="class" > Клас </mat-option>
     </mat-select>
   </mat-form-field>
-  
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field >
     <input matInput class="step-input" type="text" formControlName="title" required>
   </mat-form-field >
-  
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
@@ -27,29 +23,23 @@
       <input matInput class="step-input" type="tel" formControlName="phone" ui-number-mask ui-hide-group-sep minlength="9" maxlength="9" required>
     </div>
   </mat-form-field>
-  
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="email" formControlName="email" required>
   </mat-form-field>
-    
   <label class="step-label">Веб сайт</label>
   <mat-form-field >
     <input matInput class="step-input" type="text">
   </mat-form-field>
-
   <label class="step-label">Facebook</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" >
   </mat-form-field>
-
   <label class="step-label">Instagram</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" >
   </mat-form-field>
-
   <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
-  
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
     <mat-form-field>
@@ -70,8 +60,7 @@
         max="16">
       </div>
     </mat-form-field>
-  </div>
-  
+  </div> 
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
@@ -82,7 +71,6 @@
       <p class="step-input-text">в тиждень</p>
     </div>
   </mat-form-field>
-
   <label class="step-label">Вартість<span class="step-required">*</span></label>
     <mat-radio-group [formControl]="radioBtn" color="primary" >
       <mat-radio-button #radio1 name="radioBtn1" [value]="false" (change)="this.AboutFormGroup.get('price').setValue(0)">Безкоштовно</mat-radio-button>
