@@ -25,8 +25,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {PersonalCabinetComponent} from './personal-cabinet/personal-cabinet.component';
 import {MaterialModule} from '../../shared/material/material.module';
 import {ProviderConfigService} from './provider-config/provider-config.service';
-import {CanDeactivateGuard} from './provider-config/can-leave-guard.service';
 import {ProviderConfigModalComponent} from './provider-config/provider-config-modal/provider-config-modal.component';
+import {CanDeactivateGuard} from './provider-config/can-leave-guard.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import {ProviderConfigModalComponent} from './provider-config/provider-config-mo
     ProviderConfigComponent,
     ActivitiesCardComponent,
     PersonalCabinetComponent,
-    ProviderConfigModalComponent
+    ProviderConfigModalComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +60,7 @@ import {ProviderConfigModalComponent} from './provider-config/provider-config-mo
     ProviderActivitiesService,
     ProviderConfigService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true},
+    CanDeactivateGuard
   ],
 
 })

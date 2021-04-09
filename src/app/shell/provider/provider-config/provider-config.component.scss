@@ -323,7 +323,7 @@ section {
       }
     }
 
-    .buttons1 {
+    .form-ownership-buttons {
       width: 100%;
       max-width: 269px;
       display: flex;
@@ -345,7 +345,7 @@ section {
       }
     }
 
-    .buttons2 {
+    .address-form-buttons {
       @include button-container;
 
       &_next, {
@@ -388,7 +388,7 @@ section {
         z-index: 100;
         background: white;
 
-        &_item {
+        &-item {
           padding: 0.563rem 0 0.563rem 1rem;
           width: 100%;
           font-weight: normal;
@@ -399,7 +399,7 @@ section {
           cursor: pointer;
         }
 
-        &_item:hover {
+        &-item:hover {
           background: #F8F8F8;
         }
       }
@@ -417,7 +417,7 @@ section {
     }
   }
 
-  .buttons3 {
+  .photo-form-buttons {
     display: flex;
     justify-content: space-around;
     margin-top: 3rem;

@@ -21,7 +21,7 @@
                 </div>
                 <div class="box" *ngIf="valueOwnership">
                   <ng-container *ngFor="let option of ownerShipList">
-                    <div class="box_item" (click)="setValue(option, ownership)">{{option}}</div>
+                    <div class="box-item" (click)="setValue(option, ownership)">{{option}}</div>
                   </ng-container>
                 </div>
               </div>
@@ -38,27 +38,27 @@
                 </div>
                 <div class="box" *ngIf="valueOrgType">
                   <ng-container *ngFor="let option of organizationTypeList">
-                    <div class="box_item" (click)="setValue(option, orgType)">{{option}}</div>
+                    <div class="box-item" (click)="setValue(option, orgType)">{{option}}</div>
                   </ng-container>
                 </div>
               </div>
             </div>
             <div class="org-full-name">
-              <label for="groupNameFull">Повна назва організації<span class="important">*</span></label>
+              <label for="group-name-field">Повна назва організації<span class="important">*</span></label>
               <input
                 type="text"
-                id="groupNameFull"
+                id="group-name-field"
                 formControlName="orgFullName"
                 [ngClass]="{'error': !orgFormGroup.get('orgFullName').valid && orgFormGroup.get('orgFullName').touched}"
               >
             </div>
             <div class="org-short-name">
-              <label for="groupNameShort">Скорочена назва організації<span class="important">*</span></label>
-              <input type="text" id="groupNameShort" formControlName="orgShortName">
+              <label for="group-short-name-field">Скорочена назва організації<span class="important">*</span></label>
+              <input type="text" id="group-short-name-field" formControlName="orgShortName">
             </div>
             <div class="ceo-name">
-              <label for="ceoName">ПІБ керівника<span class="important">*</span></label>
-              <input type="text" id="ceoName" formControlName="ceoName">
+              <label for="ceo-name-field">ПІБ керівника<span class="important">*</span></label>
+              <input type="text" id="ceo-name-field" formControlName="ceoName">
             </div>
             <div class="ceo-birthday">
               <mat-label>Дата народження керівника<span class="important">*</span></mat-label>
@@ -69,36 +69,36 @@
               </div>
             </div>
             <div class="id-code">
-              <label for="idCode">ЄДРПОУ/ІПН<span class="important">*</span></label>
-              <input type="text" id="idCode" formControlName="personalId">
+              <label for="id-code-field">ЄДРПОУ/ІПН<span class="important">*</span></label>
+              <input type="text" id="id-code-field" formControlName="personalId">
             </div>
             <div class="phone">
-              <label for="phoneForm">Телефон<span class="important">*</span></label>
-              <input type="text" id="phoneForm" formControlName="phone">
+              <label for="phone-form-field">Телефон<span class="important">*</span></label>
+              <input type="text" id="phone-form-field" formControlName="phone" placeholder="380XXXXXXX">
             </div>
             <div class="email">
-              <label for="emailForm">Емейл<span class="important">*</span></label>
-              <input type="email" id="emailForm" formControlName="email">
+              <label for="email-form-field">Емейл<span class="important">*</span></label>
+              <input type="email" id="email-form-field" formControlName="email">
             </div>
             <div class="web-page">
-              <label for="webPageForm">Веб сайт</label>
-              <input type="text" id="webPageForm" formControlName="webPage" placeholder="380XXXXXXX">
+              <label for="webpage-form-field">Веб сайт</label>
+              <input type="text" id="webpage-form-field" formControlName="webPage">
             </div>
             <div class="facebook">
-              <label for="facebook">Facebook</label>
-              <input type="text" id="facebook" formControlName="facebook">
+              <label for="facebook-form-field">Facebook</label>
+              <input type="text" id="facebook-form-field" formControlName="facebook">
             </div>
             <div class="instagram">
-              <label for="instagram">Instagram</label>
-              <input type="text" id="instagram" formControlName="instagram">
+              <label for="instagram-form-field">Instagram</label>
+              <input type="text" id="instagram-form-field" formControlName="instagram">
             </div>
             <div class="owner-name">
-              <label for="ownerName">Засновник<span class="important">*</span></label>
-              <input type="text" id="ownerName" formControlName="ownerName">
+              <label for="owner-name-field">Засновник<span class="important">*</span></label>
+              <input type="text" id="owner-name-field" formControlName="ownerName">
             </div>
-            <div class="buttons1">
-              <button class="buttons1_reset" type="button" (click)="formReset()">СКАСУВАТИ</button>
-              <button class="buttons1_next"
+            <div class="form-ownership-buttons">
+              <button class="form-ownership-buttons_reset" type="button" (click)="formReset()">СКАСУВАТИ</button>
+              <button class="form-ownership-buttons_next"
                       type="button"
                       matStepperNext [disabled]="orgFormGroup.valid"
                       [ngClass]="{'disabled-button':!orgFormGroup.valid}"
@@ -114,24 +114,24 @@
             <ng-container formGroupName="legalAddress">
               <div class="header-address">Юридична адреса</div>
               <div class="region">
-                <label for="region">Область<span class="important">*</span></label>
-                <input type="text" id="region" formControlName="region">
+                <label for="region-field">Область<span class="important">*</span></label>
+                <input type="text" id="region-field" formControlName="region">
               </div>
               <div class="city">
-                <label for="city">Місто<span class="important">*</span></label>
-                <input type="text" id="city" formControlName="city">
+                <label for="city-form-field">Місто<span class="important">*</span></label>
+                <input type="text" id="city-form-field" formControlName="city">
               </div>
               <div class="district">
-                <label for="district">Район<span class="important">*</span></label>
-                <input type="text" id="district" formControlName="district">
+                <label for="district-form-field">Район<span class="important">*</span></label>
+                <input type="text" id="district-form-field" formControlName="district">
               </div>
               <div class="street">
-                <label for="street">Вулиця<span class="important">*</span></label>
-                <input type="text" id="street" formControlName="street">
+                <label for="street-form-field">Вулиця<span class="important">*</span></label>
+                <input type="text" id="street-form-field" formControlName="street">
               </div>
               <div class="building">
-                <label for="building">Будинок<span class="important">*</span></label>
-                <input type="text" id="building" formControlName="building">
+                <label for="building-form-field">Будинок<span class="important">*</span></label>
+                <input type="text" id="building-form-field" formControlName="building">
               </div>
             </ng-container>
             <div class="divider">
@@ -143,30 +143,30 @@
             </div>
             <ng-container formGroupName="actualAddress">
               <div class="region">
-                <label for="regionF">Область<span class="important">*</span></label>
-                <input type="text" id="regionF" formControlName="region">
+                <label for="regionF-form-field">Область<span class="important">*</span></label>
+                <input type="text" id="regionF-form-field" formControlName="region">
               </div>
               <div class="city">
-                <label for="cityF">Місто<span class="important">*</span></label>
-                <input type="text" id="cityF" formControlName="city">
+                <label for="cityF-form-field">Місто<span class="important">*</span></label>
+                <input type="text" id="cityF-form-field" formControlName="city">
               </div>
               <div class="district">
-                <label for="districtF">Район<span class="important">*</span></label>
-                <input type="text" id="districtF" formControlName="district">
+                <label for="districtF-form-field">Район<span class="important">*</span></label>
+                <input type="text" id="districtF-form-field" formControlName="district">
               </div>
               <div class="street">
-                <label for="streetF">Вулиця<span class="important">*</span></label>
-                <input type="text" id="streetF" formControlName="street">
+                <label for="streetF-form-field">Вулиця<span class="important">*</span></label>
+                <input type="text" id="streetF-form-field" formControlName="street">
               </div>
               <div class="building">
-                <label for="buildingF">Будинок<span class="important">*</span></label>
-                <input type="text" id="buildingF" formControlName="building">
+                <label for="buildingF-form-field">Будинок<span class="important">*</span></label>
+                <input type="text" id="buildingF-form-field" formControlName="building">
               </div>
             </ng-container>
-            <div class="buttons2">
-              <button class="buttons2_back" matStepperPrevious>НАЗАД</button>
-              <button type="button" class="buttons2_reset" (click)="formReset()">СКАСУВАТИ</button>
-              <button class="buttons2_next" matStepperNext
+            <div class="address-form-buttons">
+              <button class="address-form-buttons_back" matStepperPrevious>НАЗАД</button>
+              <button type="button" class="address-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
+              <button class="address-form-buttons_next" matStepperNext
                       [ngClass]="{'disabled-button':!addressFormGroup.valid}"
                       [disabled]="addressFormGroup.valid"
               >ДАЛІ
@@ -183,9 +183,9 @@
             <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум 4 фото</div>
             <div class="logo">
               <div class="logo_button" *ngIf="(photoFormGroup.controls['photos']).value.length < 4">
-                <label for="customFile">
+                <label for="customFile-form-field">
                   <input type="file" formControlName="photo" (change)="onFileSelected($event)"
-                         accept=".jpg, .jpeg, .png" id="customFile">
+                         accept=".jpg, .jpeg, .png" id="customFile-form-field">
                   <img src="assets/icons/plus.png" alt="logo_img">
                 </label>
               </div>
@@ -198,14 +198,14 @@
             </div>
             <div class="description">
               <div class="description_header">
-                <label for="text-desc">Опис<span class="important">*</span></label>
+                <label for="text-desc-form-field">Опис<span class="important">*</span></label>
                 <p>
                   <span
                     [ngClass]="{'highlight-text': !(photoFormGroup.controls['text']).valid && (photoFormGroup.controls['text']).touched }"
                     class="default">{{(textValue) ? textValue.split('').length : '0'}}</span>/500</p>
               </div>
               <div class="description_form">
-                <textarea name="" id="text-desc" cols="30" rows="10"
+                <textarea name="" id="text-desc-form-field" cols="30" rows="10"
                           placeholder="Додайте опис вашого закладу"
                           [(ngModel)]="textValue"
                           formControlName="text"></textarea>
@@ -218,15 +218,14 @@
               </mat-checkbox>
             </div>
           </div>
-          <div class="buttons3">
-            <button matStepperPrevious class="buttons3_back">НАЗАД</button>
-            <button class="buttons3_reset" (click)="formReset()">СКАСУВАТИ</button>
-            <button matStepperPrevious class="buttons3_reg"
+          <div class="photo-form-buttons">
+            <button matStepperPrevious class="photo-form-buttons_back">НАЗАД</button>
+            <button class="photo-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
+            <button matStepperPrevious class="photo-form-buttons_reg"
                     [ngClass]="{'disabled-button':!photoFormGroup.valid}"
                     [disabled]="photoFormGroup.valid"
             >ЗАРЕЄСТРУВАТИ
             </button>
-            <button></button>
           </div>
         </form>
       </mat-step>

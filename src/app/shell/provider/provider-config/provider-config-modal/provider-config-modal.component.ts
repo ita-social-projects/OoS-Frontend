@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ProviderConfigService } from '../provider-config.service';
 
 
 @Component({
@@ -9,7 +8,7 @@ import { ProviderConfigService } from '../provider-config.service';
   styleUrls: ['./provider-config-modal.component.scss']
 })
 export class ProviderConfigModalComponent {
-  constructor(private dialogRef: MatDialogRef<ProviderConfigModalComponent>, private serviceConfig: ProviderConfigService) {
+  constructor(private dialogRef: MatDialogRef<ProviderConfigModalComponent>) {
   }
 
   closeModal(value: boolean): void {

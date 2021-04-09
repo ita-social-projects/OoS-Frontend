@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProviderConfigService} from './provider-config.service';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProviderConfigService } from './provider-config.service';
+import { ProviderConfigModalComponent } from './provider-config-modal/provider-config-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -20,13 +22,10 @@ export class ProviderConfigComponent implements OnInit {
   valueOrgType = false;
   textValue = '';
 
-  constructor(private method: ProviderConfigService) {
+  constructor(private providerConfigService: ProviderConfigService, private modal: MatDialog) {
   }
 
-
-
   ngOnInit(): void {
-    this.method.method();
     this.orgFormGroup = new FormGroup({
       ownership: new FormControl(null, Validators.required),
       organizationType: new FormControl(null, Validators.required),
@@ -95,7 +94,15 @@ export class ProviderConfigComponent implements OnInit {
     }
   }
 
-  setValue(value: string, controlName): void {
+  /**
+   * Getting value from custom select and setting it into controller
+   *
+   *
+   * @param value - The first input is string
+   * @param controlName - The second input is htmlElement
+   */
+
+  setValue(value: string, controlName: HTMLElement): void {
     switch (controlName.getAttribute('formControlName')) {
       case 'ownership':
         this.orgFormGroup.get('ownership').setValue(value);
@@ -108,15 +115,24 @@ export class ProviderConfigComponent implements OnInit {
     }
   }
 
+  /**
+   * showing modal that asking permission to reset form
+   *
+   * @remarks
+   * This method is part of the {@link ProviderConfigModalComponent }.
+   *
+   */
   formReset(): void {
     if (this.orgFormGroup.dirty || this.addressFormGroup.dirty || this.photoFormGroup.dirty) {
-      const value = confirm('Скасувати реєстрацію нового закладу?');
-      if (value === true) {
-        this.orgFormGroup.reset();
-        this.addressFormGroup.reset();
-        this.photoFormGroup.reset();
-        this.selectedLogos = [];
-      }
+      const refModal = this.modal.open(ProviderConfigModalComponent);
+      refModal.afterClosed().subscribe(value => {
+        if (value) {
+          this.orgFormGroup.reset();
+          this.addressFormGroup.reset();
+          this.photoFormGroup.reset();
+          this.selectedLogos = [];
+        }
+      });
     }
   }
 }
