@@ -1,17 +1,7 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+  <mat-form-field>
   <label class="step_label">Місто<span class="step_required">*</span></label>
-  <mat-form-field appearance="none">
-    <input type="text" class="step_input" 
-      required
-      matInput
-      [formControl]="AddressFormGroup.get('city')"
-      [matAutocomplete]="auto"
-      >
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)">
-      <mat-option [disabled]= "noCity" *ngFor="let city of filteredCities$ | async" [value]="city">
-          {{city}}
-      </mat-option>
-    </mat-autocomplete>
+    <input matInput required class="step_input" type="text"  formControlName="city" >
   </mat-form-field>
 
   <mat-form-field>

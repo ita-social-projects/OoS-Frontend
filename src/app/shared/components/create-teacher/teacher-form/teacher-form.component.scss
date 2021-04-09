@@ -1,11 +1,11 @@
 .form{
-  &_label{
+  &-label{
     font-weight: 500;
   }
-  &_required{
+  &-required{
     color:red;
   }
-  &_textarea{
+  &-textarea{
     min-height: 200px;
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
@@ -13,13 +13,13 @@
     padding: 1.2rem;
     margin-bottom: 1.2rem;
   }
-  &_input{
+  &-input{
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
     
-    &_date{
+    &-date{
       max-width: 30%;
     }
   }
@@ -32,7 +32,7 @@
   border-radius: 20px;
   padding: 2px 30px;
   margin: 0 1rem;
-  &_reset{
+  &-reset{
     color: #3849F9;
   }
 }
@@ -86,6 +86,6 @@ input[type="file"] {
 ::ng-deep .mat-form-field-infix {
   border:none;
 }
-.form_border{
+.form-border{
   border-bottom: 2px solid gray;
 }

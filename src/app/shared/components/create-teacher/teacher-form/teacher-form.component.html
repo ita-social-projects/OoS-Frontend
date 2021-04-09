@@ -1,37 +1,37 @@
-<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="form_form">
+<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="form-form">
   <ng-template matStepLabel>Опис</ng-template>
     
-  <label class="form_label">Фото викладача
+  <label class="form-label">Фото викладача
     <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
     <input class="image-input" type="file" class="file-upload" (click)="onUploadPhoto($event)">
   </label>
     
 
-  <label class="form_label">Призвіще<span class="form_required">*</span></label>
+  <label class="form-label">Призвіще<span class="form-required">*</span></label>
   <mat-form-field>
-    <input matInput class="form_input" type="text" formControlName="lastName" required>
+    <input matInput class="form-input" type="text" formControlName="lastName" required>
   </mat-form-field>
 
-  <label class="form_label">Ім'я<span class="form_required">*</span></label>
+  <label class="form-label">Ім'я<span class="form-required">*</span></label>
   <mat-form-field>
-    <input matInput class="form_input" type="text" formControlName="firstName" required>
+    <input matInput class="form-input" type="text" formControlName="firstName" required>
   </mat-form-field>
 
-  <label class="form_label">По-батькові</label>
+  <label class="form-label">По-батькові</label>
   <mat-form-field>
-    <input matInput class="form_input" type="text"  formControlName="middleName">
+    <input matInput class="form-input" type="text"  formControlName="middleName">
   </mat-form-field>
 
-  <label class="form_label">Дата народження<span class="form_required">*</span></label>
+  <label class="form-label">Дата народження<span class="form-required">*</span></label>
   <mat-form-field>
-    <input matInput class="form_input form_input_date" type="date" placeholder="01.01.2021" formControlName="birthDay" required>
+    <input matInput class="form-input form-input-date" type="date" placeholder="01.01.2021" formControlName="birthDay" required>
   </mat-form-field>
 
-  <label class="form_label">Опис</label>
+  <label class="form-label">Опис</label>
   <mat-form-field>
-    <textarea matInput class="form_textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
+    <textarea matInput class="form-textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
   </mat-form-field>
 </form>
-<div class="form_border" fxLayout='row' fxLayoutAlign='center'>
-  <button class="btn_reset" type="reset" mat-button (click)="onDeleteTeacher()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача</button>
+<div class="form-border" fxLayout='row' fxLayoutAlign='center'>
+  <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача</button>
 </div>
