@@ -20,7 +20,7 @@ export class AppComponent {
       takeUntil(this.destroy$)
     ).subscribe(
       (action: RouterDataResolved) => {
-        console.log(action.routerState.root.firstChild.data);
+        console.log(action.routerState);
       }
     )
   }

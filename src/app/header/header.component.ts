@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppState } from '../shared/store/app.state';
+import { ActiveLink, UserState } from '../shared/store/user.state';
 
 enum RoleLinks{
   provider= 'provider/cabinet',
@@ -32,8 +33,11 @@ export class HeaderComponent implements OnInit {
   userRole$: Observable<string>;
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
+  @Select(UserState.activeLink)
+  activeLink$: Observable<{}>;
   role: string;
   roles= RoleLinks;
+  activeLink: ActiveLink;
 
   constructor(public store: Store,
               private actions$: Actions,
@@ -53,6 +57,9 @@ export class HeaderComponent implements OnInit {
     this.userRole$.subscribe(value => {
       this.role = value;
     });
+    this.activeLink$.subscribe((value: ActiveLink) => {
+      this.activeLink = value;
+    })
   }
   logout(): void {
     this.store.dispatch(new Logout());
