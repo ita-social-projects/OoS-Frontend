@@ -13,7 +13,7 @@ export interface UserRegistrationStateModel {
 }
 
 @State<UserRegistrationStateModel>({
-  name: 'user',
+  name: 'user_registration',
   defaults: {
     isAuthorized: false,
     userName: '',

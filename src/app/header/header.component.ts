@@ -58,6 +58,7 @@ export class HeaderComponent implements OnInit {
       this.role = value;
     });
     this.activeLink$.subscribe((value: ActiveLink) => {
+      console.log(value)
       this.activeLink = value;
     })
   }

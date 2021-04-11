@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterDataResolved } from '@ngxs/router-plugin';
-import { Actions, ofActionSuccessful } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SetBreadCrumb } from './shared/store/user.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,15 @@ export class AppComponent {
 
   private destroy$ = new Subject<void>();
   
-  constructor(actions$: Actions) {
+  constructor(public actions$: Actions, public store: Store) {
     actions$.pipe(
       ofActionSuccessful(RouterDataResolved),
       takeUntil(this.destroy$)
     ).subscribe(
       (action: RouterDataResolved) => {
-        console.log(action.routerState);
+        let crumb: string = action.routerState.root.firstChild.data.breadCrumb;
+        console.log({ breadCrumb: crumb, urlLink: action.routerState.url })
+        store.dispatch(new SetBreadCrumb({ breadCrumb: crumb, urlLink: action.routerState.url }))
       }
     )
   }

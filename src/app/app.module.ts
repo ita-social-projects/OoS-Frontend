@@ -45,11 +45,11 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
       AppState,
       FilterState,
       MetaDataState,
-      UserRegistrationState
+      UserRegistrationState,
+      UserState
     ]),
     NgxsRouterPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: environment.production
     }),
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production

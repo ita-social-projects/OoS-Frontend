@@ -6,7 +6,7 @@ export interface UserStateModel {
   city: String;
   lng: Number | null;
   lat: Number | null;
-  activeLink: ActiveLink
+  activeLink: ActiveLink[]
 }
 
 export interface ActiveLink {
@@ -20,10 +20,7 @@ export interface ActiveLink {
     city: "",
     lng: null,
     lat: null,
-    activeLink: {
-      breadCrumb: '',
-      urlLink: ''
-    }
+    activeLink: []
   }
 })
 @Injectable()
@@ -42,7 +39,10 @@ export class UserState {
   }
 
   @Action(SetBreadCrumb)
-  setBreadCrumb({ patchState }: StateContext<UserStateModel>, { payload }: SetBreadCrumb): void {
-    patchState({ activeLink: { breadCrumb: payload.breadCrumb, urlLink: payload.urlLink } })
+  setBreadCrumb(ctx: StateContext<UserStateModel>, { payload }: SetBreadCrumb): void {
+    let data: ActiveLink = { breadCrumb: payload.breadCrumb, urlLink: payload.urlLink }
+    ctx.patchState({
+      activeLink: [data, ...ctx.getState().activeLink]
+    })
   }
 }
