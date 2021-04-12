@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { actCard } from '../../models/activities-card.model';
 
 @Injectable({
@@ -9,11 +8,13 @@ import { actCard } from '../../models/activities-card.model';
 })
 export class ProviderActivitiesService {
 
-  dataUrl = '/Workshop/Get'
-
   constructor(private http: HttpClient) { }
 
   getCards(): Observable<actCard[]> {
-    return this.http.get<actCard[]>(this.dataUrl)
+    return this.http.get<actCard[]>('/Workshop/Get')
+  }
+
+  createWorkshop( workshop ): void {
+    this.http.post('/Workshop/Create', workshop).subscribe(workshop => console.log(workshop));
   }
 }

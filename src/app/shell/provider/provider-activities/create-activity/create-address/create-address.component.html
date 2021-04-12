@@ -1,0 +1,20 @@
+<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+  <mat-form-field>
+  <label class="step_label">Місто<span class="step_required">*</span></label>
+    <input matInput required class="step_input" type="text"  formControlName="city" >
+  </mat-form-field>
+
+  <mat-form-field>
+    <label class="step_label">Вулиця<span class="step_required">*</span></label>
+    <input matInput required class="step_input" type="text"  formControlName="street" >
+  </mat-form-field>
+
+  <label class="step_label">Будинок<span class="step_required">*</span></label>
+  <mat-form-field>
+    <input matInput required class="step_input" type="text" formControlName="buildingNumber" >
+  </mat-form-field>
+</form>
+<hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
+<div fxLayout='column' fxLayoutAlign='center center'>
+  <p>Або позначти на карті</p>
+</div>
