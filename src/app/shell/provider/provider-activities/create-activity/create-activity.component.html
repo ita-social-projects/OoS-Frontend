@@ -5,7 +5,7 @@
       <p class="wrapper_text">Додайте новий гурток, секцію фбо групу для навчання</p>
     </div>
     
-    <mat-horizontal-stepper linear>
+    <mat-horizontal-stepper >
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
         <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)"></app-create-about-form>
