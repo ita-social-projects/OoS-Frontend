@@ -14,6 +14,7 @@
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+  
 
   &_secondary{
     background: #3849F9;
@@ -151,4 +152,30 @@
       margin-top: 1rem;
     }
   }
+}
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+  .header{
+    padding: 1rem 2rem;
+  }
+}
+@media (max-width: 415px){
+  .header ._ngcontent-bdq-c122{
+    padding: 1rem 2rem;
+    width: 100vw;
+    
+  }
+}
+@media (max-width: 415px){
+  .footer {
+    display: block;
+  }
+  }
+
+@media (max-width: 415px){
+.header_login[_ngcontent-upc-c122] {
+  padding: 1rem 2rem !important;
+    font-size: 9px;
+}
 }
