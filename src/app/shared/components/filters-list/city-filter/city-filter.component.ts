@@ -4,7 +4,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
-
 import { CityList } from '../../../../shared/store/meta-data.actions';
 import { CityFilterService } from '../../../../shared/services/filters-services/city-filter/city-filter.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
