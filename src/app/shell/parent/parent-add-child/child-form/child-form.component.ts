@@ -8,9 +8,9 @@ import { FormGroup } from '@angular/forms';
 })
 export class ChildFormComponent implements OnInit {
   
-
   constructor() { 
   }
+  
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Child } from '../../models/child.model';
 
-import { Child} from '../../models/child.model'
+
 
 
 @Injectable({
@@ -16,5 +17,8 @@ export class ChildCardService {
 
   getCards(): Observable<Child[]> {
     return this.http.get<Child[]>('/Child/Get')
+  }
+  createChildren( child: Child):  void {
+    this.http.post('/Child/Create', child).subscribe(child => console.log(child));
   }
 }

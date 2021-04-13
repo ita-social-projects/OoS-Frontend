@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Child } from 'src/app/shared/models/child.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
+import { CreateChildren } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-parent-add-child',
@@ -43,14 +44,8 @@ export class ParentAddChildComponent implements OnInit {
 }
 
   onSubmit() {
-  let child:Child;
-  const children=[];
   
-  for(let i = 0; i < this.childrenFormArray.length; i++){
-  child = new Child(this.childrenFormArray.controls[i].value);
-  children.push(child);
-  }
-
- console.log(children);
+  this.store.dispatch(new CreateChildren(this.childrenFormArray))
+   
   }
 }

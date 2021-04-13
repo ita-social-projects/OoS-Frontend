@@ -28,8 +28,8 @@ import { ParentState } from 'src/app/shared/store/parent.state';
 
 import { MatIconModule } from '@angular/material/icon';
 
-import { ParentAddChildComponent } from './parent-add-child/parent-add-child.component';
-import { ChildFormComponent } from './parent-add-child/child-form/child-form.component'
+ import { ParentAddChildComponent } from './parent-add-child/parent-add-child.component';
+ import { ChildFormComponent } from './parent-add-child/child-form/child-form.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
@@ -42,7 +42,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ChildCardComponent,
     ChildActivitiesComponent,
     ParentAddChildComponent,
-
     ChildFormComponent,
 
  
