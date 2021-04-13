@@ -1,4 +1,4 @@
-<form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form" >
+<form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step" >
   <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
   <label class="step-label">Логотип
     <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
@@ -19,7 +19,7 @@
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
-      <span class="step-input-text">+380</span>
+      <span class="step-text">+380</span>
       <input matInput class="step-input" type="tel" formControlName="phone" ui-number-mask ui-hide-group-sep minlength="9" maxlength="9" required>
     </div>
   </mat-form-field>
@@ -44,7 +44,7 @@
   <div fxLayout='row' fxLayoutAlign='start'>
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
-        <p class="step-input-text">Від</p>
+        <p class="step-text">Від</p>
         <input matInput class="step-input step-input-age" type="number" formControlName="ageFrom" required  
         maxlength="2" 
         min="1" 
@@ -53,7 +53,7 @@
     </mat-form-field> 
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
-        <p class="step-input-text">До</p>
+        <p class="step-text">До</p>
         <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageTo" required 
         maxlength="2" 
         min="1" 
@@ -68,7 +68,7 @@
       maxlength="1" 
       min="1" 
       max="7"> 
-      <p class="step-input-text">в тиждень</p>
+      <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
   <label class="step-label">Вартість<span class="step-required">*</span></label>
@@ -77,7 +77,7 @@
       <div fxLayout='row' fxLayoutAlign='start center'>
         <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
         <input matInput class="step-input step-input-age" [formControl]="this.AboutFormGroup.get('price')" type="number">
-        <p class="step-input-text">грн за</p>
+        <p class="step-text">грн за</p>
         <mat-button-toggle-group color="primary" class="input-button-group"  formControlName="priceType">
           <mat-button-toggle value="lesson">Заняття</mat-button-toggle>
           <mat-button-toggle value="month">Місяць</mat-button-toggle>

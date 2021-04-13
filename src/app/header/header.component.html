@@ -23,7 +23,8 @@
     Понад 500 найрізноманітніших гуртків
   </h2>
   <div class="header_search">
-    <app-city-filter class="header_city"></app-city-filter>
+    <mat-icon> place</mat-icon>
+    <app-city-filter (selectedCity)="onSelectedCity($event)" class="header_city"></app-city-filter>
     <app-searchbar class="header_bar"></app-searchbar>
   </div>
 </div>

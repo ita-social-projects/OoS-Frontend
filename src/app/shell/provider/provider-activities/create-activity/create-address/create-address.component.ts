@@ -27,5 +27,8 @@ export class CreateAddressComponent implements OnInit {
   ngOnInit(): void {
     this.passAddressFormGroup.emit(this.AddressFormGroup);
   }
+  onSelectedCity(event):void{
+    this.AddressFormGroup.get('city').setValue=event;
+  }
 
 }

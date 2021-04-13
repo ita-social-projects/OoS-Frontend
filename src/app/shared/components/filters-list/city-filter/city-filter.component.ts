@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -7,7 +7,7 @@ import { SelectCity } from '../../../../shared/store/filter.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 
 import { CityList } from '../../../../shared/store/meta-data.actions';
-import { CityFilterService } from 'src/app/shared/services/filters-services/city-filter/city-filter.service';
+import { CityFilterService } from '../../../../shared/services/filters-services/city-filter/city-filter.service';
 
 
 
@@ -19,10 +19,13 @@ import { CityFilterService } from 'src/app/shared/services/filters-services/city
 })
 export class CityFilterComponent implements OnInit {
 
+  city:string;
   cityControl = new FormControl();
   cities: string[] = [];
   noCity: boolean=false;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @Output() selectedCity = new EventEmitter();
 
   @Select(MetaDataState.filteredCities)
   filteredCities$: Observable<string[]>;
@@ -50,7 +53,7 @@ export class CityFilterComponent implements OnInit {
     
   }
   onSelect(event){
-    this.store.dispatch(new SelectCity(event.option.value))
+    this.selectedCity.emit(event.option.value);
   }
   
   onInit(){

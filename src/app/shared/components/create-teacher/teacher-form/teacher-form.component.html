@@ -23,8 +23,10 @@
   </mat-form-field>
 
   <label class="form-label">Дата народження<span class="form-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="form-input form-input-date" type="date" placeholder="01.01.2021" formControlName="birthDay" required>
+  <mat-form-field class="form-input form-input_date" >
+    <input matInput [matDatepicker]="picker" formControlName="birthDay" required >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
   <label class="form-label">Опис</label>
