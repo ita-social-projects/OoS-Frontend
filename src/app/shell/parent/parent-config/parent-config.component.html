@@ -1,17 +1,19 @@
 <div class="wrapper" fxLayout ="column" fxLayoutAlign='space-between center'>
   <h1>Налаштування</h1>
   <mat-card class="parent" fxLayoutAlign='center' fxLayout ="row">
-        <img src ="" alt="Photo">
-     <mat-card-content fxLayoutAlign='space-between center' fxLayout ="column">
-              <p> Прізвище: Іванов</p>
-              <p> Ім'я: Іванов</p>
-              <p> По-батькові: Іванович</p>
-              <p> Телефон: 0930972494</p>
-              
-     </mat-card-content>
+    <img src ="" alt="Photo">
+    <mat-card-content fxLayoutAlign='space-between center' fxLayout ="column">
+      <p> Прізвище: Іванов</p>
+      <p> Ім'я: Іванов</p>
+      <p> По-батькові: Іванович</p>
+      <p> Телефон: 0930972494</p>    
+    </mat-card-content>
    </mat-card>
-  <h1>Інфо про дітей</h1>
+ <div class="button-submit">
+    <a [routerLink]="'./../add-child'"><button mat-button>Зареструватись</button>
+    </a>
+  </div> 
   <ng-container> 
      <app-child-card *ngFor="let card of cards" [card]="card"></app-child-card> 
-   </ng-container>
+   </ng-container> 
   </div>
