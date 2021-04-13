@@ -20,6 +20,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   DescriptionFormGroup: FormGroup;
   @Output() passDescriptionFormGroup = new EventEmitter();
 
+  keyWordsCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
   keyWords: string[]=[];
   allkeyWords: string[]= [];
@@ -50,7 +51,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         this.allkeyWords=data;
     });
 
-    this.DescriptionFormGroup.get('keyWords').valueChanges
+    this.keyWordsCtrl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -74,6 +75,10 @@ export class CreateDescriptionFormComponent implements OnInit {
       this.keyWords.push(event.value.trim());
       event.input.value = '';
     }
+    if (event.input) {
+      event.input.value = '';
+    }
+    this.keyWordsCtrl.setValue(null);
   }
   /**
    * This method remove already added key words from the list of key words
@@ -92,6 +97,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
     this.keyWords.push(event.option.viewValue);
     this.keyWordsInput.nativeElement.value = '';
+    this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
   }
   /**
    * This method filters the list of all key words according to the value of input
@@ -107,5 +113,4 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

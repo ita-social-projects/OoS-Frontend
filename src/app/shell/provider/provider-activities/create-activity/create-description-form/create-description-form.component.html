@@ -27,7 +27,7 @@
 				</mat-chip>
 				<input
 					#keyWordsInput
-					formControlName="keyWords"
+					[formControl]="keyWordsCtrl"
 					[matAutocomplete]="auto"
 					[matChipInputFor]="chipList"
 					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
