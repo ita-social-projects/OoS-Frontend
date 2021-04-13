@@ -12,10 +12,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -32,9 +35,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatAutocompleteModule,
     MatCardModule,
     MatSelectModule,
+    MatSidenavModule,
     MatTabsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatGridListModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatDividerModule,
     MatGridListModule,
   ]
 })

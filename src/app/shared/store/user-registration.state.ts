@@ -66,7 +66,4 @@ export class UserRegistrationState {
       console.log('Authorization failed');
     }
   }
-// function jwt_decode(arg0: string): any {
-//   throw new Error('Function not implemented.');
-// }
 

@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoriesFilterComponent implements OnInit {
 
-  constructor() { }
+  selectedCategory: string;
+
+  constructor() {}
 
   ngOnInit(): void {
   }

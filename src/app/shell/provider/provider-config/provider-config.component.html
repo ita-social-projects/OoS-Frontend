@@ -1,94 +1,235 @@
-<div class="container">
-  <h2>реєстрація нового надавача послуг</h2>
-  <form [formGroup]="providerForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-      <mat-label>Тип организациїї</mat-label>
-      <mat-select formControlName="organizationType">
-        <mat-option value="option">ФОП</mat-option>
-        <mat-option value="option">Громадська організація</mat-option>
-        <mat-option value="option">ТОВ</mat-option>
-        <mat-option value="option">ПП</mat-option>
-        <mat-option value="option">Заклад освіти</mat-option>
-        <mat-option value="option">Інше</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Назва/ПІБ(для ФОП)</mat-label>
-      <input matInput placeholder="Іванов/ЦТДЮ/Освіта" formControlName="fullName">
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Телефон</mat-label>
-      <input matInput placeholder="Іванов/ЦТДЮ/Освіта" value="+380" formControlName="mobilePhone">
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="" formControlName="email">
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Веб сайт</mat-label>
-      <input matInput placeholder="" formControlName="webSite">
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>facebook</mat-label>
-      <input matInput placeholder="" formControlName="faceBook">
-    </mat-form-field>
-    <mat-form-field appearance="legacy">
-      <mat-label>Instagram</mat-label>
-      <input matInput placeholder="" formControlName="instagram">
-    </mat-form-field>
-    <hr>
-    <h2>Опис</h2>
-    <mat-form-field appearance="legacy">
-        <textarea matInput placeholder="" cols="30" rows="10" formControlName="description">
-         </textarea>
-    </mat-form-field>
-    <hr>
-    <h2>фвктична адреса</h2>
-    <div class="address" formGroupName="address">
-      <mat-form-field appearance="fill">
-        <mat-label>Місто</mat-label>
-        <mat-select formControlName="city">
-          <mat-option value="Одеса">Одеса</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="legacy">
-        <mat-label>Вулиця</mat-label>
-        <input matInput placeholder="" formControlName="street">
-      </mat-form-field>
-      <mat-form-field appearance="legacy">
-        <mat-label>Будинок</mat-label>
-        <input matInput placeholder="" type="text" formControlName="building">
-      </mat-form-field>
-    </div>
-    <hr>
-    <h2>Юридична інформація</h2>
-    <mat-form-field appearance="legacy" class="MatFormFieldControl">
-      <mat-label>ЄДРПОУ/ІПН(Серія та номер паспорту якщо видсутній за религийнімі переконанямі</mat-label>
-      <input matInput placeholder="" formControlName="edrpou">
-    </mat-form-field>
-    <div class="user" formGroupName="user">
-      <mat-form-field appearance="legacy" >
-        <mat-label>Логін</mat-label>
-        <input matInput placeholder="" formControlName="login">
-      </mat-form-field>
-      <mat-form-field appearance="legacy">
-        <mat-label>Пароль</mat-label>
-        <input matInput placeholder="" formControlName="password">
-      </mat-form-field>
-    </div>
-    <div class="checkbox">
-      <mat-checkbox formControlName="dataProcessingPermission">
-      </mat-checkbox>
-      <mat-label>Даю згоду на обробку персональних даннних</mat-label>
-    </div>
-    <div class="checkbox">
-      <mat-checkbox formControlName="robotCheck">
-      </mat-checkbox>
-      <mat-label>я не робот</mat-label>
-    </div>
-    <div class="reg-section">
-      <button mat-raised-button color="warn">Відмініти</button>
-      <button mat-raised-button color="primary" type="submit">зареєструватися</button>
-    </div>
-  </form>
-</div>
+<section>
+  <div class="header">РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ</div>
+  <div class="subheader">Додайте свій заклад всього у 3 кроки</div>
+  <div class="stepper">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="orgFormGroup">
+        <form [formGroup]="orgFormGroup">
+          <ng-template matStepLabel>Інформація про заклад</ng-template>
+          <div class="form-wrapper">
+
+            <div class="form-ownership">
+              <label for="">Форма власності<span class="important">*</span></label>
+              <div class="custom-select">
+                <div class="select">
+                  <div *ngIf="!valueOwnership" class="select-arrow"><img src="assets/icons/select_arrow.png" alt="">
+                  </div>
+                  <div *ngIf="valueOwnership" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
+                  <input readonly
+                         (click)="showSelect($event)"
+                         formControlName="ownership" #ownership>
+                </div>
+                <div class="box" *ngIf="valueOwnership">
+                  <ng-container *ngFor="let option of ownerShipList">
+                    <div class="box-item" (click)="setValue(option, ownership)">{{option}}</div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="organization-type">
+              <label for="">Тип організації<span class="important">*</span></label>
+              <div class="custom-select">
+                <div class="select">
+                  <div *ngIf="!valueOrgType" class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
+                  <div *ngIf="valueOrgType" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
+                  <input readonly
+                         (click)="showSelect($event)"
+                         formControlName="organizationType" #orgType>
+                </div>
+                <div class="box" *ngIf="valueOrgType">
+                  <ng-container *ngFor="let option of organizationTypeList">
+                    <div class="box-item" (click)="setValue(option, orgType)">{{option}}</div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="org-full-name">
+              <label for="group-name-field">Повна назва організації<span class="important">*</span></label>
+              <input
+                type="text"
+                id="group-name-field"
+                formControlName="orgFullName"
+                [ngClass]="{'error': !orgFormGroup.get('orgFullName').valid && orgFormGroup.get('orgFullName').touched}"
+              >
+            </div>
+            <div class="org-short-name">
+              <label for="group-short-name-field">Скорочена назва організації<span class="important">*</span></label>
+              <input type="text" id="group-short-name-field" formControlName="orgShortName">
+            </div>
+            <div class="ceo-name">
+              <label for="ceo-name-field">ПІБ керівника<span class="important">*</span></label>
+              <input type="text" id="ceo-name-field" formControlName="ceoName">
+            </div>
+            <div class="ceo-birthday">
+              <mat-label>Дата народження керівника<span class="important">*</span></mat-label>
+              <div class="ceo-birthday_date">
+                <input matInput [matDatepicker]="picker" placeholder="01.01.2010" formControlName="ceoBirthday">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </div>
+            </div>
+            <div class="id-code">
+              <label for="id-code-field">ЄДРПОУ/ІПН<span class="important">*</span></label>
+              <input type="text" id="id-code-field" formControlName="personalId">
+            </div>
+            <div class="phone">
+              <label for="phone-form-field">Телефон<span class="important">*</span></label>
+              <input type="text" id="phone-form-field" formControlName="phone" placeholder="380XXXXXXX">
+            </div>
+            <div class="email">
+              <label for="email-form-field">Емейл<span class="important">*</span></label>
+              <input type="email" id="email-form-field" formControlName="email">
+            </div>
+            <div class="web-page">
+              <label for="webpage-form-field">Веб сайт</label>
+              <input type="text" id="webpage-form-field" formControlName="webPage">
+            </div>
+            <div class="facebook">
+              <label for="facebook-form-field">Facebook</label>
+              <input type="text" id="facebook-form-field" formControlName="facebook">
+            </div>
+            <div class="instagram">
+              <label for="instagram-form-field">Instagram</label>
+              <input type="text" id="instagram-form-field" formControlName="instagram">
+            </div>
+            <div class="owner-name">
+              <label for="owner-name-field">Засновник<span class="important">*</span></label>
+              <input type="text" id="owner-name-field" formControlName="ownerName">
+            </div>
+            <div class="form-ownership-buttons">
+              <button class="form-ownership-buttons_reset" type="button" (click)="formReset()">СКАСУВАТИ</button>
+              <button class="form-ownership-buttons_next"
+                      type="button"
+                      matStepperNext [disabled]="orgFormGroup.valid"
+                      [ngClass]="{'disabled-button':!orgFormGroup.valid}"
+              >ДАЛІ
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="addressFormGroup" label="Контакти">
+        <form [formGroup]="addressFormGroup">
+          <div class="form-wrapper">
+            <ng-container formGroupName="legalAddress">
+              <div class="header-address">Юридична адреса</div>
+              <div class="region">
+                <label for="region-field">Область<span class="important">*</span></label>
+                <input type="text" id="region-field" formControlName="region">
+              </div>
+              <div class="city">
+                <label for="city-form-field">Місто<span class="important">*</span></label>
+                <input type="text" id="city-form-field" formControlName="city">
+              </div>
+              <div class="district">
+                <label for="district-form-field">Район<span class="important">*</span></label>
+                <input type="text" id="district-form-field" formControlName="district">
+              </div>
+              <div class="street">
+                <label for="street-form-field">Вулиця<span class="important">*</span></label>
+                <input type="text" id="street-form-field" formControlName="street">
+              </div>
+              <div class="building">
+                <label for="building-form-field">Будинок<span class="important">*</span></label>
+                <input type="text" id="building-form-field" formControlName="building">
+              </div>
+            </ng-container>
+            <div class="divider">
+            </div>
+            <div class="header-address">Фактична адреса</div>
+            <div class="checkbox">
+              <mat-checkbox required>Співпадає з юридичною адресою
+              </mat-checkbox>
+            </div>
+            <ng-container formGroupName="actualAddress">
+              <div class="region">
+                <label for="regionF-form-field">Область<span class="important">*</span></label>
+                <input type="text" id="regionF-form-field" formControlName="region">
+              </div>
+              <div class="city">
+                <label for="cityF-form-field">Місто<span class="important">*</span></label>
+                <input type="text" id="cityF-form-field" formControlName="city">
+              </div>
+              <div class="district">
+                <label for="districtF-form-field">Район<span class="important">*</span></label>
+                <input type="text" id="districtF-form-field" formControlName="district">
+              </div>
+              <div class="street">
+                <label for="streetF-form-field">Вулиця<span class="important">*</span></label>
+                <input type="text" id="streetF-form-field" formControlName="street">
+              </div>
+              <div class="building">
+                <label for="buildingF-form-field">Будинок<span class="important">*</span></label>
+                <input type="text" id="buildingF-form-field" formControlName="building">
+              </div>
+            </ng-container>
+            <div class="address-form-buttons">
+              <button class="address-form-buttons_back" matStepperPrevious>НАЗАД</button>
+              <button type="button" class="address-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
+              <button class="address-form-buttons_next" matStepperNext
+                      [ngClass]="{'disabled-button':!addressFormGroup.valid}"
+                      [disabled]="addressFormGroup.valid"
+              >ДАЛІ
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Фото</ng-template>
+        <form [formGroup]="photoFormGroup">
+          <div class="form-wrapper">
+            <div class="photo-header">Фото</div>
+            <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум 4 фото</div>
+            <div class="logo">
+              <div class="logo_button" *ngIf="(photoFormGroup.controls['photos']).value.length < 4">
+                <label for="customFile-form-field">
+                  <input type="file" formControlName="photo" (change)="onFileSelected($event)"
+                         accept=".jpg, .jpeg, .png" id="customFile-form-field">
+                  <img src="assets/icons/plus.png" alt="logo_img">
+                </label>
+              </div>
+              <ng-container
+                *ngFor="let img of selectedLogos;">
+                <div class="logo_images">
+                  <img src="{{img}}" alt="">
+                </div>
+              </ng-container>
+            </div>
+            <div class="description">
+              <div class="description_header">
+                <label for="text-desc-form-field">Опис<span class="important">*</span></label>
+                <p>
+                  <span
+                    [ngClass]="{'highlight-text': !(photoFormGroup.controls['text']).valid && (photoFormGroup.controls['text']).touched }"
+                    class="default">{{(textValue) ? textValue.split('').length : '0'}}</span>/500</p>
+              </div>
+              <div class="description_form">
+                <textarea name="" id="text-desc-form-field" cols="30" rows="10"
+                          placeholder="Додайте опис вашого закладу"
+                          [(ngModel)]="textValue"
+                          formControlName="text"></textarea>
+              </div>
+            </div>
+            <div class="photo-checkbox">
+              <mat-checkbox formControlName="personalInfoAgreement">Я надаю згоду на обробку персональних даних
+              </mat-checkbox>
+              <mat-checkbox formControlName="notRobot">Я не робот
+              </mat-checkbox>
+            </div>
+          </div>
+          <div class="photo-form-buttons">
+            <button matStepperPrevious class="photo-form-buttons_back">НАЗАД</button>
+            <button class="photo-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
+            <button matStepperPrevious class="photo-form-buttons_reg"
+                    [ngClass]="{'disabled-button':!photoFormGroup.valid}"
+                    [disabled]="photoFormGroup.valid"
+            >ЗАРЕЄСТРУВАТИ
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</section>
+
