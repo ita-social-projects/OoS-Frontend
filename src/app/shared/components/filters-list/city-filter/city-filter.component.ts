@@ -1,15 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { CityList } from '../../../../shared/store/meta-data.actions';
-import { CityFilterService } from '../../../../shared/services/filters-services/city-filter/city-filter.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
-
-
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { SelectCity } from '../../../store/filter.actions';
 
 @Component({
   selector: 'app-city-filter',
@@ -18,68 +9,12 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 })
 export class CityFilterComponent implements OnInit {
 
-  city:string;
-  cityControl = new FormControl();
-  cities: string[] = [];
-  noCity: boolean=false;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  constructor(private store: Store ) {}
 
-  @Output() selectedCity = new EventEmitter();
-
-  @Select(MetaDataState.filteredCities)
-  filteredCities$: Observable<string[]>;
-  
-
-  constructor(public filterCityService: CityFilterService, public store: Store) { }
   ngOnInit(): void {
-    this.filterCityService.fetchCities()
-      .subscribe((data)=>{
-        this.cities=data;
-    })
-    
-    this.cityControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),   
-      ).subscribe(value => {
-        if (value) {
-          this.store.dispatch(new CityList(this._filter(value)));
-        }else{
-          this.store.dispatch(new CityList([]));
-        };
-      });
   }
-  /**
-   * This method filters the list of all cities according to the value of input;
-   * If the input value does not match with options
-   * the further selection is disabled and a user receive "Такого міста немає"
-   * @param string value
-   * @returns string[] 
-   */
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    let filteredCities = this.cities.filter(city => city.toLowerCase().startsWith(filterValue));
-    if(filteredCities.length===0){
-      this.noCity=true;
-      return ["Такого міста немає"]
-    }else{
-      this.noCity=false;
-      return filteredCities;
-    }
+  onSelectedCity(event):void{
+    this.store.dispatch(new SelectCity(event))
   }
-  /**
-   * This method selects an option from the list of filtered cities as a chosen city
-   * and pass this value to teh parent component
-   * @param MatAutocompleteSelectedEvent value 
-   */
-  onSelect(event: MatAutocompleteSelectedEvent): void {
-    this.selectedCity.emit(event.option.value);
-  }
-  
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
+
 }

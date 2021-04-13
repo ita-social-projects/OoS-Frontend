@@ -1,7 +1,7 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-filter  class="step-input step-input_city" (selectedCity)="onSelectedCity($event)" ></app-city-filter>
+  <app-city-autocomplete  class="step-input step-input_city" (selectedCity)="onSelectedCity($event)" ></app-city-autocomplete>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>

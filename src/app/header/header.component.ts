@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppState } from '../shared/store/app.state';
-import { SelectCity } from '../shared/store/filter.actions';
 
 enum RoleLinks{
   provider= 'provider/cabinet',
@@ -60,8 +59,5 @@ export class HeaderComponent implements OnInit {
   }
   login(): void{
     this.store.dispatch(new Login());
-  }
-  onSelectedCity(event):void{
-    this.store.dispatch(new SelectCity(event))
   }
 }
