@@ -1,11 +1,12 @@
 .main{
+  padding-bottom: 48px;
   &_registration{
     padding: 32px 40px;
     background: #3849F9;
     border-radius: 5px;
     position: relative;
     height: 125px;
-    margin: 4rem 0 3rem;
+    margin-top: 4rem;
     &::before{
       content: '';
       display: block;
