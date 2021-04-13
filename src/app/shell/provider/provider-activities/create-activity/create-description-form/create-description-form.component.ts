@@ -103,7 +103,6 @@ export class CreateDescriptionFormComponent implements OnInit {
     let filteredKeyWords = this.allkeyWords.filter(word => word.toLowerCase().startsWith(filterValue));
     return filteredKeyWords;
   }
-
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

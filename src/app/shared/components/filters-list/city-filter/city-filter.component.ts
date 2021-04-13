@@ -3,11 +3,11 @@ import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { SelectCity } from '../../../../shared/store/filter.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 
 import { CityList } from '../../../../shared/store/meta-data.actions';
 import { CityFilterService } from '../../../../shared/services/filters-services/city-filter/city-filter.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 
 
@@ -38,25 +38,6 @@ export class CityFilterComponent implements OnInit {
         this.cities=data;
     })
     
-    this.onInit();
-  }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    let filteredCities = this.cities.filter(city => city.toLowerCase().startsWith(filterValue));
-    if(filteredCities.length===0){
-      this.noCity=true;
-      return ["Такого міста немає"]
-    }else{
-      this.noCity=false;
-      return filteredCities;
-    }
-    
-  }
-  onSelect(event){
-    this.selectedCity.emit(event.option.value);
-  }
-  
-  onInit(){
     this.cityControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -71,6 +52,33 @@ export class CityFilterComponent implements OnInit {
         };
       });
   }
+  /**
+   * This method filters the list of all cities according to the value of input;
+   * If the input value does not match with options
+   * the further selection is disabled and a user receive "Такого міста немає"
+   * @param string value
+   * @returns string[] 
+   */
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    let filteredCities = this.cities.filter(city => city.toLowerCase().startsWith(filterValue));
+    if(filteredCities.length===0){
+      this.noCity=true;
+      return ["Такого міста немає"]
+    }else{
+      this.noCity=false;
+      return filteredCities;
+    }
+  }
+  /**
+   * This method selects an option from the list of filtered cities as a chosen city
+   * and pass this value to teh parent component
+   * @param MatAutocompleteSelectedEvent value 
+   */
+  onSelect(event: MatAutocompleteSelectedEvent): void {
+    this.selectedCity.emit(event.option.value);
+  }
+  
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

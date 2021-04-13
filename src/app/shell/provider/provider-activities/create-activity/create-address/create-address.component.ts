@@ -14,20 +14,24 @@ export class CreateAddressComponent implements OnInit {
 
 
   constructor(
-    private formBuilder: FormBuilder
-    ){
+    private formBuilder: FormBuilder){
     
     this.AddressFormGroup = this.formBuilder.group({
-    street: new FormControl(''), 
-    buildingNumber: new FormControl(''),
-    city: new FormControl()
+      street: new FormControl(''), 
+      buildingNumber: new FormControl(''),
+      city: new FormControl()
     });
   }
 
   ngOnInit(): void {
     this.passAddressFormGroup.emit(this.AddressFormGroup);
   }
-  onSelectedCity(event):void{
+  /**
+   * This method receives selected city from city-filter child component 
+   * and assigns it as a selected city to Address FormGroup
+   * @param event 
+   */
+  onSelectedCity( event ): void{
     this.AddressFormGroup.get('city').setValue=event;
   }
 
