@@ -169,10 +169,16 @@
   }
 }
 @media (max-width: 415px) {
-  h1 {
-   font-size: small;
+   h1 {
+    font-size: small;
   }
 }
+@media (max-width: 415px) {
+  .header_title{
+    font-size: 2.25rem; 
+ }
+}
+
 @media only screen
 and (min-device-width : 320px)
 and (max-device-width : 480px) {
