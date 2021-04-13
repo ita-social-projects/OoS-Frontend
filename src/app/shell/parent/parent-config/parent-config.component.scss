@@ -1,13 +1,29 @@
  
  .parent{
-   max-width: 900px;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
  }
 
  img{
-    margin: 0.5rem;
-    padding: 2rem;
-   border: 1px solid black;
+  margin: 0.5rem;
+  padding: 2rem;
+  border: 1px solid black;
  }
+
+button{
+  color: #3849F9;
+  border:none;
+  background: none;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 15px;
+  outline:none;
+  
+}
+.mat-icon {
+  vertical-align: middle;
+  height: 26px;
+}

@@ -8,7 +8,7 @@
     </div>
     <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1.5rem grid">
       <app-category-card  *ngFor="let categoryCard of categoriesCards$ | async "  
-                          [categoryCard]=categoryCard
+                          [categoryCard]="categoryCard"
                           [icons]="icons$ | async">
       </app-category-card>
     </div>
@@ -27,8 +27,7 @@
       </ng-container>
     </div>
   </div>
-
-  <div class="main_registration" fxLayoutAlign="space-between center">
+  <div *ngIf="!(isAuthorized$ | async)" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
       <h2 class="main_question">
         Надаєш освітні послуги?
