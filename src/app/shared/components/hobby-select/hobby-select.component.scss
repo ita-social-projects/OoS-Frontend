@@ -1,14 +1,6 @@
 .custom-select {
-  box-sizing: border-box;
-  transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   border: 1px solid #E3E3E3;
+  box-sizing: border-box;
   border-radius: 21px;
-  width: 100%;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 22px;
-  color: #495057;
-  vertical-align: middle;
   padding: 0.5rem;
-  margin-bottom: 1.2rem;
 }

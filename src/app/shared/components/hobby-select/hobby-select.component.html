@@ -1,27 +1,20 @@
 <form>
-  <div class="custom-select" >
-    <mat-select [formControl]="selectedDirection" name="direction" (selectionChange)="handleDirectionSelect($event.value)">
-      <mat-option value="">Оберіть напрямок</mat-option>
-      <mat-option *ngFor="let option of direction" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-select>
-  </div>
-  <div *ngIf="selectedDirection.value !== ''" class="custom-select">
-    <mat-select [formControl]="selectedFaculty" name="faculty" (selectionChange)="handleFacultySelect($event.value)">
-      <mat-option value="">Оберіть напрямок</mat-option>
-      <mat-option *ngFor="let option of faculty" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-select>
-  </div>
-  <div *ngIf="selectedFaculty.value !== ''" class="custom-select">
-    <mat-select [formControl]="selectedStudy" name="study" (selectionChange)="handleStudySelect($event.value)">
-      <mat-option value="">Оберіть напрямок</mat-option>
-      <mat-option *ngFor="let option of study" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-select>
-  </div>
-  
+  <mat-select class="custom-select" [formControl]="selectedDirection" name="direction" (selectionChange)="handleDirectionSelect($event.value)">
+    <mat-option value="">Оберіть напрямок</mat-option>
+    <mat-option *ngFor="let option of direction" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+  <mat-select *ngIf="selectedDirection.value !== ''" class="custom-select" [formControl]="selectedFaculty" name="faculty" (selectionChange)="handleFacultySelect($event.value)">
+    <mat-option value="">Оберіть напрямок</mat-option>
+    <mat-option *ngFor="let option of faculty" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+  <mat-select *ngIf="selectedFaculty.value !== ''" class="custom-select" [formControl]="selectedStudy" name="study" (selectionChange)="handleStudySelect($event.value)">
+    <mat-option value="">Оберіть напрямок</mat-option>
+    <mat-option *ngFor="let option of study" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
 </form>
