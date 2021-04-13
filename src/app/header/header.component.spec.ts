@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatButtonModule} from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -25,7 +25,8 @@ describe('HeaderComponent', () => {
        ],
       providers:[
         {provide: OidcSecurityService, useClass: MockOidcSecurityService}
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
