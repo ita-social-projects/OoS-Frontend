@@ -74,7 +74,6 @@ export class ProviderConfigAddress implements ProviderAddress {
     this.buildingNumber = buildingNumber;
     this.latitude = latitude;
     this.longitude = longitude;
-
   }
 
   region: string;
@@ -171,8 +170,6 @@ export class ProviderConfigModel implements ProviderConfigData {
   user: object;
   userId: string;
   website: string;
-
-
 }
 
 export class ProviderConfigUser implements UserData {
@@ -227,8 +224,8 @@ export class ProviderConfigUser implements UserData {
   accessFailedCount: number;
   creatingTime: string;
   lastLogin: string;
-
 }
+
 
 
 
