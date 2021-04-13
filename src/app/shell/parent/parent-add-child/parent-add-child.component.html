@@ -5,7 +5,11 @@
     <p>Ви завжди можете додати цю інформацію у вашому особистому кабінеті.</p> 
   </div>
   <ng-container> 
-    <app-child-form *ngFor="let form of childrenFormArray.controls" [ChildFormGroup]="form" [index]="childrenFormArray.controls.indexOf(form)"  (deleteForm)="deleteForm($event)"></app-child-form> 
+    <app-child-form  *ngFor="let form of childrenFormArray.controls" 
+     [ChildFormGroup]="form" 
+     [index]="childrenFormArray.controls.indexOf(form)"  
+     [childrenAmount]="childrenFormArray.controls.length"
+     (deleteForm)="deleteForm($event)"></app-child-form> 
   </ng-container>
   <div class="add-button"> 
     <button mat-button (click)="addChild()"><span class="add-icon"><mat-icon>add</mat-icon> </span>Додати ще одну дитину</button>

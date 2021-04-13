@@ -13,9 +13,11 @@ export class ChildFormComponent implements OnInit {
   }
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
+  @Input() childrenAmount: number;
   @Output() deleteForm = new EventEmitter();
 
   ngOnInit(): void {
+    console.log(this.childrenAmount)
   }
 
   delete():void {

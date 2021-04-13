@@ -1,10 +1,7 @@
-  form{
-    border-bottom: 1px solid #E3E3E3;
-  }
   .label-top{
     padding-top: 1rem;
   }
-  .mat-input-element{
+  .input{
     width: 410px;
     height: 34px;
     border: 1px solid #E3E3E3;
@@ -12,9 +9,9 @@
     border-radius: 21px;
     padding-left: 20px;
     display: flex;
-  }
-  .input-date{
-    width: 40%;
+    &-date{
+      max-width: 40%;
+    }
   }
   label{
     font-style: normal;
@@ -27,15 +24,21 @@
     color: #3849F9;
     margin: 1rem;
   }
-  // ::ng-deep .mat-form-field-flex .ng-tns-c88-6 {
-  //   width:50%;
-  // }
-  ::ng-deep .mat-form-field .mat-form-field-flex{
-    background-color: white !important; 
+  .button-visible{
+    display: block;
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .button-hidden{
+    visibility: hidden;
+  }
+  
+  ::ng-deep .mat-form-field-suffix .ng-tns-c88-6 .ng-star-inserted{
+    margin-right: 0.5rem !important;
   }
   ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
     padding: inherit !important;
   }
+  
   .requires{
     color: red;
   }
@@ -54,23 +57,19 @@
   ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
     background-color:#3849F9!important;  
   }
-  
   ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
    border-color:#3849F9!important; 
   }
   .wrapper{
     display: flex;
     justify-content: center;
-    }
-    
+  }
   ::ng-deep .mat-form-field-infix{
     border-top: none !important;
-    }
- 
+  }
   ::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix{
     padding: none !important;
-   }
-  
+  }
   ::ng-deep .mat-form-field-wrapper{
     padding-bottom: inherit;
   }
