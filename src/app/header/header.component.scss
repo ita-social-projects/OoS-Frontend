@@ -39,6 +39,7 @@
     .logo{
       position: absolute;
       transform: translate(0, -41%);
+     
     }
   }
 
@@ -91,7 +92,25 @@
     border-right: 1px solid #E3E3E3;
   }
 }
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
 
+@media(max-width:415px){
+  .header_logo-wrapper .logo{
+    width: 130px;
+  }
+}
+@media(max-width: 415px){
+  .mat-button-base{
+    font-size: xx-small;
+  }
+}
+@media(max-width: 415px) {
+  .mat-button-wrapper{
+    padding:0.3rem;
+  }
+}
 @media (max-width: 1024px) {
   .header {
     &_search {
@@ -106,10 +125,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-    }
-    &_btns {
-      margin-top: 1rem;
+    
     }
   }
 }
@@ -119,9 +135,6 @@
     flex-wrap: nowrap;
   }
 }
-::ng-deep .mat-form-field-infix {
-  width: auto !important;
-}
 
 @media(max-width: 705px) {
   .category_card[_ngcontent-plu-c162] {
@@ -130,27 +143,34 @@
 }
 @media(max-width: 425px) {
   .header_login {
-    padding: 0.325rem 1rem;
     font-size: 9px;
+    width: auto;
   }
 }
-
+@media (max-width: 415) {
+  .header_lang[_ngcontent-iqi-c122]{
+    font-size: smaller;
+  }
+}
 .icon-account {
   color:white;
 }
 
 @media (max-width: 415px) {
   .header {
+    width: 100vw;
     &_top, &_btns {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      // flex-wrap: wrap;
     }
-    &_btns {
-      margin-top: 1rem;
-    }
+  }
+}
+@media (max-width: 415px) {
+  h1 {
+   font-size: small;
   }
 }
 @media only screen
@@ -165,6 +185,11 @@ and (max-device-width : 480px) {
     padding: 1rem 2rem;
     width: 100vw;
     
+  }
+}
+@media (maw-width:415){
+  .header_login[_ngcontent-qqd-c122]{
+    width:auto;
   }
 }
 @media (max-width: 415px){

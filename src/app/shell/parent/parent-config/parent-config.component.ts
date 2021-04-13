@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms'
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ChildCard } from 'src/app/shared/models/child-card.model';
+import { Child } from 'src/app/shared/models/child.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { GetChildCards } from 'src/app/shared/store/parent.actions';
 import { ParentState } from 'src/app/shared/store/parent.state';
@@ -16,8 +16,8 @@ import { ParentState } from 'src/app/shared/store/parent.state';
 export class ParentConfigComponent implements OnInit {
   form: FormGroup;
 
-  @Select(ParentState.childrenList) cards$: Observable<ChildCard[]>;
-  public cards: ChildCard[];
+  @Select(ParentState.childrenList) cards$: Observable<Child[]>;
+  public cards: Child[];
 
   constructor(private fb:FormBuilder, private store: Store) { }
 

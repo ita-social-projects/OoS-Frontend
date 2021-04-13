@@ -8,14 +8,16 @@ import { FormGroup } from '@angular/forms';
 })
 export class ChildFormComponent implements OnInit {
   
-
   constructor() { 
   }
-  @Input() ChildFormGroup: FormGrogoup;
+  
+  @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
+  @Input() childrenAmount: number;
   @Output() deleteForm = new EventEmitter();
 
   ngOnInit(): void {
+    console.log(this.childrenAmount);
   }
 
   delete():void {

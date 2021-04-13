@@ -1,6 +1,6 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { ChildCard } from 'src/app/shared/models/child-card.model';
+import { Child } from 'src/app/shared/models/child.model';
 
 @Component({
   selector: 'app-child-card',
@@ -8,7 +8,7 @@ import { ChildCard } from 'src/app/shared/models/child-card.model';
   styleUrls: ['./child-card.component.scss']
 })
 export class ChildCardComponent implements OnInit {
-  @Input () card: ChildCard;
+  @Input () card: Child;
   
   constructor() { }
 
