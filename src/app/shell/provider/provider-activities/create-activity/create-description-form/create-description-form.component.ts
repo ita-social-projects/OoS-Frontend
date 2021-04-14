@@ -104,6 +104,9 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param MatAutocompleteSelectedEvent value 
    */
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
+
+    let match = this.keyWords.filter(word=> word.keyWord === event.option.value.keyWord);
+    console.log(match)
     this.keyWords.push(event.option.value);
     this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
     this.keyWordsCtrl.setValue(null);
