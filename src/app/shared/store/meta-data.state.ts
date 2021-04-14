@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { CategoriesIconsService } from '../services/categories-icons/categories-icons.service';
+import { City } from '../services/filters-services/city-filter/city-filter.service';
 import { keyWord } from '../services/key-words/key-words.service';
 import { CityList, GetCategoriesIcons, KeyWordsList } from './meta-data.actions';
 
 
 export interface MetaDataStateModel {
-  filteredCities: string[];
+  filteredCities: City[];
   categoriesIcons: {};
   filteredkeyWords: keyWord[];
 }
