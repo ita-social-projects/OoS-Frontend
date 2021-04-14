@@ -45,7 +45,8 @@
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">Від</p>
-        <input matInput class="step-input step-input-age" type="number" formControlName="ageFrom" required  
+        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageFrom" required
+        (oninput)="onInputAgeCheck($event)" 
         maxlength="2" 
         min="1" 
         max="16">
@@ -54,7 +55,8 @@
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">До</p>
-        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageTo" required 
+        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageTo" required
+        (oninput)="onInputAgeCheck($event)" 
         maxlength="2" 
         min="1" 
         max="16">
@@ -64,7 +66,8 @@
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
-      <input matInput class="step-input step-input-age" type="number" formControlName="classAmount" required 
+      <input matInput class="step-input step-input-age" ng-model="number" formControlName="classAmount" required 
+      (oninput)="onInputClassAmountCheck($event)" 
       maxlength="1" 
       min="1" 
       max="7"> 
