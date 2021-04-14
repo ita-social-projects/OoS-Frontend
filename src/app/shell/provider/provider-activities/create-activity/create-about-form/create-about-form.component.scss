@@ -19,15 +19,16 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
+    
     &-age{
       max-width: 80px;
     }
-    &-text{
+  }
+  &-text{
     font-family:Open Sans;
     font-weight: 700;
     color: #AAAAAA;
     padding: 5px;
-    }
   }
   &-line-age{
     max-height: 0;
@@ -65,12 +66,7 @@ button:focus {
     opacity: 0.5;
   }
 }
-::ng-deep .mat-button-toggle-group{
-  border-radius: 20px !important;
-}
-::ng-deep.mat-button-toggle-checked{
-  color: #3849F9 !important;
-}
+
 .mat-icon-add {
   position: relative;
   top: 17px;
@@ -95,4 +91,11 @@ input:disabled {
 }
 ::ng-deep .mat-form-field-infix {
   border:none;
+}
+::ng-deep .mat-button-toggle-group{
+  border-radius: 20px !important;
+}
+::ng-deep.mat-button-toggle-checked{
+  color: #3849F9 !important;
+  border: 2px solid blue;
 }

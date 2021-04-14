@@ -1,9 +1,8 @@
 input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
   outline: none;
-  box-shadow: 0 0 0.063rem 0.063rem #C72A21;
+  border: 1px solid #C72A21;
+ box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.247);
 }
-
-
 .disabled-button {
   opacity: 0.5;
 }

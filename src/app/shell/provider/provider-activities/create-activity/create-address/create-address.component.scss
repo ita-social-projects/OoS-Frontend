@@ -1,7 +1,7 @@
 .step{
   &-label{
     font-weight: 500;
-    }
+  }
   &-required{
     color:red;
   }
@@ -11,11 +11,14 @@
     border-radius: 21px;
     padding:0.5rem;
   }
+  &-input_city{
+    padding:0.1rem;
+  }
 }
 
 input:focus,
 button:focus {
-    outline: none;
+  outline: none;
 }
 ::placeholder {
   color:#333333;
