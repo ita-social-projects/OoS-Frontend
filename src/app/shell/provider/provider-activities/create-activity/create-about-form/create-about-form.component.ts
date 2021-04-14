@@ -34,11 +34,7 @@ export class CreateAboutFormComponent implements OnInit {
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
-  onUploadLogo(event):void{
+  onUploadLogo( event ):void{
     return null;
-  }
-
-  show(event){
-    console.log(this.AboutFormGroup.value)
   }
 }

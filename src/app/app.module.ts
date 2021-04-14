@@ -11,7 +11,7 @@ import { FilterState } from './shared/store/filter.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { environment } from 'src/environments/environment';
+import { environment } from './../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ShellComponent } from './shell/shell.component';

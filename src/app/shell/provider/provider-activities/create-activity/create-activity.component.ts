@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { CreateWorkshop } from '../../../../shared/store/provider.actions';
 @Component({
@@ -15,11 +14,13 @@ export class CreateActivityComponent implements OnInit {
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor( private store: Store,
-      ) {}
+  constructor( private store: Store) {}
   
   ngOnInit() {}
 
+  /**
+   * This method dispatch store action to create a Workshop with Form Groups values
+   */
   onSubmit() {
     this.store.dispatch(new CreateWorkshop( 
       this.AboutFormGroup, 
@@ -28,16 +29,32 @@ export class CreateActivityComponent implements OnInit {
       this.TeacherFormArray)
     );
   }
-  onReceiveAddressFormGroup ( form ):void{
+  /**
+   * This method receives a from from create-address child component and assigns to the Address FormGroup
+   * @param FormGroup form 
+   */
+  onReceiveAddressFormGroup (form: FormGroup):void{
     this.AddressFormGroup = form;
   }
-  onReceiveTeacherFormArray( array ):void{
+  /**
+   * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
+   * @param FormArray array 
+   */
+  onReceiveTeacherFormArray(array: FormArray):void{
     this.TeacherFormArray = array;
   }
-  onReceiveAboutFormGroup ( form ) : void {
+  /**
+   * This method receives  a from from create-about child component and assigns to the About FormGroup
+   * @param FormGroup form 
+   */
+  onReceiveAboutFormGroup (form :FormGroup) : void {
     this.AboutFormGroup = form;
   }
-  onReceiveDescriptionFormGroup( form ) : void {
+  /**
+   * This method receives a from create-description child component and assigns to the Description FormGroup
+   * @param FormGroup form 
+   */
+  onReceiveDescriptionFormGroup(form: FormGroup) : void {
     this.DescriptionFormGroup = form;
   }
 }

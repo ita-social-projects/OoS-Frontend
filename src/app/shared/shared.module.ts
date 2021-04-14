@@ -15,6 +15,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
+import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TeacherFormComponent } from './components/create-teacher/teacher-form/t
     TeacherCardComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
-    TeacherFormComponent
+    TeacherFormComponent,
+    CityAutocompleteComponent
   ],
   imports: [
     MaterialModule,
@@ -48,7 +50,8 @@ import { TeacherFormComponent } from './components/create-teacher/teacher-form/t
     MaterialModule,
     TeacherCardComponent,
     CategoryCardComponent,
-    CreateTeacherComponent
+    CreateTeacherComponent,
+    CityAutocompleteComponent
   ]
 })
 export class SharedModule { }

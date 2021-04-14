@@ -88,6 +88,12 @@
 
   &_city {
     border-right: 1px solid #E3E3E3;
+    width: 143px;
+  }
+}
+@media(max-width: 411px){
+  .header_city{
+    width: 60px;
   }
 }
 
