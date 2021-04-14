@@ -9,7 +9,6 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil} from 'rx
 import { keyWord, KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
-
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -73,20 +72,14 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param MatChipInputEvent value 
    */
   onAddKeyWord(event: MatChipInputEvent): void {
-    if ((event.value || '').trim()) {
-      let newKeyWord: keyWord ={
-        id: null,
-        keyWord: event.value.trim()
+    if(this.onValidation(event.value)){
+        let newKeyWord: keyWord = {
+          id: null,
+          keyWord: event.value.trim()
+        }
+        this.allkeyWords.push(newKeyWord); 
+        this.keyWords.push(newKeyWord); 
       }
-      this.allkeyWords.push(newKeyWord); 
-      this.keyWords.push(newKeyWord); 
-      event.input.value = '';
-    }
-
-    if (event.input) {
-      event.input.value = '';
-    }
-
     this.keyWordsCtrl.setValue(null);
   }
   /**
@@ -105,10 +98,10 @@ export class CreateDescriptionFormComponent implements OnInit {
    */
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
 
-    let match = this.keyWords.filter(word=> word.keyWord === event.option.value.keyWord);
-    console.log(match)
-    this.keyWords.push(event.option.value);
-    this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
+    if(this.onValidation(event.option.value.keyWord)){
+      this.keyWords.push(event.option.value);
+      this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
+    }
     this.keyWordsCtrl.setValue(null);
   }
   /**
@@ -118,15 +111,23 @@ export class CreateDescriptionFormComponent implements OnInit {
    */
    private _filter(value: string): keyWord[] {
       let filteredKeyWords =  this.allkeyWords
-      .filter(word => word.keyWord
+      .filter((word: keyWord) => word.keyWord
         .toLowerCase()
         .startsWith(value.toLowerCase())
       )
-      .map(word=> word);
+      .map((word: keyWord) => word);
      return filteredKeyWords;
   }
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+  /**
+   * This method checks if the keyWord is already added to the selected key words
+   * @param string value
+   * @returns boolean
+   */
+  onValidation( newWord: string ):boolean {
+    return  (this.keyWords.filter((word: keyWord)=> word.keyWord.toLowerCase() === newWord.toLowerCase()).length===0);
   }
 }
