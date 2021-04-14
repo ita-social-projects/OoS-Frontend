@@ -16,7 +16,8 @@ export class CreateActivityComponent implements OnInit {
 
   constructor( private store: Store) {}
   
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
@@ -56,5 +57,6 @@ export class CreateActivityComponent implements OnInit {
    */
   onReceiveDescriptionFormGroup(form: FormGroup) : void {
     this.DescriptionFormGroup = form;
+    
   }
 }
