@@ -10,6 +10,7 @@ export class HobbyService {
 
   constructor() { }
 
+  //this method just immitates async request. All data comes from mock.ts
   getData(): Observable<iData[]> {
     return new Observable(subscriber => {
       setTimeout(() => {

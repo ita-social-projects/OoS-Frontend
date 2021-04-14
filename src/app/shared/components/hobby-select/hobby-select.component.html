@@ -1,18 +1,24 @@
 <form>
+  <!-- select reffers to selectedDirection object in component (selectedDirection.value === selected option) -->
   <mat-select class="custom-select" [formControl]="selectedDirection" name="direction" (selectionChange)="handleDirectionSelect($event.value)">
     <mat-option value="">Оберіть напрямок</mat-option>
+    <!-- reffers to direction field for options -->
     <mat-option *ngFor="let option of direction" [value]="option">
       {{ option }}
     </mat-option>
   </mat-select>
+  <!-- select reffers to selectedFaculty object in component (selectedFaculty.value === selected option) -->
   <mat-select *ngIf="selectedDirection.value !== ''" class="custom-select" [formControl]="selectedFaculty" name="faculty" (selectionChange)="handleFacultySelect($event.value)">
     <mat-option value="">Оберіть напрямок</mat-option>
+    <!-- reffers to faculty field for options (will update after field change) -->
     <mat-option *ngFor="let option of faculty" [value]="option">
       {{ option }}
     </mat-option>
   </mat-select>
+    <!-- select reffers to selectedStudy object in component (selectedStudy.value === selected option) -->
   <mat-select *ngIf="selectedFaculty.value !== ''" class="custom-select" [formControl]="selectedStudy" name="study" (selectionChange)="handleStudySelect($event.value)">
     <mat-option value="">Оберіть напрямок</mat-option>
+    <!-- reffers to study field for options (will update after field change) -->
     <mat-option *ngFor="let option of study" [value]="option">
       {{ option }}
     </mat-option>

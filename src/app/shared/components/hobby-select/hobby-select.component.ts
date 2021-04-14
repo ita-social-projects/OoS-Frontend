@@ -11,15 +11,18 @@ import { FormControl } from '@angular/forms';
 export class HobbySelectComponent implements OnInit {
   constructor(private service: HobbyService) { }
 
+  //lists of options in dropdowns
   data: iData[] = [];
   direction: string[] = [];
   faculty: string[] = [];
   study: string[] = [];
-  selectedDirection = new FormControl('');
+  selectedDirection = new FormControl(''); //contains current state (which direction was selected)
   selectedFaculty = new FormControl('');
   selectedStudy = new FormControl('');
 
   ngOnInit(): void {
+    // takes mock data from service and sets direction list to this.direction
+    // TODO: replace with Get request or @Select from store !!!
     this.service.getData().subscribe((data: iData[]) => {
       this.data = data;
       this.getDirections(data);
@@ -31,15 +34,21 @@ export class HobbySelectComponent implements OnInit {
   }
 
   handleDirectionSelect(value: string): void {
+    //sets selected option in current "state"
     this.selectedDirection.setValue(value);
+    //clears selected faculty and study (all dropdowns should be consistant)
     this.selectedFaculty.setValue('');
     this.selectedStudy.setValue('');
+    //finds faculties, related to selected direction
     const targetDirection = this.data.find(el => el.direction === value);
+    //creates list of options for 2d dropdown
     const facultyList = targetDirection?.faculty.map(el => el.name);
+    //sets list of options in this.faculty
     this.faculty = facultyList;
   }
 
   handleFacultySelect(value: string): void {
+    //the same logic as for handleDirectionSelect
     this.selectedFaculty.setValue(value);
     this.selectedStudy.setValue('');
     const targetDirection = this.data.find(el => el.direction === this.selectedDirection.value);
