@@ -56,7 +56,7 @@ export class CreateAboutFormComponent implements OnInit {
   onInputValidation(): void {
     this.AboutFormGroup.get('ageFrom').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < 1 || val > 16 ) this.AboutFormGroup.get('ageFrom').reset() 
+        if ( val < 1 || val > 16 ) this.AboutFormGroup.get('ageFrom').reset(); 
       }
     });
     this.AboutFormGroup.get('ageTo').valueChanges.subscribe(val=> {
