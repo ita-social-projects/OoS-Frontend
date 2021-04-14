@@ -123,7 +123,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
   /**
-   * This method checks if the keyWord is already added to the selected key words
+   * This method checks if the keyWord is already added to the selected key word list
    * @param string value
    * @returns boolean
    */
