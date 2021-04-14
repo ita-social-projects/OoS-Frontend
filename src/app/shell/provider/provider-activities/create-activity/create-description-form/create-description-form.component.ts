@@ -45,7 +45,6 @@ export class CreateDescriptionFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsService.getKeyWords()
       .subscribe((data)=>{
         this.allkeyWords=data;
@@ -64,6 +63,8 @@ export class CreateDescriptionFormComponent implements OnInit {
           this.store.dispatch(new KeyWordsList([]));
         };
       });
+
+      this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
   }
   /**
    * This method adds input value to the list of added by user key words 
