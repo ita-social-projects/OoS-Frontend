@@ -17,7 +17,7 @@ export class KeyWordsService {
   constructor(private http: HttpClient) { }
 
   getKeyWords(): Observable<keyWord[]>{
-    return this.http.get<any>(this.dataUrl)
+    return this.http.get<keyWord[]>(this.dataUrl)
       .pipe(map((data)=>{
         return data;
       }))

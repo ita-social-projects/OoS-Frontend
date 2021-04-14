@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { CityList } from '../../store/meta-data.actions';
-import { CityFilterService } from '../../services/filters-services/city-filter/city-filter.service';
+import { City, CityFilterService } from '../../services/filters-services/city-filter/city-filter.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
@@ -15,16 +15,16 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 })
 export class CityAutocompleteComponent implements OnInit {
 
-  city:string;
+  city:City;
   cityControl = new FormControl();
-  cities: string[] = [];
+  cities: City[] = [];
   noCity: boolean=false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Output() selectedCity = new EventEmitter();
 
   @Select(MetaDataState.filteredCities)
-  filteredCities$: Observable<string[]>;
+  filteredCities$: Observable<City[]>;
   
 
   constructor(public filterCityService: CityFilterService, public store: Store) { }
@@ -55,12 +55,17 @@ export class CityAutocompleteComponent implements OnInit {
    * @param string value
    * @returns string[] 
    */
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    let filteredCities = this.cities.filter(city => city.toLowerCase().startsWith(filterValue));
+  private _filter(value: string): City[] {
+    let filteredCities =  this.cities
+      .filter(c => c.city
+        .toLowerCase()
+        .startsWith(value.toLowerCase())
+      )
+      .map(c=> c);
+
     if(filteredCities.length===0){
       this.noCity=true;
-      return ["Такого міста немає"]
+      return [ { id:null, city:"Такого міста немає" } ]
     }else{
       this.noCity=false;
       return filteredCities;
