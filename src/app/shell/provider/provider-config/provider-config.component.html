@@ -100,7 +100,7 @@
               <button class="form-ownership-buttons_reset" type="button" (click)="formReset()">СКАСУВАТИ</button>
               <button class="form-ownership-buttons_next"
                       type="button"
-                      matStepperNext [disabled]="orgFormGroup.valid"
+                      matStepperNext [disabled]="!orgFormGroup.valid"
                       [ngClass]="{'disabled-button':!orgFormGroup.valid}"
               >ДАЛІ
               </button>
@@ -168,7 +168,7 @@
               <button type="button" class="address-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
               <button class="address-form-buttons_next" matStepperNext
                       [ngClass]="{'disabled-button':!addressFormGroup.valid}"
-                      [disabled]="addressFormGroup.valid"
+                      [disabled]="!addressFormGroup.valid"
               >ДАЛІ
               </button>
             </div>
@@ -210,7 +210,8 @@
             <button class="photo-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
             <button matStepperPrevious class="photo-form-buttons_reg"
                     [ngClass]="{'disabled-button':!photoFormGroup.valid}"
-                    [disabled]="photoFormGroup.valid"
+                    [disabled]="!photoFormGroup.valid"
+                    (click)="onAddNewProvider()"
             >ЗАРЕЄСТРУВАТИ
             </button>
           </div>

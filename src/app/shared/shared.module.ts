@@ -15,6 +15,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
+import { HobbySelectComponent } from './components/hobby-select/hobby-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { ImageInputComponent } from './components/image-input/image-input.component';
 
@@ -28,6 +29,7 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
     DigitOnlyDirective,
     OrganizationCardComponent,
     TeacherCardComponent,
+    HobbySelectComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
     TeacherFormComponent,
@@ -51,6 +53,7 @@ import { ImageInputComponent } from './components/image-input/image-input.compon
     OrganizationCardComponent,
     MaterialModule,
     TeacherCardComponent,
+    HobbySelectComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
     CityAutocompleteComponent,
