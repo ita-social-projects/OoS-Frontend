@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {ProviderActivitiesComponent} from './provider-activities/provider-activities.component';
 import {ProviderConfigComponent} from './provider-config/provider-config.component';
 import {ProviderRoutingModule} from './provider-routing.module';
@@ -78,7 +78,8 @@ import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
     ProviderActivitiesService,
     ProviderConfigService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true},
-    CanDeactivateGuard
+    CanDeactivateGuard,
+    DatePipe
   ],
 
 })

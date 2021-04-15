@@ -1,37 +1,20 @@
 .footer {
   background-color: #EBEBEB;
-  padding: 0 5rem;
-  height: 117px;
+  padding: 2.375rem 5rem;
   position: absolute;
   bottom: 0;
-  z-index: 1;
+  transform: translate(0, 100%);
   width: 100%;
-  #mon-logo {
-    width: 230px;
+  .min-logo {
     height: 41px;
+    @media(max-width: 960px) {
+      height: 30px;
+    }
   }
-  #mkip-logo {
-    width: 323px;
-    height: 96px;
-  }
-  #min-sport-logo {
-    width: 83px;
-    height: 41px;
-  }
-}
-@media(max-width: 415px) {
-  .footer {
-   display: contents;
-   padding: 1rem;
-  }
-}
-@media(max-width: 415px) {
-  img {
-   width:100%;
-  }
-}
-@media(max-width: 415px) {
-  a {
-  padding: 2%;
+  @media(max-width: 599px) {
+    height: 100vh;
+    padding: 0 1rem;
+    position: static;
+    transform: none;
   }
 }

@@ -1,4 +1,4 @@
-<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="form-form">
+<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
   <ng-template matStepLabel>Опис</ng-template>
     
   <label class="form-label">Фото викладача
@@ -23,8 +23,10 @@
   </mat-form-field>
 
   <label class="form-label">Дата народження<span class="form-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="form-input form-input-date" type="date" placeholder="01.01.2021" formControlName="birthDay" required>
+  <mat-form-field class="form-input form-input_date" >
+    <input matInput [matDatepicker]="picker" formControlName="birthDay" required >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
   <label class="form-label">Опис</label>
@@ -32,6 +34,7 @@
     <textarea matInput class="form-textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
   </mat-form-field>
 </form>
-<div class="form-border" fxLayout='row' fxLayoutAlign='center'>
+
+<div fxLayout='row' fxLayoutAlign='center'>
   <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()"><mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача</button>
 </div>
