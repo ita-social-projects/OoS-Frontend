@@ -93,13 +93,15 @@
     width: 143px;
   }
 }
+
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
+
 @media(max-width: 411px){
   .header_city{
     width: 60px;
   }
-}
-::ng-deep .mat-form-field-infix {
-  width: auto !important;
 }
 
 @media(max-width:415px){
@@ -107,16 +109,19 @@
     width: 130px;
   }
 }
+
 @media(max-width: 415px){
   .mat-button-base{
     font-size: xx-small;
   }
 }
+
 @media(max-width: 415px) {
   .mat-button-wrapper{
     padding:0.3rem;
   }
 }
+
 @media (max-width: 1024px) {
   .header {
     &_search {
@@ -131,7 +136,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    
     }
   }
 }
@@ -147,17 +151,20 @@
     margin: 2%;
   }
 }
+
 @media(max-width: 425px) {
   .header_login {
     font-size: 9px;
     width: auto;
   }
 }
+
 @media (max-width: 415) {
   .header_lang[_ngcontent-iqi-c122]{
     font-size: smaller;
   }
 }
+
 .icon-account {
   color:white;
 }
@@ -170,7 +177,6 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      // flex-wrap: wrap;
     }
   }
 }
@@ -192,18 +198,20 @@ and (max-device-width : 480px) {
     padding: 1rem 2rem;
   }
 }
+
 @media (max-width: 415px){
   .header ._ngcontent-bdq-c122{
     padding: 1rem 2rem;
     width: 100vw;
-    
   }
 }
+
 @media (maw-width:415){
   .header_login[_ngcontent-qqd-c122]{
     width:auto;
   }
 }
+
 @media (max-width: 415px){
   .footer {
     display: block;

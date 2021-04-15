@@ -6,7 +6,7 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1.5rem grid">
+    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap=" grid">
       <app-category-card  *ngFor="let categoryCard of categoriesCards$ | async "  
                           [categoryCard]="categoryCard"
                           [icons]="icons$ | async">
