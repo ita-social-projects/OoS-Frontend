@@ -37,20 +37,6 @@ export class CreateAboutFormComponent implements OnInit {
     return null;
   }
   /**
-   * This method sets the max length of input for age equal 2
-   * @param matInput event
-   */
-  onInputAgeCheck( event ): void {
-    event(event.value.length > 1) ? event.value.slice(0,1) : event.value;
-  }
-  /**
-   * This method sets the max length of iinput for class amount equal 1
-   * @param matInput event
-   */
-  onInputClassAmountCheck(event): void {
-    event(event.value.length > 0) ? event.value.slice(0) : event.value;
-  }
-  /**
    * This method sets validation for age and classAmount inputs and resets them if values are invalid
    */
   onInputValidation(): void {
