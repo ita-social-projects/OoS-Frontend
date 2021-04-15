@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Age, ClassAmount } from '../../../../../shared/constants/constants';
 
 @Component({
   selector: 'app-create-about-form',
@@ -42,17 +43,17 @@ export class CreateAboutFormComponent implements OnInit {
   onInputValidation(): void {
     this.AboutFormGroup.get('ageFrom').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < 1 || val > 16 ) this.AboutFormGroup.get('ageFrom').reset(); 
+        if ( val < Age.From || val > Age.To ) this.AboutFormGroup.get('ageFrom').reset(); 
       }
     });
     this.AboutFormGroup.get('ageTo').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < 1 || val > 16 ) this.AboutFormGroup.get('ageTo').reset(); 
+        if ( val < Age.From || val > Age.To ) this.AboutFormGroup.get('ageTo').reset(); 
       }
     });
     this.AboutFormGroup.get('classAmount').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < 1 || val > 7 ) this.AboutFormGroup.get('classAmount').reset(); 
+        if ( val < ClassAmount.Min || val > ClassAmount.Max ) this.AboutFormGroup.get('classAmount').reset(); 
       }
     });
   }
