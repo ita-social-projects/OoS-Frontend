@@ -36,8 +36,7 @@
 			</mat-chip-list>
 			</div>
     </label>
-		
-		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
+		<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
 			<mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
 				{{keyWord.keyWord}}
 			</mat-option>

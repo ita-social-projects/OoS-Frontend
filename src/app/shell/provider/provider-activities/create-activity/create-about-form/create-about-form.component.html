@@ -20,7 +20,11 @@
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+380</span>
-      <input matInput class="step-input" type="tel" formControlName="phone" ui-number-mask ui-hide-group-sep minlength="9" maxlength="9" required>
+      <input matInput class="step-input" type="tel" formControlName="phone" 
+      ui-number-mask 
+      ui-hide-group-sep minlength="9" 
+      maxlength="9" 
+      required>
     </div>
   </mat-form-field>
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
@@ -46,7 +50,6 @@
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">Від</p>
         <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageFrom" required
-  
         maxlength="2" 
         min="1" 
         max="16">

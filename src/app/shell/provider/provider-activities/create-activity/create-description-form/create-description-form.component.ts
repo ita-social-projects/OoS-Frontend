@@ -57,7 +57,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         startWith(''),   
       ).subscribe(value => {
         if (value) {
-          this.store.dispatch(new KeyWordsList(this._filter(value)));
+          this.store.dispatch(new KeyWordsList(this._filter(value.trim())));
         }else{
           this.store.dispatch(new KeyWordsList([]));
         };
@@ -72,16 +72,19 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param MatChipInputEvent value 
    */
   onAddKeyWord(event: MatChipInputEvent): void {
-    if(this.onValidation(event.value)){
+    const value= event.value.trim();
+    if(value){
+      if(this.onValidation( value, this.allkeyWords )){
         let newKeyWord: keyWord = {
           id: null,
-          keyWord: event.value.trim()
+          keyWord: value.charAt(0).toUpperCase() + value.slice(1)
         }
-        this.allkeyWords.push(newKeyWord); 
-        this.keyWords.push(newKeyWord); 
+        this.allkeyWords.push(newKeyWord); //should be replaced with KeyWords/post
+        this.keyWords.push(newKeyWord);
       }
-    this.keyWordsCtrl.setValue(null);
-  }
+    }
+      this.keyWordsCtrl.setValue(null);
+    }
   /**
    * This method remove already added key words from the list of key words
    * @param string word 
@@ -98,10 +101,11 @@ export class CreateDescriptionFormComponent implements OnInit {
    */
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
 
-    if(this.onValidation(event.option.value.keyWord)){
+    if(this.onValidation(event.option.value.keyWord, this.keyWords )){
       this.keyWords.push(event.option.value);
       this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
     }
+    this.keyWordsInput.nativeElement.value = '';
     this.keyWordsCtrl.setValue(null);
   }
   /**
@@ -127,7 +131,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param string value
    * @returns boolean
    */
-  onValidation( newWord: string ):boolean {
-    return  (this.keyWords.filter((word: keyWord)=> word.keyWord.toLowerCase() === newWord.toLowerCase()).length===0);
+  onValidation( newWord: string , array: keyWord[] ):boolean {
+    return  (array.filter((word: keyWord)=> word.keyWord.toLowerCase() === newWord.toLowerCase()).length===0);
   }
 }
