@@ -1,17 +1,16 @@
-<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step_form">
+<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
+
+  <label class="step-label">Місто<span class="step-required">*</span></label>
+  <app-city-autocomplete  class="step-input step-input_city" (selectedCity)="onSelectedCity($event)" ></app-city-autocomplete>
+
+  <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-  <label class="step_label">Місто<span class="step_required">*</span></label>
-    <input matInput required class="step_input" type="text"  formControlName="city" >
+    <input matInput required class="step-input" type="text"  formControlName="street" >
   </mat-form-field>
 
+  <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
-    <label class="step_label">Вулиця<span class="step_required">*</span></label>
-    <input matInput required class="step_input" type="text"  formControlName="street" >
-  </mat-form-field>
-
-  <label class="step_label">Будинок<span class="step_required">*</span></label>
-  <mat-form-field>
-    <input matInput required class="step_input" type="text" formControlName="buildingNumber" >
+    <input matInput required class="step-input" type="text" formControlName="buildingNumber" >
   </mat-form-field>
 </form>
 <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>

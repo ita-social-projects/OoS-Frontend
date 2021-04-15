@@ -12,19 +12,19 @@ import {
   GetTeachersCards, 
   GetCategories
 } from './filter.actions';
-import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
+import { OrgCardsService } from '../services/org-cards/org-cards.service';
 import { orgCard } from '../models/org-card.model';
-import { actCard } from '../models/activities-card.model';
 import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
 import { patch, append } from '@ngxs/store/operators';
 import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
 import { Category } from '../models/category.model';
 import { CategoriesService } from '../services/categories/categories.service';
+import { City } from '../models/city.model';
 
 export interface FilterStateModel {
   searchQuery: string;
-  city: string;
+  city: City;
   isRecruiting: boolean;
   ageFrom: number;
   ageTo: number;
@@ -38,7 +38,7 @@ export interface FilterStateModel {
   name: 'filter',
   defaults: {
     searchQuery: '',
-    city: '',
+    city: { id:null, city:'' },
     isRecruiting: true,
     ageFrom: 0,
     ageTo: 16,
@@ -66,8 +66,7 @@ export class FilterState {
   }
 
   constructor(
-    private cardsService: OrgCardsService, 
-    private cardsActivitiesService: ProviderActivitiesService, 
+    private cardsService: OrgCardsService,
     private teacherCardService: TeacherCardsService,
     private categoriesService: CategoriesService
   ) {}

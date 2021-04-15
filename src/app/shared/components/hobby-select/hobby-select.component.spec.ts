@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CityFilterComponent } from './city-filter.component';
+import { HobbySelectComponent } from './hobby-select.component';
 
-describe('CityFilterComponent', () => {
-  let component: CityFilterComponent;
-  let fixture: ComponentFixture<CityFilterComponent>;
+describe('HobbySelectComponent', () => {
+  let component: HobbySelectComponent;
+  let fixture: ComponentFixture<HobbySelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CityFilterComponent ]
+      declarations: [ HobbySelectComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CityFilterComponent);
+    fixture = TestBed.createComponent(HobbySelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

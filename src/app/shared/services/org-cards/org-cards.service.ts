@@ -22,7 +22,7 @@ export class OrgCardsService {
       params = params.set('title', filters.searchQuery);
     }
     if(filters.city){
-      params = params.set('address.city', filters.city);
+      params = params.set('address.city', filters.city.city);
     }
     if(filters.ageFrom > 0){
       params = params.set('minAge', filters.ageFrom.toString());

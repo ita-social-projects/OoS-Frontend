@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProviderConfigService } from './provider-config.service';
-import { ProviderConfigModalComponent } from './provider-config-modal/provider-config-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ProviderConfigService} from './provider-config.service';
+import {ProviderConfigModalComponent} from './provider-config-modal/provider-config-modal.component';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({
@@ -22,50 +22,53 @@ export class ProviderConfigComponent implements OnInit {
   valueOrgType = false;
   textValue = '';
 
-  constructor(private providerConfigService: ProviderConfigService, private modal: MatDialog) {
+  constructor(private providerConfigService: ProviderConfigService,
+              private modal: MatDialog) {
   }
 
   ngOnInit(): void {
     this.orgFormGroup = new FormGroup({
-      ownership: new FormControl(null, Validators.required),
-      organizationType: new FormControl(null, Validators.required),
-      orgFullName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
-      orgShortName: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
-      ceoName: new FormControl(null, [Validators.required]),
-      ceoBirthday: new FormControl(null, Validators.required),
-      personalId: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.maxLength(8), Validators.pattern('^[0-9]*$')]),
-      phone: new FormControl(null, [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      webPage: new FormControl(null),
-      facebook: new FormControl(null),
-      instagram: new FormControl(null),
-      ownerName: new FormControl(null, Validators.required),
+      ownership: new FormControl('', Validators.required),
+      organizationType: new FormControl('', Validators.required),
+      orgFullName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      orgShortName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      ceoName: new FormControl('', [Validators.required]),
+      ceoBirthday: new FormControl('', Validators.required),
+      personalId: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]),
+      phone: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      webPage: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      ownerName: new FormControl('', Validators.required),
 
     });
     this.addressFormGroup = new FormGroup({
       legalAddress: new FormGroup({
-        region: new FormControl(null, Validators.required),
-        city: new FormControl(null, Validators.required),
-        district: new FormControl(null, Validators.required),
-        street: new FormControl(null, Validators.required),
-        building: new FormControl(null, Validators.required),
+        region: new FormControl('', Validators.required),
+        city: new FormControl('', Validators.required),
+        district: new FormControl('', Validators.required),
+        street: new FormControl('', Validators.required),
+        building: new FormControl('', Validators.required),
       }),
       actualAddress: new FormGroup({
-        region: new FormControl(null, Validators.required),
-        city: new FormControl(null, Validators.required),
-        district: new FormControl(null, Validators.required),
-        street: new FormControl(null, Validators.required),
-        building: new FormControl(null, Validators.required),
+        region: new FormControl('', Validators.required),
+        city: new FormControl('', Validators.required),
+        district: new FormControl('', Validators.required),
+        street: new FormControl('', Validators.required),
+        building: new FormControl('', Validators.required),
       })
     });
     this.photoFormGroup = new FormGroup({
-      photo: new FormControl(null),
+      photo: new FormControl(''),
       photos: new FormArray([]),
       text: new FormControl('', [Validators.maxLength(500), Validators.required]),
       personalInfoAgreement: new FormControl(false, Validators.requiredTrue),
       notRobot: new FormControl(false, Validators.requiredTrue)
     });
+
   }
+
 
   onFileSelected(event): void {
     (this.photoFormGroup.controls.photos as FormArray)
@@ -135,6 +138,17 @@ export class ProviderConfigComponent implements OnInit {
       });
     }
   }
+
+  /**
+   * Sending Post request to the server
+   */
+  onAddNewProvider(): void {
+    this.providerConfigService.addNewProvider(this.orgFormGroup, this.addressFormGroup, this.photoFormGroup).subscribe(request => {
+      console.log(request);
+      this.providerConfigService.providerForm = {};
+    });
+  }
 }
+
 
 

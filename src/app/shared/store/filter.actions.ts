@@ -1,3 +1,5 @@
+import { City } from "../models/city.model";
+
 export class setMinAge {
   static readonly type = '[filter] Set Min Age';
   constructor(public payload: number) {}
@@ -8,7 +10,7 @@ export class setMaxAge {
 }
 export class SelectCity {
   static readonly type = '[app] Select City';
-  constructor(public payload: string) {}
+  constructor(public payload: City) {}
 }
 export class SetOrder {
   static readonly type = '[filter] Set Order';
