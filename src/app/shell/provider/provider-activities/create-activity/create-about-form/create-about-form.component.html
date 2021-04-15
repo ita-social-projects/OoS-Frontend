@@ -1,9 +1,10 @@
 <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step" >
   <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
-  <label class="step-label">Логотип
-    <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
-    <input class="image-input" type="file" class="file-upload" (click)="onUploadLogo($event)">
-  </label>
+    <app-image-input 
+    [imgMaxAmount]="1"
+    [label]="'Логотип'"
+    (passPhotoFormArray)="onReceivePhotoFormArray($event)"
+     ></app-image-input>
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field >
     <mat-select class="step-input" formControlName="type">
@@ -88,4 +89,5 @@
         </mat-button-toggle-group>
       </div>
     </mat-radio-group>
+    <button (click)='onShow()'>Show</button>
 </form>

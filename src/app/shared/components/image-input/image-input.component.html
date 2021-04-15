@@ -1,0 +1,25 @@
+<form [formGroup]="photoFormGroup">
+  <div class="form-wrapper">
+    <div class="photo-header">{{label}}</div>
+      <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{imgMaxAmount}} фото</div>
+      <div class="logo">
+        <div class="logo_button" *ngIf="(photoFormGroup.controls['photos']).value.length < imgMaxAmount">
+          <label >
+            <input type="file" formControlName="photo" (change)="onFileSelected($event)"
+                   accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">
+            <img src="assets/icons/plus.png" alt="logo_img">
+          </label>
+        </div>
+        <ng-container
+          *ngFor="let img of selectedImages;">
+          <div class="logo_images">
+            <img src="{{img}}" alt="">
+              <mat-icon class="logo_cancel" (click)="onRemoveImg(img)">cancel</mat-icon>
+          </div>
+        </ng-container>
+    </div>
+  </div>
+</form>
+
+
+

@@ -67,20 +67,12 @@ export class ProviderConfigComponent implements OnInit {
     });
   }
 
-  onFileSelected(event): void {
-    (this.photoFormGroup.controls.photos as FormArray)
-      .push(new FormControl(event.target.files[0]));
-    if (typeof event.target.files[0].name === 'string') {
-      this.imageDecoder(event.target.files[0]);
-    }
-  }
-
-  imageDecoder(file: File): void {
-    const myReader = new FileReader();
-    myReader.onload = () => {
-      this.selectedLogos.push(myReader.result);
-    };
-    return myReader.readAsDataURL(file);
+  /**
+   * This method receives a from from image-input child component and assigns to the Photo FormGroup
+   * @param FormGroup form 
+   */
+   onReceivePhotoFormArray (array: FormArray):void{
+    //this.photoFormGroup.get('photos').setValue=array;
   }
 
   showSelect(event): void {

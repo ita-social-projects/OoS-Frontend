@@ -3,6 +3,7 @@ import { Teacher } from "./teacher.model";
 
 export class Workshop {
   type:string;
+  img:File[];
   title:string;
   phone:string;
   email:string;
@@ -23,6 +24,7 @@ export class Workshop {
   constructor(about, description, address, teachers) {
     //this.type = about.type;
     this.title = about.title;
+    this.img=about.logo.controls;
     this.phone= about.phone;
     this.email= about.email;
     this.minAge = about.ageFrom;

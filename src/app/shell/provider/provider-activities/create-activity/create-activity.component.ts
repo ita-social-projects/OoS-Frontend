@@ -23,6 +23,7 @@ export class CreateActivityComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
+    console.log(this.AboutFormGroup.value)
     this.store.dispatch(new CreateWorkshop( 
       this.AboutFormGroup, 
       this.DescriptionFormGroup,
@@ -57,6 +58,5 @@ export class CreateActivityComponent implements OnInit {
    */
   onReceiveDescriptionFormGroup(form: FormGroup) : void {
     this.DescriptionFormGroup = form;
-    
   }
 }

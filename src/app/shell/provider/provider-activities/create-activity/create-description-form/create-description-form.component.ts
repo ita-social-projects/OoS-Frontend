@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
@@ -100,7 +100,6 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param MatAutocompleteSelectedEvent value 
    */
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
-
     if(this.onValidation(event.option.value.keyWord, this.keyWords )){
       this.keyWords.push(event.option.value);
       this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
@@ -133,5 +132,12 @@ export class CreateDescriptionFormComponent implements OnInit {
    */
   onValidation( newWord: string , array: keyWord[] ):boolean {
     return  (array.filter((word: keyWord)=> word.keyWord.toLowerCase() === newWord.toLowerCase()).length===0);
+  }
+  /**
+   * This method receives a from from image-input child component and assigns to the Photo FormGroup
+   * @param FormGroup form 
+   */
+  onReceivePhotoFormArray(array: FormArray): void {
+
   }
 }

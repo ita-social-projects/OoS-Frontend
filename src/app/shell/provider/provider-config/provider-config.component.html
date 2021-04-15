@@ -179,23 +179,10 @@
         <ng-template matStepLabel>Фото</ng-template>
         <form [formGroup]="photoFormGroup">
           <div class="form-wrapper">
-            <div class="photo-header">Фото</div>
-            <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум 4 фото</div>
-            <div class="logo">
-              <div class="logo_button" *ngIf="(photoFormGroup.controls['photos']).value.length < 4">
-                <label for="customFile-form-field">
-                  <input type="file" formControlName="photo" (change)="onFileSelected($event)"
-                         accept=".jpg, .jpeg, .png" id="customFile-form-field">
-                  <img src="assets/icons/plus.png" alt="logo_img">
-                </label>
-              </div>
-              <ng-container
-                *ngFor="let img of selectedLogos;">
-                <div class="logo_images">
-                  <img src="{{img}}" alt="">
-                </div>
-              </ng-container>
-            </div>
+            <app-image-input
+            [imgMaxAmount]="4"
+            [label]="'Фото'"
+            (passPhotoFormArray)="onReceivePhotoFormArray($event)"></app-image-input>
             <div class="description">
               <div class="description_header">
                 <label for="text-desc-form-field">Опис<span class="important">*</span></label>
