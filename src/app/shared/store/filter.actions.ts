@@ -1,4 +1,4 @@
-import { City } from "../services/filters-services/city-filter/city-filter.service";
+import { City } from "../models/city.model";
 
 export class setMinAge {
   static readonly type = '[filter] Set Min Age';

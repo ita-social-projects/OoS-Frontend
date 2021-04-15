@@ -1,5 +1,5 @@
-import { City } from "../services/filters-services/city-filter/city-filter.service";
-import { keyWord } from "../services/key-words/key-words.service";
+import { City } from "../models/city.model";
+import { KeyWord } from "../models/keyWord,model";
 
 export class CityList {
   static readonly type = '[meta-data] shows list of cities';
@@ -10,5 +10,5 @@ export class GetCategoriesIcons {
 }
 export class KeyWordsList {
   static readonly type = '[meta-data] shows list of key words';
-  constructor(public payload: keyWord[]) {}
+  constructor(public payload: KeyWord[]) {}
 }

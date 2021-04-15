@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-export interface City{
-  id:number;
-  city: string;
-}
+import { City } from '../../../models/city.model';
+
 @Injectable({
   providedIn: 'root'
 })

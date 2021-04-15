@@ -20,7 +20,7 @@ import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.se
 import { TeacherCard } from '../models/teachers-card.model';
 import { Category } from '../models/category.model';
 import { CategoriesService } from '../services/categories/categories.service';
-import { City } from '../services/filters-services/city-filter/city-filter.service';
+import { City } from '../models/city.model';
 
 export interface FilterStateModel {
   searchQuery: string;
