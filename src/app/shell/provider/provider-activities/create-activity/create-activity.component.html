@@ -28,6 +28,7 @@
       <mat-step [stepControl]="AddressFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
         <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)"></app-create-address>
+        <app-map [address]="AddressFormGroup"></app-map>
         <div fxLayout='row' fxLayoutAlign='center center'>
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/activities'">Скасувати</a></button>

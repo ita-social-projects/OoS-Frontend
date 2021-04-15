@@ -5,7 +5,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShellRoutingModule } from './shell-routing.module';
 import { ResultComponent } from './result/result.component';
 import { OrganizationCardsListComponent } from './result/organization-cards-list/organization-cards-list.component';
-import { MapComponent } from './result/map/map.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MainComponent } from './main/main.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,7 +19,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     MainComponent,
-    MapComponent,
     ResultComponent,
     OrganizationCardsListComponent,
     OrderingComponent,

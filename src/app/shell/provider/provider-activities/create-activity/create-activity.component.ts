@@ -24,7 +24,7 @@ export class CreateActivityComponent implements OnInit {
    */
   onSubmit() {
     this.store.dispatch(new CreateWorkshop( 
-      this.AboutFormGroup, 
+      this.AboutFormGroup,
       this.DescriptionFormGroup,
       this.AddressFormGroup,
       this.TeacherFormArray)

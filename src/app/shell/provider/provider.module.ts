@@ -37,6 +37,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { ProviderConfigService } from './provider-config/provider-config.service';
 import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
+import { MapComponent } from './provider-activities/create-activity/map/map.component';
+
 @NgModule({
   declarations: [
     ProviderActivitiesComponent,
@@ -47,32 +49,33 @@ import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
     CreateActivityComponent,
     CreateAddressComponent,
     CreateAboutFormComponent,
-    CreateDescriptionFormComponent
+    CreateDescriptionFormComponent,
+    MapComponent
   ],
-    imports: [
-        CommonModule,
-        ProviderRoutingModule,
-        FlexLayoutModule,
-        MatButtonModule,
-        MatCardModule,
-        MatChipsModule,
-        MatFormFieldModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgxsModule.forFeature([ProviderState]),
-        MatTabsModule,
-        MatStepperModule,
-        MatAutocompleteModule,
-        MatIconModule,
-        SharedModule,
-        LeafletModule,
-        MatRadioModule,
-        FormsModule
-    ],
+  imports: [
+    CommonModule,
+    ProviderRoutingModule,
+    FlexLayoutModule,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgxsModule.forFeature([ProviderState]),
+    MatTabsModule,
+    MatStepperModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    SharedModule,
+    LeafletModule,
+    MatRadioModule,
+    FormsModule
+  ],
 
   providers: [
     ProviderActivitiesService,
