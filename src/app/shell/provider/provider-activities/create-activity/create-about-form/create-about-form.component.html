@@ -21,7 +21,8 @@
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+380</span>
-      <input matInput class="step-input" type="tel" formControlName="phone" 
+      <input matInput class="step-input" type="tel" formControlName="phone"
+      appDigitOnly 
       ui-number-mask 
       ui-hide-group-sep minlength="9" 
       maxlength="9" 
@@ -51,28 +52,35 @@
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">Від</p>
         <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageFrom" required
-        maxlength="2" 
-        min="1" 
-        max="16">
+        appDigitOnly
+        appMinMax 
+        [min]="1" 
+        [max]="16">
       </div>
     </mat-form-field> 
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">До</p>
         <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageTo" required
-        maxlength="2" 
-        min="1" 
-        max="16">
+        #minAgeInput
+        appDigitOnly
+        maxlength="2"
+        appMinMax 
+        [min]="1" 
+        [max]="16">
       </div>
     </mat-form-field>
   </div> 
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field >
     <div fxLayout='row' fxLayoutAlign='start'>
-      <input matInput class="step-input step-input-age" ng-model="number" formControlName="classAmount" required 
+      <input matInput class="step-input step-input-age" ng-model="number" formControlName="classAmount" required
+      #maxAgeInput
+      appDigitOnly 
       maxlength="1" 
-      min="1" 
-      max="7"> 
+      appMinMax 
+      [min]="1" 
+      [max]="7"> 
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
@@ -81,7 +89,7 @@
       <mat-radio-button #radio1 name="radioBtn1" [value]="false" (change)="this.AboutFormGroup.get('price').setValue(0)">Безкоштовно</mat-radio-button>
       <div fxLayout='row' fxLayoutAlign='start center'>
         <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
-        <input matInput class="step-input step-input-age" [formControl]="this.AboutFormGroup.get('price')" type="number">
+        <input matInput class="step-input step-input-age" appDigitOnly [formControl]="this.AboutFormGroup.get('price')" type="number">
         <p class="step-text">грн за</p>
         <mat-button-toggle-group color="primary" class="input-button-group"  formControlName="priceType">
           <mat-button-toggle value="lesson">Заняття</mat-button-toggle>
@@ -89,5 +97,4 @@
         </mat-button-toggle-group>
       </div>
     </mat-radio-group>
-    <button (click)='onShow()'>Show</button>
 </form>

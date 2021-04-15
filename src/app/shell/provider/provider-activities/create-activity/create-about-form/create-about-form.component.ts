@@ -1,63 +1,44 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss','./../../../validation.component.scss']
+  styleUrls: ['./create-about-form.component.scss', './../../../validation.component.scss']
 })
 export class CreateAboutFormComponent implements OnInit {
 
   radioBtn = new FormControl(false);
   priceCtrl = new FormControl({ value: 0, disable: true });
-  photos :File[]=[];
+  photos: File[] = [];
   AboutFormGroup: FormGroup;
   PhotoFormArray: FormArray;
   @Output() PassAboutFormGroup = new EventEmitter();
+  @ViewChild('maxAgeInput') maxAgeInput: ElementRef<HTMLInputElement>;
+  @ViewChild('minAgeInput') minAgeInput: ElementRef<HTMLInputElement>;
 
   constructor(private formBuilder: FormBuilder) {
     this.AboutFormGroup = this.formBuilder.group({
       type: new FormControl(''),
-      title: new FormControl(''),
-      img: new FormArray([]),
-      phone: new FormControl(''),
-      email: new FormControl(''),
-      ageFrom: new FormControl(''),
-      ageTo: new FormControl(''),
-      classAmount: new FormControl(''),
+      title: new FormControl('', Validators.required),
+      img: this.PhotoFormArray,
+      phone: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      ageFrom: new FormControl('', [Validators.required, Validators.maxLength(2)]),
+      ageTo: new FormControl('', [Validators.required, Validators.maxLength(2)]),
+      classAmount: new FormControl('', [Validators.required, Validators.maxLength(2)]),
       price: new FormControl({ value: 0, disabled: true }),
       priceType: new FormControl(''),
     });
-    
+
     this.onRadioButtonInit();
-    this.onInputValidation();
-   }
+  }
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
-  onUploadLogo( event ):void {
+  onUploadLogo(event): void {
     return null;
-  }
-  /**
-   * This method sets validation for age and classAmount inputs and resets them if values are invalid
-   */
-  onInputValidation(): void {
-    this.AboutFormGroup.get('ageFrom').valueChanges.subscribe(val=> {
-      if(val){
-        if ( val < 1 || val > 16 ) this.AboutFormGroup.get('ageFrom').reset(); 
-      }
-    });
-    this.AboutFormGroup.get('ageTo').valueChanges.subscribe(val=> {
-      if(val){
-        if ( val < 1 || val > 16 ) this.AboutFormGroup.get('ageTo').reset(); 
-      }
-    });
-    this.AboutFormGroup.get('classAmount').valueChanges.subscribe(val=> {
-      if(val){
-        if ( val < 1 || val > 7 ) this.AboutFormGroup.get('classAmount').reset(); 
-      }
-    });
   }
   /**
    * This method makes input enable if radiobutton value is true
@@ -69,13 +50,9 @@ export class CreateAboutFormComponent implements OnInit {
   }
   /**
    * This method receives a from from image-input child component and assigns to the Photo FormGroup
-   * @param FormGroup form 
+   * @param FormGroup form
    */
-   onReceivePhotoFormArray (array: FormArray):void{
-   this.AboutFormGroup.get('img').setValue=array;
+  onReceivePhotoFormArray(array: FormArray): void {
+    this.PhotoFormArray = array;
   }
-  onShow(){
-    
-  }
-
 }

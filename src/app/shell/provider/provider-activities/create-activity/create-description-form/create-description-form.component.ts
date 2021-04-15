@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
@@ -35,10 +35,10 @@ export class CreateDescriptionFormComponent implements OnInit {
     private keyWordsService: KeyWordsService) {
     this.DescriptionFormGroup = this.formBuilder.group({
       photos: new FormControl(''),
-      description: new FormControl(''), 
+      description: new FormControl('', [Validators.maxLength(500), Validators.required]), 
       resources: new FormControl(''),
       direction: new FormControl(''),
-      head: new FormControl(''),
+      head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
     });
    }

@@ -34,7 +34,7 @@ export class ProviderConfigComponent implements OnInit {
       orgShortName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       ceoName: new FormControl('', [Validators.required]),
       ceoBirthday: new FormControl('', Validators.required),
-      personalId: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]),
+      personalId: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       phone: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       webPage: new FormControl(''),
