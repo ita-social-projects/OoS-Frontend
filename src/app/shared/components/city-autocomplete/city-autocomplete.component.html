@@ -6,8 +6,8 @@
       [matAutocomplete]="auto"
       >
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)">
-      <mat-option [disabled]= "noCity" *ngFor="let city of filteredCities$ | async" [value]="city">
-          {{city}}
+      <mat-option [disabled]= "noCity" *ngFor="let city of filteredCities$ | async" [value]="city.city">
+          {{city.city}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
