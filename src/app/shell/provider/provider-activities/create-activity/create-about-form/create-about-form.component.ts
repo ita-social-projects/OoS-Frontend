@@ -43,17 +43,17 @@ export class CreateAboutFormComponent implements OnInit {
   onInputValidation(): void {
     this.AboutFormGroup.get('ageFrom').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < Constants.AgeMin || val > Constants.AgeMin ) this.AboutFormGroup.get('ageFrom').reset(); 
+        if ( val < Constants.AGE_MIN || val > Constants.AGE_MAX ) this.AboutFormGroup.get('ageFrom').reset(); 
       }
     });
     this.AboutFormGroup.get('ageTo').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < Constants.AgeMax|| val > Constants.AgeMin) this.AboutFormGroup.get('ageTo').reset(); 
+        if ( val < Constants.AGE_MAX|| val > Constants.AGE_MIN) this.AboutFormGroup.get('ageTo').reset(); 
       }
     });
     this.AboutFormGroup.get('classAmount').valueChanges.subscribe(val=> {
       if(val){
-        if ( val < Constants.ClassAmountMin || val > Constants.ClassAmountMin ) this.AboutFormGroup.get('classAmount').reset(); 
+        if ( val < Constants.CLASS_AMOUNT_MIN || val > Constants.CLASS_AMOUNT_MAX ) this.AboutFormGroup.get('classAmount').reset(); 
       }
     });
   }

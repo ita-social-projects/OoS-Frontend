@@ -2,8 +2,8 @@
  * Constants for OutOfSchool
  */
 export class Constants {
-  static readonly  ClassAmountMin = 1;
-  static readonly  ClassAmountMax = 7;
-  static readonly AgeMin = 1;
-  static readonly AgeMax = 16;
+  static readonly CLASS_AMOUNT_MIN = 1;
+  static readonly CLASS_AMOUNT_MAX = 7;
+  static readonly AGE_MIN = 1;
+  static readonly AGE_MAX = 16;
 };
