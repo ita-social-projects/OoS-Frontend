@@ -94,6 +94,10 @@
   }
 }
 
+.icon-account {
+  color:white;
+}
+
 ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
@@ -159,14 +163,10 @@
   }
 }
 
-@media (max-width: 415) {
+@media (max-width: 415px) {
   .header_lang[_ngcontent-iqi-c122]{
     font-size: smaller;
   }
-}
-
-.icon-account {
-  color:white;
 }
 
 @media (max-width: 415px) {
@@ -180,7 +180,9 @@
     }
   }
 }
-@media (max-width: 415px) {
+@media  only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px)  {
    h1 {
     font-size: small;
   }
@@ -206,19 +208,9 @@ and (max-device-width : 480px) {
   }
 }
 
-@media (maw-width:415){
-  .header_login[_ngcontent-qqd-c122]{
-    width:auto;
-  }
-}
-
-@media (max-width: 415px){
-  .footer {
-    display: block;
-  }
-  }
-
-@media (max-width: 415px){
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px){
 .header_login[_ngcontent-upc-c122] {
   padding: 1rem 2rem !important;
     font-size: 9px;
