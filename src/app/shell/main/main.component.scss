@@ -51,10 +51,16 @@
   &_categories{
     margin-bottom: 48px;
     .categories-wrapper{
-      flex-wrap: wrap;
+       flex-wrap: wrap;
     }
   }
 }
+@media(max-width: 415px) {
+  .main_header[_ngcontent-yox-c165]{
+    display: block;
+  }
+  }
+
 
 @media(max-width: 415px) {
   .main_title[_ngcontent-hiw-c164] {
