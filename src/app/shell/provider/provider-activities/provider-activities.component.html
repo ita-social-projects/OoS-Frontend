@@ -8,7 +8,7 @@
 
 
 <ng-template #ActivitiesList>
-  <div class="wrapper">
+  <div class="wrapper-card">
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
         <app-organization-card class="cards" *ngFor="let card of cards$ | async " [card]="card">

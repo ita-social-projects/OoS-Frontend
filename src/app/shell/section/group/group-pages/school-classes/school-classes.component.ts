@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { FilterState } from '../../../../../shared/store/filter.state';
 import { Observable } from 'rxjs';
-import { orgCard } from '../../../../../shared/models/org-card.model';
 import { GetPopWorkshops } from '../../../../../shared/store/filter.actions';
+import { Workshop } from '../../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-school-classes',
@@ -11,15 +11,15 @@ import { GetPopWorkshops } from '../../../../../shared/store/filter.actions';
 })
 export class SchoolClassesComponent implements OnInit {
 
-  @Select(FilterState.orgCards) orgCards$: Observable<orgCard[]>;
+  @Select(FilterState.orgCards) orgCards$: Observable<Workshop[]>;
 
-  public cards: orgCard[];
+  public cards: Workshop[];
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetPopWorkshops());
-    this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards);
+    this.orgCards$.subscribe((orgCards: Workshop[]) => this.cards = orgCards);
   }
 }

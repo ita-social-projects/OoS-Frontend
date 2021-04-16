@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { orgCard } from '../../models/org-card.model';
 import { Workshop } from '../../models/workshop.model';
 import { FilterStateModel } from '../../store/filter.state';
 

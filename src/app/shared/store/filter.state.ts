@@ -13,8 +13,6 @@ import {
   GetCategories
 } from './filter.actions';
 import { OrgCardsService } from '../services/org-cards/org-cards.service';
-import { orgCard } from '../models/org-card.model';
-import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
 import { patch, append } from '@ngxs/store/operators';
 import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
@@ -113,13 +111,13 @@ export class FilterState {
   @Action(GetWorkshops)
   getWorkshops(ctx: StateContext<FilterStateModel>) {
     return this.cardsService.getWorkshops(ctx.getState())
-      .subscribe((organizationCards: orgCard[]) => ctx.patchState({ organizationCards }))
+      .subscribe((organizationCards: Workshop[]) => ctx.patchState({ organizationCards }))
   }
 
   @Action(GetPopWorkshops)
   getPopWorkshops({ patchState }: StateContext<FilterStateModel>) {
     return this.cardsService.getPopWorkshops()
-      .subscribe((organizationCards: orgCard[]) => patchState({ organizationCards }))
+      .subscribe((organizationCards: Workshop[]) => patchState({ organizationCards }))
   }
 
   @Action(GetTeachersCards)
