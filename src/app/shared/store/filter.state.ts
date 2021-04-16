@@ -19,6 +19,7 @@ import { TeacherCard } from '../models/teachers-card.model';
 import { Category } from '../models/category.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { City } from '../models/city.model';
+import { Workshop } from '../models/workshop.model';
 
 export interface FilterStateModel {
   searchQuery: string;
