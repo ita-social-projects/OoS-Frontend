@@ -15,9 +15,7 @@
                   <div *ngIf="!valueOwnership" class="select-arrow"><img src="assets/icons/select_arrow.png" alt="">
                   </div>
                   <div *ngIf="valueOwnership" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
-                  <input readonly
-                         (click)="showSelect($event)"
-                         formControlName="ownership" #ownership>
+                  <input readonly (click)="showSelect($event)" formControlName="ownership" #ownership>
                 </div>
                 <div class="box" *ngIf="valueOwnership">
                   <ng-container *ngFor="let option of ownerShipList">
@@ -32,9 +30,7 @@
                 <div class="select">
                   <div *ngIf="!valueOrgType" class="select-arrow"><img src="assets/icons/select_arrow.png" alt=""></div>
                   <div *ngIf="valueOrgType" class="select-arrow"><img src="assets/icons/arrow_down.png" alt=""></div>
-                  <input readonly
-                         (click)="showSelect($event)"
-                         formControlName="organizationType" #orgType>
+                  <input readonly (click)="showSelect($event)" formControlName="organizationType" #orgType>
                 </div>
                 <div class="box" *ngIf="valueOrgType">
                   <ng-container *ngFor="let option of organizationTypeList">
@@ -45,12 +41,8 @@
             </div>
             <div class="org-full-name">
               <label for="group-name-field">Повна назва організації<span class="important">*</span></label>
-              <input
-                type="text"
-                id="group-name-field"
-                formControlName="orgFullName"
-                [ngClass]="{'error': !orgFormGroup.get('orgFullName').valid && orgFormGroup.get('orgFullName').touched}"
-              >
+              <input type="text" id="group-name-field" formControlName="orgFullName"
+                [ngClass]="{'error': !orgFormGroup.get('orgFullName').valid && orgFormGroup.get('orgFullName').touched}">
             </div>
             <div class="org-short-name">
               <label for="group-short-name-field">Скорочена назва організації<span class="important">*</span></label>
@@ -98,11 +90,8 @@
             </div>
             <div class="form-ownership-buttons">
               <button class="form-ownership-buttons_reset" type="button" (click)="formReset()">СКАСУВАТИ</button>
-              <button class="form-ownership-buttons_next"
-                      type="button"
-                      matStepperNext [disabled]="!orgFormGroup.valid"
-                      [ngClass]="{'disabled-button':!orgFormGroup.valid}"
-              >ДАЛІ
+              <button class="form-ownership-buttons_next" type="button" matStepperNext [disabled]="!orgFormGroup.valid"
+                [ngClass]="{'disabled-button':!orgFormGroup.valid}">ДАЛІ
               </button>
             </div>
           </div>
@@ -167,9 +156,7 @@
               <button class="address-form-buttons_back" matStepperPrevious>НАЗАД</button>
               <button type="button" class="address-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
               <button class="address-form-buttons_next" matStepperNext
-                      [ngClass]="{'disabled-button':!addressFormGroup.valid}"
-                      [disabled]="!addressFormGroup.valid"
-              >ДАЛІ
+                [ngClass]="{'disabled-button':!addressFormGroup.valid}" [disabled]="!addressFormGroup.valid">ДАЛІ
               </button>
             </div>
           </div>
@@ -179,23 +166,20 @@
         <ng-template matStepLabel>Фото</ng-template>
         <form [formGroup]="photoFormGroup">
           <div class="form-wrapper">
-            <app-image-input
-            [imgMaxAmount]="4"
-            [label]="'Фото'"
-            (passPhotoFormArray)="onReceivePhotoFormArray($event)"></app-image-input>
+            <app-image-form-control [imgMaxAmount]="4" [label]="'Фото'" formControlName="img">
+            </app-image-form-control>
             <div class="description">
               <div class="description_header">
                 <label for="text-desc-form-field">Опис<span class="important">*</span></label>
                 <p>
                   <span
                     [ngClass]="{'highlight-text': !(photoFormGroup.controls['text']).valid && (photoFormGroup.controls['text']).touched }"
-                    class="default">{{(textValue) ? textValue.split('').length : '0'}}</span>/500</p>
+                    class="default">{{(textValue) ? textValue.split('').length : '0'}}</span>/500
+                </p>
               </div>
               <div class="description_form">
                 <textarea name="" id="text-desc-form-field" cols="30" rows="10"
-                          placeholder="Додайте опис вашого закладу"
-                          [(ngModel)]="textValue"
-                          formControlName="text"></textarea>
+                  placeholder="Додайте опис вашого закладу" [(ngModel)]="textValue" formControlName="text"></textarea>
               </div>
             </div>
             <div class="photo-checkbox">
@@ -209,10 +193,8 @@
             <button matStepperPrevious class="photo-form-buttons_back">НАЗАД</button>
             <button class="photo-form-buttons_reset" (click)="formReset()">СКАСУВАТИ</button>
             <button matStepperPrevious class="photo-form-buttons_reg"
-                    [ngClass]="{'disabled-button':!photoFormGroup.valid}"
-                    [disabled]="!photoFormGroup.valid"
-                    (click)="onAddNewProvider()"
-            >ЗАРЕЄСТРУВАТИ
+              [ngClass]="{'disabled-button':!photoFormGroup.valid}" [disabled]="!photoFormGroup.valid"
+              (click)="onAddNewProvider()">ЗАРЕЄСТРУВАТИ
             </button>
           </div>
         </form>
@@ -220,4 +202,3 @@
     </mat-horizontal-stepper>
   </div>
 </section>
-

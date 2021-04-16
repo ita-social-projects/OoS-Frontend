@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProviderConfigService} from './provider-config.service';
-import {ProviderConfigModalComponent} from './provider-config-modal/provider-config-modal.component';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProviderConfigService } from './provider-config.service';
+import { ProviderConfigModalComponent } from './provider-config-modal/provider-config-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ProviderConfigComponent implements OnInit {
   textValue = '';
 
   constructor(private providerConfigService: ProviderConfigService,
-              private modal: MatDialog) {
+    private modal: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -60,8 +60,7 @@ export class ProviderConfigComponent implements OnInit {
       })
     });
     this.photoFormGroup = new FormGroup({
-      photo: new FormControl(''),
-      photos: new FormArray([]),
+      img: new FormControl(''),
       text: new FormControl('', [Validators.maxLength(500), Validators.required]),
       personalInfoAgreement: new FormControl(false, Validators.requiredTrue),
       notRobot: new FormControl(false, Validators.requiredTrue)
@@ -71,9 +70,9 @@ export class ProviderConfigComponent implements OnInit {
 
   /**
    * This method receives a from from image-input child component and assigns to the Photo FormGroup
-   * @param FormGroup form 
+   * @param FormGroup form
    */
-   onReceivePhotoFormArray (array: FormArray):void{
+  onReceivePhotoFormArray(array: File[]): void {
     //this.photoFormGroup.get('photos').setValue=array;
   }
 
@@ -140,6 +139,3 @@ export class ProviderConfigComponent implements OnInit {
     });
   }
 }
-
-
-

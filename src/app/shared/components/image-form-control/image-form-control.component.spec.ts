@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageInputComponent } from './image-input.component';
+import { ImageFormControlComponent } from './image-form-control.component';
 
-describe('ImageInputComponent', () => {
-  let component: ImageInputComponent;
-  let fixture: ComponentFixture<ImageInputComponent>;
+describe('ImageFormControlComponent', () => {
+  let component: ImageFormControlComponent;
+  let fixture: ComponentFixture<ImageFormControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImageInputComponent ]
+      declarations: [ ImageFormControlComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageInputComponent);
+    fixture = TestBed.createComponent(ImageFormControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

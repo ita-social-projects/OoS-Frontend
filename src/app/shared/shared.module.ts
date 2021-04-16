@@ -19,6 +19,7 @@ import { HobbySelectComponent } from './components/hobby-select/hobby-select.com
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { ImageInputComponent } from './components/image-input/image-input.component';
 import { MinMaxDirective } from './directives/min-max.directive';
+import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,8 @@ import { MinMaxDirective } from './directives/min-max.directive';
     CreateTeacherComponent,
     TeacherFormComponent,
     CityAutocompleteComponent,
-    ImageInputComponent,
-    MinMaxDirective
+    MinMaxDirective,
+    ImageFormControlComponent
   ],
   imports: [
     MaterialModule,
@@ -59,8 +60,8 @@ import { MinMaxDirective } from './directives/min-max.directive';
     CategoryCardComponent,
     CreateTeacherComponent,
     CityAutocompleteComponent,
-    ImageInputComponent,
-    MinMaxDirective
+    MinMaxDirective,
+    ImageFormControlComponent
   ]
 })
 export class SharedModule { }

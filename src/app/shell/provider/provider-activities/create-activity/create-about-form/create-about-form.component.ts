@@ -21,7 +21,7 @@ export class CreateAboutFormComponent implements OnInit {
     this.AboutFormGroup = this.formBuilder.group({
       type: new FormControl(''),
       title: new FormControl('', Validators.required),
-      img: this.PhotoFormArray,
+      img: new FormControl('', [Validators.max(1)]),
       phone: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       ageFrom: new FormControl('', [Validators.required, Validators.maxLength(2)]),
@@ -48,11 +48,7 @@ export class CreateAboutFormComponent implements OnInit {
       val ? this.AboutFormGroup.get('price').enable() : this.AboutFormGroup.get('price').disable()
     );
   }
-  /**
-   * This method receives a from from image-input child component and assigns to the Photo FormGroup
-   * @param FormGroup form
-   */
-  onReceivePhotoFormArray(array: FormArray): void {
-    this.PhotoFormArray = array;
+  show() {
+    console.log(this.AboutFormGroup.get('img'))
   }
 }
