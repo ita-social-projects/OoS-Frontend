@@ -48,7 +48,4 @@ export class CreateAboutFormComponent implements OnInit {
       val ? this.AboutFormGroup.get('price').enable() : this.AboutFormGroup.get('price').disable()
     );
   }
-  show() {
-    console.log(this.AboutFormGroup.get('img'))
-  }
 }

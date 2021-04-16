@@ -31,18 +31,26 @@ export class ImageFormControlComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  /**
+   * This methods adds files from input to the list of selected files and pass them to imageDecoder
+   * @param event
+   */
   onFileSelected(event): void {
     this.markAsTouched();
     if (!this.disabled) {
       if (typeof event.target.files[0].name === 'string') {
-        this.imageDecoder(event.target.files[0]);
-        this.selectedImages.push(event.target.files[0]);
+        for (let i = 0; i < event.target.files.length; i++) {
+          this.imageDecoder(event.target.files[i]);
+          this.selectedImages.push(event.target.files[i]);
+        }
         this.onChange(this.selectedImages);
       }
     }
   }
-
+  /**
+   * This methods decodes the file for its correct displaying
+   * @param event
+   */
   imageDecoder(file: File): void {
     const myReader = new FileReader();
     myReader.onload = () => {
@@ -65,29 +73,24 @@ export class ImageFormControlComponent implements OnInit {
     }
   }
 
+  onChange = (array: File[]) => { };
+  onTouched = () => { };
+
   writeValue(array: File[]) {
     this.resultImageArray = array;
   }
-
-  onChange = (array: File[]) => { };
-
-  onTouched = () => { };
-
   registerOnChange(onChange: any) {
     this.onChange = onChange;
   }
-
   registerOnTouched(onTouched: any) {
     this.onTouched = onTouched;
   }
-
   markAsTouched() {
     if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
-
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
   }

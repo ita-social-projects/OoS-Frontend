@@ -1,7 +1,7 @@
 <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг
   </mat-checkbox>
-  <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="img" (click)="show()">
+  <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="img">
   </app-image-form-control>
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
