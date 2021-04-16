@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
-import { keyWord, KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
+import { KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
 import { KeyWord } from '../../../../../shared/models/keyWord,model';
