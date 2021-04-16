@@ -2,10 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-export interface keyWord{
-  id:number;
-  keyWord:string;
-}
+import { KeyWord } from '../../models/keyWord,model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,11 +13,10 @@ export class KeyWordsService {
 
   constructor(private http: HttpClient) { }
 
-  getKeyWords(): Observable<keyWord[]>{
-    return this.http.get<keyWord[]>(this.dataUrl)
-      .pipe(map((data)=>{
+  getKeyWords(): Observable<KeyWord[]> {
+    return this.http.get<KeyWord[]>(this.dataUrl)
+      .pipe(map((data) => {
         return data;
       }))
   }
-
 }

@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { City } from '../models/city.model';
+import { KeyWord } from '../models/keyWord,model';
 import { CategoriesIconsService } from '../services/categories-icons/categories-icons.service';
-import { City } from '../services/filters-services/city-filter/city-filter.service';
-import { keyWord } from '../services/key-words/key-words.service';
 import { CityList, GetCategoriesIcons, KeyWordsList } from './meta-data.actions';
-
 
 export interface MetaDataStateModel {
   filteredCities: City[];
   categoriesIcons: {};
-  filteredkeyWords: keyWord[];
+  filteredkeyWords: KeyWord[];
 }
 
 @State<MetaDataStateModel>({
@@ -19,7 +18,7 @@ export interface MetaDataStateModel {
     categoriesIcons: {},
     filteredkeyWords: [],
   }
-    
+
 })
 @Injectable()
 export class MetaDataState {
@@ -38,20 +37,20 @@ export class MetaDataState {
   }
 
   constructor(
-    private categoriesIconsService: CategoriesIconsService) {}
+    private categoriesIconsService: CategoriesIconsService) { }
 
   @Action(CityList)
   cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
-    patchState({ filteredCities: payload});
+    patchState({ filteredCities: payload });
   }
   @Action(GetCategoriesIcons)
   getCategoriesIcons({ patchState }: StateContext<MetaDataStateModel>) {
     return this.categoriesIconsService.getIcons()
-    .subscribe((categoriesIcons: {}) => patchState({categoriesIcons}))
+      .subscribe((categoriesIcons: {}) => patchState({ categoriesIcons }))
   }
   @Action(KeyWordsList)
   keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
-    patchState({ filteredkeyWords: payload});
+    patchState({ filteredkeyWords: payload });
   }
-    
+
 }

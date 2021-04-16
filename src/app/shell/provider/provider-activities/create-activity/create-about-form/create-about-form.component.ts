@@ -37,9 +37,6 @@ export class CreateAboutFormComponent implements OnInit {
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
-  onUploadLogo(event): void {
-    return null;
-  }
   /**
    * This method makes input enable if radiobutton value is true
    */

@@ -7,6 +7,7 @@ import { MetaDataState } from '../../store/meta-data.state';
 import { CityList } from '../../store/meta-data.actions';
 import { City, CityFilterService } from '../../services/filters-services/city-filter/city-filter.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { City } from '../../models/city.model';
 
 @Component({
   selector: 'app-city-autocomplete',

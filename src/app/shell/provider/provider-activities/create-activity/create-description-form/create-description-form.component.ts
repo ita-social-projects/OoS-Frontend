@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'r
 import { keyWord, KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
+import { KeyWord } from '../../../../../shared/models/keyWord,model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -21,12 +22,12 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   keyWordsCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  keyWords: keyWord[] = [];
-  allkeyWords: keyWord[] = [];
+  keyWords: KeyWord[] = [];
+  allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(MetaDataState.filteredkeyWords)
-  filteredkeyWords$: Observable<keyWord[]>;
+  filteredkeyWords$: Observable<KeyWordsService[]>;
 
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -75,7 +76,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     const value = event.value.trim();
     if (value) {
       if (this.onValidation(value, this.allkeyWords)) {
-        let newKeyWord: keyWord = {
+        let newKeyWord: KeyWord = {
           id: null,
           keyWord: value.charAt(0).toUpperCase() + value.slice(1)
         }
@@ -89,7 +90,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    * This method remove already added key words from the list of key words
    * @param string word
    */
-  onRemoveKeyWord(word: keyWord): void {
+  onRemoveKeyWord(word: KeyWord): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
     }
@@ -100,6 +101,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param MatAutocompleteSelectedEvent value
    */
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
+
     if (this.onValidation(event.option.value.keyWord, this.keyWords)) {
       this.keyWords.push(event.option.value);
       this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
@@ -112,13 +114,13 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param string value
    * @returns string[]
    */
-  private _filter(value: string): keyWord[] {
+  private _filter(value: string): KeyWord[] {
     let filteredKeyWords = this.allkeyWords
-      .filter((word: keyWord) => word.keyWord
+      .filter((word: KeyWord) => word.keyWord
         .toLowerCase()
         .startsWith(value.toLowerCase())
       )
-      .map((word: keyWord) => word);
+      .map((word: KeyWord) => word);
     return filteredKeyWords;
   }
   ngOnDestroy() {
@@ -130,14 +132,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @param string value
    * @returns boolean
    */
-  onValidation(newWord: string, array: keyWord[]): boolean {
-    return (array.filter((word: keyWord) => word.keyWord.toLowerCase() === newWord.toLowerCase()).length === 0);
-  }
-  /**
-   * This method receives a from from image-input child component and assigns to the Photo FormGroup
-   * @param FormGroup form
-   */
-  onReceivePhotoFormArray(array: FormArray): void {
-
+  onValidation(newWord: string, array: KeyWord[]): boolean {
+    return (array.filter((word: KeyWord) => word.keyWord.toLowerCase() === newWord.toLowerCase()).length === 0);
   }
 }
