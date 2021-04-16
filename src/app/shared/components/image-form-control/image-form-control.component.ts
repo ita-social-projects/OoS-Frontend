@@ -19,8 +19,6 @@ export class ImageFormControlComponent implements OnInit {
   selectedImages: File[] = [];
   decodedImages = [];
 
-
-  resultImageArray = [];
   touched = false;
   disabled = false;
   @Input() imgMaxAmount: number;
@@ -73,12 +71,14 @@ export class ImageFormControlComponent implements OnInit {
     }
   }
 
+  writeValue(array: File[]) {
+    this.selectedImages = array;
+  }
   onChange = (array: File[]) => { };
+
   onTouched = () => { };
 
-  writeValue(array: File[]) {
-    this.resultImageArray = array;
-  }
+
   registerOnChange(onChange: any) {
     this.onChange = onChange;
   }
