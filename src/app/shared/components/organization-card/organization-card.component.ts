@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { orgCard } from '../../models/org-card.model';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Workshop } from '../../models/workshop.model';
+import { AppState } from '../../store/app.state';
 
 @Component({
   selector: 'app-organization-card',
@@ -9,6 +11,8 @@ import { Workshop } from '../../models/workshop.model';
 })
 export class OrganizationCardComponent implements OnInit {
 
+  @Select(AppState.isMainPage)
+  isMainPage$: Observable<boolean>;
   @Input() card: Workshop;
 
   constructor() { }

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { FilterState } from '../../../shared/store/filter.state';
-import { orgCard } from '../../../shared/models/org-card.model';
 import { GetWorkshops } from '../../../shared/store/filter.actions';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 
 @Component({
@@ -13,9 +13,9 @@ import { GetWorkshops } from '../../../shared/store/filter.actions';
 })
 export class OrganizationCardsListComponent implements OnInit {
 
-  @Select(FilterState.orgCards) orgCards$: Observable<orgCard[]>;
+  @Select(FilterState.orgCards) orgCards$: Observable<Workshop[]>;
 
-  public cards: orgCard[];
+  public cards: Workshop[];
   currentPage: number = 1;
 
   constructor(private store: Store) {
@@ -23,6 +23,6 @@ export class OrganizationCardsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshops())
-    this.orgCards$.subscribe((orgCards: orgCard[]) => this.cards = orgCards)
+    this.orgCards$.subscribe((orgCards: Workshop[]) => this.cards = orgCards)
   }
 }
