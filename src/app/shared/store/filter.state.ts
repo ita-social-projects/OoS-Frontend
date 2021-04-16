@@ -13,13 +13,13 @@ import {
   GetCategories
 } from './filter.actions';
 import { OrgCardsService } from '../services/org-cards/org-cards.service';
-import { orgCard } from '../models/org-card.model';
 import { patch, append } from '@ngxs/store/operators';
 import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
 import { Category } from '../models/category.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { City } from '../models/city.model';
+import { Workshop } from '../models/workshop.model';
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -29,7 +29,7 @@ export interface FilterStateModel {
   ageTo: number;
   categories: number[];
   order: string;
-  organizationCards: orgCard[];
+  organizationCards: Workshop[];
   teachersCards: TeacherCard[];
   categoriesCards: Category[];
 }
@@ -111,13 +111,13 @@ export class FilterState {
   @Action(GetWorkshops)
   getWorkshops(ctx: StateContext<FilterStateModel>) {
     return this.cardsService.getWorkshops(ctx.getState())
-      .subscribe((organizationCards: orgCard[]) => ctx.patchState({ organizationCards }))
+      .subscribe((organizationCards: Workshop[]) => ctx.patchState({ organizationCards }))
   }
 
   @Action(GetPopWorkshops)
   getPopWorkshops({ patchState }: StateContext<FilterStateModel>) {
     return this.cardsService.getPopWorkshops()
-      .subscribe((organizationCards: orgCard[]) => patchState({ organizationCards }))
+      .subscribe((organizationCards: Workshop[]) => patchState({ organizationCards }))
   }
 
   @Action(GetTeachersCards)
