@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { orgCard } from '../../models/org-card.model';
+import { Workshop } from '../../models/workshop.model';
 import { FilterStateModel } from '../../store/filter.state';
 
 
@@ -18,32 +19,32 @@ export class OrgCardsService {
 
   private setParams(filters: FilterStateModel): HttpParams {
     let params = new HttpParams();
-    if(filters.searchQuery){
+    if (filters.searchQuery) {
       params = params.set('title', filters.searchQuery);
     }
-    if(filters.city){
+    if (filters.city) {
       params = params.set('address.city', filters.city.city);
     }
-    if(filters.ageFrom > 0){
+    if (filters.ageFrom > 0) {
       params = params.set('minAge', filters.ageFrom.toString());
     }
-    if(filters.ageTo < 16){
+    if (filters.ageTo < 16) {
       params = params.set('maxAge', filters.ageTo.toString());
     }
-    if(filters.categories.length > 0){
-      for(let i = 0; i < filters.categories.length; i++){
+    if (filters.categories.length > 0) {
+      for (let i = 0; i < filters.categories.length; i++) {
         params = params.append('category.id', filters.categories[i].toString());
       }
     }
     return params;
   }
 
-  getWorkshops(filters: FilterStateModel): Observable<orgCard[]> {
+  getWorkshops(filters: FilterStateModel): Observable<Workshop[]> {
     const options = { params: this.setParams(filters) };
-    return this.http.get<orgCard[]>(this.dataUrl, options);
+    return this.http.get<Workshop[]>(this.dataUrl, options);
   }
 
-  getPopWorkshops(): Observable<orgCard[]> {
-    return this.http.get<orgCard[]>(this.dataUrl);
+  getPopWorkshops(): Observable<Workshop[]> {
+    return this.http.get<Workshop[]>(this.dataUrl);
   }
 }
