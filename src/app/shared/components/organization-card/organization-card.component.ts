@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { orgCard } from '../../models/org-card.model';
+import { Workshop } from '../../models/workshop.model';
 
 @Component({
   selector: 'app-organization-card',
@@ -7,8 +8,8 @@ import { orgCard } from '../../models/org-card.model';
   styleUrls: ['./organization-card.component.scss']
 })
 export class OrganizationCardComponent implements OnInit {
-  
-  @Input () card: orgCard;
+
+  @Input() card: Workshop;
 
   constructor() { }
 
