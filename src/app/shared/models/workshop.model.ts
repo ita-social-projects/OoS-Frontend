@@ -40,7 +40,7 @@ export class Workshop {
 
   constructor(about, description, address, teachers) {
     this.title = about.title;
-    this.image = about.image;
+    //this.image = about.image;
     this.phone = about.phone;
     this.email = about.email;
     this.minAge = about.minAge;

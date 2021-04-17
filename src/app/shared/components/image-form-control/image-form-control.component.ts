@@ -48,6 +48,7 @@ export class ImageFormControlComponent implements OnInit {
         this.onChange(this.selectedImages);
       }
     }
+
   }
   /**
    * This methods decodes the file for its correct displaying
@@ -79,7 +80,6 @@ export class ImageFormControlComponent implements OnInit {
   onTouched = () => { };
 
   writeValue(array: File[]) {
-    this.selectedImages = array;
   }
   registerOnChange(onChange: any) {
     this.onChange = onChange;

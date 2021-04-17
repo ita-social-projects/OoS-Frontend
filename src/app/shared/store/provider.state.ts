@@ -49,7 +49,6 @@ export class ProviderState {
     dispatch(new CreateTeachers(teachers)).subscribe(data => tchrs = data);
 
     const workshop = new Workshop(about.value, description.value, adr, tchrs);
-    console.log(workshop)
 
     this.providerActivititesService.createWorkshop(workshop);
   }
