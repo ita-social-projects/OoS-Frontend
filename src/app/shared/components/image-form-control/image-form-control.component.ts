@@ -16,9 +16,13 @@ import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class ImageFormControlComponent implements OnInit {
 
   photoFormGroup: FormGroup;
+
+
   selectedImages: File[] = [];
   decodedImages = [];
 
+
+  resultImageArray = [];
   touched = false;
   disabled = false;
   @Input() imgMaxAmount: number;
@@ -71,14 +75,12 @@ export class ImageFormControlComponent implements OnInit {
     }
   }
 
+  onChange = (array: File[]) => { };
+  onTouched = () => { };
+
   writeValue(array: File[]) {
     this.selectedImages = array;
   }
-  onChange = (array: File[]) => { };
-
-  onTouched = () => { };
-
-
   registerOnChange(onChange: any) {
     this.onChange = onChange;
   }

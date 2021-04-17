@@ -1,8 +1,7 @@
 <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг
   </mat-checkbox>
-  <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="img">
-  </app-image-form-control>
+  <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
     <mat-select class="step-input" formControlName="type">
@@ -29,15 +28,15 @@
   </mat-form-field>
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text">
+    <input matInput class="step-input" type="text" formControlName="website">
   </mat-form-field>
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text">
+    <input matInput class="step-input" type="text" formControlName="facebook">
   </mat-form-field>
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text">
+    <input matInput class="step-input" type="text" formControlName="instagram">
   </mat-form-field>
   <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3" />
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
@@ -45,14 +44,14 @@
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">Від</p>
-        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageFrom" required
+        <input matInput class="step-input step-input-age" ng-model="number" formControlName="minAge" required
           appDigitOnly appMinMax [min]="1" [max]="16">
       </div>
     </mat-form-field>
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">До</p>
-        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageTo" required
+        <input matInput class="step-input step-input-age" ng-model="number" formControlName="maxAge" required
           #minAgeInput appDigitOnly maxlength="2" appMinMax [min]="1" [max]="16">
       </div>
     </mat-form-field>
@@ -60,7 +59,7 @@
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
-      <input matInput class="step-input step-input-age" ng-model="number" formControlName="classAmount" required
+      <input matInput class="step-input step-input-age" ng-model="number" formControlName="daysPerWeek" required
         #maxAgeInput appDigitOnly maxlength="1" appMinMax [min]="1" [max]="7">
       <p class="step-text">в тиждень</p>
     </div>

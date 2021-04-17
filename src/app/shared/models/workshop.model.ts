@@ -2,44 +2,60 @@ import { Address } from "./address.model";
 import { Teacher } from "./teacher.model";
 
 export class Workshop {
-  type: string;
-  img: File[];
+  id: number;
   title: string;
   phone: string;
   email: string;
   website: string;
+  facebook: string;
+  instagram: string;
   minAge: number;
   maxAge: number;
   daysPerWeek: number;
-  photos: string;
-  description: string;
-  head: string;
-  resources: string;
-  direction: string;
-  keyWords: string;
   price: number;
+  priceType: string;
+  description: string;
+  withDisabilityOptions: boolean;
+  disabilityOptionsDesc: string;
+  image: File[];
+  head: string;
+  headBirthDate: Date;
+  category: {
+    id: number;
+    title: string;
+    subcategories: [
+      {
+        id: number;
+        title: string;
+      }
+    ]
+  };
+  type: string;
+  keyWords: string;
   address: Address;
   teachers: Teacher[];
   ownership: string;
-  rate: string; //temp
+  rate: string;
   votes: string;
-
 
   constructor(about, description, address, teachers) {
     this.title = about.title;
-    this.img = about.img;
+    this.image = about.image;
     this.phone = about.phone;
     this.email = about.email;
-    this.minAge = about.ageFrom;
-    this.maxAge = about.ageTo;
+    this.minAge = about.minAge;
+    this.maxAge = about.maxAge;
     this.price = about.price;
     this.head = description.head;
-    this.daysPerWeek = about.classAmount;
-    this.photos = description.photos;
+    this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
-    this.description = description.head;
     this.address = address;
     this.teachers = teachers;
-    this.price = about.price;
+    this.website = about.website;
+    this.facebook = about.facebook;
+    this.instagram = about.instagram;
+    this.withDisabilityOptions = description.withDisabilityOptions;
+    this.disabilityOptionsDesc = description.disabilityOptionsDesc;
+    this.category = description.category;
   }
 }
