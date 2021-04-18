@@ -43,8 +43,7 @@ export class ImageFormControlComponent implements OnInit {
       if (typeof event.target.files[0].name === 'string') {
         for (let i = 0; i < event.target.files.length; i++) {
           this.imageDecoder(event.target.files[i]);
-          this.selectedImages.push(event.target.files[i].name);
-          console.log(this.selectedImages)
+          this.selectedImages.push(event.target.files[i]);
         }
         this.onChange(this.selectedImages);
       }
