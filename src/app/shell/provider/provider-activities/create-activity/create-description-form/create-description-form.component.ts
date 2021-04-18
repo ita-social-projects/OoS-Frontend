@@ -46,9 +46,9 @@ export class CreateDescriptionFormComponent implements OnInit {
 
     this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.subscribe((val) => {
       if (val) {
-        this.DescriptionFormGroup.get('withDisabilityOptions').value.setValue = true;
+        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(true);
       } else {
-        this.DescriptionFormGroup.get('withDisabilityOptions').value.setValue = false;
+        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(false);
       }
     })
   }

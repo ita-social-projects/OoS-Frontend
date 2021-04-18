@@ -25,7 +25,6 @@ export class CreateActivityComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-
     this.store.dispatch(new CreateWorkshop(
       this.AboutFormGroup,
       this.DescriptionFormGroup,
