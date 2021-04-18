@@ -5,11 +5,22 @@
 }
 
 section {
+  width: 100%;
   margin-top: 2rem;
-  flex-direction: row;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+
+  app-teacher-card {
+    width: 100%;
+    max-width: 302px;
+    margin-left: 24px;
+    background: #FFFFFF;
+    box-shadow: 0px 0.375rem 1rem rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+    margin-bottom: 8px;
+
+  }
 }
 
 @media (max-width: 375px) {

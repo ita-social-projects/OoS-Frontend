@@ -5,12 +5,12 @@
 
 }
 
+
 section {
   width: 100%;
   max-width: 1280px;
   display: flex;
   flex-direction: column;
-
   .section-link {
     display: flex;
     justify-content: flex-start;
@@ -116,6 +116,12 @@ section {
           margin-left: 0.5rem;
         }
       }
+      .navigation{
+        min-height: 623px;
+        .mat-tab-body-wrapper{
+          background: #E5E5E5;
+        }
+      }
     }
 
     &_sidebar {
@@ -126,3 +132,4 @@ section {
   }
 
 }
+

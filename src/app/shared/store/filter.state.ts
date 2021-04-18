@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { 
-  setMinAge, 
-  setMaxAge, 
-  SetOrder, 
-  SelectCity, 
-  GetWorkshops, 
-  GetPopWorkshops, 
-  SetCategory, 
-  AddCategory, 
-  GetTeachersCards, 
+import {
+  setMinAge,
+  setMaxAge,
+  SetOrder,
+  SelectCity,
+  GetWorkshops,
+  GetPopWorkshops,
+  SetCategory,
+  AddCategory,
+  GetTeachersCards,
   GetCategories
 } from './filter.actions';
 import { OrgCardsService } from 'src/app/shared/services/org-cards/org-cards.service';
@@ -17,10 +17,11 @@ import { orgCard } from '../models/org-card.model';
 import { actCard } from '../models/activities-card.model';
 import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
 import { patch, append } from '@ngxs/store/operators';
-import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
 import { Category } from '../models/category.model';
 import { CategoriesService } from '../services/categories/categories.service';
+
+import {TeacherCardsService} from "../services/group-details/teacher-cards.service"
 
 export interface FilterStateModel {
   searchQuery: string;
@@ -66,8 +67,8 @@ export class FilterState {
   }
 
   constructor(
-    private cardsService: OrgCardsService, 
-    private cardsActivitiesService: ProviderActivitiesService, 
+    private cardsService: OrgCardsService,
+    private cardsActivitiesService: ProviderActivitiesService,
     private teacherCardService: TeacherCardsService,
     private categoriesService: CategoriesService
   ) {}
@@ -86,7 +87,7 @@ export class FilterState {
   selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
     patchState({ city: payload});
   }
-  
+
   @Action(SetOrder)
   setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder) {
     patchState({ order: payload});
@@ -129,7 +130,7 @@ export class FilterState {
         patchState({  teachersCards });
       });
   }
-  
+
   @Action(GetCategories)
   getCategories({ patchState }: StateContext<FilterStateModel>) {
     return this.categoriesService.getCategories()

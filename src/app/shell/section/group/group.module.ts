@@ -12,6 +12,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import {FormsModule} from '@angular/forms';
+import { HttpClientModule} from "@angular/common/http";
+import {NgxsModule} from "@ngxs/store";
+import {FilterState} from "../../../shared/store/filter.state";
+
 
 @NgModule({
   declarations: [
@@ -25,10 +29,10 @@ import {FormsModule} from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    MaterialModule,
-    FlexLayoutModule,
+    FormsModule,
+    HttpClientModule,
     SharedModule,
-    FormsModule
+    NgxsModule.forFeature([FilterState]),
 
   ],
   providers: [
@@ -36,5 +40,5 @@ import {FormsModule} from '@angular/forms';
     FlexLayoutModule,
   ]
 })
-export class GroupModel {
+export class GroupModule {
 }

@@ -29,10 +29,10 @@ export class ProviderState {
   }
 
   constructor(
-    private providerActivititesService: ProviderActivitiesService, 
+    private providerActivititesService: ProviderActivitiesService,
     private childCardsService : ChildCardService,
     private router: Router,
-    private route: ActivatedRoute 
+    private route: ActivatedRoute
     ){}
 
   @Action(GetActivitiesCards)
@@ -66,6 +66,7 @@ export class ProviderState {
    }
     return teachers;
   }
+
 
 
 }

@@ -13,7 +13,7 @@ import { OrderingComponent } from './result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
-import { GroupModel } from './section/group/group.model';
+import { GroupModule } from './section/group/group.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 
@@ -33,7 +33,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     LeafletModule,
     SharedModule,
-    GroupModel,
+    GroupModule,
     NgxPaginationModule
   ],
   providers: [
