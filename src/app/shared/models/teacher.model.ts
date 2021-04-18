@@ -5,7 +5,7 @@ export class Teacher {
   middleName: string;
   birthDay: Date;
   description: string;
-  image: string;
+  image: File[];
 
   constructor(info) {
     this.id = 1;
@@ -14,6 +14,6 @@ export class Teacher {
     this.middleName = info.middleName;
     this.birthDay = info.birthDay;
     this.description = info.description;
-    //this.img= info.img;
+    this.image = info.image;
   }
 }
