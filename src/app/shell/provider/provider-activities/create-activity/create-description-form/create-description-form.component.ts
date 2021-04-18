@@ -21,7 +21,6 @@ export class CreateDescriptionFormComponent implements OnInit {
   @Output() passDescriptionFormGroup = new EventEmitter();
 
   keyWordsCtrl = new FormControl();
-  withDisabilityOptions = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
@@ -47,9 +46,9 @@ export class CreateDescriptionFormComponent implements OnInit {
 
     this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.subscribe((val) => {
       if (val) {
-        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(true);
+        this.DescriptionFormGroup.get('withDisabilityOptions').value.setValue = true;
       } else {
-        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(false);
+        this.DescriptionFormGroup.get('withDisabilityOptions').value.setValue = false;
       }
     })
   }

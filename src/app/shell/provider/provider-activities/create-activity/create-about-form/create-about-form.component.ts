@@ -36,6 +36,7 @@ export class CreateAboutFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.AboutFormGroup)
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
   /**
