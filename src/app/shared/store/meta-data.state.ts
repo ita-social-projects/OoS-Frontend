@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { City } from '../models/city.model';
+import { KeyWord } from '../models/keyWord,model';
 import { CategoriesIconsService } from '../services/categories-icons/categories-icons.service';
-import { KeyWordsService } from '../services/key-words/key-words.service';
 import { CityList, GetCategoriesIcons, KeyWordsList } from './meta-data.actions';
 
-
 export interface MetaDataStateModel {
-  filteredCities: string[];
+  filteredCities: City[];
   categoriesIcons: {};
-  filteredkeyWords: string[];
+  filteredkeyWords: KeyWord[];
 }
 
 @State<MetaDataStateModel>({
@@ -37,8 +37,7 @@ export class MetaDataState {
   }
 
   constructor(
-    private categoriesIconsService: CategoriesIconsService,
-    private keyWordsService: KeyWordsService) {}
+    private categoriesIconsService: CategoriesIconsService) {}
 
   @Action(CityList)
   cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {

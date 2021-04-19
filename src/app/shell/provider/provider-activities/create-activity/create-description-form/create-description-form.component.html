@@ -22,7 +22,7 @@
 				<mat-chip
 					*ngFor="let keyWord of keyWords"
 					(removed)="onRemoveKeyWord(keyWord)">
-					{{keyWord}}
+					{{keyWord.keyWord}}
 					<mat-icon matChipRemove>cancel</mat-icon>
 				</mat-chip>
 				<input
@@ -36,10 +36,9 @@
 			</mat-chip-list>
 			</div>
     </label>
-		
-		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
+		<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
 			<mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
-				{{keyWord}}
+				{{keyWord.keyWord}}
 			</mat-option>
 		</mat-autocomplete>
 </form>

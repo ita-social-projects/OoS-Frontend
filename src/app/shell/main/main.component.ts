@@ -14,7 +14,8 @@ import { GetCategoriesIcons } from 'src/app/shared/store/meta-data.actions';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  
 })
 export class MainComponent implements OnInit {
 
