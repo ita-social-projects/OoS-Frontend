@@ -14,6 +14,7 @@
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+  
 
   &_secondary{
     background: #3849F9;
@@ -38,6 +39,7 @@
     .logo{
       position: absolute;
       transform: translate(0, -41%);
+     
     }
   }
 
@@ -91,9 +93,36 @@
     width: 143px;
   }
 }
+
+.icon-account {
+  color:white;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}
+
 @media(max-width: 411px){
   .header_city{
     width: 60px;
+  }
+}
+
+@media(max-width:415px){
+  .header_logo-wrapper .logo{
+    width: 130px;
+  }
+}
+
+@media(max-width: 415px){
+  .mat-button-base{
+    font-size: xx-small;
+  }
+}
+
+@media(max-width: 415px) {
+  .mat-button-wrapper{
+    padding:0.3rem;
   }
 }
 
@@ -111,10 +140,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-    }
-    &_btns {
-      margin-top: 1rem;
     }
   }
 }
@@ -124,37 +149,70 @@
     flex-wrap: nowrap;
   }
 }
-::ng-deep .mat-form-field-infix {
-  width: auto !important;
-}
 
 @media(max-width: 705px) {
   .category_card[_ngcontent-plu-c162] {
     margin: 2%;
   }
 }
+
 @media(max-width: 425px) {
   .header_login {
-    padding: 0.325rem 1rem;
     font-size: 9px;
+    width: auto;
   }
 }
 
-.icon-account {
-  color:white;
+@media (max-width: 415px) {
+  .header_lang[_ngcontent-iqi-c122]{
+    font-size: smaller;
+  }
 }
 
 @media (max-width: 415px) {
   .header {
+    width: 100vw;
     &_top, &_btns {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-    }
-    &_btns {
-      margin-top: 1rem;
     }
   }
+}
+@media  only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px)  {
+   h1 {
+    font-size: small;
+  }
+}
+@media (max-width: 415px) {
+  .header_title{
+    font-size: 2.25rem; 
+ }
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+  .header{
+    padding: 1rem 2rem;
+  }
+}
+
+@media (max-width: 415px){
+  .header ._ngcontent-bdq-c122{
+    padding: 1rem 2rem;
+    width: 100vw;
+  }
+}
+
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px){
+.header_login[_ngcontent-upc-c122] {
+  padding: 1rem 2rem !important;
+    font-size: 9px;
+}
 }

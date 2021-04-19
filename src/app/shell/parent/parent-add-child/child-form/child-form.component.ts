@@ -17,7 +17,7 @@ export class ChildFormComponent implements OnInit {
   @Output() deleteForm = new EventEmitter();
 
   ngOnInit(): void {
-    console.log(this.childrenAmount)
+    console.log(this.childrenAmount);
   }
 
   delete():void {
