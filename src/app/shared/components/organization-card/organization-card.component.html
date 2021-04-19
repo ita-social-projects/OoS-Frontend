@@ -1,13 +1,19 @@
 <div class="card">
-  <div class="card_header">
-    <img src="assets/icons/{{card.category}}_bg.png" alt="{{card.category}}" class="card_image">
-    <button class="card_favorite">
-      <img src="assets/icons/favorite.png" alt="favorite">
-    </button>
+  <div class="card_header" fxLayout="row" fxLayoutAlign="end start">
+    <div *ngIf="!(isMainPage$ | async) then ProviderActions; else UserActions"></div>
     <a href="#" class="card_category">
-      <img src="assets/icons/{{card.category}}.png" alt="{{card.category}}" class="card_category-img">
+      <img src="assets/icons/{{card.direction}}.png" alt="{{card.direction}}" class="card_category-img">
     </a>
   </div>
+  <div *ngIf="( isMainPage$ | async) then MainView; else ProviderActivities"></div>
+  <div class="card_footer">
+    <a href="#" class="card_link">
+      Детальніше
+      <span class="material-icons arrow">arrow_forward</span>
+    </a>
+  </div>
+</div>
+<ng-template #MainView>
   <div class="card_body">
     <h3 class="card_title">
       {{card.title}}
@@ -20,12 +26,12 @@
       <li class="card_data-item">
         <img src="assets/icons/name.png" alt="name" class="card_data-icon">
         <a href="#" class="card_owner">
-          {{card.owner}}
+          {{card.head}}
         </a>
       </li>
       <li class="card_data-item">
         <img src="assets/icons/age.png" alt="age" class="card_data-icon">
-        {{card.ageFrom}}-{{card.ageTo}}
+        {{card.minAge}}-{{card.maxAge}}
       </li>
       <li class="card_data-item">
         <img src="assets/icons/price.png" alt="price" class="card_data-icon">
@@ -33,14 +39,42 @@
       </li>
       <li class="card_data-item">
         <img src="assets/icons/address.png" alt="address" class="card_data-icon">
-        {{card.address}}
+        {{card.address.city}}, {{card.address.street}}, {{card.address.buildingNumber}}
       </li>
-      <div class="card_footer">
-        <a href="#" class="card_link">
-          Детальніше
-          <span class="material-icons arrow">arrow_forward</span>
-        </a>
-      </div>
     </ul>
   </div>
-</div>
+</ng-template>
+<ng-template #ProviderActivities>
+  <div class="card_body">
+    <h3 class="card_title">
+      {{card.title}}
+    </h3>
+    <ul class="card_data">
+      <li class="card_data-item">
+        <img src="assets/icons/age.png" alt="people" class="card_data-icon">
+        Всього учасників:
+      </li>
+      <li class="card_data-item">
+        <img src="assets/icons/awaits.png" alt="awaits" class="card_data-icon">
+        Очікуєтсья підтвердження:
+      </li>
+      <li class="card_data-item">
+        <img src="assets/icons/email.png" alt="email" class="card_data-icon">
+        Повідомлення:
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #ProviderActions>
+  <div fxLayout="row" fxLayoutAlign="end start">
+    <div class="actions_btn"><img src="assets/icons/edit.png" alt="edit"></div>
+    <div class="actions_btn"><img src="assets/icons/delete.png" alt="delete"></div>
+  </div>
+</ng-template>
+
+<ng-template #UserActions>
+  <div fxLayout="row" fxLayoutAlign="end start">
+    <div class="actions_btn"><img src="assets/icons/favorite.png" alt="favorite"></div>
+  </div>
+</ng-template>

@@ -109,7 +109,17 @@
     margin-top: 1.1875rem;
   }
 }
-
+.actions_btn{
+  position: relative;
+  padding:10px;
+  margin:5px;
+  border-radius: 50%;
+  background-color: rgba(128, 128, 128, 0.589);
+  &:hover{
+    background-color: #3849F9;
+    cursor: pointer;
+  }
+}
 @media(max-width: 415px) {
   .card_header{
     height: auto !important;
