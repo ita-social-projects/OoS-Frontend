@@ -1,64 +1,60 @@
 <mat-card class="card" fxLayout='row' fxLayoutAlign='space-between center'
   [ngClass]="(card.status === 'new') ? 'card-new' : ''">
-  <mat-card-content class="card-block info-child" fxLayout='row' fxLayoutAlign='center start'>
+  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <img mat-card-avatar class="avatar" src="assets/mock-images/Avatar.png" alt="child-photo">
     <div fxLayout='column' fxLayoutAlign='center start'>
-      <h2>{{card.child.name}} {{card.child.surname}} {{card.child.lastname}}</h2>
-      <p>{{getAge(card.child.birth)}}</p>
-      <p>{{card.date}}</p>
+      <h2 fxLayout='row wrap' fxLayoutAlign='start'>{{card.child.name}} {{card.child.surName}}
+        {{card.child.lastName}}</h2>
+      <p>{{getAge(card.child.birth)}} років</p>
+      <p>{{card.date | date: 'shortDate'}}</p>
     </div>
   </mat-card-content>
-  <mat-card-content class="card-block  info-workshop" fxLayout='column' fxLayoutAlign='start start'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <h2>{{card.provider.title}}</h2>
     <h4>{{card.provider.workshop.title}}</h4>
     <p><img src="assets/icons/age.png" alt="people"> доступних місць <b>{{card.provider.workshop.placeAmount}}</b></p>
   </mat-card-content>
-  <mat-card-content class="card-block info" fxLayout='column' fxLayoutAlign='center center'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div *ngIf="(card.status === 'approved') then IsApproved;"></div>
     <div *ngIf="(card.status === 'new') then IsNew;"></div>
     <div *ngIf="(card.status === 'denied') then IsDenied;"></div>
     <p>{{card.message}}</p>
   </mat-card-content>
-  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='space-between center'>
+  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='start start'>
     <button class="btn-email">
-      <img src="assets/icons/Email.png" alt="email">
+      <img src="assets/icons/email.png" alt="email">
     </button>
-    <button class="btn" mat-raised-button color="primary" [ngClass]="(card.status === 'approved') ? 'btn-hidden' : ''"
-      (click)="onApprove(card)">
+    <button class="btn btn-approve" mat-raised-button color="primary"
+      [ngClass]="(card.status === 'new' )?  '' : 'btn-hidden'" (click)="onApprove(card)">
       <p class="btn-text">Прийняти</p>
     </button>
-    <button class="btn" mat-raised-button color="warn" [ngClass]="(card.status === 'denied') ? 'btn-hidden' : ''"
-      (click)="onDeny(card)">
+    <button class="btn btn-deny" mat-raised-button color="warn"
+      [ngClass]="(card.status === 'denied') ? 'btn-hidden' : ''" (click)="onDeny(card)">
       <p class="btn-text">Відхилити</p>
     </button>
   </mat-card-actions>
 </mat-card>
-
-
 <ng-template #IsNew>
   <div fxLayout='row' fxLayoutAlign='center center'>
-    <img src="assets/icons/awaiting.png" alt="awaiting-icon">
-    <p style="color:orange">Очікує підтвердження</p>
+    <div>
+      <img src="assets/icons/awaiting.png" alt="awaiting-icon">
+    </div>
+    <p style="color:orange; font-weight: 400;">Очікує підтвердження</p>
   </div>
 </ng-template>
 <ng-template #IsApproved>
   <div fxLayout='row' fxLayoutAlign='center center'>
-    <img src="assets/icons/approved.png" alt="approved-icon">
-    <p style="color:green">Підтверджено</p>
+    <div>
+      <img src="assets/icons/approved.png" alt="approved-icon">
+    </div>
+    <p style="color:green; font-weight: 400;">Підтверджено</p>
   </div>
 </ng-template>
 <ng-template #IsDenied>
   <div fxLayout='row' fxLayoutAlign='center center'>
-    <img src="assets/icons/denied.png" alt="denied-icon">
-    <p style="color:red">Відхилено</p>
-  </div>
-</ng-template>
-
-<ng-template #ChildCard>
-  <div fxLayout='row' fxLayoutAlign='center center'>
-    <p>ДАНІ ДИТИНИ</p>
-    <img mat-card-avatar class="avatar" src="assets/mock-images/Avatar.png" alt="child-photo">
-    <h2>{{card.child.name}} {{card.child.surname}} {{card.child.lastname}}</h2>
-    <p>{{getAge(card.child.birth)}}</p>
+    <div>
+      <img src="assets/icons/denied.png" alt="denied-icon">
+    </div>
+    <p style="color:red; font-weight: 400;">Відхилено</p>
   </div>
 </ng-template>

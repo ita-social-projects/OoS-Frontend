@@ -5,16 +5,16 @@
     "date": "2010/08/12",
     "child": {
       "name": "Саша",
-      "surname": "Іванов",
+      "surName": "Іванов",
       "lastName": "Іванович",
       "gender": "Жінка",
       "birth": "2010/08/12",
       "socialGroup": "відсутня"
     },
     "provider": {
-      "title": "Живописний куток",
+      "title": "Рукоділля",
       "workshop": {
-        "title": "Малювання",
+        "title": "Вишиваночка",
         "placeAmount": "8"
       }
     }
@@ -24,17 +24,17 @@
     "message": "Доброго дня, чи є у вас вільні місця?",
     "date": "2010/08/12",
     "child": {
-      "name": "Саша",
-      "surname": "Іванов",
+      "name": "Гаррі",
+      "surname": "Олдмен",
       "lastName": "Іванович",
       "gender": "Жінка",
       "birth": "2010/08/12",
       "socialGroup": "відсутня"
     },
     "provider": {
-      "title": "Живописний куток",
+      "title": "Бокс",
       "workshop": {
-        "title": "Малювання",
+        "title": "Дам у пику",
         "placeAmount": "8"
       }
     }
@@ -44,17 +44,17 @@
     "message": "Доброго дня, чи є у вас вільні місця?",
     "date": "2010/08/12",
     "child": {
-      "name": "Саша",
-      "surname": "Іванов",
-      "lastName": "Іванович",
+      "name": "Малинка",
+      "surname": "Миколай",
+      "lastName": "Миколаївна",
       "gender": "Жінка",
       "birth": "2010/08/12",
       "socialGroup": "відсутня"
     },
     "provider": {
-      "title": "Живописний куток",
+      "title": "Гітара",
       "workshop": {
-        "title": "Малювання",
+        "title": "Соло-бомба",
         "placeAmount": "8"
       }
     }
@@ -72,9 +72,9 @@
       "socialGroup": "відсутня"
     },
     "provider": {
-      "title": "Живописний куток",
+      "title": "Аніматор",
       "workshop": {
-        "title": "Малювання",
+        "title": "Наруто клуб",
         "placeAmount": "8"
       }
     }
@@ -112,9 +112,9 @@
       "socialGroup": "відсутня"
     },
     "provider": {
-      "title": "Живописний куток",
+      "title": "Малювання",
       "workshop": {
-        "title": "Малювання",
+        "title": "Краєвид",
         "placeAmount": "8"
       }
     }

@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
-
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 @Component({
   selector: 'app-request-card',
   templateUrl: './application-card.component.html',
