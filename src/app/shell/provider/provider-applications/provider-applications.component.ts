@@ -24,4 +24,13 @@ export class ProviderApplicationsComponent implements OnInit {
       this.cards = cards
     );
   }
+  onApprove(event: Application): void {
+    const card = this.cards.find((card) => (card === event))
+    card.status = 'approved';
+  }
+  onDeny(event: Application): void {
+    const card = this.cards.find((card) => (card === event))
+    card.status = 'denied';
+
+  }
 }
