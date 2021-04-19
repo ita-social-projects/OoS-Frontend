@@ -1,0 +1,25 @@
+<div class="container" *ngIf="(cards$ | async) then isApplications; else isEmptyList"></div>
+
+<ng-template #isApplications>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Усі">
+      <app-request-card *ngFor="let card of cards | applicationSort :'new' : 'date'" [card]="card">
+      </app-request-card>
+    </mat-tab>
+    <mat-tab label="Очікують підтвердження">
+      <app-request-card *ngFor="let card of cards | applicationFilter : 'new'" [card]="card">
+      </app-request-card>
+    </mat-tab>
+    <mat-tab label="Підтвердженні">
+      <app-request-card *ngFor="let card of cards | applicationFilter : 'approved'" [card]="card">
+      </app-request-card>
+    </mat-tab>
+    <mat-tab label="Відхилені">
+      <app-request-card *ngFor="let card of cards | applicationFilter : 'denied'" [card]="card">
+      </app-request-card>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+<ng-template #isEmptyList>
+  Заявок поки немає
+</ng-template>

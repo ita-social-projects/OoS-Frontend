@@ -1,0 +1,42 @@
+.card{
+  background:white;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  padding: 20px;
+  margin: 25px 0;
+  &-new{
+    border-left: 5px solid #3849F9;
+  }
+}
+.avatar {
+  background-size: cover;
+}
+.btn{
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  border-radius: 20px;
+  &-text{
+    color:white;
+    font-family: Innerspace;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 15px;
+  }
+  &-email{
+  background: none;
+  border:none;
+  cursor: pointer;
+  &:focus{
+    outline: none;
+    }
+  }
+  &-hidden{
+    visibility: hidden;
+  }
+}
+.btn
+.card-block {
+  width: 50%;
+
+}

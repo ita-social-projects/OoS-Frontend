@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { ChangePage } from '../../../shared/store/app.actions';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -7,11 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonalCabinetComponent implements OnInit {
 
-  constructor() {
+  constructor(private store: Store) {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new ChangePage(false));
   }
 
 }
-
