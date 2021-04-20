@@ -18,7 +18,7 @@ export interface MetaDataStateModel {
     categoriesIcons: {},
     filteredkeyWords: [],
   }
-    
+
 })
 @Injectable()
 export class MetaDataState {
@@ -37,20 +37,20 @@ export class MetaDataState {
   }
 
   constructor(
-    private categoriesIconsService: CategoriesIconsService) {}
+    private categoriesIconsService: CategoriesIconsService) { }
 
   @Action(CityList)
   cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
-    patchState({ filteredCities: payload});
+    patchState({ filteredCities: payload });
   }
   @Action(GetCategoriesIcons)
   getCategoriesIcons({ patchState }: StateContext<MetaDataStateModel>) {
     return this.categoriesIconsService.getIcons()
-    .subscribe((categoriesIcons: {}) => patchState({categoriesIcons}))
+      .subscribe((categoriesIcons: {}) => patchState({ categoriesIcons }))
   }
   @Action(KeyWordsList)
   keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
-    patchState({ filteredkeyWords: payload});
+    patchState({ filteredkeyWords: payload });
   }
-    
+
 }
