@@ -31,8 +31,8 @@ export class ProviderState {
     private providerWorkshopsService: ProviderWorkshopsService, 
     private childCardsService : ChildCardService,
     private router: Router,
-    private route: ActivatedRoute 
-    ){}
+    private route: ActivatedRoute
+  ) { }
 
   @Action(GetWorkshop)
   getWorkshop({ patchState }: StateContext<ProviderStateModel>) {
@@ -44,25 +44,26 @@ export class ProviderState {
   @Action(CreateWorkshop)
   createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { about, description, address, teachers }: CreateWorkshop): void {
     let adr, tchrs;
-    dispatch(new CreateAddress(address)).subscribe( data => adr = data);
-    dispatch(new CreateTeachers(teachers)).subscribe( data => tchrs = data);;
-    const workshop = new Workshop( about.value, description.value, adr, tchrs );
+    dispatch(new CreateAddress(address)).subscribe(data => adr = data);
+    dispatch(new CreateTeachers(teachers)).subscribe(data => tchrs = data);
+
+    const workshop = new Workshop(about.value, description.value, adr, tchrs);
 
     this.providerWorkshopsService.createWorkshop(workshop);
   }
 
   @Action(CreateAddress)
-  createAddress({}: StateContext<ProviderStateModel>, { payload }: CreateAddress): Address{
+  createAddress({ }: StateContext<ProviderStateModel>, { payload }: CreateAddress): Address {
     return new Address(payload.value);
   }
 
   @Action(CreateTeachers)
-  createTeachers({}: StateContext<ProviderStateModel>, { payload }: CreateTeachers): Teacher[] {
-    const teachers: Teacher[]= [];
-    for(let i=0; i< payload.controls.length; i++ ){
+  createTeachers({ }: StateContext<ProviderStateModel>, { payload }: CreateTeachers): Teacher[] {
+    const teachers: Teacher[] = [];
+    for (let i = 0; i < payload.controls.length; i++) {
       let teacher: Teacher = new Teacher(payload.controls[i].value);
       teachers.push(teacher)
-   }
+    }
     return teachers;
   }
 

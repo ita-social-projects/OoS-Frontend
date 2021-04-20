@@ -14,8 +14,10 @@ export class CreateWorkshopComponent implements OnInit {
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor( private store: Store) {}
-  
+  constructor(private store: Store) {
+
+  }
+
   ngOnInit() {
   }
 
@@ -23,8 +25,8 @@ export class CreateWorkshopComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    this.store.dispatch(new CreateWorkshop( 
-      this.AboutFormGroup, 
+    this.store.dispatch(new CreateWorkshop(
+      this.AboutFormGroup,
       this.DescriptionFormGroup,
       this.AddressFormGroup,
       this.TeacherFormArray)
@@ -32,31 +34,30 @@ export class CreateWorkshopComponent implements OnInit {
   }
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup
-   * @param FormGroup form 
+   * @param FormGroup form
    */
-  onReceiveAddressFormGroup (form: FormGroup):void{
+  onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
   }
   /**
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
-   * @param FormArray array 
+   * @param FormArray array
    */
-  onReceiveTeacherFormArray(array: FormArray):void{
+  onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
   }
   /**
    * This method receives  a from from create-about child component and assigns to the About FormGroup
-   * @param FormGroup form 
+   * @param FormGroup form
    */
-  onReceiveAboutFormGroup (form :FormGroup) : void {
+  onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
   }
   /**
    * This method receives a from create-description child component and assigns to the Description FormGroup
-   * @param FormGroup form 
+   * @param FormGroup form
    */
-  onReceiveDescriptionFormGroup(form: FormGroup) : void {
+  onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
-    
   }
 }
