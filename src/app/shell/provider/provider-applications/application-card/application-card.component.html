@@ -9,18 +9,18 @@
       <p>{{card.date | date: 'shortDate'}}</p>
     </div>
   </mat-card-content>
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
     <h2>{{card.provider.title}}</h2>
     <h4>{{card.provider.workshop.title}}</h4>
     <p><img src="assets/icons/age.png" alt="people"> доступних місць <b>{{card.provider.workshop.placeAmount}}</b></p>
   </mat-card-content>
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
     <div *ngIf="(card.status === 'approved') then IsApproved;"></div>
     <div *ngIf="(card.status === 'new') then IsNew;"></div>
     <div *ngIf="(card.status === 'denied') then IsDenied;"></div>
     <p>{{card.message}}</p>
   </mat-card-content>
-  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='start start'>
+  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <button class="btn-email">
       <img src="assets/icons/email.png" alt="email">
     </button>
