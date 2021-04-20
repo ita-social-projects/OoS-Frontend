@@ -2,7 +2,7 @@
   <div class="card_header" fxLayout="row" fxLayoutAlign="end start">
     <div *ngIf="!(isMainPage$ | async) then ProviderActions; else UserActions"></div>
     <a href="#" class="card_category">
-      <img src="assets/icons/{{card.direction}}.png" alt="{{card.direction}}" class="card_category-img">
+      <img src="assets/icons/{{card.category}}.png" alt="{{card.category}}" class="card_category-img">
     </a>
   </div>
   <div *ngIf="( isMainPage$ | async) then MainView; else ProviderActivities"></div>

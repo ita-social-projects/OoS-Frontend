@@ -1,0 +1,70 @@
+.form-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.photo-header {
+  font-weight: bold;
+  font-size: 0.813rem;
+  line-height: 0.938rem;
+  color: #333333;
+}
+.photo-subheader {
+  margin-top: 0.5rem;
+  font-weight: normal;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
+  margin:0.3rem;
+  color: #AAAAAA;
+}
+.logo {
+  width: 100%;
+  height: 58px;
+  display: flex;
+  align-items: center;
+    &_cancel{
+      position: relative;
+      cursor: pointer;
+      bottom: 70px;
+      left: 90px;
+    }
+    &_button {
+      width: 100%;
+      max-width: 95px;
+        label {
+          width: 100%;
+          max-width: 95px;
+          height: 58px;
+          background: rgba(56, 73, 249, 0.1);
+          border: 0.063rem dashed #3849F9;
+          box-sizing: border-box;
+          border-radius: 0.313rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+        label:hover {
+          transition: all 0.3s ease-out;
+          background: rgba(56, 73, 249, 0.3);
+        }
+        input {
+          display: none;
+        }
+    }
+   &_images {
+    margin-left: 0.5rem;
+    width: 100%;
+    max-width: 95px;
+    height: 58px;
+    box-shadow: 0 0.375rem 1rem rgba(0, 0, 0, 0.08);
+    background: #FFFFFF;
+      img {
+        border-radius: 0.313rem;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        }
+      }
+}

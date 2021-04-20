@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProviderConfigService} from './provider-config.service';
-import {ProviderConfigModalComponent} from './provider-config-modal/provider-config-modal.component';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProviderConfigService } from './provider-config.service';
+import { ProviderConfigModalComponent } from './provider-config-modal/provider-config-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class ProviderConfigComponent implements OnInit {
   textValue = '';
 
   constructor(private providerConfigService: ProviderConfigService,
-              private modal: MatDialog) {
+    private modal: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class ProviderConfigComponent implements OnInit {
       orgShortName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       ceoName: new FormControl('', [Validators.required]),
       ceoBirthday: new FormControl('', Validators.required),
-      personalId: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]*$')]),
+      personalId: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       phone: new FormControl('', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       webPage: new FormControl(''),
@@ -60,8 +60,7 @@ export class ProviderConfigComponent implements OnInit {
       })
     });
     this.photoFormGroup = new FormGroup({
-      photo: new FormControl(''),
-      photos: new FormArray([]),
+      img: new FormControl(''),
       text: new FormControl('', [Validators.maxLength(500), Validators.required]),
       personalInfoAgreement: new FormControl(false, Validators.requiredTrue),
       notRobot: new FormControl(false, Validators.requiredTrue)
@@ -69,21 +68,12 @@ export class ProviderConfigComponent implements OnInit {
 
   }
 
-
-  onFileSelected(event): void {
-    (this.photoFormGroup.controls.photos as FormArray)
-      .push(new FormControl(event.target.files[0]));
-    if (typeof event.target.files[0].name === 'string') {
-      this.imageDecoder(event.target.files[0]);
-    }
-  }
-
-  imageDecoder(file: File): void {
-    const myReader = new FileReader();
-    myReader.onload = () => {
-      this.selectedLogos.push(myReader.result);
-    };
-    return myReader.readAsDataURL(file);
+  /**
+   * This method receives a from from image-input child component and assigns to the Photo FormGroup
+   * @param FormGroup form
+   */
+  onReceivePhotoFormArray(array: File[]): void {
+    //this.photoFormGroup.get('photos').setValue=array;
   }
 
   showSelect(event): void {
@@ -149,6 +139,3 @@ export class ProviderConfigComponent implements OnInit {
     });
   }
 }
-
-
-

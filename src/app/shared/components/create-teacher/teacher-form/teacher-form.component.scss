@@ -18,7 +18,7 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
-    
+
     &_date{
       max-width: 30%;
     }
@@ -48,7 +48,7 @@ button:focus {
   font-style: normal;
   font-weight: normal;
 }
-  
+
 .div-input{
   width: 95px;
   height: 58px;
@@ -57,28 +57,16 @@ button:focus {
   box-sizing: border-box;
   border-radius: 5px;
   margin: 1rem;
-  
+
 &:hover{
   cursor:pointer;
   opacity: 0.5;
   }
 }
-  
-.mat-icon-add {
-  position: relative;
-  top: 17px;
-  left: 35px;
-  vertical-align: middle;
-  height: 26px;
-  color: #3849F9;
-}
 .mat-icon-delete{
   color: #3849F9;
 }
-input[type="file"] {
-  display: none;
-}
-  
+
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
