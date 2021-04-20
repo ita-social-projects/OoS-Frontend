@@ -12,8 +12,6 @@ export class CreateAboutFormComponent implements OnInit {
   priceCtrl = new FormControl({ value: 0, disable: true });
   AboutFormGroup: FormGroup;
   @Output() PassAboutFormGroup = new EventEmitter();
-  @ViewChild('maxAgeInput') maxAgeInput: ElementRef<HTMLInputElement>;
-  @ViewChild('minAgeInput') minAgeInput: ElementRef<HTMLInputElement>;
 
   constructor(private formBuilder: FormBuilder) {
     this.AboutFormGroup = this.formBuilder.group({
@@ -21,8 +19,8 @@ export class CreateAboutFormComponent implements OnInit {
       type: new FormControl(''),
       phone: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      minAge: new FormControl('', [Validators.required, Validators.maxLength(2)]),
-      maxAge: new FormControl('', [Validators.required, Validators.maxLength(2)]),
+      minAge: new FormControl('', [Validators.required]),
+      maxAge: new FormControl('', [Validators.required]),
       image: new FormControl(''),
       website: new FormControl(''),
       facebook: new FormControl(''),

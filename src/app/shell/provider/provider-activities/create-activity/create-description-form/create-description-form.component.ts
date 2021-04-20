@@ -37,7 +37,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(500), Validators.required]),
-      withDisabilityOptions: new FormControl(''),
+      withDisabilityOptions: new FormControl(false),
       disabilityOptionsDesc: new FormControl(''),
       category: new FormControl(''),
       head: new FormControl('', Validators.required),

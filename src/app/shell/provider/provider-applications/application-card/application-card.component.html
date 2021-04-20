@@ -1,20 +1,20 @@
-<mat-card class="card" fxLayout='row' fxLayoutAlign='space-between center'
+<mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
   [ngClass]="(card.status === 'new') ? 'card-new' : ''">
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <img mat-card-avatar class="avatar" src="assets/mock-images/Avatar.png" alt="child-photo">
     <div fxLayout='column' fxLayoutAlign='center start'>
       <h2>{{card.child.name}} {{card.child.surName}}
         {{card.child.lastName}}</h2>
-      <p>{{getAge(card.child.birth)}} років</p>
+      {{getAge(card.child.birth)}} років
       <p>{{card.date | date: 'shortDate'}}</p>
     </div>
   </mat-card-content>
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='center start'>
     <h2>{{card.provider.title}}</h2>
     <h4>{{card.provider.workshop.title}}</h4>
     <p><img src="assets/icons/age.png" alt="people"> доступних місць <b>{{card.provider.workshop.placeAmount}}</b></p>
   </mat-card-content>
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div *ngIf="(card.status === 'approved') then IsApproved;"></div>
     <div *ngIf="(card.status === 'new') then IsNew;"></div>
     <div *ngIf="(card.status === 'denied') then IsDenied;"></div>

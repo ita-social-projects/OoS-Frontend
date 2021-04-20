@@ -57,11 +57,12 @@ export class ProviderState {
 
   @Action(CreateWorkshop)
   createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { about, description, address, teachers }: CreateWorkshop): void {
-    let adr, tchrs;
-    dispatch(new CreateAddress(address)).subscribe(data => adr = data);
+    let addr, tchrs;
+    dispatch(new CreateAddress(address)).subscribe(data => addr = data);
     dispatch(new CreateTeachers(teachers)).subscribe(data => tchrs = data);
 
-    const workshop = new Workshop(about.value, description.value, adr, tchrs);
+    const workshop = new Workshop(about.value, description.value, addr, tchrs);
+    console.log(workshop)
 
     this.providerActivititesService.createWorkshop(workshop);
   }
