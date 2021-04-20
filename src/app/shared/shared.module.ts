@@ -8,7 +8,7 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
-import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
+import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
@@ -26,7 +26,7 @@ import { CityAutocompleteComponent } from './components/city-autocomplete/city-a
     CategoriesFilterComponent,
     CityFilterComponent,
     DigitOnlyDirective,
-    OrganizationCardComponent,
+    WorkshopCardComponent,
     TeacherCardComponent,
     HobbySelectComponent,
     CategoryCardComponent,
@@ -48,7 +48,7 @@ import { CityAutocompleteComponent } from './components/city-autocomplete/city-a
     CategoriesFilterComponent,
     CityFilterComponent,
     DigitOnlyDirective,
-    OrganizationCardComponent,
+    WorkshopCardComponent,
     MaterialModule,
     TeacherCardComponent,
     HobbySelectComponent,

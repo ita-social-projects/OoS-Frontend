@@ -6,7 +6,7 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryCardComponent } from 'src/app/shared/components/category-card/category-card.component';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { OrganizationCardComponent } from 'src/app/shared/components/organization-card/organization-card.component';
+import { OrganizationCardComponent } from 'src/app/shared/components/workshop-card/workshop-card.component';
 import { UserRegistrationState } from 'src/app/shared/store/user-registration.state';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';

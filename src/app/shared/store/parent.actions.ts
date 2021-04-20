@@ -1,7 +1,7 @@
 import { FormArray } from "@angular/forms";
 
-export class GetChildrenActivitiesList {
-  static readonly type = '[parent] gets child activities';
+export class GetParentWorkshops {
+  static readonly type = '[parent] get parent workshops';
   constructor() {}
 }
 export class GetChildCards {

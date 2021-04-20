@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { actCard } from '../models/activities-card.model';
 import { Address } from '../models/address.model';
 import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
-import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
-import { CreateAddress, CreateTeachers, CreateWorkshop, GetActivitiesCards } from './provider.actions';
+import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
+import { CreateAddress, CreateTeachers, CreateWorkshop, GetWorkshop } from './provider.actions';
 
 export interface ProviderStateModel {
-  activitiesList: actCard[];
+  workshopsList: Workshop[];
 }
 
 @State<ProviderStateModel>({
   name: 'provider',
   defaults: {
-    activitiesList: []
+  workshopsList: []
   }
 })
 @Injectable()
@@ -24,21 +23,21 @@ export class ProviderState {
   postUrl = '/Workshop/Create';
 
   @Selector()
-  static activitiesList(state: ProviderStateModel) {
-    return state.activitiesList
+  static workshopsList(state: ProviderStateModel) {
+    return state.workshopsList
   }
 
   constructor(
-    private providerActivititesService: ProviderActivitiesService, 
+    private providerWorkshopsService: ProviderWorkshopsService, 
     private childCardsService : ChildCardService,
     private router: Router,
     private route: ActivatedRoute 
     ){}
 
-  @Action(GetActivitiesCards)
-  GetActivitiesCards({ patchState }: StateContext<ProviderStateModel>) {
-      return  this.providerActivititesService.getCards().subscribe(
-        (activitiesList: actCard[]) => patchState({activitiesList})
+  @Action(GetWorkshop)
+  getWorkshop({ patchState }: StateContext<ProviderStateModel>) {
+      return  this.providerWorkshopsService.getWorkshops().subscribe(
+        (workshopsList: Workshop[]) => patchState({workshopsList})
       )
   }
 
@@ -49,7 +48,7 @@ export class ProviderState {
     dispatch(new CreateTeachers(teachers)).subscribe( data => tchrs = data);;
     const workshop = new Workshop( about.value, description.value, adr, tchrs );
 
-    this.providerActivititesService.createWorkshop(workshop);
+    this.providerWorkshopsService.createWorkshop(workshop);
   }
 
   @Action(CreateAddress)

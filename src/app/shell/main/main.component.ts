@@ -19,7 +19,7 @@ import { Workshop } from '../../shared/models/workshop.model';
 })
 export class MainComponent implements OnInit {
 
-  @Select(FilterState.orgCards) orgCards$: Observable<Workshop[]>;
+  @Select(FilterState.workshopsCards) cards$: Observable<Workshop[]>;
 
   public cards: Workshop[];
   @Select(UserRegistrationState.isAuthorized)
@@ -29,12 +29,17 @@ export class MainComponent implements OnInit {
 
   constructor(private store: Store) { }
 
+  
   ngOnInit(): void {
     this.store.dispatch([new GetCategories(),
     new GetCategoriesIcons(),
     new GetPopWorkshops(),
     new ChangePage(true)
     ]);
+    
+    this.cards$.subscribe(cards =>
+      this.cards = cards
+    );
   }
 
 }

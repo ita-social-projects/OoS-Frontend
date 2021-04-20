@@ -1,6 +1,6 @@
 import { FormArray, FormGroup } from "@angular/forms";
-export class GetActivitiesCards {
-  static readonly type = '[provider] gets activities cards';
+export class GetWorkshop {
+  static readonly type = '[provider] gets Workshop';
   constructor() {}
 }
 export class CreateWorkshop {
