@@ -1,6 +1,6 @@
-<div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center' >
+<div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
   <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="'../../create-activity/param'"><button class="btn" mat-raised-button >Додати гурток</button></a>
+  <a [routerLink]="'../../create-activity/param'"><button class="btn" mat-raised-button>Додати гурток</button></a>
 </div>
 
 <div *ngIf="(cards$ | async).length then ActivitiesList"></div>
@@ -8,9 +8,12 @@
 
 
 <ng-template #ActivitiesList>
-  <div  fxLayout="row wrap" fxLayoutAlign="center">
+  <div class="wrapper-card">
     <ng-container>
-      <app-organization-card class="cards" *ngFor="let card of cards$ | async | slice:0:4" [card]="card"></app-organization-card>
+      <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
+        <app-organization-card class="cards" *ngFor="let card of cards$ | async " [card]="card">
+        </app-organization-card>
+      </div>
     </ng-container>
   </div>
 </ng-template>

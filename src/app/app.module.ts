@@ -46,7 +46,7 @@ import { UserState } from './shared/store/user.state';
       MetaDataState,
       UserRegistrationState
     ]),
-    
+
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
