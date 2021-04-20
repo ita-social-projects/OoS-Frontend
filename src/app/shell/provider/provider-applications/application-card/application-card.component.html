@@ -3,7 +3,7 @@
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <img mat-card-avatar class="avatar" src="assets/mock-images/Avatar.png" alt="child-photo">
     <div fxLayout='column' fxLayoutAlign='center start'>
-      <h2 fxLayout='row wrap' fxLayoutAlign='start'>{{card.child.name}} {{card.child.surName}}
+      <h2>{{card.child.name}} {{card.child.surName}}
         {{card.child.lastName}}</h2>
       <p>{{getAge(card.child.birth)}} років</p>
       <p>{{card.date | date: 'shortDate'}}</p>
