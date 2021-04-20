@@ -8,12 +8,11 @@
     </div>
     <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="grid"  >
       <app-category-card *ngFor="let categoryCard of categoriesCards$ | async "  
-                          [categoryCard]="categoryCard"
-                          [icons]="icons$ | async">
+        [categoryCard]="categoryCard"
+        [icons]="icons$ | async">
       </app-category-card>
     </div>
   </div>
-
   <div class="main_cards">
     <div class="main_header" fxLayoutAlign="space-between center">
       <h3>Найпопулярніші гуртки</h3>
