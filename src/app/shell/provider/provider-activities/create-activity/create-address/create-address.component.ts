@@ -17,9 +17,9 @@ export class CreateAddressComponent implements OnInit {
     private formBuilder: FormBuilder){
     
     this.AddressFormGroup = this.formBuilder.group({
-      street: new FormControl(''), 
+      street: new FormControl(''),
       buildingNumber: new FormControl(''),
-      city: new FormControl()
+      city: new FormControl(''),
     });
   }
 
@@ -32,7 +32,12 @@ export class CreateAddressComponent implements OnInit {
    * @param event 
    */
   onSelectedCity( event ): void{
-    this.AddressFormGroup.get('city').setValue=event;
+    this.AddressFormGroup.get('city').setValue(event);
   }
 
+  onReceiveAddressFromMap(form): void {
+    this.AddressFormGroup.get('city').setValue(form.city);
+    this.AddressFormGroup.get('buildingNumber').setValue(form.buildingNumber);
+    this.AddressFormGroup.get('street').setValue(form.street);
+  }
 }

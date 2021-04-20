@@ -38,6 +38,7 @@ import { FormsModule } from '@angular/forms';
 import { ProviderConfigService } from './provider-config/provider-config.service';
 import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { MapComponent } from './provider-activities/create-activity/map/map.component';
+import { GeolocationService } from '../geolocation.service';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { MapComponent } from './provider-activities/create-activity/map/map.comp
     ProviderConfigService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true},
     CanDeactivateGuard,
-    DatePipe
+    DatePipe,
+    GeolocationService
   ],
 
 })
