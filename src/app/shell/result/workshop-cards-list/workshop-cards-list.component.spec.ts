@@ -42,4 +42,6 @@ describe('WorkshopCardsListComponentt', () => {
 @Injectable({
   providedIn: 'root'
 })
-class MockStore{} 
+class MockStore{
+   
+} 
