@@ -5,11 +5,11 @@
   border-radius: 5px;
   padding: 1rem;
   margin: 1rem 0;
+  &-block{
+    flex: 1;
+  }
   &-new{
     border-left: 5px solid #3849F9;
-  }
-  &-block{
-    min-width: 50px;
   }
 }
 .avatar {
