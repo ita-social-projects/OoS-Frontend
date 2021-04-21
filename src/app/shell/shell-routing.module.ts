@@ -21,7 +21,7 @@ const routes: Routes = [
     canLoad: [ParentGuard]
   },
   {
-    path: 'section/group', component: GroupComponent
+    path: 'section/group/:id', component: GroupComponent
   }
 ];
 

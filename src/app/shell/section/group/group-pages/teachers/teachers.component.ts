@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { GetTeachersCards } from '../../../../../shared/store/filter.actions';
-import { Select, Store } from '@ngxs/store';
-import { FilterState } from '../../../../../shared/store/filter.state';
-import { Observable } from 'rxjs';
-import { TeacherCard } from '../../../../../shared/models/teachers-card.model';
+import {Component, OnInit} from '@angular/core';
+import {GetTeachersCards} from '../../../../../shared/store/filter.actions';
+import {Select, Store} from '@ngxs/store';
+import {FilterState} from '../../../../../shared/store/filter.state';
+import {Observable} from 'rxjs';
+import {TeacherCard} from '../../../../../shared/models/teachers-card.model';
 
 @Component({
   selector: 'app-teachers',

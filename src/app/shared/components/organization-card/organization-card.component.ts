@@ -7,7 +7,7 @@ import { orgCard } from '../../models/org-card.model';
   styleUrls: ['./organization-card.component.scss']
 })
 export class OrganizationCardComponent implements OnInit {
-  
+
   @Input () card: orgCard;
 
   constructor() { }

@@ -1,7 +1,5 @@
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 section {
@@ -14,12 +12,20 @@ section {
   app-teacher-card {
     width: 100%;
     max-width: 302px;
-    margin-left: 24px;
+    max-height: 370px;
+    margin-left: 1.5rem;
     background: #FFFFFF;
     box-shadow: 0px 0.375rem 1rem rgba(0, 0, 0, 0.08);
-    border-radius: 5px;
-    margin-bottom: 8px;
+    border-radius: 0.313rem;
+    margin-bottom: 0.5rem;
 
+  }
+}
+@media (max-width: 880px) {
+  section {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
 

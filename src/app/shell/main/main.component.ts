@@ -19,7 +19,7 @@ import { GetCategoriesIcons } from 'src/app/shared/store/meta-data.actions';
 export class MainComponent implements OnInit {
 
   @Select(FilterState.orgCards) orgCards$: Observable<orgCard[]>;
-
+  index: number;
   public cards: orgCard[];
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
@@ -29,11 +29,12 @@ export class MainComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch([ new GetCategories(), 
+    this.store.dispatch([ new GetCategories(),
                           new GetCategoriesIcons(),
-                          new GetPopWorkshops(), 
+                          new GetPopWorkshops(),
                           new ChangePage(true)
                         ]);
+    console.log(this.orgCards$.subscribe(value => console.log(value)));
   }
 
 }

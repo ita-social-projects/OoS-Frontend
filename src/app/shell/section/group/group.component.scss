@@ -1,8 +1,5 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-
 }
 
 
@@ -11,6 +8,7 @@ section {
   max-width: 1280px;
   display: flex;
   flex-direction: column;
+
   .section-link {
     display: flex;
     justify-content: flex-start;
@@ -48,7 +46,7 @@ section {
       background: #FFFFFF;
 
       &-wrapper {
-        padding: 24px;
+        padding: 1.5rem;
       }
 
       .carousel {
@@ -80,7 +78,8 @@ section {
           align-items: center;
           justify-content: center;
           color: #FFFFFF;
-          width: 106px;
+          width: 100%;
+          max-width: 106px;
           height: 1.5rem;
           background-color: #99CD56;
           border-radius: 16px;
@@ -101,7 +100,7 @@ section {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-top: 24px;
+        margin-top: 1.5rem;
 
         &_number {
           margin-left: 0.563rem;
@@ -116,9 +115,11 @@ section {
           margin-left: 0.5rem;
         }
       }
-      .navigation{
+
+      .navigation {
         min-height: 623px;
-        .mat-tab-body-wrapper{
+
+        .mat-tab-body-wrapper {
           background: #E5E5E5;
         }
       }

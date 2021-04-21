@@ -15,6 +15,7 @@ import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
 import { GroupModule } from './section/group/group.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {GroupDetailService} from "../shared/services/group-details/group-detail.service";
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   providers: [
     ParentGuard,
-    ProviderGuard
+    ProviderGuard,
   ]
 })
 export class ShellModule { }

@@ -2,13 +2,13 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Injectable} from '@angular/core';
 import {GetWorkshopById} from './section.action';
 import {GroupDetailService} from '../services/group-details/group-detail.service';
-
+import {Subscription} from 'rxjs';
 
 export interface SectionStateModel {
-  getWorkShopById: object;
+  getWorkShopById: GetWorkshopById;
 }
 
-@State({
+@State<SectionStateModel>({
   name: 'workshop',
   defaults: {
     getWorkShopById: {}
@@ -25,10 +25,9 @@ export class SectionState {
   }
 
   @Action(GetWorkshopById)
-  GetWorkshopById({patchState}: StateContext<SectionStateModel>): any {
+  GetWorkshopById({patchState}: StateContext<SectionStateModel>): Subscription {
     return this.groupDetailService.getWorkshopDetail().subscribe((getWorkShopById) => {
       patchState({getWorkShopById});
-      console.log(getWorkShopById);
     });
   }
 

@@ -30,13 +30,13 @@
       <img class="icon" src="assets/icons/access_time.png" alt="working_days"> Пн-Сб, 08:00 - 21:00
     </div>
     <div class="contacts_phone">
-      <img class="icon" src="assets/icons/phone.png" alt="phone"> <a href="">+38(097)123-23-32</a>
+      <img class="icon" src="assets/icons/phone.png" alt="phone"> <a href="">+380{{workshopSideMenu.phone}}</a>
     </div>
     <div class="contacts_email">
-      <img class="icon" src="assets/icons/email.png" alt="email">school@gmail.com
+      <img class="icon" src="assets/icons/email.png" alt="email">{{workshopSideMenu.email}}
     </div>
     <div class="contacts_web-page">
-      <img class="icon" src="assets/icons/world.png" alt="web-page"><a href="">www.school.com</a>
+      <img class="icon" src="assets/icons/world.png" alt="web-page"><a href="">{{workshopSideMenu.website}}</a>
     </div>
     <div class="contacts_social-media">
       <img src="assets/icons/inst.png" alt="instagram">
@@ -46,15 +46,11 @@
   <div class=" item schedule">
     <div class="schedule_header">РОЗКЛАД ЗАНЯТЬ</div>
     <div class="schedule_datepicker">
-      <mat-datepicker-toggle [for]="resultPicker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle></mat-datepicker-toggle>
       <mat-form-field>
         <mat-label>Pick a date</mat-label>
-        <input matInput
-               #resultPickerModel="ngModel"
-               [matDatepicker]="resultPicker"
-               [(ngModel)]="date"
-        >
-        <mat-datepicker #resultPicker [dateClass]="dateClass">
+        <input matInput>
+        <mat-datepicker>
         </mat-datepicker>
       </mat-form-field>
     </div>

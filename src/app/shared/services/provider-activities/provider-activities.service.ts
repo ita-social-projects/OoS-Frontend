@@ -11,7 +11,7 @@ export class ProviderActivitiesService {
   constructor(private http: HttpClient) { }
 
   getCards(): Observable<actCard[]> {
-    return this.http.get<actCard[]>('/Workshop/Get')
+    return this.http.get<actCard[]>('/Workshop/Get');
   }
 
   createWorkshop( workshop ): void {
