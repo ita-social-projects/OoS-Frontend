@@ -6,31 +6,32 @@ import { CreateActivityComponent } from './provider-activities/create-activity/c
 import { ProviderActivitiesComponent } from './provider-activities/provider-activities.component';
 import { ProviderConfigComponent } from './provider-config/provider-config.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
-import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
+import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 
 const routes: Routes = [
-  { path: 'cabinet', component: PersonalCabinetComponent,
-  children: [
-    {
-      path: 'config', 
-      component: ProviderConfigComponent, 
-    },
-    {
-      path: 'org-info', 
-      component: ProviderOrgInfoComponent, 
-    },
-    {
-      path: 'activities', 
-      component: ProviderActivitiesComponent, 
-    },
-    {
-      path: 'requests', 
-      component: ProviderRequestsComponent, 
-    },
-    
-  ]
- },
- {path: 'create-activity/:id', component: CreateActivityComponent} 
+  {
+    path: 'cabinet', component: PersonalCabinetComponent,
+    children: [
+      {
+        path: 'config',
+        component: ProviderConfigComponent,
+      },
+      {
+        path: 'org-info',
+        component: ProviderOrgInfoComponent,
+      },
+      {
+        path: 'activities',
+        component: ProviderActivitiesComponent,
+      },
+      {
+        path: 'applications',
+        component: ProviderApplicationsComponent,
+      },
+
+    ]
+  },
+  { path: 'create-activity/:id', component: CreateActivityComponent }
 ];
 
 @NgModule({
