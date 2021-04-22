@@ -11,7 +11,7 @@
   <div class="wrapper-card">
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
-        <app-workshop-card class="cards" *ngFor="let card of cards " [card]="card">
+        <app-workshop-card class="cards" *ngFor="let card of cards$ | async " [card]="card">
         </app-workshop-card>
       </div>
     </ng-container>
