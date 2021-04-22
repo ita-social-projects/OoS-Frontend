@@ -13,10 +13,10 @@ export class CityFilterService {
 
   constructor(private http: HttpClient) { }
 
-  fetchCities(): Observable<City[]>{
+  fetchCities(): Observable<City[]> {
     return this.http.get<City[]>(this.dataUrl)
-      .pipe(map((data)=>{
+      .pipe(map((data) => {
         return data;
       }))
-    }
+  }
 }

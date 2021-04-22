@@ -1,11 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Constants } from '../../../../../shared/constants/constants';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss','./../../../validation.component.scss']
+  styleUrls: ['./create-about-form.component.scss', './../../../validation.component.scss']
 })
 export class CreateAboutFormComponent implements OnInit {
 
@@ -16,46 +15,26 @@ export class CreateAboutFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.AboutFormGroup = this.formBuilder.group({
+      title: new FormControl('', Validators.required),
       type: new FormControl(''),
-      title: new FormControl(''), 
-      phone: new FormControl(''),
-      email: new FormControl(''),
-      ageFrom: new FormControl(''),
-      ageTo: new FormControl(''),
-      classAmount: new FormControl(''),
+      phone: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      minAge: new FormControl('', [Validators.required]),
+      maxAge: new FormControl('', [Validators.required]),
+      image: new FormControl(''),
+      website: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      daysPerWeek: new FormControl(''),
       price: new FormControl({ value: 0, disabled: true }),
       priceType: new FormControl(''),
     });
-    
+
     this.onRadioButtonInit();
-    this.onInputValidation();
-   }
+  }
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-  }
-  onUploadLogo( event ):void {
-    return null;
-  }
-  /**
-   * This method sets validation for age and classAmount inputs and resets them if values are invalid
-   */
-  onInputValidation(): void {
-    this.AboutFormGroup.get('ageFrom').valueChanges.subscribe(val=> {
-      if(val){
-        if ( val < Constants.AGE_MIN || val > Constants.AGE_MAX ) this.AboutFormGroup.get('ageFrom').reset(); 
-      }
-    });
-    this.AboutFormGroup.get('ageTo').valueChanges.subscribe(val=> {
-      if(val){
-        if ( val < Constants.AGE_MAX|| val > Constants.AGE_MIN) this.AboutFormGroup.get('ageTo').reset(); 
-      }
-    });
-    this.AboutFormGroup.get('classAmount').valueChanges.subscribe(val=> {
-      if(val){
-        if ( val < Constants.CLASS_AMOUNT_MIN || val > Constants.CLASS_AMOUNT_MAX ) this.AboutFormGroup.get('classAmount').reset(); 
-      }
-    });
   }
   /**
    * This method makes input enable if radiobutton value is true
@@ -65,5 +44,4 @@ export class CreateAboutFormComponent implements OnInit {
       val ? this.AboutFormGroup.get('price').enable() : this.AboutFormGroup.get('price').disable()
     );
   }
-
 }

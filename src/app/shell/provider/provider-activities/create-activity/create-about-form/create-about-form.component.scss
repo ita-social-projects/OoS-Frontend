@@ -19,7 +19,7 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
-    
+
     &-age{
       max-width: 80px;
     }
@@ -51,7 +51,7 @@ button:focus {
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
-}  
+}
 .div-input{
   width: 95px;
   height: 58px;
@@ -67,17 +67,6 @@ button:focus {
   }
 }
 
-.mat-icon-add {
-  position: relative;
-  top: 17px;
-  left: 35px;
-  vertical-align: middle;
-  height: 26px;
-  color: #3849F9;
-}
-input[type="file"] {
-  display: none;
-}
 input:disabled {
   background-color: rgba(240, 240, 240, 0.945);
   opacity: 0.5;

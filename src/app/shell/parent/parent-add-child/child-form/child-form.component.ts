@@ -7,20 +7,19 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./child-form.component.scss']
 })
 export class ChildFormComponent implements OnInit {
-  
-  constructor() { 
+
+  constructor() {
   }
-  
+
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
   @Output() deleteForm = new EventEmitter();
 
   ngOnInit(): void {
-    console.log(this.childrenAmount);
   }
 
-  delete():void {
+  delete(): void {
     this.deleteForm.emit(this.index);
   }
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-address',
@@ -17,9 +17,9 @@ export class CreateAddressComponent implements OnInit {
     private formBuilder: FormBuilder){
     
     this.AddressFormGroup = this.formBuilder.group({
-      street: new FormControl(''), 
-      buildingNumber: new FormControl(''),
-      city: new FormControl()
+      street: new FormControl('', Validators.required), 
+      buildingNumber: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required)
     });
   }
 

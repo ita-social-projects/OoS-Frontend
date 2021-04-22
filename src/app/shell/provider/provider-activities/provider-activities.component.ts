@@ -21,7 +21,6 @@ export class ProviderActivitiesComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetActivitiesCards())
     this.cards$.subscribe(cards =>
       this.cards = cards

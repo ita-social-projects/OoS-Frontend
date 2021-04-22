@@ -1,30 +1,25 @@
-<form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step" >
-  <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг</mat-checkbox>
-  <label class="step-label">Логотип
-    <div class="div-input"><mat-icon class="mat-icon-add">add</mat-icon></div>
-    <input class="image-input" type="file" class="file-upload" (click)="onUploadLogo($event)">
-  </label>
+<form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <mat-checkbox class="step-check-box" color="primary">Використати контактні дані надавача освітніх послуг
+  </mat-checkbox>
+  <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
-  <mat-form-field >
+  <mat-form-field>
     <mat-select class="step-input" formControlName="type">
       <mat-option value="group" selected> Гурток </mat-option>
-      <mat-option value="section" > Секція </mat-option>
-      <mat-option value="class" > Клас </mat-option>
+      <mat-option value="section"> Секція </mat-option>
+      <mat-option value="class"> Клас </mat-option>
     </mat-select>
   </mat-form-field>
   <label class="step-label"> Назва <span class="step-required">*</span></label>
-  <mat-form-field >
+  <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title" required>
-  </mat-form-field >
+  </mat-form-field>
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
-  <mat-form-field >
+  <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+380</span>
-      <input matInput class="step-input" type="tel" formControlName="phone" 
-      ui-number-mask 
-      ui-hide-group-sep minlength="9" 
-      maxlength="9" 
-      required>
+      <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly ui-number-mask
+        ui-hide-group-sep minlength="9" maxlength="9" required>
     </div>
   </mat-form-field>
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
@@ -32,60 +27,56 @@
     <input matInput class="step-input" type="email" formControlName="email" required>
   </mat-form-field>
   <label class="step-label">Веб сайт</label>
-  <mat-form-field >
-    <input matInput class="step-input" type="text">
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="website">
   </mat-form-field>
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" >
+    <input matInput class="step-input" type="text" formControlName="facebook">
   </mat-form-field>
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" >
+    <input matInput class="step-input" type="text" formControlName="instagram">
   </mat-form-field>
-  <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3"/>
+  <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3" />
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">Від</p>
-        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageFrom" required
-        maxlength="2" 
-        min="1" 
-        max="16">
+        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
+          required appDigitOnly maxlength="2" appMinMax [min]="1" [max]="16">
       </div>
-    </mat-form-field> 
+    </mat-form-field>
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start'>
         <p class="step-text">До</p>
-        <input matInput class="step-input step-input-age" ng-model="number" formControlName="ageTo" required
-        maxlength="2" 
-        min="1" 
-        max="16">
+        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
+          required appDigitOnly maxlength="2" appMinMax [min]="1" [max]="16">
       </div>
     </mat-form-field>
-  </div> 
+  </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
-  <mat-form-field >
+  <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
-      <input matInput class="step-input step-input-age" ng-model="number" formControlName="classAmount" required 
-      maxlength="1" 
-      min="1" 
-      max="7"> 
+      <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="daysPerWeek"
+        required #maxAgeInput appDigitOnly maxlength="1" appMinMax [min]="1" [max]="7">
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
   <label class="step-label">Вартість<span class="step-required">*</span></label>
-    <mat-radio-group [formControl]="radioBtn" color="primary" >
-      <mat-radio-button #radio1 name="radioBtn1" [value]="false" (change)="this.AboutFormGroup.get('price').setValue(0)">Безкоштовно</mat-radio-button>
-      <div fxLayout='row' fxLayoutAlign='start center'>
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
-        <input matInput class="step-input step-input-age" [formControl]="this.AboutFormGroup.get('price')" type="number">
-        <p class="step-text">грн за</p>
-        <mat-button-toggle-group color="primary" class="input-button-group"  formControlName="priceType">
-          <mat-button-toggle value="lesson">Заняття</mat-button-toggle>
-          <mat-button-toggle value="month">Місяць</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-    </mat-radio-group>
+  <mat-radio-group [formControl]="radioBtn" color="primary">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false" (change)="this.AboutFormGroup.get('price').setValue(0)">
+      Безкоштовно</mat-radio-button>
+    <div fxLayout='row' fxLayoutAlign='start center'>
+      <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
+      <input matInput class="step-input step-input-age" appDigitOnly [formControl]="this.AboutFormGroup.get('price')"
+        type="number">
+      <p class="step-text">грн за</p>
+      <mat-button-toggle-group color="primary" class="input-button-group" formControlName="priceType">
+        <mat-button-toggle value="lesson">Заняття</mat-button-toggle>
+        <mat-button-toggle value="month">Місяць</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </mat-radio-group>
 </form>
