@@ -1,5 +1,5 @@
-import { Address } from "./address.model";
-import { Teacher } from "./teacher.model";
+import { Address } from './address.model';
+import { Teacher } from './teacher.model';
 
 export class Workshop {
   id: number;
