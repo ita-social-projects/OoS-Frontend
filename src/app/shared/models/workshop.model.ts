@@ -1,4 +1,5 @@
 import { Address } from "./address.model";
+import { Category } from "./category.model";
 import { Teacher } from "./teacher.model";
 
 export class Workshop {
@@ -20,16 +21,7 @@ export class Workshop {
   image: File[];
   head: string;
   headBirthDate: Date;
-  category: {
-    id: number;
-    title: string;
-    subcategories: [
-      {
-        id: number;
-        title: string;
-      }
-    ]
-  };
+  category: Category;
   type: string;
   keyWords: string;
   address: Address;
