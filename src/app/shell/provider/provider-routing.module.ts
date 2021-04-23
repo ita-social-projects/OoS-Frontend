@@ -1,11 +1,12 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {PersonalCabinetComponent} from './personal-cabinet/personal-cabinet.component';
-import {CreateActivityComponent} from './provider-activities/create-activity/create-activity.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
 
-import {ProviderConfigComponent} from './provider-config/provider-config.component';
-import {ProviderActivitiesComponent} from './provider-activities/provider-activities.component';
-import {ProviderOrgInfoComponent} from './provider-org-info/provider-org-info.component';
+import { ProviderConfigComponent } from './provider-config/provider-config.component';
+import { ProviderActivitiesComponent } from './provider-activities/provider-activities.component';
+import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
+import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 
 const routes: Routes = [
   {
@@ -24,12 +25,16 @@ const routes: Routes = [
         component: ProviderActivitiesComponent,
       },
       {
+        path: 'applications',
+        component: ProviderApplicationsComponent,
+      },
+      {
         path: 'messages'
       },
 
     ]
   },
-  {path: 'create-activity/:id', component: CreateActivityComponent},
+  { path: 'create-activity/:id', component: CreateActivityComponent },
 ];
 
 @NgModule({
@@ -38,4 +43,3 @@ const routes: Routes = [
 })
 export class ProviderRoutingModule {
 }
-

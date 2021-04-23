@@ -66,12 +66,11 @@
   </mat-form-field>
   <label class="step-label">Вартість<span class="step-required">*</span></label>
   <mat-radio-group [formControl]="radioBtn" color="primary">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false" (change)="this.AboutFormGroup.get('price').setValue(0)">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign='start center'>
       <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
-      <input matInput class="step-input step-input-age" appDigitOnly [formControl]="this.AboutFormGroup.get('price')"
-        type="number">
+      <input matInput class="step-input step-input-age" appDigitOnly [formControl]="priceCtrl" type="number">
       <p class="step-text">грн за</p>
       <mat-button-toggle-group color="primary" class="input-button-group" formControlName="priceType">
         <mat-button-toggle value="lesson">Заняття</mat-button-toggle>

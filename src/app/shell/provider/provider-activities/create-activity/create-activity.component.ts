@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
+import { Address } from 'src/app/shared/models/address.model';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { CreateWorkshop } from '../../../../shared/store/provider.actions';
 @Component({
   selector: 'app-create-activity',
@@ -25,12 +28,10 @@ export class CreateActivityComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    this.store.dispatch(new CreateWorkshop(
-      this.AboutFormGroup,
-      this.DescriptionFormGroup,
-      this.AddressFormGroup,
-      this.TeacherFormArray)
-    );
+    const address = new Address(this.AddressFormGroup.value);
+    const teachers = this.createTeachers(this.TeacherFormArray);
+    const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
+    this.store.dispatch(new CreateWorkshop(workshop))
   }
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup
@@ -59,5 +60,17 @@ export class CreateActivityComponent implements OnInit {
    */
   onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
+  }
+  /**
+   * This method create array of teachers
+   * @param FormArray formArray
+   */
+  createTeachers(formArray: FormArray): Teacher[] {
+    const teachers: Teacher[] = [];
+    for (let i = 0; i < formArray.controls.length; i++) {
+      let teacher: Teacher = new Teacher(formArray.controls[i].value);
+      teachers.push(teacher)
+    }
+    return teachers;
   }
 }

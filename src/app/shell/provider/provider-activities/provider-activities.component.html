@@ -4,7 +4,7 @@
 </div>
 <div class="wrapper-card">
   <ng-container>
-    <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
+    <div fxLayout='row wrap' fxLayoutAlign='start'>
       <app-organization-card class="cards" *ngFor="let card of cards$ | async " [card]="card">
       </app-organization-card>
     </div>
