@@ -1,9 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Category } from '../../models/category.model';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { FilterState } from '../../store/filter.state';
+import { CategorySelect } from '../../models/category-select.model';
+import { CategorySelectService } from '../../services/category-select/category-select.service';
 
 @Component({
   selector: 'app-category-select',
@@ -11,10 +9,9 @@ import { FilterState } from '../../store/filter.state';
   styleUrls: ['./category-select.component.scss']
 })
 export class CategorySelectComponent implements OnInit {
-  @Select(FilterState.categoriesCards) categoriesCards$: Observable<Category[]>;
   @Output() categoriesSelect = new EventEmitter<FormGroup>();
   //lists of options in dropdowns
-  data: Category[] = [];
+  data: CategorySelect[] = [];
   category: object = {};
   subcategories: string[] = [];
   study: string[] = [];
@@ -23,7 +20,7 @@ export class CategorySelectComponent implements OnInit {
   selectedStudy = new FormControl('');
   CategoryFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private service: CategorySelectService) {
     this.CategoryFormGroup = this.formBuilder.group({
       id: new FormControl(''),
       title: new FormControl(''),
@@ -43,15 +40,15 @@ export class CategorySelectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoriesCards$.subscribe(cards => {
-      this.data = cards;
+    this.service.getCategories().subscribe(categories => {
+      this.data = categories;
       this.getCategories(this.data);
     });
 
     this.categoriesSelect.emit(this.CategoryFormGroup);
   }
 
-  getCategories(data: Category[]): void {
+  getCategories(data: CategorySelect[]): void {
     this.category = data.map(el => el.title);
   }
 

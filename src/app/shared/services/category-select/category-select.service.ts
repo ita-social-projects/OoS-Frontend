@@ -2,19 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { KeyWord } from '../../models/keyWord,model';
+import { CategorySelect } from '../../models/category-select.model';
+
 @Injectable({
   providedIn: 'root'
 })
 
-export class KeyWordsService {
+export class CategorySelectService {
 
-  dataUrl = '/assets/mock-key-words.json';
+  dataUrl = '/assets/mock-category-select.json';
 
   constructor(private http: HttpClient) { }
 
-  getKeyWords(): Observable<KeyWord[]> {
-    return this.http.get<KeyWord[]>(this.dataUrl)
+  getCategories(): Observable<CategorySelect[]> {
+    return this.http.get<CategorySelect[]>(this.dataUrl)
       .pipe(map((data) => {
         return data;
       }));
