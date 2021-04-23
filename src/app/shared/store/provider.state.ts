@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Address } from '../models/address.model';
 import { Application } from '../models/application.model';
 import { Teacher } from '../models/teacher.model';
@@ -8,7 +10,7 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationsService } from '../services/applications/applications.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
-import { CreateAddress, CreateTeachers, CreateWorkshop, GetActivitiesCards, GetApplications } from './provider.actions';
+import { CreateWorkshop, GetActivitiesCards, GetApplications, OnCreateWorkshopFail } from './provider.actions';
 
 export interface ProviderStateModel {
   activitiesList: Workshop[];
@@ -56,30 +58,24 @@ export class ProviderState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { about, description, address, teachers }: CreateWorkshop): void {
-    let addr, tchrs;
-    dispatch(new CreateAddress(address)).subscribe(data => addr = data);
-    dispatch(new CreateTeachers(teachers)).subscribe(data => tchrs = data);
-
-    const workshop = new Workshop(about.value, description.value, addr, tchrs);
-    console.log(workshop)
-
-    this.providerActivititesService.createWorkshop(workshop);
+  createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop): void {
+    this.providerActivititesService
+      .createWorkshop(payload)
+      .pipe(
+        catchError(err => {
+          console.log('Handling error locally and rethrowing it...', err);
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        res => console.log('HTTP response', res),
+        err => console.log('HTTP Error', err),
+        () => console.log('HTTP request completed.')
+      );
   }
+  @Action(OnCreateWorkshopFail)
+  onCreateWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopFail): void {
 
-  @Action(CreateAddress)
-  createAddress({ }: StateContext<ProviderStateModel>, { payload }: CreateAddress): Address {
-    return new Address(payload.value);
-  }
-
-  @Action(CreateTeachers)
-  createTeachers({ }: StateContext<ProviderStateModel>, { payload }: CreateTeachers): Teacher[] {
-    const teachers: Teacher[] = [];
-    for (let i = 0; i < payload.controls.length; i++) {
-      let teacher: Teacher = new Teacher(payload.controls[i].value);
-      teachers.push(teacher)
-    }
-    return teachers;
   }
 
 

@@ -9,7 +9,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators
 export class CreateAboutFormComponent implements OnInit {
 
   radioBtn = new FormControl(false);
-  priceCtrl = new FormControl({ value: 0, disable: true });
+  priceCtrl = new FormControl({ value: 1, disabled: true });
   AboutFormGroup: FormGroup;
   @Output() PassAboutFormGroup = new EventEmitter();
 
@@ -26,22 +26,23 @@ export class CreateAboutFormComponent implements OnInit {
       facebook: new FormControl(''),
       instagram: new FormControl(''),
       daysPerWeek: new FormControl(''),
-      price: new FormControl({ value: 0, disabled: true }),
+      price: new FormControl(1),
       priceType: new FormControl(''),
     });
-
-    this.onRadioButtonInit();
+    this.onPriceCtrlInit();
   }
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
   }
   /**
-   * This method makes input enable if radiobutton value is true
+   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-  onRadioButtonInit(): void {
-    this.radioBtn.valueChanges.subscribe(val =>
-      val ? this.AboutFormGroup.get('price').enable() : this.AboutFormGroup.get('price').disable()
-    );
+  onPriceCtrlInit(): void {
+    this.priceCtrl.valueChanges.subscribe(val =>
+      val ? this.AboutFormGroup.get('price').setValue(val) : this.AboutFormGroup.get('price').setValue(1))
+    this.radioBtn.valueChanges.subscribe(val => {
+      val ? this.priceCtrl.enable() : this.priceCtrl.disable();
+    });
   }
 }
