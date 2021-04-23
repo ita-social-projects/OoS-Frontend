@@ -17,5 +17,5 @@ export class OnCreateWorkshopFail {
 }
 export class OnCreateWorkshopSuccess {
   static readonly type = '[provider] create Workshop failed';
-  constructor() { }
+  constructor(public payload) { }
 }

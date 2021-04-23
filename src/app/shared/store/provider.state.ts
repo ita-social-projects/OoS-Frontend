@@ -60,32 +60,27 @@ export class ProviderState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch, patchState }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop): void {
-    patchState({ loading: true })
-    this.providerActivititesService
+  createWorkshop({ dispatch, patchState }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
+    patchState({ loading: true });
+    return this.providerActivititesService
       .createWorkshop(payload)
       .pipe(
-        catchError(err => dispatch(new OnCreateWorkshopFail(err)))
-      )
-      .subscribe(
-        res => {
-          console.log('HTTP Success', res);
-          dispatch(new OnCreateWorkshopSuccess())
-        },
-        err => console.log('HTTP Error', err),
-        () => console.log('HTTP request completed.')
+        tap((res) => dispatch(new OnCreateWorkshopSuccess(res))
+        ),
+        catchError((error) => of(dispatch(new OnCreateWorkshopFail(error))))
       );
   }
   @Action(OnCreateWorkshopFail)
   onCreateWorkshopFail({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopFail): void {
-    patchState({ loading: false })
     console.log('Workshop creation is failed', payload);
+    patchState({ loading: false })
     throwError(payload);
+
   }
   @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess({ patchState }: StateContext<ProviderStateModel>, { }: OnCreateWorkshopSuccess): void {
+  onCreateWorkshopSuccess({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
     patchState({ loading: false })
-    console.log('Workshop created');
+    console.log('Workshop is created', payload);
   }
 
 
