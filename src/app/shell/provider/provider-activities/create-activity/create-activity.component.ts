@@ -31,7 +31,6 @@ export class CreateActivityComponent implements OnInit {
     const address = new Address(this.AddressFormGroup.value);
     const teachers = this.createTeachers(this.TeacherFormArray);
     const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
-    console.log(workshop)
     this.store.dispatch(new CreateWorkshop(workshop))
   }
   /**
