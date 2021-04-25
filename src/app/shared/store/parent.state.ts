@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { ChildActivities } from 'src/app/shared/models/child-activities.model';
-import { ChildrenActivitiesListService } from 'src/app/shared/services/children-activities-list/children-activities-list.service';
 import { Child } from '../models/child.model';
+import { Workshop } from '../models/workshop.model';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
-import { CreateChildren, GetChildCards, GetChildrenActivitiesList } from './parent.actions';
+import { ParentWorkshopsService } from '../services/workshops/parent-workshops/parent-workshops';
+import { CreateChildren, GetChildCards, GetParentWorkshops } from './parent.actions';
 
 export interface ParentStateModel {
-  childActivities: ChildActivities[];
+  parentWorkshops: Workshop[];
   children: Child[];
 
 }
 @State<ParentStateModel>({
   name: 'parent',
   defaults: {
-    childActivities: [],
+    parentWorkshops: [],
     children: [],
   }
 })
 @Injectable()
 export class ParentState {
   @Selector()
-  static childrenList(state: ParentStateModel) {
-    return state.childActivities
+  static parentWorkshops(state: ParentStateModel) {
+    return state.parentWorkshops
   }
   @Selector()
   static children(state: ParentStateModel) {
     return state.children
   }
 
-  constructor(private childrenActivitiesListService: ChildrenActivitiesListService, private childCardsService : ChildCardService){}
-  @Action(GetChildrenActivitiesList)
-  GetChildrenActivitiesList({ patchState }: StateContext<ParentStateModel>) {
-      return this.childrenActivitiesListService.getChildrenList().subscribe(
-        (childActivities: ChildActivities[]) => patchState({childActivities})
+  constructor(private parentWorkshopsService: ParentWorkshopsService, private childCardsService : ChildCardService){}
+  @Action(GetParentWorkshops)
+  getParentWorkshops({ patchState }: StateContext<ParentStateModel>) {
+      return this.parentWorkshopsService.getWorkshops().subscribe(
+        (parentWorkshops: Workshop[]) => patchState({parentWorkshops})
       )
   }
   @Action(GetChildCards)

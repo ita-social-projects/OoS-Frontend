@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Address } from '../models/address.model';
 import { Application } from '../models/application.model';
-import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationsService } from '../services/applications/applications.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
-import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
-import { CreateWorkshop, GetActivitiesCards, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess } from './provider.actions';
+import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
+import { GetWorkshops } from './filter.actions';
+import { CreateWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess } from './provider.actions';
 
 export interface ProviderStateModel {
   loading: boolean;
-  activitiesList: Workshop[];
+  workshopsList: Workshop[];
   applicationsList: Application[];
 }
 
 @State<ProviderStateModel>({
   name: 'provider',
   defaults: {
+    workshopsList: [],
     loading: false,
-    activitiesList: Workshop[''],
     applicationsList: Application['']
   }
 })
@@ -31,8 +29,8 @@ export class ProviderState {
   postUrl = '/Workshop/Create';
 
   @Selector()
-  static activitiesList(state: ProviderStateModel) {
-    return state.activitiesList
+  static workshopsList(state: ProviderStateModel) {
+    return state.workshopsList
   }
   @Selector()
   static applicationsList(state: ProviderStateModel) {
@@ -40,15 +38,15 @@ export class ProviderState {
   }
 
   constructor(
-    private providerActivititesService: ProviderActivitiesService,
+    private providerWorkshopsService: ProviderWorkshopsService,
     private childCardsService: ChildCardService,
     private applicationService: ApplicationsService,
   ) { }
 
-  @Action(GetActivitiesCards)
+  @Action(GetWorkshops)
   getActivitiesCards({ patchState }: StateContext<ProviderStateModel>) {
-    return this.providerActivititesService.getCards().subscribe(
-      (activitiesList: Workshop[]) => patchState({ activitiesList })
+    return this.providerWorkshopsService.getWorkshops().subscribe(
+      (workshopsList: Workshop[]) => patchState({ workshopsList })
     )
   }
   @Action(GetApplications)
@@ -62,7 +60,7 @@ export class ProviderState {
   @Action(CreateWorkshop)
   createWorkshop({ dispatch, patchState }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
     patchState({ loading: true });
-    return this.providerActivititesService
+    return this.providerWorkshopsService
       .createWorkshop(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateWorkshopSuccess(res))
