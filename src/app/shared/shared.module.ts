@@ -19,7 +19,8 @@ import { HobbySelectComponent } from './components/hobby-select/hobby-select.com
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
-
+import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
+import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -36,7 +37,9 @@ import { ImageFormControlComponent } from './components/image-form-control/image
     TeacherFormComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
-    ImageFormControlComponent
+    ImageFormControlComponent,
+    ApplicationFilterPipe,
+    ApplicationSortPipe
   ],
   imports: [
     MaterialModule,
@@ -60,7 +63,9 @@ import { ImageFormControlComponent } from './components/image-form-control/image
     CreateTeacherComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
-    ImageFormControlComponent
+    ImageFormControlComponent,
+    ApplicationFilterPipe,
+    ApplicationSortPipe
   ]
 })
 export class SharedModule { }

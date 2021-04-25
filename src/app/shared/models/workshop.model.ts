@@ -1,5 +1,5 @@
-import { Address } from "./address.model";
-import { Teacher } from "./teacher.model";
+import { Address } from './address.model';
+import { Teacher } from './teacher.model';
 
 export class Workshop {
   id: number;
@@ -38,7 +38,7 @@ export class Workshop {
   rate: string;
   votes: string;
 
-  constructor(about, description, address, teachers) {
+  constructor(about, description, addr, tchrs) {
     this.title = about.title;
     //this.image = about.image;
     this.phone = about.phone;
@@ -49,13 +49,13 @@ export class Workshop {
     this.head = description.head;
     this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
-    this.address = address;
-    this.teachers = teachers;
+    this.address = addr;
+    this.teachers = tchrs;
     this.website = about.website;
     this.facebook = about.facebook;
     this.instagram = about.instagram;
     this.withDisabilityOptions = description.withDisabilityOptions;
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
-    this.category = description.category;
+    //this.category = description.category;
   }
 }

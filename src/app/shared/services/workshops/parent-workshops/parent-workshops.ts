@@ -14,7 +14,7 @@ export class ParentWorkshopsService {
     return this.http.get<Workshop[]>('/Workshop/Get')
   }
 
-  createWorkshop( workshop ): void {
-    this.http.post('/Workshop/Create', workshop).subscribe(workshop => console.log(workshop));
+  createWorkshop(workshop): Observable<any> {
+    return this.http.post('/Workshop/Create', workshop);
   }
 }

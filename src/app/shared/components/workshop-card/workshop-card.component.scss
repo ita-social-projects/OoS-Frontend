@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .card {
   min-width: 285px;
   background: #FFFFFF;
@@ -5,7 +9,8 @@
   border-radius: 5px;
   transition: 0.4s ease all;
   position: relative;
-  &::after{
+
+  &::after {
     content: '';
     display: block;
     position: absolute;
@@ -18,13 +23,16 @@
     transition: 0.4s ease all;
     pointer-events: none;
   }
-  &:hover{
-    &::after{
+
+  &:hover {
+    &::after {
       border: 2px solid #3849F9;
     }
+
     box-shadow: none;
   }
-  &_header{
+
+  &_header {
     position: relative;
     background: #EBEBEB;
     height: 185px;
@@ -34,7 +42,8 @@
     justify-content: center;
     border-radius: 5px 5px 0 0;
   }
-  &_favorite{
+
+  &_favorite {
     position: absolute;
     top: 12px;
     right: 13px;
@@ -44,89 +53,108 @@
     width: auto;
     padding: 0;
   }
-  &_category{
+
+  &_category {
     position: absolute;
     top: 53px;
     right: 13px;
     height: 30px;
     width: 30px;
-    &-img{
+
+    &-img {
       height: 100%;
       width: auto;
     }
   }
-  &_data{
+
+  &_data {
     list-style: none;
     padding: 0;
     margin: 0;
     color: #333333;
-    &-item{
+
+    &-item {
       margin: 1rem 0;
-      &:nth-child(4){
-        .card_data-icon{
+
+      &:nth-child(4) {
+        .card_data-icon {
           margin-right: 13px;
         }
       }
-      &:nth-child(5){
-        .card_data-icon{
+
+      &:nth-child(5) {
+        .card_data-icon {
           margin-right: 11px;
         }
       }
     }
-    &-icon{
+
+    &-icon {
       margin-right: 9px;
     }
   }
-  &_rate{
-    &-span{
+
+  &_rate {
+    &-span {
       color: #AAAAAA;
     }
   }
-  &_owner{
+
+  &_owner {
     color: #3849F9;
   }
+
   &_body {
     padding: 1rem;
   }
-  &_link{
+
+  &_link {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     text-align: right;
     font-weight: bold;
     color: #3849F9;
-    font-family: "Innerspace";
-    .arrow{
+    margin-right: 1.167rem;
+    padding-bottom: 1.125rem;
+
+    .arrow {
       margin-left: 1rem;
       font-size: 15px;
       line-height: 24px;
     }
   }
-  &_title{
+
+  &_title {
     margin-bottom: 1.125rem;
   }
-  &_footer{
+
+  &_footer {
     margin-top: 1.1875rem;
   }
 }
-.actions_btn{
+
+.actions_btn {
   position: relative;
-  padding:10px;
-  margin:5px;
+  padding: 10px;
+  margin: 5px;
   border-radius: 50%;
   background-color: rgba(128, 128, 128, 0.589);
-  &:hover{
+
+  &:hover {
     background-color: #3849F9;
     cursor: pointer;
   }
 }
+
 @media(max-width: 415px) {
-  .card_header{
+  .card_header {
     height: auto !important;
   }
 }
+
 @media(max-width: 415px) {
-  .card{
+  .card {
     width: inherit;
     margin: 1rem;
   }

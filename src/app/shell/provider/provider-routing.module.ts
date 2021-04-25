@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { ProviderConfigComponent } from './provider-config/provider-config.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
-import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
 import { CreateWorkshopComponent } from './provider-workshops/create-workshop/create-workshop.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
+import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 
 const routes: Routes = [
   { path: 'cabinet', component: PersonalCabinetComponent,
@@ -23,8 +23,8 @@ const routes: Routes = [
       component: ProviderWorkshopsComponent, 
     },
     {
-      path: 'requests', 
-      component: ProviderRequestsComponent, 
+      path: 'applications', 
+      component: ProviderApplicationsComponent, 
     },
     
   ]
@@ -36,4 +36,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProviderRoutingModule { }
+export class ProviderRoutingModule {
+}

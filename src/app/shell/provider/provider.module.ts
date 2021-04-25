@@ -20,7 +20,6 @@ import { NgxsModule } from '@ngxs/store';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
-import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,47 +35,51 @@ import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { CreateWorkshopComponent } from './provider-workshops/create-workshop/create-workshop.component';
 import { ProviderWorkshopsService } from 'src/app/shared/services/workshops/provider-workshops/provider-workshops';
+import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
+import { ApplicationCardComponent } from './provider-applications/application-card/application-card.component';
 @NgModule({
   declarations: [
     ProviderWorkshopsComponent,
     ProviderConfigComponent,
     PersonalCabinetComponent,
     ProviderOrgInfoComponent,
-    ProviderRequestsComponent,
-    CreateWorkshopComponent,
+    ProviderApplicationsComponent,
     CreateAddressComponent,
     CreateAboutFormComponent,
-    CreateDescriptionFormComponent
+    CreateDescriptionFormComponent,
+    ApplicationCardComponent,
+    CreateWorkshopComponent,
+
   ],
-    imports: [
-        CommonModule,
-        ProviderRoutingModule,
-        FlexLayoutModule,
-        MatButtonModule,
-        MatCardModule,
-        MatChipsModule,
-        MatFormFieldModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgxsModule.forFeature([ProviderState]),
-        MatTabsModule,
-        MatStepperModule,
-        MatAutocompleteModule,
-        MatIconModule,
-        SharedModule,
-        LeafletModule,
-        MatRadioModule,
-        FormsModule
-    ],
+  imports: [
+    CommonModule,
+    ProviderRoutingModule,
+    FlexLayoutModule,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgxsModule.forFeature([ProviderState]),
+    MatTabsModule,
+    MatStepperModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    SharedModule,
+    LeafletModule,
+    MatRadioModule,
+    FormsModule
+  ],
 
   providers: [
     ProviderWorkshopsService,
     ProviderConfigService,
-    {provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     CanDeactivateGuard,
     DatePipe
   ],
