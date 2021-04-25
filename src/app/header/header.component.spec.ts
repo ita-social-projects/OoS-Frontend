@@ -25,8 +25,7 @@ describe('HeaderComponent', () => {
        ],
       providers:[
         {provide: OidcSecurityService, useClass: MockOidcSecurityService}
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      ]
     })
     .compileComponents();
   });

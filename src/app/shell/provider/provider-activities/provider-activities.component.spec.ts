@@ -1,4 +1,7 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { ProviderActivitiesComponent } from './provider-activities.component';
 
@@ -8,7 +11,10 @@ describe('ProviderActivitiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProviderActivitiesComponent ]
+      imports: [NgxsModule.forRoot([])],
+      declarations: [ ProviderActivitiesComponent ],
+      providers: [HttpClient, HttpHandler],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

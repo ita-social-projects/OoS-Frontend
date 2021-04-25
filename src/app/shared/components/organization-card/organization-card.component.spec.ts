@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrganizationCardComponent } from './organization-card.component';
@@ -8,7 +9,8 @@ describe('OrganizationCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrganizationCardComponent ]
+      declarations: [ OrganizationCardComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
@@ -16,7 +18,6 @@ describe('OrganizationCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrganizationCardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

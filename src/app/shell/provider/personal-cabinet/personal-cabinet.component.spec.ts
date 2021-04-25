@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonalCabinetComponent } from './personal-cabinet.component';
@@ -8,7 +9,8 @@ describe('PersonalCabinetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PersonalCabinetComponent ]
+      declarations: [ PersonalCabinetComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

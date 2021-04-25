@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { ParentGuard } from './parent.guard';
 
@@ -6,7 +7,9 @@ describe('ParentGuard', () => {
   let guard: ParentGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot([])]
+    });
     guard = TestBed.inject(ParentGuard);
   });
 

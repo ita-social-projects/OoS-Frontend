@@ -1,4 +1,6 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { CategoryCardComponent } from './category-card.component';
 
@@ -8,7 +10,9 @@ describe('CategoryCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CategoryCardComponent ]
+      declarations: [ CategoryCardComponent ],
+      imports: [NgxsModule.forRoot([])],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
@@ -16,7 +20,6 @@ describe('CategoryCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryCardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

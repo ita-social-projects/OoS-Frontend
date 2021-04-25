@@ -1,3 +1,4 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { CityFilterService } from './city-filter.service';
@@ -6,7 +7,9 @@ describe('CityFilterService', () => {
   let service: CityFilterService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [HttpClient, HttpHandler]
+    });
     service = TestBed.inject(CityFilterService);
   });
 

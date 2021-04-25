@@ -1,3 +1,4 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { ProviderActivitiesService } from './provider-activities.service';
@@ -6,7 +7,9 @@ describe('ProviderActivitiesService', () => {
   let service: ProviderActivitiesService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [HttpClient, HttpHandler]
+    });
     service = TestBed.inject(ProviderActivitiesService);
   });
 

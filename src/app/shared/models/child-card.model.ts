@@ -5,5 +5,4 @@ export interface ChildCard {
    gender: string;
    birth: number;
    socialGroup: string; 
-   
  }

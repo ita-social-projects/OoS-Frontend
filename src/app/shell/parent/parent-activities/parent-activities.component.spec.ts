@@ -1,4 +1,6 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { ParentActivitiesComponent } from './parent-activities.component';
 
@@ -8,7 +10,9 @@ describe('ParentActivitiesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParentActivitiesComponent ]
+      imports: [NgxsModule.forRoot([])],
+      declarations: [ ParentActivitiesComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
