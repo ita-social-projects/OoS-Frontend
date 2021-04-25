@@ -37,6 +37,7 @@ import { CreateWorkshopComponent } from './provider-workshops/create-workshop/cr
 import { ProviderWorkshopsService } from 'src/app/shared/services/workshops/provider-workshops/provider-workshops';
 import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 import { ApplicationCardComponent } from './provider-applications/application-card/application-card.component';
+import { ProviderMessagesComponent } from './provider-messages/provider-messages.component';
 @NgModule({
   declarations: [
     ProviderWorkshopsComponent,
@@ -49,6 +50,7 @@ import { ApplicationCardComponent } from './provider-applications/application-ca
     CreateDescriptionFormComponent,
     ApplicationCardComponent,
     CreateWorkshopComponent,
+    ProviderMessagesComponent,
 
   ],
   imports: [

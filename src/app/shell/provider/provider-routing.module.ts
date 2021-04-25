@@ -6,6 +6,7 @@ import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.
 import { CreateWorkshopComponent } from './provider-workshops/create-workshop/create-workshop.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
+import { ProviderMessagesComponent } from './provider-messages/provider-messages.component';
 
 const routes: Routes = [
   { path: 'cabinet', component: PersonalCabinetComponent,
@@ -26,7 +27,10 @@ const routes: Routes = [
       path: 'applications', 
       component: ProviderApplicationsComponent, 
     },
-    
+    {
+      path: 'messages', 
+      component: ProviderMessagesComponent, 
+    }
   ]
  },
  {path: 'create-workshop/:id', component: CreateWorkshopComponent} 
