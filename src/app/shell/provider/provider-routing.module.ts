@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-import { CreateActivityComponent } from './provider-activities/create-activity/create-activity.component';
-
-import { ProviderActivitiesComponent } from './provider-activities/provider-activities.component';
 import { ProviderConfigComponent } from './provider-config/provider-config.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
-import { ProviderRequestsComponent } from './provider-requests/provider-requests.component';
+import { CreateWorkshopComponent } from './provider-workshops/create-workshop/create-workshop.component';
+import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
+import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
+import { ProviderMessagesComponent } from './provider-messages/provider-messages.component';
 
 const routes: Routes = [
   { path: 'cabinet', component: PersonalCabinetComponent,
@@ -20,21 +20,25 @@ const routes: Routes = [
       component: ProviderOrgInfoComponent, 
     },
     {
-      path: 'activities', 
-      component: ProviderActivitiesComponent, 
+      path: 'workshops', 
+      component: ProviderWorkshopsComponent, 
     },
     {
-      path: 'requests', 
-      component: ProviderRequestsComponent, 
+      path: 'applications', 
+      component: ProviderApplicationsComponent, 
     },
-    
+    {
+      path: 'messages', 
+      component: ProviderMessagesComponent, 
+    }
   ]
  },
- {path: 'create-activity/:id', component: CreateActivityComponent} 
+ {path: 'create-workshop/:id', component: CreateWorkshopComponent} 
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProviderRoutingModule { }
+export class ProviderRoutingModule {
+}

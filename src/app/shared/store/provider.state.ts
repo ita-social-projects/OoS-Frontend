@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { actCard } from '../models/activities-card.model';
-import { Address } from '../models/address.model';
-import { Teacher } from '../models/teacher.model';
+import { of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { Application } from '../models/application.model';
 import { Workshop } from '../models/workshop.model';
+import { ApplicationsService } from '../services/applications/applications.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
-import { ProviderActivitiesService } from '../services/provider-activities/provider-activities.service';
-import { CreateAddress, CreateTeachers, CreateWorkshop, GetActivitiesCards } from './provider.actions';
+import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
+import { GetWorkshops } from './filter.actions';
+import { CreateWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess } from './provider.actions';
 
 export interface ProviderStateModel {
-  activitiesList: actCard[];
+  loading: boolean;
+  workshopsList: Workshop[];
+  applicationsList: Application[];
 }
 
 @State<ProviderStateModel>({
   name: 'provider',
   defaults: {
-    activitiesList: []
+    workshopsList: [],
+    loading: false,
+    applicationsList: Application['']
   }
 })
 @Injectable()
@@ -24,48 +29,56 @@ export class ProviderState {
   postUrl = '/Workshop/Create';
 
   @Selector()
-  static activitiesList(state: ProviderStateModel) {
-    return state.activitiesList
+  static workshopsList(state: ProviderStateModel) {
+    return state.workshopsList
+  }
+  @Selector()
+  static applicationsList(state: ProviderStateModel) {
+    return state.applicationsList
   }
 
   constructor(
-    private providerActivititesService: ProviderActivitiesService,
+    private providerWorkshopsService: ProviderWorkshopsService,
     private childCardsService: ChildCardService,
-    private router: Router,
-    private route: ActivatedRoute
+    private applicationService: ApplicationsService,
   ) { }
 
-  @Action(GetActivitiesCards)
-  GetActivitiesCards({ patchState }: StateContext<ProviderStateModel>) {
-    return this.providerActivititesService.getCards().subscribe(
-      (activitiesList: actCard[]) => patchState({ activitiesList })
+  @Action(GetWorkshops)
+  getActivitiesCards({ patchState }: StateContext<ProviderStateModel>) {
+    return this.providerWorkshopsService.getWorkshops().subscribe(
+      (workshopsList: Workshop[]) => patchState({ workshopsList })
+    )
+  }
+  @Action(GetApplications)
+  getApplications({ patchState }: StateContext<ProviderStateModel>) {
+    return this.applicationService.getApplications().subscribe(
+      (applicationsList: Application[]) =>
+        patchState({ applicationsList })
     )
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { about, description, address, teachers }: CreateWorkshop): void {
-    let adr, tchrs;
-    dispatch(new CreateAddress(address)).subscribe(data => adr = data);
-    dispatch(new CreateTeachers(teachers)).subscribe(data => tchrs = data);
-
-    const workshop = new Workshop(about.value, description.value, adr, tchrs);
-
-    this.providerActivititesService.createWorkshop(workshop);
+  createWorkshop({ dispatch, patchState }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
+    patchState({ loading: true });
+    return this.providerWorkshopsService
+      .createWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateWorkshopSuccess(res))
+        ),
+        catchError((error) => of(dispatch(new OnCreateWorkshopFail(error))))
+      );
   }
+  @Action(OnCreateWorkshopFail)
+  onCreateWorkshopFail({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopFail): void {
+    console.log('Workshop creation is failed', payload);
+    patchState({ loading: false })
+    throwError(payload);
 
-  @Action(CreateAddress)
-  createAddress({ }: StateContext<ProviderStateModel>, { payload }: CreateAddress): Address {
-    return new Address(payload.value);
   }
-
-  @Action(CreateTeachers)
-  createTeachers({ }: StateContext<ProviderStateModel>, { payload }: CreateTeachers): Teacher[] {
-    const teachers: Teacher[] = [];
-    for (let i = 0; i < payload.controls.length; i++) {
-      let teacher: Teacher = new Teacher(payload.controls[i].value);
-      teachers.push(teacher)
-    }
-    return teachers;
+  @Action(OnCreateWorkshopSuccess)
+  onCreateWorkshopSuccess({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    patchState({ loading: false })
+    console.log('Workshop is created', payload);
   }
 
 

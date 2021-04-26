@@ -1,4 +1,5 @@
 import { Address } from "./address.model";
+import { Category } from "./category.model";
 import { Teacher } from "./teacher.model";
 
 export class Workshop {
@@ -20,16 +21,7 @@ export class Workshop {
   image: File[];
   head: string;
   headBirthDate: Date;
-  category: {
-    id: number;
-    title: string;
-    subcategories: [
-      {
-        id: number;
-        title: string;
-      }
-    ]
-  };
+  category: Category;
   type: string;
   keyWords: string;
   address: Address;
@@ -38,7 +30,7 @@ export class Workshop {
   rate: string;
   votes: string;
 
-  constructor(about, description, address, teachers) {
+  constructor(about, description, addr, tchrs) {
     this.title = about.title;
     //this.image = about.image;
     this.phone = about.phone;
@@ -49,13 +41,13 @@ export class Workshop {
     this.head = description.head;
     this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
-    this.address = address;
-    this.teachers = teachers;
+    this.address = addr;
+    this.teachers = tchrs;
     this.website = about.website;
     this.facebook = about.facebook;
     this.instagram = about.instagram;
     this.withDisabilityOptions = description.withDisabilityOptions;
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
-    this.category = description.category;
+    //this.category = description.category;
   }
 }

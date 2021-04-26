@@ -11,7 +11,7 @@ import { Workshop } from '../../../../../shared/models/workshop.model';
 })
 export class SchoolClassesComponent implements OnInit {
 
-  @Select(FilterState.orgCards) orgCards$: Observable<Workshop[]>;
+  @Select(FilterState.workshopsCards) cards$: Observable<Workshop[]>;
 
   public cards: Workshop[];
 
@@ -20,6 +20,6 @@ export class SchoolClassesComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetPopWorkshops());
-    this.orgCards$.subscribe((orgCards: Workshop[]) => this.cards = orgCards);
+    this.cards$.subscribe((cards: Workshop[]) => this.cards = cards);
   }
 }

@@ -17,6 +17,6 @@ export class KeyWordsService {
     return this.http.get<KeyWord[]>(this.dataUrl)
       .pipe(map((data) => {
         return data;
-      }))
+      }));
   }
 }
