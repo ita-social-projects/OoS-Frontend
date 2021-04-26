@@ -1,7 +1,9 @@
 import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
-import * as L from "leaflet";
+import * as Layer from "leaflet";
 import { FormGroup } from '@angular/forms';
-import { GeolocationService } from 'src/app/shell/geolocation.service';
+import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
+import { Coords } from '../../../../../shared/models/coords.model';
+import { MapAddress } from '../../../../../shared/models/map-address.model';
 
 @Component({
   selector: 'app-map',
@@ -17,7 +19,7 @@ export class MapComponent implements AfterViewInit {
   marker;
   mainLayer;
   markerIcon = {
-    icon: L.icon({
+    icon: Layer.icon({
       iconSize: [25, 25],
       shadowSize: [0, 0],
       iconAnchor: [10, 41],
@@ -26,47 +28,59 @@ export class MapComponent implements AfterViewInit {
       iconUrl: '../../../../assets/icons/marker.png',
     })
   };
-  // Default Kyiv coords to set map center
+  /**
+   * Sets Kyiv coords as map center by default
+   */
   userCoords: [number, number] = [ 50.462235, 30.545131 ];
-  // 1. creates and sets map after div with is "map" renders.
-  // 2. Adds onclick event handler which translates map coords into address -> calls method to update parent component, after
-  // that @input address changes
-  // 3. subscribes on @input address change and on every change calls method to trenslate address into coords snd set marker on map
+  /**
+   * before map creation gets user coords from GeolocationService. If no user coords uses default coords
+   * Creates and sets map after div with is "map" renders.
+   * Adds onclick event handler which translates map coords into address
+   * subscribes on @input address change and on every change calls method to translate address into coords
+   */
   ngAfterViewInit(): void {
-    // before map creation gets user coords from GoelocationService.
-    // If user didn't agree to share location with window.navigator, Kyiv coords used by default
-    this.geolocationService.handleUserLocation((coords) => {
+    this.geolocationService.handleUserLocation((coords: Coords) => {
       if (coords) {
         this.userCoords = [coords.lat, coords.lng];
-        this.map =  L.map('map').setView(this.userCoords, 11);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        this.map =  Layer.map('map').setView(this.userCoords, 11);
+        Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution:
             '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
-        // Adds onclick event handler
         this.map.on('click', e => this.setMapLocation(e.latlng));
       }
     });
-    // tracks if @input address changed and calls setFormLocation with new address
-    this.address.valueChanges.subscribe(dt => dt.street && dt.city && this.setFormLocation(dt));
+    this.address.valueChanges.subscribe((dt: MapAddress) => dt.street && dt.city && this.setFormLocation(dt));
   }
-// uses GoelocationService to translate address into coords and sets marker on map
-  async setFormLocation(address): Promise<void> {
+  /**
+   * uses GoelocationService to translate address into coords and sets marker on map
+   *
+   * @param address - type MapAddress
+   */
+  async setFormLocation(address: MapAddress): Promise<void> {
     const coords = await this.geolocationService.locationGeocode(address);
     // tslint:disable-next-line: no-unused-expression
     coords && this.setMarker(coords);
   }
-// uses GoelocationService to translate coords into address and sets emits event to update address in parent component
-  setMapLocation(coords): void {
+  /**
+   * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
+   *
+   * @param coords - type Coords
+   */
+  setMapLocation(coords: Coords): void {
     this.geolocationService.locationDecode(coords, (address) => {
       this.setAddressEvent.emit(address);
     });
   }
-// Adds marker to map
-  setMarker(coords): void {
+  /**
+   * Adds marker to map
+   *
+   * @param coords - type [number, number]
+   */
+  setMarker(coords: [number, number]): void {
     // tslint:disable-next-line: no-unused-expression
     this.marker && this.map.removeLayer(this.marker);
-    this.marker = new L.Marker(coords, {draggable: true, icon: this.markerIcon.icon});
+    this.marker = new Layer.Marker(coords, {draggable: true, icon: this.markerIcon.icon});
     this.map.addLayer(this.marker);
   }
 }

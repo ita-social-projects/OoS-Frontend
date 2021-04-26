@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
+import { Coords } from '../../models/coords.model';
+import { MapAddress } from '../../models/map-address.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,18 +21,27 @@ export class GeolocationService {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  navigatorRecievedLocation(data, callback): void {
+  navigatorRecievedLocation(data, callback: (Coords) => void): void {
     callback({lat: data.coords.latitude, lng: data.coords.longitude});
   }
-// gets user location (coords)
-  handleUserLocation(callback): void {
+  /**
+   * gets user location
+   *
+   * @param callback - Function, which recieves 1 argument of type Coords
+   */
+  handleUserLocation(callback: (Coords) => void): void {
     navigator.geolocation.getCurrentPosition(
       (data) => this.navigatorRecievedLocation(data, callback),
       this.navigatorRecievedError
     );
   }
-// translates coords into address
-  locationDecode(coords, callback): void {
+  /**
+   * translates coords into address
+   *
+   * @param coords - Coords
+   * @param callback - Function, which recieves 1 argument of type MapAddress
+   */
+  locationDecode(coords: Coords, callback: (MapAddress) => void): void {
     new Geocoder().options.geocoder.reverse(
       {lat: coords.lat, lng: coords.lng},
       18,
@@ -50,8 +61,13 @@ export class GeolocationService {
       }
     );
   }
-// translates address into coords
-  async locationGeocode(address: {city: string, street: string, buildingNumber: string}): Promise<[number, number] | null> {
+
+  /**
+   * translates address into coords
+   *
+   * @param address - MapAddress
+   */
+  async locationGeocode(address: MapAddress): Promise<[number, number] | null> {
     const query = `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`;
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&limit=5&format=json&addressdetails=1`;
     const result = await fetch(url);

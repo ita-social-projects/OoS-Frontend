@@ -38,7 +38,7 @@ import { FormsModule } from '@angular/forms';
 import { ProviderConfigService } from './provider-config/provider-config.service';
 import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { MapComponent } from './provider-activities/create-activity/map/map.component';
-import { GeolocationService } from '../geolocation.service';
+import { GeolocationService } from '../../shared/services/geolocation/geolocation.service';
 
 @NgModule({
   declarations: [
