@@ -32,6 +32,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { ProviderConfigService } from './provider-config/provider-config.service';
 import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
+import { MapComponent } from './provider-workshops/create-workshop/map/map.component';
+import { GeolocationService } from '../../shared/services/geolocation/geolocation.service';
+
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { CreateWorkshopComponent } from './provider-workshops/create-workshop/create-workshop.component';
 import { ProviderWorkshopsService } from 'src/app/shared/services/workshops/provider-workshops/provider-workshops';
@@ -48,6 +51,7 @@ import { ProviderMessagesComponent } from './provider-messages/provider-messages
     CreateAddressComponent,
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
+    MapComponent,
     ApplicationCardComponent,
     CreateWorkshopComponent,
     ProviderMessagesComponent,
@@ -83,7 +87,8 @@ import { ProviderMessagesComponent } from './provider-messages/provider-messages
     ProviderConfigService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     CanDeactivateGuard,
-    DatePipe
+    DatePipe,
+    GeolocationService
   ],
 
 })

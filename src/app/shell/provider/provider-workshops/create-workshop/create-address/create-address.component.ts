@@ -26,4 +26,10 @@ export class CreateAddressComponent implements OnInit {
   ngOnInit(): void {
     this.passAddressFormGroup.emit(this.AddressFormGroup);
   }
+
+  onReceiveAddressFromMap(form): void {
+    this.AddressFormGroup.get('city').setValue(form.city);
+    this.AddressFormGroup.get('buildingNumber').setValue(form.buildingNumber);
+    this.AddressFormGroup.get('street').setValue(form.street);
+  }
 }
