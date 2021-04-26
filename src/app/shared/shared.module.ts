@@ -15,7 +15,7 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
-import { HobbySelectComponent } from './components/hobby-select/hobby-select.component';
+import { CategorySelectComponent } from './components/hobby-select/category-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
@@ -31,7 +31,7 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     DigitOnlyDirective,
     WorkshopCardComponent,
     TeacherCardComponent,
-    HobbySelectComponent,
+    CategorySelectComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
     TeacherFormComponent,
@@ -58,7 +58,7 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     WorkshopCardComponent,
     MaterialModule,
     TeacherCardComponent,
-    HobbySelectComponent,
+    CategorySelectComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
     CityAutocompleteComponent,
