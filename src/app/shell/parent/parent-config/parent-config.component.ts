@@ -16,7 +16,7 @@ import { ParentState } from 'src/app/shared/store/parent.state';
 export class ParentConfigComponent implements OnInit {
   form: FormGroup;
 
-  @Select(ParentState.childrenList) cards$: Observable<Child[]>;
+  @Select(ParentState.children) cards$: Observable<Child[]>;
   public cards: Child[];
 
   constructor(private fb:FormBuilder, private store: Store) { }
