@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { MetaDataState } from '../../store/meta-data.state';
 import { CityList } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
+import { FormGroup } from '@angular/forms';
 import { CityFilterService } from '../../services/filters-services/city-filter/city-filter.service';
 
 @Component({
@@ -15,14 +16,14 @@ import { CityFilterService } from '../../services/filters-services/city-filter/c
   styleUrls: ['./city-autocomplete.component.scss']
 })
 export class CityAutocompleteComponent implements OnInit {
+  @Output() selectedCity = new EventEmitter();
+  @Input() address: FormGroup;
 
   city: City;
   cityControl = new FormControl();
   cities: City[] = [];
   noCity: boolean = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  @Output() selectedCity = new EventEmitter();
 
   @Select(MetaDataState.filteredCities)
   filteredCities$: Observable<City[]>;
@@ -48,6 +49,7 @@ export class CityAutocompleteComponent implements OnInit {
           this.store.dispatch(new CityList([]));
         };
       });
+      this.address && this.address.valueChanges.subscribe(address => this.cityControl.setValue(address.city));
   }
   /**
    * This method filters the list of all cities according to the value of input;

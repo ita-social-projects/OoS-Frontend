@@ -8,14 +8,14 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
-import { OrganizationCardComponent } from './components/organization-card/organization-card.component';
+import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
-import { HobbySelectComponent } from './components/hobby-select/hobby-select.component';
+import { CategorySelectComponent } from './components/hobby-select/category-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
@@ -29,9 +29,9 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     CategoriesFilterComponent,
     CityFilterComponent,
     DigitOnlyDirective,
-    OrganizationCardComponent,
+    WorkshopCardComponent,
     TeacherCardComponent,
-    HobbySelectComponent,
+    CategorySelectComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
     TeacherFormComponent,
@@ -55,10 +55,10 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     CategoriesFilterComponent,
     CityFilterComponent,
     DigitOnlyDirective,
-    OrganizationCardComponent,
+    WorkshopCardComponent,
     MaterialModule,
     TeacherCardComponent,
-    HobbySelectComponent,
+    CategorySelectComponent,
     CategoryCardComponent,
     CreateTeacherComponent,
     CityAutocompleteComponent,
