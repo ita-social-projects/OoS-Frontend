@@ -22,7 +22,7 @@
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
-        <app-organization-card *ngFor="let card of orgCards$ | async | slice:0:4" [card]="card"></app-organization-card>
+        <app-workshop-card *ngFor="let card of cards$ | async | slice:0:4" [card]="card"></app-workshop-card>
       </ng-container>
     </div>
   </div>
