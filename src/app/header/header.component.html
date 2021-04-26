@@ -16,42 +16,49 @@
 
 <ng-template #isMainPage>
   <div fxLayout="column" fxLayoutAlign="none center">
-  <h1 class="header_title">
-    Знайдіть найкращі гуртки у своєму місті!
-  </h1>
-  <h2 class="header_descr">
-    Понад 500 найрізноманітніших гуртків
-  </h2>
-  <div class="header_search">
-    <mat-icon> place</mat-icon>
-    <app-city-filter class="header_city"></app-city-filter>
-    <app-searchbar class="header_bar"></app-searchbar>
+    <h1 class="header_title">
+      Знайдіть найкращі гуртки у своєму місті!
+    </h1>
+    <h2 class="header_descr">
+      Понад 500 найрізноманітніших гуртків
+    </h2>
+    <div class="header_search">
+      <mat-icon> place</mat-icon>
+      <app-city-filter class="header_city"></app-city-filter>
+      <app-searchbar class="header_bar"></app-searchbar>
+    </div>
   </div>
-</div>
 </ng-template>
 
 <ng-template #isUnauthorized>
-    <button mat-stroked-button class="header_login" (click)="login()">
-      УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
-    </button>
+  <button mat-stroked-button class="header_login" (click)="login()">
+    УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
+  </button>
 </ng-template>
 
 <ng-template #isAuthorized>
   <div class="authorization">
-    <button mat-raised-button color="primary"
-      matBadge="2" matBadgePosition="before" matBadgeColor="accent">
+    <button mat-raised-button color="primary" matBadge="2" matBadgePosition="before" matBadgeColor="accent">
       <i>
-        <mat-icon class= "icon-account">account_circle</mat-icon>
+        <mat-icon class="icon-account">account_circle</mat-icon>
         <!-- <mat-icon class="icon-message"> email</mat-icon> -->
       </i>
     </button>
-      <button mat-button [matMenuTriggerFor]="log">
-        <h1>{{userName$ | async}}</h1>
-      </button>
-      <mat-menu #log="matMenu">
-        <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'workshops'">Гуртки</a></button>
-        <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'config'">Налаштування</a></button>
-        <button mat-menu-item (click)="logout()">Вийти</button>
-      </mat-menu>
-    </div>
+    <button mat-button [matMenuTriggerFor]="log">
+      <h1>{{userName$ | async}}</h1>
+    </button>
+    <mat-menu #log="matMenu">
+      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'workshops'">Гуртки</a></button>
+      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'config'">Налаштування</a></button>
+      <button mat-menu-item (click)="logout()">Вийти</button>
+    </mat-menu>
+  </div>
+</ng-template>
+<ng-container *ngIf="(isLoading$ | async) then Spinner;"></ng-container>
+
+<ng-template #Spinner>
+  <div class="spinner">
+    <mat-progress-spinner diameter=80 mode="indeterminate" color="primary">
+    </mat-progress-spinner>
+  </div>
 </ng-template>

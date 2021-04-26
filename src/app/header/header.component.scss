@@ -14,7 +14,7 @@
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
-  
+
 
   &_secondary{
     background: #3849F9;
@@ -39,7 +39,7 @@
     .logo{
       position: absolute;
       transform: translate(0, -41%);
-     
+
     }
   }
 
@@ -97,7 +97,12 @@
 .icon-account {
   color:white;
 }
-
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
 ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
@@ -189,7 +194,7 @@ and (max-device-width : 480px)  {
 }
 @media (max-width: 415px) {
   .header_title{
-    font-size: 2.25rem; 
+    font-size: 2.25rem;
  }
 }
 

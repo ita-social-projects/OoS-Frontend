@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -7,11 +9,11 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationsService } from '../services/applications/applications.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
+import { ToggleLoading } from './app.actions';
 import { GetWorkshops } from './filter.actions';
 import { CreateWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess } from './provider.actions';
 
 export interface ProviderStateModel {
-  loading: boolean;
   workshopsList: Workshop[];
   applicationsList: Application[];
 }
@@ -20,7 +22,6 @@ export interface ProviderStateModel {
   name: 'provider',
   defaults: {
     workshopsList: [],
-    loading: false,
     applicationsList: Application['']
   }
 })
@@ -36,11 +37,11 @@ export class ProviderState {
   static applicationsList(state: ProviderStateModel) {
     return state.applicationsList
   }
-
   constructor(
     private providerWorkshopsService: ProviderWorkshopsService,
     private childCardsService: ChildCardService,
     private applicationService: ApplicationsService,
+    public snackBar: MatSnackBar, private router: Router
   ) { }
 
   @Action(GetWorkshops)
@@ -58,8 +59,8 @@ export class ProviderState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch, patchState }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
-    patchState({ loading: true });
+  createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
+    dispatch(new ToggleLoading(true));
     return this.providerWorkshopsService
       .createWorkshop(payload)
       .pipe(
@@ -69,15 +70,32 @@ export class ProviderState {
       );
   }
   @Action(OnCreateWorkshopFail)
-  onCreateWorkshopFail({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopFail): void {
+  onCreateWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopFail): void {
     console.log('Workshop creation is failed', payload);
-    patchState({ loading: false })
-    throwError(payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.snackBar.open('На жаль виникла помилка', 'Спробуйте ще раз!', {
+        duration: 5000,
+        panelClass: ['red-snackbar'],
+      });
+      this.router.navigate(['/provider/cabinet/workshops']);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
   }
   @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
-    patchState({ loading: false })
-    console.log('Workshop is created', payload);
+  onCreateWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    setTimeout(() => {
+      this.snackBar.open('Гурток створено!', '', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['primary'],
+      });
+      console.log('Workshop is created', payload);
+      dispatch(new ToggleLoading(false));
+      this.router.navigate(['/provider/cabinet/workshops']);
+    }, 2000);
+
   }
 
 

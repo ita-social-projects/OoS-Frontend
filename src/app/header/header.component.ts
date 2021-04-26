@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { UserRegistrationState } from '../shared/store/user-registration.state';
 import { Observable } from 'rxjs';
 import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppState } from '../shared/store/app.state';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProviderState } from '../shared/store/provider.state';
 
-enum RoleLinks{
-  provider= 'provider/cabinet',
+enum RoleLinks {
+  provider = 'provider/cabinet',
   parent = 'parent'
 }
 
@@ -32,23 +32,14 @@ export class HeaderComponent implements OnInit {
   userRole$: Observable<string>;
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
+  @Select(AppState.isLoading)
+  isLoading$: Observable<boolean>;
   role: string;
-  roles= RoleLinks;
+  roles = RoleLinks;
 
-  constructor(public store: Store,
-              private actions$: Actions,
-              public snackBar: MatSnackBar) {
-      actions$.pipe(
-        ofAction(AuthFail)
-      ).subscribe(action => {
-          this.snackBar.open('Check your connection', 'Try again!', {
-          duration: 5000,
-          panelClass: ['red-snackbar'],
-          });
-      });
-    }
+  constructor(public store: Store) { }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
     this.userRole$.subscribe(value => {
       this.role = value;
@@ -57,7 +48,7 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     this.store.dispatch(new Logout());
   }
-  login(): void{
+  login(): void {
     this.store.dispatch(new Login());
   }
 }

@@ -1,7 +1,7 @@
 import { Workshop } from "../models/workshop.model";
 export class GetWorkshop {
   static readonly type = '[provider] gets Workshop';
-  constructor() {}
+  constructor() { }
 }
 export class GetApplications {
   static readonly type = '[provider] gets applications';
@@ -12,7 +12,7 @@ export class CreateWorkshop {
   constructor(public payload: Workshop) { }
 }
 export class OnCreateWorkshopFail {
-  static readonly type = '[provider] create Workshop failed';
+  static readonly type = '[provider] create Workshop fail';
   constructor(public payload: Error) { }
 }
 export class OnCreateWorkshopSuccess {
