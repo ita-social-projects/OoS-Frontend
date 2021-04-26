@@ -75,7 +75,6 @@ export class ProviderState {
     console.log('Workshop creation is failed', payload);
     patchState({ loading: false })
     throwError(payload);
-
   }
   @Action(OnCreateWorkshopSuccess)
   onCreateWorkshopSuccess({ patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
