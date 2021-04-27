@@ -2,8 +2,8 @@ import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/
 import * as Layer from "leaflet";
 import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
-import { Coords } from '../../../../../shared/models/coords.model';
-import { MapAddress } from '../../../../../shared/models/map-address.model';
+import { Coords } from '../../../../../../shared/models/coords.model';
+import { MapAddress } from '../../../../../../shared/models/map-address.model';
 
 @Component({
   selector: 'app-map',
@@ -14,7 +14,7 @@ export class MapComponent implements AfterViewInit {
   @Input() address: FormGroup;
   @Output() setAddressEvent = new EventEmitter<FormGroup>();
 
-  constructor(private geolocationService: GeolocationService) {}
+  constructor(private geolocationService: GeolocationService) { }
   map;
   marker;
   mainLayer;
@@ -31,7 +31,7 @@ export class MapComponent implements AfterViewInit {
   /**
    * Sets Kyiv coords as map center by default
    */
-  userCoords: [number, number] = [ 50.462235, 30.545131 ];
+  userCoords: [number, number] = [50.462235, 30.545131];
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
    * Creates and sets map after div with is "map" renders.
@@ -42,7 +42,7 @@ export class MapComponent implements AfterViewInit {
     this.geolocationService.handleUserLocation((coords: Coords) => {
       if (coords) {
         this.userCoords = [coords.lat, coords.lng];
-        this.map =  Layer.map('map').setView(this.userCoords, 11);
+        this.map = Layer.map('map').setView(this.userCoords, 11);
         Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution:
             '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -80,7 +80,7 @@ export class MapComponent implements AfterViewInit {
   setMarker(coords: [number, number]): void {
     // tslint:disable-next-line: no-unused-expression
     this.marker && this.map.removeLayer(this.marker);
-    this.marker = new Layer.Marker(coords, {draggable: true, icon: this.markerIcon.icon});
+    this.marker = new Layer.Marker(coords, { draggable: true, icon: this.markerIcon.icon });
     this.map.addLayer(this.marker);
   }
 }

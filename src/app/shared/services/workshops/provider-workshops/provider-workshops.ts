@@ -14,8 +14,8 @@ export class ProviderWorkshopsService {
     return this.http.get<Workshop[]>('/Workshop/Get')
   }
 
-  createWorkshop( workshop ): any {
-   return this.http.post('/Workshop/Create', workshop).subscribe(workshop => console.log(workshop));
+  createWorkshop(workshop): any {
+    return this.http.post('/Workshop/Create', workshop);
   }
 
 }
