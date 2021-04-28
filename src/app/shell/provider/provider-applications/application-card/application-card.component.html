@@ -6,7 +6,7 @@
         (mouseleave)="onInfoHide(img)">
     </div>
     <div fxLayout='column' fxLayoutAlign='center start'>
-      <h2>{{application.child.firstName}} {{application.child.lastName}}
+      <h2>{{application.child.firstName}} {{application.child.secondName}} {{application.child.patronymic}}
         {{application.child.lastName}}</h2>
       {{getAge(application.child.birthDay)}} років
       <p>{{application.date | date: 'shortDate'}}</p>

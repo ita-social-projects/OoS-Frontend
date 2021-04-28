@@ -1,7 +1,7 @@
 export class Parent {
   firstName: string;
+  lastName: string;
   secondName: string;
-  patronymic: string;
   birthDay: Date;
   gender: string;
   phone: string;
@@ -9,8 +9,8 @@ export class Parent {
 
   constructor(info) {
     this.firstName = info.firstName;
-    this.secondName = info.lastName;
-    this.patronymic = info.secondName;
+    this.lastName = info.lastName;
+    this.secondName = info.secondName;
     this.birthDay = info.birthDay;
     this.gender = info.gender;
   }

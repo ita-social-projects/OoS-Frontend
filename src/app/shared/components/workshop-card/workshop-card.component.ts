@@ -24,5 +24,4 @@ export class WorkshopCardComponent implements OnInit {
   onDelete(): void {
     this.store.dispatch(new DeleteWorkshop(this.workshop))
   }
-
 }

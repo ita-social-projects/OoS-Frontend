@@ -10,9 +10,8 @@ export class ChildInfoBoxComponent implements OnInit {
 
   constructor() { }
 
-  @Input() child: any;
+  @Input() child;
 
   ngOnInit(): void {
   }
-
 }

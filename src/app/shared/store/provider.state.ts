@@ -116,7 +116,6 @@ export class ProviderState {
         duration: 5000,
         panelClass: ['red-snackbar'],
       });
-      this.router.navigate(['/provider/cabinet/workshops']);
       dispatch(new ToggleLoading(false));
     }, 2000);
   }
@@ -132,7 +131,6 @@ export class ProviderState {
       });
       console.log('Workshop is deleted', payload);
       dispatch(new ToggleLoading(false));
-      this.router.navigate(['/provider/cabinet/workshops']);
     }, 2000);
   }
 
