@@ -14,9 +14,10 @@
 }
 .avatar {
   background-size: cover;
-  margin: 1rem;
+  padding: 1rem;
   &:hover{
     opacity: 0.5;
+    cursor: pointer;
   }
 }
 .btn{

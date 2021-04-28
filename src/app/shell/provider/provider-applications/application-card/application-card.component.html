@@ -1,8 +1,10 @@
 <mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
   [ngClass]="(application.status === 'new') ? 'card-new' : ''">
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
-    <img mat-card-avatar class="avatar" #img src="assets/mock-images/Avatar.png" alt="child-photo"
-      (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">
+    <div class="avatar">
+      <img mat-card-avatar #img src="assets/mock-images/Avatar.png" alt="child-photo" (mouseover)="onInfoShow(img) "
+        (mouseleave)="onInfoHide(img)">
+    </div>
     <div fxLayout='column' fxLayoutAlign='center start'>
       <h2>{{application.child.firstName}} {{application.child.lastName}}
         {{application.child.lastName}}</h2>
@@ -14,7 +16,8 @@
     <h2>{{application.provider.title}}</h2>
     <h4>{{application.provider.workshop.title}}</h4>
     <p><img src="assets/icons/age.png" alt="people"> доступних місць
-      <b>{{application.provider.workshop.placeAmount}}</b></p>
+      <b>{{application.provider.workshop.placeAmount}}</b>
+    </p>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div *ngIf="(application.status === 'approved') then IsApproved;"></div>
