@@ -11,14 +11,13 @@ import { Child } from '../../models/child.model';
 })
 export class ChildCardService {
 
-  dataUrl = '/Child/Get'
-
   constructor(private http: HttpClient) { }
 
-  getCards(): Observable<Child[]> {
+  getChildren(): Observable<Child[]> {
     return this.http.get<Child[]>('/Child/Get')
   }
-  createChildren( child: Child):  void {
+
+  createChildren(child: Child): void {
     this.http.post('/Child/Create', child).subscribe(child => console.log(child));
   }
 }

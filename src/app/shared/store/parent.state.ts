@@ -29,26 +29,25 @@ export class ParentState {
     return state.children
   }
 
-  constructor(private parentWorkshopsService: ParentWorkshopsService, private childCardsService : ChildCardService){}
+  constructor(private parentWorkshopsService: ParentWorkshopsService, private childCardsService: ChildCardService) { }
   @Action(GetParentWorkshops)
   getParentWorkshops({ patchState }: StateContext<ParentStateModel>) {
-      return this.parentWorkshopsService.getWorkshops().subscribe(
-        (parentWorkshops: Workshop[]) => patchState({parentWorkshops})
-      )
+    return this.parentWorkshopsService.getWorkshops().subscribe(
+      (parentWorkshops: Workshop[]) => patchState({ parentWorkshops })
+    )
   }
   @Action(GetChildCards)
   GetChildCards({ patchState }: StateContext<ParentStateModel>) {
-      return this.childCardsService.getCards().subscribe(
-        (children: Child[]) => patchState({children})
-      )
+    return this.childCardsService.getChildren().subscribe(
+      (children: Child[]) => patchState({ children })
+    )
   }
   @Action(CreateChildren)
-  createChildren({}: StateContext<ParentStateModel>, { payload }: CreateChildren): void {
-    for(let i=0; i< payload.controls.length; i++ ){
+  createChildren({ }: StateContext<ParentStateModel>, { payload }: CreateChildren): void {
+    for (let i = 0; i < payload.controls.length; i++) {
       let child: Child = new Child(payload.controls[i].value);
       this.childCardsService.createChildren(child);
-   }
-      
+    }
+
   }
 }
-

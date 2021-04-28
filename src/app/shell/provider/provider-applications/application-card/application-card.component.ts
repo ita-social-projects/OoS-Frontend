@@ -1,4 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
+import { Application } from 'src/app/shared/models/application.model';
+import { Child } from 'src/app/shared/models/child.model';
+import { ParentState } from 'src/app/shared/store/parent.state';
 @Component({
   selector: 'app-request-card',
   templateUrl: './application-card.component.html',
@@ -9,9 +15,11 @@ export class ApplicationCardComponent implements OnInit {
 
   constructor() { }
 
-  @Input() card;
+  @Input() application: Application;
   @Output() approved = new EventEmitter();
   @Output() denied = new EventEmitter();
+  @Output() infoShow = new EventEmitter();
+  @Output() infoHide = new EventEmitter();
 
   ngOnInit(): void {
   }
@@ -26,12 +34,16 @@ export class ApplicationCardComponent implements OnInit {
     }
     return age;
   }
-
-  onApprove(card): void {
-    this.approved.emit(card);
+  onApprove(application: Application): void {
+    this.approved.emit(application);
   }
-  onDeny(card): void {
-    this.denied.emit(card);
+  onDeny(application: Application): void {
+    this.denied.emit(application);
   }
-
+  onInfoShow(element: Element): void {
+    this.infoShow.emit({ element, child: this.application.child });
+  }
+  onInfoHide(element: Element): void {
+    this.infoHide.emit();
+  }
 }

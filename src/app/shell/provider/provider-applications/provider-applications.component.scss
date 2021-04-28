@@ -16,3 +16,11 @@
 ::ng-deep .mat-tab-group{
   margin-top:20px;
 }
+.box-hidden{
+  display: none;
+}
+.box-visible{
+  display: block;
+  position: absolute;
+  z-index: 2;
+}

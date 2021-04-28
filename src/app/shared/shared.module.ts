@@ -21,6 +21,9 @@ import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
+import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
+import { MatCardModule } from '@angular/material/card';
+import { BoxtipDirective } from './directives/boxtip.directive';
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -39,14 +42,17 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
-    ApplicationSortPipe
+    ApplicationSortPipe,
+    ChildInfoBoxComponent,
+    BoxtipDirective,
   ],
   imports: [
     MaterialModule,
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    MatCardModule
   ],
   exports: [
     FiltersListComponent,
@@ -65,7 +71,9 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
-    ApplicationSortPipe
+    ApplicationSortPipe,
+    MatCardModule,
+    ChildInfoBoxComponent
   ]
 })
 export class SharedModule { }

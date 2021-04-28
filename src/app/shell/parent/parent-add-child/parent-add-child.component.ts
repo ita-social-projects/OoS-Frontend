@@ -13,20 +13,20 @@ import { CreateChildren } from 'src/app/shared/store/parent.actions';
 export class ParentAddChildComponent implements OnInit {
 
   childrenFormArray = new FormArray([]);
-  
-  constructor( private store: Store, private fb : FormBuilder) {
 
-   }
+  constructor(private store: Store, private fb: FormBuilder) {
+
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.childrenFormArray.push(this.newForm());
 
   }
-  newForm(): FormGroup{
+  newForm(): FormGroup {
     const childFormGroup = this.fb.group({
       lastName: new FormControl(''),
-      firstName: new FormControl(''), 
+      firstName: new FormControl(''),
       secondName: new FormControl(''),
       birthDay: new FormControl(''),
       gender: new FormControl(''),
@@ -36,16 +36,16 @@ export class ParentAddChildComponent implements OnInit {
     return childFormGroup;
   }
 
-  addChild(){
+  addChild() {
     this.childrenFormArray.push(this.newForm());
-}
-  deleteForm(index):void{
+  }
+  deleteForm(index): void {
     this.childrenFormArray.removeAt(index)
-}
+  }
 
   onSubmit() {
-  
-  this.store.dispatch(new CreateChildren(this.childrenFormArray))
-   
+
+    this.store.dispatch(new CreateChildren(this.childrenFormArray))
+
   }
 }
