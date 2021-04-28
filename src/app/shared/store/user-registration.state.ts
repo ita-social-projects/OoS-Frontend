@@ -5,6 +5,7 @@ import { Login, Logout, CheckAuth, AuthFail } from './user-registration.actions'
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface UserRegistrationStateModel {
   isAuthorized: boolean;
@@ -25,10 +26,10 @@ export interface UserRegistrationStateModel {
 export class UserRegistrationState {
   constructor(
     public oidcSecurityService: OidcSecurityService,
-    public http: HttpClient) {}
+    public http: HttpClient, public snackBar: MatSnackBar,) { }
 
   @Selector()
-    static isAuthorized(state: UserRegistrationStateModel) {
+  static isAuthorized(state: UserRegistrationStateModel) {
     return state.isAuthorized;
   }
   @Selector()
@@ -40,11 +41,11 @@ export class UserRegistrationState {
     return state.role;
   }
   @Action(Login)
-  Login({  dispatch }: StateContext<UserRegistrationStateModel>): void {
+  Login({ dispatch }: StateContext<UserRegistrationStateModel>): void {
     this.oidcSecurityService.authorize();
   }
   @Action(Logout)
-  Logout({  dispatch  }: StateContext<UserRegistrationStateModel>): void {
+  Logout({ dispatch }: StateContext<UserRegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
     dispatch(new CheckAuth());
   }
@@ -54,16 +55,19 @@ export class UserRegistrationState {
       .checkAuth()
       .subscribe((auth) => {
         console.log('is authenticated', auth);
-        patchState({ isAuthorized: auth});
+        patchState({ isAuthorized: auth });
         if (auth) {
-          patchState({role: jwt_decode(this.oidcSecurityService.getToken())['role']});
-          patchState({userName: jwt_decode(this.oidcSecurityService.getToken())['name']});
+          patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
+          patchState({ userName: jwt_decode(this.oidcSecurityService.getToken())['name'] });
         }
       });
-    }
+  }
   @Action(AuthFail)
   AuthFail(): void {
-      console.log('Authorization failed');
-    }
+    console.log('Authorization failed');
+    this.snackBar.open("Упс! Перевірте з'єднання", 'Спробуйте ще раз!', {
+      duration: 5000,
+      panelClass: ['red-snackbar'],
+    });
   }
-
+}

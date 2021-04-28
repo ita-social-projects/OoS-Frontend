@@ -4,28 +4,32 @@ import { ChangePage, ToggleLoading } from './app.actions';
 
 export interface AppStateModel {
   isLoading: boolean;
-  isMainPage:boolean;
+  isMainPage: boolean;
 }
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    isLoading: true,
+    isLoading: false,
     isMainPage: true
   }
 })
 @Injectable()
 export class AppState {
   @Selector()
-    static isMainPage(state: AppStateModel) {
+  static isMainPage(state: AppStateModel) {
     return state.isMainPage;
+  }
+  @Selector()
+  static isLoading(state: AppStateModel) {
+    return state.isLoading
   }
   @Action(ToggleLoading)
   toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-    patchState({ isLoading: payload});
+    patchState({ isLoading: payload });
   }
   @Action(ChangePage)
   changePage({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-    patchState({ isMainPage: payload});
+    patchState({ isMainPage: payload });
   }
 }
