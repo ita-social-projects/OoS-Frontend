@@ -21,7 +21,7 @@ export class Workshop {
   image: File[];
   head: string;
   headBirthDate: Date;
-  category: Category;
+  category: string;
   type: string;
   keyWords: string;
   address: Address;

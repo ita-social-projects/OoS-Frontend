@@ -23,7 +23,6 @@ import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
 import { MatCardModule } from '@angular/material/card';
-import { BoxtipDirective } from './directives/boxtip.directive';
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -44,7 +43,6 @@ import { BoxtipDirective } from './directives/boxtip.directive';
     ApplicationFilterPipe,
     ApplicationSortPipe,
     ChildInfoBoxComponent,
-    BoxtipDirective,
   ],
   imports: [
     MaterialModule,

@@ -14,15 +14,13 @@ import { ParentState } from 'src/app/shared/store/parent.state';
 })
 export class ParentWorkshopsComponent implements OnInit {
 
-  @Select(ParentState.parentWorkshops) parentWorkshops$: Observable<Workshop[]>;
-  public cards: Workshop[];
+  @Select(ParentState.parentWorkshops) workshops$: Observable<Workshop[]>;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetParentWorkshops())
-    this.parentWorkshops$.subscribe(cards => this.cards = cards);
   }
 
 }

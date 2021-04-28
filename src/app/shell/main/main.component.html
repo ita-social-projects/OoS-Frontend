@@ -1,14 +1,13 @@
 <div class="main">
   <div class="main_categories">
-    <div class="main_header" fxLayoutAlign="space-between center" >
+    <div class="main_header" fxLayoutAlign="space-between center">
       <h3>Найпопулярніші напрямки</h3>
       <a routerLink="/result" class="main_link">
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="grid"  >
-      <app-category-card *ngFor="let categoryCard of categoriesCards$ | async "  
-        [categoryCard]="categoryCard"
+    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="grid">
+      <app-category-card *ngFor="let categoryCard of categoriesCards$ | async " [categoryCard]="categoryCard"
         [icons]="icons$ | async">
       </app-category-card>
     </div>
@@ -22,7 +21,8 @@
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
-        <app-workshop-card *ngFor="let card of cards$ | async | slice:0:4" [card]="card"></app-workshop-card>
+        <app-workshop-card *ngFor="let workshop of workshops$ | async | slice:0:4" [workshop]="workshop">
+        </app-workshop-card>
       </ng-container>
     </div>
   </div>

@@ -18,6 +18,6 @@ export class ChildCardService {
   }
 
   createChildren(child: Child): void {
-    this.http.post('/Child/Create', child).subscribe(child => console.log(child));
+    this.http.post('/Child/Create', child);
   }
 }

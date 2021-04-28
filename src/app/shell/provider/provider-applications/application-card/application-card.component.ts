@@ -1,10 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
 import { Application } from 'src/app/shared/models/application.model';
-import { Child } from 'src/app/shared/models/child.model';
-import { ParentState } from 'src/app/shared/store/parent.state';
+
 @Component({
   selector: 'app-request-card',
   templateUrl: './application-card.component.html',
@@ -24,7 +20,12 @@ export class ApplicationCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getAge(dateString: string) {
+  /**
+   * This method get of the child
+   * @param string birth date
+  * @returns number Age
+  */
+  getAge(dateString: string): number {
     const today = new Date();
     const birthDate = new Date(dateString);
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -34,15 +35,35 @@ export class ApplicationCardComponent implements OnInit {
     }
     return age;
   }
+
+  /**
+  * This method emit on approve action
+  * @param Application application
+  */
   onApprove(application: Application): void {
     this.approved.emit(application);
   }
+
+  /**
+  * This method emit on deny action
+  * @param Application application
+  */
   onDeny(application: Application): void {
     this.denied.emit(application);
   }
+
+  /**
+  * This method emit on mouseover action on child avatar
+  * @param Application application
+  */
   onInfoShow(element: Element): void {
     this.infoShow.emit({ element, child: this.application.child });
   }
+
+  /**
+  * This method emit on mouseleave action on child avatar
+  * @param Application application
+  */
   onInfoHide(element: Element): void {
     this.infoHide.emit();
   }

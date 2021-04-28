@@ -20,7 +20,6 @@ export class ProviderApplicationsComponent implements OnInit {
   public applications: Application[];
   child: Child;
 
-  @ViewChild('childInfoBox') childInfoBox: ChildInfoBoxComponent;
   IsVisible: boolean;
   top: number;
   left: number;
@@ -33,25 +32,48 @@ export class ProviderApplicationsComponent implements OnInit {
       this.applications = applications
     );
   }
+
+  /**
+  * This method changes status of emitted event to "approved"
+  * @param Application event
+  */
   onApprove(event: Application): void {
     const application = this.applications.find((application) => (application === event))
     application.status = 'approved';
   }
+
+  /**
+  * This method changes status of emitted event to "denied"
+  * @param Application event
+  */
   onDeny(event: Application): void {
     const application = this.applications.find((application) => (application === event))
     application.status = 'denied';
   }
+
+  /**
+  * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
+  * @param { element: Element, child: Child } object
+  */
   onInfoShow({ element, child }: { element: Element, child: Child }): void {
+    this.child = child;
     this.IsVisible = true;
+    this.getPosition(element);
+  }
+
+  onInfoHide(): void {
+    this.IsVisible = false;
+  }
+
+  /**
+  * This method get position pf emitted element
+  * @param Element element
+  */
+  getPosition(element: Element): void {
     const bodyRect = document.body.getBoundingClientRect();
     const coordinates = element.getBoundingClientRect();
     const offset = coordinates.top - bodyRect.top + 20;
     this.top = offset;
     this.left = coordinates.left;
-
-    this.child = child;
-  }
-  onInfoHide(): void {
-    this.IsVisible = false;
   }
 }
