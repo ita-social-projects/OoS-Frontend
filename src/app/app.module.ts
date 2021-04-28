@@ -22,9 +22,8 @@ import { UserRegistrationState } from './shared/store/user-registration.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
 import { SharedModule } from './shared/shared.module';
-import { ProviderState } from './shared/store/provider.state';
-import { ParentState } from './shared/store/parent.state';
-import { UserState } from './shared/store/user.state';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
@@ -57,6 +56,7 @@ import { UserState } from './shared/store/user.state';
     ShellModule,
     ReactiveFormsModule,
     RegistrationModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {
