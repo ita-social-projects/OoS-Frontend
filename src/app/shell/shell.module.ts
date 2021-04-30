@@ -11,10 +11,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrderingComponent } from './result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
-
 import { GroupModel } from './section/group/group.model';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
+import { ApplicationsComponent } from './personal-cabinet/applications/applications.component';
+import { MessagesComponent } from './personal-cabinet/messages/messages.component';
+import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 
 
 @NgModule({
@@ -23,6 +25,9 @@ import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
     ResultComponent,
     WorkshopCardsListComponent,
     OrderingComponent,
+    ApplicationsComponent,
+    MessagesComponent,
+    PersonalCabinetComponent
   ],
   imports: [
     CommonModule,

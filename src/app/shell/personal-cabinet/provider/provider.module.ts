@@ -31,8 +31,7 @@ import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { MapComponent } from './create-workshop/create-address/map/map.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 import { ProviderWorkshopsService } from 'src/app/shared/services/workshops/provider-workshops/provider-workshops';
-import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
-import { ApplicationCardComponent } from './provider-applications/application-card/application-card.component';
+import { ApplicationCardComponent } from '../applications/application-card/application-card.component';
 import { ProviderState } from 'src/app/shared/store/provider.state';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
@@ -41,7 +40,6 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
   declarations: [
     ProviderConfigComponent,
     ProviderOrgInfoComponent,
-    ProviderApplicationsComponent,
     CreateAddressComponent,
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,

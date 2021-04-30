@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Store} from '@ngxs/store';
-import {UserRegistrationState} from '../../shared/store/user-registration.state';
+import { UserRegistrationState } from 'src/app/shared/store/user-registration.state';
+
 
 @Injectable({
   providedIn: 'root'

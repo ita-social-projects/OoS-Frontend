@@ -7,11 +7,11 @@ import { ProviderState } from 'src/app/shared/store/provider.state';
 
 
 @Component({
-  selector: 'app-provider-requests',
-  templateUrl: './provider-applications.component.html',
-  styleUrls: ['./provider-applications.component.scss']
+  selector: 'app-requests',
+  templateUrl: './applications.component.html',
+  styleUrls: ['./applications.component.scss']
 })
-export class ProviderApplicationsComponent implements OnInit {
+export class ApplicationsComponent implements OnInit {
 
   @Select(ProviderState.applicationsList)
   cards$: Observable<Application[]>;

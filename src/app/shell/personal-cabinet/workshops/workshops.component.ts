@@ -8,8 +8,8 @@ import { ProviderState } from '../../../shared/store/provider.state';
 
 @Component({
   selector: 'app-workshops',
-  templateUrl: './workshops.component.html',
-  styleUrls: ['.workshops.component.scss']
+  templateUrl:'./workshops.component.html',
+  styleUrls: ['./workshops.component.scss']
 })
 export class WorkshopsComponent implements OnInit {
 
