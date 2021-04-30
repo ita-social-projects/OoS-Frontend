@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { ChangePage } from '../../../shared/store/app.actions';
+import { ChangePage } from 'src/app/shared/store/app.actions';
+
 
 @Component({
   selector: 'app-personal-cabinet',

@@ -7,11 +7,11 @@ import { ChangePage } from '../../../shared/store/app.actions';
 import { ProviderState } from '../../../shared/store/provider.state';
 
 @Component({
-  selector: 'app-provider-workshops',
-  templateUrl: './provider-workshops.component.html',
-  styleUrls: ['./provider-workshops.component.scss']
+  selector: 'app-workshops',
+  templateUrl: './workshops.component.html',
+  styleUrls: ['.workshops.component.scss']
 })
-export class ProviderWorkshopsComponent implements OnInit {
+export class WorkshopsComponent implements OnInit {
 
 
   @Select(ProviderState.workshopsList)

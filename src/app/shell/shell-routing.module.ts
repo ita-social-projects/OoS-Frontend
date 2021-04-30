@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
 import {MainComponent} from './main/main.component';
 import {ResultComponent} from './result/result.component';
-import {ProviderGuard} from './provider/provider.guard';
+
 import {ParentGuard} from './personal-cabinet/parent/parent.guard';
 import {Routes, RouterModule} from '@angular/router';
 import {GroupComponent} from './section/group/group.component';
+import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
   {path: 'result', component: ResultComponent},
   {
     path: 'provider',
-    loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard]
   },
   {

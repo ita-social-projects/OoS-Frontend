@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Application } from '../../../shared/models/application.model';
-import { GetApplications } from '../../../shared/store/provider.actions';
-import { ProviderState } from '../../../shared/store/provider.state';
+import { Application } from 'src/app/shared/models/application.model';
+import { GetApplications } from 'src/app/shared/store/provider.actions';
+import { ProviderState } from 'src/app/shared/store/provider.state';
+
 
 @Component({
   selector: 'app-provider-requests',

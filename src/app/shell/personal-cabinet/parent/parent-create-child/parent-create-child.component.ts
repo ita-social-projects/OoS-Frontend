@@ -6,11 +6,11 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 import { CreateChildren } from 'src/app/shared/store/parent.actions';
 
 @Component({
-  selector: 'app-parent-add-child',
-  templateUrl: './parent-add-child.component.html',
-  styleUrls: ['./parent-add-child.component.scss']
+  selector: 'app-parent-create-child',
+  templateUrl: './parent-create-child.component.html',
+  styleUrls: ['./parent-create-child.component.scss']
 })
-export class ParentAddChildComponent implements OnInit {
+export class ParentCreateChildComponent implements OnInit {
 
   childrenFormArray = new FormArray([]);
   
