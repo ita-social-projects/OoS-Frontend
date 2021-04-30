@@ -9,12 +9,13 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationsService } from '../services/applications/applications.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
+import { GetWorkshops, SetFilteredWorkshops } from './filter.actions';
 import { ToggleLoading } from './app.actions';
-import { GetWorkshops } from './filter.actions';
 import { CreateWorkshop, DeleteWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess, OnDeleteWorkshopFail, OnDeleteWorkshopSuccess } from './provider.actions';
 
 export interface ProviderStateModel {
   workshopsList: Workshop[];
+  filteredWorkshopsList: Workshop[];
   applicationsList: Application[];
 }
 
@@ -22,6 +23,7 @@ export interface ProviderStateModel {
   name: 'provider',
   defaults: {
     workshopsList: [],
+    filteredWorkshopsList: [],
     applicationsList: Application['']
   }
 })
@@ -57,7 +59,10 @@ export class ProviderState {
         patchState({ applicationsList })
     )
   }
-
+  @Action(SetFilteredWorkshops)
+  setFilteredWorkshops({ patchState }: StateContext<ProviderStateModel>, { payload }: SetFilteredWorkshops) {
+    patchState({ filteredWorkshopsList: payload });
+  }
   @Action(CreateWorkshop)
   createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
     dispatch(new ToggleLoading(true));
