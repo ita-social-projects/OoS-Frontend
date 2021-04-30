@@ -23,6 +23,7 @@ import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
 import { MatCardModule } from '@angular/material/card';
+import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -43,6 +44,7 @@ import { MatCardModule } from '@angular/material/card';
     ApplicationFilterPipe,
     ApplicationSortPipe,
     ChildInfoBoxComponent,
+    InfoBoxHostDirective,
   ],
   imports: [
     MaterialModule,
@@ -71,7 +73,8 @@ import { MatCardModule } from '@angular/material/card';
     ApplicationFilterPipe,
     ApplicationSortPipe,
     MatCardModule,
-    ChildInfoBoxComponent
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective
   ]
 })
 export class SharedModule { }

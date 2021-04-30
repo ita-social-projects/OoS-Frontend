@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
+import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Child } from 'src/app/shared/models/child.model';
+import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 
 import { Application } from '../../../shared/models/application.model';
 import { GetApplications } from '../../../shared/store/provider.actions';
@@ -20,19 +23,36 @@ export class ProviderApplicationsComponent implements OnInit {
   public applications: Application[];
   child: Child;
 
-  IsVisible: boolean;
-  top: number;
-  left: number;
+  @ViewChild(InfoBoxHostDirective, { static: true })
+  infoBoxHost: InfoBoxHostDirective;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) { }
+  constructor(private store: Store,
+    private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetApplications())
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
+
+    const viewContainerRef = this.infoBoxHost.viewContainerRef;
+
+    this.infoBoxService.isMouseOver$
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(200),
+        mergeMap(isMouseOver =>
+          this.infoBoxService.loadComponent(viewContainerRef, isMouseOver)
+        )
+      )
+      .subscribe();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
   /**
   * This method changes status of emitted event to "approved"
   * @param Application event
@@ -56,24 +76,10 @@ export class ProviderApplicationsComponent implements OnInit {
   * @param { element: Element, child: Child } object
   */
   onInfoShow({ element, child }: { element: Element, child: Child }): void {
-    this.child = child;
-    this.IsVisible = true;
-    this.getPosition(element);
+    this.infoBoxService.onMouseOver({ element, child });
   }
 
   onInfoHide(): void {
-    this.IsVisible = false;
-  }
-
-  /**
-  * This method get position pf emitted element
-  * @param Element element
-  */
-  getPosition(element: Element): void {
-    const bodyRect = document.body.getBoundingClientRect();
-    const coordinates = element.getBoundingClientRect();
-    const offset = coordinates.top - bodyRect.top + 20;
-    this.top = offset;
-    this.left = coordinates.left;
+    this.infoBoxService.onMouseLeave();
   }
 }

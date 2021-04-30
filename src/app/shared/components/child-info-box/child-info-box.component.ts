@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Child } from '../../models/child.model';
 
 @Component({
@@ -10,7 +10,10 @@ export class ChildInfoBoxComponent implements OnInit {
 
   constructor() { }
 
-  @Input() child;
+  @Input() child: Child;
+  @ViewChild('childInfoBox') childInfoBox: ElementRef<HTMLInputElement>;
+  @Input() top: string;
+  @Input() left: string;
 
   ngOnInit(): void {
   }

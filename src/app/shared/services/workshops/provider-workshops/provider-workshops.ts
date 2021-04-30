@@ -20,6 +20,6 @@ export class ProviderWorkshopsService {
 
   deleteWorkshop(workshop: Workshop): any {
     const id = workshop.id;
-    return this.http.delete(`/Workshop/Delete/${{ id }}`);
+    return this.http.delete(`/Workshop/Delete/${id}`);
   }
 }

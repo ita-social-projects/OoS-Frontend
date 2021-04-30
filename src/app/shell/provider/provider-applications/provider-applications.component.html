@@ -31,6 +31,5 @@
     (denied)="onDeny($event)" (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
   </app-request-card>
 </ng-template>
-<div *ngIf="child" [ngClass]="(!IsVisible) ? 'box-hidden' : 'box-visible'" [style]="{top: top+'px', left:left+'px'}">
-  <app-child-info-box [child]="child"></app-child-info-box>
-</div>
+
+<ng-template appInfoBoxHost></ng-template>
