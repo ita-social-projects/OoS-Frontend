@@ -21,6 +21,9 @@ import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
+import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
+import { MatCardModule } from '@angular/material/card';
+import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { CategoriesDropdownComponent } from './components/categories-dropdown/categories-dropdown.component';
 
 @NgModule({
@@ -42,6 +45,8 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ImageFormControlComponent,
     ApplicationFilterPipe,
     ApplicationSortPipe,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective,
     CategoriesDropdownComponent
   ],
   imports: [
@@ -49,7 +54,8 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    MatCardModule
   ],
   exports: [
     FiltersListComponent,
@@ -69,6 +75,9 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ImageFormControlComponent,
     ApplicationFilterPipe,
     ApplicationSortPipe,
+    MatCardModule,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective
     CategoriesDropdownComponent
   ]
 })

@@ -29,6 +29,7 @@ export class Workshop {
   ownership: string;
   rate: string;
   votes: string;
+  placeAmount: number;
 
   constructor(about, description, addr, tchrs) {
     this.title = about.title;

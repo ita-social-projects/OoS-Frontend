@@ -1,18 +1,21 @@
 [
-   {
-   "name": "Саша",
-   "surname": "Іванов",
-   "lastName": "Іванович",
-   "gender": "Жінка",
-   "birth": "15 02 2000",
-   "socialGroup": " відсутня"
-   },
-   {
-   "name": "Лена",
-   "surname": "Іванов",
-   "lastName": "Іванович",
-   "gender": "Жінка",
-   "birth": "15 02 2000",
-   "socialGroup": " відсутня"
-   }
+  {
+    "name": "Саша",
+    "surname": "Іванов",
+    "lastName": "Іванович",
+    "gender": "Жінка",
+    "birth": "15/02/2000",
+    "socialGroup": " відсутня",
+    "parent": [
+      {
+        "name": "Віктор",
+        "surname": "Іванов",
+        "lastName": "Іванович",
+        "gender": "Жінка",
+        "birth": "15/02/2000",
+        "phone": "0962967525",
+        "email": " alitvinets7@gmail.com"
+      }
+    ]
+  }
 ]

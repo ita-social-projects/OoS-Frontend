@@ -2,7 +2,7 @@
   <div class="card_header" fxLayout="row" fxLayoutAlign="end start">
     <div *ngIf="!(isMainPage$ | async) then ProviderActions; else UserActions"></div>
     <a href="#" class="card_category">
-      <img src="assets/icons/{{card.category}}.png" alt="{{card.category}}" class="card_category-img">
+      <img src="assets/icons/{{workshop.category}}.png" alt="{{workshop.category}}" class="card_category-img">
     </a>
   </div>
   <div *ngIf="( isMainPage$ | async) then MainView; else ProviderActivities"></div>
@@ -16,30 +16,30 @@
 <ng-template #MainView>
   <div class="card_body">
     <h3 class="card_title">
-      {{card.title}}
+      {{workshop.title}}
     </h3>
     <ul class="card_data">
       <li class="card_data-item">
         <img src="assets/icons/rate.png" alt="rate" class="card_data-icon">
-        {{card.rate}} <span class="card_rate-span">({{card.votes}})</span>
+        {{workshop.rate}} <span class="card_rate-span">({{workshop.votes}})</span>
       </li>
       <li class="card_data-item">
         <img src="assets/icons/name.png" alt="name" class="card_data-icon">
         <a href="#" class="card_owner">
-          {{card.head}}
+          {{workshop.head}}
         </a>
       </li>
       <li class="card_data-item">
         <img src="assets/icons/age.png" alt="age" class="card_data-icon">
-        {{card.minAge}}-{{card.maxAge}}
+        {{workshop.minAge}}-{{workshop.maxAge}}
       </li>
       <li class="card_data-item">
         <img src="assets/icons/price.png" alt="price" class="card_data-icon">
-        {{card.price}}
+        {{workshop.price}}
       </li>
       <li class="card_data-item">
         <img src="assets/icons/address.png" alt="address" class="card_data-icon">
-        {{card.address.city}}, {{card.address.street}}, {{card.address.buildingNumber}}
+        {{workshop.address.city}}, {{workshop.address.street}}, {{workshop.address.buildingNumber}}
       </li>
     </ul>
   </div>
@@ -47,7 +47,7 @@
 <ng-template #ProviderActivities>
   <div class="card_body">
     <h3 class="card_title">
-      {{card.title}}
+      {{workshop.title}}
     </h3>
     <ul class="card_data">
       <li class="card_data-item">
@@ -69,7 +69,7 @@
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start">
     <div class="actions_btn"><img src="assets/icons/edit.png" alt="edit"></div>
-    <div class="actions_btn"><img src="assets/icons/delete.png" alt="delete"></div>
+    <div class="actions_btn"><img src="assets/icons/delete.png" alt="delete" (click)="onDelete()"></div>
   </div>
 </ng-template>
 

@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
+import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
+import { Child } from 'src/app/shared/models/child.model';
+import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
+
 import { Application } from '../../../shared/models/application.model';
 import { GetApplications } from '../../../shared/store/provider.actions';
 import { ProviderState } from '../../../shared/store/provider.state';
@@ -13,24 +19,67 @@ import { ProviderState } from '../../../shared/store/provider.state';
 export class ProviderApplicationsComponent implements OnInit {
 
   @Select(ProviderState.applicationsList)
-  cards$: Observable<Application[]>;
-  public cards: Application[];
+  applications$: Observable<Application[]>;
+  public applications: Application[];
+  child: Child;
 
-  constructor(private store: Store) { }
+  @ViewChild(InfoBoxHostDirective, { static: true })
+  infoBoxHost: InfoBoxHostDirective;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private store: Store,
+    private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetApplications())
-    this.cards$.subscribe(cards =>
-      this.cards = cards
+    this.applications$.subscribe(applications =>
+      this.applications = applications
     );
-  }
-  onApprove(event: Application): void {
-    const card = this.cards.find((card) => (card === event))
-    card.status = 'approved';
-  }
-  onDeny(event: Application): void {
-    const card = this.cards.find((card) => (card === event))
-    card.status = 'denied';
 
+    const viewContainerRef = this.infoBoxHost.viewContainerRef;
+
+    this.infoBoxService.isMouseOver$
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(200),
+        mergeMap(isMouseOver =>
+          this.infoBoxService.loadComponent(viewContainerRef, isMouseOver)
+        )
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+  /**
+  * This method changes status of emitted event to "approved"
+  * @param Application event
+  */
+  onApprove(event: Application): void {
+    const application = this.applications.find((application) => (application === event))
+    application.status = 'approved';
+  }
+
+  /**
+  * This method changes status of emitted event to "denied"
+  * @param Application event
+  */
+  onDeny(event: Application): void {
+    const application = this.applications.find((application) => (application === event))
+    application.status = 'denied';
+  }
+
+  /**
+  * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
+  * @param { element: Element, child: Child } object
+  */
+  onInfoShow({ element, child }: { element: Element, child: Child }): void {
+    this.infoBoxService.onMouseOver({ element, child });
+  }
+
+  onInfoHide(): void {
+    this.infoBoxService.onMouseLeave();
   }
 }

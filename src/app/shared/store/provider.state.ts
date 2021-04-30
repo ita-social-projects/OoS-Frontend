@@ -11,7 +11,7 @@ import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
 import { GetWorkshops, SetFilteredWorkshops } from './filter.actions';
 import { ToggleLoading } from './app.actions';
-import { CreateWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess } from './provider.actions';
+import { CreateWorkshop, DeleteWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess, OnDeleteWorkshopFail, OnDeleteWorkshopSuccess } from './provider.actions';
 
 export interface ProviderStateModel {
   workshopsList: Workshop[];
@@ -100,7 +100,43 @@ export class ProviderState {
       dispatch(new ToggleLoading(false));
       this.router.navigate(['/provider/cabinet/workshops']);
     }, 2000);
+  }
+  @Action(DeleteWorkshop)
+  deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteWorkshop) {
+    dispatch(new ToggleLoading(true));
+    return this.providerWorkshopsService
+      .deleteWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(res))
+        ),
+        catchError((error) => of(dispatch(new OnDeleteWorkshopFail(error))))
+      );
+  }
+  @Action(OnDeleteWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopFail): void {
+    console.log('Workshop is not deleted', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.snackBar.open('На жаль виникла помилка', 'Спробуйте ще раз!', {
+        duration: 5000,
+        panelClass: ['red-snackbar'],
+      });
+      dispatch(new ToggleLoading(false));
+    }, 2000);
+  }
 
+  @Action(OnDeleteWorkshopSuccess)
+  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
+    setTimeout(() => {
+      this.snackBar.open('Гурток створено!', '', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['primary'],
+      });
+      console.log('Workshop is deleted', payload);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
   }
 
 

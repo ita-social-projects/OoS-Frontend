@@ -15,7 +15,7 @@ export class WorkshopCardsListComponent implements OnInit {
 
   @Select(FilterState.workshopsCards) cards$: Observable<Workshop[]>;
 
-  public cards: Workshop[];
+  public workshops: Workshop[];
   currentPage: number = 1;
 
   constructor(private store: Store) {
@@ -23,6 +23,6 @@ export class WorkshopCardsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshops())
-    this.cards$.subscribe((cards: Workshop[]) => this.cards = cards)
+    this.cards$.subscribe((workshops: Workshop[]) => this.workshops = workshops)
   }
 }
