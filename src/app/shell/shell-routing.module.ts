@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {MainComponent} from './main/main.component';
 import {ResultComponent} from './result/result.component';
 import {ProviderGuard} from './provider/provider.guard';
-import {ParentGuard} from './parent/parent.guard';
+import {ParentGuard} from './personal-cabinet/parent/parent.guard';
 import {Routes, RouterModule} from '@angular/router';
 import {GroupComponent} from './section/group/group.component';
 
@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'parent',
-    loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule),
+    loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard]
   },
   {
