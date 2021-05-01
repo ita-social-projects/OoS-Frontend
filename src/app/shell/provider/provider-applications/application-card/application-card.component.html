@@ -1,35 +1,40 @@
 <mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
-  [ngClass]="(card.status === 'new') ? 'card-new' : ''">
+  [ngClass]="(application.status === 'new') ? 'card-new' : ''">
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
-    <img mat-card-avatar class="avatar" src="assets/mock-images/Avatar.png" alt="child-photo">
+    <div class="avatar">
+      <img mat-card-avatar #img src="assets/mock-images/Avatar.png" alt="child-photo" (mouseover)="onInfoShow(img) "
+        (mouseleave)="onInfoHide(img)">
+    </div>
     <div fxLayout='column' fxLayoutAlign='center start'>
-      <h2>{{card.child.name}} {{card.child.surName}}
-        {{card.child.lastName}}</h2>
-      {{getAge(card.child.birth)}} років
-      <p>{{card.date | date: 'shortDate'}}</p>
+      <h2>{{application.child.firstName}} {{application.child.secondName}} {{application.child.patronymic}}
+        {{application.child.lastName}}</h2>
+      {{getAge(application.child.birthDay)}} років
+      <p>{{application.date | date: 'shortDate'}}</p>
     </div>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='center start'>
-    <h2>{{card.provider.title}}</h2>
-    <h4>{{card.provider.workshop.title}}</h4>
-    <p><img src="assets/icons/age.png" alt="people"> доступних місць <b>{{card.provider.workshop.placeAmount}}</b></p>
+    <h2>{{application.provider.title}}</h2>
+    <h4>{{application.provider.workshop.title}}</h4>
+    <p><img src="assets/icons/age.png" alt="people"> доступних місць
+      <b>{{application.provider.workshop.placeAmount}}</b>
+    </p>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div *ngIf="(card.status === 'approved') then IsApproved;"></div>
-    <div *ngIf="(card.status === 'new') then IsNew;"></div>
-    <div *ngIf="(card.status === 'denied') then IsDenied;"></div>
-    <p>{{card.message}}</p>
+    <div *ngIf="(application.status === 'approved') then IsApproved;"></div>
+    <div *ngIf="(application.status === 'new') then IsNew;"></div>
+    <div *ngIf="(application.status === 'denied') then IsDenied;"></div>
+    <p>{{application.message}}</p>
   </mat-card-content>
   <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <button class="btn-email">
       <img src="assets/icons/email.png" alt="email">
     </button>
     <button class="btn btn-approve" mat-raised-button color="primary"
-      [ngClass]="(card.status === 'new' )?  '' : 'btn-hidden'" (click)="onApprove(card)">
+      [ngClass]="(application.status === 'new' )?  '' : 'btn-hidden'" (click)="onApprove(application)">
       <p class="btn-text">Прийняти</p>
     </button>
     <button class="btn btn-deny" mat-raised-button color="warn"
-      [ngClass]="(card.status === 'denied') ? 'btn-hidden' : ''" (click)="onDeny(card)">
+      [ngClass]="(application.status === 'denied') ? 'btn-hidden' : ''" (click)="onDeny(application)">
       <p class="btn-text">Відхилити</p>
     </button>
   </mat-card-actions>

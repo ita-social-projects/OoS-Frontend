@@ -11,11 +11,23 @@ export class CreateWorkshop {
   static readonly type = '[provider] create Workshop';
   constructor(public payload: Workshop) { }
 }
+export class DeleteWorkshop {
+  static readonly type = '[provider] delete Workshop';
+  constructor(public payload: Workshop) { }
+}
 export class OnCreateWorkshopFail {
   static readonly type = '[provider] create Workshop fail';
   constructor(public payload: Error) { }
 }
 export class OnCreateWorkshopSuccess {
   static readonly type = '[provider] create Workshop success';
+  constructor(public payload) { }
+}
+export class OnDeleteWorkshopSuccess {
+  static readonly type = '[provider] delete Workshop success';
+  constructor(public payload) { }
+}
+export class OnDeleteWorkshopFail {
+  static readonly type = '[provider] delete Workshop fail';
   constructor(public payload) { }
 }

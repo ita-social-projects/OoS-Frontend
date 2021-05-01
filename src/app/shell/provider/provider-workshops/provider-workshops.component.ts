@@ -15,8 +15,7 @@ export class ProviderWorkshopsComponent implements OnInit {
 
 
   @Select(ProviderState.workshopsList)
-  cards$: Observable<Workshop[]>;
-  public cards: Workshop[];
+  workshops$: Observable<Workshop[]>;
 
   constructor(private store: Store) { }
 

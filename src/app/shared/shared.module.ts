@@ -15,12 +15,17 @@ import { TeacherCardComponent } from './components/teacher-card/teacher-card.com
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
-import { CategorySelectComponent } from './components/hobby-select/category-select.component';
+import { CategorySelectComponent } from './components/category-select/category-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
+import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
+import { MatCardModule } from '@angular/material/card';
+import { InfoBoxHostDirective } from './directives/info-box-host.directive';
+import { CategoriesDropdownComponent } from './components/categories-dropdown/categories-dropdown.component';
+
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -39,14 +44,18 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
-    ApplicationSortPipe
+    ApplicationSortPipe,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective,
+    CategoriesDropdownComponent
   ],
   imports: [
     MaterialModule,
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    MatCardModule
   ],
   exports: [
     FiltersListComponent,
@@ -65,7 +74,11 @@ import { ApplicationSortPipe } from './pipes/application-sort.pipe';
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
-    ApplicationSortPipe
+    ApplicationSortPipe,
+    MatCardModule,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective
+    CategoriesDropdownComponent
   ]
 })
 export class SharedModule { }

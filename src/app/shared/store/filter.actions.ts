@@ -1,4 +1,5 @@
 import { City } from "../models/city.model";
+import { Workshop } from "../models/workshop.model";
 
 export class setMinAge {
   static readonly type = '[filter] Set Min Age';
@@ -26,6 +27,10 @@ export class SetCategory {
 }
 export class GetWorkshops {
   static readonly type = '[filter] Get Workshops';
+}
+export class SetFilteredWorkshops {
+  static readonly type = '[filter] Set Filtered Workshops';
+  constructor(public payload: Workshop[]) { }
 }
 export class GetPopWorkshops {
   static readonly type = '[filter] Get 4 Most Popular Workshop Cards';

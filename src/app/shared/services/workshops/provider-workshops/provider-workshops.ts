@@ -14,8 +14,12 @@ export class ProviderWorkshopsService {
     return this.http.get<Workshop[]>('/Workshop/Get')
   }
 
-  createWorkshop(workshop): any {
+  createWorkshop(workshop: Workshop): any {
     return this.http.post('/Workshop/Create', workshop);
   }
 
+  deleteWorkshop(workshop: Workshop): any {
+    const id = workshop.id;
+    return this.http.delete(`/Workshop/Delete/${id}`);
+  }
 }

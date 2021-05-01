@@ -9,12 +9,13 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationsService } from '../services/applications/applications.service';
 import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
+import { GetWorkshops, SetFilteredWorkshops } from './filter.actions';
 import { ToggleLoading } from './app.actions';
-import { GetWorkshops } from './filter.actions';
-import { CreateWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess } from './provider.actions';
+import { CreateWorkshop, DeleteWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess, OnDeleteWorkshopFail, OnDeleteWorkshopSuccess } from './provider.actions';
 
 export interface ProviderStateModel {
   workshopsList: Workshop[];
+  filteredWorkshopsList: Workshop[];
   applicationsList: Application[];
 }
 
@@ -22,6 +23,7 @@ export interface ProviderStateModel {
   name: 'provider',
   defaults: {
     workshopsList: [],
+    filteredWorkshopsList: [],
     applicationsList: Application['']
   }
 })
@@ -57,7 +59,10 @@ export class ProviderState {
         patchState({ applicationsList })
     )
   }
-
+  @Action(SetFilteredWorkshops)
+  setFilteredWorkshops({ patchState }: StateContext<ProviderStateModel>, { payload }: SetFilteredWorkshops) {
+    patchState({ filteredWorkshopsList: payload });
+  }
   @Action(CreateWorkshop)
   createWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop) {
     dispatch(new ToggleLoading(true));
@@ -95,7 +100,43 @@ export class ProviderState {
       dispatch(new ToggleLoading(false));
       this.router.navigate(['/provider/cabinet/workshops']);
     }, 2000);
+  }
+  @Action(DeleteWorkshop)
+  deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteWorkshop) {
+    dispatch(new ToggleLoading(true));
+    return this.providerWorkshopsService
+      .deleteWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(res))
+        ),
+        catchError((error) => of(dispatch(new OnDeleteWorkshopFail(error))))
+      );
+  }
+  @Action(OnDeleteWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopFail): void {
+    console.log('Workshop is not deleted', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.snackBar.open('На жаль виникла помилка', 'Спробуйте ще раз!', {
+        duration: 5000,
+        panelClass: ['red-snackbar'],
+      });
+      dispatch(new ToggleLoading(false));
+    }, 2000);
+  }
 
+  @Action(OnDeleteWorkshopSuccess)
+  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
+    setTimeout(() => {
+      this.snackBar.open('Гурток створено!', '', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['primary'],
+      });
+      console.log('Workshop is deleted', payload);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
   }
 
 

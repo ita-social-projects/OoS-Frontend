@@ -16,11 +16,11 @@ import { ProviderState } from 'src/app/shared/store/provider.state';
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  
+
 })
 export class MainComponent implements OnInit {
 
-  @Select(FilterState.workshopsCards) cards$: Observable<Workshop[]>;
+  @Select(FilterState.workshopsCards) workshops$: Observable<Workshop[]>;
   @Select(UserRegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(FilterState.categoriesCards) categoriesCards$: Observable<Category[]>;
@@ -28,15 +28,13 @@ export class MainComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  
+
   ngOnInit(): void {
     this.store.dispatch([new GetCategories(),
     new GetCategoriesIcons(),
     new GetPopWorkshops(),
     new ChangePage(true)
     ]);
-    
-   
   }
 
 }
