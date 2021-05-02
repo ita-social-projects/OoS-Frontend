@@ -8,6 +8,7 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 export interface Option {
   value: string;
   viewValue: string;
+  arrow: string;
 }
 
 @Component({
@@ -18,26 +19,26 @@ export interface Option {
 export class ResultComponent implements OnInit {
 
   @Select(state => state.filter.order) order$: Observable<any>;
-  
-  options: Option[] = [
-    {value: 'ratingDesc', viewValue: 'Рейтинг'},
-    {value: 'ratingAsc', viewValue: 'Рейтинг'},
-    {value: 'priceDesc', viewValue: 'Ціна'},
-    {value: 'priceAsc', viewValue: 'Ціна'}
-  ];
-  selectedOption: Option;
+
+  // options: Option[] = [
+  //   { value: 'ratingDesc', viewValue: 'Рейтинг' },
+  //   { value: 'ratingAsc', viewValue: 'Рейтинг' },
+  //   { value: 'priceDesc', viewValue: 'Ціна' },
+  //   { value: 'priceAsc', viewValue: 'Ціна' }
+  // ];
+  // selectedOption: Option;
 
   public currentView: string;
   isFiltersVisible: boolean = true;
 
-  constructor(private store: Store) {}
-  
+  constructor(private store: Store) { }
+
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.currentView ='show-data';
-    this.order$.subscribe(order => {
-      this.selectedOption = this.options.find(option => option.value === order);
-    });
+    this.currentView = 'show-data';
+    // this.order$.subscribe(order => {
+    //   this.selectedOption = this.options.find(option => option.value === order);
+    // });
   }
 
   public SetCurrentView(view: string) {

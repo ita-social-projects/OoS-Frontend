@@ -1,0 +1,17 @@
+<p class="filter-text">Години роботи</p>
+<div fxLayout='column' fxLayoutAlign='center space-between' fxLayoutGap='1rem'>
+  <mat-button-toggle-group class="wrapper" [formControl]="workingDaysControl" fxLayout='row' fxLayoutAlign='center'>
+    <div *ngFor="let day of days">
+      <mat-button-toggle class="btn" [value]="day" fxLayout='row' fxLayoutAlign='center' [selected]="isToggleDay"
+        (click)="onToggleDay()">
+        {{day}}</mat-button-toggle>
+    </div>
+  </mat-button-toggle-group>
+  <mat-button-toggle-group class="wrapper" [formControl]="workingHoursControl" fxLayout='row' fxLayoutAlign='center'>
+    <div *ngFor="let hour of hours">
+      <mat-button-toggle class="btn" [value]="hour" fxLayout='row' fxLayoutAlign='center' [selected]="isToggleTime"
+        (click)="onToggleTime()">
+        {{hour}}</mat-button-toggle>
+    </div>
+  </mat-button-toggle-group>
+</div>

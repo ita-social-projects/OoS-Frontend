@@ -1,10 +1,18 @@
 <div class="filters-wrapper">
-  <div>Categories placeholder</div>
-  <app-age-filter></app-age-filter>
-  <div>Working hours placeholder</div>
-  <div>Price placeholder</div>
-  <label>
-    <input type="checkbox">
-    Лише з відкритим набором
-  </label>
+  <p class="filter-text">Вік</p>
+  <li class="list" *ngFor="let ageValue of ageValues">
+    <mat-checkbox color="primary" (change)="onAgeRangeCheck(ageValue, $event.checked)">
+      {{ageValue}} років
+    </mat-checkbox>
+  </li>
+  <app-category-check-box></app-category-check-box>
+  <app-working-hours></app-working-hours>
+  <app-price-filter></app-price-filter>
+  <p class=" filter-text">Набір</p>
+  <mat-checkbox color="primary">
+    Лише з відкритим відбором
+  </mat-checkbox>
+  <mat-checkbox color="primary">
+    Закритий відбір
+  </mat-checkbox>
 </div>
