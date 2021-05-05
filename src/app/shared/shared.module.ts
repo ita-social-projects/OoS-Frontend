@@ -77,7 +77,7 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ApplicationSortPipe,
     MatCardModule,
     ChildInfoBoxComponent,
-    InfoBoxHostDirective
+    InfoBoxHostDirective,
     CategoriesDropdownComponent
   ]
 })
