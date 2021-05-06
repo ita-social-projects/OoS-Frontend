@@ -1,4 +1,6 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { TeachersComponent } from './teachers.component';
 
@@ -8,7 +10,9 @@ describe('TeachersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TeachersComponent ]
+      declarations: [ TeachersComponent ],
+      imports: [NgxsModule.forRoot([])],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

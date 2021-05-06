@@ -1,11 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrganizationCardsListComponent } from './organization-cards-list.component';
-import { OrderingComponent } from '../ordering/ordering.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgxsModule, Store } from '@ngxs/store';
-import { Injectable } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FilterState } from 'src/app/shared/store/filter.state';
+import { NgxsModule } from '@ngxs/store';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('OrganizationCardsListComponent', () => {
   let component: OrganizationCardsListComponent;
@@ -15,16 +12,12 @@ describe('OrganizationCardsListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ 
         OrganizationCardsListComponent,
-        OrderingComponent
       ],
       imports: [
-        FlexLayoutModule,
-        CommonModule,
-        NgxsModule.forRoot([FilterState]),
+        NgxPaginationModule,
+        NgxsModule.forRoot([]),
       ], 
-      providers:[
-        {provide: Store, useClass: MockStore}
-      ]
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
@@ -39,7 +32,3 @@ describe('OrganizationCardsListComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-@Injectable({
-  providedIn: 'root'
-})
-class MockStore{} 
