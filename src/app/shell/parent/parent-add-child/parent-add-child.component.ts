@@ -44,8 +44,6 @@ export class ParentAddChildComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.store.dispatch(new CreateChildren(this.childrenFormArray))
-
   }
 }

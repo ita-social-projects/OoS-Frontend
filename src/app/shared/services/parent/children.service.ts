@@ -14,10 +14,9 @@ export class ChildrenService {
   constructor(private http: HttpClient) { }
 
   getChildren(): Observable<Child[]> {
-    return this.http.get<Child[]>(dataUrl);
+    return this.http.get<Child[]>('/Child/Get');
   }
-
-  createChildren(child: Child): void {
+  createChildren(child: Child): any {
     this.http.post('/Child/Create', child);
   }
 }

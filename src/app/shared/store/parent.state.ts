@@ -8,7 +8,6 @@ import { CreateChildren, GetChildren, GetParentWorkshops } from './parent.action
 export interface ParentStateModel {
   parentWorkshops: Workshop[];
   children: Child[];
-
 }
 @State<ParentStateModel>({
   name: 'parent',
