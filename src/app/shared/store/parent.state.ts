@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Child } from '../models/child.model';
 import { Workshop } from '../models/workshop.model';
-import { ChildCardService } from '../services/child-cards/child-cards.service';
+import { ChildrenService } from '../services/parent/children.service';
 import { ParentWorkshopsService } from '../services/workshops/parent-workshops/parent-workshops';
-import { CreateChildren, GetChildCards, GetParentWorkshops } from './parent.actions';
-
+import { CreateChildren, GetChildren, GetParentWorkshops } from './parent.actions';
 export interface ParentStateModel {
   parentWorkshops: Workshop[];
   children: Child[];
@@ -29,25 +28,24 @@ export class ParentState {
     return state.children
   }
 
-  constructor(private parentWorkshopsService: ParentWorkshopsService, private childCardsService: ChildCardService) { }
+  constructor(private parentWorkshopsService: ParentWorkshopsService, private childrenService: ChildrenService) { }
   @Action(GetParentWorkshops)
   getParentWorkshops({ patchState }: StateContext<ParentStateModel>) {
     return this.parentWorkshopsService.getWorkshops().subscribe(
       (parentWorkshops: Workshop[]) => patchState({ parentWorkshops })
     )
   }
-  @Action(GetChildCards)
-  GetChildCards({ patchState }: StateContext<ParentStateModel>) {
-    return this.childCardsService.getChildren().subscribe(
-      (children: Child[]) => patchState({ children })
-    )
-  }
   @Action(CreateChildren)
   createChildren({ }: StateContext<ParentStateModel>, { payload }: CreateChildren): void {
     for (let i = 0; i < payload.controls.length; i++) {
       let child: Child = new Child(payload.controls[i].value);
-      this.childCardsService.createChildren(child);
+      this.childrenService.createChildren(child);
     }
-
+  }
+  @Action(GetChildren)
+  getChildren({ patchState }: StateContext<ParentStateModel>) {
+    return this.childrenService.getChildren().subscribe(
+      (children: Child[]) => patchState({ children })
+    )
   }
 }

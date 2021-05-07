@@ -22,8 +22,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
-
-
 @NgModule({
   exports: [
     MatButtonModule,
@@ -50,7 +48,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MatGridListModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatSliderModule
+    MatSliderModule,
   ]
 })
 export class MaterialModule { }

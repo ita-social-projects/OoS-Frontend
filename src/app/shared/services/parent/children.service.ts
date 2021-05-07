@@ -3,18 +3,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Child } from '../../models/child.model';
 
-
-
+const dataUrl = '/assets/mock-child-cards.json';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChildCardService {
+
+export class ChildrenService {
 
   constructor(private http: HttpClient) { }
 
   getChildren(): Observable<Child[]> {
-    return this.http.get<Child[]>('/Child/Get')
+    return this.http.get<Child[]>(dataUrl);
   }
 
   createChildren(child: Child): void {

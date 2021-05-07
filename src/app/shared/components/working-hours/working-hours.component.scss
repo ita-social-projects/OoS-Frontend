@@ -23,10 +23,8 @@ padding:0.5rem;
 ::ng-deep.mat-button-toggle-checked{
   color: #3849F9 !important;
   background: rgba(56, 73, 249, 0.07);
-border: 1px solid #3849F9;
-box-sizing: border-box;
-
-
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
 }
 ::ng-deep.mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
   padding:0;

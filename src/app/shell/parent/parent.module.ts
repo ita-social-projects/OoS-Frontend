@@ -2,10 +2,9 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
 import { ParentConfigComponent } from './parent-config/parent-config.component';
-import { ChildCardComponent } from './parent-config/child-card/child-card.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';  
+import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -13,7 +12,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ChildCardService } from 'src/app/shared/services/child-cards/child-cards.service';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { NgxsModule } from '@ngxs/store';
 import { ParentState } from 'src/app/shared/store/parent.state';
@@ -23,12 +21,12 @@ import { ChildFormComponent } from './parent-add-child/child-form/child-form.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ParentWorkshopsComponent } from './parent-workshops/parent-workshops.component';
+import { ChildrenService } from 'src/app/shared/services/parent/children.service';
 
 @NgModule({
   declarations: [
-    ParentWorkshopsComponent, 
-    ParentConfigComponent, 
-    ChildCardComponent,
+    ParentWorkshopsComponent,
+    ParentConfigComponent,
     ParentAddChildComponent,
     ChildFormComponent,
   ],
@@ -51,10 +49,10 @@ import { ParentWorkshopsComponent } from './parent-workshops/parent-workshops.co
     MatDatepickerModule,
   ],
   providers: [
-    ChildCardService,
+    ChildrenService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
 
   ]
- 
+
 })
 export class ParentModule { }

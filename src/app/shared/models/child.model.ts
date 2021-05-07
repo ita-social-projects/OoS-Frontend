@@ -7,7 +7,7 @@ export class Child {
   birthDay: string;
   type: Boolean;
   gender: number;
-  parent: Parent;
+  parent?: Parent;
   socialGroupId: number;
 
   constructor(info) {

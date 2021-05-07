@@ -6,7 +6,6 @@ import { SearchbarComponent } from './components/filters-list/searchbar/searchba
 import { CategoriesFilterComponent } from './components/filters-list/categories-filter/categories-filter.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -29,6 +28,9 @@ import { WorkingHoursComponent } from './components/working-hours/working-hours.
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryCheckBoxComponent } from './components/filters-list/category-check-box/category-check-box.component';
+import { PersonCardComponent } from './components/person-card/person-card.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -54,6 +56,7 @@ import { CategoryCheckBoxComponent } from './components/filters-list/category-ch
     WorkingHoursComponent,
     PriceFilterComponent,
     CategoryCheckBoxComponent,
+    PersonCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -87,7 +90,8 @@ import { CategoryCheckBoxComponent } from './components/filters-list/category-ch
     InfoBoxHostDirective,
     CategoriesDropdownComponent,
     FormsModule,
-    CategoryCheckBoxComponent
+    CategoryCheckBoxComponent,
+    PersonCardComponent
   ]
 })
 export class SharedModule { }

@@ -14,6 +14,9 @@ import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
 import { GroupModel } from './section/group/group.model';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
+import { ChildrenService } from '../shared/services/parent/children.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,6 +25,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ResultComponent,
     WorkshopCardsListComponent,
     OrderingComponent,
+    CreateApplicationComponent,
   ],
   imports: [
     CommonModule,
@@ -32,11 +36,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
     LeafletModule,
     SharedModule,
     GroupModel,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ReactiveFormsModule
   ],
   providers: [
     ParentGuard,
-    ProviderGuard
+    ProviderGuard,
   ]
 })
 export class ShellModule { }
