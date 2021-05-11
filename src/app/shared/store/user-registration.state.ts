@@ -11,15 +11,15 @@ export interface UserRegistrationStateModel {
   isAuthorized: boolean;
   userName: string;
   role: string;
+  id: string;
 }
-
 @State<UserRegistrationStateModel>({
   name: 'user',
   defaults: {
     isAuthorized: false,
     userName: '',
-    role: ''
-
+    role: '',
+    id: ''
   }
 })
 @Injectable()
@@ -59,7 +59,9 @@ export class UserRegistrationState {
         if (auth) {
           patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
           patchState({ userName: jwt_decode(this.oidcSecurityService.getToken())['name'] });
+          patchState({ id: jwt_decode(this.oidcSecurityService.getToken())['id'] });
         }
+        console.log(jwt_decode(this.oidcSecurityService.getToken())['id']);
       });
   }
   @Action(AuthFail)

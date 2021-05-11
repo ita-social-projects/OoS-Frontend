@@ -48,8 +48,12 @@
       <h1>{{userName$ | async}}</h1>
     </button>
     <mat-menu #log="matMenu">
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'workshops'">Гуртки</a></button>
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'config'">Налаштування</a></button>
+      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'config'">Особиста інформація</a></button>
+      <button mat-menu-item *ngIf="role==='provider'"><a [routerLink]="'./' + roles[role] +'/' + 'org-info'">Інформація про заклад</a></button>
+      <button mat-menu-item *ngIf="role==='parent'"><a [routerLink]="">Інформація про дитину</a></button>
+      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'workshops'">Мої гуртки</a></button>
+      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'applications'">Мої заяви</a></button>
+      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'messages'">Повідомлення</a></button>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
