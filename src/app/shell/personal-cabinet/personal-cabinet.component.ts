@@ -20,7 +20,6 @@ export class PersonalCabinetComponent implements OnInit {
   @Select(UserRegistrationState.role)
     userRole$: Observable<string>;
     role: string;
-    roles = RoleLinks;
 
   constructor(private store: Store) {
   }

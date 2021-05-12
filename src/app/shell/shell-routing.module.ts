@@ -11,6 +11,7 @@ import { MessagesComponent } from './personal-cabinet/messages/messages.componen
 import { ApplicationsComponent } from './personal-cabinet/applications/applications.component';
 
 
+
 const routes: Routes = [
   {path: '', component: MainComponent},
   {path: 'result', component: ResultComponent},

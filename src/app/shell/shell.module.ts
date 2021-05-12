@@ -17,6 +17,7 @@ import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { ApplicationsComponent } from './personal-cabinet/applications/applications.component';
 import { MessagesComponent } from './personal-cabinet/messages/messages.component';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
     MainComponent,
     ResultComponent,
     WorkshopCardsListComponent,
+    WorkshopsComponent,
     OrderingComponent,
     ApplicationsComponent,
     MessagesComponent,

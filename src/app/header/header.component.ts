@@ -7,11 +7,6 @@ import { AppState } from '../shared/store/app.state';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProviderState } from '../shared/store/provider.state';
 
-enum RoleLinks {
-  provider = 'provider/cabinet',
-  parent = 'parent'
-}
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -35,7 +30,6 @@ export class HeaderComponent implements OnInit {
   @Select(AppState.isLoading)
   isLoading$: Observable<boolean>;
   role: string;
-  roles = RoleLinks;
 
   constructor(public store: Store) { }
 
