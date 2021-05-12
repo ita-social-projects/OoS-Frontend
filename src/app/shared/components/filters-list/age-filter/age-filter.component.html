@@ -1,11 +1,6 @@
-<div class="filter__age">
-  <button mat-stroked-button (click)='toggleModalFilter()'>Вік
-  </button>
-  <div 
-  [formGroup]='myForm'
-  class="filter__age-modal" 
-  [class.input_show]='showModalFilter'>
-    від <input formControlName='minAge' appDigitOnly placeholder="0" maxlength="2" >
-    до <input formControlName='maxAge' appDigitOnly placeholder="16" maxlength="2" >
-  </div>
-</div>
+<p class="filter-text">Вік</p>
+<li class="list" *ngFor="let ageValue of ageValues">
+  <mat-checkbox color="primary" (change)="onAgeRangeCheck(ageValue, $event.checked)">
+    {{ageValue}} років
+  </mat-checkbox>
+</li>

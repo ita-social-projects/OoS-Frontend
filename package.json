@@ -14,6 +14,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-slider/ngx-slider": "^2.0.3",
     "@angular/animations": "~11.0.9",
     "@angular/cdk": "^11.1.0",
     "@angular/common": "~11.0.9",
@@ -33,6 +34,7 @@
     "leaflet": "^1.7.1",
     "leaflet-control-geocoder": "^2.1.0",
     "ngx-pagination": "^5.0.0",
+    "ngx-slider": "^0.0.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

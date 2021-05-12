@@ -1,4 +1,6 @@
-import { LabelType, Options } from '@angular-slider/ngx-slider';
+
+import { Options } from '@angular-slider/ngx-slider';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 
@@ -11,15 +13,34 @@ export class PriceFilterComponent implements OnInit {
 
   isFree: boolean = false;
   isPaid: boolean = false;
-  maxPrice = new FormControl('', [Validators.maxLength(4), Validators.minLength(4)]);
-  minPrice = new FormControl('', [Validators.maxLength(4), Validators.minLength(4)]);
+  maxPrice = new FormControl(0, [Validators.maxLength(4), Validators.minLength(4)]);
+  minPrice = new FormControl(0, [Validators.maxLength(4), Validators.minLength(4)]);
   sliderControl = new FormControl('');
-
-  price = 0;
+  minValue: number = 0;
+  maxValue: number = 0;
+  options: Options = {
+    floor: 0,
+    ceil: 2000,
+  };
 
   constructor(private fb: FormBuilder) {
-    this.minPrice.valueChanges.subscribe(val => val ? this.isPaid = true : this.isPaid = false);
-    this.maxPrice.valueChanges.subscribe(val => val ? this.isPaid = true : this.isPaid = false);
+    this.minPrice.valueChanges.subscribe(val => {
+      if (val) {
+        this.isPaid = true;
+        this.minValue = val;
+      } else {
+        (!this.maxValue) ? this.isPaid = false : this.isPaid = true;
+      }
+    });
+
+    this.maxPrice.valueChanges.subscribe(val => {
+      if (val) {
+        this.isPaid = true;
+        this.maxValue = val;
+      } else {
+        (!this.minValue) ? this.isPaid = false : this.isPaid = true;
+      }
+    });
   }
   ngOnInit(): void {
 
