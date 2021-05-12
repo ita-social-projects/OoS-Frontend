@@ -1,9 +1,7 @@
 
 import { Options } from '@angular-slider/ngx-slider';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
-
 @Component({
   selector: 'app-price-filter',
   templateUrl: './price-filter.component.html',
@@ -42,13 +40,12 @@ export class PriceFilterComponent implements OnInit {
       }
     });
   }
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   onIsFreeClick(): void {
     this.isFree = !this.isFree;
   }
+
   onIsPaidClick(): void {
     this.isPaid = !this.isPaid;
   }

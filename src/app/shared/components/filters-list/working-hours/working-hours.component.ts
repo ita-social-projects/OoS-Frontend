@@ -56,11 +56,9 @@ export class WorkingHoursComponent implements OnInit {
     }
   ];
 
-
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onToggleDay(value): void {
     value.selected = !value.selected;

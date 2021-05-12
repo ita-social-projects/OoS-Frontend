@@ -1,27 +1,5 @@
-<!-- <button class="ordering-button" mat-stroked-button (click)="toggleOptions()">
-  {{selectedOption.viewValue}}
-  <span class="material-icons" *ngIf="selectedOption.value.includes('Asc'); else down">
-    arrow_upward
-  </span>
-  <ng-template #down>
-    <span class="material-icons">arrow_downward</span>
-  </ng-template>
-</button>
-<div class="options" *ngIf="visible">
-  <div class="option" *ngFor="let option of options; index as i" [id]="i" (click)="selectOrder($event.target.id)">
-    <div class="option-inner" *ngIf="option != selectedOption">
-      {{option.viewValue}}
-      <span class="material-icons" *ngIf="option.value.includes('Asc'); else down">
-        arrow_upward
-      </span>
-      <ng-template #down>
-        <span class="material-icons">arrow_downward</span>
-      </ng-template>
-    </div>
-  </div>
-</div> -->
 <mat-form-field>
-  <mat-select class="select" [(value)]="selectedOption">
+  <mat-select class="select" [(value)]="selectedOption" (selectionChange)="OnSelectOption($event)">
     <mat-option [value]="option" *ngFor="let option of options" fxLayout='row' fxLayoutAlign='start start'>
       <i class="material-icons {{ option.arrow }}" matSuffix>{{ option.arrow }}</i>{{ option.viewValue }}
     </mat-option>

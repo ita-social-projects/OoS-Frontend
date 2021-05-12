@@ -17,8 +17,7 @@
       <app-searchbar class="shell-searchbar"></app-searchbar>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
-      <app-ordering (onChange)="onChangeOrder($event)">
-      </app-ordering>
+      <app-ordering></app-ordering>
       <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView"
         (change)="SetCurrentView(group.value)">
         <mat-button-toggle value="show-data" aria-label="show-data" fxLayout="row" fxLayoutAlign="center center"> Список
