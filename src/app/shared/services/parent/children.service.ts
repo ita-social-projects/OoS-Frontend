@@ -16,7 +16,8 @@ export class ChildrenService {
   getChildren(): Observable<Child[]> {
     return this.http.get<Child[]>('/Child/Get');
   }
-  createChildren(child: Child): any {
+
+  createChildren(child: Child): void {
     this.http.post('/Child/Create', child);
   }
 }

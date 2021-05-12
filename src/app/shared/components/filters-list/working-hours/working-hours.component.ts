@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WorkingDays, WorkingTime } from 'src/app/shared/enum/working-hours';
 import { WorkingHours } from 'src/app/shared/models/workingHours.model';
 
 @Component({
@@ -9,49 +10,50 @@ import { WorkingHours } from 'src/app/shared/models/workingHours.model';
 export class WorkingHoursComponent implements OnInit {
   days: WorkingHours[] = [
     {
-      value: 'ПН',
+      value: WorkingDays.monday,
       selected: false,
     },
     {
-      value: 'ВТ',
+      value: WorkingDays.tuesday,
       selected: false,
     },
     {
-      value: 'СР',
+      value: WorkingDays.wednesday,
       selected: false,
     },
     {
-      value: 'ЧТ',
+      value: WorkingDays.thursday,
       selected: false,
     },
     {
-      value: 'ПТ',
+      value: WorkingDays.friday,
       selected: false,
     },
     {
-      value: 'СБ',
+      value: WorkingDays.saturday,
       selected: false,
     },
     {
-      value: 'ВС',
+      value: WorkingDays.sunday,
       selected: false,
     }
   ];
+
   hours: WorkingHours[] = [
     {
-      value: '08-12',
+      value: WorkingTime.morning,
       selected: false,
     },
     {
-      value: '12-16',
+      value: WorkingTime.midday,
       selected: false,
     },
     {
-      value: '16-18',
+      value: WorkingTime.afternoon,
       selected: false,
     },
     {
-      value: '18-22',
+      value: WorkingTime.evening,
       selected: false,
     }
   ];
@@ -60,11 +62,7 @@ export class WorkingHoursComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  onToggleDay(value): void {
-    value.selected = !value.selected;
-  }
-
-  onToggleTime(value): void {
+  onToggle(value: WorkingHours): void {
     value.selected = !value.selected;
   }
 }

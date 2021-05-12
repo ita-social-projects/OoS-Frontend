@@ -35,10 +35,9 @@
 }
 
 :host mat-select ::ng-deep .mat-select-arrow {
-        border: 0;
-      }
+  border: 0;
+}
 
-      ::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow
-      {
-        border: 0;
-      }
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow{
+  border: 0;
+}

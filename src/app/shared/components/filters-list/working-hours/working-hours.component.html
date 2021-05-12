@@ -1,13 +1,13 @@
 <p class="filter-text">Години роботи</p>
 <div fxLayout='column' fxLayoutAlign='center space-between' fxLayoutGap='1rem'>
   <div fxLayout='row' fxLayoutAlign='space-between'>
-    <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center' (click)="onToggleDay(day)"
+    <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center' (click)="onToggle(day)"
       [value]="day" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
       {{day.value}}</div>
   </div>
   <div fxLayout='row' fxLayoutAlign='space-between'>
-    <div *ngFor="let hour of hours" class="toggle" fxLayout='row' fxLayoutAlign='center center'
-      (click)="onToggleTime(hour)" [value]="hour" [ngClass]="(hour.selected) ? 'toggle-selected' : '' ">
+    <div *ngFor="let hour of hours" class="toggle" fxLayout='row' fxLayoutAlign='center center' (click)="onToggle(hour)"
+      [value]="hour" [ngClass]="(hour.selected) ? 'toggle-selected' : '' ">
       {{hour.value}}</div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Option } from '../result.component';
@@ -24,7 +25,7 @@ export class OrderingComponent {
   ngOnInit(): void {
   }
 
-  OnSelectOption(event) {
+  OnSelectOption(event: MatSelectChange): void {
     this.selectedOption = event.value;
   }
 }

@@ -35,7 +35,6 @@ export class CreateApplicationComponent implements OnInit {
     this.workshops$.subscribe((workshops: Workshop[]) => this.workshop = workshops[0])
     this.store.dispatch(new GetChildren())
     this.children$.subscribe(children => this.children = children);
-
   }
 
   ShowChildInfo(): void {
@@ -48,9 +47,9 @@ export class CreateApplicationComponent implements OnInit {
   /**
     * This method craete new Application
     */
-  onSubmit() {
+  onSubmit(): void {
     const info = {
-      status: "new",
+      status: 'new',
       date: new Date(),
       child: this.selectedChildren,
       workshop: this.workshop,
