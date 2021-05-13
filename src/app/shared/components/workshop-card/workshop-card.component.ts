@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Workshop } from '../../models/workshop.model';
 import { AppState } from '../../store/app.state';
+import { DeleteWorkshop } from '../../store/provider.actions';
 
 @Component({
   selector: 'app-workshop-card',
@@ -13,11 +14,15 @@ export class WorkshopCardComponent implements OnInit {
 
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
-  @Input() card: Workshop;
+  @Input() workshop: Workshop;
+  @Input() type: string;
 
-  constructor() { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
   }
 
+  onDelete(): void {
+    this.store.dispatch(new DeleteWorkshop(this.workshop))
+  }
 }

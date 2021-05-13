@@ -15,13 +15,16 @@
     &-date{
       max-width: 40%;
     }
+     &-select{
+    min-width:430px;
+  }
   }
   label{
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
     line-height: 15px;
-    
+
   }
   .button-reset{
     color: #3849F9;
@@ -35,7 +38,7 @@
     visibility: hidden;
     max-height: 0px;
   }
-  
+
   ::ng-deep .mat-form-field-suffix .ng-tns-c88-6 .ng-star-inserted{
     margin-right: 0.5rem !important;
   }
@@ -48,23 +51,15 @@
   .requires{
     color: red;
   }
-  ::ng-deep.mat-select-trigger{
-    width: 410px;
-    height: 34px;
-    border: 1px solid #E3E3E3;
-    box-sizing: border-box;
-    border-radius: 21px;
-    padding-left: 20px;
-  }
   ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
     background-color: #3849F9 !important;
   }
-  
+
   ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    background-color:#3849F9!important;  
+    background-color:#3849F9!important;
   }
   ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-   border-color:#3849F9!important; 
+   border-color:#3849F9!important;
   }
   .wrapper{
     display: flex;
@@ -84,9 +79,6 @@
   }
   .label-padding{
     padding: .4375em 0
-  }
-  ::ng-deep .mat-select-value{
-    width: 92% !important;
   }
   ::ng-deep .mat-radio-label-content {
     padding-right: 1.5rem !important;

@@ -18,6 +18,7 @@ import { ApplicationsComponent } from './personal-cabinet/applications/applicati
 import { MessagesComponent } from './personal-cabinet/messages/messages.component';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -40,11 +41,12 @@ import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.compo
     LeafletModule,
     SharedModule,
     GroupModel,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ReactiveFormsModule
   ],
   providers: [
     ParentGuard,
-    ProviderGuard
+    ProviderGuard,
   ]
 })
 export class ShellModule { }

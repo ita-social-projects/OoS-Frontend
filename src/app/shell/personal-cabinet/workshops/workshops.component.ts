@@ -15,15 +15,14 @@ export class WorkshopsComponent implements OnInit {
 
 
   @Select(ProviderState.workshopsList)
-  cards$: Observable<Workshop[]>;
-  cards: Workshop[];
+  workshops$: Observable<Workshop[]>;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshops());
-    this.cards$.subscribe((cards)=>this.cards = cards);
+    this.workshops$.subscribe((workshops)=>this.workshops = workshops);
   }
 
 }

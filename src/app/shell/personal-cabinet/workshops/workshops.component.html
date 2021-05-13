@@ -3,13 +3,14 @@
   <a [routerLink]="'../provider/create-workshop/param'"><button class="btn" mat-raised-button>Додати гурток</button></a> 
 </div>
 
-<div *ngIf="cards then WorkshopsList"></div>
+<div *ngIf="(workshops$ | async).length then WorkshopsList"></div>
+
 
 <ng-template #WorkshopsList>
   <div class="wrapper-card">
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
-        <app-workshop-card class="cards" *ngFor="let card of cards " [card]="card">
+        <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop">
         </app-workshop-card>
       </div>
     </ng-container>

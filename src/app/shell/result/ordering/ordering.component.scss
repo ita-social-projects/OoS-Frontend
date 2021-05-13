@@ -14,7 +14,7 @@
   background-color: white;
   border: 1px solid rgba(0,0,0,.12);
   width: 120px;
-  z-index: 1;
+  z-index: 2;
   .option {
     cursor: pointer;
     &:hover{
@@ -23,5 +23,21 @@
     .option-inner{
       pointer-events: none;
     }
-  }  
+  }
+}
+.select{
+  min-width:200px;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+:host mat-select ::ng-deep .mat-select-arrow {
+  border: 0;
+}
+
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow{
+  border: 0;
 }

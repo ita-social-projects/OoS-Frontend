@@ -1,4 +1,5 @@
 import { Child } from "./child.model";
+import { Provider } from "./provider.model";
 import { Workshop } from "./workshop.model";
 
 export class Application {
@@ -8,6 +9,7 @@ export class Application {
   date: Date;
   workshop: Workshop;
   child: Child;
+  provider: Provider;
 
   constructor(info) {
     this.id = null;

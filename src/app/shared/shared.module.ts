@@ -6,7 +6,6 @@ import { SearchbarComponent } from './components/filters-list/searchbar/searchba
 import { CategoriesFilterComponent } from './components/filters-list/categories-filter/categories-filter.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -21,7 +20,17 @@ import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
+import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
+import { MatCardModule } from '@angular/material/card';
+import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { CategoriesDropdownComponent } from './components/categories-dropdown/categories-dropdown.component';
+import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
+import { FormsModule } from '@angular/forms';
+import { CategoryCheckBoxComponent } from './components/filters-list/category-check-box/category-check-box.component';
+import { PersonCardComponent } from './components/person-card/person-card.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 
 @NgModule({
   declarations: [
@@ -42,14 +51,23 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ImageFormControlComponent,
     ApplicationFilterPipe,
     ApplicationSortPipe,
-    CategoriesDropdownComponent
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective,
+    CategoriesDropdownComponent,
+    WorkingHoursComponent,
+    PriceFilterComponent,
+    CategoryCheckBoxComponent,
+    PersonCardComponent,
   ],
   imports: [
     MaterialModule,
     CommonModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    MatCardModule,
+    FormsModule,
+    NgxSliderModule
   ],
   exports: [
     FiltersListComponent,
@@ -69,7 +87,13 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ImageFormControlComponent,
     ApplicationFilterPipe,
     ApplicationSortPipe,
-    CategoriesDropdownComponent
+    MatCardModule,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective,
+    CategoriesDropdownComponent,
+    FormsModule,
+    CategoryCheckBoxComponent,
+    PersonCardComponent
   ]
 })
 export class SharedModule { }
