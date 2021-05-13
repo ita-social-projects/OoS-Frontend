@@ -15,6 +15,7 @@ export class WorkshopCardComponent implements OnInit {
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
   @Input() workshop: Workshop;
+  @Input() type: string;
 
   constructor(private store: Store) { }
 

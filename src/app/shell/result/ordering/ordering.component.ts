@@ -1,30 +1,31 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Option } from '../result.component';
-
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
   styleUrls: ['./ordering.component.scss']
 })
+
 export class OrderingComponent {
 
-  @Input() options: Option[];
-  @Input() selectedOption: Option;
-  @Output() onChange = new EventEmitter<string>();
+  options: Option[] = [
+    { value: 'ratingDesc', viewValue: 'Рейтинг', arrow: 'arrow_downward' },
+    { value: 'ratingAsc', viewValue: 'Рейтинг', arrow: 'arrow_upward' },
+    { value: 'priceDesc', viewValue: 'Ціна', arrow: 'arrow_downward' },
+    { value: 'priceAsc', viewValue: 'Ціна', arrow: 'arrow_upward' }
+  ];
+  selectedOption: Option = this.options[0];
   visible: boolean = false;
 
-  toggleOptions(){
-    this.visible = !this.visible;
+  constructor(private store: Store) { }
+
+  ngOnInit(): void {
   }
 
-  selectOrder(id: number){
-    this.onChange.emit(this.options[id].value);
-    this.toggleOptions();
-  }
-
-  @HostListener('document:click', ['$event']) onClick(event) {
-    if(!event.target.closest('.ordering-button')) {
-      this.visible = false;
-    }
+  OnSelectOption(event: MatSelectChange): void {
+    this.selectedOption = event.value;
   }
 }

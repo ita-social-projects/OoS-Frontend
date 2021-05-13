@@ -1,10 +1,16 @@
 <div class="filters-wrapper">
-  <div>Categories placeholder</div>
   <app-age-filter></app-age-filter>
-  <div>Working hours placeholder</div>
-  <div>Price placeholder</div>
-  <label>
-    <input type="checkbox">
-    Лише з відкритим набором
-  </label>
+  <app-category-check-box></app-category-check-box>
+  <app-working-hours></app-working-hours>
+  <app-price-filter></app-price-filter>
+  <div class="recruiting">
+    <p class=" filter-text">Набір</p>
+    <mat-checkbox color="primary">
+      Лише з відкритим відбором
+    </mat-checkbox>
+    <mat-checkbox color="primary">
+      Закритий відбір
+    </mat-checkbox>
+  </div>
+
 </div>

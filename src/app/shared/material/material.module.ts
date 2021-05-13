@@ -19,7 +19,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSliderModule } from '@angular/material/slider';
 @NgModule({
   exports: [
     MatButtonModule,
@@ -44,6 +46,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatFormFieldModule,
     MatDividerModule,
     MatGridListModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSliderModule,
   ]
 })
 export class MaterialModule { }

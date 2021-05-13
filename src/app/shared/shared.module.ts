@@ -6,7 +6,6 @@ import { SearchbarComponent } from './components/filters-list/searchbar/searchba
 import { CategoriesFilterComponent } from './components/filters-list/categories-filter/categories-filter.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material/material.module';
 import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -25,6 +24,13 @@ import { ChildInfoBoxComponent } from './components/child-info-box/child-info-bo
 import { MatCardModule } from '@angular/material/card';
 import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { CategoriesDropdownComponent } from './components/categories-dropdown/categories-dropdown.component';
+import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
+import { FormsModule } from '@angular/forms';
+import { CategoryCheckBoxComponent } from './components/filters-list/category-check-box/category-check-box.component';
+import { PersonCardComponent } from './components/person-card/person-card.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +53,11 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
-    CategoriesDropdownComponent
+    CategoriesDropdownComponent,
+    WorkingHoursComponent,
+    PriceFilterComponent,
+    CategoryCheckBoxComponent,
+    PersonCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -55,7 +65,9 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     ReactiveFormsModule,
     FlexLayoutModule,
     RouterModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule,
+    NgxSliderModule
   ],
   exports: [
     FiltersListComponent,
@@ -78,7 +90,10 @@ import { CategoriesDropdownComponent } from './components/categories-dropdown/ca
     MatCardModule,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
-    CategoriesDropdownComponent
+    CategoriesDropdownComponent,
+    FormsModule,
+    CategoryCheckBoxComponent,
+    PersonCardComponent
   ]
 })
 export class SharedModule { }

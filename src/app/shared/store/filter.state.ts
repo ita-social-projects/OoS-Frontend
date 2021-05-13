@@ -12,7 +12,7 @@ import {
   GetTeachersCards,
   GetCategories
 } from './filter.actions';
-import { CardWorkshopsService} from '../services/workshops/card-workshops/card-workshops.service';
+import { CardWorkshopsService } from '../services/workshops/card-workshops/card-workshops.service';
 import { patch, append } from '@ngxs/store/operators';
 import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
 import { TeacherCard } from '../models/teachers-card.model';
@@ -20,6 +20,7 @@ import { Category } from '../models/category.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { City } from '../models/city.model';
 import { Workshop } from '../models/workshop.model';
+import { WorkingHours } from '../models/workingHours.model';
 
 export interface FilterStateModel {
   searchQuery: string;

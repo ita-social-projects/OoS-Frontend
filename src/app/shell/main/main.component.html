@@ -21,7 +21,8 @@
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
-        <app-workshop-card *ngFor="let workshop of workshops$ | async | slice:0:4" [workshop]="workshop">
+        <app-workshop-card *ngFor="let workshop of workshops$ | async | slice:0:4" [workshop]="workshop"
+          [type]="'column'">
         </app-workshop-card>
       </ng-container>
     </div>

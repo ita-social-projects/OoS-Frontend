@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 
 import { Workshop } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
-
-
 @Injectable({
   providedIn: 'root'
 })

@@ -7,11 +7,11 @@ import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationsService } from '../services/applications/applications.service';
-import { ChildCardService } from '../services/child-cards/child-cards.service';
 import { ProviderWorkshopsService } from '../services/workshops/provider-workshops/provider-workshops';
 import { GetWorkshops, SetFilteredWorkshops } from './filter.actions';
 import { ToggleLoading } from './app.actions';
 import { CreateWorkshop, DeleteWorkshop, GetApplications, OnCreateWorkshopFail, OnCreateWorkshopSuccess, OnDeleteWorkshopFail, OnDeleteWorkshopSuccess } from './provider.actions';
+import { ChildrenService } from '../services/parent/children.service';
 
 export interface ProviderStateModel {
   workshopsList: Workshop[];
@@ -41,7 +41,7 @@ export class ProviderState {
   }
   constructor(
     private providerWorkshopsService: ProviderWorkshopsService,
-    private childCardsService: ChildCardService,
+    private childrenService: ChildrenService,
     private applicationService: ApplicationsService,
     public snackBar: MatSnackBar, private router: Router
   ) { }

@@ -45,16 +45,21 @@
   }
 }
 .mat-button-toggle-group {
-  height: 34px;
+  height: 30px;
   align-items: center;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
-  border: none;
   font-weight: bold;
-  .mat-button-toggle-checked{
-    background-color: rgba(56, 73, 249, 0.07);
-    color: #3849F9;
+    .mat-button-toggle{
+      height: 100%;
+      min-width:100px;
+      .mat-button-toggle-checked{
+      background: rgba(56, 73, 249, 0.07);
+      border: 1px solid #3849F9;
+      box-sizing: border-box;
+      border-radius: 20px;
+    }
   }
 }
 
