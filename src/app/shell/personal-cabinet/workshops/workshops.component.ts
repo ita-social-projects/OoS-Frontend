@@ -22,7 +22,6 @@ export class WorkshopsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshops());
-    this.workshops$.subscribe((workshops)=>this.workshops = workshops);
   }
 
 }
