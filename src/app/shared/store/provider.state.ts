@@ -41,13 +41,12 @@ export class ProviderState {
   }
   constructor(
     private providerWorkshopsService: ProviderWorkshopsService,
-    private childrenService: ChildrenService,
     private applicationService: ApplicationsService,
     public snackBar: MatSnackBar, private router: Router
   ) { }
 
   @Action(GetWorkshops)
-  getActivitiesCards({ patchState }: StateContext<ProviderStateModel>) {
+  getWorkshops({ patchState }: StateContext<ProviderStateModel>) {
     return this.providerWorkshopsService.getWorkshops().subscribe(
       (workshopsList: Workshop[]) => patchState({ workshopsList })
     )
@@ -138,6 +137,4 @@ export class ProviderState {
       dispatch(new ToggleLoading(false));
     }, 2000);
   }
-
-
 }

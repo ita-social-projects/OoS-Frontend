@@ -53,7 +53,7 @@ export class UserRegistrationState {
     dispatch(new CheckAuth());
   }
   @Action(CheckAuth)
-  CheckAuth({ patchState }: StateContext<UserStateModel>): void {
+  CheckAuth({ patchState, dispatch }: StateContext<UserStateModel>): void {
     this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => {
@@ -62,6 +62,7 @@ export class UserRegistrationState {
         if (auth) {
           patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
           patchState({ userName: jwt_decode(this.oidcSecurityService.getToken())['name'] });
+          dispatch(new AuthSuccess());
         }
       });
   }
@@ -77,8 +78,10 @@ export class UserRegistrationState {
   authSuccess(): void {
     console.log('Authorization succeeded');
     this.snackBar.open("Ви успішно увійшли!", '', {
-      duration: 5000,
-      panelClass: ['blue-snackbar'],
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['primary'],
     });
   }
   @Action(SetLocation)

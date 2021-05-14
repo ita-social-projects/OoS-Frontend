@@ -8,7 +8,7 @@ import { ProviderState } from '../../../shared/store/provider.state';
 
 @Component({
   selector: 'app-workshops',
-  templateUrl:'./workshops.component.html',
+  templateUrl: './workshops.component.html',
   styleUrls: ['./workshops.component.scss']
 })
 export class WorkshopsComponent implements OnInit {
@@ -22,6 +22,7 @@ export class WorkshopsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshops());
+    this.workshops$.subscribe(val => console.log(val))
   }
 
 }
