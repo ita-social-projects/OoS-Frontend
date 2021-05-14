@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Workshop } from '../../models/workshop.model';
 import { AppState } from '../../store/app.state';
-import { DeleteWorkshop } from '../../store/provider.actions';
+import { DeleteWorkshop } from '../../store/user.actions';
 
 @Component({
   selector: 'app-workshop-card',

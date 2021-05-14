@@ -32,7 +32,7 @@ import { MapComponent } from './create-workshop/create-address/map/map.component
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 import { ProviderWorkshopsService } from 'src/app/shared/services/workshops/provider-workshops/provider-workshops';
 import { ApplicationCardComponent } from '../applications/application-card/application-card.component';
-import { ProviderState } from 'src/app/shared/store/provider.state';
+import { ProviderState } from 'src/app/shared/store/user.state';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';

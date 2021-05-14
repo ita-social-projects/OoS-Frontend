@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Select, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../store/user.state';
+import { UserRegistrationState } from '../store/registration.state';
 import { environment } from 'src/environments/environment';
 
 

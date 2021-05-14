@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { GetCategories, GetPopWorkshops, GetWorkshops } from 'src/app/shared/store/filter.actions';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
-import { UserRegistrationState } from '../../shared/store/user.state';
+import { UserRegistrationState } from '../../shared/store/registration.state';
 import { Category } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { GetCategoriesIcons } from 'src/app/shared/store/meta-data.actions';
 import { Workshop } from '../../shared/models/workshop.model';
-import { ProviderState } from 'src/app/shared/store/provider.state';
+import { ProviderState } from 'src/app/shared/store/user.state';
 
 
 @Component({

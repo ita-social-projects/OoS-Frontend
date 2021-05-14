@@ -8,8 +8,8 @@ import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 
 import { Application } from '../../../shared/models/application.model';
-import { GetApplications } from '../../../shared/store/provider.actions';
-import { ProviderState } from '../../../shared/store/provider.state';
+import { GetApplications } from '../../../shared/store/user.actions';
+import { ProviderState } from '../../../shared/store/user.state';
 
 @Component({
   selector: 'app-requests',

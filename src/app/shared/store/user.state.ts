@@ -1,91 +1,142 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Login, Logout, CheckAuth, AuthFail, SetLocation, AuthSuccess } from './user.actions';
-
-import { HttpClient } from '@angular/common/http';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { Application } from '../models/application.model';
+import { Workshop } from '../models/workshop.model';
+import { ApplicationService } from '../services/applications/application.service';
+import { GetWorkshops, SetFilteredWorkshops } from './filter.actions';
+import { ToggleLoading } from './app.actions';
+import { CreateWorkshop, DeleteWorkshop, GetApplications, GetWorkshopsById, OnCreateWorkshopFail, OnCreateWorkshopSuccess, OnDeleteWorkshopFail, OnDeleteWorkshopSuccess } from './user.actions';
+import { ChildrenService } from '../services/parent/children.service';
+import { WorkshopService } from '../services/workshops/workshop.service';
+
 export interface UserStateModel {
-  isAuthorized: boolean;
-  userName: string;
-  role: string;
-  city: String;
-  lng: Number | null;
-  lat: Number | null;
+  workshops: Workshop[];
+  filteredWorkshopsList: Workshop[];
+  applicationsList: Application[];
 }
+
 @State<UserStateModel>({
-  name: 'user',
+  name: 'provider',
   defaults: {
-    isAuthorized: false,
-    userName: '',
-    role: '',
-    city: "",
-    lng: null,
-    lat: null
+    workshops: [],
+    filteredWorkshopsList: [],
+    applicationsList: Application['']
   }
 })
 @Injectable()
-export class UserRegistrationState {
-  constructor(
-    public oidcSecurityService: OidcSecurityService,
-    public http: HttpClient, public snackBar: MatSnackBar,) { }
+export class ProviderState {
+  postUrl = '/Workshop/Create';
 
   @Selector()
-  static isAuthorized(state: UserStateModel) {
-    return state.isAuthorized;
+  static workshops(state: UserStateModel) {
+    return state.workshops
   }
+
   @Selector()
-  static userName(state: UserStateModel): string {
-    return state.userName;
+  static applicationsList(state: UserStateModel) {
+    return state.applicationsList
   }
-  @Selector()
-  static role(state: UserStateModel): string {
-    return state.role;
+  constructor(
+    private workshopService: WorkshopService,
+    private applicationService: ApplicationService,
+    public snackBar: MatSnackBar, private router: Router
+  ) { }
+
+  @Action(GetWorkshopsById)
+  getWorkshopsById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsById) {
+    return this.workshopService.getWorkshopsById(payload).subscribe(
+      (workshops: Workshop[]) => patchState({ workshops })
+    )
   }
-  @Action(Login)
-  Login({ }: StateContext<UserStateModel>): void {
-    this.oidcSecurityService.authorize();
+
+  @Action(GetApplications)
+  getApplications({ patchState }: StateContext<UserStateModel>) {
+    return this.applicationService.getApplications().subscribe(
+      (applicationsList: Application[]) =>
+        patchState({ applicationsList })
+    )
   }
-  @Action(Logout)
-  Logout({ dispatch }: StateContext<UserStateModel>): void {
-    this.oidcSecurityService.logoff();
-    dispatch(new CheckAuth());
+  @Action(SetFilteredWorkshops)
+  setFilteredWorkshops({ patchState }: StateContext<UserStateModel>, { payload }: SetFilteredWorkshops) {
+    patchState({ filteredWorkshopsList: payload });
   }
-  @Action(CheckAuth)
-  CheckAuth({ patchState, dispatch }: StateContext<UserStateModel>): void {
-    this.oidcSecurityService
-      .checkAuth()
-      .subscribe((auth) => {
-        console.log('is authenticated', auth);
-        patchState({ isAuthorized: auth });
-        if (auth) {
-          patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
-          patchState({ userName: jwt_decode(this.oidcSecurityService.getToken())['name'] });
-          dispatch(new AuthSuccess());
-        }
+  @Action(CreateWorkshop)
+  createWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop) {
+    dispatch(new ToggleLoading(true));
+    return this.providerWorkshopsService
+      .createWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateWorkshopSuccess(res))
+        ),
+        catchError((error) => of(dispatch(new OnCreateWorkshopFail(error))))
+      );
+  }
+  @Action(OnCreateWorkshopFail)
+  onCreateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
+    console.log('Workshop creation is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.snackBar.open('На жаль виникла помилка', 'Спробуйте ще раз!', {
+        duration: 5000,
+        panelClass: ['red-snackbar'],
       });
+      this.router.navigate(['/provider/cabinet/workshops']);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
   }
-  @Action(AuthFail)
-  authFail(): void {
-    console.log('Authorization failed');
-    this.snackBar.open("Упс! Перевірте з'єднання", 'Добре', {
-      duration: 5000,
-      panelClass: ['red-snackbar'],
-    });
+  @Action(OnCreateWorkshopSuccess)
+  onCreateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    setTimeout(() => {
+      this.snackBar.open('Гурток створено!', '', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['primary'],
+      });
+      console.log('Workshop is created', payload);
+      dispatch(new ToggleLoading(false));
+      this.router.navigate(['/provider/cabinet/workshops']);
+    }, 2000);
   }
-  @Action(AuthSuccess)
-  authSuccess(): void {
-    console.log('Authorization succeeded');
-    this.snackBar.open("Ви успішно увійшли!", '', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['primary'],
-    });
+  @Action(DeleteWorkshop)
+  deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshop) {
+    dispatch(new ToggleLoading(true));
+    return this.providerWorkshopsService
+      .deleteWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(res))
+        ),
+        catchError((error) => of(dispatch(new OnDeleteWorkshopFail(error))))
+      );
   }
-  @Action(SetLocation)
-  setLocation({ patchState }: StateContext<UserStateModel>, { payload }: SetLocation): void {
-    patchState({ city: payload.city, lng: payload.lng, lat: payload.lat });
+  @Action(OnDeleteWorkshopFail)
+  onDeleteWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopFail): void {
+    console.log('Workshop is not deleted', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.snackBar.open('На жаль виникла помилка', 'Спробуйте ще раз!', {
+        duration: 5000,
+        panelClass: ['red-snackbar'],
+      });
+      dispatch(new ToggleLoading(false));
+    }, 2000);
+  }
+
+  @Action(OnDeleteWorkshopSuccess)
+  onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
+    setTimeout(() => {
+      this.snackBar.open('Гурток створено!', '', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['primary'],
+      });
+      console.log('Workshop is deleted', payload);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
   }
 }

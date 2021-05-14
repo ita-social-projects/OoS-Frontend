@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { GetWorkshops } from 'src/app/shared/store/filter.actions';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { ChangePage } from '../../../shared/store/app.actions';
-import { ProviderState } from '../../../shared/store/provider.state';
+import { ProviderState } from '../../../shared/store/user.state';
 
 @Component({
   selector: 'app-workshops',

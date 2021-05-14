@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 
-export class ApplicationsService {
+export class ApplicationService {
 
   dataUrl = '/assets/mock-applications.json';
 

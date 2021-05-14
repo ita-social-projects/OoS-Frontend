@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import {  FormControl } from '@angular/forms';
-import { ProviderState } from '../../../shared/store/provider.state';
+import { FormControl } from '@angular/forms';
+import { ProviderState } from '../../store/user.state';
 import { Observable } from 'rxjs';
 import { Workshop } from '../../models/workshop.model';
 import { GetWorkshops, SetFilteredWorkshops } from '../../store/filter.actions';

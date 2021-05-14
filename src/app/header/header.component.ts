@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/user.state';
+import { UserRegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, Login } from '../shared/store/user.actions';
+import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 
 @Component({

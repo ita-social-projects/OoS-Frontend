@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Address } from 'src/app/shared/models/address.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { CreateWorkshop } from '../../../../shared/store/provider.actions';
+import { CreateWorkshop } from '../../../../shared/store/user.actions';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { AuthFail } from '../store/user.actions';
+import { AuthFail } from '../store/registration.actions';
 
 @Injectable({
 
