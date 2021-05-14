@@ -23,7 +23,7 @@ export class ParentConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.store.dispatch(new GetChildren())
+    this.store.dispatch(new GetChildren());
     this.cards$.subscribe(cards => this.cards = cards);
   }
 }
