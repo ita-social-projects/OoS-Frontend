@@ -6814,11 +6814,6 @@ ngx-pagination@^5.0.0:
   resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-5.0.0.tgz#a4b4c150a70aef17ccd825e4543e174a974bbd14"
   integrity sha512-Ur0pTWRe2ZXoJ8impEzo0IZKxY5aEcQfSmL5uBqW1rHI2J6nfzgZAHsSLagKHFGchXq0PkRlDVVMcIaNxYJwvQ==
 
-ngx-slider@^0.0.5:
-  version "0.0.5"
-  resolved "https://artifactory.davita.com/artifactory/api/npm/npm-davita/ngx-slider/-/ngx-slider-0.0.5.tgz#0d3a94b56cf400c6c9067e12595868a4ebe9bdb7"
-  integrity sha1-DTqUtWz0AMbJBn4SWVhopOvpvbc=
-
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
