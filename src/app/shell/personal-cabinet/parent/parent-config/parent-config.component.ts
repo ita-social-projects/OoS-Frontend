@@ -7,7 +7,6 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 import { GetChildren } from 'src/app/shared/store/parent.actions';
 import { ParentState } from 'src/app/shared/store/parent.state';
 
-
 @Component({
   selector: 'app-parent-config',
   templateUrl: './parent-config.component.html',

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { GetCategories, GetPopWorkshops, GetWorkshops } from 'src/app/shared/store/filter.actions';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
-import { UserRegistrationState } from '../../shared/store/user-registration.state';
+import { UserRegistrationState } from '../../shared/store/user.state';
 import { Category } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { GetCategoriesIcons } from 'src/app/shared/store/meta-data.actions';

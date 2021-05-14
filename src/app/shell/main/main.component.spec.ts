@@ -7,14 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoryCardComponent } from 'src/app/shared/components/category-card/category-card.component';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { WorkshopCardComponent } from 'src/app/shared/components/workshop-card/workshop-card.component';
-import { UserRegistrationState } from 'src/app/shared/store/user-registration.state';
+import { UserRegistrationState } from 'src/app/shared/store/user.state';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable } from 'rxjs'; 
+import { Observable } from 'rxjs';
 
 class OidcSecurityServiceStub {
-  authorize() {}
-  logoff() {}
-  getToken(){
+  authorize() { }
+  logoff() { }
+  getToken() {
     return 'some_token_eVbnasdQ324';
   }
   checkAuth() {
@@ -34,9 +34,9 @@ describe('MainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MainComponent, CategoryCardComponent, WorkshopCardComponent ],
+      declarations: [MainComponent, CategoryCardComponent, WorkshopCardComponent],
       imports: [NgxsModule.forRoot([FilterState, MetaDataState, UserRegistrationState]), HttpClientModule],
-      providers: [{provide: OidcSecurityService, useClass: OidcSecurityServiceStub}],
+      providers: [{ provide: OidcSecurityService, useClass: OidcSecurityServiceStub }],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });

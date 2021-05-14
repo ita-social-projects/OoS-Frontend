@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/user-registration.state';
+import { UserRegistrationState } from '../shared/store/user.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
+import { Logout, CheckAuth, Login } from '../shared/store/user.actions';
 import { AppState } from '../shared/store/app.state';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProviderState } from '../shared/store/provider.state';
 
 @Component({
   selector: 'app-header',
