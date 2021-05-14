@@ -26,7 +26,7 @@ import { ChildrenService } from 'src/app/shared/services/parent/children.service
 
 @NgModule({
   declarations: [
-    ParentConfigComponent, 
+    ParentConfigComponent,
     ChildCardComponent,
     ParentCreateChildComponent,
     ChildFormComponent,

@@ -46,7 +46,6 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
     MapComponent,
     ApplicationCardComponent,
     CreateWorkshopComponent,
-
   ],
   imports: [
     CommonModule,
