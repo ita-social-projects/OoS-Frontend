@@ -21,7 +21,6 @@ import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
 
-
 @NgModule({
   declarations: [
     MainComponent,

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { AuthFail } from '../store/registration.actions';
+import { OnAuthFail } from '../store/registration.actions';
 
 @Injectable({
 
@@ -30,7 +30,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
             }
           }
-          this.store.dispatch(new AuthFail());
+          this.store.dispatch(new OnAuthFail());
           return throwError(errorMessage);
         })
       );

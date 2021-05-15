@@ -10,7 +10,7 @@ export class CheckAuth {
   static readonly type = '[user] checks auth';
   constructor() { }
 }
-export class AuthFail {
+export class OnAuthFail {
   static readonly type = '[user] has auth failed';
   constructor() { }
 }

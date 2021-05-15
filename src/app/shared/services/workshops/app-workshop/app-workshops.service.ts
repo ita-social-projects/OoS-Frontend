@@ -7,7 +7,7 @@ import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
   providedIn: 'root'
 })
-export class CardWorkshopsService {
+export class AppWorkshopsService {
 
   dataUrl = '/assets/mock-org-cards.json';
   // dataUrl = 'http://localhost:5000/Workshop/GetWorkshops';
@@ -22,12 +22,6 @@ export class CardWorkshopsService {
     if (filters.city) {
       params = params.set('address.city', filters.city.city);
     }
-    if (filters.ageFrom > 0) {
-      params = params.set('minAge', filters.ageFrom.toString());
-    }
-    if (filters.ageTo < 16) {
-      params = params.set('maxAge', filters.ageTo.toString());
-    }
     if (filters.categories.length > 0) {
       for (let i = 0; i < filters.categories.length; i++) {
         params = params.append('category.id', filters.categories[i].toString());
@@ -35,13 +29,24 @@ export class CardWorkshopsService {
     }
     return params;
   }
-
-  getWorkshops(filters: FilterStateModel): Observable<Workshop[]> {
+  /**
+  * This method get all workshops
+  */
+  getAllWorkshops(): Observable<Workshop[]> {
+    return this.http.get<Workshop[]>('/Workshop/Get');
+  }
+  /**
+  * This method get workshops with applied filter options
+  */
+  getFilteredWorkshops(filters: FilterStateModel): Observable<Workshop[]> {
     const options = { params: this.setParams(filters) };
     return this.http.get<Workshop[]>(this.dataUrl, options);
   }
 
-  getPopWorkshops(): Observable<Workshop[]> {
+  /**
+   * This method get top workshops
+   */
+  getTopWorkshops(): Observable<Workshop[]> {
     return this.http.get<Workshop[]>(this.dataUrl);
   }
 }

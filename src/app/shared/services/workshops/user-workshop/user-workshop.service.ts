@@ -1,26 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workshop } from '../../models/workshop.model';
+import { Workshop } from '../../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WorkshopService {
+export class UserWorkshopService {
 
   constructor(private http: HttpClient) { }
-  /**
-  * This method get all workshops
-  */
-  getWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>('/Workshop/Get');
-  }
-
   /**
   * This method get workshops by User id
   * @param id
   */
   getWorkshopsById(id: number): Observable<Workshop[]> {
+    const dataUrl = `/Workshop/GetById/${id}`;
     return this.http.get<Workshop[]>(`/Workshop/GetById/${id}`);
   }
 
@@ -37,7 +31,8 @@ export class WorkshopService {
   * @param id
   */
   deleteWorkshop(id: number): any {
-    return this.http.delete(`/Workshop/Delete/${id}`);
+    const dataUrl = `Workshop/Delete/${id}`;
+    return this.http.delete(dataUrl);
   }
 
 }

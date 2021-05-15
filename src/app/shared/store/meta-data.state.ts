@@ -24,17 +24,13 @@ export interface MetaDataStateModel {
 export class MetaDataState {
 
   @Selector()
-  static filteredCities(state: MetaDataStateModel) {
-    return state.filteredCities;
-  }
+  static filteredCities(state: MetaDataStateModel) { return state.filteredCities }
+
   @Selector()
-  static categoriesIcons(state: MetaDataStateModel) {
-    return state.categoriesIcons;
-  }
+  static categoriesIcons(state: MetaDataStateModel) { return state.categoriesIcons }
+
   @Selector()
-  static filteredkeyWords(state: MetaDataStateModel) {
-    return state.filteredkeyWords;
-  }
+  static filteredkeyWords(state: MetaDataStateModel) { return state.filteredkeyWords }
 
   constructor(
     private categoriesIconsService: CategoriesIconsService) { }
@@ -43,14 +39,15 @@ export class MetaDataState {
   cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
     patchState({ filteredCities: payload });
   }
+
   @Action(GetCategoriesIcons)
   getCategoriesIcons({ patchState }: StateContext<MetaDataStateModel>) {
     return this.categoriesIconsService.getIcons()
       .subscribe((categoriesIcons: {}) => patchState({ categoriesIcons }))
   }
+
   @Action(KeyWordsList)
   keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
     patchState({ filteredkeyWords: payload });
   }
-
 }

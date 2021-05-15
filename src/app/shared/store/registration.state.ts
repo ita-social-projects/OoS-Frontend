@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Login, Logout, CheckAuth, AuthFail } from './registration.actions';
+import { Login, Logout, CheckAuth, OnAuthFail } from './registration.actions';
 
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
-export interface UserStateModel {
+export interface RegistrationStateModel {
   isAuthorized: boolean;
   userName: string;
   role: string;
-
 }
-@State<UserStateModel>({
+@State<RegistrationStateModel>({
   name: 'user',
   defaults: {
     isAuthorized: false,
@@ -21,34 +20,36 @@ export interface UserStateModel {
   }
 })
 @Injectable()
-export class UserRegistrationState {
-  constructor(
-    public oidcSecurityService: OidcSecurityService,
-    public http: HttpClient, public snackBar: MatSnackBar,) { }
-
+export class RegistrationState {
   @Selector()
-  static isAuthorized(state: UserStateModel) {
+  static isAuthorized(state: RegistrationStateModel): boolean {
     return state.isAuthorized;
   }
   @Selector()
-  static userName(state: UserStateModel): string {
+  static userName(state: RegistrationStateModel): string {
     return state.userName;
   }
   @Selector()
-  static role(state: UserStateModel): string {
+  static role(state: RegistrationStateModel): string {
     return state.role;
   }
+
+  constructor(
+    public oidcSecurityService: OidcSecurityService,
+    public http: HttpClient,
+    public snackBar: MatSnackBar) { }
+
   @Action(Login)
-  Login({ }: StateContext<UserStateModel>): void {
+  Login({ }: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.authorize();
   }
   @Action(Logout)
-  Logout({ dispatch }: StateContext<UserStateModel>): void {
+  Logout({ dispatch }: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
     dispatch(new CheckAuth());
   }
   @Action(CheckAuth)
-  CheckAuth({ patchState }: StateContext<UserStateModel>): void {
+  CheckAuth({ patchState }: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService
       .checkAuth()
       .subscribe((auth) => {
@@ -60,10 +61,10 @@ export class UserRegistrationState {
         }
       });
   }
-  @Action(AuthFail)
-  authFail(): void {
+  @Action(OnAuthFail)
+  onAuthFail(): void {
     console.log('Authorization failed');
-    this.snackBar.open("Упс! Перевірте з'єднання", 'Добре', {
+    this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
       panelClass: ['red-snackbar'],
     });

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FiltersListComponent } from './components/filters-list/filters-list.component';
 import { AgeFilterComponent } from './components/filters-list/age-filter/age-filter.component';
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
-import { CategoriesFilterComponent } from './components/filters-list/categories-filter/categories-filter.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
 import { MaterialModule } from './material/material.module';
@@ -21,7 +20,6 @@ import { ImageFormControlComponent } from './components/image-form-control/image
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
-import { MatCardModule } from '@angular/material/card';
 import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { CategoriesDropdownComponent } from './components/categories-dropdown/categories-dropdown.component';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
@@ -32,12 +30,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 
+
 @NgModule({
   declarations: [
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
-    CategoriesFilterComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     WorkshopCardComponent,
@@ -65,15 +63,14 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
     ReactiveFormsModule,
     FlexLayoutModule,
     RouterModule,
-    MatCardModule,
     FormsModule,
-    NgxSliderModule
+    NgxSliderModule,
+    ReactiveFormsModule,
   ],
   exports: [
     FiltersListComponent,
     AgeFilterComponent,
     SearchbarComponent,
-    CategoriesFilterComponent,
     CityFilterComponent,
     DigitOnlyDirective,
     WorkshopCardComponent,
@@ -87,13 +84,12 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
     ImageFormControlComponent,
     ApplicationFilterPipe,
     ApplicationSortPipe,
-    MatCardModule,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     CategoriesDropdownComponent,
     FormsModule,
     CategoryCheckBoxComponent,
-    PersonCardComponent
+    PersonCardComponent,
   ]
 })
 export class SharedModule { }

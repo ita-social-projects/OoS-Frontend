@@ -13,7 +13,8 @@ import { Workshop } from '../../../shared/models/workshop.model';
 })
 export class WorkshopCardsListComponent implements OnInit {
 
-  @Select(FilterState.workshopsCards) cards$: Observable<Workshop[]>;
+  @Select(FilterState.filteredlWorkshops) filteredlWorkshops$: Observable<Workshop[]>;
+  @Select(FilterState.allWorkshops) allWorkshops$: Observable<Workshop[]>;
 
   public workshops: Workshop[];
   currentPage: number = 1;
@@ -23,6 +24,6 @@ export class WorkshopCardsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshops())
-    this.cards$.subscribe((workshops: Workshop[]) => this.workshops = workshops)
+    this.allWorkshops$.subscribe((workshops: Workshop[]) => this.workshops = workshops)
   }
 }

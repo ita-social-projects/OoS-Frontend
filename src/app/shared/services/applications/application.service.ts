@@ -8,12 +8,17 @@ import { HttpClient } from '@angular/common/http';
 
 export class ApplicationService {
 
-  dataUrl = '/assets/mock-applications.json';
+
+  dataUrlmock = '/assets/mock-applications.json';
 
   constructor(private http: HttpClient) {
   }
-
-  getApplications(): Observable<Application[]> {
-    return this.http.get<Application[]>(this.dataUrl);
+  /**
+ * This method get applications by User id
+ * @param id
+ */
+  getApplicationsById(id: number): Observable<Application[]> {
+    const dataUrl = `/Application/GetById/${id}`;
+    return this.http.get<Application[]>(this.dataUrlmock);
   }
 }

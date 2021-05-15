@@ -4,24 +4,20 @@ export class GetWorkshopsById {
   static readonly type = '[user] get Workshop';
   constructor(public payload: number) { }
 }
-export class GetApplications {
+export class GetApplicationsById {
   static readonly type = '[user] get Applications';
-  constructor() { }
+  constructor(public payload: number) { }
 }
-export class GetChildren {
+export class GetChildrenById {
   static readonly type = '[user] get Children';
-  constructor() { }
+  constructor(public payload: number) { }
 }
-export class GetTeachers {
+export class GetTeachersById {
   static readonly type = '[user] get Teachers';
-  constructor() { }
+  constructor(public payload: number) { }
 }
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';
-  constructor(public payload: Workshop) { }
-}
-export class DeleteWorkshop {
-  static readonly type = '[user] delete Workshop';
   constructor(public payload: Workshop) { }
 }
 export class OnCreateWorkshopFail {
@@ -31,6 +27,10 @@ export class OnCreateWorkshopFail {
 export class OnCreateWorkshopSuccess {
   static readonly type = '[user] create Workshop success';
   constructor(public payload) { }
+}
+export class DeleteWorkshopById {
+  static readonly type = '[user] delete Workshop';
+  constructor(public payload: number) { }
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';
@@ -44,10 +44,6 @@ export class CreateChildren {
   static readonly type = '[parent] create Children';
   constructor(public payload: Child[]) { }
 }
-export class DeleteChildren {
-  static readonly type = '[user] delete Children';
-  constructor(public payload: Workshop) { }
-}
 export class OnCreateChildrenFail {
   static readonly type = '[user] create Children fail';
   constructor(public payload: Error) { }
@@ -56,11 +52,15 @@ export class OnCreateChildrenSuccess {
   static readonly type = '[user] create Children success';
   constructor(public payload) { }
 }
+export class DeleteChildrenById {
+  static readonly type = '[user] delete Children';
+  constructor(public payload: number) { }
+}
 export class OnDeleteChildrenSuccess {
   static readonly type = '[user] delete Children success';
   constructor(public payload) { }
 }
 export class OnDeleteChildrenFail {
   static readonly type = '[user] delete Children fail';
-  constructor(public payload) { }
+  constructor(public payload: Error) { }
 }

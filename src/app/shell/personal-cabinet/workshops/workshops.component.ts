@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { GetWorkshops } from 'src/app/shared/store/filter.actions';
+import { GetWorkshopsById } from 'src/app/shared/store/user.actions';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { ChangePage } from '../../../shared/store/app.actions';
-import { ProviderState } from '../../../shared/store/user.state';
+import { UserState } from '../../../shared/store/user.state';
 
 @Component({
   selector: 'app-workshops',
@@ -14,15 +14,16 @@ import { ProviderState } from '../../../shared/store/user.state';
 export class WorkshopsComponent implements OnInit {
 
 
-  @Select(ProviderState.workshopsList)
+  @Select(UserState.workshops)
   workshops$: Observable<Workshop[]>;
+
+  id: null;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.store.dispatch(new GetWorkshops());
-    this.workshops$.subscribe(val => console.log(val))
+    this.store.dispatch(new GetWorkshopsById(this.id));
   }
 
 }
