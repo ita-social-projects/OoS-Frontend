@@ -27,7 +27,7 @@ export class ParentCreateChildComponent implements OnInit {
     const childFormGroup = this.fb.group({
       lastName: new FormControl(''),
       firstName: new FormControl(''),
-      secondName: new FormControl(''),
+      middleName: new FormControl(''),
       birthDay: new FormControl(''),
       gender: new FormControl(''),
       type: new FormControl('')
@@ -44,6 +44,11 @@ export class ParentCreateChildComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.store.dispatch(new CreateChildren(this.childrenFormArray))
+    for (let i = 0; i < this.childrenFormArray.controls.length; i++) {
+      let child: Child = new Child(this.childrenFormArray.controls[i].value);
+      console.log(child)
+      this.store.dispatch(new CreateChildren(child))
+    }
   }
+
 }

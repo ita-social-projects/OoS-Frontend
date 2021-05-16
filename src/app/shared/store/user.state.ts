@@ -12,11 +12,14 @@ import { ChildrenService } from '../services/children/children.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { ToggleLoading } from './app.actions';
 import {
+  CreateChildren,
   CreateWorkshop,
   DeleteWorkshopById,
   GetApplicationsById,
   GetChildrenById,
   GetWorkshopsById,
+  OnCreateChildrenFail,
+  OnCreateChildrenSuccess,
   OnCreateWorkshopFail,
   OnCreateWorkshopSuccess,
   OnDeleteWorkshopFail,
@@ -97,7 +100,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      this.router.navigate(['/provider/cabinet/workshops']);
+      this.router.navigate(['/personal-cabinet/workshops']);
       dispatch(new ToggleLoading(false));
     }, 2000);
   }
@@ -108,7 +111,7 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Гурток створено!', 'primary', 'top');
       dispatch(new ToggleLoading(false));
-      this.router.navigate(['/provider/cabinet/workshops']);
+      this.router.navigate(['/personal-cabinet/workshops']);
     }, 2000);
   }
 
@@ -139,6 +142,38 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Гурток видалено!', 'primary', 'top');
       dispatch(new ToggleLoading(false));
+    }, 2000);
+  }
+
+  @Action(CreateChildren)
+  createChildren({ dispatch }: StateContext<UserStateModel>, { payload }: CreateChildren) {
+    dispatch(new ToggleLoading(true));
+    return this.childrenService
+      .createChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateChildrenFail(error))))
+      );
+  }
+
+  @Action(OnCreateChildrenFail)
+  onCreateChildrenFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenFail): void {
+    console.log('Child creation is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+      this.router.navigate(['/personal-cabinet/parent/info']);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
+  }
+
+  @Action(OnCreateChildrenSuccess)
+  onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
+    console.log('Child is created', payload);
+    setTimeout(() => {
+      this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
+      dispatch(new ToggleLoading(false));
+      this.router.navigate(['/personal-cabinet/parent/info']);
     }, 2000);
   }
 

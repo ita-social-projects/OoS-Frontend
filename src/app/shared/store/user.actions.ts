@@ -38,7 +38,7 @@ export class OnDeleteWorkshopFail {
 }
 export class CreateChildren {
   static readonly type = '[parent] create Children';
-  constructor(public payload: Child[]) { }
+  constructor(public payload: Child) { }
 }
 export class OnCreateChildrenFail {
   static readonly type = '[user] create Children fail';

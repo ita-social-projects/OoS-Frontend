@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { Category } from '../models/category.model';
-import { CategoriesService } from '../services/categories/categories.service';
 import { City } from '../models/city.model';
 import { Workshop } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
@@ -23,6 +21,7 @@ import {
   SetOpenRecruitment,
   SetClosedRecruitment,
 } from './filter.actions';
+import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 export interface FilterStateModel {
   categories: Category[];
   ageRange: string[];
