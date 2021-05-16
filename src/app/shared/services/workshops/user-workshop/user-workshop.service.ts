@@ -8,6 +8,8 @@ import { Workshop } from '../../../models/workshop.model';
 })
 export class UserWorkshopService {
 
+  tepmUrl = '/Workshop/Get';
+
   constructor(private http: HttpClient) { }
   /**
   * This method get workshops by User id
@@ -15,7 +17,7 @@ export class UserWorkshopService {
   */
   getWorkshopsById(id: number): Observable<Workshop[]> {
     const dataUrl = `/Workshop/GetById/${id}`;
-    return this.http.get<Workshop[]>(`/Workshop/GetById/${id}`);
+    return this.http.get<Workshop[]>(this.tepmUrl);
   }
 
   /**

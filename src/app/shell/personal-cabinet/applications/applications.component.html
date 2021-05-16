@@ -27,9 +27,9 @@
 </ng-template>
 
 <ng-template #Applications let-applications>
-  <app-request-card *ngFor="let application of applications" [application]="application" (approved)="onApprove($event)"
-    (denied)="onDeny($event)" (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
-  </app-request-card>
+  <app-application-card *ngFor="let application of applications" [application]="application"
+    (approved)="onApprove($event)" (denied)="onDeny($event)" (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+  </app-application-card>
 </ng-template>
 
 <ng-template appInfoBoxHost></ng-template>
