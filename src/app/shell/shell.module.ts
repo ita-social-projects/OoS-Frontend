@@ -38,7 +38,6 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
     ReactiveFormsModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
   ]
 })
 export class ShellModule { }
