@@ -16,8 +16,4 @@ export class CategoriesService {
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.dataUrlCategories);
   }
-
-  getCategoriesIcons(): Observable<any> {
-    return this.http.get(this.dataUrlIcons);
-  }
 }

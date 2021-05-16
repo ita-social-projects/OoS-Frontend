@@ -4,7 +4,6 @@ import { FormControl } from '@angular/forms';
 import { UserState } from '../../store/user.state';
 import { Observable } from 'rxjs';
 import { Workshop } from '../../models/workshop.model';
-import { GetWorkshops, SetFilteredWorkshops } from '../../store/filter.actions';
 import { uniqBy } from 'lodash';
 
 @Component({
@@ -22,10 +21,10 @@ export class CategoriesDropdownComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetWorkshops());
+    //this.store.dispatch(new GetWorkshops());
     this.$categoriesList.subscribe((data: Workshop[]) => {
       this.categoriesList = data && data.length > 0 ? uniqBy(data, 'id') : [];
-      this.store.dispatch(new SetFilteredWorkshops(this.categoriesList));
+      // this.store.dispatch(new SetFilteredWorkshops(this.categoriesList));
     });
     this.categoriesSelect.emit(this.selectedCategories);
   }

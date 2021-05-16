@@ -12,10 +12,6 @@ export class GetChildrenById {
   static readonly type = '[user] get Children';
   constructor(public payload: number) { }
 }
-export class GetTeachersById {
-  static readonly type = '[user] get Teachers';
-  constructor(public payload: number) { }
-}
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';
   constructor(public payload: Workshop) { }

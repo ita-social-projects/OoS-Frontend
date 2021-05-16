@@ -10,6 +10,9 @@ import { ChildCardComponent } from './parent-config/child-card/child-card.compon
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { UserState } from 'src/app/shared/store/user.state';
 import { NgxsModule } from '@ngxs/store';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -19,10 +22,14 @@ import { NgxsModule } from '@ngxs/store';
     ChildFormComponent,
   ],
   imports: [
+    NgxsModule.forFeature([UserState]),
     CommonModule,
     ParentRoutingModule,
     HttpClientModule,
-    NgxsModule.forFeature([UserState]),
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+
   ],
   providers: [
     ChildrenService,

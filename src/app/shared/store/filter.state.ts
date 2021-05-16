@@ -72,14 +72,8 @@ export class FilterState {
   @Selector()
   static categories(state: FilterStateModel): Category[] { return state.categories }
 
-  // @Selector()
-  // static categoriesCards(state: FilterStateModel): Category[] {
-  //   return state.categoriesCards;
-  // }
-
   constructor(
-    private appWorkshopsService: AppWorkshopsService,
-    private categoriesService: CategoriesService) { }
+    private appWorkshopsService: AppWorkshopsService) { }
 
   @Action(SetCity)
   setCity({ patchState }: StateContext<FilterStateModel>, { payload }: SetCity): void {

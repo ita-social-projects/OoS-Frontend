@@ -54,7 +54,6 @@ import { UserState } from './shared/store/user.state';
     }),
     FlexLayoutModule,
     ShellModule,
-    ReactiveFormsModule,
     RegistrationModule,
     MatProgressSpinnerModule
   ],

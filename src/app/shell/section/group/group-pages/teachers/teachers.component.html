@@ -1,4 +1,3 @@
-<!-- <section>
-  <app-teacher-card *ngFor="let card of teacherCard" [cards]="card"></app-teacher-card>
+<section>
+  <app-teacher-card *ngFor="let teacher of  teachers$ | async" [teacher]="teacher"></app-teacher-card>
 </section>
- -->

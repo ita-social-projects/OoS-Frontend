@@ -30,7 +30,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 
-
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -65,7 +64,6 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    ReactiveFormsModule,
   ],
   exports: [
     FiltersListComponent,

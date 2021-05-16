@@ -3,9 +3,6 @@ import { KeyWord } from "../models/keyWord,model";
 export class GetCategories {
   static readonly type = '[meta-data] Get Categories';
 }
-export class GetCategoriesIcons {
-  static readonly type = '[meta-data] Get Categories Icons';
-}
 export class CityList {
   static readonly type = '[meta-data] Get list of cities';
   constructor(public payload: City[]) { }

@@ -33,7 +33,7 @@ export class AppWorkshopsService {
   * This method get all workshops
   */
   getAllWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>('/Workshop/Get');
+    return this.http.get<Workshop[]>(this.dataUrl);
   }
   /**
   * This method get workshops with applied filter options

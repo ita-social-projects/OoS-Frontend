@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
+import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ChangePage, GetWorkshops, SetLocation, ToggleLoading } from './app.actions';
+import { ChangePage, GetTeachersById, GetWorkshops, SetLocation, ToggleLoading } from './app.actions';
 import { FilterStateModel } from './filter.state';
 
 export interface AppStateModel {
@@ -12,6 +14,7 @@ export interface AppStateModel {
   lng: Number | null;
   lat: Number | null;
   allWorkshops: Workshop[];
+  teachers: Teacher[]
 }
 
 @State<AppStateModel>({
@@ -23,6 +26,7 @@ export interface AppStateModel {
     lng: null,
     lat: null,
     allWorkshops: [],
+    teachers: [],
   }
 })
 @Injectable()
@@ -36,7 +40,13 @@ export class AppState {
   @Selector()
   static allWorkshops(state: AppStateModel): Workshop[] { return state.allWorkshops }
 
-  constructor(private appWorkshopsService: AppWorkshopsService) { }
+  @Selector()
+  static teachers(state: AppStateModel): Teacher[] { return state.teachers }
+
+  constructor(
+    private appWorkshopsService: AppWorkshopsService,
+    private teacherService: TeacherService
+  ) { }
 
   @Action(ToggleLoading)
   toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
@@ -58,5 +68,13 @@ export class AppState {
     return this.appWorkshopsService
       .getAllWorkshops()
       .subscribe((workshops: Workshop[]) => patchState({ allWorkshops: workshops }))
+  }
+
+  @Action(GetTeachersById)
+  getChildrenById({ patchState }: StateContext<AppStateModel>, { payload }: GetTeachersById) {
+    return this.teacherService
+      .getTeachersById(payload)
+      .subscribe(
+        (workshopTeachers: Teacher[]) => patchState({ teachers: workshopTeachers }))
   }
 }

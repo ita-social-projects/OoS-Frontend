@@ -20,6 +20,8 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     ProviderConfigComponent,
@@ -39,6 +41,8 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
     MatTabsModule,
     SharedModule,
     LeafletModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
 
   providers: [
