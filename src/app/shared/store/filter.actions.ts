@@ -1,5 +1,6 @@
+import { Category } from "../models/category.model";
 import { City } from "../models/city.model";
-import { Workshop } from "../models/workshop.model";
+import { WorkingHours } from "../models/workingHours.model";
 export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: City) { }
@@ -8,19 +9,49 @@ export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) { }
 }
-export class SetCategory {
+export class SetCategories {
   static readonly type = '[filter] Set Categoty';
-  constructor(public payload: number) { }
+  constructor(public payload: Category[]) { }
 }
 export class SetAgeRange {
-  static readonly type = '[filter] Set Categoty';
+  static readonly type = '[filter] Set Age Range';
+  constructor(public payload: string[]) { }
+}
+export class SetWorkingDays {
+  static readonly type = '[filter] Set Working Days';
+  constructor(public payload: WorkingHours[]) { }
+}
+export class SetWorkingHours {
+  static readonly type = '[filter] Set Working Hours';
+  constructor(public payload: WorkingHours[]) { }
+}
+export class SetIsFree {
+  static readonly type = '[filter] Set Is Free type of payment';
+  constructor(public payload: boolean) { }
+}
+export class SetIsPaid {
+  static readonly type = '[filter] Set Is Paid type of payment';
+  constructor(public payload: boolean) { }
+}
+export class SetMinPrice {
+  static readonly type = '[filter] Set Min Price';
   constructor(public payload: number) { }
 }
-export class GetCategories {
-  static readonly type = '[filter] Get Categories';
+export class SetMaxPrice {
+  static readonly type = '[filter] Set Max Price';
+  constructor(public payload: number) { }
 }
-export class GetWorkshops {
-  static readonly type = '[filter] Get Workshops';
+export class SetSearchQueryValue {
+  static readonly type = '[filter] Set Search Quesry Value';
+  constructor(public payload: string) { }
+}
+export class SetOpenRecruitment {
+  static readonly type = '[filter] Set Open Recruitment';
+  constructor(public payload: boolean) { }
+}
+export class SetClosedRecruitment {
+  static readonly type = '[filter] Set Closed Recruitment';
+  constructor(public payload: boolean) { }
 }
 export class GetFilteredWorkshops {
   static readonly type = '[filter] Get Filtered Workshops';

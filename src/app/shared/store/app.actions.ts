@@ -10,3 +10,7 @@ export class SetLocation {
   static readonly type = '[app] set geolocation';
   constructor(public payload: { city: String, lng: Number, lat: Number }) { }
 }
+
+export class GetWorkshops {
+  static readonly type = '[app] Get Workshops';
+}

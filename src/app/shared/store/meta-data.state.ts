@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Category } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
-import { CategoriesIconsService } from '../services/categories-icons/categories-icons.service';
-import { CityList, GetCategoriesIcons, KeyWordsList } from './meta-data.actions';
+import { CategoriesService } from '../services/categories/categories.service';
+import { CityList, GetCategories, GetCategoriesIcons, KeyWordsList } from './meta-data.actions';
 
 export interface MetaDataStateModel {
-  filteredCities: City[];
+  categories: Category[];
   categoriesIcons: {};
+  filteredCities: City[];
   filteredkeyWords: KeyWord[];
 }
 
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
-    filteredCities: [],
+    categories: [],
     categoriesIcons: {},
+    filteredCities: [],
     filteredkeyWords: [],
   }
 
@@ -27,23 +30,33 @@ export class MetaDataState {
   static filteredCities(state: MetaDataStateModel) { return state.filteredCities }
 
   @Selector()
+  static categories(state: MetaDataStateModel) { return state.categories }
+
+  @Selector()
   static categoriesIcons(state: MetaDataStateModel) { return state.categoriesIcons }
 
   @Selector()
   static filteredkeyWords(state: MetaDataStateModel) { return state.filteredkeyWords }
 
   constructor(
-    private categoriesIconsService: CategoriesIconsService) { }
+    private categoriesService: CategoriesService) { }
 
-  @Action(CityList)
-  cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
-    patchState({ filteredCities: payload });
+  @Action(GetCategories)
+  getCategories({ patchState }: StateContext<MetaDataStateModel>, { }: GetCategories) {
+    return this.categoriesService
+      .getCategories()
+      .subscribe((appCategories: Category[]) => patchState({ categories: appCategories }))
   }
 
   @Action(GetCategoriesIcons)
   getCategoriesIcons({ patchState }: StateContext<MetaDataStateModel>) {
-    return this.categoriesIconsService.getIcons()
+    return this.categoriesService.getCategoriesIcons()
       .subscribe((categoriesIcons: {}) => patchState({ categoriesIcons }))
+  }
+
+  @Action(CityList)
+  cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
+    patchState({ filteredCities: payload });
   }
 
   @Action(KeyWordsList)

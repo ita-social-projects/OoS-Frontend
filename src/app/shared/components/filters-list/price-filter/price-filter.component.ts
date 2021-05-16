@@ -1,6 +1,10 @@
-import { Options } from '@angular-slider/ngx-slider'; 
+import { Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
 @Component({
   selector: 'app-price-filter',
   templateUrl: './price-filter.component.html',
@@ -19,33 +23,57 @@ export class PriceFilterComponent implements OnInit {
     floor: 0,
     ceil: 2000,
   };
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private fb: FormBuilder) {
-    this.minPrice.valueChanges.subscribe(val => {
-      if (val) {
-        this.isPaid = true;
-        this.minValue = val;
-      } else {
-        (!this.maxValue) ? this.isPaid = false : this.isPaid = true;
-      }
-    });
+  /**
+   * Constructor subscribe to input value changes, change type of payment depending on input value and distpatch filter action
+   */
+  constructor(private store: Store) {
+    this.minPrice.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe(val => {
+        if (val) {
+          this.isPaid = true;
+          this.minValue = val;
+          this.store.dispatch(new SetMinPrice(this.maxValue));
+        } else {
+          (!this.maxValue) ? this.isPaid = false : this.isPaid = true;
+        }
+      });
 
-    this.maxPrice.valueChanges.subscribe(val => {
-      if (val) {
-        this.isPaid = true;
-        this.maxValue = val;
-      } else {
-        (!this.minValue) ? this.isPaid = false : this.isPaid = true;
-      }
-    });
+    this.maxPrice.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe(val => {
+        if (val) {
+          this.isPaid = true;
+          this.maxValue = val;
+          this.store.dispatch(new SetMaxPrice(this.maxValue));
+        } else {
+          (!this.minValue) ? this.isPaid = false : this.isPaid = true;
+        }
+      });
   }
   ngOnInit(): void { }
 
+  /**
+  * This method changes status of IsFree type of payment and distpatch filter action
+  */
   onIsFreeClick(): void {
     this.isFree = !this.isFree;
+    this.store.dispatch(new SetIsFree(this.isFree));
   }
 
+  /**
+  * This method changes status of isPaid type of payment and distpatch filter action
+  */
   onIsPaidClick(): void {
     this.isPaid = !this.isPaid;
+    this.store.dispatch(new SetIsPaid(this.isPaid));
   }
 }

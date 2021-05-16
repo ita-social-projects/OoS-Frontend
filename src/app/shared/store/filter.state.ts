@@ -8,11 +8,20 @@ import { Workshop } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
 import {
   SetOrder,
-  GetWorkshops,
   SetCity,
   GetFilteredWorkshops,
   GetTopWorkshops,
-  GetCategories
+  SetCategories,
+  SetAgeRange,
+  SetWorkingDays,
+  SetWorkingHours,
+  SetIsFree,
+  SetIsPaid,
+  SetMinPrice,
+  SetMaxPrice,
+  SetSearchQueryValue,
+  SetOpenRecruitment,
+  SetClosedRecruitment,
 } from './filter.actions';
 export interface FilterStateModel {
   categories: Category[];
@@ -23,12 +32,11 @@ export interface FilterStateModel {
   isFree: boolean;
   maxPrice: number;
   minPrice: number;
-  isRecruiting: boolean;
-  isNotRecruiting: boolean;
+  isOpenRecruitment: boolean;
+  isClosedRecruitment: boolean;
   city: City;
   searchQuery: string;
   order: string;
-  allWorkshops: Workshop[];
   filteredWorkshops: Workshop[];
   topWorkshops: Workshop[];
 }
@@ -43,12 +51,11 @@ export interface FilterStateModel {
     isFree: false,
     maxPrice: 0,
     minPrice: 0,
-    isRecruiting: false,
-    isNotRecruiting: false,
+    isOpenRecruitment: false,
+    isClosedRecruitment: false,
     city: { id: null, city: '' },
     searchQuery: '',
     order: '',
-    allWorkshops: [],
     filteredWorkshops: [],
     topWorkshops: []
   }
@@ -57,13 +64,14 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static allWorkshops(state: FilterStateModel): Workshop[] { return state.allWorkshops };
+  static filteredlWorkshops(state: FilterStateModel): Workshop[] { return state.filteredWorkshops }
+
   @Selector()
-  static filteredlWorkshops(state: FilterStateModel): Workshop[] { return state.filteredWorkshops };
+  static topWorkshops(state: FilterStateModel): Workshop[] { return state.topWorkshops }
+
   @Selector()
-  static topWorkshops(state: FilterStateModel): Workshop[] { return state.topWorkshops };
-  @Selector()
-  static categories(state: FilterStateModel): Category[] { return state.categories };
+  static categories(state: FilterStateModel): Category[] { return state.categories }
+
   // @Selector()
   // static categoriesCards(state: FilterStateModel): Category[] {
   //   return state.categoriesCards;
@@ -83,11 +91,59 @@ export class FilterState {
     patchState({ order: payload });
   }
 
-  @Action(GetWorkshops)
-  getWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetWorkshops) {
-    return this.appWorkshopsService
-      .getAllWorkshops()
-      .subscribe((workshops: Workshop[]) => patchState({ allWorkshops: workshops }))
+  @Action(SetCategories)
+  setCategories({ patchState }: StateContext<FilterStateModel>, { payload }: SetCategories): void {
+    patchState({ categories: payload });
+  }
+
+  @Action(SetAgeRange)
+  setAgeRange({ patchState }: StateContext<FilterStateModel>, { payload }: SetAgeRange) {
+    patchState({ ageRange: payload });
+  }
+
+  @Action(SetWorkingDays)
+  setWorkingDays({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingDays) {
+    patchState({ workingDays: payload });
+  }
+
+  @Action(SetWorkingHours)
+  setWorkingHours({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingHours) {
+    patchState({ workingHours: payload });
+  }
+
+  @Action(SetIsFree)
+  setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree) {
+    patchState({ isFree: payload });
+  }
+
+  @Action(SetIsPaid)
+  setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid) {
+    patchState({ isPaid: payload });
+  }
+
+  @Action(SetMinPrice)
+  setMinPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMinPrice) {
+    patchState({ minPrice: payload });
+  }
+
+  @Action(SetMaxPrice)
+  setMaxPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMaxPrice) {
+    patchState({ maxPrice: payload });
+  }
+
+  @Action(SetSearchQueryValue)
+  setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue) {
+    patchState({ searchQuery: payload });
+  }
+
+  @Action(SetOpenRecruitment)
+  setOpenRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment) {
+    patchState({ isOpenRecruitment: payload });
+  }
+
+  @Action(SetClosedRecruitment)
+  setClosedRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment) {
+    patchState({ isClosedRecruitment: payload });
   }
 
   @Action(GetFilteredWorkshops)
@@ -103,30 +159,4 @@ export class FilterState {
       .getTopWorkshops()
       .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops }))
   }
-
-  @Action(GetCategories)
-  getCategories({ patchState }: StateContext<FilterStateModel>, { }: GetCategories) {
-    return this.categoriesService
-      .getCategories()
-      .subscribe((appCategories: Category[]) => patchState({ categories: appCategories }))
-  }
-
-  // @Action(AddCategory)
-  // addCategory(ctx: StateContext<FilterStateModel>, { payload }: AddCategory) {
-  //   ctx.setState(
-  //     patch({
-  //       categories: append([payload])
-  //     })
-  //   );
-  // }
-
-  // @Action(SetCategory)
-  // setCategory(ctx: StateContext<FilterStateModel>, { payload }: SetCategory) {
-  //   ctx.setState(
-  //     patch({
-  //       categories: [payload]
-  //     })
-  //   );
-  // }
-
 }

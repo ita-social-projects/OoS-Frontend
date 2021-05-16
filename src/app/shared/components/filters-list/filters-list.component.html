@@ -5,10 +5,10 @@
   <app-price-filter></app-price-filter>
   <div class="recruiting">
     <p class=" filter-text">Набір</p>
-    <mat-checkbox color="primary">
+    <mat-checkbox color="primary" (change)="onOpenRecruitment($event)">
       Лише з відкритим відбором
     </mat-checkbox>
-    <mat-checkbox color="primary">
+    <mat-checkbox color="primary" (change)="onClosedRecruitment($event)">
       Закритий відбір
     </mat-checkbox>
   </div>
