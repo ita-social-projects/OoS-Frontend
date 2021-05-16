@@ -60,8 +60,7 @@ export class UserState {
   getWorkshopsById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsById) {
     return this.userWorkshopService
       .getWorkshopsById(payload)
-      .subscribe(
-        (userWorkshops: Workshop[]) => patchState({ workshops: userWorkshops }))
+      .subscribe((userWorkshops: Workshop[]) => patchState({ workshops: userWorkshops }))
   }
 
   @Action(GetApplicationsById)

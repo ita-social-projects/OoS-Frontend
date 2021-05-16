@@ -15,12 +15,12 @@ import { ProviderConfigService } from './provider-config/provider-config.service
 import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { MapComponent } from './create-workshop/create-address/map/map.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
+import { ApplicationCardComponent } from '../applications/application-card/application-card.component';
+import { UserState } from 'src/app/shared/store/user.state';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
-import { UserState } from 'src/app/shared/store/user.state';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -30,27 +30,27 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
     MapComponent,
+    ApplicationCardComponent,
     CreateWorkshopComponent,
   ],
   imports: [
-    NgxsModule.forFeature([UserState]),
     CommonModule,
-    NgxsModule,
     ProviderRoutingModule,
     HttpClientModule,
+    NgxsModule.forFeature([UserState]),
     MatTabsModule,
     SharedModule,
     LeafletModule,
-    ReactiveFormsModule,
     FormsModule,
-    FlexLayoutModule
+    ReactiveFormsModule
   ],
 
   providers: [
     ProviderConfigService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     CanDeactivateGuard,
-    GeolocationService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
+    DatePipe,
+    GeolocationService
   ],
 
 })
