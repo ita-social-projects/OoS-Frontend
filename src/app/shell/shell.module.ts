@@ -20,6 +20,7 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
 import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
+import { PersonalCabinetModule } from './personal-cabinet/personal-cabinet.module';
 
 
 @NgModule({
@@ -27,29 +28,20 @@ import { CreateApplicationComponent } from './section/group/create-application/c
     MainComponent,
     ResultComponent,
     WorkshopCardsListComponent,
-    WorkshopsComponent,
     OrderingComponent,
-    ApplicationsComponent,
-    MessagesComponent,
     PersonalCabinetComponent,
-    CreateApplicationComponent 
-    
+    CreateApplicationComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ShellRoutingModule,
     FlexLayoutModule,
-    HttpClientModule,
     LeafletModule,
     SharedModule,
     GroupModel,
     NgxPaginationModule,
-    ReactiveFormsModule
-  ],
-  providers: [
-    ParentGuard,
-    ProviderGuard,
+    ReactiveFormsModule,
   ]
 })
 export class ShellModule { }
