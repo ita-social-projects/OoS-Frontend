@@ -13,6 +13,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { WorkshopsComponent } from './workshops/workshops.component';
+
+
+
 @NgModule({
   declarations: [
     ApplicationsComponent,
@@ -21,10 +24,11 @@ import { WorkshopsComponent } from './workshops/workshops.component';
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    //RouterModule,
     PersonalCabinetRoutingModule,
     FlexLayoutModule,
     SharedModule,
+    // GroupModel,
     NgxPaginationModule,
     ReactiveFormsModule,
     HttpClientModule

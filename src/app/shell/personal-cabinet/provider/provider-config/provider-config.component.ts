@@ -41,6 +41,7 @@ export class ProviderConfigComponent implements OnInit {
       facebook: new FormControl(''),
       instagram: new FormControl(''),
       ownerName: new FormControl('', Validators.required),
+
     });
     this.addressFormGroup = new FormGroup({
       legalAddress: new FormGroup({

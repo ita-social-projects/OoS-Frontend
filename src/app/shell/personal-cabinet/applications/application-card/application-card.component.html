@@ -7,12 +7,12 @@
     </div>
     <div fxLayout='column' fxLayoutAlign='center start'>
       <h2>{{application.child.firstName}} {{application.child.lastName}} {{application.child.middleName}}</h2>
-      {{getAge(application.child.dateOfBirth)}} років
+      {{getAge(application.child.birthDay)}} років
       <p>{{application.date | date: 'shortDate'}}</p>
     </div>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='center start'>
-    <h2>{{application.provider.shortTitle}}</h2>
+    <h2>{{application.provider.title}}</h2>
     <h4>{{application.provider.workshop.title}}</h4>
     <p><img src="assets/icons/age.png" alt="people"> доступних місць
       <b>{{application.provider.workshop.placeAmount}}</b>

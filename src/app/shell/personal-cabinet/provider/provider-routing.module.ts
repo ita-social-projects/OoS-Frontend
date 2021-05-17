@@ -4,12 +4,16 @@ import { ProviderConfigComponent } from './provider-config/provider-config.compo
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 
+
+
 const routes: Routes = [
-  { path: 'create-workshop/:id', component: CreateWorkshopComponent },
-  { path: 'config', component: ProviderConfigComponent },
-  { path: 'info', component: ProviderOrgInfoComponent }
+  
+ {path: 'create-workshop/:id', component: CreateWorkshopComponent},
+ {path: 'config', component: ProviderConfigComponent} ,
+ {path: 'info', component: ProviderOrgInfoComponent} 
 
 ];
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

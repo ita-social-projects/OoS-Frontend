@@ -4,8 +4,10 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Child } from 'src/app/shared/models/child.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
-import { GetChildrenById } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { GetChildren } from 'src/app/shared/store/parent.actions';
+import { ParentState } from 'src/app/shared/store/parent.state';
+
+
 @Component({
   selector: 'app-parent-config',
   templateUrl: './parent-config.component.html',
@@ -13,15 +15,15 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class ParentConfigComponent implements OnInit {
   form: FormGroup;
-  id: null;
 
-  @Select(UserState.children) children$: Observable<Child[]>;
+  @Select(ParentState.children) cards$: Observable<Child[]>;
+  public cards: Child[];
 
   constructor(private fb: FormBuilder, private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.store.dispatch(new GetChildrenById(this.id))
-
+    this.store.dispatch(new GetChildren());
+    this.cards$.subscribe(cards => this.cards = cards);
   }
 }

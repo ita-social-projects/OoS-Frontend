@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Child } from 'src/app/shared/models/child.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
-import { CreateChildren } from 'src/app/shared/store/user.actions';
+import { CreateChildren } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-parent-create-child',
@@ -27,7 +27,7 @@ export class ParentCreateChildComponent implements OnInit {
     const childFormGroup = this.fb.group({
       lastName: new FormControl(''),
       firstName: new FormControl(''),
-      middleName: new FormControl(''),
+      secondName: new FormControl(''),
       birthDay: new FormControl(''),
       gender: new FormControl(''),
       type: new FormControl('')
@@ -44,11 +44,6 @@ export class ParentCreateChildComponent implements OnInit {
   }
 
   onSubmit() {
-    for (let i = 0; i < this.childrenFormArray.controls.length; i++) {
-      let child: Child = new Child(this.childrenFormArray.controls[i].value);
-      console.log(child)
-      this.store.dispatch(new CreateChildren(child))
-    }
+    this.store.dispatch(new CreateChildren(this.childrenFormArray))
   }
-
 }

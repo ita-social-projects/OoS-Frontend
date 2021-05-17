@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-about-form',

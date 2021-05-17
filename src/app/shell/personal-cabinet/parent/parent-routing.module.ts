@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'config', component: ParentConfigComponent },
   { path: 'info', component: ParentCreateChildComponent },
   { path: 'create-child', component: ParentCreateChildComponent },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
