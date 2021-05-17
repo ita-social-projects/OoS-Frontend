@@ -5,7 +5,6 @@ import { ProviderGuard } from './provider/provider.guard';
 import { ApplicationsComponent } from './applications/applications.component';
 import { MessagesComponent } from './messages/messages.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { GroupModel } from '../section/group/group.model';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PersonalCabinetRoutingModule } from './personal-cabinet-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,9 +13,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { WorkshopsComponent } from './workshops/workshops.component';
-
-
-
 @NgModule({
   declarations: [
     ApplicationsComponent,
@@ -25,7 +21,7 @@ import { WorkshopsComponent } from './workshops/workshops.component';
   ],
   imports: [
     CommonModule,
-    //RouterModule,
+    RouterModule,
     PersonalCabinetRoutingModule,
     FlexLayoutModule,
     SharedModule,

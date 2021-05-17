@@ -13,7 +13,6 @@ import { UserState } from '../../../shared/store/user.state';
 })
 export class WorkshopsComponent implements OnInit {
 
-
   @Select(UserState.workshops)
   workshops$: Observable<Workshop[]>;
 
