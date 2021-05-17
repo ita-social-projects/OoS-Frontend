@@ -7,13 +7,14 @@ import { ResultComponent } from './result/result.component';
 import { WorkshopCardsListComponent } from './result/workshop-cards-list/workshop-cards-list.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MainComponent } from './main/main.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OrderingComponent } from './result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
 import { GroupModel } from './section/group/group.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
-import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -21,18 +22,20 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
     ResultComponent,
     WorkshopCardsListComponent,
     OrderingComponent,
-    PersonalCabinetComponent,
-    CreateApplicationComponent
+    CreateApplicationComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     ShellRoutingModule,
     FlexLayoutModule,
+    HttpClientModule,
     LeafletModule,
     SharedModule,
     GroupModel,
     NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
   ]

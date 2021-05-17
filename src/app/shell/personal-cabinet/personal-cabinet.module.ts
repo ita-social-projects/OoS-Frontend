@@ -1,41 +1,47 @@
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ParentGuard } from './parent/parent.guard';
-import { ProviderGuard } from './provider/provider.guard';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { UserState } from 'src/app/shared/store/user.state';
+import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { MessagesComponent } from './messages/messages.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { ParentGuard } from './parent/parent.guard';
 import { PersonalCabinetRoutingModule } from './personal-cabinet-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
+import { PersonalCabinetComponent } from './personal-cabinet.component';
+import { ProviderGuard } from './provider/provider.guard';
 import { WorkshopsComponent } from './workshops/workshops.component';
-
 
 
 @NgModule({
   declarations: [
-    ApplicationsComponent,
+    PersonalCabinetComponent,
+    WorkshopsComponent,
     MessagesComponent,
-    WorkshopsComponent
+    ApplicationsComponent,
+    ApplicationCardComponent,
   ],
   imports: [
     CommonModule,
-    //RouterModule,
-    PersonalCabinetRoutingModule,
     FlexLayoutModule,
+    NgxsModule.forFeature([UserState]),
+    HttpClientModule,
     SharedModule,
-    NgxPaginationModule,
+    PersonalCabinetRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    FormsModule,
   ],
   providers: [
+    DatePipe,
     ParentGuard,
     ProviderGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
-  ]
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
+  ],
+
 })
-export class PersonalCabinetModule { }
+export class PersonalCabinetModule {
+}
