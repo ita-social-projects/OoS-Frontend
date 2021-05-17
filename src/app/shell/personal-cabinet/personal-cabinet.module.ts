@@ -32,7 +32,6 @@ import { ApplicationCardComponent } from './applications/application-card/applic
   providers: [
     ParentGuard,
     ProviderGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
   ]
 })
 export class PersonalCabinetModule { }

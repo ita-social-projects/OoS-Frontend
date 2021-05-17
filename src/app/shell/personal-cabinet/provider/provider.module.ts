@@ -58,7 +58,6 @@ import { UserState } from 'src/app/shared/store/user.state';
     MatCheckboxModule,
     MatInputModule,
     ReactiveFormsModule,
-    HttpClientModule,
     NgxsModule.forFeature([UserState]),
     MatTabsModule,
     MatStepperModule,
@@ -72,7 +71,6 @@ import { UserState } from 'src/app/shared/store/user.state';
 
   providers: [
     ProviderConfigService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     CanDeactivateGuard,
     DatePipe,
     GeolocationService

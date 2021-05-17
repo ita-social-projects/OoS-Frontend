@@ -41,7 +41,6 @@ import { UserState } from 'src/app/shared/store/user.state';
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule,
-    HttpClientModule,
     NgxsModule.forFeature([UserState]),
     MatIconModule,
     ReactiveFormsModule,
@@ -49,7 +48,6 @@ import { UserState } from 'src/app/shared/store/user.state';
     MatDatepickerModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
   ]
 
 })

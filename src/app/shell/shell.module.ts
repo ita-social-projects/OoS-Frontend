@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
 import { GroupModel } from './section/group/group.module';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -34,10 +36,12 @@ import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard'
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    GroupModel
+    GroupModel,
+    HttpClientModule
   ],
   providers: [
-    PersonalCabinetGuard
+    PersonalCabinetGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
   ]
 })
 export class ShellModule { }

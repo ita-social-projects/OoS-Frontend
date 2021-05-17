@@ -20,8 +20,13 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const token = this.oidcSecurityService.getToken();
+    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('http://') !== -1) {
 
+      return next.handle(request).pipe(catchError((error) => {
+        return throwError(error);
+      }));
+    }
+    const token = this.oidcSecurityService.getToken();
 
     const tokenTitle = (token) ? `Bearer ${token}` : null;
 
@@ -34,8 +39,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
           return throwError(error);
         }));
     }
-    return next.handle(request).pipe(catchError((error) => {
-      return throwError(error);
-    }));
+    return next.handle(request.clone({
+      url: environment.serverUrl + request.url
+    }))
+      .pipe(catchError((error) => {
+        return throwError(error);
+      }));
   }
 }
