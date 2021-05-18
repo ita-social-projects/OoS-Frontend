@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Constants } from 'src/app/shared/constants/constants';
 import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
 @Component({
   selector: 'app-price-filter',
@@ -12,10 +13,14 @@ import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/s
 })
 export class PriceFilterComponent implements OnInit {
 
+  readonly constants: typeof Constants = Constants;
+
   isFree: boolean = false;
   isPaid: boolean = false;
-  maxPrice = new FormControl(0, [Validators.maxLength(4), Validators.minLength(4)]);
-  minPrice = new FormControl(0, [Validators.maxLength(4), Validators.minLength(4)]);
+  isFreeControl = new FormControl(false);
+  isPaidControl = new FormControl(false);
+  maxPriceControl = new FormControl(0, [Validators.maxLength(4)]);
+  minPriceControl = new FormControl(0, [Validators.maxLength(4)]);
   sliderControl = new FormControl('');
   minValue: number = 0;
   maxValue: number = 0;
@@ -25,11 +30,16 @@ export class PriceFilterComponent implements OnInit {
   };
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+
+  constructor(private store: Store) { }
+
   /**
-   * Constructor subscribe to input value changes, change type of payment depending on input value and distpatch filter action
+   * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
-  constructor(private store: Store) {
-    this.minPrice.valueChanges
+  ngOnInit(): void {
+    this.isFreeControl.valueChanges.subscribe((val) => this.store.dispatch(new SetIsFree(val)));
+    this.isPaidControl.valueChanges.subscribe((val) => this.store.dispatch(new SetIsPaid(val)));
+    this.minPriceControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -37,14 +47,13 @@ export class PriceFilterComponent implements OnInit {
       ).subscribe(val => {
         if (val) {
           this.isPaid = true;
-          this.minValue = val;
-          this.store.dispatch(new SetMinPrice(this.maxValue));
+          this.store.dispatch(new SetMinPrice(val));
         } else {
           (!this.maxValue) ? this.isPaid = false : this.isPaid = true;
         }
       });
 
-    this.maxPrice.valueChanges
+    this.maxPriceControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -52,21 +61,18 @@ export class PriceFilterComponent implements OnInit {
       ).subscribe(val => {
         if (val) {
           this.isPaid = true;
-          this.maxValue = val;
-          this.store.dispatch(new SetMaxPrice(this.maxValue));
+          this.store.dispatch(new SetMaxPrice(val));
         } else {
           (!this.minValue) ? this.isPaid = false : this.isPaid = true;
         }
       });
   }
-  ngOnInit(): void { }
 
   /**
   * This method changes status of IsFree type of payment and distpatch filter action
   */
   onIsFreeClick(): void {
     this.isFree = !this.isFree;
-    this.store.dispatch(new SetIsFree(this.isFree));
   }
 
   /**
@@ -74,6 +80,5 @@ export class PriceFilterComponent implements OnInit {
   */
   onIsPaidClick(): void {
     this.isPaid = !this.isPaid;
-    this.store.dispatch(new SetIsPaid(this.isPaid));
   }
 }

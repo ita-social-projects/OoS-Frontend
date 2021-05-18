@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { FormControl } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -7,15 +9,15 @@ import { MatCheckbox } from '@angular/material/checkbox';
 })
 export class FiltersListComponent implements OnInit {
 
-  constructor() { }
+  OpenRecruitmentControl = new FormControl(false);
+  ClosedRecruitmentControl = new FormControl(false);
 
-  ngOnInit(): void { }
+  constructor(private store: Store) { }
 
-  onOpenRecruitment(event: MatCheckbox): void {
-
+  ngOnInit(): void {
+    this.OpenRecruitmentControl.valueChanges.subscribe(val => this.store.dispatch(new SetOpenRecruitment(val)));
+    this.ClosedRecruitmentControl.valueChanges.subscribe(val => this.store.dispatch(new SetClosedRecruitment(val)));
   }
 
-  onClosedRecruitment(event: MatCheckbox): void {
 
-  }
 }

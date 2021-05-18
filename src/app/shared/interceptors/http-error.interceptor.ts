@@ -4,11 +4,8 @@ import { Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { OnAuthFail } from '../store/registration.actions';
-
 @Injectable({
-
   providedIn: 'root'
-
 })
 
 export class HttpErrorInterceptor implements HttpInterceptor {
