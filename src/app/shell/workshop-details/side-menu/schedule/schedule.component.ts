@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 @Component({
   selector: 'app-schedule',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
+
+  @Input() workshop: Workshop;
 
   constructor() { }
 

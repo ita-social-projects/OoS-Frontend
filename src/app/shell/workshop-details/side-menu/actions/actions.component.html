@@ -1,3 +1,10 @@
-<div class="container">
-  <p>actions works!</p>
+<div class="container" fxLayout="column" fxLayoutAlign="space-between center">
+  <h4>{{workshop.price}}</h4>
+  <p>Залишилося х днів до початку заняття</p>
+  <a [routerLink]="'./create-application'"><button mat-raised-button color="primary" fxLayout="row"
+      fxLayoutAlign="center center">Подати заявку</button></a>
+  <button mat-raised-button fxLayout="row" fxLayoutAlign="center center"><img src="assets/icons/email.png"
+      alt="email">Надіслати повідомлення</button>
+  <button mat-button fxLayout="row" fxLayoutAlign="center center"><img src="assets/icons/add_fav.png"
+      alt="add_fav">Додати в улюблені</button>
 </div>

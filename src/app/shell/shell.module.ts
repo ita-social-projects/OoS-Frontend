@@ -19,7 +19,6 @@ import { MessagesComponent } from './personal-cabinet/messages/messages.componen
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 
 
@@ -33,7 +32,6 @@ import { WorkshopDetailsComponent } from './workshop-details/workshop-details.co
     ApplicationsComponent,
     MessagesComponent,
     PersonalCabinetComponent,
-    CreateApplicationComponent,
   ],
   imports: [
     CommonModule,

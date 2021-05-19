@@ -9,7 +9,6 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
 import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
 import { MessagesComponent } from './personal-cabinet/messages/messages.component';
 import { ApplicationsComponent } from './personal-cabinet/applications/applications.component';
-import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 
 const routes: Routes = [
@@ -44,9 +43,6 @@ const routes: Routes = [
   },
   {
     path: 'section/group', component: GroupComponent
-  },
-  {
-    path: 'create-application', component: CreateApplicationComponent
   },
   {
     path: 'workshop-details', component: WorkshopDetailsComponent,

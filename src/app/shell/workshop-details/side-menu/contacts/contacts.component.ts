@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 @Component({
   selector: 'app-contacts',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
+
+  @Input() workshop: Workshop;
 
   constructor() { }
 
