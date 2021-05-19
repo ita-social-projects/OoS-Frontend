@@ -49,7 +49,7 @@ export class PriceFilterComponent implements OnInit {
           this.isPaid = true;
           this.store.dispatch(new SetMinPrice(val));
         } else {
-          (!this.maxValue) ? this.isPaid = false : this.isPaid = true;
+          this.isPaid = !!this.maxValue;
         }
       });
 
@@ -63,7 +63,7 @@ export class PriceFilterComponent implements OnInit {
           this.isPaid = true;
           this.store.dispatch(new SetMaxPrice(val));
         } else {
-          (!this.minValue) ? this.isPaid = false : this.isPaid = true;
+          this.isPaid = !!this.minValue;
         }
       });
   }

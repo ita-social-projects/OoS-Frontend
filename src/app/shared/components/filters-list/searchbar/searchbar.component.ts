@@ -24,7 +24,7 @@ export class SearchbarComponent implements OnInit {
         distinctUntilChanged(),
         startWith('')
       ).subscribe(val => {
-        (val) ? this.store.dispatch(new SetSearchQueryValue(val)) : this.store.dispatch(new SetSearchQueryValue(''));
+        this.store.dispatch(new SetSearchQueryValue(val || ''));
       })
   }
 

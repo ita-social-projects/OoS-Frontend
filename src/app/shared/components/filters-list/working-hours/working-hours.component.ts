@@ -74,7 +74,11 @@ export class WorkingHoursComponent implements OnInit {
   */
   onToggleDays(day: WorkingHours): void {
     day.selected = !day.selected;
-    (day.selected) ? this.selectedWorkingDays.push(day) : this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(day), 1);
+    if (day.selected) {
+      this.selectedWorkingDays.push(day)
+    } else {
+      this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(day), 1);
+    }
     this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays));
   }
 
@@ -84,7 +88,11 @@ export class WorkingHoursComponent implements OnInit {
   */
   onToggleHours(hour: WorkingHours): void {
     hour.selected = !hour.selected;
-    (hour.selected) ? this.selectedWorkingHours.push(hour) : this.selectedWorkingHours.splice(this.selectedWorkingHours.indexOf(hour), 1);
+    if (hour.selected) {
+      this.selectedWorkingHours.push(hour)
+    } else {
+      this.selectedWorkingHours.splice(this.selectedWorkingHours.indexOf(hour), 1);
+    }
     this.store.dispatch(new SetWorkingHours(this.selectedWorkingHours));
   }
 }
