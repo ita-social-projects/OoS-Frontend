@@ -20,6 +20,7 @@ import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.co
 import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
+import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 
 
 @NgModule({
@@ -32,8 +33,7 @@ import { CreateApplicationComponent } from './section/group/create-application/c
     ApplicationsComponent,
     MessagesComponent,
     PersonalCabinetComponent,
-    CreateApplicationComponent 
-    
+    CreateApplicationComponent,
   ],
   imports: [
     CommonModule,
