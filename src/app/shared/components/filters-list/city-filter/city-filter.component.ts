@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { SelectCity } from '../../../store/filter.actions';
+import { SetCity } from '../../../store/filter.actions';
 
 @Component({
   selector: 'app-city-filter',
@@ -9,12 +9,11 @@ import { SelectCity } from '../../../store/filter.actions';
 })
 export class CityFilterComponent implements OnInit {
 
-  constructor(private store: Store ) {}
+  constructor(private store: Store) { }
 
-  ngOnInit(): void {
-  }
-  onSelectedCity(event):void{
-    this.store.dispatch(new SelectCity(event.city))
-  }
+  ngOnInit(): void { }
 
+  onSelectedCity(event): void {
+    this.store.dispatch(new SetCity(event.city))
+  }
 }

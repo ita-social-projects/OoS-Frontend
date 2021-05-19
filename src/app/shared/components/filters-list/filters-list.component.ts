@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -6,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FiltersListComponent implements OnInit {
 
-  constructor() { }
+  OpenRecruitmentControl = new FormControl(false);
+  ClosedRecruitmentControl = new FormControl(false);
 
-  ngOnInit(): void { }
+  constructor(private store: Store) { }
+
+  ngOnInit(): void {
+    this.OpenRecruitmentControl.valueChanges.subscribe(val => this.store.dispatch(new SetOpenRecruitment(val)));
+    this.ClosedRecruitmentControl.valueChanges.subscribe(val => this.store.dispatch(new SetClosedRecruitment(val)));
+  }
+
+
 }

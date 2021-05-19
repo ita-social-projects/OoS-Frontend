@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CategorySelect } from 'src/app/shared/models/category-select.model';
-import { CategorySelectService } from 'src/app/shared/services/category-select/category-select.service';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Category } from 'src/app/shared/models/category.model';
+import { SetCategories } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
+import { GetCategories } from 'src/app/shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-category-check-box',
@@ -9,18 +14,20 @@ import { CategorySelectService } from 'src/app/shared/services/category-select/c
   styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit {
-  allCategories: CategorySelect[] = [];
-  selectedCategories: CategorySelect[] = [];
-  filteredCategories: CategorySelect[] = [];
+  @Select(FilterState.categories)
+  categories$: Observable<Category[]>;
+
+  allCategories: Category[] = [];
+  selectedCategories: Category[] = [];
+  filteredCategories: Category[] = [];
   categorySearch = new FormControl('');
   showAll = true;
 
-  constructor(private categorySelectService: CategorySelectService) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.categorySelectService.getCategories().subscribe(categories => {
-      this.allCategories = categories;
-    });
+    this.store.dispatch(new GetCategories());
+    this.categories$.subscribe(categories => this.allCategories = categories);
 
     this.categorySearch.valueChanges.subscribe((val) => {
       if (val) {
@@ -34,15 +41,20 @@ export class CategoryCheckBoxComponent implements OnInit {
   }
 
   /**
-  * This method add checked category to the list of selected categories
+  * This method add checked category to the list of selected categories and distpatch filter action
+  * @param category
+  * @param event
   */
-  onCategoryCheck(event: MouseEvent, category: CategorySelect): void {
-    (event) ? this.selectedCategories.push(category) : this.selectedCategories.splice(this.selectedCategories.indexOf(category), 1);
+  onCategoryCheck(category: Category, event: MatCheckbox,): void {
+    (event.checked) ? this.selectedCategories.push(category) : this.selectedCategories.splice(this.selectedCategories.indexOf(category), 1);
+    this.store.dispatch(new SetCategories(this.selectedCategories));
   }
+
   /**
   * This method filter categories according to the input value
+  * @param value
   */
-  onCategoryFilter(value): void {
+  onCategoryFilter(value: string): void {
     this.filteredCategories = this.allCategories
       .filter(category => category.title
         .toLowerCase()
@@ -50,11 +62,12 @@ export class CategoryCheckBoxComponent implements OnInit {
       )
       .map(category => category);
   }
+
   /**
   * This method check if value is checked
   * @returns boolean
   */
-  onSelectCheck(value: CategorySelect): boolean {
+  onSelectCheck(value: Category): boolean {
     const result = this.selectedCategories
       .some(category => category.title.startsWith(value.title)
       );

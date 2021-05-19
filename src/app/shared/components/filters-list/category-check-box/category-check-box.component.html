@@ -24,8 +24,7 @@
 
 <ng-template #Categories let-categories>
   <li class=" list" *ngFor="let category of categories">
-    <mat-checkbox color="primary" (change)="onCategoryCheck($event.checked, category)"
-      [checked]="onSelectCheck(category)">
+    <mat-checkbox color="primary" (change)="onCategoryCheck(category, $event )" [checked]="onSelectCheck(category)">
       {{category.title}}
     </mat-checkbox>
   </li>

@@ -14,19 +14,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { NgxsModule } from '@ngxs/store';
-import { ParentState } from 'src/app/shared/store/parent.state';
 import { MatIconModule } from '@angular/material/icon';
 import { ChildFormComponent } from './parent-create-child/child-form/child-form.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ParentCreateChildComponent } from './parent-create-child/parent-create-child.component';
 import { ChildCardComponent } from './parent-config/child-card/child-card.component';
-import { ChildrenService } from 'src/app/shared/services/parent/children.service';
+import { UserState } from 'src/app/shared/store/user.state';
 
 
 @NgModule({
   declarations: [
-    ParentConfigComponent, 
+    ParentConfigComponent,
     ChildCardComponent,
     ParentCreateChildComponent,
     ChildFormComponent,
@@ -42,17 +41,13 @@ import { ChildrenService } from 'src/app/shared/services/parent/children.service
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule,
-    HttpClientModule,
-    NgxsModule.forFeature([ParentState]),
+    NgxsModule.forFeature([UserState]),
     MatIconModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
   ],
   providers: [
-    ChildrenService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
-
   ]
 
 })

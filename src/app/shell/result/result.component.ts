@@ -3,12 +3,6 @@ import { UpdateCurrentView } from '../../shared/result.actions';
 import { Store } from '@ngxs/store';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 
-export interface Option {
-  value: string;
-  viewValue: string;
-  arrow: string;
-}
-
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',

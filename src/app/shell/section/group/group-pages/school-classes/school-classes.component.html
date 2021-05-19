@@ -1,5 +1,6 @@
 <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
   <ng-container>
-    <app-workshop-card *ngFor="let card of cards | slice:0:4" [card]="card" [type]="'column'"></app-workshop-card>
+    <app-workshop-card *ngFor="let card of workshops$ | async| slice:0:4" [card]="card" [type]="'column'">
+    </app-workshop-card>
   </ng-container>
 </div>

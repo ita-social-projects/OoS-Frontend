@@ -5,11 +5,10 @@ import { ParentCreateChildComponent } from './parent-create-child/parent-create-
 
 const routes: Routes = [
   { path: 'config', component: ParentConfigComponent },
-  { path: 'info', component: ParentCreateChildComponent},
-  { path: 'create-child', component: ParentCreateChildComponent},
- 
-];
+  { path: 'info', component: ParentCreateChildComponent },
+  { path: 'create-child', component: ParentCreateChildComponent },
 
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
