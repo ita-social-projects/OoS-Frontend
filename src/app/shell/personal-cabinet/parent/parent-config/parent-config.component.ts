@@ -20,6 +20,7 @@ export class ParentConfigComponent implements OnInit {
   public cards: Child[];
 
   constructor(private fb: FormBuilder, private store: Store) { }
+  
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));

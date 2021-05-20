@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ParentConfigComponent } from './parent-config/parent-config.component';
 import { ParentCreateChildComponent } from './parent-create-child/parent-create-child.component';
+import { ParentInfoComponent } from './parent-info/parent-info.component';
 
 const routes: Routes = [
   { path: 'config', component: ParentConfigComponent },
-  { path: 'info', component: ParentCreateChildComponent},
-  { path: 'create-child', component: ParentCreateChildComponent},
+  { path: 'info', component: ParentInfoComponent},
+  { path: 'info/create-child', component: ParentCreateChildComponent},
  
 ];
 
