@@ -3,7 +3,7 @@ import { Category } from "./category.model";
 import { Teacher } from "./teacher.model";
 
 export class Workshop {
-  id: number;
+  id?: number;
   title: string;
   phone: string;
   email: string;

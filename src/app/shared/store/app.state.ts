@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
 import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
@@ -74,7 +75,8 @@ export class AppState {
   getChildrenById({ patchState }: StateContext<AppStateModel>, { payload }: GetTeachersById) {
     return this.teacherService
       .getTeachersById(payload)
-      .subscribe(
-        (workshopTeachers: Teacher[]) => patchState({ teachers: workshopTeachers }))
+      .pipe(
+        tap((workshopTeachers: Teacher[]) => patchState({ teachers: workshopTeachers })
+        ))
   }
 }

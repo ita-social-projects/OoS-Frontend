@@ -30,7 +30,7 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetApplicationsById(null))
+    this.store.dispatch(new GetApplicationsById(null));
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
