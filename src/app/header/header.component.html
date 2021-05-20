@@ -48,8 +48,8 @@
       <h1>{{userName$ | async}}</h1>
     </button>
     <mat-menu #log="matMenu">
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'workshops'">Гуртки</a></button>
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'config'">Налаштування</a></button>
+      <button mat-menu-item><a [routerLink]="'./personal-cabinet/workshops'">Гуртки</a></button>
+      <button mat-menu-item><a [routerLink]="'./personal-cabinet/' + role +'/' + 'config'">Налаштування</a></button>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>

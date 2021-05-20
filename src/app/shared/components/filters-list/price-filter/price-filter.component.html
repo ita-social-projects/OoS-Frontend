@@ -1,0 +1,27 @@
+<p class="filter-text">Вартість</p>
+<div fxLayout='column' fxLayoutAlign='center space-between' fxLayoutGap='1rem'>
+  <mat-checkbox color="primary" [formControl]="isFreeControl"> Безкоштовно</mat-checkbox>
+  <mat-checkbox color="primary" [formControl]="isPaidControl">Платні</mat-checkbox>
+  <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+        <p class="filter-text">Від</p>
+        <input matInput class="price-input" type="number" ng-model="number" appDigitOnly maxlength="4" appMinMax
+          min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}} [formControl]="minPriceControl"
+          [(ngModel)]="minValue">
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+        <p class="filter-text">До</p>
+        <input matInput class="price-input" type="number" ng-model="number" appDigitOnly maxlength="4" appMinMax
+          min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}} [formControl]="maxPriceControl"
+          [(ngModel)]="maxValue">
+      </div>
+    </mat-form-field>
+  </div>
+  <div class="filter-slider" fxLayout='column' fxLayoutAlign='space-between' fxLayoutGap='1rem'>
+    <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options">
+    </ngx-slider>
+  </div>
+</div>

@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/user-registration.state';
+import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
+import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProviderState } from '../shared/store/provider.state';
-
-enum RoleLinks {
-  provider = 'provider/cabinet',
-  parent = 'parent'
-}
 
 @Component({
   selector: 'app-header',
@@ -24,18 +17,17 @@ export class HeaderComponent implements OnInit {
   };
   showModalReg = false;
 
-  @Select(UserRegistrationState.isAuthorized)
+  @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
-  @Select(UserRegistrationState.userName)
+  @Select(RegistrationState.userName)
   userName$: Observable<string>;
-  @Select(UserRegistrationState.role)
+  @Select(RegistrationState.role)
   userRole$: Observable<string>;
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
   @Select(AppState.isLoading)
   isLoading$: Observable<boolean>;
   role: string;
-  roles = RoleLinks;
 
   constructor(public store: Store) { }
 

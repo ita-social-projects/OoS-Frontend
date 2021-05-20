@@ -1,10 +1,8 @@
 <div class="view-control-panel" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1.5rem'>
   <div fxFlex="302px" fxLayout="row" fxLayoutAlign="space-between center">
     <h3>Знайдено Х гуртків</h3>
-    <button  
-    class="filters-toggle-btn" 
-    [ngClass]="isFiltersVisible ? 'visible' : 'hidden'" 
-    (click)="isFiltersVisible = !isFiltersVisible">
+    <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
+      (click)="isFiltersVisible = !isFiltersVisible">
       <span class="material-icons btn-icon">
         <img src="assets/icons/blue-filter-icon.svg" class="btn-icon" *ngIf="isFiltersVisible; else hidden">
         <ng-template #hidden>
@@ -18,18 +16,13 @@
       <app-city-filter class="shell-city"></app-city-filter>
       <app-searchbar class="shell-searchbar"></app-searchbar>
     </div>
-    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1rem'>
-      <app-ordering 
-        [options]="options" 
-        [selectedOption]="selectedOption" 
-        (onChange)="onChangeOrder($event)">
-      </app-ordering>
-      <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="SetCurrentView(group.value)">
-        <mat-button-toggle value="show-data" aria-label="show-data">
-          Список
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
+      <app-ordering></app-ordering>
+      <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView"
+        (change)="SetCurrentView(group.value)">
+        <mat-button-toggle value="show-data" aria-label="show-data" fxLayout="row" fxLayoutAlign="center center"> Список
         </mat-button-toggle>
-        <mat-button-toggle value="map" aria-label="map">
-          Карта
+        <mat-button-toggle value="map" aria-label="map" fxLayout="row" fxLayoutAlign="center center"> Карта
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
@@ -44,7 +37,7 @@
       <app-map></app-map>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards"></app-workshop-cards-list>
-    </ng-template> 
+      <app-workshop-cards-list class="cards" [type]="'column'"></app-workshop-cards-list>
+    </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>

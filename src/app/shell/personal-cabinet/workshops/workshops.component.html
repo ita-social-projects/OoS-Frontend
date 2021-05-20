@@ -1,0 +1,18 @@
+<div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
+  <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
+  <a [routerLink]="'../provider/create-workshop/param'"><button class="btn" mat-raised-button>Додати гурток</button></a>
+</div>
+
+<div *ngIf="(workshops$ | async).length then WorkshopsList"></div>
+
+
+<ng-template #WorkshopsList>
+  <div class="wrapper-card">
+    <ng-container>
+      <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
+        <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop">
+        </app-workshop-card>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
