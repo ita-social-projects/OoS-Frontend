@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../store/registration.state';
 import { environment } from 'src/environments/environment';
+import { OnAuthFail } from '../store/registration.actions';
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
@@ -22,11 +23,14 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
     if (request.url.indexOf('http://') !== -1 || request.url.indexOf('http://') !== -1) {
 
-      return next.handle(request).pipe(
-        catchError((error) => {
-          return throwError(error);
-        })
-      );
+      return next.handle(request)
+        .pipe(
+          retry(1),
+          catchError((error: HttpErrorResponse) => {
+            this.store.dispatch(new OnAuthFail());
+            return throwError(error);
+          })
+        );
     }
 
     const token = this.oidcSecurityService.getToken();
