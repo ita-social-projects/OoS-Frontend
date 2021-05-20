@@ -2,14 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
-import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-
+import { GetApplicationsById } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
-import { GetApplications } from '../../../shared/store/provider.actions';
-import { ProviderState } from '../../../shared/store/provider.state';
+
 
 @Component({
   selector: 'app-requests',
@@ -18,7 +17,7 @@ import { ProviderState } from '../../../shared/store/provider.state';
 })
 export class ApplicationsComponent implements OnInit {
 
-  @Select(ProviderState.applicationsList)
+  @Select(UserState.applications)
   applications$: Observable<Application[]>;
   public applications: Application[];
   child: Child;
@@ -31,7 +30,7 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetApplications())
+    this.store.dispatch(new GetApplicationsById(null));
     this.applications$.subscribe(applications =>
       this.applications = applications
     );

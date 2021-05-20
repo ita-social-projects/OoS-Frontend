@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GetTeachersCards } from '../../../../../shared/store/filter.actions';
 import { Select, Store } from '@ngxs/store';
-import { FilterState } from '../../../../../shared/store/filter.state';
 import { Observable } from 'rxjs';
-import { TeacherCard } from '../../../../../shared/models/teachers-card.model';
+import { AppState } from 'src/app/shared/store/app.state';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { GetTeachersById } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-teachers',
@@ -11,15 +11,12 @@ import { TeacherCard } from '../../../../../shared/models/teachers-card.model';
   styleUrls: ['./teachers.component.scss']
 })
 export class TeachersComponent implements OnInit {
-  @Select(FilterState.teacherCards) $teachersCards: Observable<TeacherCard[]>;
-  teacherCard = [];
+  @Select(AppState.teachers) teachers$: Observable<Teacher[]>;
 
-  constructor(private store: Store) {
-  }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetTeachersCards());
-    this.$teachersCards.subscribe(value => this.teacherCard = value);
+    this.store.dispatch(new GetTeachersById(null));
   }
 
 }
