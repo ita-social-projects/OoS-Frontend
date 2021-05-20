@@ -7,30 +7,21 @@ import { ResultComponent } from './result/result.component';
 import { WorkshopCardsListComponent } from './result/workshop-cards-list/workshop-cards-list.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { MainComponent } from './main/main.component';
-import { HttpClientModule } from '@angular/common/http';
 import { OrderingComponent } from './result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
-import { ParentGuard } from './personal-cabinet/parent/parent.guard';
-import { GroupModel } from './section/group/group.model';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
-import { ApplicationsComponent } from './personal-cabinet/applications/applications.component';
-import { MessagesComponent } from './personal-cabinet/messages/messages.component';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-import { WorkshopsComponent } from './personal-cabinet/workshops/workshops.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
-
+import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
 
 @NgModule({
   declarations: [
     MainComponent,
     ResultComponent,
     WorkshopCardsListComponent,
-    WorkshopsComponent,
     OrderingComponent,
-    ApplicationsComponent,
-    MessagesComponent,
     PersonalCabinetComponent,
   ],
   imports: [
@@ -38,16 +29,15 @@ import { WorkshopDetailsComponent } from './workshop-details/workshop-details.co
     RouterModule,
     ShellRoutingModule,
     FlexLayoutModule,
-    HttpClientModule,
     LeafletModule,
     SharedModule,
-    GroupModel,
     NgxPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
-    ParentGuard,
-    ProviderGuard,
+    PersonalCabinetGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
   ]
 })
 export class ShellModule { }

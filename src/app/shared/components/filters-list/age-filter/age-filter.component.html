@@ -1,6 +1,6 @@
 <p class="filter-text">Вік</p>
 <li class="list" *ngFor="let ageValue of ageValues">
-  <mat-checkbox color="primary" (change)="onAgeRangeCheck(ageValue, $event.checked)">
+  <mat-checkbox color="primary" (change)="onAgeRangeCheck(ageValue, $event)">
     {{ageValue}} років
   </mat-checkbox>
 </li>

@@ -1,88 +1,81 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import {
-  setMinAge,
-  setMaxAge,
-  SetOrder,
-  SelectCity,
-  GetWorkshops,
-  GetPopWorkshops,
-  SetCategory,
-  AddCategory,
-  GetTeachersCards,
-  GetCategories
-} from './filter.actions';
-import { CardWorkshopsService } from '../services/workshops/card-workshops/card-workshops.service';
-import { patch, append } from '@ngxs/store/operators';
-import { TeacherCardsService } from '../services/teachers-cards/teacher-cards.service';
-import { TeacherCard } from '../models/teachers-card.model';
 import { Category } from '../models/category.model';
-import { CategoriesService } from '../services/categories/categories.service';
 import { City } from '../models/city.model';
 import { Workshop } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
-
+import {
+  SetOrder,
+  SetCity,
+  GetFilteredWorkshops,
+  GetTopWorkshops,
+  SetCategories,
+  SetAgeRange,
+  SetWorkingDays,
+  SetWorkingHours,
+  SetIsFree,
+  SetIsPaid,
+  SetMinPrice,
+  SetMaxPrice,
+  SetSearchQueryValue,
+  SetOpenRecruitment,
+  SetClosedRecruitment,
+} from './filter.actions';
+import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 export interface FilterStateModel {
-  searchQuery: string;
+  categories: Category[];
+  ageRange: string[];
+  workingHours: WorkingHours[];
+  workingDays: WorkingHours[];
+  isPaid: boolean;
+  isFree: boolean;
+  maxPrice: number;
+  minPrice: number;
+  isOpenRecruitment: boolean;
+  isClosedRecruitment: boolean;
   city: City;
-  isRecruiting: boolean;
-  ageFrom: number;
-  ageTo: number;
-  categories: number[];
+  searchQuery: string;
   order: string;
-  workshopCards: Workshop[];
-  teachersCards: TeacherCard[];
-  categoriesCards: Category[];
+  filteredWorkshops: Workshop[];
+  topWorkshops: Workshop[];
 }
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    searchQuery: '',
-    city: { id: null, city: '' },
-    isRecruiting: true,
-    ageFrom: 0,
-    ageTo: 16,
     categories: [],
-    order: 'ratingDesc',
-    workshopCards: [],
-    teachersCards: [],
-    categoriesCards: []
+    ageRange: [''],
+    workingDays: [],
+    workingHours: [],
+    isPaid: false,
+    isFree: false,
+    maxPrice: 0,
+    minPrice: 0,
+    isOpenRecruitment: false,
+    isClosedRecruitment: false,
+    city: { id: null, city: '' },
+    searchQuery: '',
+    order: '',
+    filteredWorkshops: [],
+    topWorkshops: []
   }
 })
 @Injectable()
 export class FilterState {
 
   @Selector()
-  static workshopsCards(state: FilterStateModel) {
-    return state.workshopCards;
-  }
+  static filteredlWorkshops(state: FilterStateModel): Workshop[] { return state.filteredWorkshops }
+
   @Selector()
-  static teacherCards(state: FilterStateModel): TeacherCard[] {
-    return state.teachersCards;
-  }
+  static topWorkshops(state: FilterStateModel): Workshop[] { return state.topWorkshops }
+
   @Selector()
-  static categoriesCards(state: FilterStateModel): Category[] {
-    return state.categoriesCards;
-  }
+  static categories(state: FilterStateModel): Category[] { return state.categories }
 
   constructor(
-    private cardWorkshopsService: CardWorkshopsService,
-    private teacherCardService: TeacherCardsService,
-    private categoriesService: CategoriesService
-  ) { }
+    private appWorkshopsService: AppWorkshopsService) { }
 
-  @Action(setMinAge)
-  setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMinAge): void {
-    patchState({ ageFrom: payload })
-  }
-
-  @Action(setMaxAge)
-  setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: setMaxAge): void {
-    patchState({ ageTo: payload })
-  }
-
-  @Action(SelectCity)
-  selectCity({ patchState }: StateContext<FilterStateModel>, { payload }: SelectCity): void {
+  @Action(SetCity)
+  setCity({ patchState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
     patchState({ city: payload });
   }
 
@@ -91,48 +84,72 @@ export class FilterState {
     patchState({ order: payload });
   }
 
-  @Action(AddCategory)
-  addCategory(ctx: StateContext<FilterStateModel>, { payload }: AddCategory) {
-    ctx.setState(
-      patch({
-        categories: append([payload])
-      })
-    );
+  @Action(SetCategories)
+  setCategories({ patchState }: StateContext<FilterStateModel>, { payload }: SetCategories): void {
+    patchState({ categories: payload });
   }
 
-  @Action(SetCategory)
-  setCategory(ctx: StateContext<FilterStateModel>, { payload }: SetCategory) {
-    ctx.setState(
-      patch({
-        categories: [payload]
-      })
-    );
+  @Action(SetAgeRange)
+  setAgeRange({ patchState }: StateContext<FilterStateModel>, { payload }: SetAgeRange) {
+    patchState({ ageRange: payload });
   }
 
-  @Action(GetWorkshops)
-  getWorkshops(ctx: StateContext<FilterStateModel>) {
-    return this.cardWorkshopsService.getWorkshops(ctx.getState())
-      .subscribe((workshopCards: Workshop[]) => ctx.patchState({ workshopCards }))
+  @Action(SetWorkingDays)
+  setWorkingDays({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingDays) {
+    patchState({ workingDays: payload });
   }
 
-  @Action(GetPopWorkshops)
-  getPopWorkshops({ patchState }: StateContext<FilterStateModel>) {
-    return this.cardWorkshopsService.getPopWorkshops()
-      .subscribe((workshopCards: Workshop[]) => patchState({ workshopCards }))
+  @Action(SetWorkingHours)
+  setWorkingHours({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingHours) {
+    patchState({ workingHours: payload });
   }
 
-  @Action(GetTeachersCards)
-  GetTeachersCards({ patchState }: StateContext<FilterStateModel>): void {
-    this.teacherCardService.getTeachersInfo()
-      .subscribe((teachersCards: TeacherCard[]) => {
-        patchState({ teachersCards });
-      });
+  @Action(SetIsFree)
+  setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree) {
+    patchState({ isFree: payload });
   }
 
-  @Action(GetCategories)
-  getCategories({ patchState }: StateContext<FilterStateModel>) {
-    return this.categoriesService.getCategories()
-      .subscribe((categoriesCards: Category[]) => patchState({ categoriesCards }))
+  @Action(SetIsPaid)
+  setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid) {
+    patchState({ isPaid: payload });
   }
 
+  @Action(SetMinPrice)
+  setMinPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMinPrice) {
+    patchState({ minPrice: payload });
+  }
+
+  @Action(SetMaxPrice)
+  setMaxPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMaxPrice) {
+    patchState({ maxPrice: payload });
+  }
+
+  @Action(SetSearchQueryValue)
+  setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue) {
+    patchState({ searchQuery: payload });
+  }
+
+  @Action(SetOpenRecruitment)
+  setOpenRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment) {
+    patchState({ isOpenRecruitment: payload });
+  }
+
+  @Action(SetClosedRecruitment)
+  setClosedRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment) {
+    patchState({ isClosedRecruitment: payload });
+  }
+
+  @Action(GetFilteredWorkshops)
+  getFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
+    return this.appWorkshopsService
+      .getFilteredWorkshops(payload)
+      .subscribe((workshops: Workshop[]) => patchState({ filteredWorkshops: workshops }))
+  }
+
+  @Action(GetTopWorkshops)
+  getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
+    return this.appWorkshopsService
+      .getTopWorkshops()
+      .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops }))
+  }
 }

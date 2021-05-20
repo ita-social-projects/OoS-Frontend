@@ -30,12 +30,10 @@ import { ProviderConfigService } from './provider-config/provider-config.service
 import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { MapComponent } from './create-workshop/create-address/map/map.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
-import { ProviderWorkshopsService } from 'src/app/shared/services/workshops/provider-workshops/provider-workshops';
-import { ApplicationCardComponent } from '../applications/application-card/application-card.component';
-import { ProviderState } from 'src/app/shared/store/provider.state';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
+import { UserState } from 'src/app/shared/store/user.state';
 @NgModule({
   declarations: [
     ProviderConfigComponent,
@@ -44,7 +42,6 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
     MapComponent,
-    ApplicationCardComponent,
     CreateWorkshopComponent,
 
   ],
@@ -61,8 +58,7 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
     MatCheckboxModule,
     MatInputModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    NgxsModule.forFeature([ProviderState]),
+    NgxsModule.forFeature([UserState]),
     MatTabsModule,
     MatStepperModule,
     MatAutocompleteModule,
@@ -74,9 +70,7 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
   ],
 
   providers: [
-    ProviderWorkshopsService,
     ProviderConfigService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     CanDeactivateGuard,
     DatePipe,
     GeolocationService

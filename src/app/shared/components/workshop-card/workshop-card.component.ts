@@ -3,8 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Workshop } from '../../models/workshop.model';
 import { AppState } from '../../store/app.state';
-import { DeleteWorkshop } from '../../store/provider.actions';
-
+import { DeleteWorkshopById } from '../../store/user.actions';
 @Component({
   selector: 'app-workshop-card',
   templateUrl: './workshop-card.component.html',
@@ -23,6 +22,6 @@ export class WorkshopCardComponent implements OnInit {
   }
 
   onDelete(): void {
-    this.store.dispatch(new DeleteWorkshop(this.workshop))
+    this.store.dispatch(new DeleteWorkshopById(this.workshop.id))
   }
 }

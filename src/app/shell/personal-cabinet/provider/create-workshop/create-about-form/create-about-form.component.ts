@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Constants } from 'src/app/shared/constants/constants';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
@@ -8,8 +8,10 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators
 })
 export class CreateAboutFormComponent implements OnInit {
 
+  readonly constants: typeof Constants = Constants;
+
   radioBtn = new FormControl(false);
-  priceCtrl = new FormControl({ value: 1, disabled: true });
+  priceCtrl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
   AboutFormGroup: FormGroup;
   @Output() PassAboutFormGroup = new EventEmitter();
 

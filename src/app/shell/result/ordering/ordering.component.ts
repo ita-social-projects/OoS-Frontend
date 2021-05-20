@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Option } from '../result.component';
+import { Store } from '@ngxs/store';
+import { Constants } from 'src/app/shared/constants/constants';
+import { SetOrder } from 'src/app/shared/store/filter.actions';
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
@@ -11,18 +12,16 @@ import { Option } from '../result.component';
 
 export class OrderingComponent {
 
-  options: Option[] = [
-    { value: 'ratingDesc', viewValue: 'Рейтинг', arrow: 'arrow_downward' },
-    { value: 'ratingAsc', viewValue: 'Рейтинг', arrow: 'arrow_upward' },
-    { value: 'priceDesc', viewValue: 'Ціна', arrow: 'arrow_downward' },
-    { value: 'priceAsc', viewValue: 'Ціна', arrow: 'arrow_upward' }
-  ];
-  selectedOption: Option = this.options[0];
+  readonly constants: typeof Constants = Constants;
+
+  selectedOption: string = this.constants.RATING_ASC;
   visible: boolean = false;
+  orderFormControl = new FormControl();
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.orderFormControl.valueChanges.subscribe((val) => this.store.dispatch(new SetOrder(this.selectedOption)))
   }
 
   OnSelectOption(event: MatSelectChange): void {
