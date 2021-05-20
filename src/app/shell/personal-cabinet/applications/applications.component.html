@@ -1,0 +1,35 @@
+<div class="container" *ngIf="(applications$ | async) then isApplications; else isEmptyList"></div>
+
+<ng-template #isApplications>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Усі">
+      <ng-container
+        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationSort :'new' : 'date' }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Очікують підтвердження">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : 'new' }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Підтвердженні">
+      <ng-container
+        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : 'approved' }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Відхилені">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : 'denied' }">
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+<ng-template #isEmptyList>
+  Заявок поки немає
+</ng-template>
+
+<ng-template #Applications let-applications>
+  <app-application-card *ngFor="let application of applications" [application]="application"
+    (approved)="onApprove($event)" (denied)="onDeny($event)" (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+  </app-application-card>
+</ng-template>
+
+<ng-template appInfoBoxHost></ng-template>

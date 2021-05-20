@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { FilterState } from '../../store/filter.state';
-import { Observable } from 'rxjs';
-import { TeacherCard } from '../../models/teachers-card.model';
+import { Teacher } from '../../models/teacher.model';
 
 @Component({
   selector: 'app-teacher-card',
@@ -11,8 +8,7 @@ import { TeacherCard } from '../../models/teachers-card.model';
 })
 export class TeacherCardComponent implements OnInit {
 
-  @Select(FilterState.teacherCards) $teachersCards: Observable<TeacherCard[]>;
-  @Input() cards;
+  @Input() teacher: Teacher;
 
   constructor() {
   }

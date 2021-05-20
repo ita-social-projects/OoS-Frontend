@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Injectable } from '@angular/core';
 import { NgxsModule, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/user-registration.state';
+import { UserRegistrationState } from '../shared/store/registration.state';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -20,14 +20,14 @@ describe('HeaderComponent', () => {
         NgxsModule.forRoot([UserRegistrationState]),
         HttpClientModule
       ],
-      declarations: [ HeaderComponent,
+      declarations: [HeaderComponent,
         MockRegistrationComponent
-       ],
-      providers:[
-        {provide: OidcSecurityService, useClass: MockOidcSecurityService}
+      ],
+      providers: [
+        { provide: OidcSecurityService, useClass: MockOidcSecurityService }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -44,9 +44,9 @@ describe('HeaderComponent', () => {
   selector: 'app-registration',
   template: ''
 })
-class MockRegistrationComponent{} 
+class MockRegistrationComponent { }
 
 @Injectable({
   providedIn: 'root'
 })
-class MockOidcSecurityService{} 
+class MockOidcSecurityService { }

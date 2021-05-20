@@ -18,13 +18,12 @@ import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
-import { UserRegistrationState } from './shared/store/user-registration.state';
+import { RegistrationState } from './shared/store/registration.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-
+import { HttpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
+import { UserState } from './shared/store/user.state';
 
 @NgModule({
   declarations: [
@@ -43,7 +42,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
       AppState,
       FilterState,
       MetaDataState,
-      UserRegistrationState
+      RegistrationState,
+      UserState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -54,7 +54,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     }),
     FlexLayoutModule,
     ShellModule,
-    ReactiveFormsModule,
     RegistrationModule,
     MatProgressSpinnerModule
   ],

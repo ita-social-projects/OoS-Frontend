@@ -1,0 +1,64 @@
+<mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
+  [ngClass]="(application.status === 'new') ? 'card-new' : ''">
+  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
+    <div class="avatar">
+      <img mat-card-avatar #img src="assets/mock-images/Avatar.png" alt="child-photo" (mouseover)="onInfoShow(img) "
+        (mouseleave)="onInfoHide(img)">
+    </div>
+    <div fxLayout='column' fxLayoutAlign='center start'>
+      <h2>{{application.child.firstName}} {{application.child.lastName}} {{application.child.middleName}}</h2>
+      {{getAge(application.child.dateOfBirth)}} років
+      <p>{{application.date | date: 'shortDate'}}</p>
+    </div>
+  </mat-card-content>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='center start'>
+    <h2>{{application.provider.shortTitle}}</h2>
+    <h4>{{application.provider.workshop.title}}</h4>
+    <p><img src="assets/icons/age.png" alt="people"> доступних місць
+      <b>{{application.provider.workshop.placeAmount}}</b>
+    </p>
+  </mat-card-content>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
+    <div *ngIf="(application.status === 'approved') then IsApproved;"></div>
+    <div *ngIf="(application.status === 'new') then IsNew;"></div>
+    <div *ngIf="(application.status === 'denied') then IsDenied;"></div>
+    <p>{{application.message}}</p>
+  </mat-card-content>
+  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='start center'>
+    <button class="btn-email">
+      <img src="assets/icons/email.png" alt="email">
+    </button>
+    <button class="btn btn-approve" mat-raised-button color="primary"
+      [ngClass]="(application.status === 'new' )?  '' : 'btn-hidden'" (click)="onApprove(application)">
+      <p class="btn-text">Прийняти</p>
+    </button>
+    <button class="btn btn-deny" mat-raised-button color="warn"
+      [ngClass]="(application.status === 'denied') ? 'btn-hidden' : ''" (click)="onDeny(application)">
+      <p class="btn-text">Відхилити</p>
+    </button>
+  </mat-card-actions>
+</mat-card>
+<ng-template #IsNew>
+  <div fxLayout='row' fxLayoutAlign='center center'>
+    <div>
+      <img src="assets/icons/awaiting.png" alt="awaiting-icon">
+    </div>
+    <p style="color:orange; font-weight: 400;">Очікує підтвердження</p>
+  </div>
+</ng-template>
+<ng-template #IsApproved>
+  <div fxLayout='row' fxLayoutAlign='center center'>
+    <div>
+      <img src="assets/icons/approved.png" alt="approved-icon">
+    </div>
+    <p style="color:green; font-weight: 400;">Підтверджено</p>
+  </div>
+</ng-template>
+<ng-template #IsDenied>
+  <div fxLayout='row' fxLayoutAlign='center center'>
+    <div>
+      <img src="assets/icons/denied.png" alt="denied-icon">
+    </div>
+    <p style="color:red; font-weight: 400;">Відхилено</p>
+  </div>
+</ng-template>

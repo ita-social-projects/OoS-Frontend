@@ -35,7 +35,8 @@
   &_header {
     position: relative;
     background: #EBEBEB;
-    height: 185px;
+    height: 180px;
+    min-width: 270px;
     object-fit: cover;
     display: flex;
     align-items: center;

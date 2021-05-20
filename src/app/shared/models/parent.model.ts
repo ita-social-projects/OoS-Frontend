@@ -1,16 +1,19 @@
 export class Parent {
+  id: number;
+  userId: number;
   firstName: string;
   lastName: string;
-  secondName: string;
+  middleName: string;
   birthDay: Date;
   gender: string;
   phone: string;
   email: string;
 
   constructor(info) {
+    this.userId = info.userId;
     this.firstName = info.firstName;
     this.lastName = info.lastName;
-    this.secondName = info.secondName;
+    this.middleName = info.secondName;
     this.birthDay = info.birthDay;
     this.gender = info.gender;
   }

@@ -1,0 +1,33 @@
+<div>
+  <a [routerLink]="" class="edit-icon"><button mat-button style="color:#3849F9;">
+      <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
+    </button></a>
+  <ng-container *ngIf="isChildInfo then ChildInfo; else ParentInfo"></ng-container>
+</div>
+
+<ng-template #ChildInfo>
+  <mat-card class="card">
+    <mat-card-content fxLayout='column' fxLayoutAlign='center start'>
+      <h4>ПІБ</h4>
+      <p>{{card.firstName}} {{card.lastName}} {{card.secondName}}</p>
+      <h4>День народження</h4>
+      <p>{{card.birthDay}}</p>
+      <h4>Cтать дитини</h4>
+      <p>{{card.gender}}</p>
+      <h4>Соціальна група</h4>
+      <p>Відсутня</p>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+<ng-template #ParentInfo>
+  <mat-card class="card">
+    <mat-card-content fxLayout='column' fxLayoutAlign='center start'>
+      <h4>ПІБ</h4>
+      <p>{{card.firstName}} {{card.lastName}} {{card.secondName}}</p>
+      <h4>Телефон</h4>
+      <p>{{card.phone}}</p>
+      <h4>Емейл</h4>
+      <p>{{card.email}}</p>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
