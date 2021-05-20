@@ -27,7 +27,6 @@ import { UserState } from 'src/app/shared/store/user.state';
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    NgxsModule.forFeature([UserState]),
   ],
   providers: [
     ParentGuard,

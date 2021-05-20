@@ -47,9 +47,7 @@ import { UserState } from './shared/store/user.state';
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
-    NgxsLoggerPluginModule.forRoot({
-      disabled: environment.production
-    }),
+    NgxsLoggerPluginModule.forRoot(),
     FlexLayoutModule,
     ShellModule,
     RegistrationModule,
