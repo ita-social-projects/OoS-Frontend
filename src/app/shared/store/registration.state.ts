@@ -67,9 +67,14 @@ export class RegistrationState {
         patchState({ isAuthorized: auth });
         if (auth) {
           const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
-          patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
           this.usersService.getUserById(id).subscribe(user => {
-            patchState({ email: user.email, firstName: user.firstName, lastName: user.lastName, middleName: user.middleName });
+            patchState({
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              middleName: user.middleName,
+              role: user.role
+            });
           });
         }
       });

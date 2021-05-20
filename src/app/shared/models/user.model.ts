@@ -19,4 +19,5 @@ export interface User {
   lockoutEnd?: any;
   lockoutEnabled?: boolean;
   accessFailedCount?: number;
+  role: string;
 }
