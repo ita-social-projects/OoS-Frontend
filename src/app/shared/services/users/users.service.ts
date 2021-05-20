@@ -6,7 +6,12 @@ import { User } from '../../models/user.model';
 @Injectable({providedIn: 'root'})
 export class UsersService {
   constructor(private http: HttpClient) {}
-
+  /**
+   * gets user data
+   *
+   * @param id: string
+   * returnes object of type User
+   */
   getUserById(id): Observable<User>{
    return  this.http.get<User>(`/User/GetUserById/${id}`);
   }
