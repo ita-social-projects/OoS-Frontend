@@ -1,3 +1,11 @@
-<div class="container">
-  <p>contacts works!</p>
+<div class="container" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap='0.2rem'>
+  <h4>КОНТАКТИ</h4>
+  <p>{{workshop.address.city}}, {{workshop.address.street}}, {{workshop.address.buildingNumber}}</p>
+  <p>Тут час</p>
+  <p>{{workshop.phone}}</p>
+  <p>{{workshop.email}}</p>
+  <p>{{workshop.website}}</p>
+  <a [routerLink]="''"><img src="assets/icons/inst.png" alt=""></a>
+  <a [routerLink]="''"><img src="assets/icons/facebook.png" alt=""></a>
+
 </div>

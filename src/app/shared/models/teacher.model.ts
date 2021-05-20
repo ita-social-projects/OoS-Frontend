@@ -3,9 +3,9 @@ export class Teacher {
   firstName: string;
   lastName: string;
   middleName: string;
-  birthDay: Date;
-  description: string;
-  image: string;
+  birthDay?: Date;
+  description?: string;
+  image?: string;
 
   constructor(info) {
     this.id = 1;
