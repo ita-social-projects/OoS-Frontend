@@ -32,7 +32,7 @@ export interface UserStateModel {
   children: Child[];
 }
 @State<UserStateModel>({
-  name: 'provider',
+  name: 'user',
   defaults: {
     workshops: Workshop[''],
     applications: Application[''],
