@@ -9,10 +9,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { PersonalCabinetRoutingModule } from './personal-cabinet-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { WorkshopsComponent } from './workshops/workshops.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
+import { NgxsModule } from '@ngxs/store';
+import { UserState } from 'src/app/shared/store/user.state';
 @NgModule({
   declarations: [
     ApplicationsComponent,
@@ -27,7 +27,7 @@ import { ApplicationCardComponent } from './applications/application-card/applic
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    HttpClientModule
+    NgxsModule.forFeature([UserState]),
   ],
   providers: [
     ParentGuard,

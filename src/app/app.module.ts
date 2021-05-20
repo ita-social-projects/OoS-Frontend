@@ -58,11 +58,7 @@ import { UserState } from './shared/store/user.state';
     MatProgressSpinnerModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    }
+
   ],
   bootstrap: [AppComponent]
 })

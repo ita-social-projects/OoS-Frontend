@@ -11,8 +11,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
 import { ChildFormComponent } from './parent-create-child/child-form/child-form.component'
@@ -41,7 +39,6 @@ import { UserState } from 'src/app/shared/store/user.state';
     MatInputModule,
     FlexLayoutModule,
     MatRadioModule,
-    NgxsModule.forFeature([UserState]),
     MatIconModule,
     ReactiveFormsModule,
     MatSelectModule,

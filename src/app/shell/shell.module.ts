@@ -17,6 +17,7 @@ import { GroupModel } from './section/group/group.module';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
+import { HttpErrorInterceptor } from '../shared/interceptors/http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,12 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
   ],
   providers: [
     PersonalCabinetGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: HttpErrorInterceptor,
+    //   multi: true
+    // }
   ]
 })
 export class ShellModule { }

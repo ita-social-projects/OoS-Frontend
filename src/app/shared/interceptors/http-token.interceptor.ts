@@ -22,7 +22,11 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
     if (request.url.indexOf('http://') !== -1 || request.url.indexOf('http://') !== -1) {
 
-      return next.handle(request).pipe();
+      return next.handle(request).pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
     }
 
     const token = this.oidcSecurityService.getToken();

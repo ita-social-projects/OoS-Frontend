@@ -63,24 +63,30 @@ export class UserState {
   getWorkshopsById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsById) {
     return this.userWorkshopService
       .getWorkshopsById(payload)
-      .subscribe(
-        (userWorkshops: Workshop[]) => patchState({ workshops: userWorkshops }))
+      .pipe(
+        tap(
+          (userWorkshops: Workshop[]) => patchState({ workshops: userWorkshops })
+        ))
   }
 
   @Action(GetApplicationsById)
   getApplicationsById({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsById) {
     return this.applicationService
       .getApplicationsById(payload)
-      .subscribe(
-        (userApplications: Application[]) => patchState({ applications: userApplications }))
+      .pipe(
+        tap((userApplications: Application[]) => {
+          return patchState({ applications: userApplications })
+        }))
   }
 
   @Action(GetChildrenById)
   getChildrenById({ patchState }: StateContext<UserStateModel>, { payload }: GetChildrenById) {
     return this.childrenService
       .getChildrenById(payload)
-      .subscribe(
-        (userChildren: Child[]) => patchState({ children: userChildren }))
+      .pipe(
+        tap(
+          (userChildren: Child[]) => patchState({ children: userChildren })
+        ))
   }
 
   @Action(CreateWorkshop)

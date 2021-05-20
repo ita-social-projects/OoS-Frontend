@@ -31,7 +31,6 @@ import { CanDeactivateGuard } from './provider-config/can-leave-guard.service';
 import { MapComponent } from './create-workshop/create-address/map/map.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { HttpTokenInterceptor } from 'src/app/shared/interceptors/http-token.interceptor';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { UserState } from 'src/app/shared/store/user.state';
 @NgModule({
@@ -58,7 +57,7 @@ import { UserState } from 'src/app/shared/store/user.state';
     MatCheckboxModule,
     MatInputModule,
     ReactiveFormsModule,
-    NgxsModule.forFeature([UserState]),
+
     MatTabsModule,
     MatStepperModule,
     MatAutocompleteModule,
