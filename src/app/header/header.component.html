@@ -48,12 +48,11 @@
       <h1>{{userName$ | async}}</h1>
     </button>
     <mat-menu #log="matMenu">
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'config'">Особиста інформація</a></button>
-      <button mat-menu-item *ngIf="role==='provider'"><a [routerLink]="'./' + roles[role] +'/' + 'org-info'">Інформація про заклад</a></button>
-      <button mat-menu-item *ngIf="role==='parent'"><a [routerLink]="">Інформація про дитину</a></button>
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'workshops'">Мої гуртки</a></button>
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'applications'">Мої заяви</a></button>
-      <button mat-menu-item><a [routerLink]="'./' + roles[role] +'/' + 'messages'">Повідомлення</a></button>
+      <a [routerLink]="'./personal-cabinet/' + role + '/config'"><button mat-menu-item>Налаштування</button></a>
+      <a [routerLink]="'./personal-cabinet/' + role + '/info'"> <button mat-menu-item>Інформація</button></a>
+      <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
+      <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
+      <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
