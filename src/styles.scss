@@ -79,6 +79,15 @@ div.cdk-overlay-pane {
   color:#3849F9 !important;
 }
 
+.mat-badge-accent {
+  .mat-badge-content {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    position: relative;
+  }
+}
+
 $config: mat-typography-config(
   $font-family: "Innerspace",
   $button: mat-typography-level(13px, 15px, 700)

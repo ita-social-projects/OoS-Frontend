@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
 import { Category } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
@@ -40,7 +41,9 @@ export class MetaDataState {
   getCategories({ patchState }: StateContext<MetaDataStateModel>, { }: GetCategories) {
     return this.categoriesService
       .getCategories()
-      .subscribe((appCategories: Category[]) => patchState({ categories: appCategories }))
+      .pipe(
+        tap((appCategories: Category[]) => patchState({ categories: appCategories })
+        ))
   }
 
   @Action(CityList)

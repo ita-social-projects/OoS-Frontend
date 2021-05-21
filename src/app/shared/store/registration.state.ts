@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { UsersService } from '../services/users/users.service';
 import { Login, Logout, CheckAuth, OnAuthFail } from './registration.actions';
-
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 export interface RegistrationStateModel {
   isAuthorized: boolean;
-  userName: string;
+  email: string;
   role: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
 }
+
 @State<RegistrationStateModel>({
   name: 'user',
   defaults: {
     isAuthorized: false,
-    userName: '',
+    email: '',
     role: '',
+    firstName: '',
+    lastName: '',
+    middleName: '',
   }
 })
 @Injectable()
@@ -27,7 +35,7 @@ export class RegistrationState {
   }
   @Selector()
   static userName(state: RegistrationStateModel): string {
-    return state.userName;
+    return `${state.lastName} ${state.firstName} ${state.middleName}`;
   }
   @Selector()
   static role(state: RegistrationStateModel): string {
@@ -37,7 +45,9 @@ export class RegistrationState {
   constructor(
     public oidcSecurityService: OidcSecurityService,
     public http: HttpClient,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,
+    public usersService: UsersService
+    ) { }
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>): void {
@@ -56,8 +66,16 @@ export class RegistrationState {
         console.log('is authenticated', auth);
         patchState({ isAuthorized: auth });
         if (auth) {
-          patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
-          patchState({ userName: jwt_decode(this.oidcSecurityService.getToken())['name'] });
+          const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
+          this.usersService.getUserById(id).subscribe(user => {
+            patchState({
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              middleName: user.middleName,
+              role: user.role
+            });
+          });
         }
       });
   }

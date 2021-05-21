@@ -1,5 +1,5 @@
 export class Teacher {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   middleName: string;
@@ -8,7 +8,6 @@ export class Teacher {
   image?: string;
 
   constructor(info) {
-    this.id = 1;
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
