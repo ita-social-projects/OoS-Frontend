@@ -8,7 +8,6 @@ import { Parent } from 'src/app/shared/models/parent.model';
 
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { GetWorkshops } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
 import { GetChildrenById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
@@ -22,7 +21,6 @@ export class CreateApplicationComponent implements OnInit {
 
   workshop: Workshop;
   isChildInfo: boolean = true;
-  @Select(AppState.allWorkshops) workshops$: Observable<Workshop[]>;
   @Select(UserState.children) children$: Observable<Child[]>;
   children: Child[] = [];
   parent: Parent;
@@ -34,7 +32,6 @@ export class CreateApplicationComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshops());
     this.store.dispatch(new GetChildrenById(null));
-    this.workshops$.subscribe((workshops: Workshop[]) => this.workshop = workshops[0])
     this.children$.subscribe(children => this.children = children);
   }
 
