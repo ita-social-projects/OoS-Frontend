@@ -1,0 +1,51 @@
+.container{
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin:20px;
+}
+.workshop{
+  &-image{
+    width: 100%;
+    height: 100%;
+    object-fit: none;
+  }
+  &-header{
+    margin:1rem;
+  }
+  &-link{
+    color:#3849F9;
+    &:hover{
+      color:#a6ade7;
+    }
+  }
+  &-status{
+    width: 106px;
+    height: 24px;
+    background: #99CD56;
+    border-radius: 16px;
+    &-text{
+      font-family: Innerspace;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 11px;
+      line-height: 12px;
+      color: #FFFFFF;
+    }
+  }
+}
+.title, .nav{
+  margin:10px;
+  font-weight: 700;
+  opacity: 1;
+}
+.active  {
+  color: #3849F9;
+  opacity: 1;
+  border-bottom: 2px solid #3849F9;
+}
+::ng-deep .mat-tab-link{
+  min-width:0px !important;
+  padding: inherit !important;
+  margin: 10px;
+}

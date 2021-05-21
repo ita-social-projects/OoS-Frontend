@@ -17,7 +17,7 @@ export interface RegistrationStateModel {
 }
 
 @State<RegistrationStateModel>({
-  name: 'user',
+  name: 'registration',
   defaults: {
     isAuthorized: false,
     email: '',
@@ -47,7 +47,7 @@ export class RegistrationState {
     public http: HttpClient,
     public snackBar: MatSnackBar,
     public usersService: UsersService
-    ) { }
+  ) { }
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>): void {

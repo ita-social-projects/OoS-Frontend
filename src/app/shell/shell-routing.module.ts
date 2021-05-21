@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { ResultComponent } from './result/result.component';
 import { Routes, RouterModule } from '@angular/router';
-import { GroupComponent } from './section/group/group.component';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
+import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -16,8 +15,10 @@ const routes: Routes = [
     canLoad: [PersonalCabinetGuard]
 
   },
-  { path: 'section/group', component: GroupComponent },
-  { path: 'create-application', component: CreateApplicationComponent }
+  {
+    path: 'workshop-details', component: WorkshopDetailsComponent,
+    loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
+  }
 ];
 
 @NgModule({

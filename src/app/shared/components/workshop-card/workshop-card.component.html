@@ -7,7 +7,7 @@
   </div>
   <div *ngIf="( isMainPage$ | async) then MainView; else ProviderActivities"></div>
   <div class="card_footer">
-    <a href="#" class="card_link">
+    <a [routerLink]="'./workshop-details/workshop-about'" class="card_link">
       Детальніше
       <span class="material-icons arrow">arrow_forward</span>
     </a>

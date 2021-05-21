@@ -12,8 +12,6 @@ import { SharedModule } from '../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreateApplicationComponent } from './section/group/create-application/create-application.component';
-import { GroupModel } from './section/group/group.module';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
@@ -24,7 +22,6 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
     WorkshopCardsListComponent,
     OrderingComponent,
     PersonalCabinetComponent,
-    CreateApplicationComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +32,6 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    GroupModel,
     HttpClientModule
   ],
   providers: [
