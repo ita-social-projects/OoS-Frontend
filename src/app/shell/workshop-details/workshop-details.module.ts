@@ -10,11 +10,11 @@ import { WorkshopAboutComponent } from './workshop-page/workshop-about/workshop-
 import { ProviderAboutComponent } from './workshop-page/provider-about/provider-about.component';
 import { WorkshopTeachersComponent } from './workshop-page/workshop-teachers/workshop-teachers.component';
 import { ReviewsComponent } from './workshop-page/reviews/reviews.component';
-import { WorkshopDetailsRoutingModule } from './workshop-details-routing.module';
 import { CommonModule } from '@angular/common';
 import { ActionsComponent } from './side-menu/actions/actions.component';
 import { ContactsComponent } from './side-menu/contacts/contacts.component';
 import { ScheduleComponent } from './side-menu/schedule/schedule.component';
+import { AllProviderWorkshopsComponent } from './workshop-page/all-provider-workshops/all-provider-workshops.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +27,14 @@ import { ScheduleComponent } from './side-menu/schedule/schedule.component';
     ReviewsComponent,
     ActionsComponent,
     ContactsComponent,
-    ScheduleComponent],
+    ScheduleComponent,
+    AllProviderWorkshopsComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
     SharedModule,
     MaterialModule,
     RouterModule,
-    WorkshopDetailsRoutingModule
   ],
   providers: [
   ]

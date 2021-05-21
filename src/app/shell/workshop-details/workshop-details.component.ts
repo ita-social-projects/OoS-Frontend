@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { GetWorkshops } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
@@ -41,6 +43,8 @@ export class WorkshopDetailsComponent implements OnInit {
 
   @Select(AppState.allWorkshops) workshops$: Observable<Workshop[]>;
   workshop: Workshop;
+  provider: Provider;
+  teachers: Teacher[];
 
   constructor(private store: Store) {
     this.store.dispatch(new GetWorkshops())
@@ -48,6 +52,8 @@ export class WorkshopDetailsComponent implements OnInit {
     //   this.workshop = workshops[0];
     // })
     this.workshop = workshopMock;
+    this.teachers = workshopMock.teachers;
+    // this.provider = workshopMock;
   }
 
   ngOnInit(): void {

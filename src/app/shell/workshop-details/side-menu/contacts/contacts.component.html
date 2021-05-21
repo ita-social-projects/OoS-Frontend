@@ -5,7 +5,10 @@
   <p>{{workshop.phone}}</p>
   <p>{{workshop.email}}</p>
   <p>{{workshop.website}}</p>
-  <a [routerLink]="''"><img src="assets/icons/inst.png" alt=""></a>
-  <a [routerLink]="''"><img src="assets/icons/facebook.png" alt=""></a>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <a [routerLink]="''" class="link"><img src="assets/icons/inst.png" alt=""></a>
+    <a [routerLink]="''" class="link"><img src="assets/icons/facebook.png" alt=""></a>
+  </div>
+
 
 </div>

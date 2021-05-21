@@ -3,20 +3,24 @@
 <ng-template #WorkshopDetails>
   <div class="container">
     <div class="workshop-image"><img src="assets/images/groupimages/dance.png" alt=""></div>
-    <div class="workshop-header" fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <h1 class="title">{{workshop.title}}</h1>
-        <mat-chip class="workshop-status" fxLayout="row" fxLayoutAlign="center center">
-          <p class="workshop-status-text">Набір триває</p>
-        </mat-chip>
-      </div>
-      <img src="assets/icons/basketball.png" alt="">
-    </div>
+    <div class="workshop-header" fxLayout="column" fxLayoutAlign="space-between space-between">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <h1 class="title">{{workshop.title}}</h1>
+          <mat-chip class="workshop-status" fxLayout="row" fxLayoutAlign="center center">
+            <p class="workshop-status-text">Набір триває</p>
+          </mat-chip>
+        </div>
+        <div>
+          <img src="assets/icons/basketball.png" alt="">
+        </div>
 
-    <p fxLayout="row" fxLayoutAlign="start center"><img src="assets/icons/rate.png" alt="">{{workshop.rate}}</p>
-    <a [routerLink]="'./provider-about'" class="workshop-link">
-      <p fxLayout="row" fxLayoutAlign="start center"><img src="assets/icons/home.svg" alt="">Школа танців</p>
-    </a>
+      </div>
+      <p fxLayout="row" fxLayoutAlign="start center"><img src="assets/icons/rate.png" alt="">{{workshop.rate}}</p>
+      <a [routerLink]="'./provider-about'" class="workshop-link">
+        <p fxLayout="row" fxLayoutAlign="start center"><img src="assets/icons/home.svg" alt="">Школа танців</p>
+      </a>
+    </div>
     <mat-tab-group>
       <mat-tab label="ПРО ГУРТОК ">
         <app-workshop-about [workshop]="workshop"></app-workshop-about>
@@ -28,19 +32,12 @@
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab label="ІНШИ ГУРТКИ ШКОЛИ">
+        <app-all-provider-workshops [provider]=""></app-all-provider-workshops>
       </mat-tab>
       <mat-tab label="ВІДГУКИ">
         <app-reviews [workshop]="workshop"></app-reviews>
       </mat-tab>
     </mat-tab-group>
-    <!-- <nav class="nav" mat-tab-nav-bar>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshop-about'">ПРО ГУРТОК</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider-about'">ПРО ШКОЛУ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshop-teachers'">ВЧИТЕЛІ</a>
-    <a mat-tab-link [routerLinkActive]="['active']">ІНШІ ГУРТКИ ШКОЛИ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./reviews'">ВІДГУКИ</a>
-  </nav> -->
-    <!-- <router-outlet></router-outlet> -->
   </div>
 </ng-template>
 <ng-template #Loading>
