@@ -4,28 +4,29 @@ import { Address } from "./address.model";
 import { Workshop } from "./workshop.model";
 
 export class Provider {
-  userId: string;
-  fullTitle: string;
-  shortTitle: string;
-  website: string;
-  email: string;
-  facebook: string;
-  instagram: string;
-  description: string;
-  edrpouIpn: string;
-  director: string;
-  directorBirthDay: string | Date;
-  phoneNumber: string;
-  founder: string;
-  ownership: number;
-  type: number;
+  id: string;
+  userId?: string;
+  fullTitle?: string;
+  shortTitle?: string;
+  website?: string;
+  email?: string;
+  facebook?: string;
+  instagram?: string;
+  description?: string;
+  edrpouIpn?: string;
+  director?: string;
+  directorBirthDay?: string | Date;
+  phoneNumber?: string;
+  founder?: string;
+  ownership?: number;
+  type?: number;
   status?: boolean;
   legalAddressId?: number;
-  legalAddress: Address;
+  legalAddress?: Address;
   actualAddressId?: number;
-  actualAddress: Address;
+  actualAddress?: Address;
   workshop?: Workshop;
-  image: File[];
+  image?: File[];
 
   constructor(id, info, legalAddress, actualAddress, photo) {
     this.userId = id;
@@ -40,8 +41,8 @@ export class Provider {
     this.director = info.director;
     this.directorBirthDay = info.directorBirthDay;
     this.founder = info.founder;
-    this.type = info.type;
-    this.ownership = info.ownership;
+    this.type = 0;
+    this.ownership = 0;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;

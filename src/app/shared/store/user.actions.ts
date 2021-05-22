@@ -73,3 +73,7 @@ export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
   constructor(public payload) { }
 }
+export class GetProviderById {
+  static readonly type = '[user] get Provider';
+  constructor(public payload: number) { }
+}

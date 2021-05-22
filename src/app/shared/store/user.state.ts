@@ -6,6 +6,7 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
+import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -19,6 +20,7 @@ import {
   DeleteWorkshopById,
   GetApplicationsById,
   GetChildrenById,
+  GetProviderById,
   GetWorkshopsById,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
@@ -34,13 +36,15 @@ export interface UserStateModel {
   workshops: Workshop[];
   applications: Application[];
   children: Child[];
+  provider: Provider;
 }
 @State<UserStateModel>({
   name: 'user',
   defaults: {
     workshops: Workshop[''],
     applications: Application[''],
-    children: Child['']
+    children: Child[''],
+    provider: undefined
   }
 })
 @Injectable()
@@ -55,6 +59,9 @@ export class UserState {
 
   @Selector()
   static children(state: UserStateModel): Child[] { return state.children }
+
+  @Selector()
+  static provider(state: UserStateModel): Provider { return state.provider }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -193,8 +200,8 @@ export class UserState {
     return this.providerService
       .createProvider(payload)
       .pipe(
-        tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateChildrenFail(error))))
+        tap((res) => dispatch(new OnCreateProviderSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateProviderFail(error))))
       );
   }
 
@@ -217,6 +224,16 @@ export class UserState {
       dispatch(new ToggleLoading(false));
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 2000);
+  }
+
+  @Action(GetProviderById)
+  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById) {
+    return this.providerService
+      .getProviderById(payload)
+      .pipe(
+        tap(
+          (provider: Provider) => patchState({ provider: provider[1] })
+        ))
   }
 
   showSnackBar(

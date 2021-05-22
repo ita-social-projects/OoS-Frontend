@@ -16,7 +16,7 @@ export class ProviderService {
   * @param id
   */
   getProviderById(id: number): Observable<Provider> {
-    const dataUrl = `/Provider/GetById/${id}`;
+    const dataUrl = `/Provider/Get`;
     return this.http.get<Provider>(this.tepmUrl);
   }
 
