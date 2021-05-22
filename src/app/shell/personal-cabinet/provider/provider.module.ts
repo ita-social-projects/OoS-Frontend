@@ -32,7 +32,10 @@ import { MapComponent } from './create-workshop/create-address/map/map.component
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
-import { UserState } from 'src/app/shared/store/user.state';
+import { CreateProviderComponent } from './create-provider/create-provider.component';
+import { CreateInfoFormComponent } from './create-provider/create-info-form/create-info-form.component';
+import { CreateContactsFormComponent } from './create-provider/create-contacts-form/create-contacts-form.component';
+import { CreatePhotoFormComponent } from './create-provider/create-photo-form/create-photo-form.component';
 @NgModule({
   declarations: [
     ProviderConfigComponent,
@@ -42,6 +45,10 @@ import { UserState } from 'src/app/shared/store/user.state';
     CreateDescriptionFormComponent,
     MapComponent,
     CreateWorkshopComponent,
+    CreateProviderComponent,
+    CreateInfoFormComponent,
+    CreateContactsFormComponent,
+    CreatePhotoFormComponent,
 
   ],
   imports: [

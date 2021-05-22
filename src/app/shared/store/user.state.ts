@@ -9,10 +9,12 @@ import { Child } from '../models/child.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
+import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { ToggleLoading } from './app.actions';
 import {
   CreateChildren,
+  CreateProvider,
   CreateWorkshop,
   DeleteWorkshopById,
   GetApplicationsById,
@@ -20,6 +22,8 @@ import {
   GetWorkshopsById,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
+  OnCreateProviderFail,
+  OnCreateProviderSuccess,
   OnCreateWorkshopFail,
   OnCreateWorkshopSuccess,
   OnDeleteWorkshopFail,
@@ -56,6 +60,7 @@ export class UserState {
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private childrenService: ChildrenService,
+    private providerService: ProviderService,
     public snackBar: MatSnackBar, private router: Router
   ) { }
 
@@ -178,6 +183,37 @@ export class UserState {
     console.log('Child is created', payload);
     setTimeout(() => {
       this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
+      dispatch(new ToggleLoading(false));
+      this.router.navigate(['/personal-cabinet/parent/info']);
+    }, 2000);
+  }
+  @Action(CreateProvider)
+  createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider) {
+    dispatch(new ToggleLoading(true));
+    return this.providerService
+      .createProvider(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateChildrenFail(error))))
+      );
+  }
+
+  @Action(OnCreateProviderFail)
+  onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
+    console.log('Child creation is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+      this.router.navigate(['/personal-cabinet/parent/info']);
+      dispatch(new ToggleLoading(false));
+    }, 2000);
+  }
+
+  @Action(OnCreateProviderSuccess)
+  onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
+    console.log('Provider is created', payload);
+    setTimeout(() => {
+      this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
       dispatch(new ToggleLoading(false));
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 2000);

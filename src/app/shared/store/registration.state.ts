@@ -14,6 +14,7 @@ export interface RegistrationStateModel {
   firstName: string;
   lastName: string;
   middleName: string;
+  userId: string;
 }
 
 @State<RegistrationStateModel>({
@@ -25,6 +26,7 @@ export interface RegistrationStateModel {
     firstName: '',
     lastName: '',
     middleName: '',
+    userId: ''
   }
 })
 @Injectable()
@@ -40,6 +42,10 @@ export class RegistrationState {
   @Selector()
   static role(state: RegistrationStateModel): string {
     return state.role;
+  }
+  @Selector()
+  static userId(state: RegistrationStateModel): string {
+    return state.userId;
   }
 
   constructor(
@@ -73,7 +79,8 @@ export class RegistrationState {
               firstName: user.firstName,
               lastName: user.lastName,
               middleName: user.middleName,
-              role: user.role
+              role: user.role,
+              userId: user.id
             });
           });
         }
