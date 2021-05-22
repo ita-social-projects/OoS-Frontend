@@ -45,11 +45,12 @@
       </i>
     </button>
     <button mat-button [matMenuTriggerFor]="log">
-      <h1>{{userName$ | async}}</h1>
+      <h1 *ngIf="user">{{user.firstName}} {{user.lastName}}</h1>
     </button>
     <mat-menu #log="matMenu">
-      <a [routerLink]="'./personal-cabinet/' + role + '/config'"><button mat-menu-item>Налаштування</button></a>
-      <a [routerLink]="'./personal-cabinet/' + role + '/info'"> <button mat-menu-item>Інформація</button></a>
+      <a [routerLink]="'./personal-cabinet/' + user.role + '/config'"><button mat-menu-item>Налаштування</button></a>
+      <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
+          {{roles[user.role]}}</button></a>
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
       <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
       <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>

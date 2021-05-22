@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { User } from 'src/app/shared/models/user.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 
 enum RoleLinks {
-  provider = 'provider',
-  parent = 'parent'
+  provider = 'ОРГАНІЗАЦІЮ',
+  parent = 'ДИТИНУ'
 }
 
 @Component({
@@ -18,17 +19,18 @@ enum RoleLinks {
 
 export class PersonalCabinetComponent implements OnInit {
 
-  @Select(RegistrationState.role)
-  userRole$: Observable<string>;
-  role: string;
+  @Select(RegistrationState.user)
+  user$: Observable<User>;
+  userRole: string;
+  roles = RoleLinks;
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.userRole$.subscribe(value => {
-      this.role = value;
+    this.user$.subscribe(user => {
+      this.userRole = user.role
     });
   }
 

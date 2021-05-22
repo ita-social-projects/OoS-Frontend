@@ -4,6 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider } from 'src/app/shared/store/user.actions';
 
@@ -14,7 +15,7 @@ import { CreateProvider } from 'src/app/shared/store/user.actions';
 })
 export class CreateProviderComponent implements OnInit {
 
-  @Select(RegistrationState.userId) userId$: Observable<string>;
+  @Select(RegistrationState.user) user$: Observable<User>;
   userId: string;
 
   InfoFormGroup: FormGroup;
@@ -43,7 +44,7 @@ export class CreateProviderComponent implements OnInit {
     console.log(this.InfoFormGroup.get('type').value, typeof (this.InfoFormGroup.get('type').value))
     const legalAddress = new Address(this.ActualAddressFormGroup.value);
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
-    this.userId$.subscribe(id => this.userId = id);
+    this.user$.subscribe(user => this.userId = user.id);
 
     const provider = new Provider(this.userId, this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value)
     this.store.dispatch(new CreateProvider(provider));

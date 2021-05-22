@@ -1,8 +1,10 @@
 <div class="container">
   <h1 class="title">КАБІНЕТ КОРИСТУВАЧА</h1>
   <nav class="nav" mat-tab-nav-bar>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + role +'/' + 'config'">ОСОБИСТА ІНФОРМАЦІЯ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + role +'/' + 'info'">ІНФОРМАЦІЯ</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole +'/' + 'config'">ОСОБИСТА
+      ІНФОРМАЦІЯ</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole +'/' + 'info'">ІНФОРМАЦІЯ ПРО
+      {{roles[userRole]}}</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">ГУРТКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>

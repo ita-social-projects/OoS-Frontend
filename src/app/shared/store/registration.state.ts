@@ -6,27 +6,18 @@ import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '../models/user.model';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
-  email: string;
-  role: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  userId: string;
+  user: User;
 }
 
 @State<RegistrationStateModel>({
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    email: '',
-    role: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    userId: ''
+    user: undefined
   }
 })
 @Injectable()
@@ -36,16 +27,8 @@ export class RegistrationState {
     return state.isAuthorized;
   }
   @Selector()
-  static userName(state: RegistrationStateModel): string {
-    return `${state.lastName} ${state.firstName} ${state.middleName}`;
-  }
-  @Selector()
-  static role(state: RegistrationStateModel): string {
-    return state.role;
-  }
-  @Selector()
-  static userId(state: RegistrationStateModel): string {
-    return state.userId;
+  static user(state: RegistrationStateModel): User {
+    return state.user;
   }
 
   constructor(
@@ -74,14 +57,8 @@ export class RegistrationState {
         if (auth) {
           const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
           this.usersService.getUserById(id).subscribe(user => {
-            patchState({
-              email: user.email,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              middleName: user.middleName,
-              role: user.role,
-              userId: user.id
-            });
+            console.log(user)
+            patchState({ user: user });
           });
         }
       });

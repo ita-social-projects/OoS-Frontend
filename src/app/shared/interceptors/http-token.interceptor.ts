@@ -10,9 +10,6 @@ import { OnAuthFail } from '../store/registration.actions';
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
-  @Select(RegistrationState.role)
-  role$: Observable<string>;
-
   constructor(
     public store: Store,
     private oidcSecurityService: OidcSecurityService) { }
