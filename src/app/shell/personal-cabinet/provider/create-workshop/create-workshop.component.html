@@ -9,8 +9,9 @@
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
         <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)"></app-create-about-form>
-        <div fxLayout='row' fxLayoutAlign='center center'>
-          <button mat-raised-button class="btn btn_cancel" ><a  [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button> 
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+          <button mat-raised-button class="btn btn_cancel"><a
+              [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </mat-step>
@@ -19,9 +20,10 @@
         <ng-template matStepLabel>Опис</ng-template>
         <app-create-description-form (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
         </app-create-description-form>
-        <div fxLayout='row' fxLayoutAlign='center center'>
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/workshops'"> Скасувати </a></button>
+          <button class="btn btn_cancel" mat-raised-button><a [routerLink]="'./../../cabinet/workshops'"> Скасувати
+            </a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </mat-step>
@@ -29,9 +31,10 @@
       <mat-step [stepControl]="AddressFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
         <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)"></app-create-address>
-        <div fxLayout='row' fxLayoutAlign='center center'>
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
+          <button class="btn btn_cancel" mat-raised-button><a
+              [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </mat-step>
@@ -39,9 +42,10 @@
       <mat-step>
         <ng-template matStepLabel>Викладачі</ng-template>
         <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)"></app-create-teacher>
-        <div fxLayout='row' fxLayoutAlign='center center'>
-          <button class="btn"  mat-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button ><a  [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+          <button class="btn" mat-button matStepperPrevious>Назад</button>
+          <button class="btn btn_cancel" mat-raised-button><a
+              [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()">Завершити</button>
         </div>
       </mat-step>
