@@ -1,38 +1,3 @@
-<!-- <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
-  [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
-  <ng-template matStepLabel>Опис</ng-template>
-
-  <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
-
-  <label class="form-label">Призвіще<span class="form-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="form-input" type="text" formControlName="lastName" required>
-  </mat-form-field>
-
-  <label class="form-label">Ім'я<span class="form-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="form-input" type="text" formControlName="firstName" required>
-  </mat-form-field>
-
-  <label class="form-label">По-батькові</label>
-  <mat-form-field>
-    <input matInput class="form-input" type="text" formControlName="middleName">
-  </mat-form-field>
-
-  <label class="form-label">Дата народження<span class="form-required">*</span></label>
-  <mat-form-field class="form-input form-input_date">
-    <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <label class="form-label">Опис</label>
-  <mat-form-field>
-    <textarea matInput class="form-textarea" placeholder="Максимум 500 символів"
-      formControlName="description"></textarea>
-  </mat-form-field>
-</form> -->
-
 <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
   [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
   <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
