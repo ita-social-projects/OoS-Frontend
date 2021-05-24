@@ -8,9 +8,9 @@
     </div>
 
     <ng-container>
-      <app-child-form *ngFor="let form of childrenFormArray.controls" [ChildFormGroup]="form"
-        [index]="childrenFormArray.controls.indexOf(form)" [childrenAmount]="childrenFormArray.controls.length"
-        (deleteForm)="deleteForm($event)"></app-child-form>
+      <app-child-form *ngFor="let form of ChildrenFormArray.controls" [ChildFormGroup]="form"
+        [index]="childrenFormArray.controls.indexOf(form)" [childrenAmount]="ChildrenFormArray.controls.length"
+        (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
     <div fxLayout='column' fxLayoutAlign='center center'>
       <button class="btn-add" mat-button (click)="addChild()">
