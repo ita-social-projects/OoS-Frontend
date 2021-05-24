@@ -1,4 +1,4 @@
-<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
+<!-- <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
   [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
   <ng-template matStepLabel>Опис</ng-template>
 
@@ -31,6 +31,38 @@
     <textarea matInput class="form-textarea" placeholder="Максимум 500 символів"
       formControlName="description"></textarea>
   </mat-form-field>
+</form> -->
+
+<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
+  [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
+  <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
+
+  <label class="step-label"> Призвіще <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="lastName" required>
+  </mat-form-field>
+  <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="firstName" required>
+  </mat-form-field>
+  <label class="step-label"> По-батькові <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="middleName" required>
+  </mat-form-field>
+
+  <label class="step-label">Дата народження<span class="step-required">*</span></label>
+  <mat-form-field class="step-input step-input-date">
+    <input matInput [matDatepicker]="picker" formControlName="directorBirthDay" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <label class="step-label"> Опис <span class="step-required">*</span></label>
+  <mat-form-field>
+    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
+      required></textarea>
+  </mat-form-field>
+
 </form>
 
 <div fxLayout='row' fxLayoutAlign='center'>

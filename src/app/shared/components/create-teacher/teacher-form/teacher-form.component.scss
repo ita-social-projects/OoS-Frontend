@@ -1,17 +1,9 @@
-.form{
+.step{
   &-label{
     font-weight: 500;
   }
   &-required{
     color:red;
-  }
-  &-textarea{
-    min-height: 200px;
-    border: 1px solid #E3E3E3;
-    box-sizing: border-box;
-    border-radius: 21px;
-    padding: 1.2rem;
-    margin-bottom: 1.2rem;
   }
   &-input{
     border: 1px solid #E3E3E3;
@@ -19,21 +11,24 @@
     border-radius: 21px;
     padding:0.5rem;
 
-    &_date{
-      max-width: 30%;
-    }
+    &-date{
+    width:30%;
+    padding: 0.2rem;
+    margin:0;
   }
-}
-.btn{
-  color:white;
-  background-color:#3849F9;
-  border: 1px solid #3849F9;
-  box-sizing: border-box;
-  border-radius: 20px;
-  padding: 2px 30px;
-  margin: 0 1rem;
-  &-reset{
-    color: #3849F9;
+  }
+  &-text{
+    font-family:Open Sans;
+    font-weight: 700;
+    color: #AAAAAA;
+    padding: 5px;
+  }
+  &-textarea{
+    min-height: 200px;
+    border: 1px solid #E3E3E3;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding: 1.2rem;
   }
 }
 input:focus,
@@ -48,7 +43,6 @@ button:focus {
   font-style: normal;
   font-weight: normal;
 }
-
 .div-input{
   width: 95px;
   height: 58px;
@@ -58,22 +52,38 @@ button:focus {
   border-radius: 5px;
   margin: 1rem;
 
-&:hover{
-  cursor:pointer;
-  opacity: 0.5;
+  &:hover{
+    cursor:pointer;
+    opacity: 0.5;
   }
-}
-.mat-icon-delete{
-  color: #3849F9;
 }
 
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+  padding-bottom:0;
+}
 ::ng-deep .mat-form-field-infix {
   border:none;
 }
-.form-border{
-  border-bottom: 2px solid gray;
+::ng-deep .mat-button-toggle-group{
+  border-radius: 20px !important;
+}
+::ng-deep.mat-button-toggle-checked{
+  color: #3849F9 !important;
+  border: 2px solid blue;
+}
+.btn{
+  color:white;
+  background-color:#3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  &-reset{
+    color: #3849F9;
+  }
 }
