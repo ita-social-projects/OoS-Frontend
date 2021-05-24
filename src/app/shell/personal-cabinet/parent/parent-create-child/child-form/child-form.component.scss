@@ -1,85 +1,97 @@
-  .label-top{
-    padding-top: 1rem;
+.step{
+  &-radio{
+    margin:1rem;
+
   }
-  p{
-    margin: auto;
+  &-label{
+    font-weight: 500;
   }
-  .input{
-    width: 410px;
-    height: 34px;
+  &-required{
+    color:red;
+  }
+  &-input{
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
     border-radius: 21px;
-    padding-left: 20px;
-    display: flex;
+    padding:0.5rem;
+
     &-date{
-      max-width: 40%;
-    }
-     &-select{
-    min-width:430px;
+    width:30%;
+    padding: 0.2rem;
+    margin:0;
   }
   }
-  label{
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 15px;
+  &-text{
+    font-family:Open Sans;
+    font-weight: 700;
+    color: #AAAAAA;
+    padding: 5px;
+  }
+  &-textarea{
+    min-height: 200px;
+    border: 1px solid #E3E3E3;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding: 1.2rem;
+  }
+  &-border{
+    border-bottom: 2px solid gray;
+    margin-bottom: 1rem;
+  }
+}
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none;
+}
+::placeholder {
+  color:#333333;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+}
+.div-input{
+  width: 95px;
+  height: 58px;
+  background: rgba(56, 73, 249, 0.1);
+  border: 1px dashed #3849F9;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin: 1rem;
 
+  &:hover{
+    cursor:pointer;
+    opacity: 0.5;
   }
-  .button-reset{
+}
+
+::ng-deep .mat-form-field-underline,
+::ng-deep .mat-form-field-label-wrapper {
+  display: none;
+}
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+  padding-bottom:0;
+}
+::ng-deep .mat-form-field-infix {
+  border:none;
+}
+::ng-deep .mat-button-toggle-group{
+  border-radius: 20px !important;
+}
+::ng-deep.mat-button-toggle-checked{
+  color: #3849F9 !important;
+  border: 2px solid blue;
+}
+.btn{
+  color:white;
+  background-color:#3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  &-reset{
     color: #3849F9;
-    margin: 1rem;
   }
-  .button-visible{
-    display: block;
-    border-bottom: 1px solid #E3E3E3;
-  }
-  .button-hidden{
-    visibility: hidden;
-    max-height: 0px;
-  }
-
-  ::ng-deep .mat-form-field-suffix .ng-tns-c88-6 .ng-star-inserted{
-    margin-right: 0.5rem !important;
-  }
-  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-    padding: inherit !important;
-  }
-  ::ng-deep .mat-form-field-wrapper .ng-tns-c103-6{
-    padding: none !important;
-  }
-  .requires{
-    color: red;
-  }
-  ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-    background-color: #3849F9 !important;
-  }
-
-  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    background-color:#3849F9!important;
-  }
-  ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-   border-color:#3849F9!important;
-  }
-  .wrapper{
-    display: flex;
-    justify-content: center;
-  }
-  ::ng-deep .mat-form-field-infix{
-    border-top: none !important;
-  }
-  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-infix{
-    padding: none !important;
-  }
-  ::ng-deep .mat-form-field-wrapper{
-    padding-bottom: inherit;
-  }
-  ::ng-deep .mat-radio-group {
-    padding-bottom: 1.25em;
-  }
-  .label-padding{
-    padding: .4375em 0
-  }
-  ::ng-deep .mat-radio-label-content {
-    padding-right: 1.5rem !important;
-  }
+}

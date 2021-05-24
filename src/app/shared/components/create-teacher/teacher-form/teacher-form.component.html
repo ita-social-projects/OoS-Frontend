@@ -1,5 +1,5 @@
 <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
-  [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
+  [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
   <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
 
   <label class="step-label"> Призвіще <span class="step-required">*</span></label>
@@ -28,10 +28,10 @@
       required></textarea>
   </mat-form-field>
 
-</form>
+  <div fxLayout='row' fxLayoutAlign='center'>
+    <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
+    </button>
+  </div>
 
-<div fxLayout='row' fxLayoutAlign='center'>
-  <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()">
-    <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
-  </button>
-</div>
+</form>

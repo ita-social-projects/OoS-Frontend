@@ -30,6 +30,10 @@
     border-radius: 21px;
     padding: 1.2rem;
   }
+  &-border{
+    border-bottom: 2px solid gray;
+    margin-bottom: 1rem;
+  }
 }
 input:focus,
 textarea:focus,
