@@ -4,6 +4,12 @@ import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
 import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
+import { User } from '../shared/models/user.model';
+
+enum RoleLinks {
+  provider = 'організацію',
+  parent = 'дитину'
+}
 
 @Component({
   selector: 'app-header',
@@ -12,30 +18,22 @@ import { AppState } from '../shared/store/app.state';
 })
 export class HeaderComponent implements OnInit {
 
-  user = {
-    firstName: 'Іванов В. М'
-  };
   showModalReg = false;
-
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
-  @Select(RegistrationState.userName)
-  userName$: Observable<string>;
-  @Select(RegistrationState.role)
-  userRole$: Observable<string>;
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
-  @Select(AppState.isLoading)
   isLoading$: Observable<boolean>;
-  role: string;
+  @Select(RegistrationState.isAuthorized)
+  isAuthorized$: Observable<boolean>;
+  @Select(RegistrationState.user)
+  user$: Observable<User>;
+  user: User;
+  roles = RoleLinks;
 
   constructor(public store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
-    this.userRole$.subscribe(value => {
-      this.role = value;
-    });
+    this.user$.subscribe(user => this.user = user);
   }
   logout(): void {
     this.store.dispatch(new Logout());

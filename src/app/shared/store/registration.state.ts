@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { UsersService } from '../services/users/users.service';
 import { Login, Logout, CheckAuth, OnAuthFail } from './registration.actions';
-
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '../models/user.model';
+
 export interface RegistrationStateModel {
   isAuthorized: boolean;
-  userName: string;
-  role: string;
+  user: User;
 }
+
 @State<RegistrationStateModel>({
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    userName: '',
-    role: '',
+    user: undefined
   }
 })
 @Injectable()
@@ -26,18 +27,16 @@ export class RegistrationState {
     return state.isAuthorized;
   }
   @Selector()
-  static userName(state: RegistrationStateModel): string {
-    return state.userName;
-  }
-  @Selector()
-  static role(state: RegistrationStateModel): string {
-    return state.role;
+  static user(state: RegistrationStateModel): User {
+    return state.user;
   }
 
   constructor(
     public oidcSecurityService: OidcSecurityService,
     public http: HttpClient,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,
+    public usersService: UsersService
+  ) { }
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>): void {
@@ -56,8 +55,11 @@ export class RegistrationState {
         console.log('is authenticated', auth);
         patchState({ isAuthorized: auth });
         if (auth) {
-          patchState({ role: jwt_decode(this.oidcSecurityService.getToken())['role'] });
-          patchState({ userName: jwt_decode(this.oidcSecurityService.getToken())['name'] });
+          const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
+          this.usersService.getUserById(id).subscribe(user => {
+            console.log(user)
+            patchState({ user: user });
+          });
         }
       });
   }

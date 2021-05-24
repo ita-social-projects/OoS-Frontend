@@ -19,6 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ParentCreateChildComponent } from './parent-create-child/parent-create-child.component';
 import { ParentInfoComponent } from './parent-info/parent-info.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CreateApplicationComponent } from '../../workshop-details/create-application/create-application.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ParentCreateChildComponent,
     ChildFormComponent,
     ParentInfoComponent,
+    CreateApplicationComponent
   ],
   imports: [
     CommonModule,
