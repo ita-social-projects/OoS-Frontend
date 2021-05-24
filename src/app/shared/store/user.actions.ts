@@ -1,4 +1,5 @@
 import { Child } from "../models/child.model";
+import { Provider } from "../models/provider.model";
 import { Workshop } from "../models/workshop.model";
 export class GetWorkshopsById {
   static readonly type = '[user] get Workshop';
@@ -59,4 +60,20 @@ export class OnDeleteChildrenSuccess {
 export class OnDeleteChildrenFail {
   static readonly type = '[user] delete Children fail';
   constructor(public payload: Error) { }
+}
+export class CreateProvider {
+  static readonly type = '[parent] create Provider';
+  constructor(public payload: Provider) { }
+}
+export class OnCreateProviderFail {
+  static readonly type = '[user] create Provider fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateProviderSuccess {
+  static readonly type = '[user] create Provider success';
+  constructor(public payload) { }
+}
+export class GetProviderById {
+  static readonly type = '[user] get Provider';
+  constructor(public payload: number) { }
 }

@@ -13,13 +13,12 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
+
+    &-date{
+    width:30%;
+    padding: 0;
+    margin:0;
   }
-  &-textarea{
-    min-height: 200px;
-    border: 1px solid #E3E3E3;
-    box-sizing: border-box;
-    border-radius: 21px;
-    padding: 1.2rem;
   }
   &-text{
     font-family:Open Sans;

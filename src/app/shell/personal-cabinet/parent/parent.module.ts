@@ -19,6 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ParentCreateChildComponent } from './parent-create-child/parent-create-child.component';
 import { ChildCardComponent } from './parent-config/child-card/child-card.component';
 import { UserState } from 'src/app/shared/store/user.state';
+import { CreateApplicationComponent } from '../../workshop-details/create-application/create-application.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { UserState } from 'src/app/shared/store/user.state';
     ChildCardComponent,
     ParentCreateChildComponent,
     ChildFormComponent,
+    CreateApplicationComponent
   ],
   imports: [
     CommonModule,
