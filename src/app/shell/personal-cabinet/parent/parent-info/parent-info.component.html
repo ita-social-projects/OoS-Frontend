@@ -3,6 +3,15 @@
   <a [routerLink]="'./create-child'"><button class="btn" mat-raised-button>Додати дитину</button></a> 
 </div>
 
+<div *ngIf="(children | async)?.length then ChildList"></div>
 
-
-<!-- <div *ngIf="(children$ | async)?.length then СhildrenList"></div> -->
+<ng-template #ChildList>
+  <div class="wrapper-card">
+    <ng-container>
+      <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
+        <app-child-card class="cards" *ngFor="let child of children | async " [child]="child">
+        </app-child-card>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

@@ -17,14 +17,13 @@ import { ChildFormComponent } from './parent-create-child/child-form/child-form.
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ParentCreateChildComponent } from './parent-create-child/parent-create-child.component';
-import { ChildCardComponent } from './parent-config/child-card/child-card.component';
 import { ParentInfoComponent } from './parent-info/parent-info.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
   declarations: [
     ParentConfigComponent,
-    ChildCardComponent,
     ParentCreateChildComponent,
     ChildFormComponent,
     ParentInfoComponent,
@@ -44,6 +43,7 @@ import { ParentInfoComponent } from './parent-info/parent-info.component';
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
+    SharedModule
   ],
   providers: [
   ]
