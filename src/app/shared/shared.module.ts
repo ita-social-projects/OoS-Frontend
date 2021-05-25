@@ -29,6 +29,7 @@ import { PersonCardComponent } from './components/person-card/person-card.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
+import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
     PriceFilterComponent,
     CategoryCheckBoxComponent,
     PersonCardComponent,
+    WorkingHoursFormControlComponent,
   ],
   imports: [
     MaterialModule,
@@ -88,6 +90,7 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
     FormsModule,
     CategoryCheckBoxComponent,
     PersonCardComponent,
+    WorkingHoursFormControlComponent
   ]
 })
 export class SharedModule { }
