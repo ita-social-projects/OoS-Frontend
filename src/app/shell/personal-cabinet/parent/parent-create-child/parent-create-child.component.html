@@ -6,10 +6,9 @@
       <p class="wrapper_text"> Ви завжди можете додати цю інформацію
         у вашому особистому кабінеті.</p>
     </div>
-
     <ng-container>
       <app-child-form *ngFor="let form of ChildrenFormArray.controls" [ChildFormGroup]="form"
-        [index]="childrenFormArray.controls.indexOf(form)" [childrenAmount]="ChildrenFormArray.controls.length"
+        [index]="ChildrenFormArray.controls.indexOf(form)" [childrenAmount]="ChildrenFormArray.controls.length"
         (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
     <div fxLayout='column' fxLayoutAlign='center center'>
@@ -25,6 +24,5 @@
         <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
       </div>
     </div>
-
   </div>
 </div>
