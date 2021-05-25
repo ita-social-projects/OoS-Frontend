@@ -7,8 +7,8 @@ import { ParentInfoComponent } from './parent-info/parent-info.component';
 
 const routes: Routes = [
   { path: 'config', component: ParentConfigComponent },
-  { path: 'info', component: ParentCreateChildComponent },
-  { path: 'info/create-child', component: ParentCreateChildComponent },
+  { path: 'info', component: ParentInfoComponent  },
+  { path: 'create-child', component: ParentCreateChildComponent },
   { path: 'create-application', component: CreateApplicationComponent },
 
 ];

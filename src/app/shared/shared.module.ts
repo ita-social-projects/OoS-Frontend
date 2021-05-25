@@ -90,6 +90,7 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     FormsModule,
     CategoryCheckBoxComponent,
     PersonCardComponent,
+    ChildCardComponent
   ]
 })
 export class SharedModule { }
