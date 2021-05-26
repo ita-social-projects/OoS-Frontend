@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ChildFormComponent } from './parent-create-child/child-form/child-form.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ParentCreateChildComponent } from './parent-create-child/parent-create-child.component';
-import { ChildCardComponent } from './parent-config/child-card/child-card.component';
+import { ParentInfoComponent } from './parent-info/parent-info.component';
 import { CreateApplicationComponent } from '../../workshop-details/create-application/create-application.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -24,9 +24,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     ParentConfigComponent,
-    ChildCardComponent,
     ParentCreateChildComponent,
     ChildFormComponent,
+    ParentInfoComponent,
     CreateApplicationComponent
   ],
   imports: [
@@ -41,6 +41,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatCheckboxModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    SharedModule,
     MatIconModule,
     SharedModule,
     MatRadioModule,
@@ -48,6 +50,5 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
   providers: [
   ]
-
 })
 export class ParentModule { }

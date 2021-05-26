@@ -25,4 +25,27 @@
       </div>
     </div>
   </div>
+  <ng-container> 
+    <app-child-form  *ngFor="let form of ChildrenFormArray.controls" 
+     [ChildFormGroup]="form" 
+     [index]="childrenFormArray.controls.indexOf(form)"  
+     [childrenAmount]="childrenFormArray.controls.length"
+     (deleteForm)="deleteForm($event)"></app-child-form> 
+  </ng-container>
+  <div class="add-button"> 
+    <button mat-button (click)="addChild()"><span class="add-icon"><mat-icon>add</mat-icon> </span>Додати ще одну дитину</button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center" class="span-width">
+    <span>
+     Додаючи дані про дитину я погоджуюсь з <button class="button-reset">Правилами користування </button>
+     та надаю згоду на обробку персональних даних
+    </span>
+  </div>
+  <div class="buttons">
+    <button class="button" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="'./../info'">Додати пiзнiше</a></button>
+    <button class="button button-blue" type="submit" mat-raised-button  (click)="onSubmit()">Зберегти</button>
+  </div>
 </div>
+  
+
+   
