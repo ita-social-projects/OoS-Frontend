@@ -6,7 +6,6 @@ import { ParentCreateChildComponent } from './parent-create-child/parent-create-
 
 const routes: Routes = [
   { path: 'config', component: ParentConfigComponent },
-  { path: 'create-child', component: ParentCreateChildComponent },
   { path: 'create-application', component: CreateApplicationComponent },
 ];
 @NgModule({
