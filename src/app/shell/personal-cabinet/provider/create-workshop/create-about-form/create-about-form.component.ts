@@ -30,12 +30,14 @@ export class CreateAboutFormComponent implements OnInit {
       daysPerWeek: new FormControl(''),
       price: new FormControl(1),
       priceType: new FormControl(''),
+      workingHours: new FormControl(''),
     });
     this.onPriceCtrlInit();
   }
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
+    this.AboutFormGroup.get('workingHours').valueChanges.subscribe(val => console.log(val))
   }
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup

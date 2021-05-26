@@ -18,7 +18,6 @@ export class WorkingHoursFormControlComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
-
   selectedWorkingHours: SelectedTime = {
     day: '',
     timeFrom: '',
@@ -73,10 +72,12 @@ export class WorkingHoursFormControlComponent implements OnInit {
     this.TimeFormGroup.get('timeFrom').valueChanges.subscribe((val) => {
       if (val && this.selectedWorkingHours.day)
         this.selectedWorkingHours.timeFrom = val;
+      this.onChange(this.selectedWorkingHours);
     })
     this.TimeFormGroup.get('timeTo').valueChanges.subscribe((val) => {
       if (val && this.selectedWorkingHours.day)
         this.selectedWorkingHours.timeTo = val;
+      this.onChange(this.selectedWorkingHours);
     })
   }
 
@@ -95,8 +96,6 @@ export class WorkingHoursFormControlComponent implements OnInit {
         } else {
           this.days[i].selected = false;
         }
-
-        console.log(this.selectedWorkingHours)
       }
     }
   }
