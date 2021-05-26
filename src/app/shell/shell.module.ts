@@ -37,11 +37,6 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
   providers: [
     PersonalCabinetGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpErrorInterceptor,
-    //   multi: true
-    // }
   ]
 })
 export class ShellModule { }
