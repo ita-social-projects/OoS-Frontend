@@ -1,30 +1,28 @@
-<div class="container" fxLayout="column" fxLayoutAlign="center center">
-  <h1 class="h1-child">Додати дані про дитину</h1>
-  <div class="span">
-    <span>Щоб відслідковувати заяки і активності вашої дитини. </span>
-    <p>Ви завжди можете додати цю інформацію у вашому особистому кабінеті.</p> 
-  </div>
-  <ng-container> 
-    <app-child-form  *ngFor="let form of childrenFormArray.controls" 
-     [ChildFormGroup]="form" 
-     [index]="childrenFormArray.controls.indexOf(form)"  
-     [childrenAmount]="childrenFormArray.controls.length"
-     (deleteForm)="deleteForm($event)"></app-child-form> 
-  </ng-container>
-  <div class="add-button"> 
-    <button mat-button (click)="addChild()"><span class="add-icon"><mat-icon>add</mat-icon> </span>Додати ще одну дитину</button>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="center" class="span-width">
-    <span>
-     Додаючи дані про дитину я погоджуюсь з <button class="button-reset">Правилами користування </button>
-     та надаю згоду на обробку персональних даних
-    </span>
-  </div>
-  <div class="buttons">
-    <button class="button" type="submit" mat-raised-button  (click)="onSubmit()"><a [routerLink]="'./../config'">Додати пiзнiше</a></button>
-    <button class="button button-blue" type="submit" mat-raised-button  (click)="onSubmit()">Зберегти</button>
+<div fxLayout='row' fxLayoutAlign='center center'>
+  <div class="wrapper">
+    <div fxLayout='column' fxLayoutAlign='center center'>
+      <h3 class="wrapper_title">ДОДАТИ ДАНІ ПРО ДИТИНУ</h3>
+      <p class="wrapper_text">Щоб відслідковувати заяки і активності вашої дитини.</p>
+      <p class="wrapper_text"> Ви завжди можете додати цю інформацію
+        у вашому особистому кабінеті.</p>
+    </div>
+    <ng-container>
+      <app-child-form *ngFor="let form of ChildrenFormArray.controls" [ChildFormGroup]="form"
+        [index]="ChildrenFormArray.controls.indexOf(form)" [childrenAmount]="ChildrenFormArray.controls.length"
+        (deleteForm)="onDeleteForm($event)"></app-child-form>
+    </ng-container>
+    <div fxLayout='column' fxLayoutAlign='center center'>
+      <button class="btn-add" mat-button (click)="addChild()">
+        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
+      </button>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        Додаючи дані про дитину я погоджуюсь з <a class="link">Правилами користування </a>
+        та надаю згоду на обробку персональних даних
+      </div>
+      <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+        <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
+      </div>
+    </div>
   </div>
 </div>
-  
-
-   

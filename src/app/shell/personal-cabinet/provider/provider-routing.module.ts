@@ -7,10 +7,9 @@ import { CreateProviderComponent } from './create-provider/create-provider.compo
 
 const routes: Routes = [
   { path: 'create-provider', component: CreateProviderComponent },
-  { path: 'create-workshop', component: CreateWorkshopComponent },
+  // { path: 'create-workshop', component: CreateWorkshopComponent },
   { path: 'config', component: ProviderConfigComponent },
   { path: 'info', component: ProviderOrgInfoComponent }
-
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -4,7 +4,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss', './../../validation.component.scss']
+  styleUrls: ['./create-about-form.component.scss']
 })
 export class CreateAboutFormComponent implements OnInit {
 

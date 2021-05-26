@@ -12,17 +12,19 @@ import { CreateChildren } from 'src/app/shared/store/user.actions';
 })
 export class ParentCreateChildComponent implements OnInit {
 
-  childrenFormArray = new FormArray([]);
+  ChildrenFormArray = new FormArray([]);
 
-  constructor(private store: Store, private fb: FormBuilder) {
-
-  }
+  constructor(private store: Store, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.childrenFormArray.push(this.newForm());
-
+    this.ChildrenFormArray.push(this.newForm());
   }
+
+  /**
+  * This method create new FormGroup
+  * @param FormArray array
+  */
   newForm(): FormGroup {
     const childFormGroup = this.fb.group({
       lastName: new FormControl(''),
@@ -36,16 +38,27 @@ export class ParentCreateChildComponent implements OnInit {
     return childFormGroup;
   }
 
+  /**
+  * This method create new FormGroup add new FormGroup to the FormArray
+  */
   addChild() {
-    this.childrenFormArray.push(this.newForm());
-  }
-  deleteForm(index): void {
-    this.childrenFormArray.removeAt(index)
+    this.ChildrenFormArray.push(this.newForm());
   }
 
+  /**
+  * This method delete FormGroup from teh FormArray by index
+  * @param index
+  */
+  onDeleteForm(index): void {
+    this.ChildrenFormArray.removeAt(index)
+  }
+
+  /**
+  * This method create CHild and distpatch CreateChild action
+  */
   onSubmit() {
-    for (let i = 0; i < this.childrenFormArray.controls.length; i++) {
-      let child: Child = new Child(this.childrenFormArray.controls[i].value);
+    for (let i = 0; i < this.ChildrenFormArray.controls.length; i++) {
+      let child: Child = new Child(this.ChildrenFormArray.controls[i].value);
       this.store.dispatch(new CreateChildren(child))
     }
   }
