@@ -48,7 +48,6 @@ export class ImageFormControlComponent implements OnInit {
         this.onChange(this.selectedImages);
       }
     }
-
   }
   /**
    * This methods decodes the file for its correct displaying

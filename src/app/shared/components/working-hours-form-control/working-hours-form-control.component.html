@@ -4,20 +4,18 @@
       (click)="onToggleDays(day)" [value]="day" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
       {{day.value}}</div>
   </div>
-  <div fxLayout='row' fxLayoutAlign='space-between center'>
-    <div fxLayout='row' fxLayoutAlign='start center'>
-      <mat-form-field>
-        <div fxLayout='row' fxLayoutAlign='center center'>
-          <p class="text">Від</p>
-          <input matInput class="input" type="time">
-        </div>
-      </mat-form-field>
-      <mat-form-field>
-        <div fxLayout='row' fxLayoutAlign='center center'>
-          <p class="text">До</p>
-          <input matInput class="input" type="time">
-        </div>
-      </mat-form-field>
-    </div>
-  </div>
+  <form [formGroup]="TimeFormGroup" fxLayout='row' fxLayoutAlign='space-between center'>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='center center'>
+        <p class="text">Від</p>
+        <input matInput class="input" type="time" formControlName="timeFrom">
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='center center'>
+        <p class="text">До</p>
+        <input matInput class="input" type="time" formControlName="timeTo">
+      </div>
+    </mat-form-field>
+  </form>
 </div>
