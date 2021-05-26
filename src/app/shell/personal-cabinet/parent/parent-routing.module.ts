@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: 'info', component: ParentInfoComponent  },
   { path: 'create-child', component: ParentCreateChildComponent },
   { path: 'create-application', component: CreateApplicationComponent },
-
 ];
 
 @NgModule({

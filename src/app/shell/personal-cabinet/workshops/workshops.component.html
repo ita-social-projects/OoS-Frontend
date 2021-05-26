@@ -1,6 +1,6 @@
 <div *ngIf="user.role==='provider'" class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
   <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="'./../provider/create-workshop'"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  <a [routerLink]="'/create-workshop'"><button class="btn" mat-raised-button>Додати гурток</button></a>
 </div>
 
 <div *ngIf="(workshops$ | async)?.length then WorkshopsList"></div>

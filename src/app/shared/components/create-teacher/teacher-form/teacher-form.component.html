@@ -1,40 +1,37 @@
-<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
-  [ngClass]="(teacherAmount>1) ? 'form-border' : ''">
-  <ng-template matStepLabel>Опис</ng-template>
-
+<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
+  [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
   <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
 
-  <label class="form-label">Призвіще<span class="form-required">*</span></label>
+  <label class="step-label"> Призвіще <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="form-input" type="text" formControlName="lastName" required>
+    <input matInput class="step-input" type="text" formControlName="lastName" required>
+  </mat-form-field>
+  <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="firstName" required>
+  </mat-form-field>
+  <label class="step-label"> По-батькові <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="middleName" required>
   </mat-form-field>
 
-  <label class="form-label">Ім'я<span class="form-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="form-input" type="text" formControlName="firstName" required>
-  </mat-form-field>
-
-  <label class="form-label">По-батькові</label>
-  <mat-form-field>
-    <input matInput class="form-input" type="text" formControlName="middleName">
-  </mat-form-field>
-
-  <label class="form-label">Дата народження<span class="form-required">*</span></label>
-  <mat-form-field class="form-input form-input_date">
-    <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
+  <label class="step-label">Дата народження<span class="step-required">*</span></label>
+  <mat-form-field class="step-input step-input-date">
+    <input matInput [matDatepicker]="picker" formControlName="directorBirthDay" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <label class="form-label">Опис</label>
+  <label class="step-label"> Опис <span class="step-required">*</span></label>
   <mat-form-field>
-    <textarea matInput class="form-textarea" placeholder="Максимум 500 символів"
-      formControlName="description"></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
+      required></textarea>
   </mat-form-field>
-</form>
 
-<div fxLayout='row' fxLayoutAlign='center'>
-  <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()">
-    <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
-  </button>
-</div>
+  <div fxLayout='row' fxLayoutAlign='center'>
+    <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
+    </button>
+  </div>
+
+</form>

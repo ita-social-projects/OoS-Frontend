@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
+import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
+import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 @NgModule({
   declarations: [
     MainComponent,
@@ -36,12 +38,9 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
   ],
   providers: [
     PersonalCabinetGuard,
+    ProviderGuard,
+    ParentGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpErrorInterceptor,
-    //   multi: true
-    // }
   ]
 })
 export class ShellModule { }
