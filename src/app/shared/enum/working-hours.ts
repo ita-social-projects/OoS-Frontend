@@ -3,7 +3,7 @@ export enum WorkingDays {
   tuesday = 'ВТ',
   wednesday = 'СР',
   thursday = 'ЧТ',
-  friday = ' ПТ',
+  friday = 'ПТ',
   saturday = 'СБ',
   sunday = 'ВС'
 }

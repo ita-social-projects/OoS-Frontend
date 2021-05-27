@@ -24,7 +24,9 @@ export class WorkingHoursFormControlComponent implements OnInit {
     timeTo: ''
   };
 
-  @Output() passTimeFormGroup = new EventEmitter();
+  timeFromControl = new FormControl('');
+  timeToControl = new FormControl('');
+
   touched = false;
   disabled = false;
 
@@ -61,25 +63,9 @@ export class WorkingHoursFormControlComponent implements OnInit {
     }
   ];
 
-  constructor(private formBuilder: FormBuilder) {
-    this.TimeFormGroup = this.formBuilder.group({
-      timeFrom: new FormControl(''),
-      timeTo: new FormControl(''),
-    });
-  }
+  constructor() { }
 
-  ngOnInit(): void {
-    this.TimeFormGroup.get('timeFrom').valueChanges.subscribe((val) => {
-      if (val && this.selectedWorkingHours.day)
-        this.selectedWorkingHours.timeFrom = val;
-      this.onChange(this.selectedWorkingHours);
-    })
-    this.TimeFormGroup.get('timeTo').valueChanges.subscribe((val) => {
-      if (val && this.selectedWorkingHours.day)
-        this.selectedWorkingHours.timeTo = val;
-      this.onChange(this.selectedWorkingHours);
-    })
-  }
+  ngOnInit(): void { }
 
   /**
   * This method check value, add it to the list of selected working days and distpatch filter action
@@ -103,8 +89,7 @@ export class WorkingHoursFormControlComponent implements OnInit {
   onChange = (selectedTime: SelectedTime) => { };
   onTouched = () => { };
 
-  writeValue(selectedTime: SelectedTime) {
-  }
+  writeValue(selectedTime: SelectedTime) { }
   registerOnChange(onChange: any) {
     this.onChange = onChange;
   }

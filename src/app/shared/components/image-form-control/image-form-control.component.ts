@@ -21,13 +21,10 @@ export class ImageFormControlComponent implements OnInit {
   selectedImages: File[] = [];
   decodedImages = [];
 
-
-  resultImageArray = [];
   touched = false;
   disabled = false;
   @Input() imgMaxAmount: number;
   @Input() label: string;
-  @Output() passPhotoFormArray = new EventEmitter();
 
   constructor() { }
 

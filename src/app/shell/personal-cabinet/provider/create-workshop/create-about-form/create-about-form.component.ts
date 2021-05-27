@@ -37,7 +37,11 @@ export class CreateAboutFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.AboutFormGroup.get('workingHours').valueChanges.subscribe(val => console.log(val))
+    this.AboutFormGroup.get('workingHours').valueChanges.subscribe(val => {
+      if (val) {
+        console.log(val)
+      }
+    })
   }
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
