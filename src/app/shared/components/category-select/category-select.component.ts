@@ -1,7 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Store } from '@ngxs/store';
 import { CategorySelect } from '../../models/category-select.model';
+import { Category } from '../../models/category.model';
 import { CategorySelectService } from '../../services/category-select/category-select.service';
+import { GetCategories } from '../../store/meta-data.actions';
 
 @Component({
   selector: 'app-category-select',
@@ -11,7 +14,7 @@ import { CategorySelectService } from '../../services/category-select/category-s
 export class CategorySelectComponent implements OnInit {
   @Output() categoriesSelect = new EventEmitter<FormGroup>();
   //lists of options in dropdowns
-  data: CategorySelect[] = [];
+  data: Category[] = [];
   category: object = {};
   subcategories: string[] = [];
   study: string[] = [];
@@ -20,30 +23,20 @@ export class CategorySelectComponent implements OnInit {
   selectedStudy = new FormControl('');
   CategoryFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private service: CategorySelectService) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.CategoryFormGroup = this.formBuilder.group({
       id: new FormControl(''),
       title: new FormControl(''),
-      subcategories: [
-        {
-          id: new FormControl(''),
-          title: new FormControl(''),
-          study: [
-            {
-              id: new FormControl(''),
-              title: new FormControl('')
-            }
-          ]
-        }
-      ]
     });
   }
 
   ngOnInit(): void {
-    this.service.getCategories().subscribe(categories => {
-      this.data = categories;
-      this.getCategories(this.data);
-    });
+    this.store.dispatch(new GetCategories());
+
+    // this.service.getCategories().subscribe(categories => {
+    //   this.data = categories;
+    //   this.getCategories(this.data);
+    // });
 
     this.categoriesSelect.emit(this.CategoryFormGroup);
   }

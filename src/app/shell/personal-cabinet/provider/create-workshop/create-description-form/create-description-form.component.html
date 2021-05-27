@@ -1,42 +1,42 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
-    <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
-    </app-image-form-control>
-    <label class="step-label"> Опис <span class="step-required">*</span></label>
-    <mat-form-field>
-        <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
-            required></textarea>
-    </mat-form-field>
-    <label class="step-label"> Директор <span class="step-required">*</span></label>
-    <mat-form-field>
-        <input matInput class="step-input" placeholder="П.І.Б." formControlName="head" required>
-    </mat-form-field>
-    <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
-    <mat-form-field>
-        <input matInput class="step-input" placeholder="Пандус/спец. обладнання"
-            formControlName="disabilityOptionsDesc">
-    </mat-form-field>
-    <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
-    <mat-select class="step-input" placeholder="Почніть вводити напрямок або виберіть зі списку"
+  <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
+  </app-image-form-control>
+  <label class="step-label"> Опис <span class="step-required">*</span></label>
+  <mat-form-field>
+    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
+      required></textarea>
+  </mat-form-field>
+  <label class="step-label"> Директор <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" placeholder="П.І.Б." formControlName="head" required>
+  </mat-form-field>
+  <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
+  <mat-form-field>
+    <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
+  </mat-form-field>
+  <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
+  <!-- <mat-select class="step-input" placeholder="Почніть вводити напрямок або виберіть зі списку"
         formControlName="category">
         <mat-option value="напрямок1"> Напрямок1 </mat-option>
         <mat-option value="напрямок2"> Напрямок2 </mat-option>
-    </mat-select>
-    <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
-        щоб додати тегу
-        <div class="step-input" style="min-height:100px">
-            <mat-chip-list #chipList>
-                <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-                    {{keyWord.keyWord}}
-                    <mat-icon matChipRemove>cancel</mat-icon>
-                </mat-chip>
-                <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="onAddKeyWord($event)">
-            </mat-chip-list>
-        </div>
-    </label>
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
-        <mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
-            {{keyWord.keyWord}}
-        </mat-option>
-    </mat-autocomplete>
+    </mat-select> -->
+  <app-category-select></app-category-select>
+  <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
+    щоб додати тегу
+    <div class="step-input" style="min-height:100px">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
+          {{keyWord.keyWord}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="onAddKeyWord($event)">
+      </mat-chip-list>
+    </div>
+  </label>
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
+    <mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
+      {{keyWord.keyWord}}
+    </mat-option>
+  </mat-autocomplete>
 </form>

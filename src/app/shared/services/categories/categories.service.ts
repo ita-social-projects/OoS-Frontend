@@ -25,7 +25,7 @@ export class CategoriesService {
     return this.http.get<Subcategory[]>('/Subcategory/Get');
   }
 
-  getBySubcategoryId(id: number): Observable<Subcategory[]> {
+  getBySubcategoryByCategoryId(id: number): Observable<Subcategory[]> {
     return this.http.get<Subcategory[]>(`/Subcategory/GetByCategoryId/{id}/${id}`);
   }
 
@@ -33,7 +33,7 @@ export class CategoriesService {
     return this.http.get<Subsubcategory[]>('/Subsubcategory/Get');
   }
 
-  getBySubsubcategoryId(id: number): Observable<Subsubcategory[]> {
+  getBySubsubcategoryBySubcategoryId(id: number): Observable<Subsubcategory[]> {
     return this.http.get<Subsubcategory[]>(`/Subsubcategory/GetBySubcategoryId/${id}`);
   }
 }
