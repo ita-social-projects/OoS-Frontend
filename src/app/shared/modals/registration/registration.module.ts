@@ -5,19 +5,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthModule, LogLevel, OidcConfigService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { LocalSessionManagerService } from '../../services/local-session-manager/local-session-manager.service';
 
 export function configureAuth(oidcConfigService: OidcConfigService): any {
- 
-  return () =>{ 
-      oidcConfigService.withConfig({
-        clientId: 'angular',
-        stsServer: environment.stsServer,
-        responseType: 'code',
-        redirectUrl: window.location.origin,
-        postLogoutRedirectUri: window.location.origin,
-        scope: 'openid outofschoolapi.read',
-        logLevel: LogLevel.Debug,})  
-  }  
+
+  return () => {
+    oidcConfigService.withConfig({
+      clientId: 'angular',
+      stsServer: environment.stsServer,
+      responseType: 'code',
+      redirectUrl: window.location.origin,
+      postLogoutRedirectUri: window.location.origin,
+      scope: 'openid outofschoolapi.read',
+      logLevel: LogLevel.Debug,
+    })
+  }
 }
 
 @NgModule({
@@ -25,10 +27,11 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
   ],
   imports: [
     BrowserModule,
-    AuthModule.forRoot(),
+    AuthModule.forRoot({ storage: LocalSessionManagerService }),
     HttpClientModule
   ],
   providers: [
+    LocalSessionManagerService,
     OidcConfigService,
     {
       provide: APP_INITIALIZER,

@@ -11,13 +11,15 @@ import { User } from '../models/user.model';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
+  checkSessionChanged: boolean,
 }
 
 @State<RegistrationStateModel>({
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    user: undefined
+    user: undefined,
+    checkSessionChanged: false,
   }
 })
 @Injectable()
