@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 @Component({
   selector: 'app-create-address',
   templateUrl: './create-address.component.html',
-  styleUrls: ['./create-address.component.scss', './../../validation.component.scss']
+  styleUrls: ['./create-address.component.scss']
 })
 export class CreateAddressComponent implements OnInit {
 

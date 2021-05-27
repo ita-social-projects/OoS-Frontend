@@ -19,9 +19,6 @@
       color: #AAAAAA;
       padding: 0.2rem;
     }
-    &_check-box{
-      margin: 40px;
-    }
 }
 .btn{
   color:white;
@@ -31,12 +28,31 @@
   border-radius: 20px;
   padding: 2px 30px;
   margin: 0 1rem;
+
+  &-add{
+  margin:0;
+  color: #3849F9;
+}
   &_cancel{
     color: #444444;
     background-color:transparent;
     border-color: #444444;
   }
+  .btn-add{
+    margin:0;
+    color: #3849F9;
+  }
+}
+.mat-icon-add {
+  vertical-align: middle;
+  height: 26px;
+  color: #3849F9;
 }
 .footer{
   margin:20px;
+}
+.link{
+  text-decoration: underline;
+  color: #3849F9;
+  cursor: pointer;
 }

@@ -9,7 +9,7 @@
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>Інформація про заклад</ng-template>
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)"></app-create-info-form>
-        <div fxLayout='row' fxLayoutAlign='center center'>
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <a [routerLink]="''"> <button class="btn btn_cancel" mat-raised-button> Скасувати
             </button></a>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
@@ -20,7 +20,7 @@
         <ng-template matStepLabel>Контакти</ng-template>
         <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)"></app-create-contacts-form>
-        <div fxLayout='row' fxLayoutAlign='center center'>
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''"> Скасувати
             </a></button>
@@ -40,7 +40,7 @@
             не робот
           </mat-checkbox>
         </div>
-        <div fxLayout='row' fxLayoutAlign='center center'>
+        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"

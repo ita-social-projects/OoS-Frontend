@@ -17,11 +17,18 @@ export class CreateTeacherComponent implements OnInit {
     this.onAddTeacher();
   }
 
+  /**
+  * This method add new FormGroup to teh FormArray
+  */
   onAddTeacher(): void {
     this.TeacherFormArray.push(this.onCreateNewForm());
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
+  /**
+  * This method create new FormGroup
+  * @param FormArray array
+  */
   onCreateNewForm(): FormGroup {
     const teacherFormGroup = this.fb.group({
       img: new FormControl(''),
@@ -34,6 +41,10 @@ export class CreateTeacherComponent implements OnInit {
     return teacherFormGroup;
   }
 
+  /**
+  * This method delete form from teh FormArray by index
+  * @param index
+  */
   onDeleteForm(index): void {
     this.TeacherFormArray.removeAt(index)
   }
