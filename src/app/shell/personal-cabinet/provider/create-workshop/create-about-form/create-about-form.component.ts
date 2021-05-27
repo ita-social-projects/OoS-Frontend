@@ -28,7 +28,7 @@ export class CreateAboutFormComponent implements OnInit {
       facebook: new FormControl(''),
       instagram: new FormControl(''),
       daysPerWeek: new FormControl(''),
-      price: new FormControl(1),
+      price: new FormControl(0),
       priceType: new FormControl(''),
       workingHours: new FormControl(''),
     });
@@ -44,7 +44,7 @@ export class CreateAboutFormComponent implements OnInit {
    */
   onPriceCtrlInit(): void {
     this.priceCtrl.valueChanges.subscribe(val =>
-      val ? this.AboutFormGroup.get('price').setValue(val) : this.AboutFormGroup.get('price').setValue(1))
+      val ? this.AboutFormGroup.get('price').setValue(val) : this.AboutFormGroup.get('price').setValue(0))
     this.radioBtn.valueChanges.subscribe(val => {
       val ? this.priceCtrl.enable() : this.priceCtrl.disable();
     });
