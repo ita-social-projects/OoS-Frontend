@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
@@ -43,9 +43,6 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
-      categoryId: new FormControl(''),
-      subcategoryId: new FormControl(''),
-      subsubcategoryId: new FormControl(''),
       category: new FormControl(''),
       subcategory: new FormControl(''),
       subsubcategory: new FormControl(''),
@@ -154,24 +151,14 @@ export class CreateDescriptionFormComponent implements OnInit {
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     this.CategoriesFormGroup = categoriesForm;
 
-    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val => {
-      if (val) this.DescriptionFormGroup.get('categoryId').setValue(val.id)
-    })
-    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val => {
-      if (val) this.DescriptionFormGroup.get('subcategoryId').setValue(val.id)
-    })
-    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val => {
-      if (val) this.DescriptionFormGroup.get('subsubcategoryId').setValue(val.id)
-    })
-
-    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val => {
-      if (val) this.DescriptionFormGroup.get('category').setValue(val)
-    })
-    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val => {
-      if (val) this.DescriptionFormGroup.get('subcategory').setValue(val)
-    })
-    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val => {
-      if (val) this.DescriptionFormGroup.get('subsubcategory').setValue(val)
-    })
+    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val =>
+      (val) && this.DescriptionFormGroup.get('category').setValue(val)
+    )
+    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val =>
+      (val) && this.DescriptionFormGroup.get('subcategory').setValue(val)
+    )
+    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val =>
+      (val) && this.DescriptionFormGroup.get('subsubcategory').setValue(val)
+    )
   }
 }
