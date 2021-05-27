@@ -18,6 +18,8 @@ import { KeyWord } from '../../../../../shared/models/keyWord,model';
 export class CreateDescriptionFormComponent implements OnInit {
 
   DescriptionFormGroup: FormGroup;
+  CategoriesFormGroup: FormGroup;
+
   @Output() passDescriptionFormGroup = new EventEmitter();
 
   keyWordsCtrl = new FormControl();
@@ -39,11 +41,15 @@ export class CreateDescriptionFormComponent implements OnInit {
       description: new FormControl('', [Validators.maxLength(500), Validators.required]),
       withDisabilityOptions: new FormControl(false),
       disabilityOptionsDesc: new FormControl(''),
-      category: new FormControl(''),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
+      categoryId: new FormControl(''),
+      subcategoryId: new FormControl(''),
+      subsubcategoryId: new FormControl(''),
+      category: new FormControl(''),
+      subcategory: new FormControl(''),
+      subsubcategory: new FormControl(''),
     });
-
     this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.subscribe((val) => {
       if (val) {
         this.DescriptionFormGroup.get('withDisabilityOptions').setValue(true);
@@ -143,5 +149,29 @@ export class CreateDescriptionFormComponent implements OnInit {
    */
   onValidation(newWord: string, array: KeyWord[]): boolean {
     return (array.filter((word: KeyWord) => word.keyWord.toLowerCase() === newWord.toLowerCase()).length === 0);
+  }
+
+  onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
+    this.CategoriesFormGroup = categoriesForm;
+
+    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val => {
+      if (val) this.DescriptionFormGroup.get('categoryId').setValue(val.id)
+    })
+    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val => {
+      if (val) this.DescriptionFormGroup.get('subcategoryId').setValue(val.id)
+    })
+    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val => {
+      if (val) this.DescriptionFormGroup.get('subsubcategoryId').setValue(val.id)
+    })
+
+    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val => {
+      if (val) this.DescriptionFormGroup.get('category').setValue(val)
+    })
+    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val => {
+      if (val) this.DescriptionFormGroup.get('subcategory').setValue(val)
+    })
+    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val => {
+      if (val) this.DescriptionFormGroup.get('subsubcategory').setValue(val)
+    })
   }
 }

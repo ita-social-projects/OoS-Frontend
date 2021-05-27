@@ -26,7 +26,7 @@ export class CategoriesService {
   }
 
   getBySubcategoryByCategoryId(id: number): Observable<Subcategory[]> {
-    return this.http.get<Subcategory[]>(`/Subcategory/GetByCategoryId/{id}/${id}`);
+    return this.http.get<Subcategory[]>(`/Subcategory/GetByCategoryId/${id}`);
   }
 
   getSubsubcategory(): Observable<Subsubcategory[]> {

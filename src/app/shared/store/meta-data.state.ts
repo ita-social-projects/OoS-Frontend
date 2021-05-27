@@ -5,12 +5,12 @@ import { Category, Subcategory, Subsubcategory } from '../models/category.model'
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
 import { CategoriesService } from '../services/categories/categories.service';
-import { CityList, GetCategories, KeyWordsList } from './meta-data.actions';
+import { CityList, GetCategories, GetSubcategories, GetSubsubcategories, KeyWordsList } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   categories: Category[];
-  subcategory: Subcategory[];
-  subsubcategory: Subsubcategory[];
+  subcategories: Subcategory[];
+  subsubcategories: Subsubcategory[];
   filteredCities: City[];
   filteredkeyWords: KeyWord[];
 }
@@ -19,8 +19,8 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     categories: [],
-    subcategory: [],
-    subsubcategory: [],
+    subcategories: [],
+    subsubcategories: [],
     filteredCities: [],
     filteredkeyWords: [],
   }
@@ -36,10 +36,10 @@ export class MetaDataState {
   static categories(state: MetaDataStateModel): Category[] { return state.categories }
 
   @Selector()
-  static subcategory(state: MetaDataStateModel): Subcategory[] { return state.subcategory }
+  static subcategories(state: MetaDataStateModel): Subcategory[] { return state.subcategories }
 
   @Selector()
-  static subsubcategory(state: MetaDataStateModel): Subsubcategory[] { return state.subsubcategory }
+  static subsubcategories(state: MetaDataStateModel): Subsubcategory[] { return state.subsubcategories }
 
   @Selector()
   static filteredkeyWords(state: MetaDataStateModel): KeyWord[] { return state.filteredkeyWords }
@@ -52,25 +52,25 @@ export class MetaDataState {
     return this.categoriesService
       .getCategories()
       .pipe(
-        tap((appCategories: Category[]) => patchState({ categories: appCategories })
+        tap((categories: Category[]) => patchState({ categories: categories })
         ))
   }
 
-  @Action(GetCategories)
-  getCategories({ patchState }: StateContext<MetaDataStateModel>, { }: GetCategories) {
+  @Action(GetSubcategories)
+  getSubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubcategories) {
     return this.categoriesService
-      .getCategories()
+      .getBySubcategoryByCategoryId(payload)
       .pipe(
-        tap((appCategories: Category[]) => patchState({ categories: appCategories })
+        tap((subcategories: Subcategory[]) => patchState({ subcategories: subcategories })
         ))
   }
 
-  @Action(GetCategories)
-  getCategories({ patchState }: StateContext<MetaDataStateModel>, { }: GetCategories) {
+  @Action(GetSubsubcategories)
+  getSubsubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubsubcategories) {
     return this.categoriesService
-      .getCategories()
+      .getBySubsubcategoryBySubcategoryId(payload)
       .pipe(
-        tap((appCategories: Category[]) => patchState({ categories: appCategories })
+        tap((subsubcategories: Subsubcategory[]) => patchState({ subsubcategories: subsubcategories })
         ))
   }
 
