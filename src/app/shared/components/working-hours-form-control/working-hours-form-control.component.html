@@ -1,0 +1,21 @@
+<div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem'>
+  <div fxLayout='row' fxLayoutAlign='space-between' class="days-toggle">
+    <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center'
+      (click)="onToggleDays(day)" [value]="day" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
+      {{day.value}}</div>
+  </div>
+  <div fxLayout='row' fxLayoutAlign='center center'>
+    <p class="text">Від</p>
+    <input matInput class="input" type="time" [disabled]="!workHour.day.length" [(ngModel)]="workHour.timeFrom"
+      (change)="onInputChange($event.target.value)" required>
+  </div>
+  <div fxLayout='row' fxLayoutAlign='center center'>
+    <p class="text">До</p>
+    <input matInput class="input" type="time" [disabled]="!workHour.day.length" [(ngModel)]="workHour.timeTo"
+      (change)="onInputChange($event.target.value)" required>
+  </div>
+
+  <div fxLayout='row' fxLayoutAlign='center center' *ngIf="workingHoursAmount > 1">
+    <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+  </div>
+</div>
