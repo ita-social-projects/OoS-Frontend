@@ -6,10 +6,12 @@
   </div>
   <div fxLayout='row' fxLayoutAlign='center center'>
     <p class="text">Від</p>
-    <input matInput class="input" type="time" [disabled]="!selectedWorkingHours.day">
+    <input matInput class="input" [disabled]="!selectedWorkingHours.day" [(ngModel)]="selectedWorkingHours.timeFrom"
+      (change)="onInputChange($event.target.value)" required type="time">
   </div>
   <div fxLayout='row' fxLayoutAlign='center center'>
     <p class="text">До</p>
-    <input matInput class="input" type="time" [disabled]="!selectedWorkingHours.day">
+    <input matInput class="input" [disabled]="!selectedWorkingHours.day" [(ngModel)]="selectedWorkingHours.timeTo"
+      (change)="onInputChange($event.target.value)" required type="time">
   </div>
 </div>

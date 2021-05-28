@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Constants } from '../../constants/constants';
-import { WorkingDays, WorkingTime } from '../../enum/working-hours';
+import { WorkingDays } from '../../enum/working-hours';
 import { WorkingHours } from '../../models/workingHours.model';
 
 interface SelectedTime {
@@ -12,7 +12,14 @@ interface SelectedTime {
 @Component({
   selector: 'app-working-hours-form-control',
   templateUrl: './working-hours-form-control.component.html',
-  styleUrls: ['./working-hours-form-control.component.scss']
+  styleUrls: ['./working-hours-form-control.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: WorkingHoursFormControlComponent
+    }
+  ]
 })
 export class WorkingHoursFormControlComponent implements OnInit {
 
@@ -23,9 +30,6 @@ export class WorkingHoursFormControlComponent implements OnInit {
     timeFrom: '',
     timeTo: ''
   };
-
-  timeFromControl = new FormControl('');
-  timeToControl = new FormControl('');
 
   touched = false;
   disabled = false;
@@ -84,6 +88,10 @@ export class WorkingHoursFormControlComponent implements OnInit {
         }
       }
     }
+  }
+
+  onInputChange(time: string): void {
+    this.onChange(this.selectedWorkingHours);
   }
 
   onChange = (selectedTime: SelectedTime) => { };
