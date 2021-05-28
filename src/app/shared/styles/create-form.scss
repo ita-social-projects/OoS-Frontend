@@ -104,7 +104,7 @@ button:focus {
   border-radius: 20px;
   padding: 2px 30px;
   margin: 0 1rem;
-  &-reset{
+  &-reset, &-add{
     color: #3849F9;
   }
 }
