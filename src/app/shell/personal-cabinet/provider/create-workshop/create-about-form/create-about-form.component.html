@@ -82,6 +82,16 @@
   </mat-radio-group>
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
-  <app-working-hours-form-control formControlName="workingHours"></app-working-hours-form-control>
 
+  <ng-container>
+    <app-working-hours-form-control *ngFor="let workHour of workingHours" [workHour]="workHour"
+      [workingHoursAmount]="workingHours.length" [index]="workingHours.indexOf(workHour)"
+      (deleteWorkHour)="deleteWorkHour(workHour)" formControlName="workingHours">
+    </app-working-hours-form-control>
+  </ng-container>
+  <div fxLayout='row' fxLayoutAlign='start center'>
+    <button class="btn-add" mat-button (click)="addWorkHour()">
+      <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
+    </button>
+  </div>
 </form>

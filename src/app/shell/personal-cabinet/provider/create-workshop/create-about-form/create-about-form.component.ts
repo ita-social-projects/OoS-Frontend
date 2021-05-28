@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
+import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
@@ -9,6 +10,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class CreateAboutFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
+
+  workingHours: SelectedWorkingHours[] = [];
 
   radioBtn = new FormControl(false);
   priceCtrl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
@@ -37,11 +40,9 @@ export class CreateAboutFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.AboutFormGroup.get('workingHours').valueChanges.subscribe(val => {
-      if (val) {
-        console.log(val)
-      }
-    })
+
+    this.addWorkHour();
+    this.AboutFormGroup.get('workingHours').valueChanges.subscribe(val => console.log(val))
   }
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
@@ -52,5 +53,19 @@ export class CreateAboutFormComponent implements OnInit {
     this.radioBtn.valueChanges.subscribe(val => {
       val ? this.priceCtrl.enable() : this.priceCtrl.disable();
     });
+  }
+
+  addWorkHour(): void {
+    const workHour: SelectedWorkingHours = {
+      day: [],
+      timeFrom: '',
+      timeTo: ''
+    }
+    this.workingHours.push(workHour);
+    console.log(this.workingHours)
+  }
+
+  deleteWorkHour(workHour: SelectedWorkingHours): void {
+    this.workingHours.splice(this.workingHours.indexOf(workHour), 1);
   }
 }

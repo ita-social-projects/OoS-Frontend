@@ -39,4 +39,11 @@
   color: #AAAAAA;
   padding: 5px;
 }
+.mat-icon-delete{
+  color:#3849F9;
+  &:hover{
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
 @import "src/app/shared/styles/validation-form.scss";

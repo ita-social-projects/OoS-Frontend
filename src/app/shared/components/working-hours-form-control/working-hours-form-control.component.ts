@@ -1,14 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Constants } from '../../constants/constants';
 import { WorkingDays } from '../../enum/working-hours';
-import { WorkingHours } from '../../models/workingHours.model';
+import { SelectedWorkingHours, WorkingHours } from '../../models/workingHours.model';
 
-interface SelectedTime {
-  day: string;
-  timeFrom: string;
-  timeTo: string;
-}
 @Component({
   selector: 'app-working-hours-form-control',
   templateUrl: './working-hours-form-control.component.html',
@@ -25,11 +20,11 @@ export class WorkingHoursFormControlComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
-  selectedWorkingHours: SelectedTime = {
-    day: '',
-    timeFrom: '',
-    timeTo: ''
-  };
+  @Input() workHour: SelectedWorkingHours;
+
+  @Input() index: number;
+  @Input() workingHoursAmount: number;
+  @Output() deleteWorkHour = new EventEmitter();
 
   touched = false;
   disabled = false;
@@ -78,26 +73,38 @@ export class WorkingHoursFormControlComponent implements OnInit {
   onToggleDays(day: WorkingHours): void {
     this.markAsTouched();
     if (!this.disabled) {
-      for (let i = 0; i < this.days.length; i++) {
-        if (this.days[i].value === day.value) {
-          this.days[i].selected = true;
-          this.selectedWorkingHours.day = day.value;
-          this.onChange(this.selectedWorkingHours);
-        } else {
-          this.days[i].selected = false;
-        }
+      day.selected = !day.selected;
+      if (day.selected) {
+        this.workHour.day.push(day.value)
+      } else {
+        this.workHour.day.splice(this.workHour.day.indexOf(day.value), 1);
       }
+      this.onChange(this.workHour);
+
+      // for (let i = 0; i < this.days.length; i++) {
+      //   if (this.days[i].value === day.value) {
+      //     this.days[i].selected = true;
+      //     this.workHour.day = day.value;
+      //     this.onChange(this.workHour);
+      //   } else {
+      //     this.days[i].selected = false;
+      //   }
+      // }
     }
   }
 
-  onInputChange(time: string): void {
-    this.onChange(this.selectedWorkingHours);
+  delete(): void {
+    this.deleteWorkHour.emit();
   }
 
-  onChange = (selectedTime: SelectedTime) => { };
+  onInputChange(time: string): void {
+    this.onChange(this.workHour);
+  }
+
+  onChange = (selectedTime: SelectedWorkingHours) => { };
   onTouched = () => { };
 
-  writeValue(selectedTime: SelectedTime) { }
+  writeValue(selectedTime: SelectedWorkingHours) { }
   registerOnChange(onChange: any) {
     this.onChange = onChange;
   }
