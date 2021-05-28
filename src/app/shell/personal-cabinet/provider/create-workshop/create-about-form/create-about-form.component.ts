@@ -42,7 +42,6 @@ export class CreateAboutFormComponent implements OnInit {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
 
     this.addWorkHour();
-    this.AboutFormGroup.get('workingHours').valueChanges.subscribe(val => console.log(val))
   }
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
@@ -62,10 +61,11 @@ export class CreateAboutFormComponent implements OnInit {
       timeTo: ''
     }
     this.workingHours.push(workHour);
-    console.log(this.workingHours)
+    this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
   }
 
   deleteWorkHour(workHour: SelectedWorkingHours): void {
     this.workingHours.splice(this.workingHours.indexOf(workHour), 1);
+    this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
   }
 }
