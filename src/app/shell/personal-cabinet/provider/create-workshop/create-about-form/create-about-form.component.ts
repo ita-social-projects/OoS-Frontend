@@ -10,11 +10,11 @@ import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
 export class CreateAboutFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
-
   workingHours: SelectedWorkingHours[] = [];
 
   radioBtn = new FormControl(false);
   priceCtrl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
+
   AboutFormGroup: FormGroup;
   @Output() PassAboutFormGroup = new EventEmitter();
 
@@ -43,6 +43,7 @@ export class CreateAboutFormComponent implements OnInit {
 
     this.addWorkHour();
   }
+
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
@@ -54,6 +55,9 @@ export class CreateAboutFormComponent implements OnInit {
     });
   }
 
+  /**
+  * This method add new working hours form to the array of working hours
+  */
   addWorkHour(): void {
     const workHour: SelectedWorkingHours = {
       day: [],
@@ -64,6 +68,9 @@ export class CreateAboutFormComponent implements OnInit {
     this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
   }
 
+  /**
+  * This method delete selected working hours form to the array of working hours
+  */
   deleteWorkHour(workHour: SelectedWorkingHours): void {
     this.workingHours.splice(this.workingHours.indexOf(workHour), 1);
     this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
