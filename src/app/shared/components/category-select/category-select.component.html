@@ -1,26 +1,23 @@
-<form>
-  <!-- select reffers to selectedCategory object in component (selectedCategory.value === selected option) -->
-  <mat-select class="custom-select" [formControl]="selectedCategory" name="category" (selectionChange)="handleCategorySelect($event.value)">
-    <mat-option value="">Оберіть напрямок</mat-option>
-    <!-- reffers to direction field for options -->
-    <mat-option *ngFor="let option of category" [value]="option">
-      {{ option }}
+<form [formGroup]="CategoryFormGroup">
+  <mat-select class="step-input" formControlName="category" (selectionChange)="onSelectCategory($event.value)"
+    placeholder="Категорія">
+    <mat-option *ngFor="let category of categories$ | async" [value]="category">
+      {{ category.title }}
     </mat-option>
   </mat-select>
-  <!-- select reffers to selectedSubcategory object in component (selectedSubcategory.value === selected option) -->
-  <mat-select *ngIf="selectedCategory.value !== ''" class="custom-select" [formControl]="selectedSubcategory" name="subcategory" (selectionChange)="handleSubcategorySelect($event.value)">
-    <mat-option value="">Оберіть напрямок</mat-option>
-    <!-- reffers to faculty field for options (will update after field change) -->
-    <mat-option *ngFor="let option of subcategories" [value]="option">
-      {{ option }}
+
+  <mat-select *ngIf="(subcategories$ | async)?.length" class="step-input" formControlName="subcategory"
+    (selectionChange)="onSelectSubcategory($event.value)" placeholder="Сабкатегорія">
+    <mat-option *ngFor="let subcategory of subcategories$ | async" [value]="subcategory">
+      {{ subcategory.title }}
     </mat-option>
   </mat-select>
-    <!-- select reffers to selectedStudy object in component (selectedStudy.value === selected option) -->
-  <mat-select *ngIf="selectedSubcategory.value !== ''" class="custom-select" [formControl]="selectedStudy" name="study" (selectionChange)="handleStudySelect($event.value)">
-    <mat-option value="">Оберіть напрямок</mat-option>
-    <!-- reffers to study field for options (will update after field change) -->
-    <mat-option *ngFor="let option of study" [value]="option">
-      {{ option }}
+
+  <mat-select *ngIf="(subsubcategories$ | async)?.length" class="step-input" formControlName="subsubcategory"
+    placeholder="СабСабкатегорія:))">
+    <mat-option *ngFor="let subsubcategory of subsubcategories$ | async" [value]="subsubcategory">
+      {{ subsubcategory.title }}
     </mat-option>
   </mat-select>
+
 </form>

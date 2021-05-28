@@ -9,8 +9,8 @@ import { FilterStateModel } from '../../../store/filter.state';
 })
 export class AppWorkshopsService {
 
-  dataUrl = '/assets/mock-org-cards.json';
-  // dataUrl = 'http://localhost:5000/Workshop/GetWorkshops';
+  dataUrlMock = '/assets/mock-org-cards.json';
+  dataUrl = '/Workshop/Get';
 
   constructor(private http: HttpClient) { }
 

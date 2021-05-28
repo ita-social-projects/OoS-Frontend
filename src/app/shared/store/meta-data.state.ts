@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Category } from '../models/category.model';
+import { Category, Subcategory, Subsubcategory } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
 import { CategoriesService } from '../services/categories/categories.service';
-import { CityList, GetCategories, KeyWordsList } from './meta-data.actions';
+import { CityList, GetCategories, GetSubcategories, GetSubsubcategories, KeyWordsList } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   categories: Category[];
+  subcategories: Subcategory[];
+  subsubcategories: Subsubcategory[];
   filteredCities: City[];
   filteredkeyWords: KeyWord[];
 }
@@ -17,6 +19,8 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     categories: [],
+    subcategories: [],
+    subsubcategories: [],
     filteredCities: [],
     filteredkeyWords: [],
   }
@@ -26,13 +30,19 @@ export interface MetaDataStateModel {
 export class MetaDataState {
 
   @Selector()
-  static filteredCities(state: MetaDataStateModel) { return state.filteredCities }
+  static filteredCities(state: MetaDataStateModel): City[] { return state.filteredCities }
 
   @Selector()
-  static categories(state: MetaDataStateModel) { return state.categories }
+  static categories(state: MetaDataStateModel): Category[] { return state.categories }
 
   @Selector()
-  static filteredkeyWords(state: MetaDataStateModel) { return state.filteredkeyWords }
+  static subcategories(state: MetaDataStateModel): Subcategory[] { return state.subcategories }
+
+  @Selector()
+  static subsubcategories(state: MetaDataStateModel): Subsubcategory[] { return state.subsubcategories }
+
+  @Selector()
+  static filteredkeyWords(state: MetaDataStateModel): KeyWord[] { return state.filteredkeyWords }
 
   constructor(
     private categoriesService: CategoriesService) { }
@@ -42,7 +52,25 @@ export class MetaDataState {
     return this.categoriesService
       .getCategories()
       .pipe(
-        tap((appCategories: Category[]) => patchState({ categories: appCategories })
+        tap((categories: Category[]) => patchState({ categories: categories })
+        ))
+  }
+
+  @Action(GetSubcategories)
+  getSubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubcategories) {
+    return this.categoriesService
+      .getBySubcategoryByCategoryId(payload)
+      .pipe(
+        tap((subcategories: Subcategory[]) => patchState({ subcategories: subcategories })
+        ))
+  }
+
+  @Action(GetSubsubcategories)
+  getSubsubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubsubcategories) {
+    return this.categoriesService
+      .getBySubsubcategoryBySubcategoryId(payload)
+      .pipe(
+        tap((subsubcategories: Subsubcategory[]) => patchState({ subsubcategories: subsubcategories })
         ))
   }
 

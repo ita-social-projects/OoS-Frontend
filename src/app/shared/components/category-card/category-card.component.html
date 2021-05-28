@@ -1,7 +1,8 @@
 <mat-card class="category">
-  <img class="icon" src="{{category.picture}}" alt="{{ category.title }}">
+  <img class="icon" src="" alt="{{ category.title }}">
   <div class="details">
     <h3 class="title">{{ category.title }}</h3>
+    <p>{{ category.description }}</p>
     <div class="link">
       <a routerLink="/result" (click)="selectCategory(category)">
         {{ workshopsAmount }} {{ getWord() }} <span class="material-icons arrow">arrow_forward</span>

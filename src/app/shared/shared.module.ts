@@ -21,7 +21,6 @@ import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
 import { InfoBoxHostDirective } from './directives/info-box-host.directive';
-import { CategoriesDropdownComponent } from './components/categories-dropdown/categories-dropdown.component';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryCheckBoxComponent } from './components/filters-list/category-check-box/category-check-box.component';
@@ -51,7 +50,6 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
-    CategoriesDropdownComponent,
     WorkingHoursComponent,
     PriceFilterComponent,
     CategoryCheckBoxComponent,
@@ -86,7 +84,6 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
-    CategoriesDropdownComponent,
     FormsModule,
     CategoryCheckBoxComponent,
     PersonCardComponent,
