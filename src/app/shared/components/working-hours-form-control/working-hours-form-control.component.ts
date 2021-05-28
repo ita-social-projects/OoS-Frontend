@@ -80,16 +80,6 @@ export class WorkingHoursFormControlComponent implements OnInit {
         this.workHour.day.splice(this.workHour.day.indexOf(day.value), 1);
       }
       this.onChange(this.workHour);
-
-      // for (let i = 0; i < this.days.length; i++) {
-      //   if (this.days[i].value === day.value) {
-      //     this.days[i].selected = true;
-      //     this.workHour.day = day.value;
-      //     this.onChange(this.workHour);
-      //   } else {
-      //     this.days[i].selected = false;
-      //   }
-      // }
     }
   }
 
