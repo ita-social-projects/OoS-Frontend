@@ -16,10 +16,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const url: string = environment.serverUrl + request.url;
+    const token = this.oidcSecurityService.getToken();
+    const tokenTitle = (token) ? `Bearer ${token}` : null;
 
-    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('http://') !== -1) {
-
+    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('https://') !== -1) {
       return next.handle(request)
         .pipe(
           retry(1),
@@ -30,12 +30,20 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         );
     }
 
-    const token = this.oidcSecurityService.getToken();
-    const tokenTitle = (token) ? `Bearer ${token}` : null;
+    if (request.url.endsWith('.json')) {
+      return next.handle(request.clone({
+        url: environment.mockUrl + request.url,
+      }))
+        .pipe(
+          catchError((error) => {
+            return throwError(error);
+          })
+        );
+    }
 
     if (typeof (token) === 'string') {
       return next.handle(request.clone({
-        url: url,
+        url: environment.serverUrl + request.url,
         setHeaders: { Authorization: tokenTitle }
       }))
         .pipe(
@@ -44,8 +52,9 @@ export class HttpTokenInterceptor implements HttpInterceptor {
           })
         );
     }
+
     return next.handle(request.clone({
-      url: url,
+      url: environment.serverUrl + request.url,
     }))
       .pipe(
         catchError((error) => {
