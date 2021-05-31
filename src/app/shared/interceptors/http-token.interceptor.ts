@@ -19,23 +19,12 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     const token = this.oidcSecurityService.getToken();
     const tokenTitle = (token) ? `Bearer ${token}` : null;
 
-    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('https://') !== -1) {
+    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('https://') !== -1 || request.url.endsWith('.json')) {
       return next.handle(request)
         .pipe(
           retry(1),
           catchError((error: HttpErrorResponse) => {
             this.store.dispatch(new OnAuthFail());
-            return throwError(error);
-          })
-        );
-    }
-
-    if (request.url.endsWith('.json')) {
-      return next.handle(request.clone({
-        url: environment.mockUrl + request.url,
-      }))
-        .pipe(
-          catchError((error) => {
             return throwError(error);
           })
         );

@@ -6,7 +6,6 @@ export const environment = {
   production: true,
   stsServer: 'http://auth.oos.dmytrominochkin.cloud',
   serverUrl: 'http://api.oos.dmytrominochkin.cloud',
-  mockUrl: 'http://localhost:4200/',
 };
 /*
  * For easier debugging in development mode, you can import the following file
