@@ -16,8 +16,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const token = this.oidcSecurityService.getToken();
-    const tokenTitle = (token) ? `Bearer ${token}` : null;
+    const url: string = environment.serverUrl + request.url;
 
     if (request.url.indexOf('http://') !== -1 || request.url.indexOf('https://') !== -1 || request.url.endsWith('.json')) {
       return next.handle(request)
@@ -30,9 +29,12 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         );
     }
 
+    const token = this.oidcSecurityService.getToken();
+    const tokenTitle = (token) ? `Bearer ${token}` : null;
+
     if (typeof (token) === 'string') {
       return next.handle(request.clone({
-        url: environment.serverUrl + request.url,
+        url: url,
         setHeaders: { Authorization: tokenTitle }
       }))
         .pipe(
@@ -43,7 +45,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request.clone({
-      url: environment.serverUrl + request.url,
+      url: url,
     }))
       .pipe(
         catchError((error) => {
