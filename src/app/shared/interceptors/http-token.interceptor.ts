@@ -18,8 +18,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
     const url: string = environment.serverUrl + request.url;
 
-    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('http://') !== -1) {
-
+    if (request.url.indexOf('http://') !== -1 || request.url.indexOf('https://') !== -1 || request.url.endsWith('.json')) {
       return next.handle(request)
         .pipe(
           retry(1),
@@ -44,6 +43,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
           })
         );
     }
+
     return next.handle(request.clone({
       url: url,
     }))
