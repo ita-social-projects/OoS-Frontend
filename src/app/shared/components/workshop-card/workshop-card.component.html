@@ -1,9 +1,6 @@
 <div class="card" [fxLayout]="type" fxLayoutAlign="center center">
   <div class="card_header" fxLayout="row" fxLayoutAlign="end start">
     <div *ngIf="!(isMainPage$ | async) then ProviderActions; else UserActions"></div>
-    <a href="#" class="card_category">
-      <img src="assets/icons/{{workshop.category}}.png" alt="{{workshop.category}}" class="card_category-img">
-    </a>
   </div>
   <div *ngIf="( isMainPage$ | async) then MainView; else ProviderActivities"></div>
   <div class="card_footer">
@@ -15,6 +12,9 @@
 </div>
 <ng-template #MainView>
   <div class="card_body">
+    <a href="#" class="card_category">
+      <img src="assets/icons/{{workshop.category}}.png" alt="{{workshop.category}}" class="card_category-img">
+    </a>
     <h3 class="card_title">
       {{workshop.title}}
     </h3>

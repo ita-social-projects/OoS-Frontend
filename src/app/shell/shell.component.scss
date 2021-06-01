@@ -2,8 +2,14 @@ section {
   padding: 0 5rem;
 }
 
-@media(max-width: 415px) {
+@media(max-width: 780px) {
   section {
-    padding: 2px;
+    padding: 0 1rem;
+  }
+}
+
+@media(max-width: 480px) {
+  section {
+    padding: 0;
   }
 }
