@@ -40,7 +40,6 @@ const routes: Routes = [
     path: 'create-child', component: ParentCreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard]
-
   },
 ];
 

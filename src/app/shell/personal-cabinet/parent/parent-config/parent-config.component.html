@@ -2,13 +2,9 @@
   <h1>Налаштування</h1>
   <mat-card class="parent" fxLayoutAlign='center' fxLayout="row">
     <mat-card-content fxLayoutAlign='space-between center' fxLayout="column">
-     
+
     </mat-card-content>
-   </mat-card>
- <!-- <div class="button-submit">
-    <a [routerLink]="'./../create-child'"><button mat-button>Зареструватись</button>
-    </a>
-  </div> -->
+  </mat-card>
   <ng-container>
     <app-person-card *ngFor="let card of cards" [card]="card" [isChildInfo]="true"></app-person-card>
   </ng-container>
