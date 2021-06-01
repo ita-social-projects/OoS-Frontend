@@ -5,7 +5,6 @@ export class Child {
   lastName: string;
   middleName: string;
   dateOfBirth: string;
-  type: Boolean;
   gender: number;
   parent?: Parent;
   socialGroupId: number;

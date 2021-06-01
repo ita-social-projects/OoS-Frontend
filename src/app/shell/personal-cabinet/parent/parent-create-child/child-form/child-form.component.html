@@ -35,9 +35,9 @@
     </mat-select>
   </mat-form-field>
 
-  <div fxLayout='row' fxLayoutAlign='center'>
+  <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1">
     <button class="btn-reset" type="reset" mat-button (click)="delete()">
-      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину
     </button>
   </div>
 

@@ -28,8 +28,8 @@
       required></textarea>
   </mat-form-field>
 
-  <div fxLayout='row' fxLayoutAlign='center'>
-    <button class="btn-reset" type="reset" mat-button (click)="onDeleteTeacher()">
+  <div fxLayout='row' fxLayoutAlign='center' *ngIf="teacherAmount > 1">
+    <button class=" btn-reset" type="reset" mat-button (click)="onDeleteTeacher()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
     </button>
   </div>
