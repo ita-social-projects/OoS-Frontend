@@ -33,7 +33,7 @@ export class AppWorkshopsService {
   * This method get all workshops
   */
   getAllWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(this.dataUrl);
+    return this.http.get<Workshop[]>(this.dataUrlMock);
   }
   /**
   * This method get workshops with applied filter options
@@ -47,6 +47,6 @@ export class AppWorkshopsService {
    * This method get top workshops
    */
   getTopWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(this.dataUrl);
+    return this.http.get<Workshop[]>(this.dataUrlMock);
   }
 }

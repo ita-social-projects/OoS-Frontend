@@ -9,13 +9,12 @@ import { Category, Subcategory, Subsubcategory } from '../../models/category.mod
 export class CategoriesService {
 
   dataUrlCategories = '/assets/mock-categories-cards.json';
-  dataUrlIcons = '/assets/categories-icons.json';
   dataUrl = '/Category/Get';
 
   constructor(private http: HttpClient) { }
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.dataUrl);
+    return this.http.get<Category[]>(this.dataUrlCategories);
   }
 
   getCategoryById(id: number): Observable<Category[]> {

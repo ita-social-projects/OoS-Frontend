@@ -232,7 +232,7 @@ export class UserState {
       .getProviderById(payload)
       .pipe(
         tap(
-          (provider: Provider) => patchState({ provider: provider[1] })
+          (provider: Provider) => patchState({ provider: provider[0] })
         ))
   }
 

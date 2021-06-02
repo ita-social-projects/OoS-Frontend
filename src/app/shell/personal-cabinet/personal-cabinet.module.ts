@@ -11,8 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WorkshopsComponent } from './workshops/workshops.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
-import { NgxsModule } from '@ngxs/store';
-import { UserState } from 'src/app/shared/store/user.state';
 @NgModule({
   declarations: [
     ApplicationsComponent,

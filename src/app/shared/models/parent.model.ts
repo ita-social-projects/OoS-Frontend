@@ -5,7 +5,7 @@ export class Parent {
   lastName: string;
   middleName: string;
   birthDay: Date;
-  gender: string;
+  gender?: string;
   phone: string;
   email: string;
 
