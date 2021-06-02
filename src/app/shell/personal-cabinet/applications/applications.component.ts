@@ -4,14 +4,16 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Child } from 'src/app/shared/models/child.model';
+import { User } from 'src/app/shared/models/user.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 
 
 @Component({
-  selector: 'app-requests',
+  selector: 'app-applications',
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss']
 })
@@ -21,6 +23,12 @@ export class ApplicationsComponent implements OnInit {
   applications$: Observable<Application[]>;
   public applications: Application[];
   child: Child;
+  
+  @Select(RegistrationState.user)
+  user$: Observable<User>;
+  role;                                                                                                                                                 ;
+  
+  
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -34,6 +42,9 @@ export class ApplicationsComponent implements OnInit {
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
+
+    this.user$.subscribe(user => this.role = user.role);
+ 
 
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
