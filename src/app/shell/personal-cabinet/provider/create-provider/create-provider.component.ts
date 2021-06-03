@@ -41,38 +41,40 @@ export class CreateProviderComponent implements OnInit {
    * This method dispatch store action to create a Provider with Form Groups values
    */
   onSubmit() {
-    console.log(this.InfoFormGroup.get('type').value, typeof (this.InfoFormGroup.get('type').value))
     const legalAddress = new Address(this.ActualAddressFormGroup.value);
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
     this.user$.subscribe(user => this.userId = user.id);
 
-    const provider = new Provider(this.userId, this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value)
+    const provider = new Provider(this.userId, this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+
     this.store.dispatch(new CreateProvider(provider));
-    console.log(provider)
   }
+
   /**
-   * This method receives a from create-info child component and assigns to the Info FormGroup
+   * This method receives a form from create-info child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
   onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
   }
+
   /**
-   * These methods receive froms create-contacts child component and assigns to the Actula and Legal FormGroup
+   * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
    * @param FormGroup form
    */
   onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
   }
+
   onReceiveLegalAddressFormGrou(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
   }
+
   /**
-   * This method receives a from create-photo child component and assigns to the Info FormGroup
+   * This method receives a from from create-photo child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
   onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
   }
-
 }
