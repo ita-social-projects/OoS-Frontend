@@ -1,36 +1,63 @@
-export class setMinAge {
-  static readonly type = '[filter] Set Min Age';
-  constructor(public payload: number) {}
-}
-export class setMaxAge {
-  static readonly type = '[filter] Set Max Age';
-  constructor(public payload: number) {}
-}
-export class SelectCity {
-  static readonly type = '[app] Select City';
-  constructor(public payload: string) {}
+import { Category } from "../models/category.model";
+import { City } from "../models/city.model";
+import { WorkingHours } from "../models/workingHours.model";
+export class SetCity {
+  static readonly type = '[app] Set City';
+  constructor(public payload: City) { }
 }
 export class SetOrder {
   static readonly type = '[filter] Set Order';
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
-export class AddCategory {
-  static readonly type = '[filter] Add Categoty';
-  constructor(public payload: number) {}
-}
-export class SetCategory {
+export class SetCategories {
   static readonly type = '[filter] Set Categoty';
-  constructor(public payload: number) {}
+  constructor(public payload: Category[]) { }
 }
-export class GetWorkshops {
-  static readonly type = '[filter] Get Workshops';
+export class SetAgeRange {
+  static readonly type = '[filter] Set Age Range';
+  constructor(public payload: string[]) { }
 }
-export class GetPopWorkshops {
-  static readonly type = '[filter] Get 4 Most Popular Organization Cards';
+export class SetWorkingDays {
+  static readonly type = '[filter] Set Working Days';
+  constructor(public payload: WorkingHours[]) { }
 }
-export class GetTeachersCards {
-  static readonly type = '[filter] Get Teachers Cards';
+export class SetWorkingHours {
+  static readonly type = '[filter] Set Working Hours';
+  constructor(public payload: WorkingHours[]) { }
 }
-export class GetCategories {
-  static readonly type = '[filter] Get Categories';
+export class SetIsFree {
+  static readonly type = '[filter] Set Is Free type of payment';
+  constructor(public payload: boolean) { }
+}
+export class SetIsPaid {
+  static readonly type = '[filter] Set Is Paid type of payment';
+  constructor(public payload: boolean) { }
+}
+export class SetMinPrice {
+  static readonly type = '[filter] Set Min Price';
+  constructor(public payload: number) { }
+}
+export class SetMaxPrice {
+  static readonly type = '[filter] Set Max Price';
+  constructor(public payload: number) { }
+}
+export class SetSearchQueryValue {
+  static readonly type = '[filter] Set Search Quesry Value';
+  constructor(public payload: string) { }
+}
+export class SetOpenRecruitment {
+  static readonly type = '[filter] Set Open Recruitment';
+  constructor(public payload: boolean) { }
+}
+export class SetClosedRecruitment {
+  static readonly type = '[filter] Set Closed Recruitment';
+  constructor(public payload: boolean) { }
+}
+export class GetFilteredWorkshops {
+  static readonly type = '[filter] Get Filtered Workshops';
+  constructor(public payload) { }
+}
+export class GetTopWorkshops {
+  static readonly type = '[filter] Get 4 Most Popular Workshop Cards';
+  constructor() { }
 }

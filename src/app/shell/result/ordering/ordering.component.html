@@ -1,27 +1,9 @@
-<button class="ordering-button" mat-stroked-button (click)="toggleOptions()">
-  {{selectedOption.viewValue}}
-  <span class="material-icons" *ngIf="selectedOption.value.includes('Asc'); else down">
-    arrow_upward
-  </span>
-  <ng-template #down>
-    <span class="material-icons">arrow_downward</span>
-  </ng-template>
-</button>
-<div class="options" *ngIf="visible">
-  <div
-    class="option"
-    *ngFor="let option of options; index as i"
-    [id]="i"
-    (click)="selectOrder($event.target.id)"
-  >
-    <div class="option-inner" *ngIf="option != selectedOption">
-      {{option.viewValue}}
-      <span class="material-icons" *ngIf="option.value.includes('Asc'); else down">
-        arrow_upward
-      </span>
-      <ng-template #down>
-        <span class="material-icons">arrow_downward</span>
-      </ng-template>
-    </div>
-  </div>
-</div>
+<mat-form-field>
+  <mat-select class="select" [(ngModel)]="selectedOption" [(value)]="selectedOption"
+    (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
+    <mat-option value={{constants.RATING_ASC}}> &#8593; Рейтинг</mat-option>
+    <mat-option value={{constants.RATING_DESC}}> &#8595; Рейтинг</mat-option>
+    <mat-option value={{constants.PRICE_ASC}}> &#8593; Ціна</mat-option>
+    <mat-option value={{constants.PRICE_DECS}}> &#8595; Ціна</mat-option>
+  </mat-select>
+</mat-form-field>

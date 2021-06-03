@@ -1,0 +1,45 @@
+<div *ngIf="workshop then WorkshopDetails; else Loading"></div>
+
+<ng-template #WorkshopDetails>
+  <div class="container">
+    <div class="workshop-image"><img src="assets/images/groupimages/dance.png" alt=""></div>
+    <div class="workshop-header" fxLayout="column" fxLayoutAlign="space-between space-between">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <h1 class="title">{{workshop.title}}</h1>
+          <mat-chip class="workshop-status" fxLayout="row" fxLayoutAlign="center center">
+            <p class="workshop-status-text">Набір триває</p>
+          </mat-chip>
+        </div>
+        <div>
+          <img src="assets/icons/basketball.png" alt="">
+        </div>
+
+      </div>
+      <p fxLayout="row" fxLayoutAlign="start center"><img src="assets/icons/rate.png" alt="">{{workshop.rate}}</p>
+      <a [routerLink]="'./provider-about'" class="workshop-link">
+        <p fxLayout="row" fxLayoutAlign="start center"><img src="assets/icons/home.svg" alt="">Школа танців</p>
+      </a>
+    </div>
+    <mat-tab-group>
+      <mat-tab label="ПРО ГУРТОК ">
+        <app-workshop-about [workshop]="workshop"></app-workshop-about>
+      </mat-tab>
+      <mat-tab label="ПРО ШКОЛУ">
+        <app-provider-about [provider]=""></app-provider-about>
+      </mat-tab>
+      <mat-tab label="ВЧИТЕЛИ">
+        <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
+      </mat-tab>
+      <mat-tab label="ІНШИ ГУРТКИ ШКОЛИ">
+        <app-all-provider-workshops [provider]=""></app-all-provider-workshops>
+      </mat-tab>
+      <mat-tab label="ВІДГУКИ">
+        <app-reviews [workshop]="workshop"></app-reviews>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-template>
+<ng-template #Loading>
+  Завантаження
+</ng-template>

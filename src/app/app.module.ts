@@ -11,21 +11,17 @@ import { FilterState } from './shared/store/filter.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { environment } from 'src/environments/environment';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from './../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
 import { RegistrationModule } from './shared/modals/registration/registration.module';
-import { UserRegistrationState } from './shared/store/user-registration.state';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpErrorInterceptor } from './shared/error-interceptors/http-error.interceptor';
+import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
-import { ProviderState } from './shared/store/provider.state';
-import { ParentState } from './shared/store/parent.state';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserState } from './shared/store/user.state';
-
 
 @NgModule({
   declarations: [
@@ -44,26 +40,21 @@ import { UserState } from './shared/store/user.state';
       AppState,
       FilterState,
       MetaDataState,
-      UserRegistrationState
+      RegistrationState,
+      UserState
     ]),
-    
+
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
-    NgxsLoggerPluginModule.forRoot({
-      disabled: environment.production
-    }),
+    NgxsLoggerPluginModule.forRoot(),
     FlexLayoutModule,
     ShellModule,
-    ReactiveFormsModule,
     RegistrationModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    }
+
   ],
   bootstrap: [AppComponent]
 })

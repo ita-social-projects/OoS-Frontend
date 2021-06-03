@@ -1,11 +1,12 @@
 .main{
+  padding-bottom: 48px;
   &_registration{
     padding: 32px 40px;
     background: #3849F9;
     border-radius: 5px;
     position: relative;
     height: 125px;
-    margin: 4rem 0 3rem;
+    margin-top: 4rem;
     &::before{
       content: '';
       display: block;
@@ -50,26 +51,104 @@
   &_categories{
     margin-bottom: 48px;
     .categories-wrapper{
-      flex-wrap: wrap;
+       flex-wrap: wrap;
+       gap: 10px;
+    }
+  }
+  &_cards{
+    .cards {
+      gap: 10px;
+      app-workshop-card{
+        margin: 16px 0;
+      }
+    }
+  }
+}
+@media(max-width: 675px) {
+  .main_registration {
+    padding: 20px;
+    height: inherit;
+    display: block !important;
+    margin-top: 1rem;
+
+    .main_button-wrapper {
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media(max-width: 645px) {
+  .main {
+    padding: 1rem 0;
+
+    &_cards {
+      .cards {
+        display: flex !important;
+        flex-flow: row nowrap !important;
+        overflow: scroll;
+        padding: 0 16px;
+        margin: 0 -16px;
+      }
+    }
+
+    &_categories {
+      margin-bottom: 20px;
+
+      .categories-wrapper {
+        flex-wrap: nowrap !important;
+        overflow: scroll;
+        padding: 16px;
+        margin: 0 -16px;
+      }
+    }
+
+    &_header{
+      display: block;
+      margin-top: 0;
+      margin-bottom: 0;
     }
   }
 }
 
 @media(max-width: 415px) {
-  .main_title[_ngcontent-hiw-c164] {
+  .main_title {
     font-size: 16px !important;
   }
 }
-@media(max-width: 415px) {
-  .main_registration {
-    padding: 10px;
-    height: inherit;
-    width: fit-content;
-    display: block !important;
-  }
-}
+
 @media(max-width: 415px) {
   .cards {
     display: contents !important;
+  }
+  
+  .categories-wrapper {
+    app-category-card {
+      ::ng-deep.category {
+        width: 150px;
+        height: 150px;
+        padding: 16px 0;
+
+        &_card {
+          margin: 0.5rem !important;
+        }
+      }
+    }
+  }
+}
+
+@media  only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px)  {
+   .main {
+    padding: 1rem;
+  }
+}
+
+@media  only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px)  {
+  h3{
+    font-size: inherit;
   }
 }

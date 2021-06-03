@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/user-registration.state';
+import { Select, Store } from '@ngxs/store';
+import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, AuthFail, Login } from '../shared/store/user-registration.actions';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
+import { User } from '../shared/models/user.model';
 
-enum RoleLinks{
-  provider= 'provider/cabinet',
-  parent = 'parent'
+enum RoleLinks {
+  provider = 'організацію',
+  parent = 'дитину'
 }
 
 @Component({
@@ -19,45 +18,27 @@ enum RoleLinks{
 })
 export class HeaderComponent implements OnInit {
 
-  user = {
-    firstName: 'Іванов В. М'
-  };
   showModalReg = false;
-
-  @Select(UserRegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
-  @Select(UserRegistrationState.userName)
-  userName$: Observable<string>;
-  @Select(UserRegistrationState.role)
-  userRole$: Observable<string>;
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
-  role: string;
-  roles= RoleLinks;
+  isLoading$: Observable<boolean>;
+  @Select(RegistrationState.isAuthorized)
+  isAuthorized$: Observable<boolean>;
+  @Select(RegistrationState.user)
+  user$: Observable<User>;
+  user: User;
+  roles = RoleLinks;
 
-  constructor(public store: Store,
-              private actions$: Actions,
-              public snackBar: MatSnackBar) {
-      actions$.pipe(
-        ofAction(AuthFail)
-      ).subscribe(action => {
-          this.snackBar.open('Check your connection', 'Try again!', {
-          duration: 5000,
-          panelClass: ['red-snackbar'],
-          });
-      });
-    }
+  constructor(public store: Store) { }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
-    this.userRole$.subscribe(value => {
-      this.role = value;
-    });
+    this.user$.subscribe(user => this.user = user);
   }
   logout(): void {
     this.store.dispatch(new Logout());
   }
-  login(): void{
+  login(): void {
     this.store.dispatch(new Login());
   }
 }
