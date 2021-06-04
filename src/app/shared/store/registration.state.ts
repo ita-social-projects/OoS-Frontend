@@ -118,10 +118,10 @@ export class RegistrationState {
   }
 
   @Action(GetProfile)
-  getProfile({ patchState }: StateContext<RegistrationStateModel>, { }: GetProfile) {
-    const user = this.store.selectSnapshot(RegistrationState.user);
+  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile) {
+    const state = getState();
 
-    if (user.role === Role.parent) {
+    if (state.user.role === Role.parent) {
       return this.parentService
         .getProfile()
         .pipe(
@@ -130,7 +130,7 @@ export class RegistrationState {
           ));
     } else {
       return this.providerService
-        .getProviderByUserId(user.id)
+        .getProviderByUserId(state.user.id)
         .pipe(
           tap(
             (provider: Provider) => patchState({ provider: provider })
