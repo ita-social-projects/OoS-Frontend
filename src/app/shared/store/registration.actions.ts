@@ -25,7 +25,7 @@ export class GetProfile {
   constructor() { }
 }
 
-export class RegisterUser {
+export class RegistUser {
   static readonly type = '[user] change register status';
   constructor() { }
 }

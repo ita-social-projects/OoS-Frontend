@@ -15,7 +15,7 @@ import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { ToggleLoading } from './app.actions';
-import { Logout, RegisterUser } from './registration.actions';
+import { Logout, RegistUser } from './registration.actions';
 import {
   CreateChildren,
   CreateParent,
@@ -219,7 +219,7 @@ export class UserState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
-    dispatch(new RegisterUser());
+    dispatch(new RegisRegistUserterUser());
     console.log('Provider is created', payload);
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
@@ -253,7 +253,7 @@ export class UserState {
 
   @Action(OnCreateParentSuccess)
   onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
-    dispatch(new RegisterUser());
+    dispatch(new RegistUser());
     console.log('Parent is created', payload);
   }
 

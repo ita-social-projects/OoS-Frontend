@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { UsersService } from '../services/users/users.service';
-import { Login, Logout, CheckAuth, OnAuthFail, CheckRegistration, GetProfile, RegisterUser } from './registration.actions';
+import { Login, Logout, CheckAuth, OnAuthFail, CheckRegistration, GetProfile, RegistUser } from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -138,19 +138,8 @@ export class RegistrationState {
     }
   }
 
-  @Action(RegisterUser)
-  registerUser({ dispatch }: StateContext<RegistrationStateModel>, { }: RegisterUser) {
-
-    const user = this.store.selectSnapshot(RegistrationState.user);
-
-    return this.usersService
-      .registerUser(user.id)
-      .pipe(
-        tap((res) => {
-          console.log(res);
-          dispatch(new GetProfile());
-        }),
-        catchError((error: Error) => of(console.log(error)))
-      );
+  @Action(RegistUser)
+  registUser({ patchState }: StateContext<RegistrationStateModel>, { }: RegistUser) {
+    patchState({ isRegistered: true })
   }
 }
