@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
+import { ChangePage } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider } from 'src/app/shared/store/user.actions';
 
@@ -32,6 +33,8 @@ export class CreateProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new ChangePage(false));
+
     this.RobotFormControl.valueChanges.subscribe(val => (val) ? this.isNotRobot = true : this.isNotRobot = false);
     this.AgreementFormControl.valueChanges.subscribe(val => (val) ? this.isAgreed = true : this.isAgreed = false);
   }
