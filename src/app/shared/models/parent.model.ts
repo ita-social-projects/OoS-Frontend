@@ -4,10 +4,6 @@ export class Parent {
   firstName: string;
   lastName: string;
   middleName: string;
-  birthDay: Date;
-  gender?: string;
-  phone: string;
-  email: string;
 
   constructor(info) {
     this.firstName = info.firstName;
