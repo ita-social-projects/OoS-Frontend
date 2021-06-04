@@ -7,7 +7,6 @@ import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Parent } from '../models/parent.model';
-import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -15,7 +14,7 @@ import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { ToggleLoading } from './app.actions';
-import { Logout, RegistUser } from './registration.actions';
+import { RegisterUser } from './registration.actions';
 import {
   CreateChildren,
   CreateParent,
@@ -219,7 +218,7 @@ export class UserState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
-    dispatch(new RegisRegistUserterUser());
+    dispatch(new RegisterUser());
     console.log('Provider is created', payload);
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
@@ -253,7 +252,7 @@ export class UserState {
 
   @Action(OnCreateParentSuccess)
   onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
-    dispatch(new RegistUser());
+    dispatch(new RegisterUser());
     console.log('Parent is created', payload);
   }
 
