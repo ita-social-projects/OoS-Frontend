@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetProviderById } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-provider-config',

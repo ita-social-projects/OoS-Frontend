@@ -9,8 +9,7 @@ import { User } from 'src/app/shared/models/user.model';
   providedIn: 'root'
 })
 export class PersonalCabinetGuard implements CanLoad {
-  constructor(public store: Store) {
-  }
+  constructor(public store: Store) { }
 
   canLoad(
     route: Route,

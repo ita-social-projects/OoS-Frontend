@@ -14,7 +14,7 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.dataUrlCategories);
+    return this.http.get<Category[]>(this.dataUrl);
   }
 
   getCategoryById(id: number): Observable<Category[]> {

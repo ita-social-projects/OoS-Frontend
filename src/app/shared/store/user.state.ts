@@ -6,24 +6,29 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
+import { Parent } from '../models/parent.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
+import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { ToggleLoading } from './app.actions';
+import { Logout, RegisterUser } from './registration.actions';
 import {
   CreateChildren,
+  CreateParent,
   CreateProvider,
   CreateWorkshop,
   DeleteWorkshopById,
   GetApplicationsById,
   GetChildrenById,
-  GetProviderById,
   GetWorkshopsById,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
+  OnCreateParentFail,
+  OnCreateParentSuccess,
   OnCreateProviderFail,
   OnCreateProviderSuccess,
   OnCreateWorkshopFail,
@@ -36,7 +41,6 @@ export interface UserStateModel {
   workshops: Workshop[];
   applications: Application[];
   children: Child[];
-  provider: Provider;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -44,7 +48,6 @@ export interface UserStateModel {
     workshops: Workshop[''],
     applications: Application[''],
     children: Child[''],
-    provider: undefined
   }
 })
 @Injectable()
@@ -60,15 +63,14 @@ export class UserState {
   @Selector()
   static children(state: UserStateModel): Child[] { return state.children }
 
-  @Selector()
-  static provider(state: UserStateModel): Provider { return state.provider }
-
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
-    public snackBar: MatSnackBar, private router: Router
+    private parentService: ParentService,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   @Action(GetWorkshopsById)
@@ -180,7 +182,6 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      this.router.navigate(['/personal-cabinet/parent/info']);
       dispatch(new ToggleLoading(false));
     }, 2000);
   }
@@ -194,6 +195,7 @@ export class UserState {
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 2000);
   }
+
   @Action(CreateProvider)
   createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider) {
     dispatch(new ToggleLoading(true));
@@ -207,33 +209,52 @@ export class UserState {
 
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
-    console.log('Child creation is failed', payload);
+    console.log('Provider creation is failed', payload);
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      this.router.navigate(['/personal-cabinet/parent/info']);
       dispatch(new ToggleLoading(false));
     }, 2000);
   }
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
+    dispatch(new RegisterUser());
     console.log('Provider is created', payload);
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
       dispatch(new ToggleLoading(false));
-      this.router.navigate(['/personal-cabinet/parent/info']);
+      this.router.navigate(['/personal-cabinet/provider/info']);
     }, 2000);
   }
 
-  @Action(GetProviderById)
-  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById) {
-    return this.providerService
-      .getProviderById(payload)
+  @Action(CreateParent)
+  createParent({ dispatch }: StateContext<UserStateModel>, { payload }: CreateParent) {
+
+    const parent = new Parent(payload);
+
+    return this.parentService
+      .createParent(parent)
       .pipe(
-        tap(
-          (provider: Provider) => patchState({ provider: provider[0] })
-        ))
+        tap((res) => dispatch(new OnCreateParentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateParentFail(error))))
+      );
+  }
+
+  @Action(OnCreateParentFail)
+  onCreateParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentFail): void {
+    console.log('Parent creation is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+      //TODO: handle create parent fail
+    }, 2000);
+  }
+
+  @Action(OnCreateParentSuccess)
+  onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
+    dispatch(new RegisterUser());
+    console.log('Parent is created', payload);
   }
 
   showSnackBar(

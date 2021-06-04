@@ -4,7 +4,7 @@ import { Address } from "./address.model";
 import { Workshop } from "./workshop.model";
 
 export class Provider {
-  id: string;
+  id: number;
   userId?: string;
   fullTitle?: string;
   shortTitle?: string;
@@ -28,8 +28,7 @@ export class Provider {
   workshop?: Workshop;
   image?: File[];
 
-  constructor(id, info, legalAddress, actualAddress, photo) {
-    this.userId = id;
+  constructor(info, legalAddress, actualAddress, photo) {
     this.shortTitle = info.shortTitle;
     this.fullTitle = info.fullTitle;
     this.website = info.website;

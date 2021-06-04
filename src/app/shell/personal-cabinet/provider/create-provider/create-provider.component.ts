@@ -16,7 +16,6 @@ import { CreateProvider } from 'src/app/shared/store/user.actions';
 export class CreateProviderComponent implements OnInit {
 
   @Select(RegistrationState.user) user$: Observable<User>;
-  userId: string;
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -43,9 +42,8 @@ export class CreateProviderComponent implements OnInit {
   onSubmit() {
     const legalAddress = new Address(this.ActualAddressFormGroup.value);
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
-    this.user$.subscribe(user => this.userId = user.id);
 
-    const provider = new Provider(this.userId, this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+    const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
 
     this.store.dispatch(new CreateProvider(provider));
   }

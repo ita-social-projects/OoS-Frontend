@@ -10,11 +10,8 @@ export class Parent {
   email: string;
 
   constructor(info) {
-    this.userId = info.userId;
     this.firstName = info.firstName;
     this.lastName = info.lastName;
-    this.middleName = info.secondName;
-    this.birthDay = info.birthDay;
-    this.gender = info.gender;
+    this.middleName = info.middleName;
   }
 }
