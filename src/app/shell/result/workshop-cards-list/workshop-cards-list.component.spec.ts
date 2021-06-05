@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
-import { OrderingComponent } from '../ordering/ordering.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
 import { CommonModule } from '@angular/common';
-import { FilterState } from 'src/app/shared/store/filter.state';
 import { MockStore } from '../../../shared/mocks/mock-services';
+import { Component } from '@angular/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -15,15 +15,16 @@ describe('WorkshopCardsListComponentt', () => {
     await TestBed.configureTestingModule({
       declarations: [
         WorkshopCardsListComponent,
-        OrderingComponent
+        MockOrderingComponent
       ],
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxsModule.forRoot([FilterState]),
+        NgxsModule.forRoot([]),
+        NgxPaginationModule
       ],
       providers:[
-        {provide: Store, useClass: MockStore}
+        {provide: Store, useValue: MockStore}
       ]
     })
     .compileComponents();
@@ -32,7 +33,6 @@ describe('WorkshopCardsListComponentt', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -40,4 +40,10 @@ describe('WorkshopCardsListComponentt', () => {
   });
 });
 
+@Component({
+  selector: 'app-ordering-menu',
+  template: ''
+})
+class MockOrderingComponent {
+}
 
