@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AllProviderWorkshopsComponent } from './all-provider-workshops.component';
 
 describe('AllProviderWorkshopsComponent', () => {

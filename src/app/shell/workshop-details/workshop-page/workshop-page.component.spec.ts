@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopPageComponent } from './workshop-page.component';
 
 describe('WorkshopPageComponent', () => {
@@ -23,3 +22,4 @@ describe('WorkshopPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

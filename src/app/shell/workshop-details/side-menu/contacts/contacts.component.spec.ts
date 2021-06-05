@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ContactsComponent } from './contacts.component';
 
 describe('ContactsComponent', () => {
@@ -16,7 +15,6 @@ describe('ContactsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

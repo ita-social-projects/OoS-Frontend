@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WorkshopDetailsComponent } from './workshop-details.component';
+import { NgxsModule, Store } from '@ngxs/store';
+import { MockStore } from '../../shared/mocks/mock-services';
+import { Component, Input } from '@angular/core';
+import { Workshop } from '../../shared/models/workshop.model';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
@@ -8,7 +12,17 @@ describe('WorkshopDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkshopDetailsComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      providers: [
+        { provide: Store, useValue: MockStore },
+      ],
+      declarations: [
+        WorkshopDetailsComponent,
+        MockSideMenuComponent,
+        MockWorkshopPageComponent
+      ]
     })
     .compileComponents();
   });
@@ -23,3 +37,20 @@ describe('WorkshopDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-workshop-page',
+  template: ''
+})
+class MockWorkshopPageComponent {
+  @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-side-menu',
+  template: ''
+})
+class MockSideMenuComponent {
+  @Input() workshop: Workshop;
+}
+
