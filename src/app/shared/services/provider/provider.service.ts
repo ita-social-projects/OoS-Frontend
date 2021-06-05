@@ -8,23 +8,21 @@ import { Provider } from '../../models/provider.model';
 })
 export class ProviderService {
 
-  tepmUrl = '/Provider/Get';
-
   constructor(private http: HttpClient) { }
+
   /**
   * This method get Provider by id
   * @param id
   */
   getProviderById(id: number): Observable<Provider> {
-    const dataUrl = `/Provider/Get`;
-    return this.http.get<Provider>(this.tepmUrl);
+    return this.http.get<Provider>(`/Provider/Get`);
   }
 
   /**
   * This method create Provider
   * @param Provider
   */
-  createProvider(provider: Provider): any {
+  createProvider(provider: Provider): Observable<Object> {
     return this.http.post('/Provider/Create', provider);
   }
 
@@ -32,8 +30,15 @@ export class ProviderService {
   * This method delete Provider by id
   * @param id
   */
-  deleteProvider(id: number): any {
-    const dataUrl = `Provider/Delete/${id}`;
-    return this.http.delete(dataUrl);
+  deleteProvider(id: number): Observable<Object> {
+    return this.http.delete(`Provider/Delete/${id}`);
+  }
+
+  /**
+  * This method get Provider by User id
+  * @param id
+  */
+  getProviderByUserId(id: string): Observable<Provider> {
+    return this.http.get<Provider>(encodeURI(`Provider/GetProviderByUserId/${id}`));
   }
 }

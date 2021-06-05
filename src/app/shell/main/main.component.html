@@ -14,7 +14,7 @@
   <div class="main_cards">
     <div class="main_header" fxLayoutAlign="space-between center">
       <h3>Найпопулярніші гуртки</h3>
-      <a routerLink="/workshop-details" class="main_link">
+      <a routerLink="/result" class="main_link">
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
       <!-- <a routerLink="./workshop-details" class="main_link">
@@ -32,9 +32,10 @@
     </div>
     <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
       <ng-container>
-        <app-workshop-card *ngFor="let workshop of topWorkshops$ | async | slice:0:4" [workshop]="workshop"
-          [type]="'column'">
-        </app-workshop-card>
+        <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
+          <app-workshop-card *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop" [type]="'column'">
+          </app-workshop-card>
+        </div>
       </ng-container>
     </div>
   </div>

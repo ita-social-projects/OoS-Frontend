@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(applications$ | async) then isApplications; else isEmptyList"></div>
+<div class="container" *ngIf="(applications$ | async)?.length then isApplications; else isEmptyList"></div>
 
 <ng-template #isApplications>
   <mat-tab-group mat-align-tabs="start">

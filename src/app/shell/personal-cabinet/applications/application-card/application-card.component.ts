@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { Application } from 'src/app/shared/models/application.model';
 
 @Component({
-  selector: 'app-request-card',
+  selector: 'app-application-card',
   templateUrl: './application-card.component.html',
   styleUrls: ['./application-card.component.scss']
 })

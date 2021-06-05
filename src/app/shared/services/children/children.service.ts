@@ -26,7 +26,7 @@ export class ChildrenService {
   * This method create Child
   * @param Workshop
   */
-  createChild(child: Child): any {
+  createChild(child: Child): Observable<Object> {
     return this.http.post('/Child/Create', child);
   }
 
@@ -34,7 +34,7 @@ export class ChildrenService {
   * This method delete child by Child id
   * @param id
   */
-  deleteChild(id: number): any {
+  deleteChild(id: number): Observable<Object> {
     const dataUrl = `Child/Delete/${id}`;
     return this.http.delete(dataUrl);
   }

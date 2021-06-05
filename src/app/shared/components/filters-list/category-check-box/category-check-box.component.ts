@@ -4,9 +4,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Category } from 'src/app/shared/models/category.model';
+import { AppState } from 'src/app/shared/store/app.state';
 import { SetCategories } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { GetCategories } from 'src/app/shared/store/meta-data.actions';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
   selector: 'app-category-check-box',
@@ -14,7 +16,7 @@ import { GetCategories } from 'src/app/shared/store/meta-data.actions';
   styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit {
-  @Select(FilterState.categories)
+  @Select(MetaDataState.categories)
   categories$: Observable<Category[]>;
 
   allCategories: Category[] = [];

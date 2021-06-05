@@ -4,7 +4,7 @@ import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Injectable } from '@angular/core';
 import { NgxsModule, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/registration.state';
+import { RegistrationState } from '../shared/store/registration.state';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -17,7 +17,7 @@ describe('HeaderComponent', () => {
       imports: [
         MatButtonModule,
         MatDialogModule,
-        NgxsModule.forRoot([UserRegistrationState]),
+        NgxsModule.forRoot([RegistrationState]),
         HttpClientModule
       ],
       declarations: [HeaderComponent,

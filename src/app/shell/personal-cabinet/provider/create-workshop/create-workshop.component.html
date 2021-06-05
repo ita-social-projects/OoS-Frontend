@@ -11,7 +11,7 @@
         <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)"></app-create-about-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button mat-raised-button class="btn btn_cancel"><a
-              [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
+              [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </mat-step>
@@ -22,7 +22,7 @@
         </app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button><a [routerLink]="'./../../cabinet/workshops'"> Скасувати
+          <button class="btn btn_cancel" mat-raised-button><a [routerLink]="'/personal-cabinet/workshops'"> Скасувати
             </a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
@@ -34,7 +34,7 @@
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button><a
-              [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
+              [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
       </mat-step>
@@ -45,7 +45,7 @@
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
           <button class="btn btn_cancel" mat-raised-button><a
-              [routerLink]="'./../../cabinet/workshops'">Скасувати</a></button>
+              [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()">Завершити</button>
         </div>
       </mat-step>
