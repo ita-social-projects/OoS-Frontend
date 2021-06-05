@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CategorySelectComponent } from './category-select.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { MockStore } from '../../mocks/mock-services';
 
 describe('CategorySelectComponentt', () => {
   let component: CategorySelectComponent;
@@ -8,7 +10,11 @@ describe('CategorySelectComponentt', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CategorySelectComponent ]
+      imports: [ReactiveFormsModule],
+      declarations: [ CategorySelectComponent ],
+      providers: [
+        { provide: Store, useClass: MockStore }
+      ]
     })
     .compileComponents();
   });

@@ -3,9 +3,9 @@ import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { OrderingComponent } from '../ordering/ordering.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
-import { Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterState } from 'src/app/shared/store/filter.state';
+import { MockStore } from '../../../shared/mocks/mock-services';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -13,7 +13,7 @@ describe('WorkshopCardsListComponentt', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         WorkshopCardsListComponent,
         OrderingComponent
       ],
@@ -21,7 +21,7 @@ describe('WorkshopCardsListComponentt', () => {
         FlexLayoutModule,
         CommonModule,
         NgxsModule.forRoot([FilterState]),
-      ], 
+      ],
       providers:[
         {provide: Store, useClass: MockStore}
       ]
@@ -39,9 +39,5 @@ describe('WorkshopCardsListComponentt', () => {
     expect(component).toBeTruthy();
   });
 });
-@Injectable({
-  providedIn: 'root'
-})
-class MockStore{
-   
-} 
+
+

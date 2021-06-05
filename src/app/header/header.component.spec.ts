@@ -2,11 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Component, Injectable } from '@angular/core';
-import { NgxsModule, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/registration.state';
+import { Injectable } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { NgxsModule, Store } from '@ngxs/store';
+import { RegistrationState } from '../shared/store/registration.state';
+import { MockStore } from '../shared/mocks/mock-services';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -17,14 +20,17 @@ describe('HeaderComponent', () => {
       imports: [
         MatButtonModule,
         MatDialogModule,
-        NgxsModule.forRoot([UserRegistrationState]),
-        HttpClientModule
+        MatSnackBarModule,
+        MatIconModule,
+        HttpClientModule,
+        NgxsModule.forRoot([RegistrationState]),
       ],
-      declarations: [HeaderComponent,
-        MockRegistrationComponent
+      declarations: [
+        HeaderComponent
       ],
       providers: [
-        { provide: OidcSecurityService, useClass: MockOidcSecurityService }
+        { provide: OidcSecurityService, useClass: MockOidcSecurityService },
+        { provide: Store, useClass: MockStore }
       ]
     })
       .compileComponents();
@@ -33,20 +39,17 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
-@Component({
-  selector: 'app-registration',
-  template: ''
-})
-class MockRegistrationComponent { }
 
 @Injectable({
   providedIn: 'root'
 })
-class MockOidcSecurityService { }
+class MockOidcSecurityService {
+  checkAuth: () => ({});
+}
