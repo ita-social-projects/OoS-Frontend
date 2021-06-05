@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreatePhotoFormComponent } from './create-photo-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 describe('CreatePhotoFormComponent', () => {
   let component: CreatePhotoFormComponent;
@@ -8,15 +10,20 @@ describe('CreatePhotoFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreatePhotoFormComponent ]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule
+      ],
+      declarations:
+        [CreatePhotoFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatePhotoFormComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
