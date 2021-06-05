@@ -13,6 +13,5 @@ export class Teacher {
     this.middleName = info.middleName;
     this.birthDay = info.birthDay;
     this.description = info.description;
-    //this.img= info.img;
   }
 }

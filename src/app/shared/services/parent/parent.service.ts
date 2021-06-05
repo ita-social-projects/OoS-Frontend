@@ -22,7 +22,7 @@ export class ParentService {
   * This method create Parent
   * @param Parent
   */
-  createParent(parent: Parent): any {
+  createParent(parent: Parent): Observable<Object> {
     return this.http.post('/Parent/Create', parent);
   }
 
@@ -30,7 +30,7 @@ export class ParentService {
   * This method delete Parent by id
   * @param id
   */
-  deleteParent(id: number): any {
+  deleteParent(id: number): Observable<Object> {
     return this.http.delete(`Parent/Delete/${id}`);
   }
 

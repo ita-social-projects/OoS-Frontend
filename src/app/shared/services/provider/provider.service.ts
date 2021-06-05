@@ -22,7 +22,7 @@ export class ProviderService {
   * This method create Provider
   * @param Provider
   */
-  createProvider(provider: Provider): any {
+  createProvider(provider: Provider): Observable<Object> {
     return this.http.post('/Provider/Create', provider);
   }
 
@@ -30,7 +30,7 @@ export class ProviderService {
   * This method delete Provider by id
   * @param id
   */
-  deleteProvider(id: number): any {
+  deleteProvider(id: number): Observable<Object> {
     return this.http.delete(`Provider/Delete/${id}`);
   }
 

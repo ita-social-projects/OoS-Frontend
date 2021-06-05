@@ -5,11 +5,11 @@ import { Workshop } from "./workshop.model";
 
 export class Provider {
   id: number;
-  userId?: string;
+  userId: string;
   fullTitle?: string;
-  shortTitle?: string;
+  shortTitle: string;
   website?: string;
-  email?: string;
+  email: string;
   facebook?: string;
   instagram?: string;
   description?: string;
