@@ -15,7 +15,6 @@ describe('WorkingHoursFormControlComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkingHoursFormControlComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

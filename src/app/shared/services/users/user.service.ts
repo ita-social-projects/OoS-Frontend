@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 
 @Injectable({providedIn: 'root'})
-export class UsersService {
+export class UserService {
   constructor(private http: HttpClient) {}
   /**
    * gets user data

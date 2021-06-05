@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { UsersService } from '../services/users/users.service';
+import { UserService } from '../services/users/user.service';
 import { Login, Logout, CheckAuth, OnAuthFail } from './registration.actions';
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -37,7 +37,7 @@ export class RegistrationState {
     public oidcSecurityService: OidcSecurityService,
     public http: HttpClient,
     public snackBar: MatSnackBar,
-    public usersService: UsersService
+    public userService: UserService
   ) { }
 
   @Action(Login)
@@ -58,7 +58,7 @@ export class RegistrationState {
         patchState({ isAuthorized: auth });
         if (auth) {
           const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
-          this.usersService.getUserById(id).subscribe(user => {
+          this.userService.getUserById(id).subscribe(user => {
             console.log(user)
             patchState({ user: user });
           });
