@@ -4,7 +4,6 @@ import { Store } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
 import { MockStore } from '../../mocks/mock-services';
 
-
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
   let fixture: ComponentFixture<CategoryCardComponent>;
@@ -14,12 +13,12 @@ describe('CategoryCardComponent', () => {
       imports: [
         MatCardModule
       ],
-      declarations: [ CategoryCardComponent ],
+      declarations: [CategoryCardComponent],
       providers: [
-        { provide: Store, useClass: MockStore }
+        { provide: Store, useValue: MockStore }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

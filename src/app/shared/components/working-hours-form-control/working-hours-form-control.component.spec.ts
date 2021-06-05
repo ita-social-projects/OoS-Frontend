@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkingHoursFormControlComponent } from './working-hours-form-control.component';
 
 describe('WorkingHoursFormControlComponent', () => {

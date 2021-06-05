@@ -3,5 +3,6 @@ export const MockCityFilterService = {
 };
 export const MockStore = {
   dispatch: () => {},
-  subscribe: () => {}
+  subscribe: () => {},
+  select: () => {},
 };

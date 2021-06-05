@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PersonCardComponent } from './person-card.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 describe('ChildCardComponent', () => {
   let component: PersonCardComponent;
@@ -8,6 +9,10 @@ describe('ChildCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        MatIconModule,
+        MatCardModule
+      ],
       declarations: [PersonCardComponent]
     })
       .compileComponents();
@@ -16,7 +21,6 @@ describe('ChildCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PersonCardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

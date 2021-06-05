@@ -13,7 +13,7 @@ describe('CategorySelectComponentt', () => {
       imports: [ReactiveFormsModule],
       declarations: [ CategorySelectComponent ],
       providers: [
-        { provide: Store, useClass: MockStore }
+        { provide: Store, useValue: MockStore }
       ]
     })
     .compileComponents();
@@ -22,7 +22,6 @@ describe('CategorySelectComponentt', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategorySelectComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

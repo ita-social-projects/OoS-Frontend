@@ -29,8 +29,8 @@ describe('HeaderComponent', () => {
         HeaderComponent
       ],
       providers: [
-        { provide: OidcSecurityService, useClass: MockOidcSecurityService },
-        { provide: Store, useClass: MockStore }
+        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
+        { provide: Store, useValue: MockStore }
       ]
     })
       .compileComponents();
@@ -39,7 +39,6 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-
   });
 
   it('should create', () => {
@@ -50,6 +49,7 @@ describe('HeaderComponent', () => {
 @Injectable({
   providedIn: 'root'
 })
+
 class MockOidcSecurityService {
   checkAuth: () => ({});
 }

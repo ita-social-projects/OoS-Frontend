@@ -30,7 +30,6 @@ describe('CityAutocompleteComponent', () => {
     fixture = TestBed.createComponent(CityAutocompleteComponent);
     component = fixture.componentInstance;
     cityFilterService = TestBed.inject(CityFilterService);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
