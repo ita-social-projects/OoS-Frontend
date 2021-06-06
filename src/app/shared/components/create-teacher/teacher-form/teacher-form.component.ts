@@ -10,6 +10,7 @@ import { Output, EventEmitter } from '@angular/core';
 export class TeacherFormComponent implements OnInit {
 
   @Input() index: number;
+  @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
   @Output() deleteForm = new EventEmitter();
 

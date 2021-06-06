@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
-import { UsersService } from '../services/users/users.service';
 import { Login, Logout, CheckAuth, OnAuthFail, CheckRegistration, GetProfile, RegisterUser } from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
@@ -15,6 +14,7 @@ import { Router } from '@angular/router';
 import { CreateParent } from './user.actions';
 import { of } from 'rxjs';
 import { Role } from '../enum/role';
+import { UserService } from '../services/user/user.service';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -60,7 +60,7 @@ export class RegistrationState {
   constructor(
     private oidcSecurityService: OidcSecurityService,
     private snackBar: MatSnackBar,
-    private usersService: UsersService,
+    private userService: UserService,
     private providerService: ProviderService,
     private parentService: ParentService,
     private store: Store,
@@ -87,7 +87,7 @@ export class RegistrationState {
         patchState({ isAuthorized: auth });
         if (auth) {
           const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
-          this.usersService.getUserById(id).subscribe(user => {
+          this.userService.getUserById(id).subscribe(user => {
             patchState({ user: user });
             dispatch(new CheckRegistration());
           });
