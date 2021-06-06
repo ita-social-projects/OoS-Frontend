@@ -3,10 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
-import { RegistrationState } from '../shared/store/registration.state';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 import { MockOidcSecurityService } from '../shared/mocks/mock-services';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -17,7 +17,8 @@ describe('HeaderComponent', () => {
       imports: [
         MatButtonModule,
         MatDialogModule,
-        NgxsModule.forRoot([RegistrationState]),
+        MatIconModule,
+        NgxsModule.forRoot([]),
         HttpClientModule
       ],
       declarations: [
