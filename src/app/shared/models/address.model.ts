@@ -1,10 +1,10 @@
 export class Address {
-  id?: number;
-  region?: string;
-  district?: string;
+  id: number;
   city: string;
   street: string;
   buildingNumber: string;
+  region?: string;
+  district?: string;
   latitude?: number;
   longitude?: number;
 

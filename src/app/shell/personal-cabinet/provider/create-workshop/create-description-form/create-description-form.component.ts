@@ -78,26 +78,7 @@ export class CreateDescriptionFormComponent implements OnInit {
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
   }
-  /**
-   * This method adds input value to the list of added by user key words
-   * if there is no match with list of options.
-   * The new word adds to the list of all key words and to the list of selected key Words
-   * @param MatChipInputEvent value
-   */
-  onAddKeyWord(event: MatChipInputEvent): void {
-    const value = event.value.trim();
-    if (value) {
-      if (this.onValidation(value, this.allkeyWords)) {
-        let newKeyWord: KeyWord = {
-          id: null,
-          keyWord: value.charAt(0).toUpperCase() + value.slice(1)
-        }
-        this.allkeyWords.push(newKeyWord); //should be replaced with KeyWords/post
-        this.keyWords.push(newKeyWord);
-      }
-    }
-    this.keyWordsCtrl.setValue(null);
-  }
+
   /**
    * This method remove already added key words from the list of key words
    * @param string word
@@ -107,13 +88,13 @@ export class CreateDescriptionFormComponent implements OnInit {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
     }
   }
+
   /**
    * This method adds an option from the list of filtered words
    * to the list of added by user key words
    * @param MatAutocompleteSelectedEvent value
    */
   onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
-
     if (this.onValidation(event.option.value.keyWord, this.keyWords)) {
       this.keyWords.push(event.option.value);
       this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
@@ -121,6 +102,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.keyWordsInput.nativeElement.value = '';
     this.keyWordsCtrl.setValue(null);
   }
+
   /**
    * This method filters the list of all key words according to the value of input
    * @param string value
@@ -135,10 +117,12 @@ export class CreateDescriptionFormComponent implements OnInit {
       .map((word: KeyWord) => word);
     return filteredKeyWords;
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
   /**
    * This method checks if the keyWord is already added to the selected key word list
    * @param string value

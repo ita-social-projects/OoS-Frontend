@@ -31,7 +31,7 @@
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="onAddKeyWord($event)">
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
       </mat-chip-list>
     </div>
   </label>
