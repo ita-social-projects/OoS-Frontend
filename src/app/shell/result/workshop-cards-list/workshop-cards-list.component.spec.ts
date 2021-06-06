@@ -23,9 +23,6 @@ describe('WorkshopCardsListComponentt', () => {
         NgxsModule.forRoot([]),
         NgxPaginationModule
       ],
-      providers:[
-        {provide: Store, useValue: MockStore}
-      ]
     })
     .compileComponents();
   });

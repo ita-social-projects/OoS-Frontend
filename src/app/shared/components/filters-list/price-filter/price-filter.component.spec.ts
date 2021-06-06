@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PriceFilterComponent } from './price-filter.component';
-import { Store } from '@ngxs/store';
-import { MockStore } from '../../../mocks/mock-services';
+import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -22,12 +21,10 @@ describe('PriceFilterComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [PriceFilterComponent],
-      providers: [
-        { provide: Store, useValue: MockStore }
-      ]
     })
       .compileComponents();
   });

@@ -15,9 +15,6 @@ describe('WorkshopDetailsComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
       ],
-      providers: [
-        { provide: Store, useValue: MockStore },
-      ],
       declarations: [
         WorkshopDetailsComponent,
         MockSideMenuComponent,

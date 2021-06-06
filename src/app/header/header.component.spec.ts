@@ -6,18 +6,12 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { NgxsModule, Store } from '@ngxs/store';
-import { RegistrationState } from '../shared/store/registration.state';
-import { MockOidcSecurityService, MockStore } from '../shared/mocks/mock-services';
-import { User } from '../shared/models/user.model';
-import { Observable } from 'rxjs';
+import { NgxsModule } from '@ngxs/store';
+import { MockOidcSecurityService } from '../shared/mocks/mock-services';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
-  let store: Store;
-
-  const user = {} as Observable<User>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,14 +21,13 @@ describe('HeaderComponent', () => {
         MatSnackBarModule,
         MatIconModule,
         HttpClientModule,
-        NgxsModule.forRoot([RegistrationState]),
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         HeaderComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
-        { provide: Store, useValue: MockStore }
       ]
     })
       .compileComponents();
@@ -43,8 +36,6 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store);
-
     fixture.detectChanges();
   });
 

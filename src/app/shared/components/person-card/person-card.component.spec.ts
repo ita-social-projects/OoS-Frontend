@@ -21,6 +21,8 @@ describe('ChildCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PersonCardComponent);
     component = fixture.componentInstance;
+    component.card = {} as any;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

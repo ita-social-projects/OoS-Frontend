@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CityFilterComponent } from './city-filter.component';
-import { Store } from '@ngxs/store';
-import { MockStore } from '../../../mocks/mock-services';
+import { NgxsModule } from '@ngxs/store';
 import { Component } from '@angular/core';
 
 describe('CityFilterComponent', () => {
@@ -12,17 +11,20 @@ describe('CityFilterComponent', () => {
     selector: 'app-city-autocomplete',
     template: '<p>Mock City Autocomplete</p>'
   })
-  class CityAutocompleteComponent {}
+  class CityAutocompleteComponent {
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CityFilterComponent,
-        CityAutocompleteComponent],
-      providers: [
-        { provide: Store, useValue: MockStore }
-      ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [
+        CityFilterComponent,
+        MockCityAutocompleteComponent
+      ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -35,3 +37,10 @@ describe('CityFilterComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-city-autocomplete',
+  template: ''
+})
+class MockCityAutocompleteComponent {
+}

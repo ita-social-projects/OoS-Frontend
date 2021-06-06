@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FiltersListComponent } from './filters-list.component';
-import { Store } from '@ngxs/store';
-import { MockStore } from '../../mocks/mock-services';
+import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -16,6 +15,7 @@ describe('FiltersListComponent', () => {
         MatCheckboxModule,
         FormsModule,
         ReactiveFormsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         FiltersListComponent,
@@ -26,9 +26,6 @@ describe('FiltersListComponent', () => {
         MockAgeFilterComponent,
         MockCategoryCheckBoxComponent,
         MockCityFilterComponent
-      ],
-      providers: [
-        { provide: Store, useValue: MockStore }
       ],
     })
       .compileComponents();

@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainComponent } from './main.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MockOidcSecurityService, MockStore } from '../../shared/mocks/mock-services';
-import { RegistrationState } from '../../shared/store/registration.state';
+import { NgxsModule } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MockOidcSecurityService } from '../../shared/mocks/mock-services';
 
 describe('ResultComponent', () => {
   let component: MainComponent;
@@ -15,12 +14,11 @@ describe('ResultComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatSnackBarModule,
-        NgxsModule.forRoot([RegistrationState]),
+        NgxsModule.forRoot([]),
         HttpClientTestingModule
       ],
       declarations: [MainComponent],
       providers: [
-        { provide: Store, useValue: MockStore },
         { provide: OidcSecurityService, useValue: MockOidcSecurityService }
       ]
     })

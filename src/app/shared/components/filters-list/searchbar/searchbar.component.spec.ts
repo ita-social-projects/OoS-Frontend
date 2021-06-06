@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchbarComponent } from './searchbar.component';
-import { Store } from '@ngxs/store';
-import { MockStore } from '../../../mocks/mock-services';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,12 +19,10 @@ describe('SearchbarComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [ SearchbarComponent ],
-      providers: [
-        { provide: Store, useValue: MockStore }
-      ]
     })
     .compileComponents();
   });

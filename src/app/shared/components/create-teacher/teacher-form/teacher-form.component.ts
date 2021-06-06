@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -9,12 +9,12 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class TeacherFormComponent implements OnInit {
 
-  constructor() { }
-
-  @Input() TeacherFormGroup: FormGroup;
   @Input() index: number;
   @Input() teacherAmount: number;
   @Output() deleteForm = new EventEmitter();
+
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
   }

@@ -1,14 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateTeacherComponent } from './create-teacher.component';
 import { MatIconModule } from '@angular/material/icon';
-import { TeacherFormComponent } from './teacher-form/teacher-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { ImageFormControlComponent } from '../image-form-control/image-form-control.component';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 
 describe('CreateTeacherComponent', () => {
   let component: CreateTeacherComponent;
@@ -20,15 +15,11 @@ describe('CreateTeacherComponent', () => {
         MatFormFieldModule,
         ReactiveFormsModule,
         MatIconModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatInputModule,
-        BrowserAnimationsModule
       ],
       declarations: [
         CreateTeacherComponent,
-        TeacherFormComponent,
-        ImageFormControlComponent
+        MockTeacherFormComponent,
+        MockImageFormControlComponent
       ]
     })
     .compileComponents();
@@ -44,3 +35,19 @@ describe('CreateTeacherComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-teacher-form',
+  template: ''
+})
+class MockTeacherFormComponent {
+  @Input() TeacherFormGroup: FormGroup;
+  @Input() teacherAmount: number;
+  @Input() index: number;
+}
+
+@Component({
+  selector: 'app-image-form-control',
+  template: ''
+})
+class MockImageFormControlComponent {}

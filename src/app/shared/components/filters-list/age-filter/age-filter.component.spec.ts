@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AgeFilterComponent } from './age-filter.component';
-import { Store } from '@ngxs/store';
-import { MockStore } from '../../../mocks/mock-services';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('AgeFilterComponent', () => {
@@ -11,12 +10,10 @@ describe('AgeFilterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatCheckboxModule
+        MatCheckboxModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [ AgeFilterComponent ],
-      providers: [
-        { provide: Store, useValue: MockStore }
-      ]
     })
     .compileComponents();
   });

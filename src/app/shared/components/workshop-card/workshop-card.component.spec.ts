@@ -6,6 +6,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { MockStore } from '../../mocks/mock-services';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Workshop } from '../../models/workshop.model';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -31,6 +32,8 @@ describe('WorkshopCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardComponent);
     component = fixture.componentInstance;
+    component.workshop = {} as Workshop;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

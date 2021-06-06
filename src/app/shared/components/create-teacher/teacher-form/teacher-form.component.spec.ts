@@ -4,6 +4,7 @@ import { ImageFormControlComponent } from '../../image-form-control/image-form-c
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -14,7 +15,9 @@ describe('TeacherFormComponent', () => {
       imports: [
         MatFormFieldModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        ReactiveFormsModule,
+        FormsModule
       ],
       declarations: [
         ImageFormControlComponent,
@@ -26,6 +29,9 @@ describe('TeacherFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TeacherFormComponent);
     component = fixture.componentInstance;
+    component.TeacherFormGroup = {} as FormGroup;
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
