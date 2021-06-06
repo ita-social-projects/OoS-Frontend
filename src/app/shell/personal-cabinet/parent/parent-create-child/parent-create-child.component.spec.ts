@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParentCreateChildComponent } from './parent-create-child.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { MockStore } from '../../../../shared/mocks/mock-services';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ParentCreateChildComponent', () => {
@@ -33,6 +33,7 @@ describe('ParentCreateChildComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParentCreateChildComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -44,4 +45,7 @@ describe('ParentCreateChildComponent', () => {
   template: ''
 })
 class MockChildFormComponent {
+  @Input() ChildFormGroup: FormGroup;
+  @Input() index: number;
+  @Input() childrenAmount: number;
 }

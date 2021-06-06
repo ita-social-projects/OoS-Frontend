@@ -24,7 +24,7 @@ describe('CreateInfoFormComponent', () => {
         MatNativeDateModule,
         MatSelectModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
       ],
       declarations: [ CreateInfoFormComponent ]
     })

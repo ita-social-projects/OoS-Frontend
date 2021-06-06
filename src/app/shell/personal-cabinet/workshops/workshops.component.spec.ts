@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopsComponent } from './workshops.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../shared/mocks/mock-services';
 
 describe('ProviderActivitiesComponent', () => {
   let component: WorkshopsComponent;
@@ -14,17 +13,15 @@ describe('ProviderActivitiesComponent', () => {
         RouterTestingModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [ WorkshopsComponent ],
-      providers: [
-        { provide: Store, useValue: MockStore },
-      ]
+      declarations: [WorkshopsComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopsComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

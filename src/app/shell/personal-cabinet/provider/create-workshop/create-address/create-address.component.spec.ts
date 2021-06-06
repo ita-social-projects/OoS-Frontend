@@ -6,7 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Address } from '../../../../../shared/models/address.model';
 
 describe('CreateAddressComponent', () => {
   let component: CreateAddressComponent;
@@ -34,6 +35,7 @@ describe('CreateAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAddressComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -46,4 +48,5 @@ describe('CreateAddressComponent', () => {
   template: ''
 })
 class MockMapComponent {
+  @Input() address: Address;
 }

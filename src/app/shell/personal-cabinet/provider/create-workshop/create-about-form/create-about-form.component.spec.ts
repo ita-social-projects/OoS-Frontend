@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAboutFormComponent } from './create-about-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -11,6 +11,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -32,7 +33,10 @@ describe('CreateAboutFormComponent', () => {
         MatButtonToggleModule,
         MatIconModule
       ],
-      declarations: [CreateAboutFormComponent]
+      declarations: [
+        CreateAboutFormComponent,
+        ImageFormControlComponent
+      ]
     })
       .compileComponents();
   });
@@ -40,9 +44,11 @@ describe('CreateAboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
+

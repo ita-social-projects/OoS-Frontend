@@ -9,8 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatInputModule } from '@angular/material/input';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -26,6 +27,8 @@ describe('CreateApplicationComponent', () => {
         MatOptionModule,
         MatIconModule,
         ReactiveFormsModule,
+        FormsModule,
+        MatInputModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ],

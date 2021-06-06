@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProviderConfigComponent } from './provider-config.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../../shared/mocks/mock-services';
+import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
+import { User } from '../../../../shared/models/user.model';
 
 describe('ProviderConfigComponent', () => {
   let component: ProviderConfigComponent;
@@ -14,9 +14,6 @@ describe('ProviderConfigComponent', () => {
         MatIconModule,
         NgxsModule.forRoot([]),
       ],
-      providers: [
-        { provide: Store, useValue: MockStore },
-      ],
       declarations: [ ProviderConfigComponent ]
     })
     .compileComponents();
@@ -25,6 +22,7 @@ describe('ProviderConfigComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderConfigComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms'
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Child } from 'src/app/shared/models/child.model';
@@ -19,9 +19,8 @@ export class ParentConfigComponent implements OnInit {
   @Select(UserState.children) cards$: Observable<Child[]>;
   public cards: Child[];
 
-  constructor(private fb: FormBuilder, private store: Store) { }
-  
-
+  constructor(private fb: FormBuilder, private store: Store) {
+  }
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetChildrenById(null));

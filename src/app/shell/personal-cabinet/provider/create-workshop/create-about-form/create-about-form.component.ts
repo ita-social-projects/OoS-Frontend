@@ -1,11 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, forwardRef, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss']
+  styleUrls: ['./create-about-form.component.scss'],
+
 })
 export class CreateAboutFormComponent implements OnInit {
 

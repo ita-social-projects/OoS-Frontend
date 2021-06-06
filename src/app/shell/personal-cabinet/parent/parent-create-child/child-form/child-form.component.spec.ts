@@ -6,6 +6,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
@@ -20,6 +23,10 @@ describe('ChildFormComponent', () => {
         MatSelectModule,
         MatOptionModule,
         MatNativeDateModule,
+        FormsModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule
       ],
       declarations: [ ChildFormComponent ]
     })
@@ -29,6 +36,7 @@ describe('ChildFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChildFormComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

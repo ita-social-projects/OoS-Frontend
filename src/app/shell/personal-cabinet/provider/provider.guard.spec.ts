@@ -11,9 +11,6 @@ describe('ProviderGuard', () => {
       imports: [
         NgxsModule.forRoot([]),
       ],
-      providers: [
-        { provide: Store, useValue: MockStore },
-      ]
     });
     guard = TestBed.inject(ProviderGuard);
   });

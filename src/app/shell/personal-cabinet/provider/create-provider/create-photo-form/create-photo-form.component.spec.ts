@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreatePhotoFormComponent } from './create-photo-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxsModule } from '@ngxs/store';
+import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreatePhotoFormComponent', () => {
   let component: CreatePhotoFormComponent;
@@ -13,10 +16,15 @@ describe('CreatePhotoFormComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations:
-        [CreatePhotoFormComponent]
+        [CreatePhotoFormComponent,
+          ImageFormControlComponent
+        ]
     })
       .compileComponents();
   });
@@ -24,6 +32,8 @@ describe('CreatePhotoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatePhotoFormComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+
   });
 
   it('should create', () => {

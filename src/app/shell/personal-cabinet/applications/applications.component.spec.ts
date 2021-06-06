@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../shared/mocks/mock-services';
+import { NgxsModule } from '@ngxs/store';
+import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -12,10 +12,9 @@ describe('ApplicationsComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
       ],
-      declarations: [ApplicationsComponent],
-      providers: [
-        { provide: Store, useValue: MockStore },
-      ]
+      declarations: [
+        ApplicationsComponent,
+        InfoBoxHostDirective],
     })
       .compileComponents();
   });
@@ -23,6 +22,7 @@ describe('ApplicationsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ApplicationsComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

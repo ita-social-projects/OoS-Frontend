@@ -5,9 +5,10 @@ import { Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MockStore } from '../../../../shared/mocks/mock-services';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
@@ -19,10 +20,9 @@ describe('CreateProviderComponent', () => {
         MatStepperModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        MatCheckboxModule
-      ],
-      providers: [
-        { provide: Store, useValue: MockStore },
+        MatCheckboxModule,
+        ReactiveFormsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         CreateProviderComponent,
