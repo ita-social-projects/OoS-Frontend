@@ -6,12 +6,9 @@ export const MockCityFilterService = {
 };
 
 export const MockStore = {
-  dispatch: () => {
-  },
-  subscribe: () => {
-  },
-  select: () => {
-  },
+  dispatch: () => {},
+  subscribe: () => {},
+  select: () => {},
 };
 
 export const MockOidcSecurityService = {
