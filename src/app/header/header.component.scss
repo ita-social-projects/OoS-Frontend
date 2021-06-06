@@ -9,14 +9,15 @@
 
 .header {
   padding: 1.5rem 5rem;
-  background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+  background: url(../../assets/images/header_bg.png) center center/cover
+    no-repeat;
 
   .authorization {
-    color: white; 
+    color: white;
   }
 
-  &_secondary{
-    background: #3849F9;
+  &_secondary {
+    background: #3849f9;
     max-height: 83px;
     box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
   }
@@ -27,7 +28,8 @@
     align-items: center;
   }
 
-  &_top, &_btns {
+  &_top,
+  &_btns {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,15 +37,14 @@
 
   &_logo-wrapper {
     position: relative;
-    .logo{
+    .logo {
       position: absolute;
       transform: translate(0, -41%);
-
     }
   }
 
   &_btns {
-    gap: 40px
+    gap: 40px;
   }
 
   &_login {
@@ -54,7 +55,8 @@
     color: white;
   }
 
-  &_lang, &_menu {
+  &_lang,
+  &_menu {
     background: none;
     color: white;
   }
@@ -88,7 +90,7 @@
   }
 
   &_city {
-    border-right: 1px solid #E3E3E3;
+    border-right: 1px solid #e3e3e3;
     width: 143px;
   }
 
@@ -97,6 +99,11 @@
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
   }
 
   &_menu {
@@ -114,13 +121,14 @@
             left: -10px;
             top: -10px;
             display: block;
-            background-color: #F5BC4A;
+            background-color: #f5bc4a;
           }
         }
       }
     }
-  
-    &-button-mobile, &_account-button {
+
+    &-button-mobile,
+    &_account-button {
       display: none;
     }
   }
@@ -135,7 +143,7 @@
 }
 
 .icon-account {
-  color:white;
+  color: white;
 }
 .spinner {
   position: fixed;
@@ -147,7 +155,6 @@
   width: auto !important;
 }
 
-
 @media (max-width: 1024px) {
   .header {
     &_search {
@@ -158,7 +165,8 @@
 
 @media (max-width: 375px) {
   .header {
-    &_top, &_btns {
+    &_top,
+    &_btns {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -166,20 +174,19 @@
   }
 }
 
-@media (max-width : 1200px) {
+@media (max-width: 1200px) {
   .header_btns {
     flex-wrap: nowrap;
   }
 }
 
-@media(max-width: 705px) {
+@media (max-width: 705px) {
   .category_card[_ngcontent-plu-c162] {
     margin: 2%;
   }
 }
 
-
-@media(max-width: 750px){
+@media (max-width: 750px) {
   .authorization {
     flex-direction: row-reverse;
 
@@ -204,7 +211,8 @@
   }
 
   .header {
-    &_login, .mat-button-base {
+    &_login,
+    .mat-button-base {
       width: auto;
       font-size: xx-small;
     }
@@ -223,7 +231,7 @@
         height: 30px;
       }
     }
-    
+
     &_lang {
       display: none;
     }
@@ -251,7 +259,7 @@
             top: 0;
             left: 0;
             position: absolute;
-            background-color: #F5BC4A;
+            background-color: #f5bc4a;
           }
         }
       }
@@ -271,12 +279,13 @@
   .header {
     &_logo-wrapper {
       height: 20px;
-      .logo{
+      .logo {
         width: 130px;
         margin-top: 8px;
       }
     }
-    &_top, &_btns {
+    &_top,
+    &_btns {
       display: flex;
       justify-content: space-between;
     }
@@ -290,7 +299,7 @@
       left: 0;
       padding: 15px;
       z-index: 999;
-      background-color: #3849F9;
+      background-color: #3849f9;
     }
     &_btns {
       flex-direction: column-reverse;
@@ -300,7 +309,7 @@
   }
 
   ::ng-deep .mat-menu-panel.header_menu {
-    background-color: #3849F9;
+    background-color: #3849f9;
 
     .mat-menu-item {
       color: white;
@@ -309,37 +318,33 @@
 }
 @media (max-width: 415px) {
   .header {
-    &_title{
+    &_title {
       font-size: 1.5rem;
       line-height: 2rem;
       text-align: center;
     }
-    &_descr{
+    &_descr {
       text-align: center;
       font-size: 1rem;
     }
-    &_city{
+    &_city {
       width: 60px;
     }
   }
-  .mat-button-wrapper{
-    padding:0.3rem;
+  .mat-button-wrapper {
+    padding: 0.3rem;
   }
 }
 
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
-  .header{
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .header {
     padding: 1rem 2rem;
   }
 }
 
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px){
-.header_login[_ngcontent-upc-c122] {
-  padding: 1rem 2rem !important;
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .header_login[_ngcontent-upc-c122] {
+    padding: 1rem 2rem !important;
     font-size: 9px;
-}
+  }
 }

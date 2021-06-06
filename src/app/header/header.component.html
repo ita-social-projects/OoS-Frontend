@@ -1,27 +1,34 @@
 <div class="header" [ngClass]="(isMainPage$ | async) ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
-      <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
+      <a routerLink="/"
+        ><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"
+      /></a>
     </div>
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
         УКР
       </button>
-      <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
+      <div
+        *ngIf="
+          (isAuthorized$ | async) && (user$ | async);
+          then isAuthorized;
+          else isUnauthorized
+        "
+      ></div>
     </div>
   </div>
-  <div *ngIf="(isMainPage$ | async) then isMainPage;" class="header_wrapper"></div>
+  <div
+    *ngIf="isMainPage$ | async; then isMainPage"
+    class="header_wrapper"
+  ></div>
 </div>
 
 <ng-template #isMainPage>
   <div fxLayout="column" fxLayoutAlign="none center">
-    <h1 class="header_title">
-      Знайдіть найкращі гуртки у своєму місті!
-    </h1>
-    <h2 class="header_descr">
-      Понад 500 найрізноманітніших гуртків
-    </h2>
+    <h1 class="header_title">Знайдіть найкращі гуртки у своєму місті!</h1>
+    <h2 class="header_descr">Понад 500 найрізноманітніших гуртків</h2>
     <div class="header_search">
       <mat-icon> place</mat-icon>
       <app-city-filter class="header_city"></app-city-filter>
@@ -40,47 +47,67 @@
   <div class="authorization">
     <span class="header_menu-button">
       <button mat-icon-button class="header_menu-button_account-circle">
-        <mat-icon matBadge="2" matBadgePosition="before">account_circle</mat-icon>
+        <mat-icon matBadge="2" matBadgePosition="before"
+          >account_circle</mat-icon
+        >
       </button>
-      <div class="header_username">
-        <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
-      </div>
+
       <button mat-icon-button [matMenuTriggerFor]="log">
-        <mat-icon>arrow_drop_down</mat-icon>
+        <div class="header_username">
+          <ng-container>{{ user.firstName }} {{ user.lastName }}</ng-container>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </div>
       </button>
     </span>
 
-    <button mat-flat-button class="header_menu-button-mobile" [matMenuTriggerFor]="log">
+    <button
+      mat-flat-button
+      class="header_menu-button-mobile"
+      [matMenuTriggerFor]="log"
+    >
       <mat-icon>menu</mat-icon>
     </button>
 
     <mat-menu #log="matMenu" class="header_menu">
       <button mat-menu-item class="header_menu_account-button">
-        <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
-        <button mat-raised-button class="header_menu_account-button_account-circle" matBadge="2"
-          matBadgePosition="before" matBadgeColor="accent">
+        <ng-container>{{ user.firstName }} {{ user.lastName }}</ng-container>
+        <button
+          mat-raised-button
+          class="header_menu_account-button_account-circle"
+          matBadge="2"
+          matBadgePosition="before"
+          matBadgeColor="accent"
+        >
           <i>
             <mat-icon class="icon-account">account_circle</mat-icon>
             <!-- <mat-icon class="icon-message"> email</mat-icon> -->
           </i>
         </button>
       </button>
-      <a [routerLink]="'./personal-cabinet/' + user.role + '/config'"><button mat-menu-item>Особиста
-          інформація</button></a>
-      <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
-          {{roles[user.role]}}</button></a>
-      <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
-      <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
-      <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>
+      <a [routerLink]="'./personal-cabinet/' + user.role + '/config'"
+        ><button mat-menu-item>Особиста інформація</button></a
+      >
+      <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
+        <button mat-menu-item>Інформація про {{ roles[user.role] }}</button></a
+      >
+      <a [routerLink]="'./personal-cabinet/workshops'"
+        ><button mat-menu-item>Мої гуртки</button></a
+      >
+      <a [routerLink]="'./personal-cabinet/applications'"
+        ><button mat-menu-item>Мої заяви</button></a
+      >
+      <a [routerLink]="'./personal-cabinet/messages'"
+        ><button mat-menu-item>Повідомлення</button></a
+      >
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
 </ng-template>
-<ng-container *ngIf="(isLoading$ | async) then Spinner;"></ng-container>
+<ng-container *ngIf="isLoading$ | async; then Spinner"></ng-container>
 
 <ng-template #Spinner>
   <div class="spinner">
-    <mat-progress-spinner diameter=80 mode="indeterminate" color="primary">
+    <mat-progress-spinner diameter="80" mode="indeterminate" color="primary">
     </mat-progress-spinner>
   </div>
 </ng-template>
