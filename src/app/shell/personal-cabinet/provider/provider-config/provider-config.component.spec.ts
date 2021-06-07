@@ -22,6 +22,7 @@ describe('ProviderConfigComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderConfigComponent);
     component = fixture.componentInstance;
+    component.user = {} as User;
     fixture.detectChanges();
   });
 
