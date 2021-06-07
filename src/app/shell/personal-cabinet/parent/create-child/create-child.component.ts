@@ -33,7 +33,6 @@ export class CreateChildComponent implements OnInit {
       birthDay: new FormControl(''),
       gender: new FormControl(''),
       type: new FormControl('')
-
     });
     return childFormGroup;
   }

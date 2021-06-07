@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
+import { WorkingHoursFormControlComponent } from '../../../../../shared/components/working-hours-form-control/working-hours-form-control.component';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -35,7 +36,8 @@ describe('CreateAboutFormComponent', () => {
       ],
       declarations: [
         CreateAboutFormComponent,
-        ImageFormControlComponent
+        ImageFormControlComponent,
+        WorkingHoursFormControlComponent
       ]
     })
       .compileComponents();
@@ -52,3 +54,12 @@ describe('CreateAboutFormComponent', () => {
   });
 });
 
+// @Component({
+//   selector: 'app-working-hours-form-control',
+//   template: ''
+// })
+// class MockWorkingHoursFormControlComponent {
+//   @Input() workHour: SelectedWorkingHours;
+//   @Input() index: number;
+//   @Input() workingHoursAmount: number;
+// }

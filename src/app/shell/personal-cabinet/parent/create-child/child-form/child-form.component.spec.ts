@@ -3,11 +3,11 @@ import { ChildFormComponent } from './child-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
@@ -22,7 +22,10 @@ describe('ChildFormComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MatRadioModule,
-        MatOptionModule
+        MatOptionModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        MatSelectModule
       ],
       declarations: [ ChildFormComponent ]
     })
@@ -32,7 +35,14 @@ describe('ChildFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChildFormComponent);
     component = fixture.componentInstance;
-    component.ChildFormGroup = {} as FormGroup;
+    component.ChildFormGroup = new FormGroup({
+      lastName: new FormControl(''),
+      firstName: new FormControl(''),
+      middleName: new FormControl(''),
+      birthDay: new FormControl(''),
+      gender: new FormControl(''),
+      type: new FormControl('')
+    });
 
     fixture.detectChanges();
   });

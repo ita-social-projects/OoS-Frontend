@@ -18,6 +18,6 @@ export class ProviderConfigComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.user$.subscribe(user => this.user = user);
+    // this.user$.subscribe(user => this.user = user);
   }
 }

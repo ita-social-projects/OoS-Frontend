@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProviderConfigComponent } from './provider-config.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
-import { User } from '../../../../shared/models/user.model';
 
 describe('ProviderConfigComponent', () => {
   let component: ProviderConfigComponent;
@@ -22,7 +21,6 @@ describe('ProviderConfigComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderConfigComponent);
     component = fixture.componentInstance;
-    component.user = {} as User;
     fixture.detectChanges();
   });
 
@@ -30,3 +28,4 @@ describe('ProviderConfigComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

@@ -4,7 +4,9 @@ import { ImageFormControlComponent } from '../../image-form-control/image-form-c
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -17,7 +19,10 @@ describe('TeacherFormComponent', () => {
         MatDatepickerModule,
         MatNativeDateModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule
       ],
       declarations: [
         ImageFormControlComponent,
@@ -29,8 +34,14 @@ describe('TeacherFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TeacherFormComponent);
     component = fixture.componentInstance;
-    component.TeacherFormGroup = {} as FormGroup;
-
+    component.TeacherFormGroup = new FormGroup({
+      img: new FormControl(''),
+      lastName: new FormControl(''),
+      firstName: new FormControl(''),
+      middleName: new FormControl(''),
+      birthDay: new FormControl(''),
+      description: new FormControl(''),
+    });
     fixture.detectChanges();
   });
 

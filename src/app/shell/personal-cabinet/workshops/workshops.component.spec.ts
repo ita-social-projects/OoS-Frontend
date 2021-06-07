@@ -3,7 +3,7 @@ import { WorkshopsComponent } from './workshops.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 
-describe('ProviderActivitiesComponent', () => {
+describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
   let fixture: ComponentFixture<WorkshopsComponent>;
 

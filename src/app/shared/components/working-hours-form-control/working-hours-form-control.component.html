@@ -1,7 +1,7 @@
 <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem'>
   <div fxLayout='row' fxLayoutAlign='space-between' class="days-toggle">
     <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center'
-      (click)="onToggleDays(day)" [value]="day" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
+      (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
       {{day.value}}</div>
   </div>
   <div fxLayout='row' fxLayoutAlign='center center'>
