@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+
 import { OrderingComponent } from './ordering.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
