@@ -9,7 +9,7 @@ import { CreateWorkshopComponent } from './personal-cabinet/provider/create-work
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
-import { ParentCreateChildComponent } from './personal-cabinet/parent/parent-create-child/parent-create-child.component';
+import { ParentCreateChildComponent } from './personal-cabinet/parent/parent-create-child/create-child.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
