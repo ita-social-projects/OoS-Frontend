@@ -21,7 +21,7 @@ export class CategoryCardComponent implements OnInit {
     this.getWord();
   }
 
-  selectCategory(category: Category) {
+  selectCategory(category: Category): void  {
     this.store.dispatch(new SetCategories([category]));
   }
   /**

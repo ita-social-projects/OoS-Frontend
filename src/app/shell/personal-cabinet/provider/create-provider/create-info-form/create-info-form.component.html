@@ -7,35 +7,42 @@
     </mat-select>
   </mat-form-field>
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
+
   <mat-form-field>
     <mat-select class="step-input" formControlName="type">
       <mat-option value="0" selected> Заклад освіти </mat-option>
       <mat-option value="1"> Заклад не освіти </mat-option>
     </mat-select>
   </mat-form-field>
+
   <label class="step-label"> Повна назва організації <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="fullTitle" required>
   </mat-form-field>
+
   <label class="step-label"> Скорочена назва організації <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="shortTitle" required>
   </mat-form-field>
+
   <label class="step-label"> ПІБ керівника <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="director" required>
   </mat-form-field>
+
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
   <mat-form-field class="step-input step-input-date">
     <input matInput [matDatepicker]="picker" formControlName="directorBirthDay" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+
   <label class="step-label"> ЄДПРОУ/ІПН <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" appDigitOnly minlength="8" maxlength="8" formControlName="edrpouIpn"
       required>
   </mat-form-field>
+
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
@@ -44,22 +51,27 @@
         ui-hide-group-sep minlength="10" maxlength="10" required>
     </div>
   </mat-form-field>
+
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="email" formControlName="email" required>
   </mat-form-field>
+
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website">
   </mat-form-field>
+
   <label class="step-label">Facebook</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="facebook">
   </mat-form-field>
+
   <label class="step-label">Instagram</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="instagram">
   </mat-form-field>
+
   <label class="step-label">Засновник<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="founder">

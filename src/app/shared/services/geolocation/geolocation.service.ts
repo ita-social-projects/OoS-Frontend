@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
 import { Coords } from '../../models/coords.model';
-import { MapAddress } from '../../models/map-address.model';
+import { Address } from '../../models/address.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,9 +39,9 @@ export class GeolocationService {
    * translates coords into address
    *
    * @param coords - Coords
-   * @param callback - Function, which recieves 1 argument of type MapAddress
+   * @param callback - Function, which recieves 1 argument of type Address
    */
-  locationDecode(coords: Coords, callback: (MapAddress) => void): void {
+  locationDecode(coords: Coords, callback: (Address) => void): void {
     new Geocoder().options.geocoder.reverse(
       {lat: coords.lat, lng: coords.lng},
       18,
@@ -65,9 +65,9 @@ export class GeolocationService {
   /**
    * translates address into coords
    *
-   * @param address - MapAddress
+   * @param address - Address
    */
-  async locationGeocode(address: MapAddress): Promise<[number, number] | null> {
+  async locationGeocode(address: Address): Promise<[number, number] | null> {
     const query = `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`;
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&limit=5&format=json&addressdetails=1`;
     const result = await fetch(url);

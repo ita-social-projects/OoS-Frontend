@@ -1,16 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TeacherFormComponent } from './teacher-form.component';
-import { ImageFormControlComponent } from '../../image-form-control/image-form-control.component';
+import { ChildFormComponent } from './child-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSelectModule } from '@angular/material/select';
 
-describe('TeacherFormComponent', () => {
-  let component: TeacherFormComponent;
-  let fixture: ComponentFixture<TeacherFormComponent>;
+describe('ChildFormComponent', () => {
+  let component: ChildFormComponent;
+  let fixture: ComponentFixture<ChildFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -20,28 +21,29 @@ describe('TeacherFormComponent', () => {
         MatNativeDateModule,
         ReactiveFormsModule,
         FormsModule,
-        MatFormFieldModule,
+        MatRadioModule,
+        MatOptionModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSelectModule
       ],
-      declarations: [
-        ImageFormControlComponent,
-        TeacherFormComponent]
+      declarations: [ ChildFormComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TeacherFormComponent);
+    fixture = TestBed.createComponent(ChildFormComponent);
     component = fixture.componentInstance;
-    component.TeacherFormGroup = new FormGroup({
-      img: new FormControl(''),
+    component.ChildFormGroup = new FormGroup({
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
       birthDay: new FormControl(''),
-      description: new FormControl(''),
+      gender: new FormControl(''),
+      type: new FormControl('')
     });
+
     fixture.detectChanges();
   });
 

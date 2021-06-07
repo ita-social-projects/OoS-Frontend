@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PersonalCabinetComponent } from './provider/personal-cabinet/personal-cabinet.component';
+import { PersonalCabinetComponent } from './personal-cabinet.component';
+import { NgxsModule, Store } from '@ngxs/store';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('PersonalCabinetComponent', () => {
   let component: PersonalCabinetComponent;
@@ -8,7 +9,11 @@ describe('PersonalCabinetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PersonalCabinetComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+        RouterTestingModule
+      ],
+      declarations: [ PersonalCabinetComponent ],
     })
     .compileComponents();
   });

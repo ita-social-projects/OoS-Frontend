@@ -1,11 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, forwardRef, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
-  styleUrls: ['./create-about-form.component.scss']
+  styleUrls: ['./create-about-form.component.scss'],
+
 })
 export class CreateAboutFormComponent implements OnInit {
 
@@ -21,7 +22,7 @@ export class CreateAboutFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
-      type: new FormControl(''),
+      type: new FormControl('', Validators.required),
       phone: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       minAge: new FormControl('', [Validators.required]),

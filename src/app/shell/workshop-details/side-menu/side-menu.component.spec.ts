@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SideMenuComponent } from './side-menu.component';
+import { Component, Input } from '@angular/core';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -8,9 +9,14 @@ describe('SideMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SideMenuComponent ]
+      declarations: [
+        SideMenuComponent,
+        MockScheduleComponent,
+        MockActionsComponent,
+        MockContactsComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -23,3 +29,27 @@ describe('SideMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-contacts',
+  template: ''
+})
+class MockContactsComponent {
+  @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-actions',
+  template: ''
+})
+class MockActionsComponent {
+  @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-schedule',
+  template: ''
+})
+class MockScheduleComponent {
+  @Input() workshop: Workshop;
+}

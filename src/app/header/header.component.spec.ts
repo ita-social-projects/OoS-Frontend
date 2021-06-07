@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Component, Injectable } from '@angular/core';
-import { NgxsModule, Store } from '@ngxs/store';
-import { RegistrationState } from '../shared/store/registration.state';
+import { NgxsModule } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
+import { MockOidcSecurityService } from '../shared/mocks/mock-services';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -17,14 +17,15 @@ describe('HeaderComponent', () => {
       imports: [
         MatButtonModule,
         MatDialogModule,
-        NgxsModule.forRoot([RegistrationState]),
+        MatIconModule,
+        NgxsModule.forRoot([]),
         HttpClientModule
       ],
-      declarations: [HeaderComponent,
-        MockRegistrationComponent
+      declarations: [
+        HeaderComponent
       ],
       providers: [
-        { provide: OidcSecurityService, useClass: MockOidcSecurityService }
+        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
       ]
     })
       .compileComponents();
@@ -37,16 +38,6 @@ describe('HeaderComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });
-@Component({
-  selector: 'app-registration',
-  template: ''
-})
-class MockRegistrationComponent { }
-
-@Injectable({
-  providedIn: 'root'
-})
-class MockOidcSecurityService { }

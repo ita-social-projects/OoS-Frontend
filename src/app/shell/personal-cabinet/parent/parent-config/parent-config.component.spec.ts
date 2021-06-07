@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ParentConfigComponent } from './parent-config.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { MatCardModule } from '@angular/material/card';
 
 describe('ParentConfigComponent', () => {
   let component: ParentConfigComponent;
@@ -8,7 +10,13 @@ describe('ParentConfigComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParentConfigComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+        MatCardModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      declarations: [ ParentConfigComponent ],
     })
     .compileComponents();
   });

@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateTeacherComponent } from './create-teacher.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 
 describe('CreateTeacherComponent', () => {
   let component: CreateTeacherComponent;
@@ -8,7 +11,16 @@ describe('CreateTeacherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateTeacherComponent ]
+      imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatIconModule,
+      ],
+      declarations: [
+        CreateTeacherComponent,
+        MockTeacherFormComponent,
+        MockImageFormControlComponent
+      ]
     })
     .compileComponents();
   });
@@ -23,3 +35,19 @@ describe('CreateTeacherComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-teacher-form',
+  template: ''
+})
+class MockTeacherFormComponent {
+  @Input() TeacherFormGroup: FormGroup;
+  @Input() teacherAmount: number;
+  @Input() index: number;
+}
+
+@Component({
+  selector: 'app-image-form-control',
+  template: ''
+})
+class MockImageFormControlComponent {}

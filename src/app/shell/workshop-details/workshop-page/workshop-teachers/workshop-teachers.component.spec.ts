@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopTeachersComponent } from './workshop-teachers.component';
 
 describe('WorkshopTeachersComponent', () => {
@@ -16,6 +15,7 @@ describe('WorkshopTeachersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopTeachersComponent);
     component = fixture.componentInstance;
+    component.teachers = [];
     fixture.detectChanges();
   });
 
@@ -23,3 +23,4 @@ describe('WorkshopTeachersComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

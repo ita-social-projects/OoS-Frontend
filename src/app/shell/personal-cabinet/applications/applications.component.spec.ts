@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
-
+import { NgxsModule } from '@ngxs/store';
+import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -8,7 +9,12 @@ describe('ApplicationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ApplicationsComponent]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [
+        ApplicationsComponent,
+        InfoBoxHostDirective],
     })
       .compileComponents();
   });
