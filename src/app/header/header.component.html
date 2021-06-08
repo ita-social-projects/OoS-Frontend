@@ -39,12 +39,15 @@
 <ng-template #isAuthorized>
   <div class="authorization">
     <span class="header_menu-button">
-       <button mat-icon-button class="header_menu-button_account-circle">
+      <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon matBadge="2" matBadgePosition="before">account_circle</mat-icon>
       </button>
       <div class="header_username">
         <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
       </div>
+      <button mat-icon-button [matMenuTriggerFor]="log">
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
     </span>
 
     <button mat-flat-button class="header_menu-button-mobile" [matMenuTriggerFor]="log">
