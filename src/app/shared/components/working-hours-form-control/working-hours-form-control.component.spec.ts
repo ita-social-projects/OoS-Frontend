@@ -11,7 +11,7 @@ describe('WorkingHoursFormControlComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         FormsModule,
         MatIconModule,
         MatInputModule

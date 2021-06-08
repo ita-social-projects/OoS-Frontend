@@ -28,7 +28,8 @@ describe('HeaderComponent', () => {
       ],
       declarations: [
         HeaderComponent,
-        MockCityFilterComponent
+        MockCityFilterComponent,
+        MockSearchBarComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
@@ -53,4 +54,10 @@ describe('HeaderComponent', () => {
   template: ''
 })
 class MockCityFilterComponent {
+}
+@Component({
+  selector: 'app-searchbar\' ',
+  template: ''
+})
+class MockSearchBarComponent {
 }

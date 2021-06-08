@@ -4,8 +4,8 @@ import { Component, Input, Provider } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
-import { Category } from '../../../shared/models/category.model';
 import { Teacher } from '../../../shared/models/teacher.model';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('WorkshopPageComponent', () => {
   let component: WorkshopPageComponent;
@@ -15,7 +15,8 @@ describe('WorkshopPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatChipsModule,
-        MatTabsModule
+        MatTabsModule,
+        RouterTestingModule
       ],
       declarations: [
         WorkshopPageComponent,
