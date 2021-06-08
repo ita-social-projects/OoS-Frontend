@@ -1,8 +1,8 @@
-<div class="cards" fxLayout="row wrap" fxLayoutGap='1.5rem grid' fxLayoutAlign="flex-start">
+<div fxLayout="row wrap" fxLayoutGap='1.5rem grid' fxLayoutAlign="flex-start">
   <ng-container>
     <app-workshop-card fxFlex
-      *ngFor="let workshop of workshops | paginate: { itemsPerPage: 4, currentPage: currentPage }" [workshop]="workshop"
-      [type]="'column'">
+      *ngFor="let workshop of workshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
+      [workshop]="workshop">
     </app-workshop-card>
     <div fxFlex class="placeholder-wrapper">
       <div class="placeholder"></div>
