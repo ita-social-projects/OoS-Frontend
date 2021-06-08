@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkingHoursFormControlComponent } from './working-hours-form-control.component';
 import { SelectedWorkingHours } from '../../models/workingHours.model';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 describe('WorkingHoursFormControlComponent', () => {
   let component: WorkingHoursFormControlComponent;
@@ -10,7 +12,9 @@ describe('WorkingHoursFormControlComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports:[
-        FormsModule
+        FormsModule,
+        MatIconModule,
+        MatInputModule
       ],
       declarations: [WorkingHoursFormControlComponent]
     })

@@ -7,6 +7,9 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 import { MockOidcSecurityService } from '../shared/mocks/mock-services';
 import { MatIconModule } from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -19,10 +22,13 @@ describe('HeaderComponent', () => {
         MatDialogModule,
         MatIconModule,
         NgxsModule.forRoot([]),
-        HttpClientModule
+        HttpClientModule,
+        RouterTestingModule,
+        MatProgressSpinnerModule
       ],
       declarations: [
-        HeaderComponent
+        HeaderComponent,
+        MockCityFilterComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
@@ -41,3 +47,10 @@ describe('HeaderComponent', () => {
     expect(component).toBeDefined();
   });
 });
+
+@Component({
+  selector: 'app-city-filter',
+  template: ''
+})
+class MockCityFilterComponent {
+}

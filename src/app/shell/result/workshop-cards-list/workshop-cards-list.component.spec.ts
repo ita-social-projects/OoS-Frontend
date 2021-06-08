@@ -4,8 +4,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
 import { CommonModule } from '@angular/common';
 import { MockStore } from '../../../shared/mocks/mock-services';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -15,7 +16,8 @@ describe('WorkshopCardsListComponentt', () => {
     await TestBed.configureTestingModule({
       declarations: [
         WorkshopCardsListComponent,
-        MockOrderingComponent
+        MockOrderingComponent,
+        MockListWorkshopCardComponent
       ],
       imports: [
         FlexLayoutModule,
@@ -43,4 +45,11 @@ describe('WorkshopCardsListComponentt', () => {
 })
 class MockOrderingComponent {
 }
-
+@Component({
+  selector: 'app-workshop-card',
+  template: ''
+})
+class MockListWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() type: string;
+}
