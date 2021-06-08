@@ -5,8 +5,9 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MockOidcSecurityService } from '../../shared/mocks/mock-services';
+import { Component } from '@angular/core';
 
-describe('ResultComponent', () => {
+describe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
 
@@ -35,3 +36,16 @@ describe('ResultComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-category-card',
+  template: ''
+})
+class MockCategoryCardComponent {
+}
+@Component({
+  selector: 'app-workshop-card',
+  template: ''
+})
+class MockWorkshopCardComponent {
+}
+

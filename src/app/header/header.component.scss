@@ -97,6 +97,13 @@
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
   }
 
   &_menu {
