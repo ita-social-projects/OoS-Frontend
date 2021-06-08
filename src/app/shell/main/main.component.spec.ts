@@ -5,7 +5,10 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MockOidcSecurityService } from '../../shared/mocks/mock-services';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Category } from '../../shared/models/category.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Workshop } from '../../shared/models/workshop.model';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -16,9 +19,14 @@ describe('MainComponent', () => {
       imports: [
         MatSnackBarModule,
         NgxsModule.forRoot([]),
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule
       ],
-      declarations: [MainComponent],
+      declarations: [
+        MainComponent,
+        MockMainCategoryCardComponent,
+        MockMainWorkshopCardComponent
+      ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService }
       ]
@@ -36,16 +44,21 @@ describe('MainComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
 @Component({
   selector: 'app-category-card',
   template: ''
 })
-class MockCategoryCardComponent {
+class MockMainCategoryCardComponent {
+  @Input() category: Category;
+  @Input() icons: {};
 }
+
 @Component({
   selector: 'app-workshop-card',
   template: ''
 })
-class MockWorkshopCardComponent {
+class MockMainWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() type: string;
 }
-
