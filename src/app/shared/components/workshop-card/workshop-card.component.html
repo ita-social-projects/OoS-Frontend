@@ -1,4 +1,4 @@
-<div class="card" [fxLayout]="type" fxLayoutAlign="center center">
+<div class="card">
   <div class="card_header" fxLayout="row" fxLayoutAlign="end start">
     <div *ngIf="!(isMainPage$ | async) then ProviderActions; else UserActions"></div>
   </div>

@@ -18,6 +18,7 @@ const workshopMock = {
   daysPerWeek: 3,
   description: "Клуб танців",
   rate: '4.9',
+  providerId:1,
   teachers: [{
     id: 1,
     firstName: 'Марія',

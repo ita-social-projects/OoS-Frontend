@@ -35,6 +35,7 @@ export class Workshop {
   category?: Category;
   subcategory?: Subcategory;
   subsubcategory?: Subsubcategory;
+  providerId: number;
 
   constructor(about, description, addr, tchrs) {
     this.title = about.title;
@@ -55,6 +56,7 @@ export class Workshop {
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     this.category = description.category;
     this.categoryId = description.category.id;
+    this.providerId = 1;
 
     this.subcategory = description.subcategory;
     this.subcategoryId = description.subcategoryId;
