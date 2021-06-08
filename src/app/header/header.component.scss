@@ -97,6 +97,11 @@
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
+    cursor: pointer;
+    
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &_menu {
