@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopsComponent } from './workshops.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
+import { Component, Input } from '@angular/core';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
@@ -13,7 +15,10 @@ describe('WorkshopsComponent', () => {
         RouterTestingModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [WorkshopsComponent],
+      declarations: [
+        WorkshopsComponent,
+        MockWorkshopCardComponent
+      ],
     })
       .compileComponents();
   });
@@ -28,3 +33,11 @@ describe('WorkshopsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-workshop-card',
+  template: ''
+})
+class MockWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() type: string;
+}

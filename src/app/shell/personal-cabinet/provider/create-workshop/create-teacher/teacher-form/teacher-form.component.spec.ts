@@ -1,12 +1,13 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TeacherFormComponent } from './teacher-form.component';
-import { ImageFormControlComponent } from '../../image-form-control/image-form-control.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageFormControlComponent } from '../../../../../../shared/components/image-form-control/image-form-control.component';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -22,7 +23,8 @@ describe('TeacherFormComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatIconModule
       ],
       declarations: [
         ImageFormControlComponent,

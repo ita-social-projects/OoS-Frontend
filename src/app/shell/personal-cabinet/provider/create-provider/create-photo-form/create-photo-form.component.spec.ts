@@ -1,6 +1,7 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreatePhotoFormComponent } from './create-photo-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
@@ -20,6 +21,7 @@ describe('CreatePhotoFormComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
+        MatIconModule
       ],
       declarations:
         [CreatePhotoFormComponent,
@@ -32,6 +34,10 @@ describe('CreatePhotoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatePhotoFormComponent);
     component = fixture.componentInstance;
+    component.PhotoFormGroup = new FormGroup({
+      image: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+    })
     fixture.detectChanges();
 
   });

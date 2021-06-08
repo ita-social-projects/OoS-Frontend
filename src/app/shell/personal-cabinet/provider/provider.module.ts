@@ -31,6 +31,7 @@ import { CreateInfoFormComponent } from './create-provider/create-info-form/crea
 import { CreateContactsFormComponent } from './create-provider/create-contacts-form/create-contacts-form.component';
 import { CreatePhotoFormComponent } from './create-provider/create-photo-form/create-photo-form.component';
 import { ProviderConfigComponent } from './provider-config/provider-config.component';
+import { CreateTeacherComponent } from './create-workshop/create-teacher/create-teacher.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -44,7 +45,7 @@ import { ProviderConfigComponent } from './provider-config/provider-config.compo
     CreateContactsFormComponent,
     CreatePhotoFormComponent,
     ProviderConfigComponent,
-
+    CreateTeacherComponent
   ],
   imports: [
     CommonModule,

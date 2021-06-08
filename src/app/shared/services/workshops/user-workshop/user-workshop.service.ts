@@ -33,7 +33,7 @@ export class UserWorkshopService {
   * @param id
   */
   deleteWorkshop(id: number): any {
-    const dataUrl = `Workshop/Delete/${id}`;
+    const dataUrl = `/Workshop/Delete/${id}`;
     return this.http.delete(dataUrl);
   }
 

@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
@@ -7,6 +8,9 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
 import { MockOidcSecurityService } from '../shared/mocks/mock-services';
 import { MatIconModule } from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -19,10 +23,15 @@ describe('HeaderComponent', () => {
         MatDialogModule,
         MatIconModule,
         NgxsModule.forRoot([]),
-        HttpClientModule
+        HttpClientModule,
+        RouterTestingModule,
+        MatProgressSpinnerModule,
+        MatMenuModule
       ],
       declarations: [
-        HeaderComponent
+        HeaderComponent,
+        MockCityFilterComponent,
+        MockSearchBarComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
@@ -41,3 +50,16 @@ describe('HeaderComponent', () => {
     expect(component).toBeDefined();
   });
 });
+
+@Component({
+  selector: 'app-city-filter',
+  template: ''
+})
+class MockCityFilterComponent {
+}
+@Component({
+  selector: 'app-searchbar',
+  template: ''
+})
+class MockSearchBarComponent {
+}
