@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategorySelectComponent } from './category-select.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MockStore } from '../../mocks/mock-services';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 
-describe('CategorySelectComponentt', () => {
+describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
   let fixture: ComponentFixture<CategorySelectComponent>;
 
@@ -16,11 +16,10 @@ describe('CategorySelectComponentt', () => {
         FormsModule,
         ReactiveFormsModule,
         MatSelectModule,
-        MatOptionModule],
+        MatOptionModule,
+        NgxsModule.forRoot([])
+      ],
       declarations: [CategorySelectComponent],
-      providers: [
-        { provide: Store, useValue: MockStore }
-      ]
     })
       .compileComponents();
   });

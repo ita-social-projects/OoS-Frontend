@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
@@ -24,7 +25,8 @@ describe('HeaderComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientModule,
         RouterTestingModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatMenuModule
       ],
       declarations: [
         HeaderComponent,
@@ -56,7 +58,7 @@ describe('HeaderComponent', () => {
 class MockCityFilterComponent {
 }
 @Component({
-  selector: 'app-searchbar\' ',
+  selector: 'app-searchbar',
   template: ''
 })
 class MockSearchBarComponent {

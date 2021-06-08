@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopPageComponent } from './workshop-page.component';
 import { Component, Input, Provider } from '@angular/core';
@@ -16,14 +17,16 @@ describe('WorkshopPageComponent', () => {
       imports: [
         MatChipsModule,
         MatTabsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatIconModule
       ],
       declarations: [
         WorkshopPageComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,
         MockReviewsComponent,
-        MockWorkshopTeachersComponent
+        MockWorkshopTeachersComponent,
+        MockWorkshopAboutComponent
       ]
     })
       .compileComponents();

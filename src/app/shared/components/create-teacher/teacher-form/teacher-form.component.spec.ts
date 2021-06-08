@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TeacherFormComponent } from './teacher-form.component';
 import { ImageFormControlComponent } from '../../image-form-control/image-form-control.component';
@@ -22,7 +23,8 @@ describe('TeacherFormComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatIconModule
       ],
       declarations: [
         ImageFormControlComponent,
