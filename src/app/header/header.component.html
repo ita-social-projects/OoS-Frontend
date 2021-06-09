@@ -42,7 +42,7 @@
       <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon matBadge="2" matBadgePosition="before">account_circle</mat-icon>
       </button>
-      <div class="header_username">
+      <div class="header_username" [matMenuTriggerFor]="log">
         <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
       </div>
       <button mat-icon-button [matMenuTriggerFor]="log">
