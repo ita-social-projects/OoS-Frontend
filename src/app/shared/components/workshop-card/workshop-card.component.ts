@@ -20,6 +20,8 @@ export class WorkshopCardComponent implements OnInit {
   @Input() userRole: string;
   @Input() isMainPage: boolean;
 
+  status: string = 'approved'; //temporary
+
   constructor(private store: Store) { }
 
   ngOnInit(): void { }
@@ -34,5 +36,9 @@ export class WorkshopCardComponent implements OnInit {
 
   onEdit(): void {
     console.log("I edit it")
+  }
+
+  onChangeStatus(status): void {
+    this.status = status;
   }
 }

@@ -32,6 +32,45 @@
     opacity: 0.5;
   }
 }
+
+.status{
+  width: 106px;
+  height: 24px;
+
+  border-radius: 16px;
+
+  &_approved{
+    color: green;
+  }
+
+  &_denied{
+    color:red;
+  }
+
+  &_text{
+    font-family: Innerspace;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 12px;
+    color: #FFFFFF;
+  }
+
+  &_action{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.5;
+    }
+  }
+}
+.chip_approved{
+  background: #99CD56;
+
+}
+.chip_denied{
+  background: red;
+}
 ::ng-deep .mat-card{
   padding:0;
 }

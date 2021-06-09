@@ -30,6 +30,7 @@
 
 <ng-template #UserView>
   <mat-card-content class="user" fxLayout="column" fxLayoutAlign="space-between">
+    <div *ngIf="userRole === role.provider then ProviderChangeStatus; else ParentChangeStatus"></div>
     <p class="card_text user_text"><img src="assets/icons/age.png" alt="age">
       {{ userRole !== role.provider ? "Всього учасників" : "Доступних місць" }} </p>
     <p class="card_text user_text"><img src="assets/icons/awaits.png" alt="awaits"> Очікує підтвердження </p>
@@ -46,5 +47,25 @@
 <ng-template #UserActions>
   <div fxLayout="row" fxLayoutAlign="end start">
     <div class="actions_btn"><img src="assets/icons/fav.png" alt="fav" (click)="onLike()"></div>
+  </div>
+</ng-template>
+
+<ng-template #ProviderChangeStatus>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
+      <p class="status_text">{{ status === 'approved'
+        ? "Набір відкрито" : "Набір завершено" }}</p>
+    </mat-chip>
+    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')"> Призупинити
+      набір </p>
+  </div>
+</ng-template>
+
+<ng-template #ParentChangeStatus>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <p class="status_{{status}}"><img src="assets/icons/{{status}}.png" alt="{{status}}"> {{ status === 'approved'
+      ? "Підтверджено" : "Відхилено" }} </p>
+    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')">Залишити гурток
+    </p>
   </div>
 </ng-template>
