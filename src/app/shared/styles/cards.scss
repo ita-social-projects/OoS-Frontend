@@ -6,7 +6,7 @@
   height: 370px;
   background: #FFFFFF;
   box-shadow: 0px 0.375rem 1rem rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
+  border-radius: 0.5rem;
   margin-right: 1.5rem;
 
   &_category{
@@ -19,8 +19,8 @@
 
     .arrow {
        margin: 1rem;
-       font-size: 15px;
-       line-height: 24px;
+       font-size: 1rem;
+       line-height: 1rem;
      }
   }
 
