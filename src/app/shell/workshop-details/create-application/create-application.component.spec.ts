@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatInputModule } from '@angular/material/input';
+import { Component, Input } from '@angular/core';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -32,7 +33,10 @@ describe('CreateApplicationComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [ CreateApplicationComponent ],
+      declarations: [ 
+        CreateApplicationComponent, 
+        MockPersonCardComponent 
+      ],
     })
     .compileComponents();
   });
@@ -47,3 +51,11 @@ describe('CreateApplicationComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-person-card',
+  template: ''
+})
+class MockPersonCardComponent {
+  @Input() card;
+  @Input() isChildInfo: boolean;
+}

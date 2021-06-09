@@ -13,6 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { WorkingHoursFormControlComponent } from '../../../../../shared/components/working-hours-form-control/working-hours-form-control.component';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -32,7 +33,8 @@ describe('CreateAboutFormComponent', () => {
         MatOptionModule,
         MatRadioModule,
         MatButtonToggleModule,
-        MatIconModule
+        MatIconModule,
+        MatSelectModule
       ],
       declarations: [
         CreateAboutFormComponent,

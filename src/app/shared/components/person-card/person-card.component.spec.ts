@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PersonCardComponent } from './person-card.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +12,8 @@ describe('ChildCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatIconModule,
-        MatCardModule
+        MatCardModule,
+        RouterTestingModule
       ],
       declarations: [PersonCardComponent]
     })

@@ -3,6 +3,7 @@ import { ParentConfigComponent } from './parent-config.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
+import { Component, Input } from '@angular/core';
 
 describe('ParentConfigComponent', () => {
   let component: ParentConfigComponent;
@@ -16,7 +17,9 @@ describe('ParentConfigComponent', () => {
         FormsModule,
         ReactiveFormsModule
       ],
-      declarations: [ ParentConfigComponent ],
+      declarations: [
+        ParentConfigComponent,
+        MockPersonCardComponent],
     })
     .compileComponents();
   });
@@ -31,3 +34,11 @@ describe('ParentConfigComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-person-card',
+  template: ''
+})
+class MockPersonCardComponent {
+  @Input() card;
+  @Input() isChildInfo: boolean;
+}

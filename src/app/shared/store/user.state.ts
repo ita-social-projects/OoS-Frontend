@@ -119,7 +119,6 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      this.router.navigate(['/personal-cabinet/workshops']);
       dispatch(new ToggleLoading(false));
     }, 2000);
   }

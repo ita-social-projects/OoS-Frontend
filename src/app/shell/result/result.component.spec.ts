@@ -5,6 +5,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormGroup } from '@angular/forms';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -24,7 +25,8 @@ describe('ResultComponent', () => {
         MockOrderingComponent,
         MockFiltersListComponent,
         MockCityFilterComponent,
-        MockWorkshopCardsListComponent
+        MockWorkshopCardsListComponent,
+        MockResultMapComponent
       ]
     })
       .compileComponents();
@@ -74,4 +76,11 @@ class MockCityFilterComponent {
 })
 class MockWorkshopCardsListComponent {
   @Input() type: string;
+}
+@Component({
+  selector: 'app-map',
+  template: ''
+})
+class MockResultMapComponent {
+  @Input() address: FormGroup;
 }
