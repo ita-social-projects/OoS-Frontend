@@ -6,7 +6,7 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="grid">
+    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
       <app-category-card *ngFor="let category of categories$ | async " [category]="category">
       </app-category-card>
     </div>
@@ -17,27 +17,13 @@
       <a routerLink="/result" class="main_link">
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
-      <!-- <a routerLink="./workshop-details" class="main_link">
-        Деталі гуртка <span class="material-icons arrow">arrow_forward</span>
-      </a>
-      <a routerLink="./personal-cabinet/provider/create-provider" class="main_link">
-        Створити провайдера <span class="material-icons arrow">arrow_forward</span>
-      </a>
-      <a routerLink="./personal-cabinet/parent/create-child" class="main_link">
-        Створити дитину <span class="material-icons arrow">arrow_forward</span>
-      </a>-->
-      <!-- <a routerLink="./create-workshop" class="main_link">
-        Створити гурток <span class="material-icons arrow">arrow_forward</span>
-      </a> -->
     </div>
-    <div class="cards" fxLayout="row wrap" fxLayoutAlign="space-between center">
-      <ng-container>
-        <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
-          <app-workshop-card *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop" [type]="'column'">
-          </app-workshop-card>
-        </div>
-      </ng-container>
-    </div>
+    <ng-container>
+      <div fxLayout='row wrap' fxLayoutAlign='space-between' fxLayoutGap="20px grid">
+        <app-workshop-card *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop">
+        </app-workshop-card>
+      </div>
+    </ng-container>
   </div>
   <div *ngIf="!(isAuthorized$ | async)" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
