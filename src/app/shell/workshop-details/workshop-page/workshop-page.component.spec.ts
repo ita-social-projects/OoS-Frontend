@@ -18,7 +18,8 @@ describe('WorkshopPageComponent', () => {
         MatChipsModule,
         MatTabsModule,
         RouterTestingModule,
-        MatIconModule
+        MatIconModule,
+        MatChipsModule
       ],
       declarations: [
         WorkshopPageComponent,

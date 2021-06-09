@@ -26,7 +26,7 @@ describe('WorkshopCardsListComponentt', () => {
         NgxPaginationModule
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -51,5 +51,6 @@ class MockOrderingComponent {
 })
 class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() type: string;
+  @Input() isMainPage: boolean;
+  @Input() userRole: string;
 }
