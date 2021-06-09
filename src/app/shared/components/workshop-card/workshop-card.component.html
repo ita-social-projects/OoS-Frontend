@@ -1,18 +1,12 @@
+<div *ngIf="((isMainPage$ | async) || user.role !== role.provider) then UserActions; else ProviderActions">
+</div>
 <mat-card>
   <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
-  <div fxLayout="row" fxLayoutAlign="space-between">
+  <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
     <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
       alt="{{workshop.category}}">
-  </div>
-
-  <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
-    <p><img src="assets/icons/rate.png" alt="rate"> {{ workshop.rate }} </p>
-    <p><img src="assets/icons/name.png" alt="name"> {{ workshop.ownership }} </p>
-    <p><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }} </p>
-    <p><img src="assets/icons/price.png" alt="price"> {{ workshop.price ? workshop.price : "Безкоштовно" }} </p>
-    <p><img src="assets/icons/address.png" alt="address"> {{ workshop.address.city }}, {{ workshop.address.street }}, {{
-      workshop.address.buildingNumber }} </p>
-  </mat-card-content>
+  </mat-card-header>
+  <div *ngIf="( isMainPage$ | async) then MainView; else UserView"></div>
   <mat-card-footer fxLayout="row" fxLayoutAlign="end">
     <a routerLink="/workshop-details" class="card_link">
       Детальніше
@@ -20,3 +14,39 @@
     </a>
   </mat-card-footer>
 </mat-card>
+
+<ng-template #MainView>
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+    <p class="card_text"><img src="assets/icons/rate.png" alt="rate"> {{ workshop.rate }} </p>
+    <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop.ownership }} </p>
+    <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }} </p>
+    <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop.price ? workshop.price :
+      "Безкоштовно" }} </p>
+    <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop.address.city }}, {{
+      workshop.address.street }}, {{
+      workshop.address.buildingNumber }} </p>
+  </mat-card-content>
+</ng-template>
+
+<ng-template #UserView>
+  <div *ngIf="user">
+    <mat-card-content class="user" fxLayout="column" fxLayoutAlign="space-between">
+      <p class="card_text user_text"><img src="assets/icons/age.png" alt="age">
+        {{ user.role === role.provider ? "Всього учасників" : "Доступних місць" }} </p>
+      <p class="card_text user_text"><img src="assets/icons/awaits.png" alt="awaits"> Очікує підтвердження </p>
+      <p class="card_text user_text"><img src="assets/icons/email.png" alt="email"> Повідомлення </p>
+    </mat-card-content>
+  </div>
+</ng-template>
+
+<ng-template #ProviderActions>
+  <div fxLayout="row" fxLayoutAlign="end start">
+    <div class="actions_btn"><img src="assets/icons/edit.png" alt="edit" (click)="onEdit()"></div>
+    <div class="actions_btn"><img src="assets/icons/delete.png" alt="delete" (click)="onDelete()"></div>
+  </div>
+</ng-template>
+<ng-template #UserActions>
+  <div fxLayout="row" fxLayoutAlign="end start">
+    <div class="actions_btn"><img src="assets/icons/fav.png" alt="fav" (click)="onLike()"></div>
+  </div>
+</ng-template>

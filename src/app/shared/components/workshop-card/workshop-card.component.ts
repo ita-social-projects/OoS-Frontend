@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Role } from '../../enum/role';
+import { User } from '../../models/user.model';
 import { Workshop } from '../../models/workshop.model';
 import { AppState } from '../../store/app.state';
+import { RegistrationState } from '../../store/registration.state';
 import { DeleteWorkshopById } from '../../store/user.actions';
 @Component({
   selector: 'app-workshop-card',
@@ -11,16 +14,30 @@ import { DeleteWorkshopById } from '../../store/user.actions';
 })
 export class WorkshopCardComponent implements OnInit {
 
+  readonly role: typeof Role = Role;
+
+  @Input() workshop: Workshop;
   @Select(AppState.isMainPage)
   isMainPage$: Observable<boolean>;
-  @Input() workshop: Workshop;
+  @Select(RegistrationState.user)
+  user$: Observable<User>;
+  user: User;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.user$.subscribe(val => this.user = val)
   }
 
   onDelete(): void {
-    this.store.dispatch(new DeleteWorkshopById(this.workshop.id))
+    this.store.dispatch(new DeleteWorkshopById(this.workshop.id));
+  }
+
+  onLike(): void {
+    console.log("I like it")
+  }
+
+  onEdit(): void {
+    console.log("I edit it")
   }
 }
