@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Parent } from '../../models/parent.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,14 @@ export class ParentService {
   */
   createParent(parent: Parent): Observable<Object> {
     return this.http.post('/Parent/Create', parent);
+  }
+
+  /**
+  * This method update Parent
+  * @param Parent
+  */
+  updateParent(parent: Parent): Observable<Object> {
+    return this.http.put('/Parent/Update', parent);
   }
 
   /**

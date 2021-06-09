@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { UserConfigComponent } from './user-config/user-config.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ParentGuard } from './parent/parent.guard';
@@ -7,6 +8,10 @@ import { ProviderGuard } from './provider/provider.guard';
 import { WorkshopsComponent } from './workshops/workshops.component';
 
 const routes: Routes = [
+  {
+    path: 'config',
+    component: UserConfigComponent
+  },
   {
     path: 'workshops',
     component: WorkshopsComponent,
