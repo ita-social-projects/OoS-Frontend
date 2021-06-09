@@ -1,11 +1,11 @@
-<div fxLayout="row wrap" fxLayoutGap='1.5rem grid' fxLayoutAlign="flex-start">
-  <ng-container>
-    <app-workshop-card fxFlex
-      *ngFor="let workshop of workshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
+<ng-container>
+  <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid">
+    <app-workshop-card
+      *ngFor="let workshop of allWorkshops$ | async | paginate: { itemsPerPage: 4, currentPage: currentPage }"
       [workshop]="workshop">
     </app-workshop-card>
-  </ng-container>
-</div>
+  </div>
+</ng-container>
 <div class="pagination-wrapper" fxLayoutAlign="center">
   <pagination-controls class="pagination" (pageChange)="currentPage = $event" maxSize="8" directionLinks="true"
     autoHide="true" responsive="true" previousLabel="" nextLabel="" screenReaderPaginationLabel="Pagination"
