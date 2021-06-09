@@ -17,17 +17,12 @@ export class WorkshopCardComponent implements OnInit {
   readonly role: typeof Role = Role;
 
   @Input() workshop: Workshop;
-  @Select(AppState.isMainPage)
-  isMainPage$: Observable<boolean>;
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
-  user: User;
+  @Input() userRole: string;
+  @Input() isMainPage: boolean;
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void {
-    this.user$.subscribe(val => this.user = val)
-  }
+  ngOnInit(): void { }
 
   onDelete(): void {
     this.store.dispatch(new DeleteWorkshopById(this.workshop.id));

@@ -1,4 +1,4 @@
-<div *ngIf="((isMainPage$ | async) || user.role !== role.provider) then UserActions; else ProviderActions">
+<div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions">
 </div>
 <mat-card>
   <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
@@ -6,7 +6,7 @@
     <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
       alt="{{workshop.category}}">
   </mat-card-header>
-  <div *ngIf="( isMainPage$ | async) then MainView; else UserView"></div>
+  <div *ngIf="isMainPage then MainView; else UserView"></div>
   <mat-card-footer fxLayout="row" fxLayoutAlign="end">
     <a routerLink="/workshop-details" class="card_link">
       Детальніше
@@ -29,14 +29,12 @@
 </ng-template>
 
 <ng-template #UserView>
-  <div *ngIf="user">
-    <mat-card-content class="user" fxLayout="column" fxLayoutAlign="space-between">
-      <p class="card_text user_text"><img src="assets/icons/age.png" alt="age">
-        {{ user.role === role.provider ? "Всього учасників" : "Доступних місць" }} </p>
-      <p class="card_text user_text"><img src="assets/icons/awaits.png" alt="awaits"> Очікує підтвердження </p>
-      <p class="card_text user_text"><img src="assets/icons/email.png" alt="email"> Повідомлення </p>
-    </mat-card-content>
-  </div>
+  <mat-card-content class="user" fxLayout="column" fxLayoutAlign="space-between">
+    <p class="card_text user_text"><img src="assets/icons/age.png" alt="age">
+      {{ userRole !== role.provider ? "Всього учасників" : "Доступних місць" }} </p>
+    <p class="card_text user_text"><img src="assets/icons/awaits.png" alt="awaits"> Очікує підтвердження </p>
+    <p class="card_text user_text"><img src="assets/icons/email.png" alt="email"> Повідомлення </p>
+  </mat-card-content>
 </ng-template>
 
 <ng-template #ProviderActions>
