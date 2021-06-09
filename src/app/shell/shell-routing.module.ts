@@ -10,6 +10,7 @@ import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { ParentCreateChildComponent } from './personal-cabinet/parent/parent-create-child/parent-create-child.component';
+import { UserConfigEditComponent } from './personal-cabinet/user-config/user-config-edit/user-config-edit.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -18,7 +19,10 @@ const routes: Routes = [
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
     canLoad: [PersonalCabinetGuard]
-
+  },
+  {
+    path: 'personal-cabinet/config/edit',
+    component: UserConfigEditComponent
   },
   {
     path: 'workshop-details', component: WorkshopDetailsComponent,
@@ -28,13 +32,11 @@ const routes: Routes = [
     path: 'create-workshop', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard]
-
   },
   {
     path: 'create-provider', component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard]
-
   },
   {
     path: 'create-child', component: ParentCreateChildComponent,

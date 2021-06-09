@@ -1,7 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
-import { ParentConfigComponent } from './parent-config/parent-config.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +22,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
-    ParentConfigComponent,
     ParentCreateChildComponent,
     ChildFormComponent,
     ParentInfoComponent,

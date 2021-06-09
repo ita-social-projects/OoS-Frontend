@@ -13,12 +13,16 @@ import { WorkshopsComponent } from './workshops/workshops.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { NgxsModule } from '@ngxs/store';
 import { UserState } from 'src/app/shared/store/user.state';
+import { UserConfigComponent } from './user-config/user-config.component';
+import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 @NgModule({
   declarations: [
     ApplicationsComponent,
     ApplicationCardComponent,
     MessagesComponent,
-    WorkshopsComponent
+    WorkshopsComponent,
+    UserConfigComponent,
+    UserConfigEditComponent
   ],
   imports: [
     CommonModule,

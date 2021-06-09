@@ -8,11 +8,11 @@ import { GetProviderById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
-  selector: 'app-provider-config',
-  templateUrl: './provider-config.component.html',
-  styleUrls: ['./provider-config.component.scss']
+  selector: 'app-user-config',
+  templateUrl: './user-config.component.html',
+  styleUrls: ['./user-config.component.scss']
 })
-export class ProviderConfigComponent implements OnInit {
+export class UserConfigComponent implements OnInit {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
