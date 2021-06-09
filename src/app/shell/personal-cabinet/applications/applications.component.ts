@@ -23,16 +23,14 @@ export class ApplicationsComponent implements OnInit {
   applications$: Observable<Application[]>;
   public applications: Application[];
   child: Child;
-  
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
-  role;                                                                                                                                                 ;
+  role ;                                                                                                                                                 
   
   
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
   destroy$: Subject<boolean> = new Subject<boolean>();
+ 
 
   constructor(private store: Store,
     private infoBoxService: InfoBoxService) { }
@@ -42,9 +40,8 @@ export class ApplicationsComponent implements OnInit {
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
-
-    this.user$.subscribe(user => this.role = user.role);
- 
+    this.role = (this.store.selectSnapshot<User>(RegistrationState.user)).role ;
+  
 
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
