@@ -3,7 +3,6 @@ import { WorkshopCardComponent } from './workshop-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../mocks/mock-services';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop } from '../../models/workshop.model';
@@ -21,12 +20,9 @@ describe('WorkshopCardComponent', () => {
         FlexLayoutModule,
         RouterTestingModule
       ],
-      declarations: [ WorkshopCardComponent ],
-      providers: [
-        { provide: Store, useValue: MockStore }
-      ]
+      declarations: [WorkshopCardComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
