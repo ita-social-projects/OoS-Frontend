@@ -2,25 +2,33 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Child } from '../../models/child.model';
-
-const dataUrl = '/assets/mock-child-cards.json';
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class ChildrenService {
 
+  dataUrlmock = '/assets/mock-child-cards.json';
+
   constructor(private http: HttpClient) { }
 
   /**
-  * This method get children by User id
+  * This method get all children by User id
+  * @param id
+  */
+  getChildren(): Observable<Child[]> {
+    return this.http.get<Child[]>(this.dataUrlmock);
+  }
+
+  /**
+  * This method get children by Child id
   * @param id
   */
   getChildrenById(id: number): Observable<Child[]> {
     const dataUrl = `/Child/GetById/${id}`;
-    return this.http.get<Child[]>(`/Child/GetById/${id}`);
+    return this.http.get<Child[]>(dataUrl);
   }
+
 
   /**
   * This method create Child

@@ -29,7 +29,7 @@ export interface RegistrationStateModel {
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    isRegistered: false,
+    isRegistered: true,
     user: undefined,
     checkSessionChanged: false,
     provider: undefined,
@@ -55,6 +55,11 @@ export class RegistrationState {
   @Selector()
   static provider(state: RegistrationStateModel): Provider {
     return state.provider
+  }
+
+  @Selector()
+  static parent(state: RegistrationStateModel): Parent {
+    return state.parent
   }
 
   constructor(

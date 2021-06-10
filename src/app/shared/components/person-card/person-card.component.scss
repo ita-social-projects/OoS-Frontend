@@ -1,28 +1,11 @@
-.card{
-   width: 600px;
-   bottom:40px;
-   display: flex;
-   flex-direction: column;
-   margin: 0 auto;
-}
-h1{
-   text-align: center;
-}
-img{
-   margin: 0.5rem;
-   padding: 2rem;
-   border: 1px solid black;
- }
-.text{
-  margin:1rem 0 ;
-  font-family: Innerspace;
+@import "src/app/shared/styles/cards.scss";
+@import "src/app/shared/styles/create-form.scss";
+@import "src/app/shared/styles/validation-form.scss";
+.card_label{
+  font-family: "Innerspace";
   font-weight: 700;
-  line-height: 14.6px;
-  color:#444444;
 }
-.edit-icon{
-  position: relative;
-  z-index: 2;
-  left:500px;
-  color : #3849F9;
+
+.user_form{
+  margin-top:1rem;
 }

@@ -15,8 +15,8 @@ import { CategorySelectComponent } from './components/category-select/category-s
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
-import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
-import { ApplicationSortPipe } from './pipes/application-sort.pipe';
+// import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
+// import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
 import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
@@ -42,8 +42,8 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
-    ApplicationFilterPipe,
-    ApplicationSortPipe,
+    // ApplicationFilterPipe,
+    // ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     WorkingHoursComponent,
@@ -76,8 +76,8 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
-    ApplicationFilterPipe,
-    ApplicationSortPipe,
+    // ApplicationFilterPipe,
+    // ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     FormsModule,

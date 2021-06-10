@@ -16,14 +16,17 @@ import { UserWorkshopService } from '../services/workshops/user-workshop/user-wo
 import { ToggleLoading } from './app.actions';
 import { RegisterUser } from './registration.actions';
 import {
+  CreateApplication,
   CreateChildren,
   CreateParent,
   CreateProvider,
   CreateWorkshop,
   DeleteWorkshopById,
   GetApplicationsById,
-  GetChildrenById,
+  GetChildren,
   GetWorkshopsById,
+  OnCreateApplicationFail,
+  OnCreateApplicationSuccess,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
   OnCreateParentFail,
@@ -92,10 +95,10 @@ export class UserState {
         }))
   }
 
-  @Action(GetChildrenById)
-  getChildrenById({ patchState }: StateContext<UserStateModel>, { payload }: GetChildrenById) {
+  @Action(GetChildren)
+  getChildren({ patchState }: StateContext<UserStateModel>, { }: GetChildren) {
     return this.childrenService
-      .getChildrenById(payload)
+      .getChildren()
       .pipe(
         tap(
           (userChildren: Child[]) => patchState({ children: userChildren })
@@ -253,6 +256,34 @@ export class UserState {
   onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
     dispatch(new RegisterUser());
     console.log('Parent is created', payload);
+  }
+
+  @Action(CreateApplication)
+  createApplication({ dispatch }: StateContext<UserStateModel>, { payload }: CreateApplication) {
+    return this.applicationService
+      .createApplication(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateApplicationSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+      );
+  }
+
+  @Action(OnCreateApplicationFail)
+  onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
+    console.log('Application creation is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 2000);
+  }
+
+  @Action(OnCreateApplicationSuccess)
+  onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
+    console.log('Application is created', payload);
+    setTimeout(() => {
+      this.showSnackBar('Заявку створено!', 'primary', 'top');
+      this.router.navigate(['']);
+    }, 2000);
   }
 
   showSnackBar(
