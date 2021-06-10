@@ -1,2 +1,12 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
+
+.checkbox {
+  margin: 2rem 0 1rem;
+  color:blue;
+}
+
+.checkbox-wrapper {
+  margin: 0;
+  padding: 0;
+}
