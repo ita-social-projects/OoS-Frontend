@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop } from '../../models/workshop.model';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
+import { MatChipsModule } from '@angular/material/chips';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -20,7 +21,8 @@ describe('WorkshopCardComponent', () => {
         MatCardModule,
         NgxsModule.forRoot([]),
         FlexLayoutModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatChipsModule
       ],
       declarations: [WorkshopCardComponent],
     })
