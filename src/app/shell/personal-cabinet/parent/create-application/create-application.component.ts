@@ -27,8 +27,12 @@ export class CreateApplicationComponent implements OnInit {
 
   constructor(private store: Store, private fb: FormBuilder) {
     this.ApplicationFormGroup = this.fb.group({
-      workshopId: new FormControl(''),
-      childId: new FormControl('', Validators.required),
+      lastName: new FormControl(''),
+      firstName: new FormControl(''),
+      middleName: new FormControl(''),
+      birthDay: new FormControl(''),
+      gender: new FormControl(''),
+      type: new FormControl('')
     });
   }
 

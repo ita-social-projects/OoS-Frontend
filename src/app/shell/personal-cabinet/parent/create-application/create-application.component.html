@@ -57,24 +57,54 @@
 </ng-template> -->
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper">
-    <div fxLayout='column' fxLayoutAlign='center center'>
-      <h3 class="wrapper_title">ЗАЯВА НА ГУРТОК</h3>
-      <form [formGroup]="ApplicationFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
+    <h3 class="wrapper_title step-border">ЗАЯВА НА ГУРТОК</h3>
+    <form [formGroup]="ApplicationFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
-        <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
-        <mat-form-field>
-          <mat-select class="step-input" formControlName="childId">
-            <mat-option value="0" selected> Заклад освіти </mat-option>
-            <mat-option value="1"> Заклад не освіти </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
 
-      </form>
+    </form>
 
-      <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-        <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
-        <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
-      </div>
+    <form [formGroup]="ApplicationFormGroup" fxLayout='column' fxLayoutAlign='center space-between'>
+
+      <label class="step-label"> Призвіще <span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="lastName" required>
+      </mat-form-field>
+      <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="firstName" required>
+      </mat-form-field>
+      <label class="step-label"> По-батькові <span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="middleName" required>
+      </mat-form-field>
+
+      <label class="step-label">Дата народження<span class="step-required">*</span></label>
+      <mat-form-field class="step-input step-input-date">
+        <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <label class="step-label">Стать<span class="step-required">*</span></label>
+      <mat-radio-group formControlName="gender" color="primary">
+        <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
+        <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
+      </mat-radio-group>
+
+      <label class="step-label">Соціальна група<span class="step-required">*</span></label>
+      <mat-form-field>
+        <mat-select class="step-input" formControlName="type">
+          <mat-option value="0" selected> Присутня </mat-option>
+          <mat-option value="1"> Відсутня </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </form>
+
+    <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+      <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+      <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
     </div>
   </div>
 </div>
