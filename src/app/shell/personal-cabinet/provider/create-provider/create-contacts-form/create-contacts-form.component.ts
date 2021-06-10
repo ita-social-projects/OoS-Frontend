@@ -13,12 +13,9 @@ export class CreateContactsFormComponent implements OnInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   checked = false;
-  isSameAddressControl = false;
 
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
-
-
 
   constructor(private formBuilder: FormBuilder) {
 
@@ -38,6 +35,7 @@ export class CreateContactsFormComponent implements OnInit {
       region: new FormControl('', Validators.required)
     });
   }
+  
   func3(ob:MatCheckboxChange) {
     if(ob.checked === true) {
       objectKeys(this.LegalAddressFormGroup.controls).forEach(key=>{
@@ -49,11 +47,6 @@ export class CreateContactsFormComponent implements OnInit {
       });
     }
   }
-
-
-
-
-
 
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
