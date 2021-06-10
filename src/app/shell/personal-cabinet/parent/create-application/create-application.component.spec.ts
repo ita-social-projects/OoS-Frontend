@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateApplicationComponent } from './create-application.component';
 import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../shared/mocks/mock-services';
+import { MockStore } from '../../../../shared/mocks/mock-services';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -33,9 +33,9 @@ describe('CreateApplicationComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [ 
-        CreateApplicationComponent, 
-        MockPersonCardComponent 
+      declarations: [
+        CreateApplicationComponent,
+        MockPersonCardComponent
       ],
     })
     .compileComponents();

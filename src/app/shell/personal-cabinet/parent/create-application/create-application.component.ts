@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Application } from 'src/app/shared/models/application.model';
@@ -19,40 +19,36 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class CreateApplicationComponent implements OnInit {
 
-  workshop: Workshop;
-  isChildInfo: boolean = true;
   @Select(UserState.children) children$: Observable<Child[]>;
   children: Child[] = [];
   parent: Parent;
   selectedChildren: Child;
-  messageCntrl = new FormControl('');
+  ApplicationFormGroup: FormGroup;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private fb: FormBuilder) {
+    this.ApplicationFormGroup = this.fb.group({
+      workshopId: new FormControl(''),
+      childId: new FormControl('', Validators.required),
+    });
+  }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetWorkshops());
     this.store.dispatch(new GetChildrenById(null));
     this.children$.subscribe(children => this.children = children);
   }
 
-  ShowChildInfo(): void {
-    this.isChildInfo = true;
-  }
-
-  ShowParentInfo(): void {
-    this.isChildInfo = false;
-  }
   /**
     * This method craete new Application
     */
   onSubmit(): void {
-    const info = {
-      status: 'new',
-      date: new Date(),
-      child: this.selectedChildren,
-      workshop: this.workshop,
-      message: this.messageCntrl.value
-    }
-    const application = new Application(info);
+    // const info = {
+    //   status: 'new',
+    //   date: new Date(),
+    //   child: this.selectedChildren,
+    //   workshop: this.workshop,
+    //   message: this.messageCntrl.value
+    // }
+    // const application = new Application(info);
+    console.log(this.ApplicationFormGroup.value)
   }
 }

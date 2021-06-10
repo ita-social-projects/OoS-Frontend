@@ -15,7 +15,7 @@ import { ChildFormComponent } from './create-child/child-form/child-form.compone
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateChildComponent } from './create-child/create-child.component';
 import { ParentInfoComponent } from './parent-info/parent-info.component';
-import { CreateApplicationComponent } from '../../workshop-details/create-application/create-application.component';
+import { CreateApplicationComponent } from './create-application/create-application.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 

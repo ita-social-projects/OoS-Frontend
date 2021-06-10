@@ -1,4 +1,4 @@
-<div fxLayout='row' fxLayoutAlign='center space-between'>
+<!-- <div fxLayout='row' fxLayoutAlign='center space-between'>
   <div class="wrapper">
     <h2 class="wrapper-text margin" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h2>
     <section class="underline margin">
@@ -54,4 +54,27 @@
   <app-person-card *ngIf="child" [card]="child.parent" [isChildInfo]="false"></app-person-card>
 </ng-template>
 <ng-template #ParentInfo>
-</ng-template>
+</ng-template> -->
+<div fxLayout='row' fxLayoutAlign='center center'>
+  <div class="wrapper">
+    <div fxLayout='column' fxLayoutAlign='center center'>
+      <h3 class="wrapper_title">ЗАЯВА НА ГУРТОК</h3>
+      <form [formGroup]="ApplicationFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
+
+        <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
+        <mat-form-field>
+          <mat-select class="step-input" formControlName="childId">
+            <mat-option value="0" selected> Заклад освіти </mat-option>
+            <mat-option value="1"> Заклад не освіти </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </form>
+
+      <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+        <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
+      </div>
+    </div>
+  </div>
+</div>
