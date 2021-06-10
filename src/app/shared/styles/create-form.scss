@@ -1,50 +1,50 @@
-.step{
-  &-radio{
-    margin:1rem;
+.step {
+  &-radio {
+    margin: 1rem;
   }
-  &-label{
+  &-label {
     font-weight: 500;
   }
-  &-required{
-    color:red;
+  &-required {
+    color: red;
   }
-  &-input{
-    border: 1px solid #E3E3E3;
+  &-input {
+    border: 1px solid #e3e3e3;
     box-sizing: border-box;
     border-radius: 21px;
-    padding:0.5rem;
+    padding: 0.5rem;
 
-    &-date{
-    width:30%;
-    padding: 0.2rem;
-    margin:0;
+    &-date {
+      width: 30%;
+      padding: 0.2rem;
+      margin: 0;
     }
 
-    &-age{
+    &-age {
       max-width: 80px;
       max-height: 40px;
     }
   }
-  &-text{
-    font-family:Open Sans;
+  &-text {
+    font-family: Open Sans;
     font-weight: 700;
-    color: #AAAAAA;
+    color: #aaaaaa;
     padding: 5px;
   }
-  &-textarea{
+  &-textarea {
     min-height: 200px;
-    border: 1px solid #E3E3E3;
+    border: 1px solid #e3e3e3;
     box-sizing: border-box;
     border-radius: 21px;
     padding: 1.2rem;
   }
-  &-border{
+  &-border {
     border-bottom: 2px solid gray;
     margin-bottom: 1rem;
   }
-  &-line-age{
+  &-line-age {
     max-height: 0;
-    border: 1px solid #E3E3E3;
+    border: 1px solid #e3e3e3;
     margin: 1rem 0 2rem 0;
     min-width: 10px;
     position: relative;
@@ -59,22 +59,22 @@ button:focus {
   outline: none;
 }
 ::placeholder {
-  color:#333333;
+  color: #333333;
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
 }
-.div-input{
+.div-input {
   width: 95px;
   height: 58px;
   background: rgba(56, 73, 249, 0.1);
-  border: 1px dashed #3849F9;
+  border: 1px dashed #3849f9;
   box-sizing: border-box;
   border-radius: 5px;
   margin: 1rem;
 
-  &:hover{
-    cursor:pointer;
+  &:hover {
+    cursor: pointer;
     opacity: 0.5;
   }
 }
@@ -83,28 +83,55 @@ button:focus {
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
-  padding-bottom:0;
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
 }
 ::ng-deep .mat-form-field-infix {
-  border:none;
+  border: none;
 }
-::ng-deep .mat-button-toggle-group{
+::ng-deep .mat-button-toggle-group {
   border-radius: 20px !important;
 }
-::ng-deep.mat-button-toggle-checked{
-  color: #3849F9 !important;
+::ng-deep.mat-button-toggle-checked {
+  color: #3849f9 !important;
   border: 2px solid blue;
 }
-.btn{
-  color:white;
-  background-color:#3849F9;
-  border: 1px solid #3849F9;
+.btn {
+  color: white;
+  background-color: #3849f9;
+  border: 1px solid #3849f9;
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
   margin: 0 1rem;
-  &-reset, &-add{
-    color: #3849F9;
+  &-reset,
+  &-add {
+    color: #3849f9;
   }
+}
+.mat-chip.mat-standard-chip {
+  display: flex;
+  font-family: Innerspace;
+  font-size: 13px;
+  background-color: white;
+  color: #888888;
+  border: 1px solid #888888;
+  font-weight: bold;
+  padding: 2px 10px;
+  min-height: 24px;
+}
+.map-img-close {
+  height: 12px;
+  position: relative;
+  bottom: 3px;
+}
+.mat-icon {
+  opacity: 0;
+}
+.mat-chip-input{
+  margin: 8px;
+  font-family: Open Sans;
+  font-weight: normal;
+  font-size: 13px;
+  color: #333333;
 }
