@@ -7,10 +7,12 @@ import { MockStore } from '../../../shared/mocks/mock-services';
 import { Component, Input } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Workshop } from '../../../shared/models/workshop.model';
+import { User } from 'src/app/shared/models/user.model';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
   let fixture: ComponentFixture<WorkshopCardsListComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -32,6 +34,10 @@ describe('WorkshopCardsListComponentt', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges;
+
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
   });
 
   it('should create', () => {
