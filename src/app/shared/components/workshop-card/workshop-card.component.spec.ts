@@ -32,6 +32,7 @@ describe('WorkshopCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardComponent);
     component = fixture.componentInstance;
+    component.status = '';
     component.workshop = {
       id: 1,
       title: '',
