@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateApplicationComponent } from './create-application.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../../shared/mocks/mock-services';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NgxsModule } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -13,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
+import { cardType } from 'src/app/shared/enum/role';
+import { MatTabsModule } from '@angular/material/tabs';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -22,7 +21,6 @@ describe('CreateApplicationComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         NgxsModule.forRoot([]),
-        MatButtonToggleModule,
         MatFormFieldModule,
         MatSelectModule,
         MatOptionModule,
@@ -31,14 +29,16 @@ describe('CreateApplicationComponent', () => {
         FormsModule,
         MatInputModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatTabsModule,
+        RouterTestingModule,
       ],
       declarations: [
         CreateApplicationComponent,
         MockPersonCardComponent
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -57,5 +57,5 @@ describe('CreateApplicationComponent', () => {
 })
 class MockPersonCardComponent {
   @Input() card;
-  @Input() isChildInfo: boolean;
+  @Input() cardType: cardType;
 }

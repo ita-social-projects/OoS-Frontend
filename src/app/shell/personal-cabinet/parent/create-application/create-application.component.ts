@@ -35,11 +35,9 @@ export class CreateApplicationComponent implements OnInit {
     id: 1
   }
 
-
   ChildFormControl = new FormControl('');
 
-  constructor(private store: Store, private fb: FormBuilder) {
-  }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetChildren());
