@@ -38,6 +38,16 @@
     border-radius: 21px;
     padding: 1.2rem;
   }
+  &-label-combined {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 5px;
+  }
+  &-letter-count {
+    font-family:Open Sans;
+    color: #AAAAAA;
+  }
   &-border{
     border-bottom: 2px solid gray;
     margin-bottom: 1rem;
