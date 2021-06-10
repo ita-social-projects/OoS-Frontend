@@ -54,12 +54,6 @@ describe('WorkshopCardsListComponentt', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('it select snapshot ', () => {
-    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
-    console.log()
-    expect(component.userRole).toEqual('');
-  });
 });
 
 @Component({

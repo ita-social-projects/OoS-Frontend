@@ -30,7 +30,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     }
 
     const token = this.oidcSecurityService.getToken();
-    const tokenTitle = (token) ? `Bearer ${token}` : null;
+    const tokenTitle = (token) ? `Bearer ${token}` : '';
 
     if (typeof (token) === 'string') {
       return next.handle(request.clone({
