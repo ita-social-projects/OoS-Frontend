@@ -32,8 +32,6 @@ describe('WorkshopsComponent', () => {
 
     store = TestBed.inject(Store);
     spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
-
-
   });
 
   it('should create', () => {

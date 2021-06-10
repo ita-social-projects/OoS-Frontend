@@ -1,18 +1,20 @@
 <div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions">
 </div>
 <mat-card>
-  <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
-  <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
-    <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
-      alt="{{workshop.category}}">
-  </mat-card-header>
-  <div *ngIf="isMainPage then MainView; else UserView"></div>
-  <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-    <a routerLink="/workshop-details" class="card_link">
-      Детальніше
-      <span class="material-icons arrow">arrow_forward</span>
-    </a>
-  </mat-card-footer>
+  <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
+    <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+      <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
+        alt="{{workshop.category}}">
+    </mat-card-header>
+    <div *ngIf="isMainPage then MainView; else UserView"></div>
+    <mat-card-footer fxLayout="row" fxLayoutAlign="end">
+      <a routerLink="/workshop-details" class="card_link">
+        Детальніше
+        <span class="material-icons arrow">arrow_forward</span>
+      </a>
+    </mat-card-footer>
+  </div>
 </mat-card>
 
 <ng-template #MainView>

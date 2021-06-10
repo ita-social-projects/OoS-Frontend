@@ -3,11 +3,22 @@ import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxsModule, Store } from '@ngxs/store';
 import { CommonModule } from '@angular/common';
-import { MockStore } from '../../../shared/mocks/mock-services';
 import { Component, Input } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from 'src/app/shared/models/user.model';
+
+const MockUser = {
+  isRegistered: true,
+  lastName: '',
+  middleName: '',
+  firstName: '',
+  id: '',
+  userName: '',
+  email: '',
+  phoneNumber: '',
+  role: '',
+};
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -34,14 +45,20 @@ describe('WorkshopCardsListComponentt', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges;
+    fixture.detectChanges();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('it select snapshot ', () => {
+    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
+    console.log()
+    expect(component.userRole).toEqual('');
   });
 });
 
@@ -51,6 +68,7 @@ describe('WorkshopCardsListComponentt', () => {
 })
 class MockOrderingComponent {
 }
+
 @Component({
   selector: 'app-workshop-card',
   template: ''
