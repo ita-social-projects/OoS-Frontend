@@ -36,9 +36,8 @@ export class ProviderService {
 
   /**
   * This method get Provider by User id
-  * @param id
   */
-  getProviderByUserId(id: string): Observable<Provider> {
-    return this.http.get<Provider>(encodeURI(`Provider/GetProviderByUserId/${id}`));
+  getProfile(): Observable<Provider> {
+    return this.http.get<Provider>(`/Provider/GetProfile`);
   }
 }

@@ -14,11 +14,10 @@ import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { ToggleLoading } from './app.actions';
-import { RegisterUser } from './registration.actions';
+import { GetProfile, RegisterUser } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
-  CreateParent,
   CreateProvider,
   CreateWorkshop,
   DeleteWorkshopById,
@@ -29,8 +28,6 @@ import {
   OnCreateApplicationSuccess,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
-  OnCreateParentFail,
-  OnCreateParentSuccess,
   OnCreateProviderFail,
   OnCreateProviderSuccess,
   OnCreateWorkshopFail,
@@ -225,37 +222,9 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
       dispatch(new ToggleLoading(false));
-      this.router.navigate(['/personal-cabinet/provider/info']);
+      this.router.navigate(['']);
     }, 2000);
-  }
-
-  @Action(CreateParent)
-  createParent({ dispatch }: StateContext<UserStateModel>, { payload }: CreateParent) {
-
-    const parent = new Parent(payload);
-
-    return this.parentService
-      .createParent(parent)
-      .pipe(
-        tap((res) => dispatch(new OnCreateParentSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateParentFail(error))))
-      );
-  }
-
-  @Action(OnCreateParentFail)
-  onCreateParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentFail): void {
-    console.log('Parent creation is failed', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      //TODO: handle create parent fail
-    }, 2000);
-  }
-
-  @Action(OnCreateParentSuccess)
-  onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
-    dispatch(new RegisterUser());
-    console.log('Parent is created', payload);
+    dispatch(new GetProfile());
   }
 
   @Action(CreateApplication)
