@@ -39,8 +39,7 @@ export class CreateContactsFormComponent implements OnInit {
 
 
   duplicateForm(ob:MatCheckboxChange) {
-    this.cd.detectChanges()
-    console.log(this.useLegalAddress)
+    this.cd.detectChanges(); //TODO: research change detector for MatCheckbox
     if(ob.checked === true) {
       objectKeys(this.LegalAddressFormGroup.controls).forEach(key=>{
         this.ActualAddressFormGroup.controls[key].setValue(this.LegalAddressFormGroup.value[key])
