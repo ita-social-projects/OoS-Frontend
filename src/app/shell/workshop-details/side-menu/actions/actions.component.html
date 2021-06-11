@@ -1,7 +1,7 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap='0.8rem'>
   <h4>{{workshop.price}} грн/заняття</h4>
   <p>Залишилося х днів до початку заняття</p>
-  <a [routerLink]="'./../personal-cabinet/parent/create-application'" *ngIf="displayed"><button mat-raised-button
+  <a [routerLink]="'/create-application'" *ngIf="displayed"><button mat-raised-button
       class="button button-application" fxLayout="row" fxLayoutAlign="center center">Подати заявку</button></a>
   <button mat-raised-button class="button button-msg"><img class="button-msg-icon" src="assets/icons/email.png"
       alt="email">Надіслати

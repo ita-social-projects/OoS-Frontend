@@ -21,4 +21,21 @@ export class ApplicationService {
     const dataUrl = `/Application/GetById/${id}`;
     return this.http.get<Application[]>(this.dataUrlmock);
   }
+
+  /**
+  * This method create Application
+  * @param Workshop
+  */
+  createApplication(application: Application): Observable<Object> {
+    return this.http.post('/Application/Create', application);
+  }
+
+  /**
+  * This method delete Application by Application id
+  * @param id
+  */
+  deleteApplication(id: number): Observable<Object> {
+    const dataUrl = `Application/Delete/${id}`;
+    return this.http.delete(dataUrl);
+  }
 }
