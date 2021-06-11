@@ -8,7 +8,7 @@ import { Application } from '../models/application.model';
 export class ApplicationFilterPipe implements PipeTransform {
 
   transform(array: Application[], status: string): Application[] {
-    // return array.filter(card => card.status === status);
+    // return array.filter(card => card.status === status); TODO: add this functionality
     return array;
 
   }

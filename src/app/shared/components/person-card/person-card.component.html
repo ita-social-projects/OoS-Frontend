@@ -9,29 +9,29 @@
 <ng-template #ChildView>
 
   <label class="card_label">ПІБ</label>
-  <p class="card_text">{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
+  <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card_label">Дата народження</label>
-  <p class="card_text"> {{ card.dateOfBirth }} </p>
+  <p> {{ card.dateOfBirth }} </p>
   <label class="card_label">Стать дитини</label>
-  <p class="card_text"> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
-  <label class="card_label">Соціальна група</label>
-  <p class="card_text"> {{ card.socialGroupId === 0 ? 'Відстуня' : "Присутня" }} </p>
+  <p> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
+  <label class="card-label">Соціальна група</label>
+  <p> {{ card.socialGroupId === 0 ? 'Відстуня' : "Присутня" }} </p>
 
 </ng-template>
 
 <ng-template #ParentView>
 
-  <label class="card_label">ПІБ</label>
-  <p class="card_text">{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
-  <label class="card_label">Телефон</label>
-  <p class="card_text"> {{ card.phone }} </p>
-  <label class="card_label">Емейл</label>
-  <p class="card_text"> {{ card.email}} </p>
+  <label class="card-label">ПІБ</label>
+  <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
+  <label class="card-label">Телефон</label>
+  <p> {{ card.phone }} </p>
+  <label class="card-label">Емейл</label>
+  <p> {{ card.email}} </p>
 
 </ng-template>
 
 <ng-template #UserView>
-  <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="user_form">
+  <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="use-_form">
 
     <label class="step-label">Дата народження<span class="step-required">*</span></label>
     <mat-form-field class="step-input step-input-date">

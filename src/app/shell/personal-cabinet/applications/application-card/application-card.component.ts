@@ -57,7 +57,7 @@ export class ApplicationCardComponent implements OnInit {
   * @param Application application
   */
   // onInfoShow(element: Element): void {
-  //   this.infoShow.emit({ element, child: this.application.child });
+  //   this.infoShow.emit({ element, child: this.application.child }); TODO: add this functionality
   // }
 
   /**

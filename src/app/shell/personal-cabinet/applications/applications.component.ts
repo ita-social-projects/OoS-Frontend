@@ -58,7 +58,7 @@ export class ApplicationsComponent implements OnInit {
   */
   onApprove(event: Application): void {
     const application = this.applications.find((application) => (application === event))
-    // application.status = 'approved';
+    // application.status = 'approved'; TODO: add this functionality
   }
 
   /**
@@ -67,7 +67,7 @@ export class ApplicationsComponent implements OnInit {
   */
   onDeny(event: Application): void {
     const application = this.applications.find((application) => (application === event))
-    // application.status = 'denied';
+    // application.status = 'denied'; TODO: add this functionality
   }
 
   /**

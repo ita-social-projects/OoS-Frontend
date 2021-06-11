@@ -1,6 +1,6 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper application">
-    <h3 class="wrapper_title step-border" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
+    <h3 class="wrapper-title step-border" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
     <mat-tab-group class="nav">
       <mat-tab label="Подати дані про дитину">
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
@@ -46,7 +46,7 @@
     </div>
 
     <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-      <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+      <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
       <button class="btn" mat-button type="submit" [disabled]="!selectedChild" (click)="onSubmit()">Відправити</button>
     </div>
   </div>

@@ -22,7 +22,7 @@ export class ApplicationSortPipe implements PipeTransform {
 
     //   //the rest sorts according to the last date
     //   return (a.date < b.date) ? -1 : 1;
-    // });
+    // }); TODO: add this functionality
     return array;
   }
 
