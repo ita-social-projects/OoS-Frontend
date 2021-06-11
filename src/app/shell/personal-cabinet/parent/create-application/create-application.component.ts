@@ -32,7 +32,7 @@ export class CreateApplicationComponent implements OnInit {
   selectedChild: Child;
   // workshop: Workshop;
   workshop = {
-    id: 1
+    id: 3
   }
 
   ChildFormControl = new FormControl('');
