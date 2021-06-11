@@ -3,14 +3,14 @@ import { PersonCardComponent } from './person-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormField } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepicker } from '@angular/material/datepicker';
-import { MatRadioButton } from '@angular/material/radio';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('ChildCardComponent', () => {
+describe('PersonCardComponent', () => {
   let component: PersonCardComponent;
   let fixture: ComponentFixture<PersonCardComponent>;
 
@@ -21,12 +21,12 @@ describe('ChildCardComponent', () => {
         MatCardModule,
         ReactiveFormsModule,
         FormsModule,
-        MatFormField,
+        MatFormFieldModule,
         MatSelectModule,
-        MatDatepicker,
-        MatRadioButton,
         MatOptionModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatRadioModule
       ],
       declarations: [PersonCardComponent]
     })
