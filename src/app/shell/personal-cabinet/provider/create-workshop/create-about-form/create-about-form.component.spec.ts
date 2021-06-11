@@ -14,8 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { WorkingHoursFormControlComponent } from '../../../../../shared/components/working-hours-form-control/working-hours-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
-import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
-import { Component, Input } from '@angular/core';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -41,7 +39,7 @@ describe('CreateAboutFormComponent', () => {
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
-        MockWorkingHoursFormControlComponent
+        WorkingHoursFormControlComponent
       ]
     })
       .compileComponents();
@@ -57,13 +55,3 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-@Component({
-  selector: 'app-working-hours-form-control',
-  template: ''
-})
-class MockWorkingHoursFormControlComponent {
-  @Input() workHour: SelectedWorkingHours;
-  @Input() index: number;
-  @Input() workingHoursAmount: number;
-}
