@@ -9,14 +9,6 @@ import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from 'src/app/shared/models/user.model';
 
 const MockUser = {
-  isRegistered: true,
-  lastName: '',
-  middleName: '',
-  firstName: '',
-  id: '',
-  userName: '',
-  email: '',
-  phoneNumber: '',
   role: '',
 };
 
@@ -35,7 +27,7 @@ describe('WorkshopCardsListComponentt', () => {
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([ ]),
         NgxPaginationModule
       ],
     })
@@ -43,12 +35,12 @@ describe('WorkshopCardsListComponentt', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
+
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
   });
 
   it('should create', () => {
@@ -72,3 +64,5 @@ class MockListWorkshopCardComponent {
   @Input() isMainPage: boolean;
   @Input() userRole: string;
 }
+
+
