@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {objectKeys} from "codelyzer/util/objectKeys";
@@ -12,12 +12,13 @@ import {objectKeys} from "codelyzer/util/objectKeys";
 export class CreateContactsFormComponent implements OnInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
-  checked = false;
+  useLegalAddress = false;
+
 
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private cd:ChangeDetectorRef) {
 
     this.LegalAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
@@ -35,8 +36,11 @@ export class CreateContactsFormComponent implements OnInit {
       region: new FormControl('', Validators.required)
     });
   }
-  
-  func3(ob:MatCheckboxChange) {
+
+
+  duplicateForm(ob:MatCheckboxChange) {
+    this.cd.detectChanges()
+    console.log(this.useLegalAddress)
     if(ob.checked === true) {
       objectKeys(this.LegalAddressFormGroup.controls).forEach(key=>{
         this.ActualAddressFormGroup.controls[key].setValue(this.LegalAddressFormGroup.value[key])
@@ -47,6 +51,7 @@ export class CreateContactsFormComponent implements OnInit {
       });
     }
   }
+
 
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
