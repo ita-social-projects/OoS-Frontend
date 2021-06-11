@@ -1,8 +1,8 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper">
     <div fxLayout='column' fxLayoutAlign='center center'>
-      <h3 class="wrapper_title">РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ</h3>
-      <p class="wrapper_text">Додайте новий заклад всього у 3 кроки</p>
+      <h3 class="wrapper-title">РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ</h3>
+      <p class="wrapper-text">Додайте новий заклад всього у 3 кроки</p>
     </div>
 
     <mat-horizontal-stepper>
@@ -10,7 +10,7 @@
         <ng-template matStepLabel>Інформація про заклад</ng-template>
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)"></app-create-info-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-          <a [routerLink]="''"> <button class="btn btn_cancel" mat-raised-button> Скасувати
+          <a [routerLink]="''"> <button class="btn btn-cancel" mat-raised-button> Скасувати
             </button></a>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
@@ -22,7 +22,7 @@
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)"></app-create-contacts-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''"> Скасувати
+          <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''"> Скасувати
             </a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
         </div>
@@ -31,7 +31,7 @@
       <mat-step [stepControl]="PhotoFormGroup">
         <ng-template matStepLabel>Фото</ng-template>
         <app-create-photo-form (passPhotoFormGroup)="onReceivePhotoFormGroup($event)"></app-create-photo-form>
-        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper_check-box">
+        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box">
           <mat-checkbox RobotCheckBox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю
             згоду на обробку
             персональних даних
@@ -42,7 +42,7 @@
         </div>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
-          <button class="btn btn_cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+          <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
             [disabled]="!isAgreed && !isNotRobot">Завершити</button>
         </div>

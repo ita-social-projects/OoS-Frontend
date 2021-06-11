@@ -3,6 +3,8 @@ import { ChildCardComponent } from './child-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { Child } from '../../models/child.model';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('ChildCardComponent', () => {
   let component: ChildCardComponent;
@@ -14,9 +16,9 @@ describe('ChildCardComponent', () => {
         MatCardModule,
         RouterTestingModule
       ],
-      declarations: [ ChildCardComponent ]
+      declarations: [ChildCardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -10,6 +10,7 @@ import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateChildComponent } from './personal-cabinet/parent/create-child/create-child.component';
+import { CreateApplicationComponent } from './personal-cabinet/parent/create-application/create-application.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -38,6 +39,11 @@ const routes: Routes = [
   },
   {
     path: 'create-child', component: CreateChildComponent,
+    loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
+    canLoad: [ParentGuard]
+  },
+  {
+    path: 'create-application', component: CreateApplicationComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard]
   },

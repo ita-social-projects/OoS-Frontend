@@ -1,15 +1,29 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { cardType } from '../../enum/role';
 @Component({
   selector: 'app-person-card',
   templateUrl: './person-card.component.html',
   styleUrls: ['./person-card.component.scss']
 })
 export class PersonCardComponent implements OnInit {
+
+  readonly CardType: typeof cardType = cardType;
+
   @Input() card;
-  @Input() isChildInfo: boolean;
+  @Input() cardType: cardType;
 
-  constructor() { }
+  UserFormGroup: FormGroup;
 
-  ngOnInit(): void { }
+  constructor(private fb: FormBuilder) {
+    this.UserFormGroup = this.fb.group({
+      birthDay: new FormControl(''),
+      gender: new FormControl(''),
+      socialGroupId: new FormControl(''),
+    })
+  }
+
+  ngOnInit(): void {
+  }
 }

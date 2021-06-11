@@ -1,58 +1,45 @@
 [
   {
-    "name": "Саша",
-    "surname": "Іванов",
-    "lastName": "Іванович",
-    "gender": "Жінка",
-    "birth": "15/02/2000",
-    "socialGroup": " відсутня",
-    "parent": [
+    "id": 0,
+    "firstName": "Джуліа",
+    "lastName": "Робертс",
+    "middleName": "Робертовна",
+    "gender": 0,
+    "dateOfBirth": "15/02/2000",
+    "socialGroup": 0,
+    "parentId": 0,
+    "socialGroupId": 1,
+    "birthCertificate": [
       {
-        "name": "Віктор",
-        "surname": "Іванов",
-        "lastName": "Іванович",
-        "gender": "Жінка",
-        "birth": "15/02/2000",
-        "phone": "0962967525",
-        "email": " alitvinets7@gmail.com"
+        "id": 1,
+        "svidSer": "string",
+        "svidNum": "string",
+        "svidNumMD5": "string",
+        "svidWho": "15/02/2000",
+        "svidDate": "15/02/2000",
+        "childId": 1
       }
     ]
   },
   {
-    "name": "Микита",
-    "surname": "Микитович",
-    "lastName": "Микитка",
-    "gender": "Жінка",
-    "birth": "15/02/2000",
-    "socialGroup": " відсутня",
-    "parent": [
+    "id": 1,
+    "firstName": "Пітер",
+    "lastName": "Пен",
+    "middleName": "Пенович",
+    "gender": 1,
+    "dateOfBirth": "15/02/2000",
+    "socialGroup": 0,
+    "parentId": 0,
+    "socialGroupId": 0,
+    "birthCertificate": [
       {
-        "name": "Леон",
-        "surname": "Леончук",
-        "lastName": "Леонович",
-        "gender": "Жінка",
-        "birth": "15/02/2000",
-        "phone": "0962967525",
-        "email": " alitvinets7@gmail.com"
-      }
-    ]
-  },
-  {
-    "name": "Рома",
-    "surname": "Мома",
-    "lastName": "Коля",
-    "gender": "Жінка",
-    "birth": "15/02/2000",
-    "socialGroup": " відсутня",
-    "parent": [
-      {
-        "name": "Киця",
-        "surname": "Мациця",
-        "lastName": "Лиця",
-        "gender": "Жінка",
-        "birth": "15/02/2000",
-        "phone": "0962967525",
-        "email": " alitvinets7@gmail.com"
+        "id": 1,
+        "svidSer": "string",
+        "svidNum": "string",
+        "svidNumMD5": "string",
+        "svidWho": "15/02/2000",
+        "svidDate": "15/02/2000",
+        "childId": 1
       }
     ]
   }
