@@ -13,7 +13,7 @@ import { ChildrenService } from '../services/children/children.service';
 import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
-import { ToggleLoading } from './app.actions';
+import { GetWorkshops, ToggleLoading } from './app.actions';
 import { RegisterUser } from './registration.actions';
 import {
   CreateApplication,
@@ -107,7 +107,6 @@ export class UserState {
 
   @Action(CreateWorkshop)
   createWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop) {
-    dispatch(new ToggleLoading(true));
     return this.userWorkshopService
       .createWorkshop(payload)
       .pipe(
@@ -122,7 +121,6 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      dispatch(new ToggleLoading(false));
     }, 2000);
   }
 
@@ -131,14 +129,12 @@ export class UserState {
     console.log('Workshop is created', payload);
     setTimeout(() => {
       this.showSnackBar('Гурток створено!', 'primary', 'top');
-      dispatch(new ToggleLoading(false));
       this.router.navigate(['/personal-cabinet/workshops']);
     }, 2000);
   }
 
   @Action(DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById) {
-    dispatch(new ToggleLoading(true));
     return this.userWorkshopService
       .deleteWorkshop(payload)
       .pipe(
@@ -153,7 +149,6 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      dispatch(new ToggleLoading(false));
     }, 2000);
   }
 
@@ -162,13 +157,12 @@ export class UserState {
     console.log('Workshop is deleted', payload);
     setTimeout(() => {
       this.showSnackBar('Гурток видалено!', 'primary', 'top');
-      dispatch(new ToggleLoading(false));
+      dispatch(new GetWorkshops());
     }, 2000);
   }
 
   @Action(CreateChildren)
   createChildren({ dispatch }: StateContext<UserStateModel>, { payload }: CreateChildren) {
-    dispatch(new ToggleLoading(true));
     return this.childrenService
       .createChild(payload)
       .pipe(
@@ -183,7 +177,6 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      dispatch(new ToggleLoading(false));
     }, 2000);
   }
 
@@ -192,14 +185,12 @@ export class UserState {
     console.log('Child is created', payload);
     setTimeout(() => {
       this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
-      dispatch(new ToggleLoading(false));
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 2000);
   }
 
   @Action(CreateProvider)
   createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider) {
-    dispatch(new ToggleLoading(true));
     return this.providerService
       .createProvider(payload)
       .pipe(
@@ -214,7 +205,6 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-      dispatch(new ToggleLoading(false));
     }, 2000);
   }
 
@@ -224,7 +214,6 @@ export class UserState {
     console.log('Provider is created', payload);
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
-      dispatch(new ToggleLoading(false));
       this.router.navigate(['/personal-cabinet/provider/info']);
     }, 2000);
   }
