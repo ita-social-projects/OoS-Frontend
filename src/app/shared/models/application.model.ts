@@ -2,7 +2,7 @@ export class Application {
   id: number;
   status: number;
   creationTime: Date;
-  workshopId: 1;
+  workshopId: number;
   childId: number;
   userId: string
 
