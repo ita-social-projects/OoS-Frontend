@@ -26,12 +26,14 @@ describe('WorkshopsComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+
     fixture = TestBed.createComponent(WorkshopsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+
   });
 
   it('should create', () => {
