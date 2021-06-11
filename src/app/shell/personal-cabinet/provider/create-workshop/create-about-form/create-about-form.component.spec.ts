@@ -55,13 +55,3 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-// @Component({
-//   selector: 'app-working-hours-form-control',
-//   template: ''
-// })
-// class MockWorkingHoursFormControlComponent {
-//   @Input() workHour: SelectedWorkingHours;
-//   @Input() index: number;
-//   @Input() workingHoursAmount: number;
-// }

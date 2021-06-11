@@ -1,14 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopDetailsComponent } from './workshop-details.component';
 import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../shared/mocks/mock-services';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../shared/models/workshop.model';
+import { User } from '../../shared/models/user.model';
+
+const MockUser = {
+  role: '',
+};
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,6 +29,9 @@ describe('WorkshopDetailsComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
+
     fixture = TestBed.createComponent(WorkshopDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

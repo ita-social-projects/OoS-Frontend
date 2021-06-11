@@ -1,3 +1,4 @@
+import { Application } from "../models/application.model";
 import { Child } from "../models/child.model";
 import { Provider } from "../models/provider.model";
 import { User } from "../models/user.model";
@@ -10,9 +11,9 @@ export class GetApplicationsById {
   static readonly type = '[user] get Applications';
   constructor(public payload: number) { }
 }
-export class GetChildrenById {
+export class GetChildren {
   static readonly type = '[user] get Children';
-  constructor(public payload: number) { }
+  constructor() { }
 }
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';
@@ -84,5 +85,17 @@ export class OnCreateParentFail {
 }
 export class OnCreateParentSuccess {
   static readonly type = '[user] create Parent success';
+  constructor(public payload) { }
+}
+export class CreateApplication {
+  static readonly type = '[user] create Application';
+  constructor(public payload: Application) { }
+}
+export class OnCreateApplicationFail {
+  static readonly type = '[user] create Application fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateApplicationSuccess {
+  static readonly type = '[user] create Application success';
   constructor(public payload) { }
 }
