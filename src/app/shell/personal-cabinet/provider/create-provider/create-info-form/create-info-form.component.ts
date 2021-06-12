@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
+import { OwnershipType, ProviderType } from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-create-info-form',
@@ -10,6 +11,12 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class CreateInfoFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
+
+  readonly ownershipType: typeof OwnershipType = OwnershipType;
+  readonly providerType: typeof ProviderType = ProviderType;
+
+  providerTypes = ['FOP', 'social', 'TOV', 'Private', 'EducationalInstitution', 'Other'];
+  ownershipTypes = ['State', 'Common', 'Private'];
 
   InfoFormGroup: FormGroup;
   @Output() passInfoFormGroup = new EventEmitter();

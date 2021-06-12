@@ -1,23 +1,20 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { CanLoad, Route, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { Store } from '@ngxs/store';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-
+import { User } from 'src/app/shared/models/user.model';
+import { Role } from 'src/app/shared/enum/role';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProviderGuard implements CanActivate {
-
+export class CreateProviderGuard implements CanLoad {
   constructor(public store: Store) { }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
-    return (provider !== undefined);
+  canLoad(
+    route: Route,
+    segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const user = this.store.selectSnapshot<User>(RegistrationState.user);
+    return (user.role === Role.provider && !user.isRegistered);
   }
 }

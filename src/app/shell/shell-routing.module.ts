@@ -11,6 +11,7 @@ import { CreateProviderComponent } from './personal-cabinet/provider/create-prov
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateChildComponent } from './personal-cabinet/parent/create-child/create-child.component';
 import { CreateApplicationComponent } from './personal-cabinet/parent/create-application/create-application.component';
+import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -34,7 +35,7 @@ const routes: Routes = [
   {
     path: 'create-provider', component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
-    canLoad: [ProviderGuard]
+    // canLoad: [CreateProviderGuard] TODO: fix guard
 
   },
   {
