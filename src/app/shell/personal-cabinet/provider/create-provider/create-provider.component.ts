@@ -23,8 +23,8 @@ export class CreateProviderComponent implements OnInit {
   LegalAddressFormGroup: FormGroup;
   PhotoFormGroup: FormGroup;
 
-  isAgreed: boolean = false;
-  isNotRobot: boolean = false;
+  isAgreed: boolean;
+  isNotRobot: boolean;
 
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
@@ -35,9 +35,10 @@ export class CreateProviderComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new ChangePage(false));
 
-    this.RobotFormControl.valueChanges.subscribe(val => this.isNotRobot = val);
-    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+    this.RobotFormControl.valueChanges.subscribe(val => (val) ? this.isNotRobot = true : this.isNotRobot = false);
+    this.AgreementFormControl.valueChanges.subscribe(val => (val) ? this.isAgreed = true : this.isAgreed = false);
   }
+
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
