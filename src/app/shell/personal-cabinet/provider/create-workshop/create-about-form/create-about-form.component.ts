@@ -30,8 +30,6 @@ export class CreateAboutFormComponent implements OnInit {
   @Output() PassAboutFormGroup = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
-    this.provider$.subscribe(provider => this.provider = provider);
-
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
@@ -47,13 +45,15 @@ export class CreateAboutFormComponent implements OnInit {
       price: new FormControl(0),
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
-      providerTitle: new FormControl(this.provider.fullTitle),
+      providerTitle: new FormControl(''),
     });
     this.onPriceCtrlInit();
   }
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
+    this.provider$.subscribe(provider => this.provider = provider);
+    this.AboutFormGroup.get('providerTitle').setValue(this.provider.fullTitle);
     this.useProviderInfo();
     this.addWorkHour();
   }
