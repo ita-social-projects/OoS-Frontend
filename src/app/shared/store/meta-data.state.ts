@@ -5,7 +5,14 @@ import { Category, Subcategory, Subsubcategory } from '../models/category.model'
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
 import { CategoriesService } from '../services/categories/categories.service';
-import { CityList, GetCategories, GetSubcategories, GetSubsubcategories, KeyWordsList } from './meta-data.actions';
+import {
+  CityList,
+  GetCategories,
+  GetSubcategories,
+  GetSubsubcategories,
+  KeyWordsList,
+  ClearCategories
+} from './meta-data.actions';
 
 export interface MetaDataStateModel {
   categories: Category[];
@@ -82,5 +89,12 @@ export class MetaDataState {
   @Action(KeyWordsList)
   keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
     patchState({ filteredkeyWords: payload });
+  }
+
+  @Action(ClearCategories)
+  clerCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories): void {
+    patchState({ categories: undefined });
+    patchState({ subcategories: undefined });
+    patchState({ subsubcategories: undefined });
   }
 }
