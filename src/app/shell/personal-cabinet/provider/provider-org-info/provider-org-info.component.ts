@@ -13,29 +13,21 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class ProviderOrgInfoComponent implements OnInit {
 
-  readonly providerType: typeof ProviderType = ProviderType;
-  readonly ownershipType: typeof OwnershipType = OwnershipType;
   providerTypes = ['FOP', 'Social', 'TOV', 'Private', 'EducationalInstitution', 'Other'];
   ownershipTypes = ['State', 'Common', 'Private'];
+  type;
+  ownership;
 
   @Select(RegistrationState.provider) provider$: Observable<Provider>;
+  provider: Provider;
 
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { }
-
-  /**
-  * This method return ownership type
-  */
-  getOwnerShipType(index: number): string {
-    return OwnershipType[this.ownershipTypes[index]];
+  ngOnInit(): void {
+    this.provider$.subscribe(provider => this.provider = provider);
+    this.type = ProviderType[this.providerTypes[this.provider.type]];
+    this.ownership = OwnershipType[this.ownershipTypes[this.provider.ownership]];
   }
 
-  /**
-  * This method return ownership type
-  */
-  getProviderType(index: number): string {
-    return ProviderType[this.providerTypes[index]];
-  }
 }
