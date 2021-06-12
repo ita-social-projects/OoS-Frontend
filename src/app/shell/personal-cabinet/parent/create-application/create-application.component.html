@@ -1,0 +1,53 @@
+<div fxLayout='row' fxLayoutAlign='center center'>
+  <div class="wrapper application">
+    <h3 class="wrapper-title step-border" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
+    <mat-tab-group class="nav">
+      <mat-tab label="Подати дані про дитину">
+        <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
+
+          <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
+          <mat-form-field appearance="none">
+            <mat-select class="step-input" [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child"
+              required placeholder="Діти">
+              <mat-option *ngFor="let child of (children$ | async)" [value]="child">
+                {{child.firstName}} {{child.middleName}} {{child.lastName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <a [routerLink]="'/create-child'"><button class="btn-add" mat-button>
+              <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
+            </button></a>
+
+          <div *ngIf="selectedChild">
+            <p class="step-label">Дані про дитину</p>
+            <app-person-card [card]="selectedChild" [cardType]="CardType.child"></app-person-card>
+          </div>
+
+
+          <p class="step-label">Дані про батьків</p>
+          <app-person-card *ngIf="(parent$ | async)" [card]="(parent$ | async)" [cardType]="CardType.parent">
+          </app-person-card>
+
+        </form>
+      </mat-tab>
+      <mat-tab label="Подати дані про себе">
+        <div class="step">
+          <p class="step-label">Персональні дані</p>
+          <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.user">
+          </app-person-card>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      Додаючи дані про дитину я погоджуюсь з <a class="link">Правилами користування </a>
+      та надаю згоду на обробку персональних даних
+    </div>
+
+    <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+      <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+      <button class="btn" mat-button type="submit" [disabled]="!selectedChild" (click)="onSubmit()">Відправити</button>
+    </div>
+  </div>
+</div>

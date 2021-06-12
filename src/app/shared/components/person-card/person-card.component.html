@@ -1,33 +1,59 @@
 <div>
-  <a [routerLink]="" class="edit-icon"><button mat-button style="color:#3849F9;">
-      <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-    </button></a>
-  <ng-container *ngIf="isChildInfo then ChildInfo; else ParentInfo"></ng-container>
+  <mat-card>
+    <div *ngIf="(CardType.child === cardType) then ChildView; else ParentView"></div>
+  </mat-card>
+  <div *ngIf="(CardType.user === cardType) then UserView"></div>
 </div>
 
-<ng-template #ChildInfo>
-  <mat-card class="card">
-    <mat-card-content fxLayout='column' fxLayoutAlign='center start'>
-      <h4>ПІБ</h4>
-      <p>{{card.firstName}} {{card.lastName}} {{card.secondName}}</p>
-      <h4>День народження</h4>
-      <p>{{card.birthDay}}</p>
-      <h4>Cтать дитини</h4>
-      <p>{{card.gender}}</p>
-      <h4>Соціальна група</h4>
-      <p>Відсутня</p>
-    </mat-card-content>
-  </mat-card>
+
+<ng-template #ChildView>
+
+  <label class="card_label">ПІБ</label>
+  <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
+  <label class="card_label">Дата народження</label>
+  <p> {{ card.dateOfBirth }} </p>
+  <label class="card_label">Стать дитини</label>
+  <p> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
+  <label class="card-label">Соціальна група</label>
+  <p> {{ card.socialGroupId === 0 ? 'Відстуня' : "Присутня" }} </p>
+
 </ng-template>
-<ng-template #ParentInfo>
-  <mat-card class="card">
-    <mat-card-content fxLayout='column' fxLayoutAlign='center start'>
-      <h4>ПІБ</h4>
-      <p>{{card.firstName}} {{card.lastName}} {{card.secondName}}</p>
-      <h4>Телефон</h4>
-      <p>{{card.phone}}</p>
-      <h4>Емейл</h4>
-      <p>{{card.email}}</p>
-    </mat-card-content>
-  </mat-card>
+
+<ng-template #ParentView>
+
+  <label class="card-label">ПІБ</label>
+  <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
+  <label class="card-label">Телефон</label>
+  <p> {{ card.phone }} </p>
+  <label class="card-label">Емейл</label>
+  <p> {{ card.email}} </p>
+
+</ng-template>
+
+<ng-template #UserView>
+  <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="use-_form">
+
+    <label class="step-label">Дата народження<span class="step-required">*</span></label>
+    <mat-form-field class="step-input step-input-date">
+      <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <label class="step-label">Стать<span class="step-required">*</span></label>
+    <mat-radio-group formControlName="gender" color="primary">
+      <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
+      <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
+    </mat-radio-group>
+
+    <label class="step-label">Соціальна група<span class="step-required">*</span></label>
+    <mat-form-field>
+      <mat-select class="step-input" formControlName="socialGroupId">
+        <mat-option value="0" selected> Присутня </mat-option>
+        <mat-option value="1"> Відсутня </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+
 </ng-template>

@@ -4,10 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
+import { User } from '../../../shared/models/user.model';
 
 describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
   let fixture: ComponentFixture<WorkshopsComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,9 +26,14 @@ describe('WorkshopsComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+
     fixture = TestBed.createComponent(WorkshopsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+
   });
 
   it('should create', () => {
@@ -39,5 +46,6 @@ describe('WorkshopsComponent', () => {
 })
 class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() type: string;
+  @Input() isMainPage: boolean;
+  @Input() userRole: string;
 }

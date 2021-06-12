@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Role } from 'src/app/shared/enum/role';
@@ -17,20 +16,17 @@ import { ChangePage } from '../../../shared/store/app.actions';
 })
 export class WorkshopsComponent implements OnInit {
 
-  providerRole: string = Role.provider;
+  readonly role: typeof Role = Role;
 
   @Select(UserState.workshops)
   workshops$: Observable<Workshop[]>;
-
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
-  user: User;
+  userRole: string;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshopsById(null));
-    this.user$.subscribe(user => this.user = user);
+    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
   }
 }
