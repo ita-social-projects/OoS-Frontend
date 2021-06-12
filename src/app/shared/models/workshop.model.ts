@@ -39,7 +39,6 @@ export class Workshop {
   providerTitle?: string;
   isPerMonth?: string;
 
-
   constructor(about, description, addr, tchrs) {
     this.title = about.title;
     this.phone = about.phone;
