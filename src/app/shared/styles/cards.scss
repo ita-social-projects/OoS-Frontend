@@ -1,6 +1,11 @@
 .card {
-  min-width: 300px;
-  min-height: 440px;
+  width: 300px;
+  height: 440px;
+
+  &-image{
+    max-width: 50%;
+    margin-top:1rem;
+  }
 
   &_category{
     width: 10%;
@@ -13,6 +18,11 @@
        font-size: 1rem;
        line-height: 1rem;
      }
+  }
+
+  &-list{
+    color: #3849F9;
+    font-weight: 700;
   }
   &_text {
     padding: 0;
