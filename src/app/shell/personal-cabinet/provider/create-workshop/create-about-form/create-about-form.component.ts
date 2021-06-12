@@ -53,7 +53,7 @@ export class CreateAboutFormComponent implements OnInit {
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider$.subscribe(provider => this.provider = provider);
-    this.AboutFormGroup.get('providerTitle').setValue(this.provider.fullTitle);
+    this.AboutFormGroup.get('providerTitle').setValue(this.provider?.fullTitle);
     this.useProviderInfo();
     this.addWorkHour();
   }
