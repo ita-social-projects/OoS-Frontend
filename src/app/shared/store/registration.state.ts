@@ -8,17 +8,15 @@ import { User } from '../models/user.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { ParentService } from '../services/parent/parent.service';
 import { Parent } from '../models/parent.model';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
-import { CreateParent } from './user.actions';
-import { of } from 'rxjs';
+
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
-  isRegistered: boolean;
   user: User;
   checkSessionChanged: boolean,
   provider: Provider;
@@ -29,7 +27,6 @@ export interface RegistrationStateModel {
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    isRegistered: true,
     user: undefined,
     checkSessionChanged: false,
     provider: undefined,
@@ -45,7 +42,7 @@ export class RegistrationState {
   }
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
-    return state.isRegistered;
+    return state.user.isRegistered;
   }
   @Selector()
   static user(state: RegistrationStateModel): User {
@@ -113,12 +110,12 @@ export class RegistrationState {
   checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
 
-    if (state.isRegistered) {
+    if (state.user.isRegistered) {
       dispatch(new GetProfile());
     } else {
-      const user = this.store.selectSnapshot(RegistrationState.user);
-      (user.role === Role.provider) ?
-        this.router.navigate(['/create-provider']) : dispatch(new CreateParent(user));
+      if (state.user.role === Role.provider) {
+        this.router.navigate(['/create-provider'])
+      }
     }
   }
 
@@ -135,7 +132,7 @@ export class RegistrationState {
           ));
     } else {
       return this.providerService
-        .getProviderByUserId(state.user.id)
+        .getProfile()
         .pipe(
           tap(
             (provider: Provider) => patchState({ provider: provider })
