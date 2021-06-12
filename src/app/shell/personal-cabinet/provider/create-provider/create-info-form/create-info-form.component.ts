@@ -15,7 +15,7 @@ export class CreateInfoFormComponent implements OnInit {
   readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly providerType: typeof ProviderType = ProviderType;
 
-  providerTypes = ['FOP', 'social', 'TOV', 'Private', 'EducationalInstitution', 'Other'];
+  providerTypes = ['FOP', 'Social', 'TOV', 'Private', 'EducationalInstitution', 'Other'];
   ownershipTypes = ['State', 'Common', 'Private'];
 
   InfoFormGroup: FormGroup;

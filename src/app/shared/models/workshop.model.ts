@@ -21,7 +21,7 @@ export class Workshop {
   image?: File[];
   head: string;
   headBirthDate?: Date;
-  type?: string;
+  type?: number;
   keyWords?: string;
   address: Address;
   teachers: Teacher[];
@@ -37,8 +37,9 @@ export class Workshop {
   subsubcategory?: Subsubcategory;
   providerId: number;
 
-  constructor(about, description, addr, tchrs) {
+  constructor(about, description, address, teachers) {
     this.title = about.title;
+    this.type = about.type;
     this.phone = about.phone;
     this.email = about.email;
     this.minAge = about.minAge;
@@ -47,21 +48,16 @@ export class Workshop {
     this.head = description.head;
     this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
-    this.address = addr;
-    this.teachers = tchrs;
+    this.address = address;
+    this.teachers = teachers;
     this.website = about.website;
     this.facebook = about.facebook;
     this.instagram = about.instagram;
     this.withDisabilityOptions = description.withDisabilityOptions;
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
-    this.category = description.category;
     this.categoryId = description.category.id;
     this.providerId = 1;
-
-    this.subcategory = description.subcategory;
     this.subcategoryId = description.subcategoryId;
-
-    this.subsubcategory = description.subcategory;
     this.subsubcategoryId = description.subsubcategory.id;
   }
 }

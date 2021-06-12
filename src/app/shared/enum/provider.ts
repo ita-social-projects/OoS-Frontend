@@ -1,6 +1,6 @@
 export enum ProviderType {
   FOP = 'ФОП',
-  social = 'Громадська організація',
+  Social = 'Громадська організація',
   TOV = 'ТОВ',
   Private = 'ПП',
   EducationalInstitution = 'Заклад освіти',
@@ -14,7 +14,7 @@ export enum OwnershipType {
 }
 
 export enum WorkshopType {
-  group = 'Гурток',
-  section = 'Секція',
-  class = 'Клас',
+  Group = 'Гурток',
+  Section = 'Секція',
+  Class = 'Клас',
 }
