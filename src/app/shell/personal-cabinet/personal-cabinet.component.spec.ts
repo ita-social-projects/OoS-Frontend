@@ -9,7 +9,6 @@ describe('PersonalCabinetComponent', () => {
   let fixture: ComponentFixture<PersonalCabinetComponent>;
   let store: Store;
 
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
