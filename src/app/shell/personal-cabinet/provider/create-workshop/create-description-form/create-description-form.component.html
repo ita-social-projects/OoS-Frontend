@@ -5,13 +5,12 @@
 
   <div class="step-label-combined">
     <label class="step-label" > Опис <span class="step-required">*</span></label>
-    <label class="step-letter-count" fxLayout='row' fxLayoutAlign='end'> {{letterCount.length}}/<span>{{500 -
-        letterCount.length}}</span></label>
+    <label class="step-characters-count"> {{DescriptionFormGroup.get('description').value.length}}/{{this.descriptionMaxLength}}</label>
   </div>
 
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
-      [(ngModel)]='letterCount' maxlength="500" required></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{this.descriptionMaxLength}} символів" formControlName="description"
+      maxlength="{{this.descriptionMaxLength}}" required></textarea>
   </mat-form-field>
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field>

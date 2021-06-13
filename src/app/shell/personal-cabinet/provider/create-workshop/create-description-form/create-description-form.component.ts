@@ -27,7 +27,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  letterCount = ''
+  descriptionMaxLength = 500;
 
   @Select(MetaDataState.filteredkeyWords)
   filteredkeyWords$: Observable<KeyWordsService[]>;
@@ -39,7 +39,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     private keyWordsService: KeyWordsService) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: new FormControl('', [Validators.maxLength(500), Validators.required]),
+      description: new FormControl('', [Validators.maxLength(this.descriptionMaxLength), Validators.required]),
       withDisabilityOptions: new FormControl(false),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
