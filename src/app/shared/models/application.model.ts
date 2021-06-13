@@ -1,22 +1,13 @@
-import { Child } from "./child.model";
-import { Provider } from "./provider.model";
-import { Workshop } from "./workshop.model";
-
 export class Application {
   id: number;
-  status: string;
-  message: string;
-  date: Date;
-  workshop: Workshop;
-  child: Child;
-  provider: Provider;
+  status: number;
+  creationTime: Date;
+  workshopId: number;
+  childId: number;
+  userId: string
 
-  constructor(info) {
-    this.id = null;
-    this.status = info.status;
-    this.message = info.message;
-    this.date = info.date;
-    this.child = info.child;
-    this.workshop = info.workshop;
+  constructor(childId, workshopId) {
+    this.childId = childId;
+    this.workshopId = workshopId;
   }
 }

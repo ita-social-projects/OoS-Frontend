@@ -1,13 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ApplicationCardComponent } from './application-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe('RequestCardComponent', () => {
+describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
   let fixture: ComponentFixture<ApplicationCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        MatCardModule,
+        RouterTestingModule
+      ],
       declarations: [ApplicationCardComponent]
     })
       .compileComponents();
@@ -16,7 +22,6 @@ describe('RequestCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ApplicationCardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopAboutComponent } from './workshop-about.component';
+import { Workshop } from '../../../../shared/models/workshop.model';
 
 describe('WorkshopAboutComponent', () => {
   let component: WorkshopAboutComponent;
@@ -16,6 +16,7 @@ describe('WorkshopAboutComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopAboutComponent);
     component = fixture.componentInstance;
+    component.workshop = {} as Workshop;
     fixture.detectChanges();
   });
 

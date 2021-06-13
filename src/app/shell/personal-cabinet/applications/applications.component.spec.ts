@@ -1,6 +1,12 @@
+import { ApplicationSortPipe } from './../../../shared/pipes/application-sort.pipe';
+import { ApplicationFilterPipe } from './../../../shared/pipes/application-filter.pipe';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
-
+import { NgxsModule } from '@ngxs/store';
+import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
+import { Component, Input } from '@angular/core';
+import { Application } from 'src/app/shared/models/application.model';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -8,7 +14,17 @@ describe('ApplicationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ApplicationsComponent]
+      imports: [
+        NgxsModule.forRoot([]),
+        MatTabsModule
+      ],
+      declarations: [
+        ApplicationsComponent,
+        InfoBoxHostDirective,
+        MockApplicationCardComponent,
+        ApplicationFilterPipe,
+        ApplicationSortPipe
+      ],
     })
       .compileComponents();
   });
@@ -23,3 +39,11 @@ describe('ApplicationsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-application-card',
+  template: ''
+})
+class MockApplicationCardComponent {
+  @Input() application: Application;
+}
+

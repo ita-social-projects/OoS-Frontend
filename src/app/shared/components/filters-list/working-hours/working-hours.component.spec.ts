@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkingHoursComponent } from './working-hours.component';
+import { NgxsModule } from '@ngxs/store';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;
@@ -8,9 +8,12 @@ describe('WorkingHoursComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkingHoursComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [WorkingHoursComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

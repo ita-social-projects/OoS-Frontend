@@ -3,7 +3,7 @@
     margin:1rem;
   }
   &-label{
-    font-weight: 500;
+    font-weight: 600;
   }
   &-required{
     color:red;
@@ -108,3 +108,29 @@ button:focus {
     color: #3849F9;
   }
 }
+.mat-chip.mat-standard-chip{
+  display: flex;
+  font-family: Innerspace;
+  font-size: 13px;
+  background-color: white;
+  color: #888888;
+  border: 1px solid #888888;
+  font-weight: bold;
+  padding: 2px 10px;
+  min-height: 24px;
+}
+.img-close{
+  height: 12px;
+  position: relative;
+  bottom: 3px;
+}
+.mat-icon{
+  opacity: 0;
+}
+.mat-chip-input{
+  margin: 8px;
+  font-family: Open Sans;
+  font-weight: normal;
+  font-size: 13px;
+  color: #333333;
+} 

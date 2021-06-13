@@ -1,4 +1,4 @@
-<div *ngIf="user.role==='provider'" class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
+<div *ngIf="userRole === role.provider" class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
   <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
   <a [routerLink]="'/create-workshop'"><button class="btn" mat-raised-button>Додати гурток</button></a>
 </div>
@@ -10,7 +10,8 @@
   <div class="wrapper-card">
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
-        <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop">
+        <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
+          [isMainPage]="false" [userRole]="userRole">
         </app-workshop-card>
       </div>
     </ng-container>

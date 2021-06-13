@@ -1,123 +1,65 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Store, NgxsModule } from '@ngxs/store';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MainComponent } from './main.component';
-import { NO_ERRORS_SCHEMA } from '@angular/compiler';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { HttpClientModule } from '@angular/common/http';
-import { CategoryCardComponent } from 'src/app/shared/components/category-card/category-card.component';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { WorkshopCardComponent } from 'src/app/shared/components/workshop-card/workshop-card.component';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { NgxsModule } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable } from 'rxjs';
-
-class OidcSecurityServiceStub {
-  authorize() { }
-  logoff() { }
-  getToken() {
-    return 'some_token_eVbnasdQ324';
-  }
-  checkAuth() {
-    return new Observable(subscriber => {
-      setTimeout(() => {
-        subscriber.next(true);
-        subscriber.complete();
-      }, 1);
-    });
-  }
-}
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MockOidcSecurityService } from '../../shared/mocks/mock-services';
+import { Component, Input } from '@angular/core';
+import { Category } from '../../shared/models/category.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Workshop } from '../../shared/models/workshop.model';
 
 describe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
-  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainComponent, CategoryCardComponent, WorkshopCardComponent],
-      imports: [NgxsModule.forRoot([FilterState, MetaDataState, RegistrationState]), HttpClientModule],
-      providers: [{ provide: OidcSecurityService, useClass: OidcSecurityServiceStub }],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
+      imports: [
+        MatSnackBarModule,
+        NgxsModule.forRoot([]),
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        MainComponent,
+        MockMainCategoryCardComponent,
+        MockMainWorkshopCardComponent
+      ],
+      providers: [
+        { provide: OidcSecurityService, useValue: MockOidcSecurityService }
+      ]
+    })
+      .compileComponents();
   });
 
-  describe('User is not authorized', () => {
-    beforeEach(() => {
-      store = TestBed.inject(Store);
-      store.reset({
-        ...store.snapshot(),
-        filter: {
-          organizationCards: [{
-            title: 'Org card title',
-            owner: 'owner',
-            city: 'city',
-            address: 'address',
-            ownership: 'ownership',
-            price: 20,
-            rate: '5',
-            votes: '10',
-            ageFrom: 5,
-            ageTo: 8,
-            category: ['A', 'B'],
-          }],
-          categoriesCards: [
-            {
-              id: 11,
-              title: 'Category card title',
-              picture: 'pictureData'
-            }
-          ]
-        },
-        user: {
-          isAuthorized: false
-        }
-      });
-      fixture = TestBed.createComponent(MainComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('renders org cards with data from store', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('.main_cards')).toMatchSnapshot();
-    });
-
-    it('renders category cards with data from store', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('.main_categories')).toMatchSnapshot();
-    });
-
-    it('renders registration block', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('.main_registration')).toBeDefined();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(MainComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  describe('User is authorized', () => {
-    beforeEach(() => {
-      store = TestBed.inject(Store);
-      store.reset({
-        ...store.snapshot(),
-        filter: {
-          organizationCards: [],
-          categoriesCards: []
-        },
-        user: {
-          isAuthorized: true
-        }
-      });
-      fixture = TestBed.createComponent(MainComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('does not render registration block', () => {
-      expect(fixture.debugElement.nativeElement.querySelector('.main_registration')).toBe(null);
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-category-card',
+  template: ''
+})
+class MockMainCategoryCardComponent {
+  @Input() category: Category;
+  @Input() icons: {};
+}
+
+@Component({
+  selector: 'app-workshop-card',
+  template: ''
+})
+class MockMainWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() isMainPage: boolean;
+  @Input() userRole: string;
+}

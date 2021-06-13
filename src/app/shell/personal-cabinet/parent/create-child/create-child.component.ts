@@ -6,11 +6,11 @@ import { ChangePage } from 'src/app/shared/store/app.actions';
 import { CreateChildren } from 'src/app/shared/store/user.actions';
 
 @Component({
-  selector: 'app-parent-create-child',
-  templateUrl: './parent-create-child.component.html',
-  styleUrls: ['./parent-create-child.component.scss']
+  selector: 'app-create-child',
+  templateUrl: './create-child.component.html',
+  styleUrls: ['./create-child.component.scss']
 })
-export class ParentCreateChildComponent implements OnInit {
+export class CreateChildComponent implements OnInit {
 
   ChildrenFormArray = new FormArray([]);
 
@@ -33,7 +33,6 @@ export class ParentCreateChildComponent implements OnInit {
       birthDay: new FormControl(''),
       gender: new FormControl(''),
       type: new FormControl('')
-
     });
     return childFormGroup;
   }

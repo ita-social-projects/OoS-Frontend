@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ChildCardComponent } from './child-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { Child } from '../../models/child.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('ChildCardComponent', () => {
   let component: ChildCardComponent;
@@ -8,14 +12,19 @@ describe('ChildCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChildCardComponent ]
+      imports: [
+        MatCardModule,
+        RouterTestingModule
+      ],
+      declarations: [ChildCardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChildCardComponent);
     component = fixture.componentInstance;
+    component.child = {} as Child;
     fixture.detectChanges();
   });
 

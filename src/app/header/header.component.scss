@@ -12,7 +12,7 @@
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
 
   .authorization {
-    color: white; 
+    color: white;
   }
 
   &_secondary{
@@ -97,6 +97,11 @@
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
+    cursor: pointer;
+    
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &_menu {
@@ -119,7 +124,7 @@
         }
       }
     }
-  
+
     &-button-mobile, &_account-button {
       display: none;
     }
@@ -223,7 +228,7 @@
         height: 30px;
       }
     }
-    
+
     &_lang {
       display: none;
     }

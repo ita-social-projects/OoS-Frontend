@@ -11,14 +11,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
-import { CreateTeacherComponent } from './components/create-teacher/create-teacher.component';
-import { TeacherFormComponent } from './components/create-teacher/teacher-form/teacher-form.component';
 import { CategorySelectComponent } from './components/category-select/category-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
-import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
-import { ApplicationSortPipe } from './pipes/application-sort.pipe';
+// import { ApplicationFilterPipe } from './pipes/application-filter.pipe'; TODO: add this import
+// import { ApplicationSortPipe } from './pipes/application-sort.pipe'; TODO: add this import
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
 import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
@@ -41,13 +39,11 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     TeacherCardComponent,
     CategorySelectComponent,
     CategoryCardComponent,
-    CreateTeacherComponent,
-    TeacherFormComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
-    ApplicationFilterPipe,
-    ApplicationSortPipe,
+    // ApplicationFilterPipe,TODO: add this import
+    // ApplicationSortPipe,TODO: add this import
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     WorkingHoursComponent,
@@ -77,12 +73,11 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     TeacherCardComponent,
     CategorySelectComponent,
     CategoryCardComponent,
-    CreateTeacherComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
-    ApplicationFilterPipe,
-    ApplicationSortPipe,
+    // ApplicationFilterPipe,TODO: add this import
+    // ApplicationSortPipe, TODO: add this import
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     FormsModule,

@@ -23,7 +23,7 @@ export class TeacherService {
   * This method create teacher
   * @param Workshop
   */
-  createTeacher(teacher: Teacher): any {
+  createTeacher(teacher: Teacher): Observable<Object> {
     return this.http.post('/Teacher/Create', teacher);
   }
 
@@ -31,7 +31,7 @@ export class TeacherService {
   * This method delete teacher by Teacher id
   * @param id
   */
-  deleteWorkshop(id: number): any {
+  deleteWorkshop(id: number): Observable<Object> {
     const dataUrl = `Teacher/Delete/${id}`;
     return this.http.delete(dataUrl);
   }

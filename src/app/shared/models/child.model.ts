@@ -1,19 +1,28 @@
 import { Parent } from "./parent.model";
 export class Child {
-  id: null;
+  id: number;
   firstName: string;
   lastName: string;
   middleName: string;
   dateOfBirth: string;
   gender: number;
-  parent?: Parent;
+  parentId?: number;
   socialGroupId: number;
+  birthCertificate?: {
+    id: number;
+    svidSer: string,
+    svidNum: string,
+    svidNumMD5: string,
+    svidWho: string,
+    svidDate: string,
+    childId: number;
+  }
 
   constructor(info) {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    this.dateOfBirth = "2021-04-27";
+    this.dateOfBirth = info.date;
     this.gender = 0;
     this.socialGroupId = 0;
   }

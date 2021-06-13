@@ -1,9 +1,9 @@
 import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
-import * as Layer from "leaflet";
+import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../../../../../shared/models/coords.model';
-import { MapAddress } from '../../../../../../shared/models/map-address.model';
+import { Address } from '../../../../../../shared/models/address.model';
 
 @Component({
   selector: 'app-map',
@@ -50,14 +50,14 @@ export class MapComponent implements AfterViewInit {
         this.map.on('click', e => this.setMapLocation(e.latlng));
       }
     });
-    this.address.valueChanges.subscribe((dt: MapAddress) => dt.street && dt.city && this.setFormLocation(dt));
+    this.address.valueChanges.subscribe((dt: Address) => dt.street && dt.city && this.setFormLocation(dt));
   }
   /**
    * uses GoelocationService to translate address into coords and sets marker on map
    *
-   * @param address - type MapAddress
+   * @param address - type Address
    */
-  async setFormLocation(address: MapAddress): Promise<void> {
+  async setFormLocation(address: Address): Promise<void> {
     const coords = await this.geolocationService.locationGeocode(address);
     // tslint:disable-next-line: no-unused-expression
     coords && this.setMarker(coords);

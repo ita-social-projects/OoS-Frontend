@@ -1,80 +1,73 @@
-<div class="card" [fxLayout]="type" fxLayoutAlign="center center">
-  <div class="card_header" fxLayout="row" fxLayoutAlign="end start">
-    <div *ngIf="!(isMainPage$ | async) then ProviderActions; else UserActions"></div>
-  </div>
-  <div *ngIf="( isMainPage$ | async) then MainView; else ProviderActivities"></div>
-  <div class="card_footer">
-    <a [routerLink]="'./workshop-details/workshop-about'" class="card_link">
-      Детальніше
-      <span class="material-icons arrow">arrow_forward</span>
-    </a>
-  </div>
+<div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions">
 </div>
+<mat-card>
+  <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
+    <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+      <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
+        alt="{{workshop.category}}">
+    </mat-card-header>
+    <div *ngIf="isMainPage then MainView; else UserView"></div>
+    <mat-card-footer fxLayout="row" fxLayoutAlign="end">
+      <a routerLink="/workshop-details" class="card_link">
+        Детальніше
+        <span class="material-icons arrow">arrow_forward</span>
+      </a>
+    </mat-card-footer>
+  </div>
+</mat-card>
+
 <ng-template #MainView>
-  <div class="card_body">
-    <a href="#" class="card_category">
-      <img src="assets/icons/{{workshop.category}}.png" alt="{{workshop.category}}" class="card_category-img">
-    </a>
-    <h3 class="card_title">
-      {{workshop.title}}
-    </h3>
-    <ul class="card_data">
-      <li class="card_data-item">
-        <img src="assets/icons/rate.png" alt="rate" class="card_data-icon">
-        {{workshop.rate}} <span class="card_rate-span">({{workshop.votes}})</span>
-      </li>
-      <li class="card_data-item">
-        <img src="assets/icons/name.png" alt="name" class="card_data-icon">
-        <a href="#" class="card_owner">
-          {{workshop.head}}
-        </a>
-      </li>
-      <li class="card_data-item">
-        <img src="assets/icons/age.png" alt="age" class="card_data-icon">
-        {{workshop.minAge}}-{{workshop.maxAge}}
-      </li>
-      <li class="card_data-item">
-        <img src="assets/icons/price.png" alt="price" class="card_data-icon">
-        {{workshop.price}}
-      </li>
-      <li class="card_data-item">
-        <img src="assets/icons/address.png" alt="address" class="card_data-icon">
-        {{workshop.address.city}}, {{workshop.address.street}}, {{workshop.address.buildingNumber}}
-      </li>
-    </ul>
-  </div>
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+    <p class="card_text"><img src="assets/icons/rate.png" alt="rate"> {{ workshop.rate }} </p>
+    <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop.ownership }} </p>
+    <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }} </p>
+    <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop.price ? workshop.price :
+      "Безкоштовно" }} </p>
+    <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop.address.city }}, {{
+      workshop.address.street }}, {{
+      workshop.address.buildingNumber }} </p>
+  </mat-card-content>
 </ng-template>
-<ng-template #ProviderActivities>
-  <div class="card_body">
-    <h3 class="card_title">
-      {{workshop.title}}
-    </h3>
-    <ul class="card_data">
-      <li class="card_data-item">
-        <img src="assets/icons/age.png" alt="people" class="card_data-icon">
-        Всього учасників:
-      </li>
-      <li class="card_data-item">
-        <img src="assets/icons/awaits.png" alt="awaits" class="card_data-icon">
-        Очікуєтсья підтвердження:
-      </li>
-      <li class="card_data-item">
-        <img src="assets/icons/email.png" alt="email" class="card_data-icon">
-        Повідомлення:
-      </li>
-    </ul>
-  </div>
+
+<ng-template #UserView>
+  <mat-card-content class="user" fxLayout="column" fxLayoutAlign="space-between">
+    <div *ngIf="userRole === role.provider then ProviderChangeStatus; else ParentChangeStatus"></div>
+    <p class="card_text user_text"><img src="assets/icons/age.png" alt="age">
+      {{ userRole !== role.provider ? "Всього учасників" : "Доступних місць" }} </p>
+    <p class="card_text user_text"><img src="assets/icons/awaits.png" alt="awaits"> Очікує підтвердження </p>
+    <p class="card_text user_text"><img src="assets/icons/email.png" alt="email"> Повідомлення </p>
+  </mat-card-content>
 </ng-template>
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn"><img src="assets/icons/edit.png" alt="edit"></div>
+    <div class="actions_btn"><img src="assets/icons/edit.png" alt="edit" (click)="onEdit()"></div>
     <div class="actions_btn"><img src="assets/icons/delete.png" alt="delete" (click)="onDelete()"></div>
   </div>
 </ng-template>
-
 <ng-template #UserActions>
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn"><img src="assets/icons/favorite.png" alt="favorite"></div>
+    <div class="actions_btn"><img src="assets/icons/fav.png" alt="fav" (click)="onLike()"></div>
+  </div>
+</ng-template>
+
+<ng-template #ProviderChangeStatus>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
+      <p class="status_text">{{ status === 'approved'
+        ? "Набір відкрито" : "Набір завершено" }}</p>
+    </mat-chip>
+    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')"> Призупинити
+      набір </p>
+  </div>
+</ng-template>
+
+<ng-template #ParentChangeStatus>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <p class="status_{{status}}"><img src="assets/icons/{{status}}.png" alt="{{status}}"> {{ status === 'approved'
+      ? "Підтверджено" : "Відхилено" }} </p>
+    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')">Залишити гурток
+    </p>
   </div>
 </ng-template>

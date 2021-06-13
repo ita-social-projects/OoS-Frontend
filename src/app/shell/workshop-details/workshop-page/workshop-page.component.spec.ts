@@ -1,6 +1,12 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopPageComponent } from './workshop-page.component';
+import { Component, Input, Provider } from '@angular/core';
+import { Workshop } from '../../../shared/models/workshop.model';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { Teacher } from '../../../shared/models/teacher.model';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('WorkshopPageComponent', () => {
   let component: WorkshopPageComponent;
@@ -8,9 +14,23 @@ describe('WorkshopPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkshopPageComponent ]
+      imports: [
+        MatChipsModule,
+        MatTabsModule,
+        RouterTestingModule,
+        MatIconModule,
+        MatChipsModule
+      ],
+      declarations: [
+        WorkshopPageComponent,
+        MockAllProviderWorkshopsComponent,
+        MockProviderAboutComponent,
+        MockReviewsComponent,
+        MockWorkshopTeachersComponent,
+        MockWorkshopAboutComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -23,3 +43,43 @@ describe('WorkshopPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-workshop-about',
+  template: ''
+})
+class MockWorkshopAboutComponent {
+  @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-workshop-teachers',
+  template: ''
+})
+class MockWorkshopTeachersComponent {
+  @Input() teachers: Teacher[];
+}
+
+@Component({
+  selector: 'app-reviews',
+  template: ''
+})
+class MockReviewsComponent {
+  @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-provider-about',
+  template: ''
+})
+class MockProviderAboutComponent {
+  @Input() provider: Provider;
+}
+
+@Component({
+  selector: 'app-all-provider-workshops',
+  template: ''
+})
+class MockAllProviderWorkshopsComponent {
+  @Input() provider: Provider;
+}

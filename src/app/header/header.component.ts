@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
+import { Logout, CheckAuth, Login, CheckRegistration } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
 
@@ -35,9 +35,11 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
   }
+
   logout(): void {
     this.store.dispatch(new Logout());
   }
+
   login(): void {
     this.store.dispatch(new Login());
   }

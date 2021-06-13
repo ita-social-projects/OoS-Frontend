@@ -1,19 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopDetailsComponent } from './workshop-details.component';
+import { NgxsModule, Store } from '@ngxs/store';
+import { Component, Input } from '@angular/core';
+import { Workshop } from '../../shared/models/workshop.model';
+import { User } from '../../shared/models/user.model';
+
+const MockUser = {
+  role: '',
+};
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkshopDetailsComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [
+        WorkshopDetailsComponent,
+        MockSideMenuComponent,
+        MockWorkshopPageComponent
+      ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
+
     fixture = TestBed.createComponent(WorkshopDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -23,3 +41,20 @@ describe('WorkshopDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-workshop-page',
+  template: ''
+})
+class MockWorkshopPageComponent {
+  @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-side-menu',
+  template: ''
+})
+class MockSideMenuComponent {
+  @Input() workshop: Workshop;
+}
+

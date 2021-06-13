@@ -1,12 +1,16 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from './header.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Component, Injectable } from '@angular/core';
-import { NgxsModule, Store } from '@ngxs/store';
-import { UserRegistrationState } from '../shared/store/registration.state';
+import { NgxsModule } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
+import { MockOidcSecurityService } from '../shared/mocks/mock-services';
+import { MatIconModule } from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -17,14 +21,20 @@ describe('HeaderComponent', () => {
       imports: [
         MatButtonModule,
         MatDialogModule,
-        NgxsModule.forRoot([UserRegistrationState]),
-        HttpClientModule
+        MatIconModule,
+        NgxsModule.forRoot([]),
+        HttpClientModule,
+        RouterTestingModule,
+        MatProgressSpinnerModule,
+        MatMenuModule
       ],
-      declarations: [HeaderComponent,
-        MockRegistrationComponent
+      declarations: [
+        HeaderComponent,
+        MockCityFilterComponent,
+        MockSearchBarComponent
       ],
       providers: [
-        { provide: OidcSecurityService, useClass: MockOidcSecurityService }
+        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
       ]
     })
       .compileComponents();
@@ -37,16 +47,19 @@ describe('HeaderComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });
+
 @Component({
-  selector: 'app-registration',
+  selector: 'app-city-filter',
   template: ''
 })
-class MockRegistrationComponent { }
-
-@Injectable({
-  providedIn: 'root'
+class MockCityFilterComponent {
+}
+@Component({
+  selector: 'app-searchbar',
+  template: ''
 })
-class MockOidcSecurityService { }
+class MockSearchBarComponent {
+}

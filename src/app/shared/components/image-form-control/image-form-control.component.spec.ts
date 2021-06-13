@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ImageFormControlComponent } from './image-form-control.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('ImageFormControlComponent', () => {
   let component: ImageFormControlComponent;
@@ -8,6 +8,9 @@ describe('ImageFormControlComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        MatIconModule
+      ],
       declarations: [ ImageFormControlComponent ]
     })
     .compileComponents();

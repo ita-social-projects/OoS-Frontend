@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkshopTeachersComponent } from './workshop-teachers.component';
+import { Component, Input } from '@angular/core';
+import { Teacher } from '../../../../shared/models/teacher.model';
 
 describe('WorkshopTeachersComponent', () => {
   let component: WorkshopTeachersComponent;
@@ -8,7 +9,9 @@ describe('WorkshopTeachersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkshopTeachersComponent ]
+      declarations: [
+        WorkshopTeachersComponent,
+        MockTeacherCardComponent]
     })
     .compileComponents();
   });
@@ -16,6 +19,7 @@ describe('WorkshopTeachersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopTeachersComponent);
     component = fixture.componentInstance;
+    component.teachers = [];
     fixture.detectChanges();
   });
 
@@ -23,3 +27,11 @@ describe('WorkshopTeachersComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-teacher-card',
+  template: ''
+})
+class MockTeacherCardComponent {
+  @Input() teacher: Teacher;
+}

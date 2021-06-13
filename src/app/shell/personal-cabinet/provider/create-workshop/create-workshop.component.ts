@@ -17,9 +17,7 @@ export class CreateWorkshopComponent implements OnInit {
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor(private store: Store) {
-
-  }
+  constructor(private store: Store) { }
 
   ngOnInit() {
   }

@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ParentConfigComponent } from './parent-config.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { MatCardModule } from '@angular/material/card';
+import { Component, Input } from '@angular/core';
 
 describe('ParentConfigComponent', () => {
   let component: ParentConfigComponent;
@@ -8,7 +11,15 @@ describe('ParentConfigComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParentConfigComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+        MatCardModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      declarations: [
+        ParentConfigComponent,
+        MockPersonCardComponent],
     })
     .compileComponents();
   });
@@ -23,3 +34,11 @@ describe('ParentConfigComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-person-card',
+  template: ''
+})
+class MockPersonCardComponent {
+  @Input() card;
+  @Input() isChildInfo: boolean;
+}

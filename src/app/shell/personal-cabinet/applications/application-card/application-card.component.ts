@@ -56,9 +56,9 @@ export class ApplicationCardComponent implements OnInit {
   * This method emit on mouseover action on child avatar
   * @param Application application
   */
-  onInfoShow(element: Element): void {
-    this.infoShow.emit({ element, child: this.application.child });
-  }
+  // onInfoShow(element: Element): void {
+  //   this.infoShow.emit({ element, child: this.application.child }); TODO: add this functionality
+  // }
 
   /**
   * This method emit on mouseleave action on child avatar

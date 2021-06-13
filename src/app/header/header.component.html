@@ -8,7 +8,7 @@
         <mat-icon>language</mat-icon>
         УКР
       </button>
-      <div *ngIf="(isAuthorized$ | async) then isAuthorized; else isUnauthorized"></div>
+      <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
   <div *ngIf="(isMainPage$ | async) then isMainPage;" class="header_wrapper"></div>
@@ -37,19 +37,19 @@
 </ng-template>
 
 <ng-template #isAuthorized>
-  <div *ngIf="user" class="authorization">
+  <div class="authorization">
     <span class="header_menu-button">
       <button mat-icon-button class="header_menu-button_account-circle">
-          <mat-icon matBadge="2" matBadgePosition="before">account_circle</mat-icon>
+        <mat-icon matBadge="2" matBadgePosition="before">account_circle</mat-icon>
       </button>
-      <div class="header_username">
+      <div class="header_username" [matMenuTriggerFor]="log">
         <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
       </div>
       <button mat-icon-button [matMenuTriggerFor]="log">
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
     </span>
-    
+
     <button mat-flat-button class="header_menu-button-mobile" [matMenuTriggerFor]="log">
       <mat-icon>menu</mat-icon>
     </button>
@@ -57,14 +57,16 @@
     <mat-menu #log="matMenu" class="header_menu">
       <button mat-menu-item class="header_menu_account-button">
         <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
-        <button mat-raised-button class="header_menu_account-button_account-circle" matBadge="2" matBadgePosition="before" matBadgeColor="accent">
+        <button mat-raised-button class="header_menu_account-button_account-circle" matBadge="2"
+          matBadgePosition="before" matBadgeColor="accent">
           <i>
             <mat-icon class="icon-account">account_circle</mat-icon>
             <!-- <mat-icon class="icon-message"> email</mat-icon> -->
           </i>
         </button>
       </button>
-      <a [routerLink]="'./personal-cabinet/' + user.role + '/config'"><button mat-menu-item>Особиста інформація</button></a>
+      <a [routerLink]="'./personal-cabinet/' + user.role + '/config'"><button mat-menu-item>Особиста
+          інформація</button></a>
       <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
           {{roles[user.role]}}</button></a>
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>

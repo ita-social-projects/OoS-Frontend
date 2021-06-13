@@ -1,6 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CityAutocompleteComponent } from './city-autocomplete.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxsModule } from '@ngxs/store';
+import { MockCityFilterService } from '../../mocks/mock-services';
+import { CityFilterService } from '../../services/filters-services/city-filter/city-filter.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('CityAutocompleteComponent', () => {
   let component: CityAutocompleteComponent;
@@ -8,7 +15,18 @@ describe('CityAutocompleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CityAutocompleteComponent ]
+      imports: [
+        MatAutocompleteModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [ CityAutocompleteComponent ],
+      providers: [
+        { provide: CityFilterService, useValue: MockCityFilterService },
+      ]
     })
     .compileComponents();
   });
@@ -23,3 +41,6 @@ describe('CityAutocompleteComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+
+
