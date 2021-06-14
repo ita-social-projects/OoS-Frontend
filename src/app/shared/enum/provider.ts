@@ -1,16 +1,31 @@
 export enum ProviderType {
-  FOP = 'ФОП',
-  Social = 'Громадська організація',
-  TOV = 'ТОВ',
-  Private = 'ПП',
-  EducationalInstitution = 'Заклад освіти',
-  Other = 'Інше',
+  FOP,
+  Social,
+  TOV,
+  Private,
+  EducationalInstitution,
+  Other,
+}
+
+export enum ProviderTypeUkr {
+  'ФОП',
+  'Громадська організація',
+  'ТОВ',
+  'ПП',
+  'Заклад освіти',
+  'Інше',
 }
 
 export enum OwnershipType {
-  State = 'Державна',
-  Common = 'Громадська організація',
-  Private = 'Приватна',
+  State,
+  Common,
+  Private,
+}
+
+export enum OwnershipTypeUkr {
+  'Державна',
+  'Громадська організація',
+  'Приватна',
 }
 
 export enum WorkshopType {
