@@ -21,7 +21,7 @@ export class Workshop {
   image?: File[];
   head: string;
   headBirthDate?: Date;
-  type?: string;
+  type?: number;
   keyWords?: string;
   address: Address;
   teachers: Teacher[];
@@ -36,6 +36,8 @@ export class Workshop {
   subcategory?: Subcategory;
   subsubcategory?: Subsubcategory;
   providerId: number;
+  providerTitle?: string;
+  isPerMonth?: string;
 
   constructor(about, description, addr, tchrs) {
     this.title = about.title;
@@ -57,10 +59,11 @@ export class Workshop {
     this.category = description.category;
     this.categoryId = description.category.id;
     this.providerId = 1;
-
+    this.type = about.type;
+    this.providerTitle = about.providerTitle;
+    this.isPerMonth = about.isPerMonth;
     this.subcategory = description.subcategory;
     this.subcategoryId = description.subcategoryId;
-
     this.subsubcategory = description.subcategory;
     this.subsubcategoryId = description.subsubcategory.id;
   }

@@ -5,11 +5,11 @@ import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 @Component({
-  selector: 'app-provider-config',
-  templateUrl: './provider-config.component.html',
-  styleUrls: ['./provider-config.component.scss']
+  selector: 'app-user-config',
+  templateUrl: './user-config.component.html',
+  styleUrls: ['./user-config.component.scss']
 })
-export class ProviderConfigComponent implements OnInit {
+export class UserConfigComponent implements OnInit {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
@@ -18,6 +18,6 @@ export class ProviderConfigComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    // this.user$.subscribe(user => this.user = user);
+    this.user$.subscribe(user => this.user = user);
   }
 }

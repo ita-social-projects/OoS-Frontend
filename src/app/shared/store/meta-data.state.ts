@@ -4,8 +4,18 @@ import { tap } from 'rxjs/operators';
 import { Category, Subcategory, Subsubcategory } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
+import { SocialGroup } from '../models/socialGroup.model';
 import { CategoriesService } from '../services/categories/categories.service';
-import { CityList, GetCategories, GetSubcategories, GetSubsubcategories, KeyWordsList } from './meta-data.actions';
+import { ChildrenService } from '../services/children/children.service';
+import {
+  CityList,
+  GetCategories,
+  GetSubcategories,
+  GetSubsubcategories,
+  KeyWordsList,
+  ClearCategories,
+  GetSocialGroup
+} from './meta-data.actions';
 
 export interface MetaDataStateModel {
   categories: Category[];
@@ -13,6 +23,7 @@ export interface MetaDataStateModel {
   subsubcategories: Subsubcategory[];
   filteredCities: City[];
   filteredkeyWords: KeyWord[];
+  socialGroups: SocialGroup[],
 }
 
 @State<MetaDataStateModel>({
@@ -23,6 +34,7 @@ export interface MetaDataStateModel {
     subsubcategories: [],
     filteredCities: [],
     filteredkeyWords: [],
+    socialGroups: [],
   }
 
 })
@@ -44,8 +56,12 @@ export class MetaDataState {
   @Selector()
   static filteredkeyWords(state: MetaDataStateModel): KeyWord[] { return state.filteredkeyWords }
 
+  @Selector()
+  static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
+
   constructor(
-    private categoriesService: CategoriesService) { }
+    private categoriesService: CategoriesService,
+    private childrenService: ChildrenService) { }
 
   @Action(GetCategories)
   getCategories({ patchState }: StateContext<MetaDataStateModel>, { }: GetCategories) {
@@ -82,5 +98,21 @@ export class MetaDataState {
   @Action(KeyWordsList)
   keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
     patchState({ filteredkeyWords: payload });
+  }
+
+  @Action(ClearCategories)
+  clerCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories): void {
+    patchState({ categories: undefined });
+    patchState({ subcategories: undefined });
+    patchState({ subsubcategories: undefined });
+  }
+
+  @Action(GetSocialGroup)
+  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup) {
+    return this.childrenService
+      .getSocialGroup()
+      .pipe(
+        tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
+        ))
   }
 }

@@ -17,6 +17,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
+import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 @NgModule({
   declarations: [
     MainComponent,
@@ -40,6 +41,7 @@ import { ParentGuard } from './personal-cabinet/parent/parent.guard';
     PersonalCabinetGuard,
     ProviderGuard,
     ParentGuard,
+    CreateProviderGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
   ]
 })
