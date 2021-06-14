@@ -51,15 +51,15 @@ export class OnCreateChildrenSuccess {
   static readonly type = '[user] create Children success';
   constructor(public payload) { }
 }
-export class DeleteChildrenById {
+export class DeleteChildById {
   static readonly type = '[user] delete Children';
   constructor(public payload: number) { }
 }
-export class OnDeleteChildrenSuccess {
+export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';
   constructor(public payload) { }
 }
-export class OnDeleteChildrenFail {
+export class OnDeleteChildFail {
   static readonly type = '[user] delete Children fail';
   constructor(public payload: Error) { }
 }

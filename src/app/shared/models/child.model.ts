@@ -23,7 +23,8 @@ export class Child {
     this.lastName = info.lastName;
     this.middleName = info.middleName;
     this.dateOfBirth = info.date;
-    this.gender = 0;
-    this.socialGroupId = 0;
+    this.gender = info.gender;
+    this.socialGroupId = info.socialGroupId;
+    this.parentId = 1; // TODO: add parentID when getProfile will be fixed
   }
 }

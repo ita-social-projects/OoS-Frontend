@@ -6,7 +6,6 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
-import { Parent } from '../models/parent.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -20,6 +19,7 @@ import {
   CreateChildren,
   CreateProvider,
   CreateWorkshop,
+  DeleteChildById,
   DeleteWorkshopById,
   GetApplicationsById,
   GetChildren,
@@ -32,6 +32,8 @@ import {
   OnCreateProviderSuccess,
   OnCreateWorkshopFail,
   OnCreateWorkshopSuccess,
+  OnDeleteChildFail,
+  OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess
 } from './user.actions';
@@ -241,6 +243,34 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Заявку створено!', 'primary', 'top');
       this.router.navigate(['']);
+    }, 2000);
+  }
+
+  @Action(DeleteChildById)
+  deleteChildById({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteChildById) {
+    return this.childrenService
+      .deleteChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteChildSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnDeleteChildFail(error))))
+      );
+  }
+
+  @Action(OnDeleteChildFail)
+  onDeleteChildFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildFail): void {
+    console.log('Child is not deleted', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 2000);
+    dispatch(new GetChildren());
+  }
+
+  @Action(OnDeleteChildSuccess)
+  onDeleteChildSuccess({ }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
+    console.log('Child is deleted', payload);
+    setTimeout(() => {
+      this.showSnackBar('Дитину видалено!', 'primary', 'top');
     }, 2000);
   }
 

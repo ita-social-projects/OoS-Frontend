@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Child } from '../../models/child.model';
 import { Workshop } from '../../models/workshop.model';
+import { DeleteChildById } from '../../store/user.actions';
 
 @Component({
   selector: 'app-child-card',
@@ -13,7 +15,7 @@ export class ChildCardComponent implements OnInit {
 
   workshops: Workshop[];
 
-  constructor() { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void { }
 
@@ -22,6 +24,6 @@ export class ChildCardComponent implements OnInit {
   }
 
   onDelete(): void {
-    console.log('I delete it!'); //TODO: link the real Api when child creation will be fixed
+    this.store.dispatch(new DeleteChildById(this.child.id));
   }
 }
