@@ -7,9 +7,22 @@
 }
 .application{
   padding: 0 5rem;
-  .mat-icon{
+
+  .mat-icon-add{
     opacity: 1;
+    font-size: 16px;
+    vertical-align: sub;
   }
+}
+.btn-add-child{
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #3849F9;
+
+&:hover{
+  opacity: 0.8;
+}
 }
 :host ::ng-deep .mat-tab-label-active {
   background: rgba(56, 73, 249, 0.07);
@@ -25,4 +38,10 @@
 }
 ::ng-deep .mat-ink-bar{
   display: none;
+}
+::ng-deep .mat-option-text {
+  overflow: initial;
+} 
+::ng-deep .mat-flat-button{
+  padding: 0;
 }

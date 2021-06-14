@@ -1,4 +1,4 @@
-<div class="person-card">
+<div class="card-person">
   
   <div *ngIf="(CardType.child === cardType) then ChildView; else ParentView"></div>
   <div *ngIf="(CardType.user === cardType) then UserView"></div>
@@ -7,7 +7,10 @@
 
 <ng-template #ChildView>
 
-  <label class="card-label">ПІБ</label>
+  <div class="card-edit">
+    <label class="card-label">ПІБ</label>
+    <a class="edit"><mat-icon>create</mat-icon>Редагувати</a>
+  </div>
   <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card-label">Дата народження</label>
   <p> {{ card.dateOfBirth }} </p>
@@ -20,7 +23,10 @@
 
 <ng-template #ParentView>
 
-  <label class="card-label">ПІБ</label>
+  <div class="card-edit">
+    <label class="card-label">ПІБ</label>
+    <a class="edit"><mat-icon>create</mat-icon>Редагувати</a>
+</div>
   <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card-label">Телефон</label>
   <p> {{ card.phone }} </p>
@@ -30,7 +36,7 @@
 </ng-template>
 
 <ng-template #UserView>
-  <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="use-_form">
+  <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="user-form">
 
     <label class="step-label">Дата народження<span class="step-required">*</span></label>
     <mat-form-field class="step-input step-input-date">

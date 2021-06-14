@@ -15,15 +15,14 @@
             </mat-select>
           </mat-form-field>
 
-          <a [routerLink]="'/create-child'"><button class="btn-add" mat-button>
-              <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
-            </button></a>
+          <a [routerLink]="'/create-child'" class="btn-add-child">
+            <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
+          </a>
 
           <div *ngIf="selectedChild">
             <p class="step-label">Дані про дитину</p>
             <app-person-card [card]="selectedChild" [cardType]="CardType.child"></app-person-card>
           </div>
-
 
           <p class="step-label">Дані про батьків</p>
           <app-person-card *ngIf="(parent$ | async)" [card]="(parent$ | async)" [cardType]="CardType.parent">
