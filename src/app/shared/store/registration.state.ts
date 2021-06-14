@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
+import { CreateParent } from './user.actions';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -51,7 +52,7 @@ export class RegistrationState {
 
   @Selector()
   static provider(state: RegistrationStateModel): Provider {
-    return state.provider
+    return state.provider;
   }
 
   @Selector()
@@ -113,9 +114,7 @@ export class RegistrationState {
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
     } else {
-      if (state.user.role === Role.provider) {
-        this.router.navigate(['/create-provider'])
-      }
+      (state.user.role === Role.provider) ? this.router.navigate(['/create-provider']) : dispatch(new CreateParent(state.user));
     }
   }
 

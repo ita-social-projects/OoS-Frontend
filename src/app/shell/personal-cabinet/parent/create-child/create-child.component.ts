@@ -1,8 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Child } from 'src/app/shared/models/child.model';
+import { Parent } from 'src/app/shared/models/parent.model';
+import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
+import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren } from 'src/app/shared/store/user.actions';
 
 @Component({
@@ -14,11 +20,24 @@ export class CreateChildComponent implements OnInit {
 
   ChildrenFormArray = new FormArray([]);
 
+  @Select(MetaDataState.socialGroups)
+  socialGroups$: Observable<SocialGroup[]>;
+
+  @Select(RegistrationState.parent)
+  parent$: Observable<Parent>;
+
   constructor(private store: Store, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.ChildrenFormArray.push(this.newForm());
+
+    this.socialGroups$.subscribe(socialGroups => {
+      if (socialGroups.length === 0) {
+        this.store.dispatch(new GetSocialGroup())
+      }
+    })
+
   }
 
   /**
@@ -32,8 +51,13 @@ export class CreateChildComponent implements OnInit {
       middleName: new FormControl(''),
       birthDay: new FormControl(''),
       gender: new FormControl(''),
-      type: new FormControl('')
+      socialGroupId: new FormControl(''),
     });
+
+    childFormGroup.get('socialGroupId').valueChanges.subscribe(val =>
+      (!val) && childFormGroup.get('socialGroupId').setValue(null)
+    );
+
     return childFormGroup;
   }
 

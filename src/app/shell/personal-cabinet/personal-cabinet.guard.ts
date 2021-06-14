@@ -15,6 +15,6 @@ export class PersonalCabinetGuard implements CanLoad {
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user = this.store.selectSnapshot<User>(RegistrationState.user);
-    return (user.role) ? true : false;
+    return (user !== undefined);
   }
 }

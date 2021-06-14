@@ -35,8 +35,8 @@ export class CreateProviderComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new ChangePage(false));
 
-    this.RobotFormControl.valueChanges.subscribe(val => (val) ? this.isNotRobot = true : this.isNotRobot = false);
-    this.AgreementFormControl.valueChanges.subscribe(val => (val) ? this.isAgreed = true : this.isAgreed = false);
+    this.RobotFormControl.valueChanges.subscribe(val => this.isNotRobot = val);
+    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
   }
 
   /**

@@ -28,10 +28,12 @@
   </mat-radio-group>
 
   <label class="step-label">Соціальна група<span class="step-required">*</span></label>
-  <mat-form-field>
-    <mat-select class="step-input" formControlName="type">
-      <mat-option value="0" selected> Присутня </mat-option>
-      <mat-option value="1"> Відсутня </mat-option>
+  <mat-form-field appearance="none">
+    <mat-select class="step-input" required placeholder="Соціальна група" formControlName="socialGroupId">
+      <mat-option [value]="0"> Відсутня </mat-option>
+      <mat-option *ngFor="let group of socialGroups" [value]="group.id">
+        {{group.name}}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 

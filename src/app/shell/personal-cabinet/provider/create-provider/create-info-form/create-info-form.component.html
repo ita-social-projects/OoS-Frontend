@@ -1,17 +1,26 @@
 <form [formGroup]="InfoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <label class="step-label">Форма властності<span class="step-required">*</span></label>
-  <mat-form-field>
-    <mat-select class="step-input" formControlName="ownership">
-      <mat-option value="0" selected> Державна </mat-option>
-      <mat-option value="1"> Приватна </mat-option>
+
+  <mat-form-field appearance="none">
+    <mat-select class="step-input" formControlName="ownership" name="ownership" required
+      placeholder="Оберіть форму властності">
+      <ng-container *ngFor="let type of ownershipType | keyvalue">
+        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.value">
+          {{ ownershipTypeUkr[type.key] }}
+        </mat-option>
+      </ng-container>
     </mat-select>
   </mat-form-field>
+
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
 
-  <mat-form-field>
-    <mat-select class="step-input" formControlName="type">
-      <mat-option value="0" selected> Заклад освіти </mat-option>
-      <mat-option value="1"> Заклад не освіти </mat-option>
+  <mat-form-field appearance="none">
+    <mat-select class="step-input" formControlName="type" name="type" required placeholder="Оберіть тип організації">
+      <ng-container *ngFor="let type of providerType | keyvalue">
+        <mat-option *ngIf="providerTypeUkr[type.key]"  [value]="type.value">
+          {{ providerTypeUkr[type.key] }}
+        </mat-option>
+      </ng-container>
     </mat-select>
   </mat-form-field>
 

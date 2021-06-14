@@ -30,7 +30,6 @@ import { CreateProviderComponent } from './create-provider/create-provider.compo
 import { CreateInfoFormComponent } from './create-provider/create-info-form/create-info-form.component';
 import { CreateContactsFormComponent } from './create-provider/create-contacts-form/create-contacts-form.component';
 import { CreatePhotoFormComponent } from './create-provider/create-photo-form/create-photo-form.component';
-import { ProviderConfigComponent } from './provider-config/provider-config.component';
 import { CreateTeacherComponent } from './create-workshop/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-form/teacher-form.component';
 @NgModule({
@@ -45,7 +44,6 @@ import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-f
     CreateInfoFormComponent,
     CreateContactsFormComponent,
     CreatePhotoFormComponent,
-    ProviderConfigComponent,
     CreateTeacherComponent,
     TeacherFormComponent
   ],

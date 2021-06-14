@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Child } from '../../models/child.model';
+import { SocialGroup } from '../../models/socialGroup.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +18,7 @@ export class ChildrenService {
   * @param id
   */
   getChildren(): Observable<Child[]> {
-    return this.http.get<Child[]>(this.dataUrlmock);
+    return this.http.get<Child[]>('/Child/Get');
   }
 
   /**
@@ -43,7 +44,13 @@ export class ChildrenService {
   * @param id
   */
   deleteChild(id: number): Observable<Object> {
-    const dataUrl = `Child/Delete/${id}`;
-    return this.http.delete(dataUrl);
+    return this.http.delete(`/Child/Delete/${id}`);
+  }
+
+  /**
+  * This method get all social groups
+  */
+  getSocialGroup(): Observable<SocialGroup[]> {
+    return this.http.get<SocialGroup[]>('/SocialGroup/Get');
   }
 }

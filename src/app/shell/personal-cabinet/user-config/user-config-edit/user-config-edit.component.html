@@ -1,0 +1,81 @@
+<div fxLayout='row' fxLayoutAlign='center center'>
+  <div class="wrapper">
+    <div fxLayout='column' fxLayoutAlign='center center'>
+      <h3 class="wrapper_title">РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ</h3>
+    </div>
+    <form [formGroup]="userEditFormGroup" fxLayout='column' fxLayoutAlign='center space-between'>
+
+      <label class="step-label"> Прізвище <span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="lastName" required>
+        <mat-error *ngIf="userEditFormGroup.get('lastName').hasError('required')">
+          Прізвище є обов'язковим
+        </mat-error>
+      </mat-form-field>
+
+      <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="firstName" required>
+        <mat-error *ngIf="userEditFormGroup.get('firstName').hasError('required')">
+          Ім'я є обов'язковим
+        </mat-error>
+      </mat-form-field>
+
+      <label class="step-label"> По-батькові </label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="middleName">
+      </mat-form-field>
+
+      <label class="step-label"> Телефон <span class="step-required">*</span></label>
+      <div class="phone" fxLayout='row'>
+        <mat-form-field class="phone_code">
+          <input matInput class="step-input" type="text" value="+38" disabled>
+        </mat-form-field>
+        <mat-form-field class="phone_number">
+          <input matInput class="step-input" type="text" formControlName="phoneNumber" maxlength="10">
+          <mat-error *ngIf="userEditFormGroup.get('phoneNumber').hasError('required')">
+            Телефон є обов'язковим
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <label class="step-label"> Емейл <span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="email" required>
+        <mat-error *ngIf="userEditFormGroup.get('email').hasError('required')">
+          Емейл є обов'язковим
+        </mat-error>
+      </mat-form-field>
+
+      <ng-container formGroupName="passwords">
+        <label class="step-label"> Пароль </label>
+        <mat-form-field>
+          <input matInput class="step-input" [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+            {{ hidePassword ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+          <mat-error *ngIf="userEditFormGroup.get('passwords.password').hasError('minlength')">
+            Пароль має містити мінімум 6 символів
+          </mat-error>
+        </mat-form-field>
+
+        <label class="step-label"> Повторити пароль </label>
+        <mat-form-field>
+          <input matInput class="step-input" [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
+          <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+            {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+          <mat-error>
+            Пароль має містити мінімум 6 символів
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+
+    </form>
+    <div fxLayout='column' fxLayoutAlign='center center'>
+      <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="save()">Зберегти</button>
+      </div>
+    </div>
+  </div>
+</div>
