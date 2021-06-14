@@ -18,7 +18,8 @@ export class UserConfigEditComponent implements OnInit {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  user: User;
+  @Select(RegistrationState.parent)
+  parent$: Observable<Parent>;
 
   public userEditFormGroup: FormGroup;
   public hidePassword = true;
@@ -32,12 +33,11 @@ export class UserConfigEditComponent implements OnInit {
 
   public ngOnInit(): void {
     this.user$.subscribe((user: User) => {
-      this.user = user;
       this.userEditFormGroup = this.fb.group({
         lastName: new FormControl(user.lastName, [Validators.required]),
         firstName: new FormControl(user.firstName, [Validators.required]),
         middleName: new FormControl(user.middleName),
-        phone: new FormControl(user.phoneNumber, [Validators.required]),
+        phoneNumber: new FormControl(user.phoneNumber, [Validators.required]),
         email: new FormControl(user.email, [Validators.required, Validators.email]),
         passwords: new FormGroup({
           password: new FormControl('', [Validators.minLength(6)]),
@@ -48,21 +48,23 @@ export class UserConfigEditComponent implements OnInit {
   }
 
   public save(): void {
-    const updatedParent = new Parent({
-      userId: this.user.id,
-      lastName: this.userEditFormGroup.get('lastName').value,
-      firstName: this.userEditFormGroup.get('firstName').value,
-      secondName: this.userEditFormGroup.get('middleName').value,
+    this.parent$.subscribe((parent: Parent) => {
+      const updatedParent = new Parent({
+        id: parent.id,
+        lastName: this.userEditFormGroup.get('lastName').value,
+        firstName: this.userEditFormGroup.get('firstName').value,
+        secondName: this.userEditFormGroup.get('middleName').value,
+        phoneNumber: this.userEditFormGroup.get('phoneNumber').value,
+        email: this.userEditFormGroup.get('email').value
 
-      /* TODO: uncomment when the backend is ready
-      phone: this.userEditFormGroup.get('phone').value,
-      email: this.userEditFormGroup.get('email').value,
-      password: this.userEditFormGroup.get('passwords.password').value,
-      confirmPassword: this.userEditFormGroup.get('passwords.confirmPassword').value*/
+        /* TODO: uncomment when the backend is ready
+        password: this.userEditFormGroup.get('passwords.password').value,
+        confirmPassword: this.userEditFormGroup.get('passwords.confirmPassword').value*/
+      });
+      this.parentService.updateParent(updatedParent)
+        .pipe(finalize(() => {
+          this.router.navigate(['/personal-cabinet/config']);
+        })).subscribe();
     });
-    this.parentService.updateParent(updatedParent)
-      .pipe(finalize(() => {
-        this.router.navigate(['/personal-cabinet/config']);
-      })).subscribe();
   }
 }

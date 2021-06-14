@@ -32,8 +32,8 @@
           <input matInput class="step-input" type="text" value="+38" disabled>
         </mat-form-field>
         <mat-form-field class="phone_number">
-          <input matInput class="step-input" type="text" formControlName="phone">
-          <mat-error *ngIf="userEditFormGroup.get('phone').hasError('required')">
+          <input matInput class="step-input" type="text" formControlName="phoneNumber" maxlength="10">
+          <mat-error *ngIf="userEditFormGroup.get('phoneNumber').hasError('required')">
             Телефон є обов'язковим
           </mat-error>
         </mat-form-field>
