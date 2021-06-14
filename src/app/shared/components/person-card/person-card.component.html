@@ -1,8 +1,8 @@
 <div>
+
   <div class="card-person">
     <div *ngIf="(CardType.child === cardType) then ChildView; else ParentView"></div>
   </div>
-  
   <div *ngIf="(CardType.user === cardType) then UserView"></div>
   
 </div>
