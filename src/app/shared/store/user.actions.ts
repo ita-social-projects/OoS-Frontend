@@ -1,8 +1,9 @@
-import { Application } from "../models/application.model";
-import { Child } from "../models/child.model";
-import { Provider } from "../models/provider.model";
-import { User } from "../models/user.model";
-import { Workshop } from "../models/workshop.model";
+import { Application } from '../models/application.model';
+import { Child } from '../models/child.model';
+import { Parent } from '../models/parent.model';
+import { Provider } from '../models/provider.model';
+import { Workshop } from '../models/workshop.model';
+
 export class GetWorkshopsById {
   static readonly type = '[user] get Workshop';
   constructor(public payload: number) { }
@@ -73,6 +74,18 @@ export class OnCreateProviderFail {
 }
 export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
+  constructor(public payload) { }
+}
+export class CreateParent {
+  static readonly type = '[parent] create Parent';
+  constructor(public payload: Parent) { }
+}
+export class OnCreateParentFail {
+  static readonly type = '[parent] create Parent fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateParentSuccess {
+  static readonly type = '[parent] create Parent success';
   constructor(public payload) { }
 }
 export class CreateApplication {
