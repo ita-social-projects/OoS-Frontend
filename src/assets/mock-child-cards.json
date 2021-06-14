@@ -42,5 +42,71 @@
         "childId": 1
       }
     ]
+  },
+  {
+    "id": 1,
+    "firstName": "Шрек",
+    "lastName": "Бугайло",
+    "middleName": "Ослянович",
+    "gender": 0,
+    "dateOfBirth": "15/02/2000",
+    "socialGroup": 0,
+    "parentId": 0,
+    "socialGroupId": 0,
+    "birthCertificate": [
+      {
+        "id": 1,
+        "svidSer": "string",
+        "svidNum": "string",
+        "svidNumMD5": "string",
+        "svidWho": "02/01/2001",
+        "svidDate": "15/02/2000",
+        "childId": 1
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "firstName": "Перчік",
+    "lastName": "Ядрьоний",
+    "middleName": "Хренчік",
+    "gender": 0,
+    "dateOfBirth": "15/02/1998",
+    "socialGroup": 1,
+    "parentId": 0,
+    "socialGroupId": 1,
+    "birthCertificate": [
+      {
+        "id": 1,
+        "svidSer": "string",
+        "svidNum": "string",
+        "svidNumMD5": "string",
+        "svidWho": "02/01/2001",
+        "svidDate": "15/02/2000",
+        "childId": 1
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "firstName": "Абігейла",
+    "lastName": "Шмонько",
+    "middleName": "Ляльковна",
+    "gender": 1,
+    "dateOfBirth": "15/02/1998",
+    "socialGroup": 1,
+    "parentId": 0,
+    "socialGroupId": 1,
+    "birthCertificate": [
+      {
+        "id": 1,
+        "svidSer": "string",
+        "svidNum": "string",
+        "svidNumMD5": "string",
+        "svidWho": "02/01/2001",
+        "svidDate": "15/02/2000",
+        "childId": 1
+      }
+    ]
   }
 ]

@@ -3,12 +3,15 @@
   <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
   </app-image-form-control>
 
-  <label class="step-label"> Опис <span class="step-required">*</span></label>
-  <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
-      required></textarea>
-  </mat-form-field>
+  <div class="step-label-combined">
+    <label class="step-label" > Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count"> {{DescriptionFormGroup.get('description').value.length}}/{{this.descriptionMaxLength}}</label>
+  </div>
 
+  <mat-form-field>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{this.descriptionMaxLength}} символів" formControlName="description"
+      maxlength="{{this.descriptionMaxLength}}" required></textarea>
+  </mat-form-field>
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" placeholder="П.І.Б." formControlName="head" required>

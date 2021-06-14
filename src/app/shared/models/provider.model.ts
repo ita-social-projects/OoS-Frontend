@@ -30,6 +30,8 @@ export class Provider {
 
   constructor(info, legalAddress, actualAddress, photo) {
     this.shortTitle = info.shortTitle;
+    this.ownership = info.ownership;
+    this.type = info.type;
     this.fullTitle = info.fullTitle;
     this.website = info.website;
     this.instagram = info.instagram;
@@ -40,8 +42,6 @@ export class Provider {
     this.director = info.director;
     this.directorBirthDay = info.directorBirthDay;
     this.founder = info.founder;
-    this.type = 0;
-    this.ownership = 0;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;
