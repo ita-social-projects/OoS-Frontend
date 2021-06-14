@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { WorkingHoursFormControlComponent } from '../../../../../shared/components/working-hours-form-control/working-hours-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -48,6 +49,7 @@ describe('CreateAboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
+    component.provider = { fullTitle: '' } as Provider;
     fixture.detectChanges();
   });
 
