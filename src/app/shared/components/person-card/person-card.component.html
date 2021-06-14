@@ -1,18 +1,17 @@
-<div>
-  <mat-card>
-    <div *ngIf="(CardType.child === cardType) then ChildView; else ParentView"></div>
-  </mat-card>
+<div class="person-card">
+  
+  <div *ngIf="(CardType.child === cardType) then ChildView; else ParentView"></div>
   <div *ngIf="(CardType.user === cardType) then UserView"></div>
+  
 </div>
-
 
 <ng-template #ChildView>
 
-  <label class="card_label">ПІБ</label>
+  <label class="card-label">ПІБ</label>
   <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
-  <label class="card_label">Дата народження</label>
+  <label class="card-label">Дата народження</label>
   <p> {{ card.dateOfBirth }} </p>
-  <label class="card_label">Стать дитини</label>
+  <label class="card-label">Стать дитини</label>
   <p> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
   <label class="card-label">Соціальна група</label>
   <p> {{ card.socialGroupId === 0 ? 'Відстуня' : "Присутня" }} </p>

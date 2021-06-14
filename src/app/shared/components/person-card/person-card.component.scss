@@ -1,6 +1,17 @@
 @import "src/app/shared/styles/cards.scss";
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
+
+.person-card {
+  padding: 16px;
+  border: 1px solid #E3E3E3;
+  box-sizing: border-box;
+  border-radius: 20px;
+  p{
+    margin-top: 6px;
+  }
+}
+
 .card-label{
   font-family: "Innerspace";
   font-weight: 700;

@@ -3,8 +3,26 @@
 @import "src/app/shared/styles/validation-form.scss";
 
 .step{
-  margin:2rem;
+  margin:2rem 0;
 }
 .application{
   padding: 0 5rem;
+  .mat-icon{
+    opacity: 1;
+  }
+}
+:host ::ng-deep .mat-tab-label-active {
+  background: rgba(56, 73, 249, 0.07);
+  box-sizing: border-box;
+  color: #3849F9;
+}
+::ng-deep .mat-tab-label{
+  height: 30px;
+}
+::ng-deep .mat-tab-header {
+    border: 1px solid #EBEBEB;
+    border-radius: 20px;
+}
+::ng-deep .mat-ink-bar{
+  display: none;
 }

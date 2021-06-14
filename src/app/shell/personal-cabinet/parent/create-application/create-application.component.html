@@ -10,7 +10,7 @@
             <mat-select class="step-input" [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child"
               required placeholder="Діти">
               <mat-option *ngFor="let child of (children$ | async)" [value]="child">
-                {{child.firstName}} {{child.middleName}} {{child.lastName}}
+                <mat-radio-button color="primary">{{child.firstName}} {{child.middleName}} {{child.lastName}}</mat-radio-button> 
               </mat-option>
             </mat-select>
           </mat-form-field>
