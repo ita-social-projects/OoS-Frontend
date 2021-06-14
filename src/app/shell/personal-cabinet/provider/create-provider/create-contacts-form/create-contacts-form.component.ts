@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {objectKeys} from "codelyzer/util/objectKeys";
 
-
 @Component({
   selector: 'app-create-contacts-form',
   templateUrl: './create-contacts-form.component.html',
@@ -13,7 +12,6 @@ export class CreateContactsFormComponent implements OnInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   useLegalAddress = false;
-
 
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
@@ -36,11 +34,10 @@ export class CreateContactsFormComponent implements OnInit {
       region: new FormControl('', Validators.required)
     });
   }
-
-
-  duplicateForm(ob:MatCheckboxChange) {
+  //This function iterates over LegalAddress inputs' values and set it to ActualAddress inputs//
+  duplicateForm (ob:MatCheckboxChange): boolean {
     this.cd.detectChanges(); //TODO: research change detector for MatCheckbox
-    if(ob.checked === true) {
+    if(ob.checked) {
       objectKeys(this.LegalAddressFormGroup.controls).forEach(key=>{
         this.ActualAddressFormGroup.controls[key].setValue(this.LegalAddressFormGroup.value[key])
       });
@@ -49,14 +46,11 @@ export class CreateContactsFormComponent implements OnInit {
         this.ActualAddressFormGroup.controls[key].setValue(undefined)
       });
     }
+    return ob.checked
   }
-
 
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
-    /*this.isSameAddressControl.valueChanges.subscribe((val)=>{
-      console.log(val)
-    })*/
   }
 }
