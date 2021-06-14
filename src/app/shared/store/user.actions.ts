@@ -1,7 +1,7 @@
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
-import { Parent } from '../models/parent.model';
 import { Provider } from '../models/provider.model';
+import { User } from '../models/user.model';
 import { Workshop } from '../models/workshop.model';
 
 export class GetWorkshopsById {
@@ -78,7 +78,7 @@ export class OnCreateProviderSuccess {
 }
 export class CreateParent {
   static readonly type = '[parent] create Parent';
-  constructor(public payload: Parent) { }
+  constructor(public payload: User) { }
 }
 export class OnCreateParentFail {
   static readonly type = '[parent] create Parent fail';

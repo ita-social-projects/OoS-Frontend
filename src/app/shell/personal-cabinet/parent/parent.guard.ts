@@ -14,7 +14,7 @@ export class ParentGuard implements CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const user = this.store.selectSnapshot<User>(RegistrationState.user);
-    return user.role === Role.parent;
+    const userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
+    return userRole === Role.parent;
   }
 }

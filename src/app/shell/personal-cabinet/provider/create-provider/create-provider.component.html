@@ -32,11 +32,11 @@
         <ng-template matStepLabel>Фото</ng-template>
         <app-create-photo-form (passPhotoFormGroup)="onReceivePhotoFormGroup($event)"></app-create-photo-form>
         <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box">
-          <mat-checkbox RobotCheckBox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю
+          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю
             згоду на обробку
             персональних даних
           </mat-checkbox>
-          <mat-checkbox #AgreementCheckBox class="step-check-box" color="primary" [formControl]="AgreementFormControl">Я
+          <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">Я
             не робот
           </mat-checkbox>
         </div>
@@ -44,7 +44,7 @@
           <button class="btn" mat-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
-            [disabled]="!isAgreed && !isNotRobot">Завершити</button>
+            [disabled]="!isAgreed || !isNotRobot">Завершити</button>
         </div>
       </mat-step>
 
