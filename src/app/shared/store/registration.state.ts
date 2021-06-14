@@ -51,7 +51,7 @@ export class RegistrationState {
 
   @Selector()
   static provider(state: RegistrationStateModel): Provider {
-    return state.provider
+    return state.provider;
   }
 
   @Selector()

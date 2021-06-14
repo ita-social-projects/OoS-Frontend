@@ -1,0 +1,21 @@
+.config {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 6px 16px rgb(0 0 0 / 8%);
+  position: relative;
+  padding: 20px 25px;
+  background-color: #ffffff;
+
+  &_edit-icon{
+    position: absolute;
+    top: 18px;
+    right: 10px;
+    z-index: 2;
+    color : #3849F9;
+  }
+
+  &_info-item {
+    margin: 5px 0;
+  }
+}

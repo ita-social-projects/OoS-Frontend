@@ -5,6 +5,7 @@ import { Child } from '../../models/child.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgxsModule } from '@ngxs/store';
 
 describe('ChildCardComponent', () => {
   let component: ChildCardComponent;
@@ -14,7 +15,8 @@ describe('ChildCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatCardModule,
-        RouterTestingModule
+        RouterTestingModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [ChildCardComponent]
     })

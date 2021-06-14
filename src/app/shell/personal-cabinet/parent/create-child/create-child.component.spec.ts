@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateChildComponent } from './create-child.component';
 import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../../shared/mocks/mock-services';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;
@@ -19,9 +19,6 @@ describe('CreateChildComponent', () => {
         ReactiveFormsModule,
         MatIconModule,
         RouterTestingModule
-      ],
-      providers: [
-        { provide: Store, useValue: MockStore },
       ],
       declarations: [
         CreateChildComponent,
@@ -48,4 +45,5 @@ class MockChildFormComponent {
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
+  @Input() socialGroups: SocialGroup[];
 }
