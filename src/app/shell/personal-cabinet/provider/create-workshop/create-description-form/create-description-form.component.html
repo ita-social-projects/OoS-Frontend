@@ -31,7 +31,7 @@
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
           {{keyWord.keyWord}}
-          <mat-icon matChipRemove>cancel</mat-icon>
+          <mat-icon class="mat-icon"  matChipRemove><img class="img-close" src="./../../../../../../assets/icons/close.png"></mat-icon>
         </mat-chip>
         <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes">

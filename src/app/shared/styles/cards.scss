@@ -1,64 +1,89 @@
 .card {
-  width: 33%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 370px;
-  background: #FFFFFF;
-  box-shadow: 0px 0.375rem 1rem rgba(0, 0, 0, 0.08);
-  border-radius: 0.5rem;
-  margin-right: 1.5rem;
+  min-width: 300px;
+  min-height: 440px;
 
   &_category{
     width: 10%;
   }
-
   &_link{
     color: #3849F9;
     font-weight: 700;
-
     .arrow {
        margin: 1rem;
        font-size: 1rem;
        line-height: 1rem;
      }
   }
-
-  mat-card {
-    margin: 0;
+  &_text {
     padding: 0;
-    width: 100%;
-    height: 100%;
-
-    img {
-      margin-bottom: 0;
-    }
-
-    mat-card-content {
-      margin: 0;
-      padding: 0;
-
-      p {
-        padding: 0;
-        margin: 0;
-        font-size: 0.813rem;
-        line-height: 1.125rem;
-        color: #333333;
-      }
-    }
+    margin: 0.5rem;
+    font-size: 0.813rem;
+    line-height: 1.125rem;
+    color: #333333;
+  }
+}
+.actions_btn {
+  position: relative;
+  top: 3rem;
+  border-radius: 50%;
+  background-color: #494545b9;
+  padding: 0.5rem;
+  margin:0.5rem;
+  cursor: pointer;
+  z-index: 2;
+  &:hover{
+    opacity: 0.5;
   }
 }
 
-.card:last-child {
-  margin-right: 0;
-}
+.status{
+  width: 106px;
+  height: 24px;
 
-@media (max-width: 375px) {
-  .card {
-    width: 100%;
-    margin-top: 1.5rem;
+  border-radius: 16px;
+
+  &_approved{
+    color: green;
   }
-  .card:last-child {
-    margin-right: 1.5rem;
+
+  &_denied{
+    color:red;
   }
+
+  &_text{
+    font-family: Innerspace;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 12px;
+    color: #FFFFFF;
+  }
+
+  &_action{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.5;
+    }
+  }
+}
+.chip_approved{
+  background: #99CD56;
+
+}
+.chip_denied{
+  background: red;
+}
+::ng-deep .mat-card{
+  padding:0 !important;
+}
+::ng-deep .mat-card-content,
+::ng-deep .mat-card-footer{
+  margin: 0 1rem;
+}
+::ng-deep .mat-card-header{
+  margin:0 1rem;
+}
+::ng-deep .mat-card-image{
+  margin-bottom:0;
 }

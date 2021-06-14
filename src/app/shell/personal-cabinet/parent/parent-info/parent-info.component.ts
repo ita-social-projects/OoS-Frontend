@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Child } from 'src/app/shared/models/child.model';
-import { GetChildrenById } from 'src/app/shared/store/user.actions';
+import { GetChildren } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 
@@ -18,7 +18,7 @@ export class ParentInfoComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetChildrenById(null));
+    this.store.dispatch(new GetChildren());
   }
 
 }
