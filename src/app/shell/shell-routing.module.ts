@@ -26,7 +26,7 @@ const routes: Routes = [
     component: UserConfigEditComponent
   },
   {
-    path: 'workshop-details', component: WorkshopDetailsComponent,
+    path: 'workshop-details/:id', component: WorkshopDetailsComponent,
     loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
   },
   {

@@ -41,6 +41,7 @@ import {
 
 export interface UserStateModel {
   workshops: Workshop[];
+  selectedWorkshop: Workshop;
   applications: Application[];
   children: Child[];
 }
@@ -48,6 +49,7 @@ export interface UserStateModel {
   name: 'user',
   defaults: {
     workshops: Workshop[''],
+    selectedWorkshop: null,
     applications: Application[''],
     children: Child[''],
   }
@@ -58,6 +60,9 @@ export class UserState {
 
   @Selector()
   static workshops(state: UserStateModel): Workshop[] { return state.workshops }
+
+  @Selector()
+  static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop }
 
   @Selector()
   static applications(state: UserStateModel): Application[] { return state.applications }
@@ -80,9 +85,9 @@ export class UserState {
     return this.userWorkshopService
       .getWorkshopsById(payload)
       .pipe(
-        tap(
-          (userWorkshops: Workshop[]) => patchState({ workshops: userWorkshops })
-        ))
+        tap((userWorkshop: Workshop) => {
+          return patchState({ selectedWorkshop: userWorkshop });
+        }));
   }
 
   @Action(GetApplicationsById)
@@ -91,8 +96,8 @@ export class UserState {
       .getApplicationsById(payload)
       .pipe(
         tap((userApplications: Application[]) => {
-          return patchState({ applications: userApplications })
-        }))
+          return patchState({ applications: userApplications });
+        }));
   }
 
   @Action(GetChildren)
