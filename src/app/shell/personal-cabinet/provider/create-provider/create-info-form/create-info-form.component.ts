@@ -41,7 +41,6 @@ export class CreateInfoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.passInfoFormGroup.emit(this.InfoFormGroup);
-    console.log(this.providerTypeUkr[this.providerType.FOP])
   }
 
 }
