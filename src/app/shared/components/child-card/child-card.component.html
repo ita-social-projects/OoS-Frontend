@@ -10,13 +10,11 @@
       </div>
       <div>
         <mat-card-header>
-          <mat-card-title class="card-title">{{child.lastName}} {{child.firstName}} {{child.middleName}}
+          <mat-card-title class="card-title"> {{child.lastName}} {{child.firstName}} {{child.middleName}}
           </mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
-          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{ child.dateOfBirth }}
-            {{(getAge())}}
-          </p>
+          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{child.dateOfBirth}} </p>
           <h5 class="card_text"><img src="assets/icons/group.png" alt="name"> Гуртки </h5>
           <div *ngIf="workshops?.length then WorkshopsList; else NoWorkshops "></div>
         </mat-card-content>
@@ -27,7 +25,7 @@
 
 <ng-template #WorkshopsList>
   <div fxLayout="row" fxLayoutAlign="end start">
-    <p class="card-list" *ngFor="let workshop of workshops"> {{ workshop.title }} </p>
+    <p class="card-list" *ngFor="let workshop of workshops"> {{workshop.title}} </p>
   </div>
 </ng-template>
 <ng-template #NoWorkshops>
