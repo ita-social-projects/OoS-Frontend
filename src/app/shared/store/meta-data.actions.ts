@@ -24,3 +24,7 @@ export class ClearCategories {
   static readonly type = '[meta-data] clear Categories list';
   constructor() { }
 }
+export class GetSocialGroup {
+  static readonly type = '[meta-data] Get GetSocialGroup';
+  constructor() { }
+}

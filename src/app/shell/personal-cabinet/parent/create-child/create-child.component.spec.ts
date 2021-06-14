@@ -5,6 +5,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;
@@ -44,4 +45,5 @@ class MockChildFormComponent {
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
+  @Input() socialGroups: SocialGroup[];
 }

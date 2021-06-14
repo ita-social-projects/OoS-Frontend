@@ -29,9 +29,9 @@ describe('ChildFormComponent', () => {
         MatSelectModule,
         MatIconModule
       ],
-      declarations: [ ChildFormComponent ]
+      declarations: [ChildFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('ChildFormComponent', () => {
       middleName: new FormControl(''),
       birthDay: new FormControl(''),
       gender: new FormControl(''),
-      type: new FormControl('')
+      socialGroupId: new FormControl('')
     });
 
     fixture.detectChanges();
