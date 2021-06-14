@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Parent } from '../../models/parent.model';
 import { Observable } from 'rxjs';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class ParentService {
   * This method create Parent
   * @param Parent
   */
-  createParent(parent: Parent): Observable<Object> {
+  createParent(parent: User): Observable<Object> {
     return this.http.post('/Parent/Create', parent);
   }
 

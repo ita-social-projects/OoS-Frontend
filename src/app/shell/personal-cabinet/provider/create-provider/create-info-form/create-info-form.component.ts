@@ -18,7 +18,6 @@ export class CreateInfoFormComponent implements OnInit {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
 
-  z
   InfoFormGroup: FormGroup;
   @Output() passInfoFormGroup = new EventEmitter();
 
