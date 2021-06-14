@@ -23,10 +23,11 @@ export class CreateDescriptionFormComponent implements OnInit {
   @Output() passDescriptionFormGroup = new EventEmitter();
 
   keyWordsCtrl = new FormControl();
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [ENTER];
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  unusedKeyWords:  KeyWord[] = [];
 
   @Select(MetaDataState.filteredkeyWords)
   filteredkeyWords$: Observable<KeyWordsService[]>;
@@ -60,6 +61,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.keyWordsService.getKeyWords()
       .subscribe((data) => {
         this.allkeyWords = data;
+        this.unusedKeyWords=data;
       });
 
     this.keyWordsCtrl.valueChanges
@@ -86,6 +88,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   onRemoveKeyWord(word: KeyWord): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
+      this.unusedKeyWords.push(word);
     }
   }
 
@@ -101,6 +104,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
     this.keyWordsInput.nativeElement.value = '';
     this.keyWordsCtrl.setValue(null);
+    this.unusedKeyWords.splice(this.unusedKeyWords.indexOf(event.option.value), 1);
   }
 
   /**
@@ -109,7 +113,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @returns string[]
    */
   private _filter(value: string): KeyWord[] {
-    let filteredKeyWords = this.allkeyWords
+    let filteredKeyWords = this.unusedKeyWords
       .filter((word: KeyWord) => word.keyWord
         .toLowerCase()
         .startsWith(value.toLowerCase())
