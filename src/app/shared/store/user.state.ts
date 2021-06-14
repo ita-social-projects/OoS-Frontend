@@ -263,7 +263,6 @@ export class UserState {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
     }, 2000);
-    dispatch(new GetChildren());
   }
 
   @Action(OnDeleteChildSuccess)
