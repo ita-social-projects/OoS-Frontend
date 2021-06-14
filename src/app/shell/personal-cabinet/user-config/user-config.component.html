@@ -1,0 +1,27 @@
+<div class="config">
+  <a routerLink="edit" class="config_edit-icon">
+    <button mat-button style="color:#3849F9;">
+      <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
+    </button>
+  </a>
+  <span class="config_info-item">
+    <h4>Ім'я</h4>
+    <p>{{user?.firstName}}</p>
+  </span>
+  <span class="config_info-item">
+    <h4>Призвіще</h4>
+    <p>{{user?.lastName}}</p>
+  </span>
+  <span *ngIf="user?.middleName" class="config_info-item">
+    <h4>По-батькові</h4>
+    <p>{{user?.middleName}}</p>
+  </span>
+  <span class="config_info-item">
+    <h4>Телефон</h4>
+    <p>{{user?.phoneNumber}}</p>
+  </span>
+  <span class="config_info-item">
+    <h4>Емейл</h4>
+    <p>{{user?.email}}</p>
+  </span>
+</div>
