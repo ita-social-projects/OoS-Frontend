@@ -21,6 +21,6 @@ export class KeyWordsList {
   constructor(public payload: KeyWord[]) { }
 }
 export class ClearCategories {
-  static readonly type = '[meta-data] clear categories list';
+  static readonly type = '[meta-data] clear Categories list';
   constructor() { }
 }

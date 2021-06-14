@@ -60,7 +60,6 @@ export class Workshop {
     this.categoryId = description.category.id;
     this.providerId = 1;
     this.providerTitle = about.providerTitle;
-    this.providerTitle = about.providerTitle;
     this.isPerMonth = about.isPerMonth;
     this.subcategory = description.subcategory;
     this.subcategoryId = description.subcategoryId;
