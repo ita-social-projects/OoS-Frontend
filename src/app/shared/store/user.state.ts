@@ -13,6 +13,7 @@ import { ChildrenService } from '../services/children/children.service';
 import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
+import { ClearCategories } from './meta-data.actions';
 import { GetProfile, RegisterUser } from './registration.actions';
 import {
   CreateApplication,
@@ -127,6 +128,7 @@ export class UserState {
       this.showSnackBar('Гурток створено!', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/workshops']);
     }, 2000);
+    dispatch(new ClearCategories());
   }
 
   @Action(DeleteWorkshopById)
