@@ -27,7 +27,6 @@ export class CreateDescriptionFormComponent implements OnInit {
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  unusedKeyWords:  KeyWord[] = [];
 
   @Select(MetaDataState.filteredkeyWords)
   filteredkeyWords$: Observable<KeyWordsService[]>;
@@ -61,7 +60,6 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.keyWordsService.getKeyWords()
       .subscribe((data) => {
         this.allkeyWords = data;
-        this.unusedKeyWords=data;
       });
 
     this.keyWordsCtrl.valueChanges
@@ -88,7 +86,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   onRemoveKeyWord(word: KeyWord): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
-      this.unusedKeyWords.push(word);
+      this.allkeyWords.push(word);
     }
   }
 
@@ -104,7 +102,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
     this.keyWordsInput.nativeElement.value = '';
     this.keyWordsCtrl.setValue(null);
-    this.unusedKeyWords.splice(this.unusedKeyWords.indexOf(event.option.value), 1);
+    this.allkeyWords.splice(this.allkeyWords.indexOf(event.option.value), 1);
   }
 
   /**
@@ -113,7 +111,7 @@ export class CreateDescriptionFormComponent implements OnInit {
    * @returns string[]
    */
   private _filter(value: string): KeyWord[] {
-    let filteredKeyWords = this.unusedKeyWords
+    let filteredKeyWords = this.allkeyWords
       .filter((word: KeyWord) => word.keyWord
         .toLowerCase()
         .startsWith(value.toLowerCase())
