@@ -6,13 +6,15 @@
 
   <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
-  <mat-form-field>
-    <mat-select class="step-input" formControlName="type">
-      <mat-option value="group" selected> Гурток </mat-option>
-      <mat-option value="section"> Секція </mat-option>
-      <mat-option value="class"> Клас </mat-option>
+
+  <mat-form-field appearance="none">
+    <mat-select class="step-input" formControlName="type" name="type" required>
+      <mat-option *ngFor="let type of workshopTypes" [value]="workshopTypes.indexOf(type)">
+        {{workshopType[type]}}
+      </mat-option>
     </mat-select>
   </mat-form-field>
+
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title" required>

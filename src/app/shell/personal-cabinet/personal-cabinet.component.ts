@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { Role } from 'src/app/shared/enum/role';
 import { User } from 'src/app/shared/models/user.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -19,19 +19,16 @@ enum RoleLinks {
 
 export class PersonalCabinetComponent implements OnInit {
 
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
+  readonly role: typeof Role = Role;
+
   userRole: string;
-  roles = RoleLinks;
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.user$.subscribe(user => {
-      this.userRole = user.role
-    });
+    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
   }
 
 }

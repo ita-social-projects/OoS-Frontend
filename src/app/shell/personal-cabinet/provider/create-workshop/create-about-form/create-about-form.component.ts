@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } fr
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Constants } from 'src/app/shared/constants/constants';
+import { WorkshopType } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -16,6 +17,8 @@ export class CreateAboutFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
   workingHours: SelectedWorkingHours[] = [];
+  readonly workshopType: typeof WorkshopType = WorkshopType;
+  workshopTypes = ['Group', 'Section', 'Class'];
 
   radioBtn = new FormControl(false);
   priceCtrl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });

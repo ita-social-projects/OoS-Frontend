@@ -21,7 +21,7 @@ export class Workshop {
   image?: File[];
   head: string;
   headBirthDate?: Date;
-  type?: string;
+  type?: number;
   keyWords?: string;
   address: Address;
   teachers: Teacher[];
@@ -59,6 +59,7 @@ export class Workshop {
     this.category = description.category;
     this.categoryId = description.category.id;
     this.providerId = 1;
+    this.type = about.type;
     this.providerTitle = about.providerTitle;
     this.isPerMonth = about.isPerMonth;
     this.subcategory = description.subcategory;

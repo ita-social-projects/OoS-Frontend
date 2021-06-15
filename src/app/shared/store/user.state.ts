@@ -259,8 +259,8 @@ export class UserState {
     return this.parentService
       .createParent(payload)
       .pipe(
-        tap((res) => dispatch(new OnCreateProviderSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateProviderFail(error))))
+        tap((res) => dispatch(new OnCreateParentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateParentFail(error))))
       );
   }
 
