@@ -12,6 +12,7 @@ import { ChildrenService } from '../services/children/children.service';
 import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
+import { GetWorkshops } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
 import { GetProfile, RegisterUser } from './registration.actions';
 import {
@@ -128,7 +129,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateWorkshopSuccess)
@@ -137,7 +138,7 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Гурток створено!', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/workshops']);
-    }, 2000);
+    }, 1000);
     dispatch(new ClearCategories());
   }
 
@@ -157,7 +158,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnDeleteWorkshopSuccess)
@@ -165,7 +166,8 @@ export class UserState {
     console.log('Workshop is deleted', payload);
     setTimeout(() => {
       this.showSnackBar('Гурток видалено!', 'primary', 'top');
-    }, 2000);
+    }, 1000);
+    dispatch(new GetWorkshops());
   }
 
   @Action(CreateChildren)
@@ -184,7 +186,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateChildrenSuccess)
@@ -193,7 +195,7 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/parent/info']);
-    }, 2000);
+    }, 1000);
   }
 
   @Action(CreateProvider)
@@ -212,7 +214,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateProviderSuccess)
@@ -222,8 +224,9 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
       this.router.navigate(['']);
-    }, 2000);
+    }, 1000);
     dispatch(new GetProfile());
+    this.router.navigate(['']);
   }
 
   @Action(CreateApplication)
@@ -242,7 +245,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateApplicationSuccess)
@@ -251,7 +254,7 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Заявку створено!', 'primary', 'top');
       this.router.navigate(['']);
-    }, 2000);
+    }, 1000);
   }
 
   @Action(CreateParent)
@@ -270,7 +273,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateParentSuccess)
@@ -296,15 +299,16 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnDeleteChildSuccess)
-  onDeleteChildSuccess({ }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
+  onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
     setTimeout(() => {
       this.showSnackBar('Дитину видалено!', 'primary', 'top');
-    }, 2000);
+    }, 1000);
+    dispatch(new GetChildren());
   }
 
   showSnackBar(
@@ -314,7 +318,7 @@ export class UserState {
     horizontal: MatSnackBarHorizontalPosition = 'center'): void {
 
     this.snackBar.open(message, '', {
-      duration: 5000,
+      duration: 3000,
       horizontalPosition: horizontal,
       verticalPosition: vertical,
       panelClass: [color],
