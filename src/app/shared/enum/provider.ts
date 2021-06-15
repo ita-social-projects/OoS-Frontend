@@ -29,7 +29,13 @@ export enum OwnershipTypeUkr {
 }
 
 export enum WorkshopType {
-  Group = 'Гурток',
-  Section = 'Секція',
-  Class = 'Клас',
+  Group,
+  Section,
+  Class,
+}
+
+export enum WorkshopTypeUkr {
+  'Гурток',
+  'Секція',
+  'Клас',
 }

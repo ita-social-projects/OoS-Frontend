@@ -5,7 +5,7 @@
     <mat-select class="step-input" formControlName="ownership" name="ownership" required
       placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
-        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.value">
+        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="+type.key">
           {{ ownershipTypeUkr[type.key] }}
         </mat-option>
       </ng-container>
@@ -17,7 +17,7 @@
   <mat-form-field appearance="none">
     <mat-select class="step-input" formControlName="type" name="type" required placeholder="Оберіть тип організації">
       <ng-container *ngFor="let type of providerType | keyvalue">
-        <mat-option *ngIf="providerTypeUkr[type.key]"  [value]="type.value">
+        <mat-option *ngIf="providerTypeUkr[type.key]" [value]="+type.key">
           {{ providerTypeUkr[type.key] }}
         </mat-option>
       </ng-container>
