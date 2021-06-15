@@ -9,6 +9,10 @@
     width: 100%;
     height: 100%;
     object-fit: none;
+
+    img {
+      width: 100%;
+    }
   }
   &-header{
     margin:1rem;

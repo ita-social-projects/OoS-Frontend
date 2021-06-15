@@ -15,9 +15,9 @@ export class UserWorkshopService {
   * This method get workshops by User id
   * @param id
   */
-  getWorkshopsById(id: number): Observable<Workshop[]> {
+  getWorkshopsById(id: number): Observable<Workshop> {
     const dataUrl = `/Workshop/GetById/${id}`;
-    return this.http.get<Workshop[]>(this.tepmUrl);
+    return this.http.get<Workshop>(dataUrl);
   }
 
   /**

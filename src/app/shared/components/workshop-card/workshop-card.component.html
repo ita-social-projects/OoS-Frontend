@@ -9,7 +9,7 @@
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-      <a routerLink="/workshop-details" class="card_link">
+      <a [routerLink]="['workshop-details', workshop.id]" class="card_link">
         Детальніше
         <span class="material-icons arrow">arrow_forward</span>
       </a>
