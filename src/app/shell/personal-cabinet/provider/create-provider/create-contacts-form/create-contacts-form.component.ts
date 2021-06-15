@@ -11,7 +11,6 @@ import {objectKeys} from "codelyzer/util/objectKeys";
 export class CreateContactsFormComponent implements OnInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
-  useLegalAddress = false;
 
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
