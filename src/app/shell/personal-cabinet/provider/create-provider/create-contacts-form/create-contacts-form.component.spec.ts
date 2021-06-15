@@ -22,10 +22,9 @@ describe('CreateContactsFormComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        MatCheckbox,
         MatCheckboxChange
       ],
-      declarations: [ CreateContactsFormComponent ]
+      declarations: [ CreateContactsFormComponent, MatCheckbox ]
     })
     .compileComponents();
   });
