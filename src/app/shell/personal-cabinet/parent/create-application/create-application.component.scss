@@ -8,3 +8,16 @@
 .application{
   padding: 0 5rem;
 }
+.card{
+  width: 100%;
+
+  &-image{
+    width: 70%;
+    padding: 0;
+  }
+
+  &-content{
+     width: 30%;
+    padding: 1rem 0;
+  }
+}

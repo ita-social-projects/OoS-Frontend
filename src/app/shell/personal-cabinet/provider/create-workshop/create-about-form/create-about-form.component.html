@@ -9,9 +9,11 @@
 
   <mat-form-field appearance="none">
     <mat-select class="step-input" formControlName="type" name="type" required>
-      <mat-option *ngFor="let type of workshopTypes" [value]="workshopTypes.indexOf(type)">
-        {{workshopType[type]}}
-      </mat-option>
+      <ng-container *ngFor="let type of workshopType | keyvalue">
+        <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key">
+          {{ workshopTypeUkr[type.key] }}
+        </mat-option>
+      </ng-container>
     </mat-select>
   </mat-form-field>
 
