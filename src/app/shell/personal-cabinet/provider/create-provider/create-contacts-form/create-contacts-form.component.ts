@@ -11,6 +11,7 @@ import {objectKeys} from "codelyzer/util/objectKeys";
 export class CreateContactsFormComponent implements OnInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
+  isSameAddressControl = new FormControl(false);
 
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
@@ -34,7 +35,7 @@ export class CreateContactsFormComponent implements OnInit {
     });
   }
   //This function iterates over LegalAddress inputs' values and set it to ActualAddress inputs//
-  duplicateForm (ob:MatCheckboxChange): boolean {
+ /* duplicateForm (ob:MatCheckboxChange): boolean {
     this.cd.detectChanges(); //TODO: research change detector for MatCheckbox
     if(ob.checked) {
       objectKeys(this.LegalAddressFormGroup.controls).forEach(key=>{
@@ -46,10 +47,18 @@ export class CreateContactsFormComponent implements OnInit {
       });
     }
     return ob.checked
-  }
+  } */
 
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
+
+    this.isSameAddressControl.valueChanges.subscribe(val => {
+      if(val) {
+        this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value);
+      } else {
+        this.ActualAddressFormGroup.reset()
+      }
+    })
   }
 }
