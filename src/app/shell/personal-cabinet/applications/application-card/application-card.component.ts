@@ -1,5 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Application } from 'src/app/shared/models/application.model';
+import { Child } from 'src/app/shared/models/child.model';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
+import { ApplicationService } from 'src/app/shared/services/applications/application.service';
+import { ChildrenService } from 'src/app/shared/services/children/children.service';
+import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
+
 
 @Component({
   selector: 'app-application-card',
@@ -9,31 +18,25 @@ import { Application } from 'src/app/shared/models/application.model';
 
 export class ApplicationCardComponent implements OnInit {
 
-  constructor() { }
+  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationStatus = ApplicationStatus;
+
+  constructor(private childrenService: ChildrenService,
+    private workshopService: UserWorkshopService) { }
 
   @Input() application: Application;
+  child: Child;
+  provider: Provider;
+  workshop: Workshop;
+
   @Output() approved = new EventEmitter();
-  @Output() denied = new EventEmitter();
+  @Output() rejected = new EventEmitter();
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
   ngOnInit(): void {
-  }
-
-  /**
-   * This method get of the child
-   * @param string birth date
-  * @returns number Age
-  */
-  getAge(dateString: string): number {
-    const today = new Date();
-    const birthDate = new Date(dateString);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    let m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
+    this.childrenService.getChildrenById(this.application.childId).subscribe(child => this.child = child);
+    this.workshopService.getWorkshopsById(this.application.childId).subscribe(workshop => this.workshop = workshop);
   }
 
   /**
@@ -48,17 +51,17 @@ export class ApplicationCardComponent implements OnInit {
   * This method emit on deny action
   * @param Application application
   */
-  onDeny(application: Application): void {
-    this.denied.emit(application);
+  onReject(application: Application): void {
+    this.rejected.emit(application);
   }
 
   /**
   * This method emit on mouseover action on child avatar
   * @param Application application
   */
-  // onInfoShow(element: Element): void {
-  //   this.infoShow.emit({ element, child: this.application.child }); TODO: add this functionality
-  // }
+  onInfoShow(element: Element): void {
+    this.infoShow.emit({ element, child: this.child });
+  }
 
   /**
   * This method emit on mouseleave action on child avatar

@@ -25,9 +25,9 @@ export class ChildrenService {
   * This method get children by Child id
   * @param id
   */
-  getChildrenById(id: number): Observable<Child[]> {
+  getChildrenById(id: number): Observable<Child> {
     const dataUrl = `/Child/GetById/${id}`;
-    return this.http.get<Child[]>(dataUrl);
+    return this.http.get<Child>(dataUrl);
   }
 
 

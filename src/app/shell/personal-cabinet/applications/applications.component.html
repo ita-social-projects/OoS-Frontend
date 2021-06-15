@@ -4,20 +4,22 @@
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Усі">
       <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationSort :'new' : 'date' }">
+        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationSort : applicationStatus.pending : 'date' }">
       </ng-container>
     </mat-tab>
     <mat-tab label="Очікують підтвердження">
-      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : 'new' }">
+      <ng-container
+        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.pending }">
       </ng-container>
     </mat-tab>
     <mat-tab label="Підтвердженні">
       <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : 'approved' }">
+        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.approved }">
       </ng-container>
     </mat-tab>
     <mat-tab label="Відхилені">
-      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : 'denied' }">
+      <ng-container
+        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.rejected }">
       </ng-container>
     </mat-tab>
   </mat-tab-group>
@@ -28,7 +30,8 @@
 
 <ng-template #Applications let-applications>
   <app-application-card *ngFor="let application of applications" [application]="application"
-    (approved)="onApprove($event)" (denied)="onDeny($event)" (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+    (approved)="onApprove($event)" (rejected)="onReject($event)" (infoShow)="onInfoShow($event)"
+    (infoHide)="onInfoHide()">
   </app-application-card>
 </ng-template>
 

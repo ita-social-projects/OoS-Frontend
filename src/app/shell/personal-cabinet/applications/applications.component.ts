@@ -3,9 +3,12 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
+import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Child } from 'src/app/shared/models/child.model';
+import { User } from 'src/app/shared/models/user.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetApplicationsById } from 'src/app/shared/store/user.actions';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { GetApplicationsByUserId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 
@@ -16,6 +19,9 @@ import { Application } from '../../../shared/models/application.model';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit {
+
+  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationStatus = ApplicationStatus;
 
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
@@ -30,7 +36,10 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetApplicationsById(null));
+    const userId = this.store.selectSnapshot<User>(RegistrationState.user).id;
+
+    this.store.dispatch(new GetApplicationsByUserId(userId));
+
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
@@ -46,6 +55,9 @@ export class ApplicationsComponent implements OnInit {
         )
       )
       .subscribe();
+
+
+    console.log()
   }
 
   ngOnDestroy() {
@@ -58,16 +70,16 @@ export class ApplicationsComponent implements OnInit {
   */
   onApprove(event: Application): void {
     const application = this.applications.find((application) => (application === event))
-    // application.status = 'approved'; TODO: add this functionality
+    application.status = this.applicationStatus.approved;
   }
 
   /**
-  * This method changes status of emitted event to "denied"
+  * This method changes status of emitted event to "rejected"
   * @param Application event
   */
-  onDeny(event: Application): void {
+  onReject(event: Application): void {
     const application = this.applications.find((application) => (application === event))
-    // application.status = 'denied'; TODO: add this functionality
+    application.status = this.applicationStatus.rejected;
   }
 
   /**

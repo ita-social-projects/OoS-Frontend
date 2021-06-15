@@ -13,13 +13,13 @@ export class ApplicationService {
 
   constructor(private http: HttpClient) {
   }
+
   /**
  * This method get applications by User id
  * @param id
  */
-  getApplicationsById(id: number): Observable<Application[]> {
-    const dataUrl = `/Application/GetById/${id}`;
-    return this.http.get<Application[]>(this.dataUrlmock);
+  getApplicationsByUserId(id: string): Observable<Application[]> {
+    return this.http.get<Application[]>(`/Application/Get`);
   }
 
   /**
