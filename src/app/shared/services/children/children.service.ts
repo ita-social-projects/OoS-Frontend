@@ -25,9 +25,9 @@ export class ChildrenService {
   * This method get children by Child id
   * @param id
   */
-  getChildrenById(id: number): Observable<Child[]> {
+  getChildrenById(id: number): Observable<Child> {
     const dataUrl = `/Child/GetById/${id}`;
-    return this.http.get<Child[]>(dataUrl);
+    return this.http.get<Child>(dataUrl);
   }
 
 
@@ -52,5 +52,12 @@ export class ChildrenService {
   */
   getSocialGroup(): Observable<SocialGroup[]> {
     return this.http.get<SocialGroup[]>('/SocialGroup/Get');
+  }
+
+  /**
+ * This method get all social groups by Id
+ */
+  getSocialGroupById(id: number): Observable<SocialGroup> {
+    return this.http.get<SocialGroup>(`/SocialGroup/GetById/${id}`);
   }
 }

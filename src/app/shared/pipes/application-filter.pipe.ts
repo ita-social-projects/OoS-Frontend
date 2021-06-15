@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { ApplicationStatus } from '../enum/applications';
 import { Application } from '../models/application.model';
 
 @Pipe({
@@ -7,10 +8,10 @@ import { Application } from '../models/application.model';
 })
 export class ApplicationFilterPipe implements PipeTransform {
 
-  transform(array: Application[], status: string): Application[] {
-    // return array.filter(card => card.status === status); TODO: add this functionality
-    return array;
+  readonly applicationStatus = ApplicationStatus;
 
+  transform(array: Application[], status: string): Application[] {
+    return array.filter(card => card.status === this.applicationStatus[status]);
   }
 
 }

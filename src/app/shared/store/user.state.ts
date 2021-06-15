@@ -25,7 +25,7 @@ import {
   CreateWorkshop,
   DeleteChildById,
   DeleteWorkshopById,
-  GetApplicationsById,
+  GetApplicationsByUserId,
   GetChildren,
   GetWorkshopsById,
   OnCreateApplicationFail,
@@ -39,7 +39,8 @@ import {
   OnDeleteChildFail,
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
-  OnDeleteWorkshopSuccess
+  OnDeleteWorkshopSuccess,
+  GetApplications
 } from './user.actions';
 
 export interface UserStateModel {
@@ -93,10 +94,20 @@ export class UserState {
         }));
   }
 
-  @Action(GetApplicationsById)
-  getApplicationsById({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsById) {
+  @Action(GetApplicationsByUserId)
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByUserId) {
     return this.applicationService
-      .getApplicationsById(payload)
+      .getApplicationsByUserId(payload)
+      .pipe(
+        tap((userApplications: Application[]) => {
+          return patchState({ applications: userApplications });
+        }));
+  }
+
+  @Action(GetApplications)
+  getApplications({ patchState }: StateContext<UserStateModel>, { }: GetApplications) {
+    return this.applicationService
+      .getApplications()
       .pipe(
         tap((userApplications: Application[]) => {
           return patchState({ applications: userApplications });

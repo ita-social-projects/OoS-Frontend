@@ -22,10 +22,9 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class CreateApplicationComponent implements OnInit {
 
-  readonly CardType: typeof cardType = cardType;
+  readonly CardType = cardType;
 
   @Select(UserState.children) children$: Observable<Child[]>;
-  @Select(RegistrationState.parent) parent$: Observable<Parent>;
   @Select(RegistrationState.user) user$: Observable<User>;
 
   children: Child[] = [];
