@@ -118,7 +118,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         .startsWith(value.toLowerCase())
       )
       .map((word: KeyWord) => word);
-    return filteredKeyWords;
+      return filteredKeyWords;
   }
 
   ngOnDestroy() {
