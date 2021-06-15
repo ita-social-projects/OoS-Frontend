@@ -11,7 +11,6 @@ import { GetApplicationsById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 
-
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -23,14 +22,14 @@ export class ApplicationsComponent implements OnInit {
   applications$: Observable<Application[]>;
   public applications: Application[];
   child: Child;
-  role ;                                                                                                                                                 
-  
-  
+  role;
+
+
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
   destroy$: Subject<boolean> = new Subject<boolean>();
- 
+
 
   constructor(private store: Store,
     private infoBoxService: InfoBoxService) { }
@@ -40,8 +39,8 @@ export class ApplicationsComponent implements OnInit {
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
-    this.role = (this.store.selectSnapshot<User>(RegistrationState.user)).role ;
-  
+
+    this.role = (this.store.selectSnapshot<User>(RegistrationState.user)).role;
 
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
@@ -60,6 +59,7 @@ export class ApplicationsComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
   /**
   * This method changes status of emitted event to "approved"
   * @param Application event
