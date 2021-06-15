@@ -8,6 +8,7 @@ import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.d
 import { Component, Input } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
 import { User } from 'src/app/shared/models/user.model';
+import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -25,7 +26,8 @@ describe('ApplicationsComponent', () => {
         InfoBoxHostDirective,
         MockApplicationCardComponent,
         ApplicationFilterPipe,
-        ApplicationSortPipe
+        ApplicationSortPipe,
+        ApplicationChildFilterPipe
       ],
     })
       .compileComponents();
