@@ -44,7 +44,7 @@
 
 
           <p class="step-label">Дані про батьків</p>
-          <app-person-card *ngIf="(parent$ | async)" [card]="(parent$ | async)" [cardType]="CardType.parent">
+          <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
           </app-person-card>
 
         </form>
