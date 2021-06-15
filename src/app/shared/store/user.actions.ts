@@ -9,8 +9,12 @@ export class GetWorkshopsById {
   constructor(public payload: number) { }
 }
 export class GetApplicationsByUserId {
-  static readonly type = '[user] get Applications';
+  static readonly type = '[user] get Applications By User Id';
   constructor(public payload: string) { }
+}
+export class GetApplications {
+  static readonly type = '[user] get Applications';
+  constructor() { }
 }
 export class GetChildren {
   static readonly type = '[user] get Children';

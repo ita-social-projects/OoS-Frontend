@@ -39,7 +39,8 @@ import {
   OnDeleteChildFail,
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
-  OnDeleteWorkshopSuccess
+  OnDeleteWorkshopSuccess,
+  GetApplications
 } from './user.actions';
 
 export interface UserStateModel {
@@ -97,6 +98,16 @@ export class UserState {
   getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByUserId) {
     return this.applicationService
       .getApplicationsByUserId(payload)
+      .pipe(
+        tap((userApplications: Application[]) => {
+          return patchState({ applications: userApplications });
+        }));
+  }
+
+  @Action(GetApplications)
+  getApplications({ patchState }: StateContext<UserStateModel>, { }: GetApplications) {
+    return this.applicationService
+      .getApplications()
       .pipe(
         tap((userApplications: Application[]) => {
           return patchState({ applications: userApplications });

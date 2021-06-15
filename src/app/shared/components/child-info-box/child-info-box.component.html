@@ -3,7 +3,7 @@
     <div fxLayout='column' fxLayoutAlign='center start'>
       <h5>ДАНІ ДИТИНИ</h5>
       <p>ПІБ: {{child.firstName}} {{child.lastName}} {{child.middleName}}</p>
-      <p>Дата народження: {{child.dateOfBirth}}</p> <br>
+      <p>Дата народження: {{child.dateOfBirth | date: 'shortDate'}}</p> <br>
       <h5>Соціальна група:</h5>
       <p>{{ socialGroup ? socialGroup.name : "Відсутня" }}</p>
     </div>

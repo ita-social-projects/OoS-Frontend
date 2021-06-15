@@ -10,7 +10,7 @@ import { User } from 'src/app/shared/models/user.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByUserId } from 'src/app/shared/store/user.actions';
+import { GetApplications, GetApplicationsByUserId, GetChildren } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 @Component({
@@ -23,12 +23,15 @@ export class ApplicationsComponent implements OnInit {
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
   readonly Role = Role;
+  user: User;
 
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  public applications: Application[];
-  child: Child;
-  user: User;
+  applications: Application[];
+
+  @Select(UserState.children)
+  children$: Observable<Child[]>;
+
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -40,12 +43,23 @@ export class ApplicationsComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.store.selectSnapshot<User>(RegistrationState.user);
 
-    this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
+    if (this.user.role === Role.provider) {
+      this.store.dispatch(new GetApplications());
+      this.activateChildInfoBox();
+    } else {
+      this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
+      this.store.dispatch(new GetChildren());
+    }
 
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
+  }
 
+  /**
+  * This method initialize functionality to open child-info-box
+  */
+  activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -57,21 +71,14 @@ export class ApplicationsComponent implements OnInit {
         )
       )
       .subscribe();
-
-
-    console.log()
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
   /**
   * This method changes status of emitted event to "approved"
   * @param Application event
   */
   onApprove(event: Application): void {
-    const application = this.applications.find((application) => (application === event))
+    const application = this.applications.find((application) => (application === event));
     application.status = this.applicationStatus.approved;
   }
 
@@ -94,5 +101,10 @@ export class ApplicationsComponent implements OnInit {
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

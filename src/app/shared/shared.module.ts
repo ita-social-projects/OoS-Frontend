@@ -28,6 +28,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
 import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 import { ChildCardComponent } from './components/child-card/child-card.component';
+import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -52,6 +53,7 @@ import { ChildCardComponent } from './components/child-card/child-card.component
     PersonCardComponent,
     WorkingHoursFormControlComponent,
     ChildCardComponent,
+    ApplicationChildFilterPipe,
   ],
   imports: [
     MaterialModule,

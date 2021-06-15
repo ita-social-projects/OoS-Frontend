@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
+import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -20,11 +21,14 @@ export class ApplicationCardComponent implements OnInit {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
+  readonly Role = Role;
 
   constructor(private childrenService: ChildrenService,
     private workshopService: UserWorkshopService) { }
 
   @Input() application: Application;
+  @Input() userRole: string;
+
   child: Child;
   provider: Provider;
   workshop: Workshop;

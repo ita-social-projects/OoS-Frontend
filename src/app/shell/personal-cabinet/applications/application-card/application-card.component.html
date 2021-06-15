@@ -5,16 +5,16 @@
       <img mat-card-avatar #img src="assets/icons/child-{{child.gender}}.png" alt="child-photo"
         (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">
     </div>
-    <div fxLayout='column' fxLayoutAlign='center start'>
+    <div fxLayout='column' fxLayoutAlign='start start'>
       <h2>{{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h2>
-      <p>{{ child.dateOfBirth }}</p>
-      <p>{{ application.creationTime | date: 'shortDate' }}</p>
+      <p class="card-text">Дата народження: {{ child.dateOfBirth | date: 'shortDate'}}</p>
+      <p class="card-text">Дата подання заявки: {{ application.creationTime | date: 'shortDate' }}</p>
     </div>
   </mat-card-content>
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='center start'>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
     <h2 *ngIf="provider">{{ provider?.shortTitle }}</h2>
     <h4 *ngIf="workshop">{{ workshop?.title}}</h4>
-    <p><img src="assets/icons/age.png" alt="people"> доступних місць
+    <p class="card-tex"><img src="assets/icons/age.png" alt="people"> Доступних місць:
     </p>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
