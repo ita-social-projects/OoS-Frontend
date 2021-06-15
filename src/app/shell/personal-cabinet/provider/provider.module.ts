@@ -22,7 +22,6 @@ import { CreateAboutFormComponent } from './create-workshop/create-about-form/cr
 import { CreateDescriptionFormComponent } from './create-workshop/create-description-form/create-description-form.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
-import { MapComponent } from './create-workshop/create-address/map/map.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
@@ -39,7 +38,6 @@ import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-f
     CreateAddressComponent,
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
-    MapComponent,
     CreateWorkshopComponent,
     CreateProviderComponent,
     CreateInfoFormComponent,

@@ -34,7 +34,12 @@
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="group.value==='map'; else ShowData">
-      <app-map></app-map>
+      <app-map>
+        <!-- <div style="height: 500px;"
+        leaflet 
+        [leafletOptions]="options">
+        </div> -->
+      </app-map>
     </div>
     <ng-template #ShowData>
       <app-workshop-cards-list class="cards"></app-workshop-cards-list>
