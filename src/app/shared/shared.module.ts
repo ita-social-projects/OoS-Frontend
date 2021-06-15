@@ -29,6 +29,8 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
 import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
+import { MapComponent } from '../shared/map/map.component';
+
 @NgModule({
   declarations: [
     FiltersListComponent,
@@ -54,6 +56,7 @@ import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pip
     WorkingHoursFormControlComponent,
     ChildCardComponent,
     ApplicationChildFilterPipe,
+    MapComponent
   ],
   imports: [
     MaterialModule,
@@ -86,7 +89,8 @@ import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pip
     CategoryCheckBoxComponent,
     PersonCardComponent,
     WorkingHoursFormControlComponent,
-    ChildCardComponent
+    ChildCardComponent,
+    MapComponent
   ]
 })
 export class SharedModule { }

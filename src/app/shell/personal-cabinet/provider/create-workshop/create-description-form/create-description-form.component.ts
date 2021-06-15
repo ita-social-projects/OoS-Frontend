@@ -23,7 +23,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   @Output() passDescriptionFormGroup = new EventEmitter();
 
   keyWordsCtrl = new FormControl();
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [ENTER];
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -87,6 +87,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   onRemoveKeyWord(word: KeyWord): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
+      this.allkeyWords.push(word);
     }
   }
 
@@ -102,6 +103,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
     this.keyWordsInput.nativeElement.value = '';
     this.keyWordsCtrl.setValue(null);
+    this.allkeyWords.splice(this.allkeyWords.indexOf(event.option.value), 1);
   }
 
   /**
@@ -116,7 +118,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         .startsWith(value.toLowerCase())
       )
       .map((word: KeyWord) => word);
-    return filteredKeyWords;
+      return filteredKeyWords;
   }
 
   ngOnDestroy() {
