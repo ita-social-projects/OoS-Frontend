@@ -5,6 +5,18 @@
   margin:20px;
   width: 300px;
   max-height: 272px;
+
+  .contact-info {
+    img {
+      margin-right: 10px;
+      top: 2px;
+      position: relative;
+    }
+    
+    a {
+      color: #3849F9;
+    }
+  }
 }
 .link{
   margin:0.5rem;

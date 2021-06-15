@@ -27,7 +27,7 @@ const routes: Routes = [
     component: UserConfigEditComponent
   },
   {
-    path: 'workshop-details', component: WorkshopDetailsComponent,
+    path: 'workshop-details/:id', component: WorkshopDetailsComponent,
     loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
   },
   {
@@ -46,7 +46,7 @@ const routes: Routes = [
     canLoad: [ParentGuard]
   },
   {
-    path: 'create-application', component: CreateApplicationComponent,
+    path: 'create-application/:id', component: CreateApplicationComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard]
   },

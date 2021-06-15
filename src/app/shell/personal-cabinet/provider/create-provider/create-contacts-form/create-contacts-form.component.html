@@ -30,6 +30,10 @@
 <form [formGroup]="ActualAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
   <h4>Фактична адреса</h4>
 
+  <mat-checkbox class="step-check-box" color="primary" [formControl]="isSameAddressControl">Співпадає з юридичною
+    адресою
+  </mat-checkbox>
+
   <label class="step-label">Область<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput required class="step-input" type="text" formControlName="district" maxlength="15">
