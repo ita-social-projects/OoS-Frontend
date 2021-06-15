@@ -3,14 +3,16 @@ import { ApplicationFilterPipe } from './../../../shared/pipes/application-filte
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
 import { Component, Input } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
+import { User } from 'src/app/shared/models/user.model';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
   let fixture: ComponentFixture<ApplicationsComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,6 +32,9 @@ describe('ApplicationsComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+
     fixture = TestBed.createComponent(ApplicationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -46,5 +51,4 @@ describe('ApplicationsComponent', () => {
 class MockApplicationCardComponent {
   @Input() application: Application;
   @Input() userRole: string;
-
 }
