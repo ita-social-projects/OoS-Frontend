@@ -1,11 +1,11 @@
 <mat-card class="card" #childInfoBox [style]="{top:top, left:left}">
-  <mat-card-header fxLayout='column' fxLayoutAlign='center start'>
-    <h5>ДАНІ ДИТИНИ</h5>
-    <p>{{child.firstName}} {{child.lastName}} {{child.middleName}}</p>
-    <p>{{child.dateOfBirth}}</p> <br>
-  </mat-card-header>
-  <mat-card-content fxLayout='column' fxLayoutAlign='center start'>
-    <h5>Соціальна група </h5>
-    <p>{{socialGroup?.name}}</p>
-  </mat-card-content>
+  <div class="card-content">
+    <div fxLayout='column' fxLayoutAlign='center start'>
+      <h5>ДАНІ ДИТИНИ</h5>
+      <p>ПІБ: {{child.firstName}} {{child.lastName}} {{child.middleName}}</p>
+      <p>Дата народження: {{child.dateOfBirth}}</p> <br>
+      <h5>Соціальна група:</h5>
+      <p>{{socialGroup?.name}}</p>
+    </div>
+  </div>
 </mat-card>

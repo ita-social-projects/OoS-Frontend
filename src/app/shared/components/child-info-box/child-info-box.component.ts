@@ -11,10 +11,10 @@ import { ChildrenService } from '../../services/children/children.service';
 export class ChildInfoBoxComponent implements OnInit {
 
   socialGroup: SocialGroup;
-
   constructor(private childrenService: ChildrenService) { }
 
   @Input() child: Child;
+  socialGroup: SocialGroup;
   @ViewChild('childInfoBox') childInfoBox: ElementRef<HTMLInputElement>;
   @Input() top: string;
   @Input() left: string;
