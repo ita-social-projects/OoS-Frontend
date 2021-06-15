@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
+import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
@@ -18,11 +19,13 @@ import { Application } from '../../../shared/models/application.model';
 })
 export class ApplicationsComponent implements OnInit {
 
+  readonly role: typeof Role = Role;
+
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  public applications: Application[];
+  applications: Application[];
   child: Child;
-  role;
+  userRole: string;
 
 
 
@@ -40,7 +43,7 @@ export class ApplicationsComponent implements OnInit {
       this.applications = applications
     );
 
-    this.role = (this.store.selectSnapshot<User>(RegistrationState.user)).role;
+    this.userRole = (this.store.selectSnapshot<User>(RegistrationState.user)).role;
 
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
