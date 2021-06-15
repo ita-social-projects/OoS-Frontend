@@ -53,4 +53,11 @@ export class ChildrenService {
   getSocialGroup(): Observable<SocialGroup[]> {
     return this.http.get<SocialGroup[]>('/SocialGroup/Get');
   }
+
+  /**
+ * This method get all social groups by Id
+ */
+  getSocialGroupById(id: number): Observable<SocialGroup> {
+    return this.http.get<SocialGroup>(`/SocialGroup/GetById/${id}`);
+  }
 }

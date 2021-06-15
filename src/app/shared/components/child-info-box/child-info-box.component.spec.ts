@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChildInfoBoxComponent } from './child-info-box.component';
 import { MatCardModule } from '@angular/material/card';
 import { Child } from '../../models/child.model';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;
@@ -10,11 +11,12 @@ describe('ChildInfoBoxComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatCardModule
+        MatCardModule,
+        HttpClientModule
       ],
-      declarations: [ ChildInfoBoxComponent ]
+      declarations: [ChildInfoBoxComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

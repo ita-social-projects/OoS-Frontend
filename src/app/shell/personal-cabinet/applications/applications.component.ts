@@ -36,7 +36,7 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    const userId = this.store.selectSnapshot<User>(RegistrationState.user).id;
+    const userId = this.store.selectSnapshot<User>(RegistrationState.user)?.id;
 
     this.store.dispatch(new GetApplicationsByUserId(userId));
 

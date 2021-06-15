@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Child } from '../../models/child.model';
+import { SocialGroup } from '../../models/socialGroup.model';
+import { ChildrenService } from '../../services/children/children.service';
 
 @Component({
   selector: 'app-child-info-box',
@@ -8,7 +10,9 @@ import { Child } from '../../models/child.model';
 })
 export class ChildInfoBoxComponent implements OnInit {
 
-  constructor() { }
+  socialGroup: SocialGroup;
+
+  constructor(private childrenService: ChildrenService) { }
 
   @Input() child: Child;
   @ViewChild('childInfoBox') childInfoBox: ElementRef<HTMLInputElement>;
@@ -16,5 +20,6 @@ export class ChildInfoBoxComponent implements OnInit {
   @Input() left: string;
 
   ngOnInit(): void {
+    this.childrenService.getSocialGroupById(this.child.socialGroupId).subscribe(socialGroup => this.socialGroup = socialGroup);
   }
 }
