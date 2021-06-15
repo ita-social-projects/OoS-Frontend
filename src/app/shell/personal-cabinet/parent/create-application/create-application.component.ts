@@ -42,7 +42,7 @@ export class CreateApplicationComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetChildren());
-    const workshopId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    const workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopsById(workshopId));
     this.workshop$.subscribe(workshop => this.workshop = workshop);
   }
