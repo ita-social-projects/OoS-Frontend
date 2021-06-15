@@ -5,16 +5,17 @@
       <div class="card" fxLayout="row" fxLayoutAlign="space-between space-between">
         <img class="card-image" src="assets/icons/workshop.png" alt="workshop-photo">
         <mat-card-content class="card-content" fxLayout="column" fxLayoutAlign="start">
-          <h5> {{workshop.title}} </h5>
-          <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop.ownership }} </p>
-          <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }}
+          <h5> {{workshop?.title}} </h5>
+          <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop?.ownership }} </p>
+          <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop?.minAge }} - {{ workshop?.maxAge
+            }}
             років
           </p>
-          <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop.price ? workshop.price :
+          <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop?.price ? workshop?.price :
             "Безкоштовно" }} </p>
-          <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop.address.city }}, {{
-            workshop.address.street }}, {{
-            workshop.address.buildingNumber }} </p>
+          <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop?.address.city }}, {{
+            workshop?.address.street }}, {{
+            workshop?.address.buildingNumber }} </p>
         </mat-card-content>
       </div>
     </mat-card>
