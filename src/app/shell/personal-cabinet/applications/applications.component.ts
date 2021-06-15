@@ -40,7 +40,7 @@ export class ApplicationsComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.store.selectSnapshot<User>(RegistrationState.user);
 
-    this.store.dispatch(new GetApplicationsByUserId(this.user.id));
+    this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
 
     this.applications$.subscribe(applications =>
       this.applications = applications

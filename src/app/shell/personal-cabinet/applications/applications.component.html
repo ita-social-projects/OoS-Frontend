@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(user.role === Role.provider) then isProvider; else isParent"></div>
+<div class="container" *ngIf="(user?.role === Role.provider) then isProvider; else isParent"></div>
 <ng-template #isParent>
   Заявое поки немає
 </ng-template>
