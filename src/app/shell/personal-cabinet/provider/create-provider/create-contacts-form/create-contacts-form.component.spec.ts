@@ -6,7 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatCheckbox} from "@angular/material/checkbox";
+import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
+
 
 
 describe('CreateContactsFormComponent', () => {
@@ -21,7 +22,8 @@ describe('CreateContactsFormComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        MatCheckbox
+        MatCheckbox,
+        MatCheckboxChange
       ],
       declarations: [ CreateContactsFormComponent ]
     })
