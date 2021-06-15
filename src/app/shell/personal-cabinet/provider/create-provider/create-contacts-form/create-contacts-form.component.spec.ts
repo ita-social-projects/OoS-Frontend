@@ -19,10 +19,9 @@ describe('CreateContactsFormComponent', () => {
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        BrowserAnimationsModule,
-        MatCheckboxChange
+        BrowserAnimationsModule
       ],
-      declarations: [ CreateContactsFormComponent ]
+      declarations: [ CreateContactsFormComponent, MatCheckboxChange ]
     })
     .compileComponents();
   });
