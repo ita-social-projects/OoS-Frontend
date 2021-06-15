@@ -1,27 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProviderConfigComponent } from './provider-config.component';
+import { UserConfigComponent } from './user-config.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
 
-describe('ProviderConfigComponent', () => {
-  let component: ProviderConfigComponent;
-  let fixture: ComponentFixture<ProviderConfigComponent>;
+describe('UserConfigComponent', () => {
+  let component: UserConfigComponent;
+  let fixture: ComponentFixture<UserConfigComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatIconModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule
+        MatCardModule,
+        MatIconModule,
+        ReactiveFormsModule
       ],
-      declarations: [ ProviderConfigComponent ]
+      declarations: [
+        UserConfigComponent
+      ],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProviderConfigComponent);
+    fixture = TestBed.createComponent(UserConfigComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -30,4 +34,3 @@ describe('ProviderConfigComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-

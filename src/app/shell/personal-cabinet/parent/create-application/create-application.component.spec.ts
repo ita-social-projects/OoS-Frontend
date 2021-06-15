@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateApplicationComponent } from './create-application.component';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { cardType } from 'src/app/shared/enum/role';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -32,6 +33,7 @@ describe('CreateApplicationComponent', () => {
         BrowserAnimationsModule,
         MatTabsModule,
         RouterTestingModule,
+        MatCardModule
       ],
       declarations: [
         CreateApplicationComponent,

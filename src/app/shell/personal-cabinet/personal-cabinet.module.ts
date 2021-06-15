@@ -11,12 +11,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WorkshopsComponent } from './workshops/workshops.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
+import { UserConfigComponent } from './user-config/user-config.component';
+import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 @NgModule({
   declarations: [
     ApplicationsComponent,
     ApplicationCardComponent,
     MessagesComponent,
-    WorkshopsComponent
+    WorkshopsComponent,
+    UserConfigComponent,
+    UserConfigEditComponent
   ],
   imports: [
     CommonModule,

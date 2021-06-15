@@ -16,6 +16,6 @@ export class GetWorkshops {
 
 }
 export class GetTeachersById {
-  static readonly type = '[app] Get Workshops';
+  static readonly type = '[app] Get Teachers by Id';
   constructor(public payload: number) { }
 }

@@ -6,20 +6,24 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
-import { Parent } from '../models/parent.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
+import { GetWorkshops } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
 import { GetProfile, RegisterUser } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
+  CreateParent,
+  OnCreateParentFail,
+  OnCreateParentSuccess,
   CreateProvider,
   CreateWorkshop,
+  DeleteChildById,
   DeleteWorkshopById,
   GetApplicationsById,
   GetChildren,
@@ -32,12 +36,15 @@ import {
   OnCreateProviderSuccess,
   OnCreateWorkshopFail,
   OnCreateWorkshopSuccess,
+  OnDeleteChildFail,
+  OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess
 } from './user.actions';
 
 export interface UserStateModel {
   workshops: Workshop[];
+  selectedWorkshop: Workshop;
   applications: Application[];
   children: Child[];
 }
@@ -45,6 +52,7 @@ export interface UserStateModel {
   name: 'user',
   defaults: {
     workshops: Workshop[''],
+    selectedWorkshop: null,
     applications: Application[''],
     children: Child[''],
   }
@@ -55,6 +63,9 @@ export class UserState {
 
   @Selector()
   static workshops(state: UserStateModel): Workshop[] { return state.workshops }
+
+  @Selector()
+  static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop }
 
   @Selector()
   static applications(state: UserStateModel): Application[] { return state.applications }
@@ -77,9 +88,9 @@ export class UserState {
     return this.userWorkshopService
       .getWorkshopsById(payload)
       .pipe(
-        tap(
-          (userWorkshops: Workshop[]) => patchState({ workshops: userWorkshops })
-        ))
+        tap((userWorkshop: Workshop) => {
+          return patchState({ selectedWorkshop: userWorkshop });
+        }));
   }
 
   @Action(GetApplicationsById)
@@ -88,8 +99,8 @@ export class UserState {
       .getApplicationsById(payload)
       .pipe(
         tap((userApplications: Application[]) => {
-          return patchState({ applications: userApplications })
-        }))
+          return patchState({ applications: userApplications });
+        }));
   }
 
   @Action(GetChildren)
@@ -118,7 +129,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateWorkshopSuccess)
@@ -127,7 +138,7 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Гурток створено!', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/workshops']);
-    }, 2000);
+    }, 1000);
     dispatch(new ClearCategories());
   }
 
@@ -147,7 +158,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnDeleteWorkshopSuccess)
@@ -155,7 +166,8 @@ export class UserState {
     console.log('Workshop is deleted', payload);
     setTimeout(() => {
       this.showSnackBar('Гурток видалено!', 'primary', 'top');
-    }, 2000);
+    }, 1000);
+    dispatch(new GetWorkshops());
   }
 
   @Action(CreateChildren)
@@ -174,7 +186,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateChildrenSuccess)
@@ -183,7 +195,7 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/parent/info']);
-    }, 2000);
+    }, 1000);
   }
 
   @Action(CreateProvider)
@@ -202,7 +214,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateProviderSuccess)
@@ -212,8 +224,9 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
       this.router.navigate(['']);
-    }, 2000);
+    }, 1000);
     dispatch(new GetProfile());
+    this.router.navigate(['']);
   }
 
   @Action(CreateApplication)
@@ -232,7 +245,7 @@ export class UserState {
     setTimeout(() => {
       throwError(payload);
       this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 2000);
+    }, 1000);
   }
 
   @Action(OnCreateApplicationSuccess)
@@ -241,7 +254,61 @@ export class UserState {
     setTimeout(() => {
       this.showSnackBar('Заявку створено!', 'primary', 'top');
       this.router.navigate(['']);
-    }, 2000);
+    }, 1000);
+  }
+
+  @Action(CreateParent)
+  createParent({ dispatch }: StateContext<UserStateModel>, { payload }: CreateParent) {
+    return this.parentService
+      .createParent(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateParentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateParentFail(error))))
+      );
+  }
+
+  @Action(OnCreateParentFail)
+  onCreateParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentFail): void {
+    console.log('Parent creation is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
+  @Action(OnCreateParentSuccess)
+  onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
+    dispatch(new GetProfile());
+    dispatch(new RegisterUser());
+    console.log('Parent is created', payload);
+  }
+
+  @Action(DeleteChildById)
+  deleteChildById({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteChildById) {
+    return this.childrenService
+      .deleteChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteChildSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnDeleteChildFail(error))))
+      );
+  }
+
+  @Action(OnDeleteChildFail)
+  onDeleteChildFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildFail): void {
+    console.log('Child is not deleted', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
+  @Action(OnDeleteChildSuccess)
+  onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
+    console.log('Child is deleted', payload);
+    setTimeout(() => {
+      this.showSnackBar('Дитину видалено!', 'primary', 'top');
+    }, 1000);
+    dispatch(new GetChildren());
   }
 
   showSnackBar(
@@ -251,7 +318,7 @@ export class UserState {
     horizontal: MatSnackBarHorizontalPosition = 'center'): void {
 
     this.snackBar.open(message, '', {
-      duration: 5000,
+      duration: 3000,
       horizontalPosition: horizontal,
       verticalPosition: vertical,
       panelClass: [color],

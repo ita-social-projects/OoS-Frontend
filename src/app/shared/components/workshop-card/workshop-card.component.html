@@ -9,7 +9,7 @@
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-      <a routerLink="/workshop-details" class="card_link">
+      <a [routerLink]="['/workshop-details', workshop.id]" class="card_link">
         Детальніше
         <span class="material-icons arrow">arrow_forward</span>
       </a>
@@ -42,8 +42,8 @@
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn"><img src="assets/icons/edit.png" alt="edit" (click)="onEdit()"></div>
-    <div class="actions_btn"><img src="assets/icons/delete.png" alt="delete" (click)="onDelete()"></div>
+    <div class="actions_btn" (click)="onEdit()"><img src="assets/icons/edit.png" alt="edit"></div>
+    <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
   </div>
 </ng-template>
 <ng-template #UserActions>
