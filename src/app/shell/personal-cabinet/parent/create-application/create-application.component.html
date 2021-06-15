@@ -1,6 +1,23 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper application">
     <h3 class="wrapper-title step-border" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
+    <mat-card>
+      <div class="card" fxLayout="row" fxLayoutAlign="space-between space-between">
+        <img class="card-image" src="assets/icons/workshop.png" alt="workshop-photo">
+        <mat-card-content class="card-content" fxLayout="column" fxLayoutAlign="start">
+          <h5> {{workshop.title}} </h5>
+          <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop.ownership }} </p>
+          <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }}
+            років
+          </p>
+          <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop.price ? workshop.price :
+            "Безкоштовно" }} </p>
+          <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop.address.city }}, {{
+            workshop.address.street }}, {{
+            workshop.address.buildingNumber }} </p>
+        </mat-card-content>
+      </div>
+    </mat-card>
     <mat-tab-group class="nav">
       <mat-tab label="Подати дані про дитину">
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
