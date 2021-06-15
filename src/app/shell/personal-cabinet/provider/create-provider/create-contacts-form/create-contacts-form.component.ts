@@ -1,5 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {MatCheckboxChange} from "@angular/material/checkbox";
+import {objectKeys} from "codelyzer/util/objectKeys";
 
 @Component({
   selector: 'app-create-contacts-form',
@@ -15,13 +17,6 @@ export class CreateContactsFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
 
-    this.ActualAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', Validators.required),
-      buildingNumber: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      district: new FormControl('', Validators.required),
-      region: new FormControl('', Validators.required)
-    });
     this.LegalAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
       buildingNumber: new FormControl('', Validators.required),
@@ -29,6 +24,27 @@ export class CreateContactsFormComponent implements OnInit {
       district: new FormControl('', Validators.required),
       region: new FormControl('', Validators.required)
     });
+
+    this.ActualAddressFormGroup = this.formBuilder.group({
+      street: new FormControl('', Validators.required),
+      buildingNumber: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required),
+      district: new FormControl('', Validators.required),
+      region: new FormControl('', Validators.required)
+    });
+  }
+  //This function iterates over LegalAddress inputs' values and set it to ActualAddress inputs//
+  duplicateForm (ob:MatCheckboxChange): boolean {
+    if(ob.checked) {
+      objectKeys(this.LegalAddressFormGroup.controls).forEach(key=>{
+        this.ActualAddressFormGroup.controls[key].setValue(this.LegalAddressFormGroup.value[key])
+      });
+    }else{
+      objectKeys(this.ActualAddressFormGroup.controls).forEach(key=>{
+        this.ActualAddressFormGroup.controls[key].setValue(undefined)
+      });
+    }
+    return ob.checked
   }
 
   ngOnInit(): void {
