@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ChangePage, GetWorkshops } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
+import { ChangePage } from 'src/app/shared/store/app.actions';
+import { GetWorkshopsById } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
@@ -11,18 +13,18 @@ import { AppState } from 'src/app/shared/store/app.state';
 })
 export class WorkshopDetailsComponent implements OnInit {
 
-  @Select(AppState.allWorkshops) workshops$: Observable<Workshop[]>;
+  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  constructor(private store: Store) {
-    this.store.dispatch(new GetWorkshops())
-    this.workshops$.subscribe(workshops => {
-      this.workshop = workshops[0];
-    })
-  }
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    const workshopId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.store.dispatch(new ChangePage(false));
+    this.store.dispatch(new GetWorkshopsById(workshopId));
   }
 
 }

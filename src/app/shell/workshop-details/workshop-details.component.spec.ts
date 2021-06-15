@@ -4,6 +4,8 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../shared/models/workshop.model';
 import { User } from '../../shared/models/user.model';
+import { RouterModule } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
 
 const MockUser = {
   role: '',
@@ -18,14 +20,16 @@ describe('WorkshopDetailsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         NgxsModule.forRoot([]),
+        RouterModule.forRoot([]),
       ],
       declarations: [
         WorkshopDetailsComponent,
         MockSideMenuComponent,
         MockWorkshopPageComponent
-      ]
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -57,4 +61,3 @@ class MockWorkshopPageComponent {
 class MockSideMenuComponent {
   @Input() workshop: Workshop;
 }
-
