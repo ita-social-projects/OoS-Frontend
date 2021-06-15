@@ -4,7 +4,7 @@
     <img src="assets/icons/time.png" alt="time">
     Залишилося х днів до початку заняття
   </span>
-  <a [routerLink]="'/create-application'" *ngIf="displayed">
+  <a [routerLink]="['/create-application', workshop.id]" *ngIf="displayed">
     <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
       Подати заявку
     </button>

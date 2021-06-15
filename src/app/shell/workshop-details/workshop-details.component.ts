@@ -22,7 +22,7 @@ export class WorkshopDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const workshopId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    const workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshopsById(workshopId));
   }
