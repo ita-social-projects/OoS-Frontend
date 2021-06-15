@@ -10,7 +10,6 @@ import { ChildrenService } from '../../services/children/children.service';
 })
 export class ChildInfoBoxComponent implements OnInit {
 
-  socialGroup: SocialGroup;
   constructor(private childrenService: ChildrenService) { }
 
   @Input() child: Child;

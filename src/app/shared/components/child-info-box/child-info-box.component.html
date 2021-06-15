@@ -5,7 +5,7 @@
       <p>ПІБ: {{child.firstName}} {{child.lastName}} {{child.middleName}}</p>
       <p>Дата народження: {{child.dateOfBirth}}</p> <br>
       <h5>Соціальна група:</h5>
-      <p>{{socialGroup?.name}}</p>
+      <p>{{ socialGroup ? socialGroup.name : "Відсутня" }}</p>
     </div>
   </div>
 </mat-card>

@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
+import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
+import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByUserId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
-
-
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -22,11 +22,13 @@ export class ApplicationsComponent implements OnInit {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
+  readonly Role = Role;
 
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   public applications: Application[];
   child: Child;
+  user: User;
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -36,9 +38,9 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    const userId = this.store.selectSnapshot<User>(RegistrationState.user)?.id;
+    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
 
-    this.store.dispatch(new GetApplicationsByUserId(userId));
+    this.store.dispatch(new GetApplicationsByUserId(this.user.id));
 
     this.applications$.subscribe(applications =>
       this.applications = applications
