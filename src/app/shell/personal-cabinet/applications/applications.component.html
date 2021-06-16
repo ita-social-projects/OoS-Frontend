@@ -40,7 +40,7 @@
       <div *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication"></div>
 
       <ng-template #ChildApplication>
-        <h3> {{ child.firtName }} {{ child.lastName }} {{ child.middleName }}</h3>
+        <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
         <ng-container
           *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
         </ng-container>

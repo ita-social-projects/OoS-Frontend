@@ -6,7 +6,7 @@
         (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">
     </div>
     <div fxLayout='column' fxLayoutAlign='start start'>
-      <h2>{{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h2>
+      <h5>{{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h5>
       <p class="card-text">Дата народження: {{ child.dateOfBirth | date: 'shortDate'}}</p>
       <p class="card-text">Дата подання заявки: {{ application.creationTime | date: 'shortDate' }}</p>
     </div>
@@ -31,7 +31,7 @@
       <img src="assets/icons/email.png" alt="email">
     </button>
     <button *ngIf="userRole === Role.provider" class="btn btn-approve" mat-raised-button color="primary"
-      [ngClass]="(application.status === applicationStatus.pending )?  '' : 'btn-hidden'"
+      [ngClass]="(application.status === applicationStatus.pending)?  '' : 'btn-hidden'"
       (click)="onApprove(application)">
       <p class="btn-text">Прийняти</p>
     </button>
