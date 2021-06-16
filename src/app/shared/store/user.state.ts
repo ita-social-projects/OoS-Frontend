@@ -230,14 +230,12 @@ export class UserState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
-    dispatch(new RegisterUser());
     console.log('Provider is created', payload);
+    dispatch(new GetProfile());
     setTimeout(() => {
-      this.showSnackBar('Організація усіпшно зареєстрована', 'primary', 'top');
+      this.showSnackBar('Організацію успішно створено', 'primary');
       this.router.navigate(['']);
     }, 1000);
-    dispatch(new GetProfile());
-    this.router.navigate(['']);
   }
 
   @Action(CreateApplication)
@@ -290,7 +288,6 @@ export class UserState {
   @Action(OnCreateParentSuccess)
   onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
     dispatch(new GetProfile());
-    dispatch(new RegisterUser());
     console.log('Parent is created', payload);
   }
 
@@ -329,7 +326,7 @@ export class UserState {
     horizontal: MatSnackBarHorizontalPosition = 'center'): void {
 
     this.snackBar.open(message, '', {
-      duration: 3000,
+      duration: 2000,
       horizontalPosition: horizontal,
       verticalPosition: vertical,
       panelClass: [color],
