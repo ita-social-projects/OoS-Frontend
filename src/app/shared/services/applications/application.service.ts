@@ -26,7 +26,8 @@ export class ApplicationService {
  * @param id
  */
   getApplicationsByUserId(id: string): Observable<Application[]> {
-    return this.http.get<Application[]>(`/Application/Get/${id}`);
+    const url = `/Application/Get/${id}`;
+    return this.http.get<Application[]>(this.dataUrlmock);
   }
 
   /**

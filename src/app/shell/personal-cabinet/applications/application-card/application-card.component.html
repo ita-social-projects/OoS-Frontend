@@ -1,7 +1,7 @@
 <mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
   [ngClass]="(application.status === applicationStatus.approved) ? 'card-new' : ''">
   <mat-card-content *ngIf="child" class="card-block" fxLayout='row' fxLayoutAlign='start center'>
-    <div class="avatar">
+    <div class="avatar" *ngIf="userRole === Role.provider">
       <img mat-card-avatar #img src="assets/icons/child-{{child.gender}}.png" alt="child-photo"
         (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">
     </div>
@@ -26,16 +26,16 @@
       <p> {{ applicationStatusUkr[application.status] }}</p>
     </div>
   </mat-card-content>
-  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='start center'>
+  <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='center center'>
     <button class="btn-email">
       <img src="assets/icons/email.png" alt="email">
     </button>
-    <button class="btn btn-approve" mat-raised-button color="primary"
+    <button *ngIf="userRole === Role.provider" class="btn btn-approve" mat-raised-button color="primary"
       [ngClass]="(application.status === applicationStatus.pending )?  '' : 'btn-hidden'"
       (click)="onApprove(application)">
       <p class="btn-text">Прийняти</p>
     </button>
-    <button class="btn btn-deny" mat-raised-button color="warn"
+    <button class="btn btn-deny-{{userRole}}" mat-raised-button color="warn"
       [ngClass]="(application.status === applicationStatus.rejected) ? 'btn-hidden' : ''"
       (click)="onReject(application)">
       <p class="btn-text">Відхилити</p>
