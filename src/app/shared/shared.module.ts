@@ -90,7 +90,8 @@ import { MapComponent } from '../shared/map/map.component';
     PersonCardComponent,
     WorkingHoursFormControlComponent,
     ChildCardComponent,
-    MapComponent
+    MapComponent,
+    ApplicationChildFilterPipe
   ]
 })
 export class SharedModule { }

@@ -36,10 +36,16 @@
 <ng-template #isParent>
   <div *ngIf="(children$| async)">
     <div *ngFor="let child of (children$| async)">
-      <h5> {{ child.firtName }} {{ child.lastName }} {{ child.middleName }}</h5>
-      <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
-      </ng-container>
+
+      <div *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication"></div>
+
+      <ng-template #ChildApplication>
+        <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
+        </ng-container>
+      </ng-template>
+
     </div>
   </div>
 
