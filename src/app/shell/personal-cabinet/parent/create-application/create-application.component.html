@@ -1,6 +1,25 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper application">
-    <h3 class="wrapper-title step-border" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
+    <h3 class="wrapper-title" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
+    <mat-card>
+      <div class="card" fxLayout="row" fxLayoutAlign="space-between space-between">
+        <img class="card-image" src="assets/icons/workshop.png" alt="workshop-photo">
+        <mat-card-content class="card-content" fxLayout="column" fxLayoutAlign="start">
+          <h5> {{workshop?.title}} </h5>
+          <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop?.ownership }} </p>
+          <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop?.minAge }} - {{ workshop?.maxAge
+            }}
+            років
+          </p>
+          <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop?.price ? workshop?.price :
+            "Безкоштовно" }} </p>
+          <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop?.address.city }}, {{
+            workshop?.address.street }}, {{
+            workshop?.address.buildingNumber }} </p>
+        </mat-card-content>
+      </div>
+    </mat-card>
+    <div class="card-border"></div>
     <mat-tab-group class="nav">
       <mat-tab label="Подати дані про дитину">
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
@@ -15,18 +34,17 @@
             </mat-select>
           </mat-form-field>
 
-          <a [routerLink]="'/create-child'"><button class="btn-add" mat-button>
-              <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
-            </button></a>
+          <a [routerLink]="'/create-child'" class="btn-add-child">
+            <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
+          </a>
 
           <div *ngIf="selectedChild">
             <p class="step-label">Дані про дитину</p>
             <app-person-card [card]="selectedChild" [cardType]="CardType.child"></app-person-card>
           </div>
 
-
           <p class="step-label">Дані про батьків</p>
-          <app-person-card *ngIf="(parent$ | async)" [card]="(parent$ | async)" [cardType]="CardType.parent">
+          <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
           </app-person-card>
 
         </form>
@@ -40,7 +58,7 @@
 
       </mat-tab>
     </mat-tab-group>
-    <div fxLayout="column" fxLayoutAlign="center center">
+    <div class="card-discription">
       Додаючи дані про дитину я погоджуюсь з <a class="link">Правилами користування </a>
       та надаю згоду на обробку персональних даних
     </div>

@@ -9,20 +9,21 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class CreateContactsFormComponent implements OnInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
+  isSameAddressControl: FormControl = new FormControl(false);
 
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
-
-    this.ActualAddressFormGroup = this.formBuilder.group({
+    this.LegalAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
       buildingNumber: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
       district: new FormControl('', Validators.required),
       region: new FormControl('', Validators.required)
     });
-    this.LegalAddressFormGroup = this.formBuilder.group({
+
+    this.ActualAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
       buildingNumber: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
@@ -34,5 +35,8 @@ export class CreateContactsFormComponent implements OnInit {
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
+    this.isSameAddressControl.valueChanges.subscribe(val => {
+      (val) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
+    })
   }
 }

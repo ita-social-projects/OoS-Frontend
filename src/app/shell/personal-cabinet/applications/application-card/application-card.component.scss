@@ -3,7 +3,7 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 1.8em;
   margin: 1rem 0;
   &-block{
     flex: 1;
@@ -11,7 +11,11 @@
   &-new{
     border-left: 5px solid #3849F9;
   }
+  &-text{
+  margin: 0.5rem;
+  }
 }
+
 .avatar {
   background-size: cover;
   padding: 1rem;

@@ -3,8 +3,74 @@
 @import "src/app/shared/styles/validation-form.scss";
 
 .step{
-  margin:2rem;
+  margin:2rem 0;
+}
+.card-border {
+  margin:2rem 0;
+  height: 1px;
+  background-color: #E3E3E3;
+}
+.nav {
+  width: 410px;
+  margin: 0 auto;
 }
 .application{
-  padding: 0 5rem;
+  padding: 0 4rem;
+
+  h3 {
+    margin-bottom: 30px;
+  }
+  .mat-icon-add{
+    opacity: 1;
+    font-size: 16px;
+    vertical-align: sub;
+  }
+}
+.btn-add-child{
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #3849F9;
+
+&:hover{
+  opacity: 0.8;
+ }
+}
+.card-discription {
+  width: 450px;
+  min-height: 36px;
+  margin: 0 auto;
+  text-align: center;
+}
+:host ::ng-deep .mat-tab-label-active {
+  background: rgba(56, 73, 249, 0.07);
+  box-sizing: border-box;
+  color: #3849F9;
+}
+::ng-deep .mat-tab-label{
+  height: 30px;
+}
+::ng-deep .mat-tab-header {
+    border: 1px solid #EBEBEB;
+    border-radius: 20px;
+}
+::ng-deep .mat-ink-bar{
+  display: none;
+}
+::ng-deep .mat-flat-button{
+  padding: 0;
+}
+.card{
+  width: 100%;
+
+  &-image{
+    width: 70%;
+    padding: 0;
+  }
+
+  &-content{
+     width: 30%;
+    padding: 1rem 0;
+  }
+
 }

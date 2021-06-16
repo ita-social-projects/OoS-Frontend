@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationCardComponent } from './application-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -12,7 +13,8 @@ describe('ApplicationCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatCardModule,
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientModule
       ],
       declarations: [ApplicationCardComponent]
     })
