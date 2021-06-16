@@ -14,7 +14,8 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
-          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{child.dateOfBirth}} </p>
+          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{child.dateOfBirth | date:
+            'shortDate'}} </p>
           <h5 class="card_text"><img src="assets/icons/group.png" alt="name"> Гуртки </h5>
           <div *ngIf="workshops?.length then WorkshopsList; else NoWorkshops "></div>
         </mat-card-content>
