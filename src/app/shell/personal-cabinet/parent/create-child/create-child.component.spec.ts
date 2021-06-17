@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;
@@ -18,7 +19,8 @@ describe('CreateChildComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatIconModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatDialogModule
       ],
       declarations: [
         CreateChildComponent,

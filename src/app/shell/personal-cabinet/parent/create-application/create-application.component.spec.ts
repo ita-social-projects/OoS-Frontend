@@ -13,6 +13,7 @@ import { Component, Input } from '@angular/core';
 import { cardType } from 'src/app/shared/enum/role';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -33,7 +34,8 @@ describe('CreateApplicationComponent', () => {
         BrowserAnimationsModule,
         MatTabsModule,
         RouterTestingModule,
-        MatCardModule
+        MatCardModule,
+        MatDialogModule
       ],
       declarations: [
         CreateApplicationComponent,

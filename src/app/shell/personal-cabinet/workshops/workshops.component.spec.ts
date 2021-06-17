@@ -5,6 +5,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from '../../../shared/models/user.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
@@ -16,6 +17,7 @@ describe('WorkshopsComponent', () => {
       imports: [
         RouterTestingModule,
         NgxsModule.forRoot([]),
+        MatDialogModule
       ],
       declarations: [
         WorkshopsComponent,
