@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
+import { LatLng } from 'leaflet';
 
 @Injectable({
   providedIn: 'root'
@@ -26,13 +27,15 @@ export class GeolocationService {
   }
   /**
    * gets user location
+   * renders Kyiv map by default in case user denies Geolocation
    *
    * @param callback - Function, which recieves 1 argument of type Coords
+   * 
    */
-  handleUserLocation(callback: (Coords) => void): void {
+  handleUserLocation(callback: (Coords?) => void): void {
     navigator.geolocation.getCurrentPosition(
       (data) => this.navigatorRecievedLocation(data, callback),
-      this.navigatorRecievedError
+      (error) => { this.navigatorRecievedError(error); callback(); }
     );
   }
   /**

@@ -39,7 +39,8 @@ export class MapComponent implements AfterViewInit {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.geolocationService.handleUserLocation((coords: Coords) => {
+    // set Kyiv geodata in coords by default in case user denies Geolocation
+    this.geolocationService.handleUserLocation((coords: Coords = {lat: 50.462235, lng: 30.545131}) => {
       if (coords) {
         this.userCoords = [coords.lat, coords.lng];
         this.map = Layer.map('map').setView(this.userCoords, 11);
@@ -48,7 +49,7 @@ export class MapComponent implements AfterViewInit {
             '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
         this.map.on('click', e => this.setMapLocation(e.latlng));
-      }
+      } 
     });
     if (this.address) {
       this.address.valueChanges.subscribe((dt: Address) => dt.street && dt.city && this.setFormLocation(dt));
