@@ -9,10 +9,10 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 export class ContactsComponent implements OnInit {
 
   @Input() workshop: Workshop;
+  map = 'https://www.google.com/maps/place/';
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }
