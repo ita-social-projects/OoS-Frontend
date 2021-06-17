@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Address } from 'src/app/shared/models/address.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -17,7 +19,7 @@ export class CreateWorkshopComponent implements OnInit {
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, private matDialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -26,10 +28,19 @@ export class CreateWorkshopComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    const address = new Address(this.AddressFormGroup.value);
-    const teachers = this.createTeachers(this.TeacherFormArray);
-    const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
-    this.store.dispatch(new CreateWorkshop(workshop))
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: 'Створити гурток?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const address = new Address(this.AddressFormGroup.value);
+        const teachers = this.createTeachers(this.TeacherFormArray);
+        const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
+        this.store.dispatch(new CreateWorkshop(workshop));
+      }
+    });
   }
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup

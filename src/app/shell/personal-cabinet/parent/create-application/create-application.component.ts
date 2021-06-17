@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { cardType } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
@@ -37,7 +39,8 @@ export class CreateApplicationComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetChildren());
@@ -50,7 +53,16 @@ export class CreateApplicationComponent implements OnInit {
     * This method create new Application
     */
   onSubmit(): void {
-    const application = new Application(this.selectedChild.id, this.workshop.id);
-    this.store.dispatch(new CreateApplication(application));
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: 'Подати заявку?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const application = new Application(this.selectedChild.id, this.workshop.id);
+        this.store.dispatch(new CreateApplication(application));
+      }
+    });
   }
 }

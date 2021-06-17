@@ -9,7 +9,8 @@
   <div class="wrapper-card">
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='start start' fxLayoutGap="20px grid">
-        <app-child-card class="cards" *ngFor="let child of children$ | async  " [child]="child">
+        <app-child-card class="cards" *ngFor="let child of children$ | async  " [child]="child"
+          (deleteChild)="onDelete($event)" (editChild)="onEdit($event)">
         </app-child-card>
       </div>
     </ng-container>
