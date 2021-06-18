@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
@@ -28,7 +26,7 @@ export class CreateChildComponent implements OnInit {
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
 
-  constructor(private store: Store, private fb: FormBuilder, private matDialog: MatDialog) { }
+  constructor(private store: Store, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
@@ -82,19 +80,9 @@ export class CreateChildComponent implements OnInit {
   * This method create CHild and distpatch CreateChild action
   */
   onSubmit() {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
-      data: 'Додати дітей?'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        for (let i = 0; i < this.ChildrenFormArray.controls.length; i++) {
-          let child: Child = new Child(this.ChildrenFormArray.controls[i].value);
-          this.store.dispatch(new CreateChildren(child))
-        }
-      }
-    });
-
+    for (let i = 0; i < this.ChildrenFormArray.controls.length; i++) {
+      let child: Child = new Child(this.ChildrenFormArray.controls[i].value);
+      this.store.dispatch(new CreateChildren(child))
+    }
   }
 }

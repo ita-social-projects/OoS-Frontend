@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
-import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;
@@ -18,7 +17,6 @@ describe('CreateWorkshopComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
-        MatDialogModule
       ],
       declarations: [
         CreateWorkshopComponent,

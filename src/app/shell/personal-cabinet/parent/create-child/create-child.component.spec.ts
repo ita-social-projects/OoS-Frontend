@@ -20,7 +20,6 @@ describe('CreateChildComponent', () => {
         ReactiveFormsModule,
         MatIconModule,
         RouterTestingModule,
-        MatDialogModule
       ],
       declarations: [
         CreateChildComponent,
