@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Teacher } from 'src/app/shared/models/teacher.model';
 
 @Component({
   selector: 'app-create-teacher',
@@ -9,19 +10,26 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CreateTeacherComponent implements OnInit {
 
   TeacherFormArray = new FormArray([]);
+  @Input() teachers: Teacher[];
   @Output() passTeacherFormArray = new EventEmitter();
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.onAddTeacher();
+    if (this.teachers?.length) {
+      for (let i = 0; i < this.teachers.length; i++) {
+        this.onAddTeacher(this.teachers[i]);
+      }
+    } else {
+      this.onAddTeacher();
+    }
   }
 
   /**
   * This method add new FormGroup to teh FormArray
   */
-  onAddTeacher(): void {
-    this.TeacherFormArray.push(this.onCreateNewForm());
+  onAddTeacher(teacher?: Teacher): void {
+    this.TeacherFormArray.push(this.onCreateNewForm(teacher));
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -29,7 +37,7 @@ export class CreateTeacherComponent implements OnInit {
   * This method create new FormGroup
   * @param FormArray array
   */
-  onCreateNewForm(): FormGroup {
+  onCreateNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
       img: new FormControl(''),
       lastName: new FormControl(''),
@@ -38,6 +46,9 @@ export class CreateTeacherComponent implements OnInit {
       birthDay: new FormControl(''),
       description: new FormControl(''),
     });
+    if (teacher) {
+      teacherFormGroup.patchValue(teacher);
+    }
     return teacherFormGroup;
   }
 

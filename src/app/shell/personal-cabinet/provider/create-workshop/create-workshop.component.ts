@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { ActivatedRoute } from '@angular/router';
+import { Select, Selector, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { CreateWorkshop } from 'src/app/shared/store/user.actions';
+import { CreateWorkshop, GetWorkshopsById, UpdateWorkshop } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -17,9 +20,20 @@ export class CreateWorkshopComponent implements OnInit {
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor(private store: Store) { }
+  editMode: boolean = false;
+
+  @Select(UserState.selectedWorkshop)
+  workshop$: Observable<Workshop>;
+
+
+  constructor(private store: Store, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const workshopId = +this.route.snapshot.paramMap.get('id');
+    if (workshopId) {
+      this.editMode = true;
+      this.store.dispatch(new GetWorkshopsById(workshopId));
+    }
   }
 
   /**
@@ -29,7 +43,7 @@ export class CreateWorkshopComponent implements OnInit {
     const address = new Address(this.AddressFormGroup.value);
     const teachers = this.createTeachers(this.TeacherFormArray);
     const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
-    this.store.dispatch(new CreateWorkshop(workshop));
+    (this.editMode) ? this.store.dispatch(new UpdateWorkshop(workshop)) : this.store.dispatch(new CreateWorkshop(workshop));
   }
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup

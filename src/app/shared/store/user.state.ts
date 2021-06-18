@@ -40,7 +40,11 @@ import {
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
-  GetApplications
+  GetApplications,
+  UpdateWorkshop,
+  OnUpdateWorkshopFail,
+  OnUpdateWorkshopSuccess,
+  ClearSelectedItems
 } from './user.actions';
 
 export interface UserStateModel {
@@ -317,6 +321,39 @@ export class UserState {
       this.showSnackBar('Дитину видалено!', 'primary', 'top');
     }, 1000);
     dispatch(new GetChildren());
+  }
+
+  @Action(UpdateWorkshop)
+  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop) {
+    return this.userWorkshopService
+      .updateWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateWorkshopFail(error))))
+      );
+  }
+
+  @Action(OnUpdateWorkshopFail)
+  onUpdateWorkshopFail({ }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
+    console.log('Workshop updating is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
+  @Action(OnUpdateWorkshopSuccess)
+  onUpdateWorkshopSuccess({ patchState }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
+    console.log('Workshop is updated', payload);
+    setTimeout(() => {
+      this.showSnackBar('Гурток оновлено!', 'primary', 'top');
+      this.router.navigate(['/personal-cabinet/workshops']);
+    }, 1000);
+  }
+
+  @Action(ClearSelectedItems)
+  clearSelectedItems({ patchState }: StateContext<UserStateModel>, { }: ClearSelectedItems): void {
+    patchState({ selectedWorkshop: undefined });
   }
 
   showSnackBar(

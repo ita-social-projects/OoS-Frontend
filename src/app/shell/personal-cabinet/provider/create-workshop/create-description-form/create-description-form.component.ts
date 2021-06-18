@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
@@ -10,6 +10,7 @@ import { KeyWordsService } from '../../../../../shared/services/key-words/key-wo
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
 import { KeyWord } from '../../../../../shared/models/keyWord,model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -20,6 +21,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   DescriptionFormGroup: FormGroup;
   CategoriesFormGroup: FormGroup;
 
+  @Input() workshop: Workshop;
   @Output() passDescriptionFormGroup = new EventEmitter();
 
   keyWordsCtrl = new FormControl();
@@ -78,6 +80,9 @@ export class CreateDescriptionFormComponent implements OnInit {
       });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
+    if (this.workshop) {
+      this.DescriptionFormGroup.patchValue(this.workshop);
+    }
   }
 
   /**
@@ -118,7 +123,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         .startsWith(value.toLowerCase())
       )
       .map((word: KeyWord) => word);
-      return filteredKeyWords;
+    return filteredKeyWords;
   }
 
   ngOnDestroy() {

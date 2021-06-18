@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 @Component({
   selector: 'app-create-about-form',
@@ -31,6 +32,7 @@ export class CreateAboutFormComponent implements OnInit {
 
 
   AboutFormGroup: FormGroup;
+  @Input() workshop: Workshop;
   @Output() PassAboutFormGroup = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
@@ -56,6 +58,9 @@ export class CreateAboutFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
+    if (this.workshop) {
+      this.AboutFormGroup.patchValue(this.workshop);
+    }
     this.provider$.subscribe(provider => this.provider = provider);
     this.AboutFormGroup.get('providerTitle').setValue(this.provider?.fullTitle);
     this.useProviderInfo();

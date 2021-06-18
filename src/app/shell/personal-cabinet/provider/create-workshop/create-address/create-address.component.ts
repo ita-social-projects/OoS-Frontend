@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Address } from 'src/app/shared/models/address.model';
 
 @Component({
   selector: 'app-create-address',
@@ -10,6 +11,7 @@ export class CreateAddressComponent implements OnInit {
 
   AddressFormGroup: FormGroup;
 
+  @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
 
 
@@ -25,6 +27,9 @@ export class CreateAddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.passAddressFormGroup.emit(this.AddressFormGroup);
+    if (this.address) {
+      this.AddressFormGroup.patchValue(this.address);
+    }
   }
 
   onReceiveAddressFromMap(form): void {

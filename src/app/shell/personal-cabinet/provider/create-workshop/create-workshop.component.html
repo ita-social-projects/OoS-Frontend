@@ -1,14 +1,15 @@
-<div fxLayout='row' fxLayoutAlign='center center'>
+<div fxLayout='row' fxLayoutAlign='center center' *ngIf="(editMode && (workshop$ | async)) || !editMode">
   <div class="wrapper">
     <div fxLayout='column' fxLayoutAlign='center center'>
-      <h3 class="wrapper-title">НОВИЙ ГУРТОК</h3>
-      <p class="wrapper-text">Додайте новий гурток, секцію або групу для навчання</p>
+      <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК'}}</h3>
+      <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
     </div>
 
     <mat-horizontal-stepper>
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
-        <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)"></app-create-about-form>
+        <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="(workshop$ | async)">
+        </app-create-about-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button mat-raised-button class="btn btn-cancel"><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
@@ -18,7 +19,8 @@
 
       <mat-step [stepControl]="DescriptionFormGroup">
         <ng-template matStepLabel>Опис</ng-template>
-        <app-create-description-form (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
+        <app-create-description-form (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)"
+          [workshop]="(workshop$ | async)">
         </app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
@@ -30,7 +32,9 @@
 
       <mat-step [stepControl]="AddressFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
-        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)"></app-create-address>
+        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)"
+          [address]="(workshop$ | async)?.address">
+        </app-create-address>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a
@@ -41,7 +45,9 @@
 
       <mat-step>
         <ng-template matStepLabel>Викладачі</ng-template>
-        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)"></app-create-teacher>
+        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)"
+          [teachers]="(workshop$ | async)?.teachers">
+        </app-create-teacher>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a
