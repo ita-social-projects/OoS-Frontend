@@ -36,17 +36,4 @@ export class ParentInfoComponent implements OnInit {
     });
   }
 
-  onEdit(childId: number): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
-      data: 'Відредагувати дитину?'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("I edit!", childId)
-      }
-    });
-  }
-
 }

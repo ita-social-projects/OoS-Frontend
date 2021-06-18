@@ -11,8 +11,7 @@
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
         <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-          [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"
-          (editWorkshop)="onEdit($event)">
+          [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)">
         </app-workshop-card>
       </div>
     </ng-container>

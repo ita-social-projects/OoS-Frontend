@@ -45,17 +45,4 @@ export class WorkshopsComponent implements OnInit {
       }
     });
   }
-
-  onEdit(workshopId: number): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
-      data: 'Відредагувати гурток?'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log("I edit!", workshopId)
-      }
-    });
-  }
 }

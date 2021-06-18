@@ -21,7 +21,6 @@ export class WorkshopCardComponent implements OnInit {
   @Input() isMainPage: boolean;
 
   @Output() deleteWorkshop = new EventEmitter<number>();
-  @Output() editWorkshop = new EventEmitter<number>();
 
   status: string = 'approved'; //temporary
 
@@ -38,7 +37,7 @@ export class WorkshopCardComponent implements OnInit {
   }
 
   onEdit(): void {
-    this.editWorkshop.emit(this.workshop.id);
+    console.log("I edit it")
   }
 
   onChangeStatus(status): void {

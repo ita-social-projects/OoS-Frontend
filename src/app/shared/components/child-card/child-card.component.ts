@@ -14,7 +14,6 @@ export class ChildCardComponent implements OnInit {
   @Input() child: Child;
 
   @Output() deleteChild = new EventEmitter<number>();
-  @Output() editChild = new EventEmitter<number>();
 
   workshops: Workshop[];
 
@@ -27,6 +26,6 @@ export class ChildCardComponent implements OnInit {
   }
 
   onEdit(): void {
-    this.editChild.emit(this.child.id);
+    console.log("I edit it!")
   }
 }
