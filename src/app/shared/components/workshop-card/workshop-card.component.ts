@@ -28,16 +28,16 @@ export class WorkshopCardComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  onEdit(): void {
+    console.log("I edit it")
+  }
+
   onDelete(): void {
     this.deleteWorkshop.emit(this.workshop.id);
   }
 
   onLike(): void {
     console.log("I like it")
-  }
-
-  onEdit(): void {
-    console.log("I edit it")
   }
 
   onChangeStatus(status): void {
