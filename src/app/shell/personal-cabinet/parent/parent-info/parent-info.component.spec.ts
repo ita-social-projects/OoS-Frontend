@@ -4,6 +4,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component, Input } from '@angular/core';
 import { Child } from '../../../../shared/models/child.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ParentInfoComponent', () => {
   let component: ParentInfoComponent;
@@ -13,7 +14,8 @@ describe('ParentInfoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         NgxsModule.forRoot([]),
-        RouterTestingModule
+        RouterTestingModule,
+        MatDialogModule
       ],
       declarations: [
         ParentInfoComponent,

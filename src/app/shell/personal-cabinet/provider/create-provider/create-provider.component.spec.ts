@@ -5,8 +5,7 @@ import { Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MockStore } from '../../../../shared/mocks/mock-services';
+import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
 

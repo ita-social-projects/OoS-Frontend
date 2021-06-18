@@ -30,6 +30,7 @@ import { WorkingHoursFormControlComponent } from './components/working-hours-for
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from '../shared/map/map.component';
+import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { MapComponent } from '../shared/map/map.component';
     WorkingHoursFormControlComponent,
     ChildCardComponent,
     ApplicationChildFilterPipe,
-    MapComponent
+    MapComponent,
+    ConfirmationModalWindowComponent
   ],
   imports: [
     MaterialModule,
@@ -91,7 +93,8 @@ import { MapComponent } from '../shared/map/map.component';
     WorkingHoursFormControlComponent,
     ChildCardComponent,
     MapComponent,
-    ApplicationChildFilterPipe
+    ApplicationChildFilterPipe,
+    ConfirmationModalWindowComponent
   ]
 })
 export class SharedModule { }
