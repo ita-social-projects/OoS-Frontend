@@ -1,9 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -31,7 +29,7 @@ export class CreateProviderComponent implements OnInit {
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
 
-  constructor(private store: Store, private matDialog: MatDialog) {
+  constructor(private store: Store) {
   }
 
   ngOnInit() {
@@ -45,21 +43,12 @@ export class CreateProviderComponent implements OnInit {
    * This method dispatch store action to create a Provider with Form Groups values
    */
   onSubmit() {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
-      data: 'Створити організацію?'
-    });
+    const legalAddress = new Address(this.ActualAddressFormGroup.value);
+    const actulaAdress = new Address(this.LegalAddressFormGroup.value);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const legalAddress = new Address(this.ActualAddressFormGroup.value);
-        const actulaAdress = new Address(this.LegalAddressFormGroup.value);
+    const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
 
-        const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
-
-        this.store.dispatch(new CreateProvider(provider));
-      }
-    });
+    this.store.dispatch(new CreateProvider(provider));
   }
 
   /**
