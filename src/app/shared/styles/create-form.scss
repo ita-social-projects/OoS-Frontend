@@ -1,6 +1,6 @@
 .step{
   &-radio{
-    margin: 1rem;
+    margin:1rem;
   }
   &-label{
     font-weight: 600;
@@ -12,12 +12,12 @@
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
     border-radius: 21px;
-    padding: 0.5rem;
+    padding:0.5rem;
 
     &-date{
-    width: 30%;
+    width:30%;
     padding: 0.2rem;
-    margin: 0;
+    margin:0;
     }
 
     &-age{
@@ -26,7 +26,7 @@
     }
   }
   &-text{
-    font-family: Open Sans;
+    font-family:Open Sans;
     font-weight: 700;
     color: #AAAAAA;
     padding: 5px;
@@ -37,16 +37,6 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding: 1.2rem;
-  }
-  &-label-combined {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 5px;
-  }
-  &-characters-count {
-    font-family: Open Sans;
-    color: #AAAAAA;
   }
   &-border{
     border-bottom: 2px solid gray;
@@ -84,7 +74,7 @@ button:focus {
   margin: 1rem;
 
   &:hover{
-    cursor: pointer;
+    cursor:pointer;
     opacity: 0.5;
   }
 }
@@ -94,10 +84,10 @@ button:focus {
   display: none;
 }
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
-  padding-bottom: 0;
+  padding-bottom:0;
 }
 ::ng-deep .mat-form-field-infix {
-  border: none;
+  border:none;
 }
 ::ng-deep .mat-button-toggle-group{
   border-radius: 20px !important;
@@ -143,4 +133,31 @@ button:focus {
   font-weight: normal;
   font-size: 13px;
   color: #333333;
+  
 } 
+ ::ng-deep .mat-option-text{
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  color: #000000;
+ }
+ ::ng-deep .mat-select-panel-wrap{
+   position: relative;
+   top:45px;
+   max-height: 300px;
+   :nth-child(1) {
+   background-color : white;
+  }
+  :nth-child(n) {
+    .mat-option-text{
+      padding-left: 10px;
+      &:hover{
+        background-color : #F8F8F8;
+      }
+    }
+    .mat-option{
+    padding: 0;
+    }
+ }
+}
