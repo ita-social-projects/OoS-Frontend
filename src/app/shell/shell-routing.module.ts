@@ -35,7 +35,7 @@ const routes: Routes = [
     path: 'create-workshop/:id', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
-    //canDeactivate: [CreateGuard]
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-provider', component: CreateProviderComponent,
@@ -47,13 +47,13 @@ const routes: Routes = [
     path: 'create-child', component: CreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard],
-    // canDeactivate: [CreateGuard] TODO: needs to be link only only leaving action without submitting the from
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-application/:id', component: CreateApplicationComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard],
-    //canDeactivate: [CreateGuard]
+    canDeactivate: [CreateGuard]
   },
 ];
 
