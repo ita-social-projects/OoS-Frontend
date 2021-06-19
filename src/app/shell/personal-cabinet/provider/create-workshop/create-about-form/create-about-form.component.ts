@@ -1,5 +1,5 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -16,20 +16,18 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 })
 export class CreateAboutFormComponent implements OnInit {
 
+  readonly workshopType = WorkshopType;
+  readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly constants: typeof Constants = Constants;
   workingHours: SelectedWorkingHours[] = [];
 
-  readonly workshopType = WorkshopType;
-  readonly workshopTypeUkr = WorkshopTypeUkr;
-
-  radioBtn = new FormControl(false);
+  priceRadioBtn = new FormControl(false);
   priceCtrl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
   useProviderInfoCtrl = new FormControl(false);
-
 
   AboutFormGroup: FormGroup;
   @Input() workshop: Workshop;
@@ -54,17 +52,15 @@ export class CreateAboutFormComponent implements OnInit {
       providerTitle: new FormControl(''),
     });
     this.onPriceCtrlInit();
+    this.useProviderInfo();
+    this.addWorkHour();
   }
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    if (this.workshop) {
-      this.AboutFormGroup.patchValue(this.workshop);
-    }
     this.provider$.subscribe(provider => this.provider = provider);
     this.AboutFormGroup.get('providerTitle').setValue(this.provider?.fullTitle);
-    this.useProviderInfo();
-    this.addWorkHour();
+    this.workshop && this.activateEditMode();
   }
 
   /**
@@ -73,7 +69,7 @@ export class CreateAboutFormComponent implements OnInit {
   onPriceCtrlInit(): void {
     this.priceCtrl.valueChanges.subscribe(val =>
       val ? this.AboutFormGroup.get('price').setValue(val) : this.AboutFormGroup.get('price').setValue(0))
-    this.radioBtn.valueChanges.subscribe(val => {
+    this.priceRadioBtn.valueChanges.subscribe(val => {
       val ? this.priceCtrl.enable() : this.priceCtrl.disable();
     });
   }
@@ -119,5 +115,16 @@ export class CreateAboutFormComponent implements OnInit {
         this.AboutFormGroup.get('instagram').setValue('');
       }
     })
+  }
+
+  /**
+  * This method fills inputs with information of edited workshop
+  */
+  activateEditMode(): void {
+    this.AboutFormGroup.patchValue(this.workshop);
+    if (this.workshop.price) {
+      this.priceRadioBtn.setValue(true);
+      this.priceCtrl.setValue(this.workshop.price);
+    }
   }
 }

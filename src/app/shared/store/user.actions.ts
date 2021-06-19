@@ -116,7 +116,3 @@ export class OnUpdateWorkshopSuccess {
   static readonly type = '[user] update Workshop success';
   constructor(public payload) { }
 }
-export class ClearSelectedItems {
-  static readonly type = '[user] clear selected items';
-  constructor() { }
-}

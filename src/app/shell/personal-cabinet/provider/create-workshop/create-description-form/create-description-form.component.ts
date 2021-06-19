@@ -3,14 +3,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
 import { KeyWord } from '../../../../../shared/models/keyWord,model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Constants } from 'src/app/shared/constants/constants';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -18,18 +18,19 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 })
 export class CreateDescriptionFormComponent implements OnInit {
 
-  DescriptionFormGroup: FormGroup;
-  CategoriesFormGroup: FormGroup;
+  readonly constants: typeof Constants = Constants;
+
 
   @Input() workshop: Workshop;
   @Output() passDescriptionFormGroup = new EventEmitter();
+
+  DescriptionFormGroup: FormGroup;
 
   keyWordsCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER];
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  descriptionMaxLength = 500;
 
   @Select(MetaDataState.filteredkeyWords)
   filteredkeyWords$: Observable<KeyWordsService[]>;
@@ -41,7 +42,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     private keyWordsService: KeyWordsService) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: new FormControl('', [Validators.maxLength(this.descriptionMaxLength), Validators.required]),
+      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       withDisabilityOptions: new FormControl(false),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
@@ -80,6 +81,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
+
     if (this.workshop) {
       this.DescriptionFormGroup.patchValue(this.workshop);
     }
@@ -141,15 +143,13 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
-    this.CategoriesFormGroup = categoriesForm;
-
-    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val =>
+    categoriesForm.get('category').valueChanges.subscribe(val =>
       (val) && this.DescriptionFormGroup.get('category').setValue(val)
     )
-    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val =>
+    categoriesForm.get('subcategory').valueChanges.subscribe(val =>
       (val) && this.DescriptionFormGroup.get('subcategory').setValue(val)
     )
-    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val =>
+    categoriesForm.get('subsubcategory').valueChanges.subscribe(val =>
       (val) && this.DescriptionFormGroup.get('subsubcategory').setValue(val)
     )
   }

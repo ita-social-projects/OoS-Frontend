@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Selector, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { Address } from 'src/app/shared/models/address.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { CreateWorkshop, GetWorkshopsById, UpdateWorkshop } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
+import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -21,18 +20,19 @@ export class CreateWorkshopComponent implements OnInit {
   TeacherFormArray: FormArray;
 
   editMode: boolean = false;
-
-  @Select(UserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+  workshop: Workshop;
 
 
-  constructor(private store: Store, private route: ActivatedRoute) { }
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private userWorkshopService: UserWorkshopService) { }
 
   ngOnInit() {
     const workshopId = +this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
-      this.store.dispatch(new GetWorkshopsById(workshopId));
+      this.userWorkshopService.getWorkshopsById(workshopId).subscribe(workshop => this.workshop = workshop);
     }
   }
 
@@ -45,6 +45,7 @@ export class CreateWorkshopComponent implements OnInit {
     const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
     (this.editMode) ? this.store.dispatch(new UpdateWorkshop(workshop)) : this.store.dispatch(new CreateWorkshop(workshop));
   }
+
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
@@ -52,6 +53,7 @@ export class CreateWorkshopComponent implements OnInit {
   onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
   }
+
   /**
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
    * @param FormArray array
@@ -59,6 +61,7 @@ export class CreateWorkshopComponent implements OnInit {
   onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
   }
+
   /**
    * This method receives  a from from create-about child component and assigns to the About FormGroup
    * @param FormGroup form
@@ -66,6 +69,7 @@ export class CreateWorkshopComponent implements OnInit {
   onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
   }
+
   /**
    * This method receives a from create-description child component and assigns to the Description FormGroup
    * @param FormGroup form
@@ -73,6 +77,7 @@ export class CreateWorkshopComponent implements OnInit {
   onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
   }
+
   /**
    * This method create array of teachers
    * @param FormArray formArray

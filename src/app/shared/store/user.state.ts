@@ -44,7 +44,6 @@ import {
   UpdateWorkshop,
   OnUpdateWorkshopFail,
   OnUpdateWorkshopSuccess,
-  ClearSelectedItems
 } from './user.actions';
 
 export interface UserStateModel {
@@ -349,11 +348,6 @@ export class UserState {
       this.showSnackBar('Гурток оновлено!', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/workshops']);
     }, 1000);
-  }
-
-  @Action(ClearSelectedItems)
-  clearSelectedItems({ patchState }: StateContext<UserStateModel>, { }: ClearSelectedItems): void {
-    patchState({ selectedWorkshop: undefined });
   }
 
   showSnackBar(

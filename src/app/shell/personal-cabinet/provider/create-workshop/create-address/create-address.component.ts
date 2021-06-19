@@ -9,15 +9,13 @@ import { Address } from 'src/app/shared/models/address.model';
 })
 export class CreateAddressComponent implements OnInit {
 
-  AddressFormGroup: FormGroup;
-
   @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
 
+  AddressFormGroup: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder) {
-
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
       buildingNumber: new FormControl('', Validators.required),
@@ -27,9 +25,7 @@ export class CreateAddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.passAddressFormGroup.emit(this.AddressFormGroup);
-    if (this.address) {
-      this.AddressFormGroup.patchValue(this.address);
-    }
+    (this.address) && this.AddressFormGroup.patchValue(this.address);
   }
 
   onReceiveAddressFromMap(form): void {

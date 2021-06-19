@@ -4,13 +4,14 @@
   </app-image-form-control>
 
   <div class="step-label-combined">
-    <label class="step-label" > Опис <span class="step-required">*</span></label>
-    <label class="step-characters-count"> {{DescriptionFormGroup.get('description').value.length}}/{{this.descriptionMaxLength}}</label>
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{DescriptionFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
   </div>
 
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум {{this.descriptionMaxLength}} символів" formControlName="description"
-      maxlength="{{this.descriptionMaxLength}}" required></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}" required></textarea>
   </mat-form-field>
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field>
@@ -23,7 +24,8 @@
   </mat-form-field>
 
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
-  <app-category-select (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)"></app-category-select>
+  <app-category-select [workshop]="workshop" (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)">
+  </app-category-select>
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу
@@ -31,7 +33,7 @@
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
           {{keyWord.keyWord}}
-          <mat-icon class="mat-icon"  matChipRemove><img class="img-close" src="./../../../../../../assets/icons/close.png"></mat-icon>
+          <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
         </mat-chip>
         <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes">

@@ -4,7 +4,6 @@ import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } f
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ClearSelectedItems } from 'src/app/shared/store/user.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +23,6 @@ export class CreateGuard implements CanDeactivate<unknown> {
       width: '330px',
       data: 'Залишити сторінку?'
     });
-    return dialogRef.afterClosed().pipe(result => {
-      (result) && this.store.dispatch(new ClearSelectedItems());
-      return result;
-    });
+    return dialogRef.afterClosed().pipe(result => result);
   }
 }

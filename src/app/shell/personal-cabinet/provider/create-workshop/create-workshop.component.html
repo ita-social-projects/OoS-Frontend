@@ -1,4 +1,4 @@
-<div fxLayout='row' fxLayoutAlign='center center' *ngIf="(editMode && (workshop$ | async)) || !editMode">
+<div fxLayout='row' fxLayoutAlign='center center' *ngIf="(editMode && workshop) || !editMode">
   <div class="wrapper">
     <div fxLayout='column' fxLayoutAlign='center center'>
       <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК'}}</h3>
@@ -8,7 +8,7 @@
     <mat-horizontal-stepper>
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>Про гурток</ng-template>
-        <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="(workshop$ | async)">
+        <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop">
         </app-create-about-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button mat-raised-button class="btn btn-cancel"><a
@@ -20,7 +20,7 @@
       <mat-step [stepControl]="DescriptionFormGroup">
         <ng-template matStepLabel>Опис</ng-template>
         <app-create-description-form (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)"
-          [workshop]="(workshop$ | async)">
+          [workshop]="workshop">
         </app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
@@ -32,8 +32,7 @@
 
       <mat-step [stepControl]="AddressFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
-        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)"
-          [address]="(workshop$ | async)?.address">
+        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)" [address]="workshop?.address">
         </app-create-address>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
@@ -45,8 +44,7 @@
 
       <mat-step>
         <ng-template matStepLabel>Викладачі</ng-template>
-        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)"
-          [teachers]="(workshop$ | async)?.teachers">
+        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers">
         </app-create-teacher>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
