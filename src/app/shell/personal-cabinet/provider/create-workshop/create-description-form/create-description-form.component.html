@@ -23,7 +23,7 @@
   </mat-form-field>
 
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
-  <div id="category-select-wrap"><app-category-select (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)"></app-category-select></div>
+  <app-category-select (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)"></app-category-select>
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу
