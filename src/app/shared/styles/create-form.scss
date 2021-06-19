@@ -145,15 +145,6 @@ button:focus {
   color: #333333;
   
 } 
-
-// .category-select-wrap > ::ng-deep .mat-option-text{
-//   font-family: Open Sans;
-//   font-style: normal;
-//   font-weight: normal;
-//   font-size: 13px;
-//   color: #000000;
-//  }
- 
 ::ng-deep #mat-select-6-panel {
   .mat-option-text{
     font-family: Open Sans;
@@ -172,8 +163,7 @@ button:focus {
     }
    position: relative;
    top:45px;
-   max-height: 300px;
-    
+   max-height: 300px;   
  }
 
 
