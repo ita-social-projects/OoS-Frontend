@@ -145,29 +145,35 @@ button:focus {
   color: #333333;
   
 } 
- ::ng-deep .mat-option-text{
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 13px;
-  color: #000000;
- }
- ::ng-deep .mat-select-panel-wrap{
+
+// .category-select-wrap > ::ng-deep .mat-option-text{
+//   font-family: Open Sans;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 13px;
+//   color: #000000;
+//  }
+ 
+::ng-deep #mat-select-6-panel {
+  .mat-option-text{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #000000;
+    background-color : white;
+    padding-left: 10px;
+    &:hover{
+      background-color : #F8F8F8;
+    }
+   }
+   .mat-option{
+    padding: 0;
+    }
    position: relative;
    top:45px;
    max-height: 300px;
-   :nth-child(1) {
-   background-color : white;
-  }
-  :nth-child(n) {
-    .mat-option-text{
-      padding-left: 10px;
-      &:hover{
-        background-color : #F8F8F8;
-      }
-    }
-    .mat-option{
-    padding: 0;
-    }
+    
  }
-}
+
+
