@@ -19,9 +19,7 @@ export class TeacherFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);

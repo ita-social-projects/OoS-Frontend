@@ -13,7 +13,6 @@ import {
   GetSubcategories,
   GetSubsubcategories,
   KeyWordsList,
-  ClearCategories,
   GetSocialGroup
 } from './meta-data.actions';
 
@@ -98,13 +97,6 @@ export class MetaDataState {
   @Action(KeyWordsList)
   keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
     patchState({ filteredkeyWords: payload });
-  }
-
-  @Action(ClearCategories)
-  clerCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories): void {
-    patchState({ categories: undefined });
-    patchState({ subcategories: undefined });
-    patchState({ subsubcategories: undefined });
   }
 
   @Action(GetSocialGroup)

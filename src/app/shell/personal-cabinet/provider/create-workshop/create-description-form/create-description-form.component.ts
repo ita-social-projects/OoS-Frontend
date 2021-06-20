@@ -43,7 +43,6 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
-      withDisabilityOptions: new FormControl(false),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
@@ -51,13 +50,6 @@ export class CreateDescriptionFormComponent implements OnInit {
       subcategory: new FormControl(''),
       subsubcategory: new FormControl(''),
     });
-    this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.subscribe((val) => {
-      if (val) {
-        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(true);
-      } else {
-        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(false);
-      }
-    })
   }
 
   ngOnInit(): void {

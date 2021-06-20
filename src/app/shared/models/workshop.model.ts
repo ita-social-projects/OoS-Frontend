@@ -54,7 +54,7 @@ export class Workshop {
     this.website = about.website;
     this.facebook = about.facebook;
     this.instagram = about.instagram;
-    this.withDisabilityOptions = description.withDisabilityOptions;
+    this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     this.category = description.category;
     this.categoryId = description.category.id;

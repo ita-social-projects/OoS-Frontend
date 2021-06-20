@@ -23,7 +23,6 @@ export class CategorySelectComponent implements OnInit {
   subsubcategories$: Observable<Subsubcategory[]>;
 
   categories: Category[] = [];
-  defaultCategory: Category;
   subcategories: Subcategory[] = [];
   subsubcategories: Subsubcategory[] = [];
 
