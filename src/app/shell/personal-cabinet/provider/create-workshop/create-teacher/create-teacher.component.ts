@@ -43,7 +43,7 @@ export class CreateTeacherComponent implements OnInit {
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
-      birthDay: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       description: new FormControl(''),
     });
     if (teacher) {
