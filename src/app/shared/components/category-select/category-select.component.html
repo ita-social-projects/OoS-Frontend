@@ -1,6 +1,6 @@
 <form [formGroup]="CategoryFormGroup">
-  <mat-select class="step-input" formControlName="category" (selectionChange)="onSelectCategory($event.value) "
-    placeholder="Категорія">
+  <mat-select class="step-input" formControlName="category" (click)="onFirstClick()"
+    (selectionChange)="onSelectCategory($event.value) " placeholder="Категорія">
     <mat-option *ngFor="let category of categories" [value]="category">
       {{ category.title }}
     </mat-option>

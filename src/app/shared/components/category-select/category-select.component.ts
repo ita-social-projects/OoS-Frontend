@@ -43,15 +43,17 @@ export class CategorySelectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetCategories());
-    this.categories$.subscribe(cat => {
-      this.categories = cat;
-      this.subcategories = [];
-      this.subsubcategories = [];
-    });
     this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
-
     (this.workshop) && this.activateEditMode();
+  }
+
+  onFirstClick(): void {
+    if (this.categories.length < 2) {
+      this.store.dispatch(new GetCategories());
+      this.categories$.subscribe(cat => {
+        this.categories = cat;
+      });
+    }
   }
 
   onSelectCategory(category: Category): void {
@@ -72,6 +74,7 @@ export class CategorySelectComponent implements OnInit {
       .getCategoryById(this.workshop.categoryId)
       .subscribe(cat => {
         this.CategoryFormGroup.get('category').setValue(cat);
+        this.categories.push(cat);
       });
 
     this.categoriesService
