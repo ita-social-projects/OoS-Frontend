@@ -22,7 +22,7 @@ export class Child {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    this.dateOfBirth = info.date;
+    this.dateOfBirth = info.dateOfBirth;
     this.gender = info.gender;
     this.socialGroupId = info.socialGroupId;
     this.parentId = 1; // TODO: add parentID when getProfile will be fixed
