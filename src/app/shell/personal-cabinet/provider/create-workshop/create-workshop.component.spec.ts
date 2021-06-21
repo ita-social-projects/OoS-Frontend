@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { Address } from 'src/app/shared/models/address.model';
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;
   let fixture: ComponentFixture<CreateWorkshopComponent>;
@@ -63,7 +65,7 @@ class MockCreateDescriptionFormComponent {
   template: ''
 })
 class MockCreateAddressComponent {
-  @Input() workshop: Workshop;
+  @Input() address: Address;
 }
 
 @Component({
@@ -71,5 +73,5 @@ class MockCreateAddressComponent {
   template: ''
 })
 class MockCreateTeacherComponent {
-  @Input() workshop: Workshop;
+  @Input() teacher: Teacher;
 }
