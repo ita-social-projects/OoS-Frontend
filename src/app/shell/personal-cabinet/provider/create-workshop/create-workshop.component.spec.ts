@@ -73,5 +73,5 @@ class MockCreateAddressComponent {
   template: ''
 })
 class MockCreateTeacherComponent {
-  @Input() teacher: Teacher;
+  @Input() teachers: Teacher[];
 }
