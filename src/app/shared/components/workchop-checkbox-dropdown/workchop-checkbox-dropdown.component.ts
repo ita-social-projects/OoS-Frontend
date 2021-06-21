@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -14,6 +14,7 @@ import { AppState } from '../../store/app.state';
 export class WorkchopCheckboxDropdownComponent implements OnInit {
 
   workshopControl = new FormControl();
+  @Output() workshopCheck = new EventEmitter<Workshop[]>();
 
   @Select(AppState.allWorkshops)
   workshops$: Observable<Workshop[]>;
@@ -25,6 +26,8 @@ export class WorkchopCheckboxDropdownComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshops());
     this.workshops$.subscribe(workshops => this.workshops = workshops);
+
+    this.workshopControl.valueChanges.subscribe(workshop => this.workshopCheck.emit(workshop))
   }
 
 }

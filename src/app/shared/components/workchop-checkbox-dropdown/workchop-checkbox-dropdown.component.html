@@ -3,8 +3,8 @@
     <mat-select-trigger>
       <span>
         {{workshopControl.value?.length}}
-        {{(workshopControl.value?.length < 2) ? 'гурток вибраний' : 'гуртка вибрано' }} </span>
+        {{(workshopControl.value?.length < 2) ? 'гурток вибраний' : 'гуртків вибрано' }} </span>
     </mat-select-trigger>
-    <mat-option *ngFor="let workshop of workshops" [value]="workshop.id">{{ workshop.title }}</mat-option>
+    <mat-option *ngFor="let workshop of workshops" [value]="workshop">{{ workshop.title }}</mat-option>
   </mat-select>
 </mat-form-field>

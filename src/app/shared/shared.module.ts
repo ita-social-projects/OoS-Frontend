@@ -32,6 +32,7 @@ import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pip
 import { MapComponent } from '../shared/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { WorkchopCheckboxDropdownComponent } from './components/workchop-checkbox-dropdown/workchop-checkbox-dropdown.component';
+import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { WorkchopCheckboxDropdownComponent } from './components/workchop-checkbo
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
-    WorkchopCheckboxDropdownComponent
+    WorkchopCheckboxDropdownComponent,
+    WorkshopFilterPipe
   ],
   imports: [
     MaterialModule,
@@ -97,7 +99,8 @@ import { WorkchopCheckboxDropdownComponent } from './components/workchop-checkbo
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
-    WorkchopCheckboxDropdownComponent
+    WorkchopCheckboxDropdownComponent,
+    WorkshopFilterPipe
   ]
 })
 export class SharedModule { }
