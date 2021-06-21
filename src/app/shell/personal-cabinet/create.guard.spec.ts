@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxsModule } from '@ngxs/store';
 
 import { CreateGuard } from './create.guard';
 
@@ -8,7 +9,10 @@ describe('CreateGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule]
+      imports: [
+        MatDialogModule,
+        NgxsModule.forRoot([]),
+      ]
     });
     guard = TestBed.inject(CreateGuard);
   });

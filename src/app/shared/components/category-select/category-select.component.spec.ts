@@ -5,6 +5,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { MockStore } from '../../mocks/mock-services';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
@@ -17,7 +18,8 @@ describe('CategorySelectComponent', () => {
         ReactiveFormsModule,
         MatSelectModule,
         MatOptionModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
+        HttpClientTestingModule
       ],
       declarations: [CategorySelectComponent],
     })
