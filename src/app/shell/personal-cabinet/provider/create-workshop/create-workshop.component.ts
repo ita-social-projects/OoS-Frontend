@@ -34,7 +34,6 @@ export class CreateWorkshopComponent implements OnInit {
       this.editMode = true;
       this.userWorkshopService.getWorkshopsById(workshopId).subscribe(workshop => this.workshop = workshop);
     }
-    console.log(this.workshop)
   }
 
   /**
