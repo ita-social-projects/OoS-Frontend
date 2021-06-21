@@ -7,7 +7,6 @@ import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/app
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
-import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplications, GetApplicationsByUserId, GetChildren } from 'src/app/shared/store/user.actions';

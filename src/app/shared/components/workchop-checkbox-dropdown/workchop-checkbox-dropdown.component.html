@@ -1,0 +1,10 @@
+<mat-form-field *ngIf="workshops?.length">
+  <mat-select [formControl]="workshopControl" multiple class="step-input dropdown">
+    <mat-select-trigger>
+      <span>
+        {{workshopControl.value?.length}}
+        {{(workshopControl.value?.length < 2) ? 'гурток вибраний' : 'гуртка вибрано' }} </span>
+    </mat-select-trigger>
+    <mat-option *ngFor="let workshop of workshops" [value]="workshop.id">{{ workshop.title }}</mat-option>
+  </mat-select>
+</mat-form-field>
