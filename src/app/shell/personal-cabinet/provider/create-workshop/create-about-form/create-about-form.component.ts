@@ -50,6 +50,7 @@ export class CreateAboutFormComponent implements OnInit {
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
       providerTitle: new FormControl(''),
+      providerId: new FormControl(''),
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
@@ -60,6 +61,8 @@ export class CreateAboutFormComponent implements OnInit {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider$.subscribe(provider => this.provider = provider);
     this.AboutFormGroup.get('providerTitle').setValue(this.provider?.fullTitle);
+    this.AboutFormGroup.get('providerId').setValue(this.provider?.id);
+
     this.workshop && this.activateEditMode();
   }
 
