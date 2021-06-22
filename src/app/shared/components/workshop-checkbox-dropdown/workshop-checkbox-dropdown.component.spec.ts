@@ -3,11 +3,11 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxsModule } from '@ngxs/store';
-import { WorkchopCheckboxDropdownComponent } from './workchop-checkbox-dropdown.component';
+import { WorkshopCheckboxDropdownComponent } from './workshop-checkbox-dropdown.component';
 
-describe('WorkchopCheckboxDropdownComponent', () => {
-  let component: WorkchopCheckboxDropdownComponent;
-  let fixture: ComponentFixture<WorkchopCheckboxDropdownComponent>;
+describe('WorkshopCheckboxDropdownComponent', () => {
+  let component: WorkshopCheckboxDropdownComponent;
+  let fixture: ComponentFixture<WorkshopCheckboxDropdownComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,13 +17,13 @@ describe('WorkchopCheckboxDropdownComponent', () => {
         MatSelectModule,
         MatOptionModule
       ],
-      declarations: [WorkchopCheckboxDropdownComponent]
+      declarations: [WorkshopCheckboxDropdownComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkchopCheckboxDropdownComponent);
+    fixture = TestBed.createComponent(WorkshopCheckboxDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

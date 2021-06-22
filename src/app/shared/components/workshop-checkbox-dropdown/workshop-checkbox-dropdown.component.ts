@@ -8,10 +8,10 @@ import { AppState } from '../../store/app.state';
 
 @Component({
   selector: 'app-workchop-checkbox-dropdown',
-  templateUrl: './workchop-checkbox-dropdown.component.html',
-  styleUrls: ['./workchop-checkbox-dropdown.component.scss']
+  templateUrl: './workshop-checkbox-dropdown.component.html',
+  styleUrls: ['./workshop-checkbox-dropdown.component.scss']
 })
-export class WorkchopCheckboxDropdownComponent implements OnInit {
+export class WorkshopCheckboxDropdownComponent implements OnInit {
 
   workshopControl = new FormControl();
   allWorkshops = 'Усі гуртки';

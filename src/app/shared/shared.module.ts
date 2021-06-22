@@ -31,7 +31,7 @@ import { ChildCardComponent } from './components/child-card/child-card.component
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from '../shared/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
-import { WorkchopCheckboxDropdownComponent } from './components/workchop-checkbox-dropdown/workchop-checkbox-dropdown.component';
+import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 
 @NgModule({
@@ -61,7 +61,7 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
-    WorkchopCheckboxDropdownComponent,
+    WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe
   ],
   imports: [
@@ -99,7 +99,7 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
-    WorkchopCheckboxDropdownComponent,
+    WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe
   ]
 })
