@@ -18,7 +18,8 @@ export class Child {
     childId: number;
   }
 
-  constructor(info) {
+  constructor(info, id?) {
+    this.id = id;
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;

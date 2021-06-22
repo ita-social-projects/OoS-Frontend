@@ -103,7 +103,7 @@ export class CreateChildComponent implements OnInit {
   */
   onSubmit() {
     if (this.editMode) {
-      let child: Child = new Child(this.ChildrenFormArray.controls[0].value);
+      let child: Child = new Child(this.ChildrenFormArray.controls[0].value, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
       for (let i = 0; i < this.ChildrenFormArray.controls.length; i++) {
