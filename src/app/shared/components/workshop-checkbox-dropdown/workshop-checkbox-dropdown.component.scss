@@ -25,6 +25,10 @@ mat-form-field mat-label {
   color:#333333;
 }
 
+::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label{
+  display: none;
+}
+
 ::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
   background:  #3849F9;
 }
