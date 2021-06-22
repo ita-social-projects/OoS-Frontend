@@ -4,7 +4,7 @@
       <mat-tab-group class="nav">
         <mat-tab label="Інформація про заклад">
           <div class="card">
-            <a [routerLink]="" class="edit-icon"><button mat-button style="color:#3849F9;">
+            <a [routerLink]="['/workshop-details', 'info']" class="edit-icon"><button mat-button style="color:#3849F9;">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
               </button></a>
             <h3>Форма властності</h3>
@@ -31,7 +31,8 @@
         </mat-tab>
         <mat-tab label="Контакти">
           <div class="card">
-            <a [routerLink]="" class="edit-icon"><button mat-button style="color:#3849F9;">
+            <a [routerLink]="['/workshop-details', 'contacts']" class="edit-icon"><button mat-button
+                style="color:#3849F9;">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
               </button></a>
             <h3>Юридична адреса</h3>
@@ -59,7 +60,7 @@
           </div>
         </mat-tab>
         <mat-tab label="Фото">
-          <a [routerLink]="" class="edit-icon"><button mat-button style="color:#3849F9;">
+          <a [routerLink]="['/workshop-details', 'photo']" class="edit-icon"><button mat-button style="color:#3849F9;">
               <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
             </button></a>
           <h5>Опис</h5>
