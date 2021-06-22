@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,7 +16,9 @@ describe('WorkshopCheckboxDropdownComponent', () => {
         NgxsModule.forRoot([]),
         MatFormFieldModule,
         MatSelectModule,
-        MatOptionModule
+        MatOptionModule,
+        ReactiveFormsModule,
+        FormsModule
       ],
       declarations: [WorkshopCheckboxDropdownComponent]
     })
