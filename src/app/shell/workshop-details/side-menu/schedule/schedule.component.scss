@@ -1,8 +1,8 @@
-.container{
+.container {
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
-  margin:20px;
+  margin: 20px;
   width: 300px;
   max-height: 272px;
 }
@@ -30,4 +30,11 @@
   border: 1px solid #E0E0E0;
   box-sizing: border-box;
   border-radius: 5px;
+}
+
+@media(max-width: 750px) {
+  .container {
+    width: 100%;
+    margin: 0 20px 20px 20px;
+  }
 }
