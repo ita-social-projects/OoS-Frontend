@@ -14,20 +14,14 @@ import { AppState } from '../../store/app.state';
 export class WorkchopCheckboxDropdownComponent implements OnInit {
 
   workshopControl = new FormControl();
+  allWorkshops = 'Усі гуртки';
+  @Input() workshops: Workshop[];
   @Output() workshopCheck = new EventEmitter<Workshop[]>();
-
-  @Select(AppState.allWorkshops)
-  workshops$: Observable<Workshop[]>;
-  workshops: Workshop[];
-
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetWorkshops());
-    this.workshops$.subscribe(workshops => this.workshops = workshops);
-
-    this.workshopControl.valueChanges.subscribe(workshop => this.workshopCheck.emit(workshop))
+    this.workshopControl.valueChanges.subscribe(workshop => this.workshopCheck.emit(workshop));
   }
 
 }

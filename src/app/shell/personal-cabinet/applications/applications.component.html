@@ -53,7 +53,8 @@
 
 <ng-template #Applications let-applications>
   <div *ngIf="(user.role === Role.provider)" fxLayout='row' fxLayoutAlign='end'>
-    <app-workchop-checkbox-dropdown (workshopCheck)="workshopList = $event"></app-workchop-checkbox-dropdown>
+    <app-workchop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="workshopList = $event">
+    </app-workchop-checkbox-dropdown>
   </div>
   <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="user.role"
     (approved)="onApprove($event)" (rejected)="onReject($event)" (infoShow)="onInfoShow($event)"

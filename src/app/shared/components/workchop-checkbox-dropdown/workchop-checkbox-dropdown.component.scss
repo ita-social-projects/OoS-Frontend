@@ -1,6 +1,18 @@
-@import "src/app/shared/styles/create-form.scss";
 .dropdown{
   width: 200px;
   background: #FFFFFF;
   font-weight: 500;
+  border: 1px solid #E3E3E3;
+  box-sizing: border-box;
+  border-radius: 21px;
+  padding: 0.5rem;
+  color:#333333;
+}
+
+.label{
+  padding: 1rem;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
 }

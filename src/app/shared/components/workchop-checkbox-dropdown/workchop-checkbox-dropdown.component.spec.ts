@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
 import { WorkchopCheckboxDropdownComponent } from './workchop-checkbox-dropdown.component';
 
 describe('WorkchopCheckboxDropdownComponent', () => {
@@ -8,9 +8,12 @@ describe('WorkchopCheckboxDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkchopCheckboxDropdownComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [WorkchopCheckboxDropdownComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

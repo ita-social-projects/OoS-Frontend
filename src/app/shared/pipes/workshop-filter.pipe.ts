@@ -7,9 +7,9 @@ import { Workshop } from '../models/workshop.model';
 })
 export class WorkshopFilterPipe implements PipeTransform {
 
-  transform(applications: Application[], workshops: Workshop[]): unknown {
+  transform(applications: Application[], workshops: Workshop[]): Application[] {
     if (workshops?.length) {
-      return applications.filter(application => workshops.filter(workshop => application.workshopId === workshop.id))
+      return applications.filter(application => workshops.find(workshop => workshop.id === application.workshopId));
     }
     return applications;
   }
