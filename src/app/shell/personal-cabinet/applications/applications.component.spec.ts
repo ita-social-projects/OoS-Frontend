@@ -60,7 +60,7 @@ class MockApplicationCardComponent {
 }
 
 @Component({
-  selector: 'app-workchop-checkbox-dropdown',
+  selector: 'app-workshop-checkbox-dropdown',
   template: ''
 })
 class MockWorkshopChekcboxDropdownComponent {
