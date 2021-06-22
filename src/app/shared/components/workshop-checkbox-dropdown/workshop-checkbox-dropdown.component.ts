@@ -14,7 +14,6 @@ import { AppState } from '../../store/app.state';
 export class WorkshopCheckboxDropdownComponent implements OnInit {
 
   workshopControl = new FormControl();
-  allWorkshops = 'Усі гуртки';
   @Input() workshops: Workshop[];
   @Output() workshopCheck = new EventEmitter<Workshop[]>();
 
