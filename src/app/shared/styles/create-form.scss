@@ -143,27 +143,6 @@ button:focus {
   font-weight: normal;
   font-size: 13px;
   color: #333333;
-  
 } 
-::ng-deep #mat-select-6-panel {
-  .mat-option-text{
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    color: #000000;
-    background-color : white;
-    padding-left: 10px;
-    &:hover{
-      background-color : #F8F8F8;
-    }
-   }
-   .mat-option{
-    padding: 0;
-    }
-   position: relative;
-   top:45px;
-   max-height: 300px;   
- }
 
 
