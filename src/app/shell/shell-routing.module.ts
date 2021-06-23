@@ -35,7 +35,7 @@ const routes: Routes = [
     path: 'create-workshop', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard]
+    //canDeactivate: [CreateGuard] TODO: this needs improvement
   },
   {
     path: 'create-provider', component: CreateProviderComponent,
@@ -47,7 +47,7 @@ const routes: Routes = [
     path: 'create-child/:id', component: CreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard],
-    canDeactivate: [CreateGuard]
+    //canDeactivate: [CreateGuard] TODO: this needs improvement
   },
   {
     path: 'create-application/:id', component: CreateApplicationComponent,

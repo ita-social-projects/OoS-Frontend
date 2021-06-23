@@ -38,7 +38,7 @@ export class CreateChildComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.socialGroups$.subscribe(socialGroups => {
+    this.socialGroups$.subscribe((socialGroups: SocialGroup[]) => {
       if (socialGroups.length === 0) {
         this.store.dispatch(new GetSocialGroup())
       }
@@ -47,7 +47,7 @@ export class CreateChildComponent implements OnInit {
     const childId = +this.route.snapshot.paramMap.get('id');
     if (childId) {
       this.editMode = true;
-      this.childrenService.getChildById(childId).subscribe(child => {
+      this.childrenService.getChildById(childId).subscribe((child: Child) => {
         this.child = child;
         this.ChildrenFormArray.push(this.newForm(this.child));
       })
@@ -72,8 +72,8 @@ export class CreateChildComponent implements OnInit {
       socialGroupId: new FormControl(''),
     });
 
-    childFormGroup.get('socialGroupId').valueChanges.subscribe(val =>
-      (!val) && childFormGroup.get('socialGroupId').setValue(null)
+    childFormGroup.get('socialGroupId').valueChanges.subscribe((id: number) =>
+      (!id) && childFormGroup.get('socialGroupId').setValue(null)
     );
 
     if (this.editMode) {
@@ -94,22 +94,22 @@ export class CreateChildComponent implements OnInit {
   * This method delete FormGroup from teh FormArray by index
   * @param index
   */
-  onDeleteForm(index): void {
+  onDeleteForm(index: number): void {
     this.ChildrenFormArray.removeAt(index)
   }
 
   /**
-  * This method create CHild and distpatch CreateChild action
+  * This method create or edit Child and distpatch CreateChild action
   */
   onSubmit() {
     if (this.editMode) {
       let child: Child = new Child(this.ChildrenFormArray.controls[0].value, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
-      for (let i = 0; i < this.ChildrenFormArray.controls.length; i++) {
-        let child: Child = new Child(this.ChildrenFormArray.controls[i].value);
-        this.store.dispatch(new CreateChildren(child))
-      }
+      this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
+        let child: Child = new Child(form.value);
+        this.store.dispatch(new CreateChildren(child));
+      })
     }
 
   }
