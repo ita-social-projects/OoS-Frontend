@@ -1,21 +1,21 @@
 <form [formGroup]="CategoryFormGroup">
-  <mat-select class="step-input" formControlName="category" (click)="onFirstClick()"
-    (selectionChange)="onSelectCategory($event.value) " placeholder="Категорія">
-    <mat-option *ngFor="let category of categories" [value]="category">
+  <mat-select class="step-input" formControlName="category" (selectionChange)="onSelectCategory($event.value) "
+    placeholder="Категорія">
+    <mat-option *ngFor="let category of categories" [value]="category.id">
       {{ category.title }}
     </mat-option>
   </mat-select>
 
   <mat-select *ngIf="subcategories.length" class="step-input" formControlName="subcategory"
     (selectionChange)="onSelectSubcategory($event.value)" placeholder="Сабкатегорія">
-    <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory">
+    <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.id">
       {{ subcategory.title }}
     </mat-option>
   </mat-select>
 
   <mat-select *ngIf="subsubcategories.length" class="step-input" formControlName="subsubcategory"
     placeholder="СабСабкатегорія:))">
-    <mat-option *ngFor="let subsubcategory of subsubcategories" [value]="subsubcategory">
+    <mat-option *ngFor="let subsubcategory of subsubcategories" [value]="subsubcategory.id">
       {{ subsubcategory.title }}
     </mat-option>
   </mat-select>

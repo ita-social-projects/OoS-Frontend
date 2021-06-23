@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
-import { Teacher } from 'src/app/shared/models/teacher.model';
 
 @Component({
   selector: 'app-teacher-form',
@@ -16,8 +15,7 @@ export class TeacherFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
-  }
+  constructor() { }
 
   ngOnInit(): void { }
 

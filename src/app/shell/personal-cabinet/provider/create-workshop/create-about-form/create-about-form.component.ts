@@ -21,13 +21,13 @@ export class CreateAboutFormComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   workingHours: SelectedWorkingHours[] = [];
 
-  priceRadioBtn = new FormControl(false);
-  priceCtrl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
+  priceRadioBtn: FormControl = new FormControl(false);
+  priceCtrl: FormControl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
-  useProviderInfoCtrl = new FormControl(false);
+  useProviderInfoCtrl: FormControl = new FormControl(false);
 
   AboutFormGroup: FormGroup;
   @Input() workshop: Workshop;
@@ -59,7 +59,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.provider$.subscribe(provider => this.provider = provider);
+    this.provider$.subscribe((provider: Provider) => this.provider = provider);
     this.AboutFormGroup.get('providerTitle').setValue(this.provider?.fullTitle);
     this.AboutFormGroup.get('providerId').setValue(this.provider?.id);
 
@@ -70,10 +70,12 @@ export class CreateAboutFormComponent implements OnInit {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   onPriceCtrlInit(): void {
-    this.priceCtrl.valueChanges.subscribe(val =>
-      val ? this.AboutFormGroup.get('price').setValue(val) : this.AboutFormGroup.get('price').setValue(0))
-    this.priceRadioBtn.valueChanges.subscribe(val => {
-      val ? this.priceCtrl.enable() : this.priceCtrl.disable();
+    this.priceCtrl.valueChanges.subscribe((price: number) => {
+      price ? this.AboutFormGroup.get('price').setValue(price) : this.AboutFormGroup.get('price').setValue(0)
+    });
+
+    this.priceRadioBtn.valueChanges.subscribe((isPrice: boolean) => {
+      isPrice ? this.priceCtrl.enable() : this.priceCtrl.disable();
     });
   }
 
@@ -102,8 +104,8 @@ export class CreateAboutFormComponent implements OnInit {
   * This method fills in the info from provider to the workshop if check box is checked
   */
   useProviderInfo(): void {
-    this.useProviderInfoCtrl.valueChanges.subscribe((val) => {
-      if (val) {
+    this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
+      if (useProviderInfo) {
         this.AboutFormGroup.get('email').setValue(this.provider.email);
         this.AboutFormGroup.get('title').setValue(this.provider.fullTitle);
         this.AboutFormGroup.get('phone').setValue(this.provider.phoneNumber);

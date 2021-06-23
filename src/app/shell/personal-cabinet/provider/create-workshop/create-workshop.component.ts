@@ -89,10 +89,10 @@ export class CreateWorkshopComponent implements OnInit {
    */
   createTeachers(formArray: FormArray): Teacher[] {
     const teachers: Teacher[] = [];
-    for (let i = 0; i < formArray.controls.length; i++) {
-      let teacher: Teacher = new Teacher(formArray.controls[i].value);
-      teachers.push(teacher)
-    }
+    formArray.controls.forEach((form: FormGroup) => {
+      let teacher: Teacher = new Teacher(form.value);
+      teachers.push(teacher);
+    })
     return teachers;
   }
 }

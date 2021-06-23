@@ -58,12 +58,12 @@ export class Workshop {
     this.instagram = about.instagram;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
-    this.categoryId = description.category.id;
+    this.categoryId = description.categoryid;
     this.providerId = about.providerId;
     this.type = about.type;
     this.providerTitle = about.providerTitle;
     this.isPerMonth = about.isPerMonth;
-    this.subcategoryId = description.subcategory.id;
-    this.subsubcategoryId = description.subsubcategory.id;
+    this.subcategoryId = description.subcategoryid;
+    this.subsubcategoryId = description.subsubcategoryid;
   }
 }

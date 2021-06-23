@@ -9,7 +9,7 @@ import { Teacher } from 'src/app/shared/models/teacher.model';
 })
 export class CreateTeacherComponent implements OnInit {
 
-  TeacherFormArray = new FormArray([]);
+  TeacherFormArray: FormArray = new FormArray([]);
   @Input() teachers: Teacher[];
   @Output() passTeacherFormArray = new EventEmitter();
 
@@ -17,9 +17,7 @@ export class CreateTeacherComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.teachers?.length) {
-      for (let i = 0; i < this.teachers.length; i++) {
-        this.onAddTeacher(this.teachers[i]);
-      }
+      this.teachers.forEach((teahcer: Teacher) => this.onAddTeacher(teahcer));
     } else {
       this.onAddTeacher();
     }
@@ -56,7 +54,7 @@ export class CreateTeacherComponent implements OnInit {
   * This method delete form from teh FormArray by index
   * @param index
   */
-  onDeleteForm(index): void {
+  onDeleteForm(index: number): void {
     this.TeacherFormArray.removeAt(index)
   }
 }

@@ -26,7 +26,7 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   DescriptionFormGroup: FormGroup;
 
-  keyWordsCtrl = new FormControl();
+  keyWordsCtrl: FormControl = new FormControl();
   separatorKeysCodes: number[] = [ENTER];
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
@@ -46,9 +46,9 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
-      category: new FormControl(''),
-      subcategory: new FormControl(''),
-      subsubcategory: new FormControl(''),
+      categoryId: new FormControl(''),
+      subcategoryId: new FormControl(''),
+      subsubcategoryId: new FormControl(''),
     });
   }
 
@@ -135,16 +135,15 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
-    categoriesForm.get('category').valueChanges.subscribe(val =>
-      (val) && this.DescriptionFormGroup.get('category').setValue(val)
+    categoriesForm.get('categoryId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('categoryId').setValue(id)
     )
-    categoriesForm.get('subcategory').valueChanges.subscribe(val => {
-      (val) && this.DescriptionFormGroup.get('subcategory').setValue(val)
-      console.log(val)
+    categoriesForm.get('subcategoryId').valueChanges.subscribe((id: number) => {
+      this.DescriptionFormGroup.get('subcategoryId').setValue(id)
     }
     )
-    categoriesForm.get('subsubcategory').valueChanges.subscribe(val =>
-      (val) && this.DescriptionFormGroup.get('subsubcategory').setValue(val)
+    categoriesForm.get('subsubcategoryId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
     )
   }
 }
