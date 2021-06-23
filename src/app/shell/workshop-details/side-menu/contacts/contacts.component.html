@@ -4,7 +4,12 @@
     {{workshop.address.street}}, {{workshop.address.buildingNumber}}
   </p>
 
-  <p class="map">Показати на карті</p>
+  <a
+    href="{{address + workshop.address.street+ ',+' + workshop.address.buildingNumber + ',+' + workshop.address.city}}"
+    target="_blank"
+    class="map">
+    Показати на карті
+  </a>
 
   <p class="contact-info">
     <img src="assets/icons/access_time.png" alt="access_time">розклад/години роботи?
