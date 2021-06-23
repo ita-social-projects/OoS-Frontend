@@ -20,9 +20,10 @@
       <app-ordering></app-ordering>
       <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView"
         (change)="SetCurrentView(group.value)">
-        <mat-button-toggle value="show-data" aria-label="show-data" fxLayout="row" fxLayoutAlign="center center"> Список
+        <mat-button-toggle class = "list"value="show-data" aria-label="show-data" fxLayout="row" fxLayoutAlign="center center"><mat-icon>view_module</mat-icon>
+          Список
         </mat-button-toggle>
-        <mat-button-toggle value="map" aria-label="map" fxLayout="row" fxLayoutAlign="center center"> Карта
+        <mat-button-toggle class="map" value="map" aria-label="map" fxLayout="row" fxLayoutAlign="center center"><mat-icon> map</mat-icon> Карта
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>

@@ -29,7 +29,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // margin-top: 30px;
   width: 50%;
   height: 34px;
   gap: 15px;
@@ -45,21 +44,21 @@
   }
 }
 .mat-button-toggle-group {
-  height: 30px;
+  height: 2rem;
   align-items: center;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   font-weight: bold;
-    .mat-button-toggle{
-      height: 100%;
-      min-width:100px;
-      .mat-button-toggle-checked{
-      background: rgba(56, 73, 249, 0.07);
-      border: 1px solid #3849F9;
-      box-sizing: border-box;
-      border-radius: 20px;
-    }
+     .mat-button-toggle{
+       height: 100%;
+       min-width:100px;
+       .mat-button-toggle-checked{
+       background: rgba(56, 73, 249, 0.07);
+       border: 1px solid #3849F9;
+       box-sizing: border-box;
+       border-radius: 20px;
+     }
   }
 }
 
@@ -79,4 +78,36 @@
 .mat-drawer-side {
   border: none;
   color: #444444;
+}
+
+::ng-deep .mat-button-toggle-button :active{
+  color: #3849F9;
+}
+::ng-deep .mat-button-toggle-checked {
+  color: #3849F9 !important;
+  background-color: #E3E3E3;
+}
+
+::ng-deep .mat-button-toggle-group[_ngcontent-mxx-c204]{
+  height: 2rem !important;
+}
+
+::ng-deep .mat-button-toggle-checked{
+  background-color: #E3E3E3;
+  color: #2979FF;
+  border: 2px solid #3849F9;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+} 
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+  padding: 0px !important;
+}
+
+.map ::ng-deep .mat-button-toggle-checked :checked {
+  background-color: #E3E3E3;
+  color: #2979FF;
+  border: 1px solid  #3849F9 ;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
