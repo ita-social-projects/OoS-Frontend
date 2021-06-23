@@ -24,8 +24,4 @@ export class ChildCardComponent implements OnInit {
   onDelete(): void {
     this.deleteChild.emit(this.child.id);
   }
-
-  onEdit(): void {
-    console.log("I edit it!")
-  }
 }
