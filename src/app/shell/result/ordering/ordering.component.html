@@ -1,9 +1,9 @@
 <mat-form-field>
-  <mat-select class="select" [(ngModel)]="selectedOption" [(value)]="selectedOption"
+  <mat-select disableOptionCentering panelClass="dropdown-panel" class="select" [(ngModel)]="selectedOption" [(value)]="selectedOption"
     (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
-    <mat-option value={{constants.RATING_ASC}}> &#8593; Рейтинг</mat-option>
-    <mat-option value={{constants.RATING_DESC}}> &#8595; Рейтинг</mat-option>
-    <mat-option value={{constants.PRICE_ASC}}> &#8593; Ціна</mat-option>
-    <mat-option value={{constants.PRICE_DECS}}> &#8595; Ціна</mat-option>
+    <mat-option value={{constants.RATING_ASC}} class="dropdown-option"> &#8593; Рейтинг</mat-option>
+    <mat-option value={{constants.RATING_DESC}} class="dropdown-option"> &#8595; Рейтинг</mat-option>
+    <mat-option value={{constants.PRICE_ASC}} class="dropdown-option"> &#8593; Ціна</mat-option>
+    <mat-option value={{constants.PRICE_DECS}} class="dropdown-option"> &#8595; Ціна</mat-option>
   </mat-select>
 </mat-form-field>

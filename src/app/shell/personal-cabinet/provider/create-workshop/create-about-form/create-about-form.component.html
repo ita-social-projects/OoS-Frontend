@@ -8,8 +8,8 @@
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
 
   <mat-form-field appearance="none">
-    <mat-select class="step-input" formControlName="type" name="type" required>
-      <mat-option *ngFor="let type of workshopTypes" [value]="workshopTypes.indexOf(type)">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required>
+      <mat-option *ngFor="let type of workshopTypes" [value]="workshopTypes.indexOf(type)" class="dropdown-option">
         {{workshopType[type]}}
       </mat-option>
     </mat-select>

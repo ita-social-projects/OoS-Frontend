@@ -1,21 +1,21 @@
 <form [formGroup]="CategoryFormGroup">
-  <mat-select class="step-input" disableOptionCentering panelClass="category-panel" formControlName="category" (selectionChange)="onSelectCategory($event.value)"
+  <mat-select class="step-input" disableOptionCentering panelClass="dropdown-panel" formControlName="category" (selectionChange)="onSelectCategory($event.value)"
     placeholder="Категорія">
-    <mat-option *ngFor="let category of categories$ | async" [value]="category" class="category-select-option">
+    <mat-option *ngFor="let category of categories$ | async" [value]="category" class="dropdown-option">
       {{ category.title }}
     </mat-option>
   </mat-select>
 
-  <mat-select *ngIf="(subcategories$ | async)?.length" disableOptionCentering panelClass="category-panel" class="step-input" formControlName="subcategory"
+  <mat-select *ngIf="(subcategories$ | async)?.length" disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="subcategory"
     (selectionChange)="onSelectSubcategory($event.value)" placeholder="Сабкатегорія">
-    <mat-option *ngFor="let subcategory of subcategories$ | async" [value]="subcategory" class="category-select-option">
+    <mat-option *ngFor="let subcategory of subcategories$ | async" [value]="subcategory" class="dropdown-option">
       {{ subcategory.title }}
     </mat-option>
   </mat-select>
 
-  <mat-select *ngIf="(subsubcategories$ | async)?.length" disableOptionCentering panelClass="category-panel" class="step-input" formControlName="subsubcategory"
+  <mat-select *ngIf="(subsubcategories$ | async)?.length" disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="subsubcategory"
     placeholder="СабСабкатегорія:))">
-    <mat-option *ngFor="let subsubcategory of subsubcategories$ | async" [value]="subsubcategory" class="category-select-option">
+    <mat-option *ngFor="let subsubcategory of subsubcategories$ | async" [value]="subsubcategory" class="dropdown-option">
       {{ subsubcategory.title }}
     </mat-option>
   </mat-select>
