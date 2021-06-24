@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Actions, ofAction, ofActionDispatched, ofActionSuccessful, Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Category, Subcategory, Subsubcategory } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
 import { CategoriesService } from '../../services/categories/categories.service';
-import { GetCategories, GetSubcategories, GetSubsubcategories } from '../../store/meta-data.actions';
+import { GetCategories, GetCategoryById, GetSubcategories, GetSubcategoryById, GetSubsubcategories, GetSubsubcategoryById, OnGetCategoryByIdSuccess, OnGetSubcategoryByIdSuccess, OnGetSubsubcategoryByIdSuccess } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 
 @Component({
@@ -22,19 +23,27 @@ export class CategorySelectComponent implements OnInit {
   @Select(MetaDataState.subsubcategories)
   subsubcategories$: Observable<Subsubcategory[]>;
 
-  categories: Category[] = [];
-  subcategories: Subcategory[] = [];
-  subsubcategories: Subsubcategory[] = [];
+  @Select(MetaDataState.selectedCategory)
+  selectedCategory$: Observable<Category>;
+  @Select(MetaDataState.selectedSubcategory)
+  selectedSubcategory$: Observable<Subcategory>;
+  @Select(MetaDataState.selectedSubsubcategory)
+  selectedSubsubcategory$: Observable<Subsubcategory>;
 
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 
   CategoryFormGroup: FormGroup;
+  selectedCategory: Category;
+  selectedSubcategory: Subcategory;
+  selectedSubsubcategory: Subsubcategory;
+
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
-    private categoriesService: CategoriesService) {
+    private actions$: Actions) {
     this.CategoryFormGroup = this.formBuilder.group({
       category: new FormControl(''),
       subcategory: new FormControl(''),
@@ -47,48 +56,34 @@ export class CategorySelectComponent implements OnInit {
     (this.workshop) && this.activateEditMode();
   }
 
-  onFirstClick(): void {
-    if (this.categories.length < 2) {
-      this.store.dispatch(new GetCategories());
-      this.categories$.subscribe(cat => {
-        this.categories = cat;
-      });
-    }
-  }
-
   onSelectCategory(category: Category): void {
     this.store.dispatch(new GetSubcategories(category.id));
-    this.subcategories$.subscribe(cat => {
-      this.subcategories = cat;
-      this.subsubcategories = [];
-    });
+    this.CategoryFormGroup.get('subcategory').setValue('');
+    this.CategoryFormGroup.get('subsubcategory').setValue('');
   }
 
   onSelectSubcategory(subcategory: Subcategory): void {
     this.store.dispatch(new GetSubsubcategories(subcategory.id));
-    this.subsubcategories$.subscribe(cat => this.subsubcategories = cat);
+    this.CategoryFormGroup.get('subsubcategory').setValue('');
   }
 
   activateEditMode(): void {
-    this.categoriesService
-      .getCategoryById(this.workshop.categoryId)
-      .subscribe(cat => {
-        this.CategoryFormGroup.get('category').setValue(cat);
-        this.categories.push(cat);
-      });
+    this.store.dispatch(new GetCategoryById(this.workshop.categoryId));
+    this.store.dispatch(new GetSubcategoryById(this.workshop.subcategoryId));
+    this.store.dispatch(new GetSubsubcategoryById(this.workshop.subsubcategoryId));
 
-    this.categoriesService
-      .getSubCategoryById(this.workshop.subcategoryId)
-      .subscribe(cat => {
-        this.CategoryFormGroup.get('subcategory').setValue(cat);
-        this.subcategories.push(cat);
+    this.actions$
+    .pipe(
+      ofActionSuccessful(OnGetCategoryByIdSuccess),
+      takeUntil(this.ngUnsubscribe))
+    .subscribe(payload => {this.selectedCategory = payload.payload
+      this.CategoryFormGroup.get('category').setValue(payload.payload);
+    })
 
-        this.categoriesService
-          .getSubSubCategoryById(this.workshop.subsubcategoryId)
-          .subscribe(cat => {
-            this.subsubcategories.push(cat);
-            this.CategoryFormGroup.get('subsubcategory').setValue(cat);
-          });
-      });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

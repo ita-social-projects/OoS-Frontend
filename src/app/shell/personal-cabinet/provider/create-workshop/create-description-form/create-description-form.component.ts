@@ -136,14 +136,14 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     categoriesForm.get('categoryId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('categoryId').setValue(id)
+     (id) && this.DescriptionFormGroup.get('categoryId').setValue(id)
     )
     categoriesForm.get('subcategoryId').valueChanges.subscribe((id: number) => {
-      this.DescriptionFormGroup.get('subcategoryId').setValue(id)
+      (id) &&this.DescriptionFormGroup.get('subcategoryId').setValue(id)
     }
     )
     categoriesForm.get('subsubcategoryId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
+      (id) && this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
     )
   }
 }

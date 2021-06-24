@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Category, Subcategory, Subsubcategory } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
@@ -13,7 +14,13 @@ import {
   GetSubcategories,
   GetSubsubcategories,
   KeyWordsList,
-  GetSocialGroup
+  GetSocialGroup,
+  GetCategoryById,
+  GetSubcategoryById,
+  GetSubsubcategoryById,
+  OnGetCategoryByIdSuccess,
+  OnGetSubcategoryByIdSuccess,
+  OnGetSubsubcategoryByIdSuccess
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -23,6 +30,9 @@ export interface MetaDataStateModel {
   filteredCities: City[];
   filteredkeyWords: KeyWord[];
   socialGroups: SocialGroup[],
+  selectedCategory: Category,
+  selectedSubcategory: Subcategory,
+  selectedSubsubcategory: Subsubcategory,
 }
 
 @State<MetaDataStateModel>({
@@ -34,6 +44,9 @@ export interface MetaDataStateModel {
     filteredCities: [],
     filteredkeyWords: [],
     socialGroups: [],
+    selectedCategory: undefined,
+    selectedSubcategory: undefined,
+    selectedSubsubcategory: undefined,
   }
 
 })
@@ -51,6 +64,15 @@ export class MetaDataState {
 
   @Selector()
   static subsubcategories(state: MetaDataStateModel): Subsubcategory[] { return state.subsubcategories }
+
+  @Selector()
+  static selectedCategory(state: MetaDataStateModel): Category { return state.selectedCategory }
+
+  @Selector()
+  static selectedSubcategory(state: MetaDataStateModel): Subcategory { return state.selectedSubcategory }
+
+  @Selector()
+  static selectedSubsubcategory(state: MetaDataStateModel): Subsubcategory { return state.selectedSubsubcategory }
 
   @Selector()
   static filteredkeyWords(state: MetaDataStateModel): KeyWord[] { return state.filteredkeyWords }
@@ -74,7 +96,7 @@ export class MetaDataState {
   @Action(GetSubcategories)
   getSubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubcategories) {
     return this.categoriesService
-      .getBySubcategoryByCategoryId(payload)
+      .getSubcategoryByCategoryId(payload)
       .pipe(
         tap((subcategories: Subcategory[]) => patchState({ subcategories: subcategories })
         ))
@@ -83,7 +105,7 @@ export class MetaDataState {
   @Action(GetSubsubcategories)
   getSubsubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubsubcategories) {
     return this.categoriesService
-      .getBySubsubcategoryBySubcategoryId(payload)
+      .getSubsubcategoryBySubcategoryId(payload)
       .pipe(
         tap((subsubcategories: Subsubcategory[]) => patchState({ subsubcategories: subsubcategories })
         ))
@@ -106,5 +128,48 @@ export class MetaDataState {
       .pipe(
         tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
         ))
+  }
+
+  @Action(GetCategoryById)
+  getCategoryById({ dispatch }: StateContext<MetaDataStateModel>, { payload }: GetCategoryById) {
+    return this.categoriesService
+      .getCategoryById(payload)
+      .pipe(
+        tap((res) => dispatch(new OnGetCategoryByIdSuccess(res)),
+        catchError((error: Error) => of(console.log(error)))
+        ))
+  }
+
+  @Action(OnGetCategoryByIdSuccess)
+  onGetCategoryByIdSuccess({  }: StateContext<MetaDataStateModel>, { payload }: OnGetCategoryByIdSuccess): void {
+  }
+
+  @Action(GetSubcategoryById)
+  getSubcategoryById({ dispatch }: StateContext<MetaDataStateModel>, { payload }: GetSubcategoryById) {
+    return this.categoriesService
+      .getSubcategoryById(payload)
+      .pipe(
+        tap((res) => dispatch(new OnGetSubcategoryByIdSuccess(res)),
+        catchError((error: Error) => of(console.log(error)))
+        ))
+  }
+
+  @Action(OnGetSubcategoryByIdSuccess)
+  onGetSubcategoryByIdSuccess({  }: StateContext<MetaDataStateModel>, { payload }: OnGetSubcategoryByIdSuccess): void {
+  }
+
+  @Action(GetSubsubcategoryById)
+  getSubsubcategoryById({ dispatch }: StateContext<MetaDataStateModel>, { payload }: GetSubsubcategoryById) {
+    return this.categoriesService
+      .getSubsubCategoryById(payload)
+      .pipe(
+        tap((res) => dispatch(new OnGetSubsubcategoryByIdSuccess(res)),
+        catchError((error: Error) => of(console.log(error)))
+        ))
+  }
+
+  @Action(OnGetSubsubcategoryByIdSuccess)
+  onGetSubsubcategoryByIdSuccess({ patchState }: StateContext<MetaDataStateModel>, { payload }: OnGetSubsubcategoryByIdSuccess): void {
+    patchState({ selectedSubsubcategory: payload })
   }
 }
