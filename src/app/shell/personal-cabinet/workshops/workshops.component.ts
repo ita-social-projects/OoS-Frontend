@@ -3,11 +3,11 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Role } from 'src/app/shared/enum/role';
 import { User } from 'src/app/shared/models/user.model';
+import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetWorkshopsById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { ChangePage } from '../../../shared/store/app.actions';
+import { ChangePage, GetWorkshops } from '../../../shared/store/app.actions';
 
 @Component({
   selector: 'app-workshops',
@@ -18,7 +18,7 @@ export class WorkshopsComponent implements OnInit {
 
   readonly role: typeof Role = Role;
 
-  @Select(UserState.workshops)
+  @Select(AppState.allWorkshops)
   workshops$: Observable<Workshop[]>;
   userRole: string;
 
@@ -26,7 +26,7 @@ export class WorkshopsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.store.dispatch(new GetWorkshopsById(null));
+    this.store.dispatch(new GetWorkshops());
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
   }
 }

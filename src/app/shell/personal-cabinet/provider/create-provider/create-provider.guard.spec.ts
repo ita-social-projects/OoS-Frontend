@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-
 import { CreateProviderGuard } from './create-provider.guard';
 
 describe('CreateProviderGuard', () => {

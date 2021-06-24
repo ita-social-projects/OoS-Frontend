@@ -9,9 +9,11 @@
 
   <mat-form-field appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required>
-      <mat-option *ngFor="let type of workshopTypes" [value]="workshopTypes.indexOf(type)" class="dropdown-option">
-        {{workshopType[type]}}
-      </mat-option>
+      <ng-container *ngFor="let type of workshopType | keyvalue">
+        <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
+          {{ workshopTypeUkr[type.key] }}
+        </mat-option>
+      </ng-container>
     </mat-select>
   </mat-form-field>
 

@@ -138,7 +138,4 @@ export class RegistrationState {
           ));
     }
   }
-
-  @Action(RegisterUser)
-  registerUser({ }: StateContext<RegistrationStateModel>, { }: RegisterUser) { }
 }

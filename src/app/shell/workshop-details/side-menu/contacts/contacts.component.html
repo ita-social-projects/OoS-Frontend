@@ -1,10 +1,10 @@
-<div class="container" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap='0.2rem'>
+<div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap='0.2rem'>
   <h4>КОНТАКТИ</h4>
-  <p>{{workshop.address.city}}, {{workshop.address.street}}, {{workshop.address.buildingNumber}}</p>
-  <p>Тут час</p>
-  <p>{{workshop.phone}}</p>
-  <p>{{workshop.email}}</p>
-  <p>{{workshop.website}}</p>
+  <p *ngIf="workshop.address" class="contact-info"><img src="assets/icons/address.png" alt="address"> {{workshop.address.city}}, {{workshop.address.street}}, {{workshop.address.buildingNumber}}</p>
+  <p class="contact-info"><img src="assets/icons/access_time.png" alt="access_time">Тут час</p>
+  <p *ngIf="workshop.phone" class="contact-info"><img src="assets/icons/phone.png" alt="phone"><a href="tel:{{workshop.phone}}">{{workshop.phone}}</a></p>
+  <p *ngIf="workshop.email" class="contact-info"><img src="assets/icons/email.png" alt="email">{{workshop.email}}</p>
+  <p *ngIf="workshop.website" class="contact-info"><img src="assets/icons/world.png" alt="email"><a [href]="workshop.website">{{workshop.website}}</a></p>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <a [routerLink]="''" class="link"><img src="assets/icons/inst.png" alt=""></a>
     <a [routerLink]="''" class="link"><img src="assets/icons/facebook.png" alt=""></a>

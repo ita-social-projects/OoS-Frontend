@@ -1,15 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
+import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
+import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
+import { User } from 'src/app/shared/models/user.model';
+import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetApplicationsById } from 'src/app/shared/store/user.actions';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { GetApplications, GetApplicationsByUserId, GetChildren } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
-
-
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -17,10 +20,18 @@ import { Application } from '../../../shared/models/application.model';
 })
 export class ApplicationsComponent implements OnInit {
 
+  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationStatus = ApplicationStatus;
+  readonly Role = Role;
+  user: User;
+
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  public applications: Application[];
-  child: Child;
+  applications: Application[];
+
+  @Select(UserState.children)
+  children$: Observable<Child[]>;
+
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -30,11 +41,25 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetApplicationsById(null));
+    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
+
+    if (this.user.role === Role.provider) {
+      this.store.dispatch(new GetApplications());
+      this.activateChildInfoBox();
+    } else {
+      this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
+      this.store.dispatch(new GetChildren());
+    }
+
     this.applications$.subscribe(applications =>
       this.applications = applications
     );
+  }
 
+  /**
+  * This method initialize functionality to open child-info-box
+  */
+  activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -48,26 +73,22 @@ export class ApplicationsComponent implements OnInit {
       .subscribe();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
   /**
   * This method changes status of emitted event to "approved"
   * @param Application event
   */
   onApprove(event: Application): void {
-    const application = this.applications.find((application) => (application === event))
-    // application.status = 'approved'; TODO: add this functionality
+    const application = this.applications.find((application) => (application === event));
+    application.status = this.applicationStatus.approved;
   }
 
   /**
-  * This method changes status of emitted event to "denied"
+  * This method changes status of emitted event to "rejected"
   * @param Application event
   */
-  onDeny(event: Application): void {
+  onReject(event: Application): void {
     const application = this.applications.find((application) => (application === event))
-    // application.status = 'denied'; TODO: add this functionality
+    application.status = this.applicationStatus.rejected;
   }
 
   /**
@@ -80,5 +101,10 @@ export class ApplicationsComponent implements OnInit {
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
