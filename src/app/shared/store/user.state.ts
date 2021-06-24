@@ -40,9 +40,12 @@ import {
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
   GetApplications,
-  UpdateWorkshop,
-  OnUpdateWorkshopFail,
+  UpdateChild,
+  OnUpdateChildFail,
+  OnUpdateChildSuccess,
   OnUpdateWorkshopSuccess,
+  UpdateWorkshop,
+  OnUpdateWorkshopFail
 } from './user.actions';
 
 export interface UserStateModel {
@@ -339,12 +342,40 @@ export class UserState {
     }, 1000);
   }
 
+  @Action(UpdateChild)
+  updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild) {
+    return this.childrenService
+      .updateChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateChildSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
+      );
+  }
+
+
+  @Action(OnUpdateChildFail)
+  OnUpdatechildFail({ }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
+    console.log('Child updating is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ patchState }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
     console.log('Workshop is updated', payload);
     setTimeout(() => {
       this.showSnackBar('Гурток оновлено!', 'primary', 'top');
       this.router.navigate(['/personal-cabinet/workshops']);
+  }, 1000);
+}
+  @Action(OnUpdateChildSuccess)
+  onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
+    console.log('Child is updated', payload);
+    setTimeout(() => {
+      this.showSnackBar('Дитина успішно відредагована', 'primary', 'top');
+      this.router.navigate(['/personal-cabinet/parent/info']);
     }, 1000);
   }
 
