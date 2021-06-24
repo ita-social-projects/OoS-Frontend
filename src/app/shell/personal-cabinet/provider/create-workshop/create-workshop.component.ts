@@ -29,7 +29,7 @@ export class CreateWorkshopComponent implements OnInit {
     const address = new Address(this.AddressFormGroup.value);
     const teachers = this.createTeachers(this.TeacherFormArray);
     const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
-    this.store.dispatch(new CreateWorkshop(workshop))
+    this.store.dispatch(new CreateWorkshop(workshop));
   }
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup

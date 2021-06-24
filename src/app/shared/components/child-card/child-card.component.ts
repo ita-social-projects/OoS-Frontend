@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Child } from '../../models/child.model';
 import { Workshop } from '../../models/workshop.model';
@@ -13,17 +13,15 @@ export class ChildCardComponent implements OnInit {
 
   @Input() child: Child;
 
+  @Output() deleteChild = new EventEmitter<number>();
+
   workshops: Workshop[];
 
   constructor(private store: Store) { }
 
   ngOnInit(): void { }
 
-  onEdit(): void {
-    console.log('I edit it!');//TODO: link the real Api when child creation will be fixed
-  }
-
   onDelete(): void {
-    this.store.dispatch(new DeleteChildById(this.child.id));
+    this.deleteChild.emit(this.child.id);
   }
 }

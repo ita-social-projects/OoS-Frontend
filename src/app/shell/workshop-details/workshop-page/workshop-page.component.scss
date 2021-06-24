@@ -3,6 +3,7 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
   margin:20px;
+  max-width: 1000px;
 }
 .workshop{
   &-image{
@@ -52,4 +53,11 @@
   min-width:0px !important;
   padding: inherit !important;
   margin: 10px;
+}
+
+@media(max-width: 600px) {
+  .title {
+    margin: 0 10px 0 0;
+    font-size: 20px;
+  }
 }

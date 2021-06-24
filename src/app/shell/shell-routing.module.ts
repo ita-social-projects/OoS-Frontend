@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     path: 'create-workshop', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
-    canLoad: [ProviderGuard]
+    canLoad: [ProviderGuard],
   },
   {
     path: 'create-provider', component: CreateProviderComponent,
@@ -42,14 +42,14 @@ const routes: Routes = [
     canDeactivate: [CreateProviderGuard]
   },
   {
-    path: 'create-child', component: CreateChildComponent,
+    path: 'create-child/:id', component: CreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
-    canLoad: [ParentGuard]
+    canLoad: [ParentGuard],
   },
   {
     path: 'create-application/:id', component: CreateApplicationComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
-    canLoad: [ParentGuard]
+    canLoad: [ParentGuard],
   },
 ];
 

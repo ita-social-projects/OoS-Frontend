@@ -1,6 +1,7 @@
 <div *ngIf="child">
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn" (click)="onEdit()"><img src="assets/icons/edit.png" alt="edit"></div>
+    <div class="actions_btn" [routerLink]="['/create-child', child.id]"><img src="assets/icons/edit.png" alt="edit">
+    </div>
     <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
   </div>
   <mat-card>

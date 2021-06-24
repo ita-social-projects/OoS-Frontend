@@ -1,0 +1,7 @@
+@media(max-width: 750px) {
+  app-actions,
+  app-contacts,
+  app-schedule {
+    width: calc(100% - 40px);
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Role } from '../../enum/role';
@@ -20,22 +20,24 @@ export class WorkshopCardComponent implements OnInit {
   @Input() userRole: string;
   @Input() isMainPage: boolean;
 
+  @Output() deleteWorkshop = new EventEmitter<number>();
+
   status: string = 'approved'; //temporary
 
   constructor(private store: Store) { }
 
   ngOnInit(): void { }
 
+  onEdit(): void {
+    console.log("I edit it")
+  }
+
   onDelete(): void {
-    this.store.dispatch(new DeleteWorkshopById(this.workshop.id));
+    this.deleteWorkshop.emit(this.workshop.id);
   }
 
   onLike(): void {
     console.log("I like it")
-  }
-
-  onEdit(): void {
-    console.log("I edit it")
   }
 
   onChangeStatus(status): void {
