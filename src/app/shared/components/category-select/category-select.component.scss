@@ -26,7 +26,6 @@ button:focus {
   display: none;
 }
 ::ng-deep .category-select-option{
- 
   .mat-option-text{
     font-family: Open Sans;
     font-style: normal;
@@ -35,13 +34,27 @@ button:focus {
     color: #000000;
     background-color : white;
     padding-left: 10px;
-    &:hover{
-      background-color : #F8F8F8;
-    }
    }
-  padding: 0 ;  
 }
+
 ::ng-deep .category-panel{
+  .mat-selected{
+    background-color: white!important;
+    &:hover{
+      background-color: #F8F8F8!important;
+    }
+  }
+  .mat-option.mat-active{
+    background-color: white;
+  }
+  .mat-option{
+    &:hover{
+      .mat-option-text{
+          background-color : #F8F8F8;
+      }
+      background-color: #F8F8F8;
+    }
+  }
   &::-webkit-scrollbar {
  background-color: #E3E3E3;
  width: 4px;
@@ -55,7 +68,7 @@ button:focus {
   box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11)!important;
   border-radius: 10px;
   position: relative;
-  top:45px;
+  top:2.5rem;
   height: fit-content;
-  max-height: 300px;  
+  max-height: 250px;  
 }

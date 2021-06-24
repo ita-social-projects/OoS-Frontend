@@ -1,19 +1,19 @@
-<form [formGroup]="CategoryFormGroup" class="form-category">
-  <mat-select class="step-input" panelClass="category-panel" formControlName="category" (selectionChange)="onSelectCategory($event.value)"
+<form [formGroup]="CategoryFormGroup">
+  <mat-select class="step-input" disableOptionCentering panelClass="category-panel" formControlName="category" (selectionChange)="onSelectCategory($event.value)"
     placeholder="Категорія">
     <mat-option *ngFor="let category of categories$ | async" [value]="category" class="category-select-option">
       {{ category.title }}
     </mat-option>
   </mat-select>
 
-  <mat-select *ngIf="(subcategories$ | async)?.length" panelClass="category-panel" class="step-input" formControlName="subcategory"
+  <mat-select *ngIf="(subcategories$ | async)?.length" disableOptionCentering panelClass="category-panel" class="step-input" formControlName="subcategory"
     (selectionChange)="onSelectSubcategory($event.value)" placeholder="Сабкатегорія">
     <mat-option *ngFor="let subcategory of subcategories$ | async" [value]="subcategory" class="category-select-option">
       {{ subcategory.title }}
     </mat-option>
   </mat-select>
 
-  <mat-select *ngIf="(subsubcategories$ | async)?.length" panelClass="category-panel" class="step-input" formControlName="subsubcategory"
+  <mat-select *ngIf="(subsubcategories$ | async)?.length" disableOptionCentering panelClass="category-panel" class="step-input" formControlName="subsubcategory"
     placeholder="СабСабкатегорія:))">
     <mat-option *ngFor="let subsubcategory of subsubcategories$ | async" [value]="subsubcategory" class="category-select-option">
       {{ subsubcategory.title }}
