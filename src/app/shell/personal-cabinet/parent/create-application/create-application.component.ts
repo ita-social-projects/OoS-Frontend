@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -8,9 +8,11 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { cardType } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
+import { Nav } from 'src/app/shared/models/navigation.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateApplication, GetChildren, GetWorkshopsById } from 'src/app/shared/store/user.actions';
@@ -22,7 +24,7 @@ import { UserState } from 'src/app/shared/store/user.state';
   templateUrl: './create-application.component.html',
   styleUrls: ['./create-application.component.scss']
 })
-export class CreateApplicationComponent implements OnInit {
+export class CreateApplicationComponent implements OnInit,OnDestroy {
 
   readonly CardType = cardType;
 
@@ -42,11 +44,26 @@ export class CreateApplicationComponent implements OnInit {
     private route: ActivatedRoute,
     private matDialog: MatDialog) { }
 
+  /**
+    * This method create new Navigation button
+    */
+  creatNavPath(name:string, isActive:boolean, disable:boolean): Nav[] {
+    return [
+      {name:'Головна', path:'/', isActive:true, disable:false},
+      {name:name, isActive:isActive, disable:disable}
+    ]
+  }
+
   ngOnInit(): void {
     this.store.dispatch(new GetChildren());
     const workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopsById(workshopId));
     this.workshop$.subscribe(workshop => this.workshop = workshop);
+    this.store.dispatch(new AddNavPath(this.creatNavPath("Найпопулярніші гуртки",false,true)))
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new DeleteNavPath());
   }
 
   /**

@@ -31,6 +31,7 @@ import { ChildCardComponent } from './components/child-card/child-card.component
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from '../shared/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ConfirmationModalWindowComponent } from './components/confirmation-moda
     ChildCardComponent,
     ApplicationChildFilterPipe,
     MapComponent,
-    ConfirmationModalWindowComponent
+    ConfirmationModalWindowComponent,
+    NavigationBarComponent
   ],
   imports: [
     MaterialModule,
@@ -94,7 +96,8 @@ import { ConfirmationModalWindowComponent } from './components/confirmation-moda
     ChildCardComponent,
     MapComponent,
     ApplicationChildFilterPipe,
-    ConfirmationModalWindowComponent
+    ConfirmationModalWindowComponent,
+    NavigationBarComponent
   ]
 })
 export class SharedModule { }

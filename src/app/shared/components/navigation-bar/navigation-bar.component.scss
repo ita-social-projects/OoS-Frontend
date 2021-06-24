@@ -1,0 +1,41 @@
+.navigation {
+  padding: 10px 0;
+
+.mat-icon {
+  font-size: 13px;
+  width: 14px;
+  height: 14px;
+  margin: 0 5px;
+}
+
+&-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+
+  li {
+    list-style: none;
+  }
+}
+
+  .isActive {
+    color: #888888;
+    pointer-events: none;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .pathLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  a {
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
