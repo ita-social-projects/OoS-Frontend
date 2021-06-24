@@ -49,7 +49,7 @@ const routes: Routes = [
   {
     path: 'create-application/:id', component: CreateApplicationComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
-    canLoad: [ParentGuard],
+    canLoad: [ParentGuard]
   },
 ];
 

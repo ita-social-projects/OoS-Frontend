@@ -16,3 +16,13 @@
 ::ng-deep .mat-tab-group{
   margin-top:20px;
 }
+.tab-wrapper{
+  bottom: 5.5rem;
+  position: relative;
+  z-index: -3;
+}
+@media (max-width: 1024px) {
+  .tab-wrapper{
+    bottom: 0;
+  }
+}
