@@ -104,3 +104,15 @@ export class OnCreateApplicationSuccess {
   static readonly type = '[user] create Application success';
   constructor(public payload) { }
 }
+export class UpdateChild {
+  static readonly type = '[user] update Child';
+  constructor(public payload: Child) { }
+}
+export class OnUpdateChildFail {
+  static readonly type = '[user] update Child fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateChildSuccess {
+  static readonly type = '[user] update Child success';
+  constructor(public payload) { }
+}
