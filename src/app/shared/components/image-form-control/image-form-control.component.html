@@ -2,17 +2,17 @@
   <div class="form-wrapper">
     <div class="photo-header">{{label}}</div>
     <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{imgMaxAmount}} фото</div>
-    <mat-grid-list cols="4" rowHeight="58px" class="logo" [gutterSize]="'8px'">
-        <mat-grid-tile  class="logo_button" *ngIf="selectedImages.length < imgMaxAmount || selectedImages.length === 0">
-          <label>
-            <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">
-            <img src="assets/icons/plus.png" alt="logo_img">
-          </label>
-        </mat-grid-tile>
+    <mat-grid-list [cols]="breakpoint"  rowHeight="58px" class="logo" [gutterSize]="'8px'" (window:resize)="onResize($event)">
+      <mat-grid-tile  class="logo_button" *ngIf="selectedImages.length < imgMaxAmount || selectedImages.length === 0">
+        <label>
+          <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">
+          <img src="assets/icons/plus.png" alt="logo_img">
+        </label>
+      </mat-grid-tile>
         <mat-grid-tile *ngFor="let img of decodedImages;" class="logo_button">
           <div class="logo_images">
             <img src="{{img}}" alt="">
-            <mat-icon class="logo_cancel" (click)="onRemoveImg(img)">cancel</mat-icon>
+            <mat-icon class="logo_cancel" (click)="onRemoveImg(img)">clear</mat-icon>
           </div>
         </mat-grid-tile>
     </mat-grid-list>
