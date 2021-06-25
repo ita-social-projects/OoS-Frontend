@@ -18,7 +18,6 @@
     }
   }
 }
-
 .map{
   margin: 5px 0 0 26px;
   color: #3849F9;
@@ -26,12 +25,14 @@
   font-weight: 700;
   line-height: 12.35px;
   font-family: Innerspace, serif;
+  &:hover{
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
-
 .link{
   margin:0.5rem;
 }
-
 @media(max-width: 750px) {
   .container {
     width: 100%;
