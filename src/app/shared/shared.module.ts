@@ -34,6 +34,8 @@ import { ConfirmationModalWindowComponent } from './components/confirmation-moda
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
+import {MatGridListModule} from "@angular/material/grid-list";
+
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     RouterModule,
     FormsModule,
     NgxSliderModule,
+    MatGridListModule
   ],
   exports: [
     FiltersListComponent,
