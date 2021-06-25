@@ -23,67 +23,51 @@ export class CategorySelectComponent implements OnInit {
   @Select(MetaDataState.subsubcategories)
   subsubcategories$: Observable<Subsubcategory[]>;
 
-  @Select(MetaDataState.selectedCategory)
-  selectedCategory$: Observable<Category>;
-  @Select(MetaDataState.selectedSubcategory)
-  selectedSubcategory$: Observable<Subcategory>;
-  @Select(MetaDataState.selectedSubsubcategory)
-  selectedSubsubcategory$: Observable<Subsubcategory>;
-
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 
   CategoryFormGroup: FormGroup;
-  selectedCategory: Category;
-  selectedSubcategory: Subcategory;
-  selectedSubsubcategory: Subsubcategory;
+
+  selectedCategoryId: number;
+  selectedSubcategoryId: number;
+  selectedSubsubcategoryId: number;
 
   private ngUnsubscribe = new Subject();
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store,
-    private actions$: Actions) {
+    private store: Store) {
     this.CategoryFormGroup = this.formBuilder.group({
-      category: new FormControl(''),
-      subcategory: new FormControl(''),
-      subsubcategory: new FormControl(''),
+      categoryId: new FormControl(''),
+      subcategoryId: new FormControl(''),
+      subsubcategoryId: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
     this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
-    (this.workshop) && this.activateEditMode();
+    this.workshop ? this.activateEditMode() : this.store.dispatch(new GetCategories());
   }
 
-  onSelectCategory(category: Category): void {
-    this.store.dispatch(new GetSubcategories(category.id));
-    this.CategoryFormGroup.get('subcategory').setValue('');
-    this.CategoryFormGroup.get('subsubcategory').setValue('');
+  onSelectCategory(id: number): void {
+    this.CategoryFormGroup.get('subcategoryId').reset();
+    this.CategoryFormGroup.get('subsubcategoryId').reset();
+    this.store.dispatch(new GetSubcategories(id));
   }
 
-  onSelectSubcategory(subcategory: Subcategory): void {
-    this.store.dispatch(new GetSubsubcategories(subcategory.id));
-    this.CategoryFormGroup.get('subsubcategory').setValue('');
+  onSelectSubcategory(id: number): void {
+    this.CategoryFormGroup.get('subsubcategoryId').reset();
+    this.store.dispatch(new GetSubsubcategories(id));
   }
 
   activateEditMode(): void {
-    this.store.dispatch(new GetCategoryById(this.workshop.categoryId));
-    this.store.dispatch(new GetSubcategoryById(this.workshop.subcategoryId));
-    this.store.dispatch(new GetSubsubcategoryById(this.workshop.subsubcategoryId));
+    this.store.dispatch(new GetCategories())
+      .subscribe(() => this.selectedCategoryId = this.workshop.categoryId);
 
-    this.actions$
-    .pipe(
-      ofActionSuccessful(OnGetCategoryByIdSuccess),
-      takeUntil(this.ngUnsubscribe))
-    .subscribe(payload => {this.selectedCategory = payload.payload
-      this.CategoryFormGroup.get('category').setValue(payload.payload);
-    })
+    this.store.dispatch(new GetSubcategories(this.workshop.categoryId))
+      .subscribe(() => this.selectedSubcategoryId = this.workshop.subcategoryId);
 
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.store.dispatch(new GetSubsubcategories(this.workshop.subcategoryId))
+      .subscribe(() => this.selectedSubsubcategoryId = this.workshop.subsubcategoryId);
   }
 }

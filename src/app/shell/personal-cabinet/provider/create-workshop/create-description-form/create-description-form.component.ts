@@ -11,6 +11,7 @@ import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
 import { KeyWord } from '../../../../../shared/models/keyWord,model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
+import { Category, Subcategory, Subsubcategory } from 'src/app/shared/models/category.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -136,14 +137,13 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     categoriesForm.get('categoryId').valueChanges.subscribe((id: number) =>
-     (id) && this.DescriptionFormGroup.get('categoryId').setValue(id)
+      this.DescriptionFormGroup.get('categoryId').setValue(id)
     )
-    categoriesForm.get('subcategoryId').valueChanges.subscribe((id: number) => {
-      (id) &&this.DescriptionFormGroup.get('subcategoryId').setValue(id)
-    }
+    categoriesForm.get('subcategoryId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('subcategoryId').setValue(id)
     )
     categoriesForm.get('subsubcategoryId').valueChanges.subscribe((id: number) =>
-      (id) && this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
+      this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
     )
   }
 }
