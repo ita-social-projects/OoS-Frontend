@@ -40,7 +40,10 @@ import {
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
-  GetApplications
+  GetApplications,
+  UpdateChild,
+  OnUpdateChildFail,
+  OnUpdateChildSuccess
 } from './user.actions';
 
 export interface UserStateModel {
@@ -317,6 +320,34 @@ export class UserState {
       this.showSnackBar('Дитину видалено!', 'primary', 'top');
     }, 1000);
     dispatch(new GetChildren());
+  }
+
+  @Action(UpdateChild)
+  updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild) {
+    return this.childrenService
+      .updateChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateChildSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
+      );
+  }
+
+  @Action(OnUpdateChildFail)
+  onUpdateChildfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
+    console.log('Child updating is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
+  @Action(OnUpdateChildSuccess)
+  onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
+    console.log('Child is updated', payload);
+    setTimeout(() => {
+      this.showSnackBar('Дитина успішно відредагована', 'primary', 'top');
+      this.router.navigate(['/personal-cabinet/parent/info']);
+    }, 1000);
   }
 
   showSnackBar(

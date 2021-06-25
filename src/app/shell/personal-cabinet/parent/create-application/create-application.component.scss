@@ -1,7 +1,7 @@
 @import "src/app/shared/styles/create-form-wrapper.scss";
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
-
+@import "src/app/shared/styles/dropdown.scss";
 .step{
   margin:2rem 0;
 }
@@ -21,7 +21,6 @@
     margin-bottom: 30px;
   }
   .mat-icon-add{
-    opacity: 1;
     font-size: 16px;
     vertical-align: sub;
   }
