@@ -1,6 +1,4 @@
-import { RegistrationState } from "../store/registration.state";
 import { Address } from "./address.model";
-import { Category, Subcategory, Subsubcategory } from "./category.model";
 import { Provider } from "./provider.model";
 import { Teacher } from "./teacher.model";
 export class Workshop {
@@ -33,14 +31,11 @@ export class Workshop {
   categoryId?: number;
   subcategoryId?: number;
   subsubcategoryId?: number;
-  category?: Category;
-  subcategory?: Subcategory;
-  subsubcategory?: Subsubcategory;
   providerId: number;
   providerTitle?: string;
   isPerMonth?: string;
 
-  constructor(about, description, addr, tchrs, id?) {
+  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
     this.id = id;
     this.title = about.title;
     this.phone = about.phone;
@@ -51,18 +46,18 @@ export class Workshop {
     this.head = description.head;
     this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
-    this.address = addr;
-    this.teachers = tchrs;
+    this.address = address;
+    this.teachers = teachers;
     this.website = about.website;
     this.facebook = about.facebook;
     this.instagram = about.instagram;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
-    this.categoryId = description.categoryId;
-    this.providerId = about.providerId;
+    this.providerId = provider.id;
     this.type = about.type;
-    this.providerTitle = about.providerTitle;
+    this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
+    this.categoryId = description.categoryId;
     this.subcategoryId = description.subcategoryId;
     this.subsubcategoryId = description.subsubcategoryId;
   }

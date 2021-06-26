@@ -15,12 +15,7 @@ import {
   GetSubsubcategories,
   KeyWordsList,
   GetSocialGroup,
-  GetCategoryById,
-  GetSubcategoryById,
-  GetSubsubcategoryById,
-  OnGetCategoryByIdSuccess,
-  OnGetSubcategoryByIdSuccess,
-  OnGetSubsubcategoryByIdSuccess
+  ClearCategories
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -30,9 +25,6 @@ export interface MetaDataStateModel {
   filteredCities: City[];
   filteredkeyWords: KeyWord[];
   socialGroups: SocialGroup[],
-  selectedCategory: Category,
-  selectedSubcategory: Subcategory,
-  selectedSubsubcategory: Subsubcategory,
 }
 
 @State<MetaDataStateModel>({
@@ -44,9 +36,6 @@ export interface MetaDataStateModel {
     filteredCities: [],
     filteredkeyWords: [],
     socialGroups: [],
-    selectedCategory: undefined,
-    selectedSubcategory: undefined,
-    selectedSubsubcategory: undefined,
   }
 
 })
@@ -121,14 +110,11 @@ export class MetaDataState {
         ))
   }
 
-  @Action(OnGetCategoryByIdSuccess)
-  onGetCategoryByIdSuccess({ }: StateContext<MetaDataStateModel>, { payload }: OnGetCategoryByIdSuccess): void {
+  @Action(ClearCategories)
+  clearCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories) {
+    patchState({ categories: undefined });
+    patchState({ subcategories: undefined });
+    patchState({ subsubcategories: undefined });
   }
 
-  @Action(OnGetSubcategoryByIdSuccess)
-  onGetSubcategoryByIdSuccess({ }: StateContext<MetaDataStateModel>, { payload }: OnGetSubcategoryByIdSuccess): void {
-  }
-  @Action(OnGetSubsubcategoryByIdSuccess)
-  onGetSubsubcategoryByIdSuccess({ patchState }: StateContext<MetaDataStateModel>, { payload }: OnGetSubsubcategoryByIdSuccess): void {
-  }
 }

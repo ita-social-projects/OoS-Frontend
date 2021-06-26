@@ -5,7 +5,7 @@
     <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
       <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
-        alt="{{workshop.category}}">
+        alt="workshop-category">
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">

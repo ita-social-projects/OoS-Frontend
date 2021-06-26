@@ -17,23 +17,11 @@ export class CategoriesService {
     return this.http.get<Category[]>(this.dataUrl);
   }
 
-  getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`/Category/GetById/${id}`);
-  }
-
   getSubcategoryByCategoryId(id: number): Observable<Subcategory[]> {
     return this.http.get<Subcategory[]>(`/Subcategory/GetByCategoryId/${id}`);
   }
 
   getSubsubcategoryBySubcategoryId(id: number): Observable<Subsubcategory[]> {
     return this.http.get<Subsubcategory[]>(`/Subsubcategory/GetBySubcategoryId/${id}`);
-  }
-
-  getSubcategoryById(id: number): Observable<Subcategory> {
-    return this.http.get<Subcategory>(`/Subcategory/GetById/${id}`);
-  }
-
-  getSubsubCategoryById(id: number): Observable<Subsubcategory> {
-    return this.http.get<Subsubcategory>(`/Subsubcategory/GetById/${id}`);
   }
 }

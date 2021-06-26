@@ -1,4 +1,3 @@
-import { Category, Subcategory, Subsubcategory } from "../models/category.model";
 import { City } from "../models/city.model";
 import { KeyWord } from "../models/keyWord,model";
 export class GetCategories {
@@ -25,27 +24,6 @@ export class GetSocialGroup {
   static readonly type = '[meta-data] Get GetSocialGroup';
   constructor() { }
 }
-export class GetCategoryById {
-  static readonly type = '[meta-data] Get Category by category id';
-  constructor(public payload: number) { }
-}
-export class GetSubcategoryById {
-  static readonly type = '[meta-data] Get Subcategorry by subcategory Id';
-  constructor(public payload: number) { }
-}
-export class GetSubsubcategoryById {
-  static readonly type = '[meta-data] Get Subsubcategory by subsubcategory Id ';
-  constructor(public payload: number) { }
-}
-export class OnGetCategoryByIdSuccess {
-  static readonly type = '[meta-data] Get Category by category id success';
-  constructor(public payload: Category) { }
-}
-export class OnGetSubcategoryByIdSuccess {
-  static readonly type = '[meta-data] Get Subcategorry by subcategory Id success';
-  constructor(public payload: Subcategory) { }
-}
-export class OnGetSubsubcategoryByIdSuccess {
-  static readonly type = '[meta-data] Get Subsubcategory by subsubcategory Id success';
-  constructor(public payload: Subsubcategory) { }
+export class ClearCategories {
+  static readonly type = '[meta-data] clear categories state';
 }

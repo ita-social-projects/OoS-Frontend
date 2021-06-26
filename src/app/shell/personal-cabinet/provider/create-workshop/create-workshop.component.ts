@@ -3,9 +3,11 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Address } from 'src/app/shared/models/address.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
 @Component({
   selector: 'app-create-workshop',
@@ -42,11 +44,12 @@ export class CreateWorkshopComponent implements OnInit {
   onSubmit() {
     const address = new Address(this.AddressFormGroup.value);
     const teachers = this.createTeachers(this.TeacherFormArray);
+    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     if (this.editMode) {
-      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, this.workshop.id);
+      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
+      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
   }

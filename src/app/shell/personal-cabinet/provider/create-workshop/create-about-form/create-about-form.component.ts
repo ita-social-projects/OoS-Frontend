@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
@@ -24,8 +24,6 @@ export class CreateAboutFormComponent implements OnInit {
   priceRadioBtn: FormControl = new FormControl(false);
   priceCtrl: FormControl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
 
-  @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
   provider: Provider;
   useProviderInfoCtrl: FormControl = new FormControl(false);
 
@@ -33,7 +31,7 @@ export class CreateAboutFormComponent implements OnInit {
   @Input() workshop: Workshop;
   @Output() PassAboutFormGroup = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
@@ -49,8 +47,6 @@ export class CreateAboutFormComponent implements OnInit {
       price: new FormControl(0),
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
-      providerTitle: new FormControl(''),
-      providerId: new FormControl(''),
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
@@ -59,10 +55,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.provider$.subscribe((provider: Provider) => this.provider = provider);
-    this.AboutFormGroup.get('providerTitle').setValue(this.provider?.fullTitle);
-    this.AboutFormGroup.get('providerId').setValue(this.provider?.id);
-
+    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.workshop && this.activateEditMode();
   }
 
@@ -70,13 +63,13 @@ export class CreateAboutFormComponent implements OnInit {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   onPriceCtrlInit(): void {
-    this.priceCtrl.valueChanges.subscribe((price: number) => {
+    this.priceCtrl.valueChanges.subscribe((price: number) =>
       price ? this.AboutFormGroup.get('price').setValue(price) : this.AboutFormGroup.get('price').setValue(0)
-    });
+    );
 
-    this.priceRadioBtn.valueChanges.subscribe((isPrice: boolean) => {
-      isPrice ? this.priceCtrl.enable() : this.priceCtrl.disable();
-    });
+    this.priceRadioBtn.valueChanges.subscribe((isPrice: boolean) =>
+      isPrice ? this.priceCtrl.enable() : this.priceCtrl.disable()
+    );
   }
 
   /**
@@ -113,11 +106,11 @@ export class CreateAboutFormComponent implements OnInit {
         this.AboutFormGroup.get('facebook').setValue(this.provider.facebook);
         this.AboutFormGroup.get('instagram').setValue(this.provider.instagram);
       } else {
-        this.AboutFormGroup.get('email').setValue('');
-        this.AboutFormGroup.get('phone').setValue('');
-        this.AboutFormGroup.get('website').setValue('');
-        this.AboutFormGroup.get('facebook').setValue('');
-        this.AboutFormGroup.get('instagram').setValue('');
+        this.AboutFormGroup.get('email').reset();
+        this.AboutFormGroup.get('phone').reset();
+        this.AboutFormGroup.get('website').reset();
+        this.AboutFormGroup.get('facebook').reset();
+        this.AboutFormGroup.get('instagram').reset();
       }
     })
   }

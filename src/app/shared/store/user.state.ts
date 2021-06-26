@@ -13,6 +13,7 @@ import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { GetWorkshops } from './app.actions';
+import { ClearCategories } from './meta-data.actions';
 import { GetProfile } from './registration.actions';
 import {
   CreateApplication,
@@ -152,7 +153,8 @@ export class UserState {
   onCreateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
     console.log('Workshop is created', payload);
     setTimeout(() => {
-      this.showSnackBar('Гурток створено!', 'primary', 'top');
+      this.showSnackBar('Гурток створено!', 'primary');
+      dispatch(new ClearCategories());
       this.router.navigate(['/personal-cabinet/workshops']);
     }, 1000);
   }
@@ -180,7 +182,7 @@ export class UserState {
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
     setTimeout(() => {
-      this.showSnackBar('Гурток видалено!', 'primary', 'top');
+      this.showSnackBar('Гурток видалено!', 'primary');
     }, 1000);
     dispatch(new GetWorkshops());
   }
@@ -208,7 +210,7 @@ export class UserState {
   onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
     console.log('Child is created', payload);
     setTimeout(() => {
-      this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
+      this.showSnackBar('Дитина усіпшно зареєстрована', 'primary');
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 1000);
   }
@@ -265,7 +267,7 @@ export class UserState {
   onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
     console.log('Application is created', payload);
     setTimeout(() => {
-      this.showSnackBar('Заявку створено!', 'primary', 'top');
+      this.showSnackBar('Заявку створено!', 'primary');
       this.router.navigate(['']);
     }, 1000);
   }
@@ -318,7 +320,7 @@ export class UserState {
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
     setTimeout(() => {
-      this.showSnackBar('Дитину видалено!', 'primary', 'top');
+      this.showSnackBar('Дитину видалено!', 'primary');
     }, 1000);
     dispatch(new GetChildren());
   }
@@ -366,29 +368,22 @@ export class UserState {
   onUpdateWorkshopSuccess({ patchState }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
     console.log('Workshop is updated', payload);
     setTimeout(() => {
-      this.showSnackBar('Гурток оновлено!', 'primary', 'top');
+      this.showSnackBar('Гурток оновлено!', 'primary');
       this.router.navigate(['/personal-cabinet/workshops']);
-  }, 1000);
-}
+    }, 1000);
+  }
   @Action(OnUpdateChildSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
     console.log('Child is updated', payload);
     setTimeout(() => {
-      this.showSnackBar('Дитина успішно відредагована', 'primary', 'top');
+      this.showSnackBar('Дитина успішно відредагована', 'primary');
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 1000);
   }
 
-  showSnackBar(
-    message: string,
-    color: string,
-    vertical: MatSnackBarVerticalPosition = 'bottom',
-    horizontal: MatSnackBarHorizontalPosition = 'center'): void {
-
+  showSnackBar(message: string, color: string): void {
     this.snackBar.open(message, '', {
       duration: 2000,
-      horizontalPosition: horizontal,
-      verticalPosition: vertical,
       panelClass: [color],
     });
   }

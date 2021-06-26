@@ -1,12 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Actions, ofAction, ofActionDispatched, ofActionSuccessful, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Category, Subcategory, Subsubcategory } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
-import { CategoriesService } from '../../services/categories/categories.service';
-import { GetCategories, GetCategoryById, GetSubcategories, GetSubcategoryById, GetSubsubcategories, GetSubsubcategoryById, OnGetCategoryByIdSuccess, OnGetSubcategoryByIdSuccess, OnGetSubsubcategoryByIdSuccess } from '../../store/meta-data.actions';
+import { GetCategories, GetSubcategories, GetSubsubcategories } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 
 @Component({
@@ -22,6 +21,8 @@ export class CategorySelectComponent implements OnInit {
   subcategories$: Observable<Subcategory[]>;
   @Select(MetaDataState.subsubcategories)
   subsubcategories$: Observable<Subsubcategory[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
 
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
@@ -31,8 +32,6 @@ export class CategorySelectComponent implements OnInit {
   selectedCategoryId: number;
   selectedSubcategoryId: number;
   selectedSubsubcategoryId: number;
-
-  private ngUnsubscribe = new Subject();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,12 +61,26 @@ export class CategorySelectComponent implements OnInit {
 
   activateEditMode(): void {
     this.store.dispatch(new GetCategories())
+      .pipe(
+        takeUntil(this.destroy$),
+      )
       .subscribe(() => this.selectedCategoryId = this.workshop.categoryId);
 
     this.store.dispatch(new GetSubcategories(this.workshop.categoryId))
+      .pipe(
+        takeUntil(this.destroy$),
+      )
       .subscribe(() => this.selectedSubcategoryId = this.workshop.subcategoryId);
 
     this.store.dispatch(new GetSubsubcategories(this.workshop.subcategoryId))
+      .pipe(
+        takeUntil(this.destroy$),
+      )
       .subscribe(() => this.selectedSubsubcategoryId = this.workshop.subsubcategoryId);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

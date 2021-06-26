@@ -21,7 +21,6 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
-
   @Input() workshop: Workshop;
   @Output() passDescriptionFormGroup = new EventEmitter();
 
