@@ -1,7 +1,7 @@
+import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Role } from 'src/app/shared/enum/role';
-import { Nav } from 'src/app/shared/models/navigation.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
@@ -23,22 +23,17 @@ export class PersonalCabinetComponent implements OnInit,OnDestroy {
   roles = RoleLinks;
   userRole: string;
 
-  constructor(private store: Store) { }
-
-  /**
-    * This method create new Navigation button
-    */
-  creatNavPath(name:string, isActive:boolean, disable:boolean): Nav[] {
-    return [
-      {name:'Головна', path:'/', isActive:true, disable:false},
-      {name:name, isActive:isActive, disable:disable}
-    ]
-  }
+  constructor(
+    private store: Store,
+    public navigationBarService: NavigationBarService,
+    ) { }
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
-    this.store.dispatch(new AddNavPath(this.creatNavPath("Кабінет користувача",false,true)))
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
+      {name: "Кабінет користувача", isActive: false, disable: true}
+      )))
   }
 
   ngOnDestroy(): void {

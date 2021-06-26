@@ -3,12 +3,12 @@ import { Component, OnInit,OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { Nav } from 'src/app/shared/models/navigation.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { GetWorkshopsById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
@@ -23,19 +23,9 @@ export class WorkshopDetailsComponent implements OnInit,OnDestroy {
   constructor(
     private store: Store,
     private route: ActivatedRoute,
-    private actions$: Actions
+    private actions$: Actions,
+    public navigationBarService: NavigationBarService,
   ) { }
-
-  /**
-    * This method create new Navigation button
-    */
-  creatNavPath(name: string, isActive: boolean, disable: boolean): Nav[] {
-    return [
-    {name:'Головна', path:'/', isActive:true, disable:false},
-    {name:'Найпопулярніші гуртки',path:'/result', isActive:false, disable:false},
-    {name:name, isActive:isActive, disable:disable}
-    ]
-  }
 
   ngOnInit(): void {
     const workshopId = +this.route.snapshot.paramMap.get('id');
@@ -44,8 +34,11 @@ export class WorkshopDetailsComponent implements OnInit,OnDestroy {
     this.actions$
     .pipe(ofActionSuccessful(GetWorkshopsById),takeUntil(this.destroy$))
     .subscribe(()=> {
-      this.store.dispatch(new AddNavPath(this.creatNavPath(this.store.selectSnapshot(UserState.selectedWorkshop).title,false,true)));
-    })
+      this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+        {name:'Найпопулярніші гуртки', path:'/result', isActive: false, disable: false},
+        {name:this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true},
+        )));
+    });
   }
   
   ngOnDestroy():void {

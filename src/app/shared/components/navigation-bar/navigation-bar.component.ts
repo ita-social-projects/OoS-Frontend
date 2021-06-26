@@ -12,7 +12,7 @@ import { Select, Store } from '@ngxs/store';
 })
 export class NavigationBarComponent {
 
-  @Select(NavigationState.getNavPath)
+  @Select(NavigationState.navigationPaths)
   navigation$: Observable<Nav[]>
 
   constructor(private store: Store) { }

@@ -60,7 +60,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
   ],
   imports: [
     MaterialModule,
@@ -97,7 +97,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
   ]
 })
 export class SharedModule { }

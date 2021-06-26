@@ -1,17 +1,17 @@
 import { Nav } from './../models/navigation.model';
 import { State,Action,StateContext,Selector } from "@ngxs/store";
 import { Injectable } from '@angular/core';
-import { AddNavPath, DeleteNavPath, RemoveNavPath } from './navigation.actions';
+import { AddNavPath, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
 
 
 export interface NavStateModel {
-    navPath: Nav[];
+    navigation: Nav[];
 }
 
 @State<NavStateModel>({
-  name:'navPath',
+  name:'navigation',
   defaults: {
-      navPath:[]
+      navigation:[]
   }
 })
 
@@ -19,28 +19,28 @@ export interface NavStateModel {
 export class NavigationState {
 
   @Selector()
-  static getNavPath(state: NavStateModel): Nav[] {return state.navPath}
+  static navigationPaths(state: NavStateModel): Nav[] {return state.navigation}
 
   @Action(AddNavPath)
     addNavPath({patchState}:StateContext<NavStateModel>,{payload}:AddNavPath): void {
         patchState({
-            navPath: payload
+          navigation: payload
         })
     }
     
-    @Action(RemoveNavPath)
+    @Action(RemoveLastNavPath)
     removeNavPath({getState,patchState}:StateContext<NavStateModel>): void {
-        const state = getState().navPath
+        const state = getState().navigation
         state.pop();
         patchState({
-            navPath: [...state]
+          navigation: [...state]
         })
     }
 
     @Action(DeleteNavPath)
-    deleteNavPath({patchState}:StateContext<NavStateModel>):void {
+    deleteNavPath({patchState}:StateContext<NavStateModel>): void {
         patchState({
-            navPath: []
+          navigation: []
         })
     }
 

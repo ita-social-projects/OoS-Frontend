@@ -5,7 +5,7 @@ export class AddNavPath {
   constructor(public payload: Nav[]){ }
 }
 
-export class RemoveNavPath {
+export class RemoveLastNavPath {
   static readonly type ='[navigation] Remove'
   constructor(){ }
 }
