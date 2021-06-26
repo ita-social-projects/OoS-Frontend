@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanDeactivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,12 +18,13 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, private route: ActivatedRoute) { }
 
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false));
+    return true;
+    //this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false)); TODO: improve guard for editMode
   }
 
   canDeactivate(
@@ -32,6 +33,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider)
+
 
     return this.provider$.pipe(map((provider: Provider) => provider !== undefined));
   }
