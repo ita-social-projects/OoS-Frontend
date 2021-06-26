@@ -28,7 +28,7 @@ export class Provider {
   workshop?: Workshop;
   image?: File[];
 
-  constructor(info, legalAddress, actualAddress, photo, id?) {
+  constructor(info, legalAddress: Address, actualAddress: Address, photo, id?: number) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
     this.type = info.type;
