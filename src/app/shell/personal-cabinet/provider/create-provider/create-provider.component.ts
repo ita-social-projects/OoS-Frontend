@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -14,7 +17,7 @@ import { CreateProvider } from 'src/app/shared/store/user.actions';
   templateUrl: './create-provider.component.html',
   styleUrls: ['./create-provider.component.scss']
 })
-export class CreateProviderComponent implements OnInit {
+export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   @Select(RegistrationState.user) user$: Observable<User>;
 
@@ -28,8 +31,9 @@ export class CreateProviderComponent implements OnInit {
 
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
+  @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -37,6 +41,12 @@ export class CreateProviderComponent implements OnInit {
 
     this.RobotFormControl.valueChanges.subscribe(val => this.isNotRobot = val);
     this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+  }
+
+  ngAfterViewInit() {
+    this.route.params.subscribe((params) => {
+      this.stepper.selectedIndex = +createProviderSteps[params.param];
+    })
   }
 
   /**

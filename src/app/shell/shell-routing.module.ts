@@ -40,8 +40,8 @@ const routes: Routes = [
   {
     path: 'create-provider/:param', component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
-    canLoad: [CreateProviderGuard],
-    canDeactivate: [CreateProviderGuard]
+    // canLoad: [CreateProviderGuard],
+    // canDeactivate: [CreateProviderGuard]
   },
   {
     path: 'create-child', component: CreateChildComponent,

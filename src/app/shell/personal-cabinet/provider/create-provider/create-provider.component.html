@@ -5,7 +5,7 @@
       <p class="wrapper-text">Додайте новий заклад всього у 3 кроки</p>
     </div>
 
-    <mat-horizontal-stepper>
+    <mat-horizontal-stepper #stepper>
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>Інформація про заклад</ng-template>
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)"></app-create-info-form>
