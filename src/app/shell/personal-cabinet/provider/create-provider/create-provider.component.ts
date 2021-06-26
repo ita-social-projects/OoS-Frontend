@@ -9,7 +9,7 @@ import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateProvider } from 'src/app/shared/store/user.actions';
+import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-create-provider',
@@ -39,6 +39,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.store.dispatch(new ChangePage(false));
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+
     if (this.editMode) {
       this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     }
@@ -61,7 +62,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
 
     if (this.editMode) {
-      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, this.provider.id)
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, this.provider.id);
+      this.store.dispatch(new UpdateProvider(provider));
+
     } else {
       const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
       this.store.dispatch(new CreateProvider(provider));
