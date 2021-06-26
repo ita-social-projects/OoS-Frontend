@@ -2,6 +2,7 @@ import { NavigationBarService } from './../../shared/services/navigation-bar/nav
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Role } from 'src/app/shared/enum/role';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { User } from 'src/app/shared/models/user.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
@@ -32,7 +33,7 @@ export class PersonalCabinetComponent implements OnInit,OnDestroy {
     this.store.dispatch(new ChangePage(false));
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      {name: "Кабінет користувача", isActive: false, disable: true}
+      {name: NavBarName.PersonalCabinet, isActive: false, disable: true}
       )))
   }
 

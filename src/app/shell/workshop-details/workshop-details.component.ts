@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { GetWorkshopsById } from 'src/app/shared/store/user.actions';
@@ -35,7 +36,7 @@ export class WorkshopDetailsComponent implements OnInit,OnDestroy {
     .pipe(ofActionSuccessful(GetWorkshopsById),takeUntil(this.destroy$))
     .subscribe(()=> {
       this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-        {name:'Найпопулярніші гуртки', path:'/result', isActive: false, disable: false},
+        {name:NavBarName.TopWorkshops, path:'/result', isActive: false, disable: false},
         {name:this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true},
         )));
     });

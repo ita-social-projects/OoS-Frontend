@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Nav } from '../../models/navigation.model';
+import { NavBarName } from '../../enum/navigation-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class NavigationBarService {
     */
   creatOneNavPath(navPath: Nav): Nav[] {
     return [
-      {name:'Головна', path:'/', isActive: true, disable: false},
+      {name: NavBarName.MainPage, path:'/', isActive: true, disable: false},
       navPath];
   }
 
@@ -24,7 +25,7 @@ export class NavigationBarService {
     */
   creatNavPaths(firstNavPath: Nav, secondNavPath: Nav): Nav[] {
     return [
-      {name:'Головна', path:'/', isActive: true, disable: false},
+      {name: NavBarName.MainPage, path:'/', isActive: true, disable: false},
       firstNavPath,
       secondNavPath];
   }
