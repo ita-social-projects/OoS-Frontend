@@ -1,7 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 @Component({
   selector: 'app-create-info-form',
@@ -19,6 +20,8 @@ export class CreateInfoFormComponent implements OnInit {
   readonly providerTypeUkr = ProviderTypeUkr;
 
   InfoFormGroup: FormGroup;
+
+  @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
@@ -27,7 +30,7 @@ export class CreateInfoFormComponent implements OnInit {
       shortTitle: new FormControl('', Validators.required),
       edrpouIpn: new FormControl('', Validators.required),
       director: new FormControl('', Validators.required),
-      directorBirthDay: new FormControl('', Validators.required),
+      directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       website: new FormControl(''),
@@ -41,6 +44,10 @@ export class CreateInfoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.passInfoFormGroup.emit(this.InfoFormGroup);
+
+    if (this.provider) {
+      this.InfoFormGroup.patchValue(this.provider);
+    }
   }
 
 }

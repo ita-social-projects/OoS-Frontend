@@ -2,8 +2,8 @@
   <label class="step-label">Форма властності<span class="step-required">*</span></label>
 
   <mat-form-field appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership" name="ownership" required
-      placeholder="Оберіть форму властності">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
+      name="ownership" required placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
         <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ ownershipTypeUkr[type.key] }}
@@ -15,7 +15,8 @@
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
 
   <mat-form-field appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required placeholder="Оберіть тип організації">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
+      required placeholder="Оберіть тип організації">
       <ng-container *ngFor="let type of providerType | keyvalue">
         <mat-option *ngIf="providerTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ providerTypeUkr[type.key] }}
@@ -41,7 +42,7 @@
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
   <mat-form-field class="step-input step-input-date">
-    <input matInput [matDatepicker]="picker" formControlName="directorBirthDay" required>
+    <input matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>

@@ -8,7 +8,8 @@
     <mat-horizontal-stepper #stepper>
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>Інформація про заклад</ng-template>
-        <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)"></app-create-info-form>
+        <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
+        </app-create-info-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <a [routerLink]="''"> <button class="btn btn-cancel" mat-raised-button> Скасувати
             </button></a>
@@ -19,7 +20,8 @@
       <mat-step [stepControl]="LegalAddressFormGroup && ActualAddressFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
         <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
-          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)"></app-create-contacts-form>
+          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">
+        </app-create-contacts-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''"> Скасувати
@@ -30,8 +32,9 @@
 
       <mat-step [stepControl]="PhotoFormGroup">
         <ng-template matStepLabel>Фото</ng-template>
-        <app-create-photo-form (passPhotoFormGroup)="onReceivePhotoFormGroup($event)"></app-create-photo-form>
-        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box">
+        <app-create-photo-form (passPhotoFormGroup)="onReceivePhotoFormGroup($event)" [provider]="provider">
+        </app-create-photo-form>
+        <div *ngIf="!editMode" fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю
             згоду на обробку
             персональних даних

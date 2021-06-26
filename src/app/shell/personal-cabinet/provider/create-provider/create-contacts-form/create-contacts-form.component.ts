@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 @Component({
   selector: 'app-create-contacts-form',
@@ -11,6 +12,7 @@ export class CreateContactsFormComponent implements OnInit {
   LegalAddressFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);
 
+  @Input() provider: Provider;
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
 
@@ -38,5 +40,10 @@ export class CreateContactsFormComponent implements OnInit {
     this.isSameAddressControl.valueChanges.subscribe(val => {
       (val) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
     })
+
+    if (this.provider) {
+      this.LegalAddressFormGroup.patchValue(this.provider.legalAddress);
+      this.ActualAddressFormGroup.patchValue(this.provider.actualAddress);
+    }
   }
 }

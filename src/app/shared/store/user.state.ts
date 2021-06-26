@@ -43,7 +43,10 @@ import {
   GetApplications,
   UpdateChild,
   OnUpdateChildFail,
-  OnUpdateChildSuccess
+  OnUpdateChildSuccess,
+  UpdateProvider,
+  OnUpdateProviderFail,
+  OnUpdateProviderSuccess
 } from './user.actions';
 
 export interface UserStateModel {
@@ -346,6 +349,34 @@ export class UserState {
     console.log('Child is updated', payload);
     setTimeout(() => {
       this.showSnackBar('Дитина успішно відредагована', 'primary', 'top');
+      this.router.navigate(['/personal-cabinet/parent/info']);
+    }, 1000);
+  }
+
+  @Action(UpdateProvider)
+  updateProvider({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateProvider) {
+    return this.providerService
+      .updateProvider(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateProviderFail(error))))
+      );
+  }
+
+  @Action(OnUpdateProviderFail)
+  onUpdateProviderfail({ }: StateContext<UserStateModel>, { payload }: OnUpdateProviderFail): void {
+    console.log('Provider updating is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
+  @Action(OnUpdateProviderSuccess)
+  onUpdateProviderSuccess({ }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+    console.log('Provider is updated', payload);
+    setTimeout(() => {
+      this.showSnackBar('Організація успішно відредагована', 'primary');
       this.router.navigate(['/personal-cabinet/parent/info']);
     }, 1000);
   }

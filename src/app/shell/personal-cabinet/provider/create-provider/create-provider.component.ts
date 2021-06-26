@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
 import { ChangePage } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider } from 'src/app/shared/store/user.actions';
@@ -19,7 +18,7 @@ import { CreateProvider } from 'src/app/shared/store/user.actions';
 })
 export class CreateProviderComponent implements OnInit, AfterViewInit {
 
-  @Select(RegistrationState.user) user$: Observable<User>;
+  provider: Provider;
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -28,6 +27,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   isAgreed: boolean;
   isNotRobot: boolean;
+  editMode: boolean;
 
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
@@ -38,6 +38,10 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.store.dispatch(new ChangePage(false));
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+    if (this.editMode) {
+      this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    }
 
     this.RobotFormControl.valueChanges.subscribe(val => this.isNotRobot = val);
     this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
@@ -56,9 +60,13 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     const legalAddress = new Address(this.ActualAddressFormGroup.value);
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
 
-    const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+    if (this.editMode) {
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, this.provider.id)
+    } else {
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+      this.store.dispatch(new CreateProvider(provider));
+    }
 
-    this.store.dispatch(new CreateProvider(provider));
   }
 
   /**

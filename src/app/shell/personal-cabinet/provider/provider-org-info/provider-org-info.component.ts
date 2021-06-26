@@ -19,8 +19,6 @@ export class ProviderOrgInfoComponent implements OnInit {
   readonly providerTypeUkr = ProviderTypeUkr;
 
   @Select(RegistrationState.provider) provider$: Observable<Provider>;
-  provider: Provider;
-
 
   constructor(private store: Store) { }
 
