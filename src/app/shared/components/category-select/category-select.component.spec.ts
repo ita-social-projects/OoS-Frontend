@@ -29,9 +29,9 @@ describe('CategorySelectComponent', () => {
     fixture = TestBed.createComponent(CategorySelectComponent);
     component = fixture.componentInstance;
     component.CategoryFormGroup = new FormGroup({
-      category: new FormControl(''),
-      subcategory: new FormControl(''),
-      subsubcategory: new FormControl(''),
+      categoryId: new FormControl(''),
+      subcategoryId: new FormControl(''),
+      subsubcategoryId: new FormControl(''),
     });
     fixture.detectChanges();
   });
