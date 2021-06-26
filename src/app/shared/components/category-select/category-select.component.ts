@@ -23,7 +23,6 @@ export class CategorySelectComponent implements OnInit {
   subsubcategories$: Observable<Subsubcategory[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 

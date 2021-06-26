@@ -19,7 +19,6 @@ describe('CategorySelectComponent', () => {
         MatSelectModule,
         MatOptionModule,
         NgxsModule.forRoot([]),
-        HttpClientTestingModule
       ],
       declarations: [CategorySelectComponent],
     })
