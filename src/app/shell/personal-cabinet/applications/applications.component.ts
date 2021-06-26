@@ -7,8 +7,10 @@ import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/app
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
-import { ChildrenService } from 'src/app/shared/services/children/children.service';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
+import { GetWorkshops } from 'src/app/shared/store/app.actions';
+import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplications, GetApplicationsByUserId, GetChildren } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -25,13 +27,15 @@ export class ApplicationsComponent implements OnInit {
   readonly Role = Role;
   user: User;
 
+  @Select(AppState.allWorkshops)
+  workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   applications: Application[];
+  workshopList: Workshop[];
 
   @Select(UserState.children)
   children$: Observable<Child[]>;
-
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -42,6 +46,7 @@ export class ApplicationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.store.selectSnapshot<User>(RegistrationState.user);
+    this.store.dispatch(new GetWorkshops());
 
     if (this.user.role === Role.provider) {
       this.store.dispatch(new GetApplications());

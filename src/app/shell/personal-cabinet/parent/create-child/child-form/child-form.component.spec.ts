@@ -41,7 +41,7 @@ describe('ChildFormComponent', () => {
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
-      birthDay: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       gender: new FormControl(''),
       socialGroupId: new FormControl('')
     });
