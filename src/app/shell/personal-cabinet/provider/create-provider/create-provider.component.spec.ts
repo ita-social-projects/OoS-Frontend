@@ -22,6 +22,7 @@ describe('CreateProviderComponent', () => {
         MatCheckboxModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
+        RouterTestingModule
       ],
       declarations: [
         CreateProviderComponent,

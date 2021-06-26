@@ -18,7 +18,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
 
-  constructor(public store: Store, private route: ActivatedRoute) { }
+  constructor(public store: Store) { }
 
   canLoad(
     route: Route,
