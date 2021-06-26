@@ -3,7 +3,7 @@
     <div class="card">
       <mat-tab-group class="nav">
         <mat-tab label="Інформація про заклад">
-          <div class="card">
+          <div class="card wrapper">
             <a [routerLink]="['/create-provider', 'info']" class="edit-icon"><button mat-button style="color:#3849F9;">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
               </button></a>
@@ -30,7 +30,7 @@
           </div>
         </mat-tab>
         <mat-tab label="Контакти">
-          <div class="card">
+          <div class="card wrapper">
             <a [routerLink]="['/create-provider', 'contacts']" class="edit-icon"><button mat-button
                 style="color:#3849F9;">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
@@ -60,11 +60,13 @@
           </div>
         </mat-tab>
         <mat-tab label="Фото">
-          <a [routerLink]="['/create-provider', 'photo']" class="edit-icon"><button mat-button style="color:#3849F9;">
-              <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-            </button></a>
-          <h5>Опис</h5>
-          <p>{{provider.description}}</p>
+          <div class="card wrapper">
+            <a [routerLink]="['/create-provider', 'photo']" class="edit-icon"><button mat-button style="color:#3849F9;">
+                <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
+              </button></a>
+            <h5>Опис</h5>
+            <p>{{provider.description}}</p>
+          </div>
         </mat-tab>
       </mat-tab-group>
     </div>
