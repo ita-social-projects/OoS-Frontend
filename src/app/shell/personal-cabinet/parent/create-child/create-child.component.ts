@@ -7,7 +7,7 @@ import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
-import { ChangePage } from 'src/app/shared/store/app.actions';
+import { ChangePage, MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -55,7 +55,7 @@ export class CreateChildComponent implements OnInit {
       this.ChildrenFormArray.push(this.newForm());
     }
 
-
+    this.ChildrenFormArray.valueChanges.subscribe(() => this.store.dispatch(new MarkFormDirty(true)));
   }
 
   /**

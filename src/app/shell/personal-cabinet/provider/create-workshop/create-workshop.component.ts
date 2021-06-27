@@ -19,8 +19,7 @@ export class CreateWorkshopComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   /**
    * This method dispatch store action to create a Workshop with Form Groups values

@@ -5,7 +5,7 @@ import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ChangePage, GetTeachersById, GetWorkshops, SetLocation, ToggleLoading } from './app.actions';
+import { ChangePage, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ToggleEditMode, ToggleLoading } from './app.actions';
 import { FilterStateModel } from './filter.state';
 
 export interface AppStateModel {
@@ -15,7 +15,9 @@ export interface AppStateModel {
   lng: Number | null;
   lat: Number | null;
   allWorkshops: Workshop[];
-  teachers: Teacher[]
+  teachers: Teacher[],
+  isEditMode: boolean,
+  isDirtyForm: boolean
 }
 
 @State<AppStateModel>({
@@ -28,6 +30,8 @@ export interface AppStateModel {
     lat: null,
     allWorkshops: [],
     teachers: [],
+    isEditMode: false,
+    isDirtyForm: false
   }
 })
 @Injectable()
@@ -43,6 +47,12 @@ export class AppState {
 
   @Selector()
   static teachers(state: AppStateModel): Teacher[] { return state.teachers }
+
+  @Selector()
+  static isEditMode(state: AppStateModel): boolean { return state.isEditMode }
+
+  @Selector()
+  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm }
 
   constructor(
     private appWorkshopsService: AppWorkshopsService,
@@ -78,5 +88,15 @@ export class AppState {
       .pipe(
         tap((workshopTeachers: Teacher[]) => patchState({ teachers: workshopTeachers })
         ))
+  }
+
+  @Action(ToggleEditMode)
+  toggleEditMode({ patchState }: StateContext<AppStateModel>, { payload }: ToggleEditMode): void {
+    patchState({ isEditMode: payload });
+  }
+
+  @Action(MarkFormDirty)
+  markFormDirty({ patchState }: StateContext<AppStateModel>, { payload }: MarkFormDirty): void {
+    patchState({ isDirtyForm: payload });
   }
 }
