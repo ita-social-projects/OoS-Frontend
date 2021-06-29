@@ -1,22 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
-import { ChangePage } from 'src/app/shared/store/app.actions';
+import { ChangePage, MarkFormDirty } from 'src/app/shared/store/app.actions';
+import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateProvider } from 'src/app/shared/store/user.actions';
+import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-create-provider',
   templateUrl: './create-provider.component.html',
   styleUrls: ['./create-provider.component.scss']
 })
-export class CreateProviderComponent implements OnInit {
+export class CreateProviderComponent implements OnInit, AfterViewInit {
 
-  @Select(RegistrationState.user) user$: Observable<User>;
+  @Select(AppState.isDirtyForm)
+  isDirtyForm$: Observable<Boolean>;
+  isPristine = true;
+
+  provider: Provider;
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -25,18 +33,31 @@ export class CreateProviderComponent implements OnInit {
 
   isAgreed: boolean;
   isNotRobot: boolean;
+  editMode: boolean;
 
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
+  @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.store.dispatch(new ChangePage(false));
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+
+    if (this.editMode) {
+      this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    }
 
     this.RobotFormControl.valueChanges.subscribe(val => this.isNotRobot = val);
     this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+  }
+
+  ngAfterViewInit() {
+    this.route.params.subscribe((params) => {
+      this.stepper.selectedIndex = +createProviderSteps[params.param];
+    })
   }
 
   /**
@@ -46,9 +67,14 @@ export class CreateProviderComponent implements OnInit {
     const legalAddress = new Address(this.ActualAddressFormGroup.value);
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
 
-    const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+    if (this.editMode) {
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, this.provider.id);
+      this.store.dispatch(new UpdateProvider(provider));
+    } else {
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+      this.store.dispatch(new CreateProvider(provider));
+    }
 
-    this.store.dispatch(new CreateProvider(provider));
   }
 
   /**
@@ -57,6 +83,7 @@ export class CreateProviderComponent implements OnInit {
    */
   onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -65,10 +92,12 @@ export class CreateProviderComponent implements OnInit {
    */
   onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   onReceiveLegalAddressFormGrou(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -77,5 +106,16 @@ export class CreateProviderComponent implements OnInit {
    */
   onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
+    this.subscribeOnDirtyForm(form);
+  }
+
+  subscribeOnDirtyForm(form: FormGroup): void {
+    form.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
   }
 }
