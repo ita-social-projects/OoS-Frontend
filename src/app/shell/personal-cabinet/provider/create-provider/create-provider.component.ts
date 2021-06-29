@@ -64,7 +64,6 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     if (this.editMode) {
       const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, this.provider.id);
       this.store.dispatch(new UpdateProvider(provider));
-
     } else {
       const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
       this.store.dispatch(new CreateProvider(provider));
