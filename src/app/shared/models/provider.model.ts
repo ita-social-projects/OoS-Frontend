@@ -15,7 +15,7 @@ export class Provider {
   description?: string;
   edrpouIpn?: string;
   director?: string;
-  directorBirthDay?: string | Date;
+  directorDateOfBirth?: string | Date;
   phoneNumber?: string;
   founder?: string;
   ownership?: number;
@@ -28,7 +28,7 @@ export class Provider {
   workshop?: Workshop;
   image?: File[];
 
-  constructor(info, legalAddress, actualAddress, photo) {
+  constructor(info, legalAddress: Address, actualAddress: Address, photo, id?: number) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
     this.type = info.type;
@@ -40,10 +40,11 @@ export class Provider {
     this.phoneNumber = info.phoneNumber;
     this.edrpouIpn = info.edrpouIpn;
     this.director = info.director;
-    this.directorBirthDay = info.directorBirthDay;
+    this.directorDateOfBirth = info.directorDateOfBirth;
     this.founder = info.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;
+    this.id = id;
   }
 }

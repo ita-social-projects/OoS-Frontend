@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateProviderComponent } from './create-provider.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
@@ -22,6 +23,7 @@ describe('CreateProviderComponent', () => {
         MatCheckboxModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
+        RouterTestingModule
       ],
       declarations: [
         CreateProviderComponent,
@@ -49,6 +51,7 @@ describe('CreateProviderComponent', () => {
   template: ''
 })
 class MockCreateContactsFormComponent {
+  @Input() provider: Provider;
 }
 
 @Component({
@@ -56,6 +59,7 @@ class MockCreateContactsFormComponent {
   template: ''
 })
 class MockCreateInfoComponent {
+  @Input() provider: Provider;
 }
 
 @Component({
@@ -63,4 +67,5 @@ class MockCreateInfoComponent {
   template: ''
 })
 class MockCreatePhotoFormComponent {
+  @Input() provider: Provider;
 }
