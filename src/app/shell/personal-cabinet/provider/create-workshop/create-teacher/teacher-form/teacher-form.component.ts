@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
+import { emit } from 'process';
 
 @Component({
   selector: 'app-teacher-form',
@@ -11,10 +12,16 @@ export class TeacherFormComponent implements OnInit {
 
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
+  descriptionMaxLength = 300;
   @Input() teacherAmount: number;
   @Output() deleteForm = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
+
+  constructor(private formBuilder: FormBuilder) {
+    this.TeacherFormGroup = this.formBuilder.group({
+      description: new FormControl('', [Validators.maxLength(this.descriptionMaxLength), Validators.required])
+    })
+   
   }
 
   ngOnInit(): void {
