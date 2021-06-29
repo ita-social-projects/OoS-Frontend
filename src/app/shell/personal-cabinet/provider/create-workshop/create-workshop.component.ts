@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
+import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
 @Component({
@@ -15,6 +17,10 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
   styleUrls: ['./create-workshop.component.scss']
 })
 export class CreateWorkshopComponent implements OnInit {
+
+  @Select(AppState.isDirtyForm)
+  isDirtyForm$: Observable<Boolean>;
+  isPristine = true;
 
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
