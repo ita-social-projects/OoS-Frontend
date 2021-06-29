@@ -7,6 +7,8 @@ import { Role } from 'src/app/shared/enum/role';
 import { User } from 'src/app/shared/models/user.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { AppState } from 'src/app/shared/store/app.state';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +25,9 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
-    //this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false)); TODO: improve guard for editMode
+    const isEditMode = this.store.selectSnapshot<boolean>(AppState.isEditMode);
+
+    return isEditMode ? true : this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false));
   }
 
   canDeactivate(
@@ -32,10 +35,17 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider)
 
+    const isEditMode = this.store.selectSnapshot<boolean>(AppState.isEditMode);
 
-    return this.provider$.pipe(map((provider: Provider) => provider !== undefined));
+    if (isEditMode) {
+      this.store.dispatch(new ActivateEditMode(false));
+      return true;
+    } else {
+      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+
+      return this.provider$.pipe(map((provider: Provider) => provider !== undefined));
+    }
   }
 
 }

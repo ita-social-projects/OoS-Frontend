@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { UserState } from 'src/app/shared/store/user.state';
 
@@ -23,5 +24,9 @@ export class ProviderOrgInfoComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void { }
+
+  ActivateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
+  }
 
 }

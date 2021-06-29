@@ -4,7 +4,8 @@
       <mat-tab-group class="nav">
         <mat-tab label="Інформація про заклад">
           <div class="card wrapper">
-            <a [routerLink]="['/create-provider', 'info']" class="edit-icon"><button mat-button style="color:#3849F9;">
+            <a [routerLink]="['/create-provider', 'info']" class="edit-icon"><button mat-button style="color:#3849F9;"
+                (click)="ActivateEditMode()">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
               </button></a>
             <h3>Форма властності</h3>
@@ -32,7 +33,7 @@
         <mat-tab label="Контакти">
           <div class="card wrapper">
             <a [routerLink]="['/create-provider', 'contacts']" class="edit-icon"><button mat-button
-                style="color:#3849F9;">
+                style="color:#3849F9;" (click)="ActivateEditMode()">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
               </button></a>
             <h3>Юридична адреса</h3>
@@ -61,7 +62,8 @@
         </mat-tab>
         <mat-tab label="Фото">
           <div class="card wrapper">
-            <a [routerLink]="['/create-provider', 'photo']" class="edit-icon"><button mat-button style="color:#3849F9;">
+            <a [routerLink]="['/create-provider', 'photo']" class="edit-icon" (click)="ActivateEditMode()"><button
+                mat-button style="color:#3849F9;">
                 <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
               </button></a>
             <h5>Опис</h5>
