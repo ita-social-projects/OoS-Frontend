@@ -19,10 +19,6 @@ export class GetTeachersById {
   static readonly type = '[app] Get Teachers by Id';
   constructor(public payload: number) { }
 }
-export class ToggleEditMode {
-  static readonly type = '[app] toggle edit mode';
-  constructor(public payload: boolean) { }
-}
 export class MarkFormDirty {
   static readonly type = '[app] mark the form dirty';
   constructor(public payload: boolean) { }

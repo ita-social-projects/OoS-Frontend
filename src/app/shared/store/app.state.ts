@@ -5,8 +5,7 @@ import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ChangePage, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ToggleEditMode, ToggleLoading } from './app.actions';
-import { FilterStateModel } from './filter.state';
+import { ChangePage, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ToggleLoading } from './app.actions';
 
 export interface AppStateModel {
   isLoading: boolean;
@@ -16,7 +15,6 @@ export interface AppStateModel {
   lat: Number | null;
   allWorkshops: Workshop[];
   teachers: Teacher[],
-  isEditMode: boolean,
   isDirtyForm: boolean
 }
 
@@ -30,7 +28,6 @@ export interface AppStateModel {
     lat: null,
     allWorkshops: [],
     teachers: [],
-    isEditMode: false,
     isDirtyForm: false
   }
 })
@@ -47,9 +44,6 @@ export class AppState {
 
   @Selector()
   static teachers(state: AppStateModel): Teacher[] { return state.teachers }
-
-  @Selector()
-  static isEditMode(state: AppStateModel): boolean { return state.isEditMode }
 
   @Selector()
   static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm }
@@ -88,11 +82,6 @@ export class AppState {
       .pipe(
         tap((workshopTeachers: Teacher[]) => patchState({ teachers: workshopTeachers })
         ))
-  }
-
-  @Action(ToggleEditMode)
-  toggleEditMode({ patchState }: StateContext<AppStateModel>, { payload }: ToggleEditMode): void {
-    patchState({ isEditMode: payload });
   }
 
   @Action(MarkFormDirty)
