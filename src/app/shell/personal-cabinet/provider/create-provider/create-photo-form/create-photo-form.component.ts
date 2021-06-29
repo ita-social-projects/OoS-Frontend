@@ -22,10 +22,7 @@ export class CreatePhotoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.provider && this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-
-    if (this.provider) {
-      this.PhotoFormGroup.patchValue(this.provider);
-    }
   }
 }

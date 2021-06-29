@@ -4,10 +4,12 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { ChangePage } from 'src/app/shared/store/app.actions';
+import { ChangePage, MarkFormDirty } from 'src/app/shared/store/app.actions';
+import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
 
@@ -17,6 +19,10 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
   styleUrls: ['./create-provider.component.scss']
 })
 export class CreateProviderComponent implements OnInit, AfterViewInit {
+
+  @Select(AppState.isDirtyForm)
+  isDirtyForm$: Observable<Boolean>;
+  isPristine = true;
 
   provider: Provider;
 
@@ -77,6 +83,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
    */
   onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -85,10 +92,12 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
    */
   onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   onReceiveLegalAddressFormGrou(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -97,5 +106,16 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
    */
   onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
+    this.subscribeOnDirtyForm(form);
+  }
+
+  subscribeOnDirtyForm(form: FormGroup): void {
+    form.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
   }
 }

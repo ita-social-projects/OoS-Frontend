@@ -42,8 +42,8 @@ export class CreateContactsFormComponent implements OnInit {
     })
 
     if (this.provider) {
-      this.LegalAddressFormGroup.patchValue(this.provider.legalAddress);
-      this.ActualAddressFormGroup.patchValue(this.provider.actualAddress);
+      this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
+      this.ActualAddressFormGroup.patchValue(this.provider.actualAddress, { emitEvent: false });
     }
   }
 }
