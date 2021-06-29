@@ -142,7 +142,7 @@ export class UserState {
 
   @Action(OnCreateWorkshopFail)
   onCreateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
-    console.log('Workshop creation is failed', payload);
+    console.error('Workshop creation is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -168,7 +168,7 @@ export class UserState {
 
   @Action(OnDeleteWorkshopFail)
   onDeleteWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopFail): void {
-    console.log('Workshop is not deleted', payload);
+    console.error('Workshop is not deleted', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -192,7 +192,7 @@ export class UserState {
 
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenFail): void {
-    console.log('Child creation is failed', payload);
+    console.error('Child creation is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -217,7 +217,7 @@ export class UserState {
 
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
-    console.log('Provider creation is failed', payload);
+    console.error('Provider creation is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -243,7 +243,7 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    console.log('Application creation is failed', payload);
+    console.error('Application creation is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -268,7 +268,7 @@ export class UserState {
 
   @Action(OnCreateParentFail)
   onCreateParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentFail): void {
-    console.log('Parent creation is failed', payload);
+    console.error('Parent creation is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -291,7 +291,7 @@ export class UserState {
 
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildFail): void {
-    console.log('Child is not deleted', payload);
+    console.error('Child is not deleted', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -315,7 +315,7 @@ export class UserState {
 
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
-    console.log('Child updating is failed', payload);
+    console.error('Child updating is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
@@ -340,7 +340,7 @@ export class UserState {
 
   @Action(OnUpdateProviderFail)
   onUpdateProviderfail({ }: StateContext<UserStateModel>, { payload }: OnUpdateProviderFail): void {
-    console.log('Provider updating is failed', payload);
+    console.error('Provider updating is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
   }
