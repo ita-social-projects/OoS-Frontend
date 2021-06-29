@@ -4,6 +4,7 @@ import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } f
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { AppState } from 'src/app/shared/store/app.state';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +20,17 @@ export class CreateGuard implements CanDeactivate<unknown> {
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
-      data: 'Залишити сторінку?'
-    });
-    return dialogRef.afterClosed().pipe(result => result);
+    const isDirty = this.store.selectSnapshot<boolean>(AppState.isDirtyForm);
+
+    if (isDirty) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: '330px',
+        data: 'Залишити сторінку?'
+      });
+
+      return dialogRef.afterClosed().pipe(result => result);
+    } else {
+      return true;
+    }
   }
 }

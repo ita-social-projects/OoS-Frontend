@@ -48,11 +48,13 @@ const routes: Routes = [
     path: 'create-child/:id', component: CreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-application/:id', component: CreateApplicationComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
-    canLoad: [ParentGuard]
+    canLoad: [ParentGuard],
+    canDeactivate: [CreateGuard]
   },
 ];
 
