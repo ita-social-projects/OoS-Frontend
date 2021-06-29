@@ -8,8 +8,11 @@ import { NavBarName } from '../../enum/navigation-bar';
 export class NavigationBarService {
 
  /**
-    * This method create one Navigation button
+    * Method create one navigation path 
+    * This method using for creating array of objects with params
+    * for (navigation-button) and dispatching to the navigation-state.
     * @param {name, path?, isActive, disable}:Nav
+    * @returns array of Object for navigation :Nav[] 
     * 
     */
   creatOneNavPath(navPath: Nav): Nav[] {
@@ -19,8 +22,9 @@ export class NavigationBarService {
   }
 
    /**
-    * This method create two Navigation button
+    * Method create two navigation path 
     * @param {name, path?, isActive, disable}:Nav
+    * @returns array of two Objects for navigation :Nav[] 
     * 
     */
   creatNavPaths(firstNavPath: Nav, secondNavPath: Nav): Nav[] {
