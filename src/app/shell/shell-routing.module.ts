@@ -35,7 +35,6 @@ const routes: Routes = [
     path: 'create-workshop', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-provider', component: CreateProviderComponent,
