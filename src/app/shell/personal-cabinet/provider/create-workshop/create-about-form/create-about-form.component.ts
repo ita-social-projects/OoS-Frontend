@@ -119,7 +119,7 @@ export class CreateAboutFormComponent implements OnInit {
   * This method fills inputs with information of edited workshop
   */
   activateEditMode(): void {
-    this.AboutFormGroup.patchValue(this.workshop);
+    this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     if (this.workshop.price) {
       this.priceRadioBtn.setValue(true);
       this.priceCtrl.setValue(this.workshop.price);

@@ -44,9 +44,8 @@ export class CreateTeacherComponent implements OnInit {
       dateOfBirth: new FormControl(''),
       description: new FormControl(''),
     });
-    if (teacher) {
-      teacherFormGroup.patchValue(teacher);
-    }
+
+    teacher && teacherFormGroup.patchValue(teacher, { emitEvent: false });
     return teacherFormGroup;
   }
 

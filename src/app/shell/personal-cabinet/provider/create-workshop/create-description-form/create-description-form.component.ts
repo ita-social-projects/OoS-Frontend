@@ -74,9 +74,7 @@ export class CreateDescriptionFormComponent implements OnInit {
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
 
-    if (this.workshop) {
-      this.DescriptionFormGroup.patchValue(this.workshop);
-    }
+    this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
   }
 
   /**

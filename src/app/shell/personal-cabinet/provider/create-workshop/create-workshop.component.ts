@@ -3,11 +3,13 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
@@ -66,6 +68,7 @@ export class CreateWorkshopComponent implements OnInit {
    */
   onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -74,6 +77,7 @@ export class CreateWorkshopComponent implements OnInit {
    */
   onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
@@ -82,6 +86,7 @@ export class CreateWorkshopComponent implements OnInit {
    */
   onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -90,6 +95,7 @@ export class CreateWorkshopComponent implements OnInit {
    */
   onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
@@ -103,5 +109,15 @@ export class CreateWorkshopComponent implements OnInit {
       teachers.push(teacher);
     })
     return teachers;
+  }
+
+  subscribeOnDirtyForm(form: FormGroup | FormArray): void {
+    form.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
   }
 }
