@@ -25,7 +25,6 @@ export class CreateGuard implements CanDeactivate<unknown> {
     const isDirty = this.store.selectSnapshot<boolean>(AppState.isDirtyForm);
 
     if (isDirty) {
-      let modalResponse;
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: 'Залишити сторінку?'

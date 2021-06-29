@@ -344,13 +344,13 @@ export class UserState {
   }
 
   @Action(OnUpdateWorkshopSuccess)
-  onUpdateWorkshopSuccess({ patchState }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
+  onUpdateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Workshop is updated', payload);
-    setTimeout(() => {
-      this.showSnackBar('Гурток оновлено!', 'primary');
-      this.router.navigate(['/personal-cabinet/workshops']);
-    }, 1000);
+    this.showSnackBar('Гурток оновлено!', 'primary');
+    this.router.navigate(['/personal-cabinet/workshops']);
   }
+
   @Action(OnUpdateChildSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
     dispatch(new MarkFormDirty(false));
@@ -377,7 +377,8 @@ export class UserState {
   }
 
   @Action(OnUpdateProviderSuccess)
-  onUpdateProviderSuccess({ }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+  onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
     this.showSnackBar('Організація успішно відредагована', 'primary');
     this.router.navigate(['/personal-cabinet/parent/info']);
