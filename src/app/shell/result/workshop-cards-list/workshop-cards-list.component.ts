@@ -34,6 +34,5 @@ export class WorkshopCardsListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshops());
     this.allWorkshops$.subscribe((workshops: Workshop[]) => this.workshops = workshops);
-    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
   }
 }

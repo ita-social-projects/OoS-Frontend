@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, takeWhile } from 'rxjs/operators';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
@@ -30,6 +30,7 @@ export class CreateChildComponent implements OnInit {
   socialGroups$: Observable<SocialGroup[]>;
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<Boolean>;
@@ -43,11 +44,14 @@ export class CreateChildComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new ChangePage(false));
-    this.socialGroups$.subscribe((socialGroups: SocialGroup[]) => {
-      if (socialGroups.length === 0) {
-        this.store.dispatch(new GetSocialGroup())
-      }
-    });
+    this.socialGroups$
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((socialGroups: SocialGroup[]) => {
+        if (socialGroups.length === 0) {
+          this.store.dispatch(new GetSocialGroup())
+        }
+      });
 
     const childId = +this.route.snapshot.paramMap.get('id');
     if (childId) {
@@ -122,6 +126,10 @@ export class CreateChildComponent implements OnInit {
         this.store.dispatch(new CreateChildren(child));
       })
     }
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

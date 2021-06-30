@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { ActivatedRoute } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { Address } from 'src/app/shared/models/address.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { CreateWorkshop } from 'src/app/shared/store/user.actions';
+import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
+import { AppState } from 'src/app/shared/store/app.state';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -12,14 +20,31 @@ import { CreateWorkshop } from 'src/app/shared/store/user.actions';
 })
 export class CreateWorkshopComponent implements OnInit {
 
+  @Select(AppState.isDirtyForm)
+  isDirtyForm$: Observable<Boolean>;
+  isPristine = true;
+
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor(private store: Store) { }
+  editMode: boolean = false;
+  workshop: Workshop;
 
-  ngOnInit() { }
+
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private userWorkshopService: UserWorkshopService) { }
+
+  ngOnInit() {
+    const workshopId = +this.route.snapshot.paramMap.get('id');
+    if (workshopId) {
+      this.editMode = true;
+      this.userWorkshopService.getWorkshopsById(workshopId).subscribe(workshop => this.workshop = workshop);
+    }
+  }
 
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
@@ -27,47 +52,72 @@ export class CreateWorkshopComponent implements OnInit {
   onSubmit() {
     const address = new Address(this.AddressFormGroup.value);
     const teachers = this.createTeachers(this.TeacherFormArray);
-    const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers);
-    this.store.dispatch(new CreateWorkshop(workshop));
+    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    if (this.editMode) {
+      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, provider, this.workshop.id);
+      this.store.dispatch(new UpdateWorkshop(workshop));
+    } else {
+      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, provider);
+      this.store.dispatch(new CreateWorkshop(workshop));
+    }
   }
+
   /**
    * This method receives a from from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
    */
   onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
+
   /**
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
    * @param FormArray array
    */
   onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
+    this.subscribeOnDirtyForm(array);
   }
+
   /**
    * This method receives  a from from create-about child component and assigns to the About FormGroup
    * @param FormGroup form
    */
   onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
+
   /**
    * This method receives a from create-description child component and assigns to the Description FormGroup
    * @param FormGroup form
    */
   onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
+    this.subscribeOnDirtyForm(form);
   }
+
   /**
    * This method create array of teachers
    * @param FormArray formArray
    */
   createTeachers(formArray: FormArray): Teacher[] {
     const teachers: Teacher[] = [];
-    for (let i = 0; i < formArray.controls.length; i++) {
-      let teacher: Teacher = new Teacher(formArray.controls[i].value);
-      teachers.push(teacher)
-    }
+    formArray.controls.forEach((form: FormGroup) => {
+      let teacher: Teacher = new Teacher(form.value);
+      teachers.push(teacher);
+    })
     return teachers;
+  }
+
+  subscribeOnDirtyForm(form: FormGroup | FormArray): void {
+    form.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
   }
 }

@@ -5,7 +5,7 @@
     <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
     <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
       <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
-        alt="{{workshop.category}}">
+        alt="workshop-category">
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
@@ -42,7 +42,8 @@
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn" (click)="onEdit()"><img src="assets/icons/edit.png" alt="edit"></div>
+    <div class="actions_btn" [routerLink]="['/create-workshop', workshop.id]"><img src="assets/icons/edit.png"
+        alt="edit"></div>
     <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
   </div>
 </ng-template>
