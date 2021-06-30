@@ -2,8 +2,13 @@ import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
-import { Coords } from '../models/coords.model';
-import { Address } from '../models/address.model';
+import { Coords } from '../../models/coords.model';
+import { Address } from '../../models/address.model';
+import { Workshop } from '../../models/workshop.model';
+
+const markerIcon = '/assets/icons/marker.png';
+const selectedMarkerIcon = '/assets/icons/selectMarker.png';
+
 
 @Component({
   selector: 'app-map',
@@ -12,22 +17,24 @@ import { Address } from '../models/address.model';
 })
 export class MapComponent implements AfterViewInit {
   @Input() address: FormGroup;
+  @Input() workshops: Workshop[];
+
   @Output() setAddressEvent = new EventEmitter<FormGroup>();
+  @Output() selectedAddress = new EventEmitter<Address>();
 
   constructor(private geolocationService: GeolocationService) { }
+  
   map;
   marker;
   mainLayer;
-  markerIcon = {
-    icon: Layer.icon({
-      iconSize: [25, 25],
-      shadowSize: [0, 0],
-      iconAnchor: [10, 41],
-      shadowAnchor: [0, 0],
-      popupAnchor: [-3, -76],
-      iconUrl: '../../../../assets/icons/marker.png',
-    })
-  };
+  markerIcon = Layer.icon({
+    iconSize: [25, 25],
+    shadowSize: [0, 0],
+    iconAnchor: [10, 41],
+    shadowAnchor: [0, 0],
+    popupAnchor: [-3, -76],
+    iconUrl: markerIcon,
+  });
   /**
    * Sets Kyiv coords as map center by default
    */
@@ -48,12 +55,17 @@ export class MapComponent implements AfterViewInit {
           attribution:
             '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
-        this.map.on('click', e => this.setMapLocation(e.latlng));
+        this.map.on('click', e => {
+          (this.workshops) ?  this.selectedAddress.emit(null) : this.setMapLocation(e.latlng)
+        });
       } 
     });
+
     if (this.address) {
       this.address.valueChanges.subscribe((dt: Address) => dt.street && dt.city && this.setFormLocation(dt));
     }
+
+    this.workshops && this.workshops.forEach((workshop: Workshop)=> this.setFormLocation(workshop.address));
   }
   /**
    * uses GoelocationService to translate address into coords and sets marker on map
@@ -63,7 +75,7 @@ export class MapComponent implements AfterViewInit {
   async setFormLocation(address: Address): Promise<void> {
     const coords = await this.geolocationService.locationGeocode(address);
     // tslint:disable-next-line: no-unused-expression
-    coords && this.setMarker(coords);
+    coords && this.setMarker(coords, address);
   }
   /**
    * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
@@ -80,10 +92,15 @@ export class MapComponent implements AfterViewInit {
    *
    * @param coords - type [number, number]
    */
-  setMarker(coords: [number, number]): void {
+  setMarker(coords: [number, number], address?: Address): void {
     // tslint:disable-next-line: no-unused-expression
-    this.marker && this.map.removeLayer(this.marker);
-    this.marker = new Layer.Marker(coords, { draggable: true, icon: this.markerIcon.icon });
+    (!this.workshops && this.marker) && this.map.removeLayer(this.marker);
+    this.marker = new Layer.Marker(coords, { draggable: true, icon: this.markerIcon });
     this.map.addLayer(this.marker);
+
+    this.workshops && this.marker.on('click', ()=>{
+      this.selectedAddress.emit(address);
+    });
   }
+
 }

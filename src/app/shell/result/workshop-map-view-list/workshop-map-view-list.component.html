@@ -1,0 +1,10 @@
+<div class="wrapper">
+    <div class="workshops-list" >
+      <app-workshop-card
+        *ngFor="let workshop of selectedWorkshops" [workshop]="workshop" [isMainPage]="true" [userRole]="''">
+      </app-workshop-card>
+    </div>
+  <div class="map">
+    <app-map [workshops]="workshops" (selectedAddress)="onSelectedAddress($event)"></app-map>
+  </div>
+</div>

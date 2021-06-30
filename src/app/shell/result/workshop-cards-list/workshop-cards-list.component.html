@@ -1,7 +1,7 @@
 <ng-container>
   <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid">
     <app-workshop-card
-      *ngFor="let workshop of allWorkshops$ | async | paginate: { itemsPerPage: 4, currentPage: currentPage }"
+      *ngFor="let workshop of workshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
       [workshop]="workshop" [isMainPage]="true" [userRole]="''">
     </app-workshop-card>
   </div>
