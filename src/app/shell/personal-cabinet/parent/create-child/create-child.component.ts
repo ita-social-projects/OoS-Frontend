@@ -8,7 +8,7 @@ import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
-import { ChangePage, MarkFormDirty } from 'src/app/shared/store/app.actions';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
@@ -42,7 +42,6 @@ export class CreateChildComponent implements OnInit {
     private childrenService: ChildrenService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new ChangePage(false));
     this.socialGroups$.subscribe((socialGroups: SocialGroup[]) => {
       if (socialGroups.length === 0) {
         this.store.dispatch(new GetSocialGroup())
