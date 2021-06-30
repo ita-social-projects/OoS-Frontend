@@ -23,25 +23,24 @@ export class NavigationState {
 
   @Action(AddNavPath)
     addNavPath({patchState}:StateContext<NavStateModel>,{payload}: AddNavPath): void {
-        patchState({
-          navigation: payload
-        })
+      patchState({
+        navigation: payload
+      })
     }
     
     @Action(RemoveLastNavPath)
     removeNavPath({getState,patchState}:StateContext<NavStateModel>): void {
-        const state = getState().navigation
-        state.pop();
-        patchState({
-          navigation: [...state]
-        })
+      const state = getState().navigation
+      state.pop();
+      patchState({
+        navigation: [...state]
+      })
     }
 
     @Action(DeleteNavPath)
     deleteNavPath({patchState}:StateContext<NavStateModel>): void {
-        patchState({
-          navigation: []
-        })
+      patchState({
+        navigation: []
+      })
     }
-
 }
