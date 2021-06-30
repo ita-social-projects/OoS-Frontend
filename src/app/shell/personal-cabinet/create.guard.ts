@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 
 @Injectable({
@@ -29,7 +30,10 @@ export class CreateGuard implements CanDeactivate<unknown> {
         data: 'Залишити сторінку?'
       });
 
-      return dialogRef.afterClosed().pipe(result => result);
+      return dialogRef.afterClosed().pipe(result => {
+        result && this.store.dispatch(new MarkFormDirty(false));
+        return result
+      });
     } else {
       return true;
     }
