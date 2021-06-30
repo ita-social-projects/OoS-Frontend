@@ -31,6 +31,7 @@ import { ChildCardComponent } from './components/child-card/child-card.component
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from '../shared/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 
@@ -61,8 +62,9 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
+    NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
-    WorkshopFilterPipe
+    WorkshopFilterPipe,
   ],
   imports: [
     MaterialModule,
@@ -99,8 +101,9 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
+    NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
-    WorkshopFilterPipe
+    WorkshopFilterPipe,
   ]
 })
 export class SharedModule { }

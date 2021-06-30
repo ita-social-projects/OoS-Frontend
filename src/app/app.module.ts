@@ -22,6 +22,7 @@ import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserState } from './shared/store/user.state';
+import { NavigationState } from './shared/store/navigation.state';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserState } from './shared/store/user.state';
       FilterState,
       MetaDataState,
       RegistrationState,
-      UserState
+      UserState,
+      NavigationState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
