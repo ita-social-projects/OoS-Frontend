@@ -1,7 +1,9 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Nav } from '../../models/navigation.model';
+import { Navigation } from '../../models/navigation.model';
 import { Store,NgxsModule } from '@ngxs/store';
 import { NavigationBarComponent } from './navigation-bar.component';
+
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
@@ -11,6 +13,7 @@ describe('NavigationBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports:[
+        MatIconModule,
         NgxsModule.forRoot([])
     ],
       declarations: [ NavigationBarComponent ]
@@ -20,7 +23,7 @@ describe('NavigationBarComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store,'selectSnapshot').and.returnValue({} as Nav);
+    spyOn(store,'selectSnapshot').and.returnValue({} as Navigation);
     fixture = TestBed.createComponent(NavigationBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

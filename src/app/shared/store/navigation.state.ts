@@ -1,11 +1,11 @@
-import { Nav } from './../models/navigation.model';
+import { Navigation } from './../models/navigation.model';
 import { State,Action,StateContext,Selector } from "@ngxs/store";
 import { Injectable } from '@angular/core';
 import { AddNavPath, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
 
 
 export interface NavStateModel {
-    navigation: Nav[];
+    navigation: Navigation[];
 }
 
 @State<NavStateModel>({
@@ -19,10 +19,10 @@ export interface NavStateModel {
 export class NavigationState {
 
   @Selector()
-  static navigationPaths(state: NavStateModel): Nav[] {return state.navigation}
+  static navigationPaths(state: NavStateModel): Navigation[] {return state.navigation}
 
   @Action(AddNavPath)
-    addNavPath({patchState}:StateContext<NavStateModel>,{payload}:AddNavPath): void {
+    addNavPath({patchState}:StateContext<NavStateModel>,{payload}: AddNavPath): void {
         patchState({
           navigation: payload
         })

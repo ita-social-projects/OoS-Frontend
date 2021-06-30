@@ -1,5 +1,5 @@
 import { NavigationState } from './../../store/navigation.state';
-import { Nav } from './../../models/navigation.model';
+import { Navigation } from './../../models/navigation.model';
 import { Observable } from 'rxjs';
 import { Component} from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -13,7 +13,7 @@ import { Select, Store } from '@ngxs/store';
 export class NavigationBarComponent {
 
   @Select(NavigationState.navigationPaths)
-  navigation$: Observable<Nav[]>
+  navigation$: Observable<Navigation[]>
 
   constructor(private store: Store) { }
 }

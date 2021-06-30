@@ -1,8 +1,8 @@
-import {Nav} from '../models/navigation.model'
+import {Navigation} from '../models/navigation.model'
 
 export class AddNavPath {
   static readonly type ='[navigation] Add'
-  constructor(public payload: Nav[]){ }
+  constructor(public payload: Navigation[]){ }
 }
 
 export class RemoveLastNavPath {

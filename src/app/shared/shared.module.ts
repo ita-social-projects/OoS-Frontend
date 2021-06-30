@@ -64,7 +64,7 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     ConfirmationModalWindowComponent,
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
-    WorkshopFilterPipe
+    WorkshopFilterPipe,
   ],
   imports: [
     MaterialModule,
@@ -103,7 +103,7 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     ConfirmationModalWindowComponent,
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
-    WorkshopFilterPipe
+    WorkshopFilterPipe,
   ]
 })
 export class SharedModule { }
