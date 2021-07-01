@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Category } from '../models/category.model';
+import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { Workshop } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
@@ -9,7 +9,7 @@ import {
   SetCity,
   GetFilteredWorkshops,
   GetTopWorkshops,
-  SetCategories,
+  SetDirections,
   SetAgeRange,
   SetWorkingDays,
   SetWorkingHours,
@@ -23,7 +23,7 @@ import {
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 export interface FilterStateModel {
-  categories: Category[];
+  directions: Direction[];
   ageRange: string[];
   workingHours: WorkingHours[];
   workingDays: WorkingHours[];
@@ -42,7 +42,7 @@ export interface FilterStateModel {
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    categories: [],
+    directions: [],
     ageRange: [''],
     workingDays: [],
     workingHours: [],
@@ -69,7 +69,7 @@ export class FilterState {
   static topWorkshops(state: FilterStateModel): Workshop[] { return state.topWorkshops }
 
   @Selector()
-  static categories(state: FilterStateModel): Category[] { return state.categories }
+  static directions(state: FilterStateModel): Direction[] { return state.directions }
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -84,9 +84,9 @@ export class FilterState {
     patchState({ order: payload });
   }
 
-  @Action(SetCategories)
-  setCategories({ patchState }: StateContext<FilterStateModel>, { payload }: SetCategories): void {
-    patchState({ categories: payload });
+  @Action(SetDirections)
+  setDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
+    patchState({ directions: payload });
   }
 
   @Action(SetAgeRange)
