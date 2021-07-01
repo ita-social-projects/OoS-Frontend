@@ -11,6 +11,7 @@ export class WorkshopMapViewListComponent implements OnInit {
 
   @Input() workshops: Workshop[];
   selectedWorkshops: Workshop[] = [];
+  isSelectedMarker: boolean = false;
 
   constructor() { }
 
@@ -19,12 +20,13 @@ export class WorkshopMapViewListComponent implements OnInit {
   }
 
   onSelectedAddress(address: Address): void {
-    address ?
-    this.selectedWorkshops = this.workshops.filter((workshop: Workshop) => 
+    this.isSelectedMarker = Boolean(address);
+
+    (this.isSelectedMarker) ?
+      this.selectedWorkshops = this.workshops.filter((workshop: Workshop) => 
       address.city === workshop.address.city && 
       address.street === workshop.address.street && 
-      address.buildingNumber === workshop.address.buildingNumber
-    ) : this.selectedWorkshops = this.workshops;
+      address.buildingNumber === workshop.address.buildingNumber) : this.selectedWorkshops = this.workshops; 
   }
 
 }
