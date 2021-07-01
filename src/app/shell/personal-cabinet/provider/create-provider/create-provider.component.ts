@@ -8,7 +8,7 @@ import { takeWhile } from 'rxjs/operators';
 import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { ChangePage, MarkFormDirty } from 'src/app/shared/store/app.actions';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
@@ -43,7 +43,6 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new ChangePage(false));
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
 
     if (this.editMode) {
