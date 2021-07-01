@@ -4,14 +4,13 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ENTER } from '@angular/cdk/keycodes';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
 import { KeyWord } from '../../../../../shared/models/keyWord,model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
-import { Category, Subcategory, Subsubcategory } from 'src/app/shared/models/category.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -46,9 +45,9 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
-      categoryId: new FormControl(''),
-      subcategoryId: new FormControl(''),
-      subsubcategoryId: new FormControl(''),
+      directionId: new FormControl(''),
+      departmentId: new FormControl(''),
+      classId: new FormControl(''),
     });
   }
 
@@ -133,14 +132,14 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
-    categoriesForm.get('categoryId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('categoryId').setValue(id)
+    categoriesForm.get('directionId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('directionId').setValue(id)
     )
-    categoriesForm.get('subcategoryId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('subcategoryId').setValue(id)
+    categoriesForm.get('departmentId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('departmentId').setValue(id)
     )
-    categoriesForm.get('subsubcategoryId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
+    categoriesForm.get('classId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('classId').setValue(id)
     )
   }
 }
