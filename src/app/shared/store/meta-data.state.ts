@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Category, Subcategory, Subsubcategory } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
@@ -13,8 +14,8 @@ import {
   GetSubcategories,
   GetSubsubcategories,
   KeyWordsList,
-  ClearCategories,
-  GetSocialGroup
+  GetSocialGroup,
+  ClearCategories
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -75,7 +76,7 @@ export class MetaDataState {
   @Action(GetSubcategories)
   getSubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubcategories) {
     return this.categoriesService
-      .getBySubcategoryByCategoryId(payload)
+      .getSubcategoryByCategoryId(payload)
       .pipe(
         tap((subcategories: Subcategory[]) => patchState({ subcategories: subcategories })
         ))
@@ -84,7 +85,7 @@ export class MetaDataState {
   @Action(GetSubsubcategories)
   getSubsubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubsubcategories) {
     return this.categoriesService
-      .getBySubsubcategoryBySubcategoryId(payload)
+      .getSubsubcategoryBySubcategoryId(payload)
       .pipe(
         tap((subsubcategories: Subsubcategory[]) => patchState({ subsubcategories: subsubcategories })
         ))
@@ -100,13 +101,6 @@ export class MetaDataState {
     patchState({ filteredkeyWords: payload });
   }
 
-  @Action(ClearCategories)
-  clerCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories): void {
-    patchState({ categories: undefined });
-    patchState({ subcategories: undefined });
-    patchState({ subsubcategories: undefined });
-  }
-
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup) {
     return this.childrenService
@@ -115,4 +109,12 @@ export class MetaDataState {
         tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
         ))
   }
+
+  @Action(ClearCategories)
+  clearCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories) {
+    patchState({ categories: undefined });
+    patchState({ subcategories: undefined });
+    patchState({ subsubcategories: undefined });
+  }
+
 }

@@ -41,7 +41,7 @@ describe('TeacherFormComponent', () => {
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
-      birthDay: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       description: new FormControl(''),
     });
     fixture.detectChanges();

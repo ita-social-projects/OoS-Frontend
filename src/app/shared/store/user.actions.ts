@@ -104,6 +104,18 @@ export class OnCreateApplicationSuccess {
   static readonly type = '[user] create Application success';
   constructor(public payload) { }
 }
+export class UpdateWorkshop {
+  static readonly type = '[user] update Workshop';
+  constructor(public payload: Workshop) { }
+}
+export class OnUpdateWorkshopFail {
+  static readonly type = '[user] update Workshop fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateWorkshopSuccess {
+  static readonly type = '[user] update Workshop success';
+  constructor(public payload) { }
+}
 export class UpdateChild {
   static readonly type = '[user] update Child';
   constructor(public payload: Child) { }

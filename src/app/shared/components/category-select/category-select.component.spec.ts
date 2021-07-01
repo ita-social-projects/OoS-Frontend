@@ -5,6 +5,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { MockStore } from '../../mocks/mock-services';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
@@ -17,7 +18,7 @@ describe('CategorySelectComponent', () => {
         ReactiveFormsModule,
         MatSelectModule,
         MatOptionModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
       ],
       declarations: [CategorySelectComponent],
     })
@@ -28,9 +29,9 @@ describe('CategorySelectComponent', () => {
     fixture = TestBed.createComponent(CategorySelectComponent);
     component = fixture.componentInstance;
     component.CategoryFormGroup = new FormGroup({
-      category: new FormControl(''),
-      subcategory: new FormControl(''),
-      subsubcategory: new FormControl(''),
+      categoryId: new FormControl(''),
+      subcategoryId: new FormControl(''),
+      subsubcategoryId: new FormControl(''),
     });
     fixture.detectChanges();
   });

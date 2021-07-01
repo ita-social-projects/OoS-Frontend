@@ -14,7 +14,7 @@ import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { GetWorkshops, MarkFormDirty } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
-import { GetProfile, RegisterUser } from './registration.actions';
+import { GetProfile } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
@@ -44,6 +44,9 @@ import {
   UpdateChild,
   OnUpdateChildFail,
   OnUpdateChildSuccess,
+  OnUpdateWorkshopSuccess,
+  UpdateWorkshop,
+  OnUpdateWorkshopFail,
   UpdateProvider,
   OnUpdateProviderFail,
   OnUpdateProviderSuccess
@@ -303,6 +306,25 @@ export class UserState {
     dispatch(new GetChildren());
   }
 
+  @Action(UpdateWorkshop)
+  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop) {
+    return this.userWorkshopService
+      .updateWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateWorkshopFail(error))))
+      );
+  }
+
+  @Action(OnUpdateWorkshopFail)
+  onUpdateWorkshopFail({ }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
+    console.log('Workshop updating is failed', payload);
+    setTimeout(() => {
+      throwError(payload);
+      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+    }, 1000);
+  }
+
   @Action(UpdateChild)
   updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild) {
     return this.childrenService
@@ -313,11 +335,20 @@ export class UserState {
       );
   }
 
+
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
     console.error('Child updating is failed', payload);
     throwError(payload);
     this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+  }
+
+  @Action(OnUpdateWorkshopSuccess)
+  onUpdateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Workshop is updated', payload);
+    this.showSnackBar('Гурток оновлено!', 'primary');
+    this.router.navigate(['/personal-cabinet/workshops']);
   }
 
   @Action(OnUpdateChildSuccess)
@@ -346,7 +377,8 @@ export class UserState {
   }
 
   @Action(OnUpdateProviderSuccess)
-  onUpdateProviderSuccess({ }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+  onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
     this.showSnackBar('Організація успішно відредагована', 'primary');
     this.router.navigate(['/personal-cabinet/parent/info']);

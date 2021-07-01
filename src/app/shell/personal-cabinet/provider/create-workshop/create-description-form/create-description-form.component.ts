@@ -1,15 +1,17 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
 import { KeyWord } from '../../../../../shared/models/keyWord,model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Constants } from 'src/app/shared/constants/constants';
+import { Category, Subcategory, Subsubcategory } from 'src/app/shared/models/category.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -17,17 +19,18 @@ import { KeyWord } from '../../../../../shared/models/keyWord,model';
 })
 export class CreateDescriptionFormComponent implements OnInit {
 
-  DescriptionFormGroup: FormGroup;
-  CategoriesFormGroup: FormGroup;
+  readonly constants: typeof Constants = Constants;
 
+  @Input() workshop: Workshop;
   @Output() passDescriptionFormGroup = new EventEmitter();
 
-  keyWordsCtrl = new FormControl();
+  DescriptionFormGroup: FormGroup;
+
+  keyWordsCtrl: FormControl = new FormControl();
   separatorKeysCodes: number[] = [ENTER];
   keyWords: KeyWord[] = [];
   allkeyWords: KeyWord[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  descriptionMaxLength = 500;
 
   @Select(MetaDataState.filteredkeyWords)
   filteredkeyWords$: Observable<KeyWordsService[]>;
@@ -39,22 +42,14 @@ export class CreateDescriptionFormComponent implements OnInit {
     private keyWordsService: KeyWordsService) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: new FormControl('', [Validators.maxLength(this.descriptionMaxLength), Validators.required]),
-      withDisabilityOptions: new FormControl(false),
+      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl(''),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
-      category: new FormControl(''),
-      subcategory: new FormControl(''),
-      subsubcategory: new FormControl(''),
+      categoryId: new FormControl(''),
+      subcategoryId: new FormControl(''),
+      subsubcategoryId: new FormControl(''),
     });
-    this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges.subscribe((val) => {
-      if (val) {
-        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(true);
-      } else {
-        this.DescriptionFormGroup.get('withDisabilityOptions').setValue(false);
-      }
-    })
   }
 
   ngOnInit(): void {
@@ -78,6 +73,8 @@ export class CreateDescriptionFormComponent implements OnInit {
       });
 
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
+
+    this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
   }
 
   /**
@@ -118,7 +115,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         .startsWith(value.toLowerCase())
       )
       .map((word: KeyWord) => word);
-      return filteredKeyWords;
+    return filteredKeyWords;
   }
 
   ngOnDestroy() {
@@ -136,16 +133,14 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
-    this.CategoriesFormGroup = categoriesForm;
-
-    this.CategoriesFormGroup.get('category').valueChanges.subscribe(val =>
-      (val) && this.DescriptionFormGroup.get('category').setValue(val)
+    categoriesForm.get('categoryId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('categoryId').setValue(id)
     )
-    this.CategoriesFormGroup.get('subcategory').valueChanges.subscribe(val =>
-      (val) && this.DescriptionFormGroup.get('subcategory').setValue(val)
+    categoriesForm.get('subcategoryId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('subcategoryId').setValue(id)
     )
-    this.CategoriesFormGroup.get('subsubcategory').valueChanges.subscribe(val =>
-      (val) && this.DescriptionFormGroup.get('subsubcategory').setValue(val)
+    categoriesForm.get('subsubcategoryId').valueChanges.subscribe((id: number) =>
+      this.DescriptionFormGroup.get('subsubcategoryId').setValue(id)
     )
   }
 }

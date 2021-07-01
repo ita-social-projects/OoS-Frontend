@@ -12,13 +12,12 @@ export class TeacherFormComponent implements OnInit {
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
+
   @Output() deleteForm = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
-  }
+  constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
