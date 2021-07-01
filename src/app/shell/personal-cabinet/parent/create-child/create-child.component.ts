@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
-import { ChangePage } from 'src/app/shared/store/app.actions';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
+import { AppState } from 'src/app/shared/store/app.state';
 import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -26,9 +28,13 @@ export class CreateChildComponent implements OnInit {
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
-
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @Select(AppState.isDirtyForm)
+  isDirtyForm$: Observable<Boolean>;
+  isPristine = true;
 
   constructor(
     private store: Store,
@@ -37,13 +43,14 @@ export class CreateChildComponent implements OnInit {
     private childrenService: ChildrenService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new ChangePage(false));
-    this.socialGroups$.subscribe((socialGroups: SocialGroup[]) => {
-      if (socialGroups.length === 0) {
-        this.store.dispatch(new GetSocialGroup())
-      }
-    });
-
+    this.socialGroups$
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((socialGroups: SocialGroup[]) => {
+        if (socialGroups.length === 0) {
+          this.store.dispatch(new GetSocialGroup())
+        }
+      });
     const childId = +this.route.snapshot.paramMap.get('id');
     if (childId) {
       this.editMode = true;
@@ -55,7 +62,13 @@ export class CreateChildComponent implements OnInit {
       this.ChildrenFormArray.push(this.newForm());
     }
 
-
+    this.ChildrenFormArray.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
   }
 
   /**
@@ -111,6 +124,10 @@ export class CreateChildComponent implements OnInit {
         this.store.dispatch(new CreateChildren(child));
       })
     }
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

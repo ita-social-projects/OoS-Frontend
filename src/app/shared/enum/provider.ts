@@ -39,3 +39,9 @@ export enum WorkshopTypeUkr {
   'Секція',
   'Клас',
 }
+
+export enum createProviderSteps {
+  'info',
+  'contacts',
+  'photo'
+}

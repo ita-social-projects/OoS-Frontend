@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { Logout, CheckAuth, Login, CheckRegistration } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
+import { Navigation } from '../shared/models/navigation.model';
+import { NavigationState } from '../shared/store/navigation.state';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -19,8 +21,10 @@ enum RoleLinks {
 export class HeaderComponent implements OnInit {
 
   showModalReg = false;
-  @Select(AppState.isMainPage)
-  isMainPage$: Observable<boolean>;
+
+  @Select(NavigationState.navigationPaths)
+  navigationPaths$: Observable<Navigation[]>
+  @Select(AppState.isLoading)
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;

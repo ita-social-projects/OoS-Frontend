@@ -97,11 +97,11 @@
 }
 ::ng-deep .mat-card-content,
 ::ng-deep .mat-card-footer{
-  margin: 0 1rem;
+  margin: 0 1rem !important;
 }
 ::ng-deep .mat-card-header{
-  margin:0 1rem;
+  margin:0 1rem !important;
 }
 ::ng-deep .mat-card-image{
-  margin-bottom:0;
+  margin-bottom:0 !important;
 }

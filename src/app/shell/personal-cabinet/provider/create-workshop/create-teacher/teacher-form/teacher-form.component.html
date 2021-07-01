@@ -17,16 +17,16 @@
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field class="step-input step-input-date">
-    <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
+    <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <div class="step-label-combined">
   <label class="step-label"> Опис <span class="step-required">*</span></label>
-  <label class="step-characters-count"> {{TeacherFormGroup.get('description').value.length}}/{{this.descriptionMaxLength}}</label>
+  <label class="step-characters-count"> {{TeacherFormGroup.get('description').value.length}}/{{constants.DescriptionMaxLength}}</label>
   </div>
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум 300 символів" formControlName="description"
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.DescriptionMaxLength}} символів" formControlName="description"
       required></textarea>
   </mat-form-field>
 

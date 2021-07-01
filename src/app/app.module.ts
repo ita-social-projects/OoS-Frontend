@@ -17,11 +17,12 @@ import { FormsModule } from '@angular/forms';
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
 import { FooterComponent } from './footer/footer.component';
-import { RegistrationModule } from './shared/modals/registration/registration.module';
+import { RegistrationModule } from './shared/registration/registration.module';
 import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserState } from './shared/store/user.state';
+import { NavigationState } from './shared/store/navigation.state';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserState } from './shared/store/user.state';
       FilterState,
       MetaDataState,
       RegistrationState,
-      UserState
+      UserState,
+      NavigationState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
