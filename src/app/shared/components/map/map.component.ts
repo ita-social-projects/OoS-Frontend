@@ -59,7 +59,7 @@ export class MapComponent implements AfterViewInit {
             '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
 
-        this.map.on('click', (L: Layer.LeafletMouseEvent) =>  this.selectedAddress.emit(null));
+        this.map.on('click', (L: Layer.LeafletMouseEvent) =>  this.setMapLocation(L.latlng));
     });
 
     if (this.addressFormGroup) {
