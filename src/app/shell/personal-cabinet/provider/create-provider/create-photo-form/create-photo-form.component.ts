@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 @Component({
   selector: 'app-create-photo-form',
@@ -10,6 +11,7 @@ export class CreatePhotoFormComponent implements OnInit {
 
   PhotoFormGroup: FormGroup;
 
+  @Input() provider: Provider;
   @Output() passPhotoFormGroup = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
@@ -20,6 +22,7 @@ export class CreatePhotoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.provider && this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
 }

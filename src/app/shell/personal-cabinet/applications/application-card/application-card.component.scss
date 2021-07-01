@@ -30,12 +30,17 @@
   border-radius: 20px;
   &-approve{
     background-color: #3849F9;
+    color:white;
   }
-  &-deny{
+  &-deny-provider{
     background-color: #C72A21;
+    color:white;
+  }
+  &-deny-parent{
+    background-color: white;
+    color:black;
   }
   &-text{
-    color:white;
     font-family: Innerspace;
     font-style: normal;
     font-weight: bold;

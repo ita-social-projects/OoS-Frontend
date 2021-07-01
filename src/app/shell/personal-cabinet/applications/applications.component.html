@@ -5,28 +5,34 @@
 </ng-template>
 
 <ng-template #isProvider>
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Усі">
-      <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationSort : applicationStatus.pending : 'date' }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="Очікують підтвердження">
-      <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.pending }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="Підтвердженні">
-      <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.approved }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="Відхилені">
-      <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.rejected }">
-      </ng-container>
-    </mat-tab>
-  </mat-tab-group>
+  <app-workshop-checkbox-dropdown fxLayout='row' fxLayoutAlign='end' [workshops]="workshops$ | async"
+    (workshopCheck)="workshopList = $event">
+  </app-workshop-checkbox-dropdown>
+  <div class="tab-wrapper">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Усі">
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Очікують підтвердження">
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.pending | workshopFilter: workshopList }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Підтвердженні">
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.approved | workshopFilter: workshopList }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Відхилені">
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.rejected | workshopFilter: workshopList}">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
 </ng-template>
 
 <ng-template #isEmptyList>
@@ -36,10 +42,16 @@
 <ng-template #isParent>
   <div *ngIf="(children$| async)">
     <div *ngFor="let child of (children$| async)">
-      <h5> {{ child.firtName }} {{ child.lastName }} {{ child.middleName }}</h5>
-      <ng-container
-        *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
-      </ng-container>
+
+      <div *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication"></div>
+
+      <ng-template #ChildApplication>
+        <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
+        </ng-container>
+      </ng-template>
+
     </div>
   </div>
 

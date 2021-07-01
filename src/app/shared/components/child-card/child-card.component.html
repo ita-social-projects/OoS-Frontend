@@ -1,6 +1,7 @@
 <div *ngIf="child">
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn" (click)="onEdit()"><img src="assets/icons/edit.png" alt="edit"></div>
+    <div class="actions_btn" [routerLink]="['/create-child', child.id]"><img src="assets/icons/edit.png" alt="edit">
+    </div>
     <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
   </div>
   <mat-card>
@@ -14,7 +15,8 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
-          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{child.dateOfBirth}} </p>
+          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{child.dateOfBirth | date:
+            'shortDate'}} </p>
           <h5 class="card_text"><img src="assets/icons/group.png" alt="name"> Гуртки </h5>
           <div *ngIf="workshops?.length then WorkshopsList; else NoWorkshops "></div>
         </mat-card-content>

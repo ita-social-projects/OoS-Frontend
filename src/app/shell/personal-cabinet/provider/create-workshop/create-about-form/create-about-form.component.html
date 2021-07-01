@@ -8,9 +8,9 @@
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
 
   <mat-form-field appearance="none">
-    <mat-select class="step-input" formControlName="type" name="type" required>
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required>
       <ng-container *ngFor="let type of workshopType | keyvalue">
-        <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key">
+        <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ workshopTypeUkr[type.key] }}
         </mat-option>
       </ng-container>
@@ -73,7 +73,7 @@
     </div>
   </mat-form-field>
   <label class="step-label">Вартість<span class="step-required">*</span></label>
-  <mat-radio-group [formControl]="radioBtn" color="primary">
+  <mat-radio-group [formControl]="priceRadioBtn" color="primary">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign='start center'>

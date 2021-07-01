@@ -1,24 +1,51 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, UrlSegment, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanDeactivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { User } from 'src/app/shared/models/user.model';
-import { Role } from 'src/app/shared/enum/role';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Role } from 'src/app/shared/enum/role';
+import { User } from 'src/app/shared/models/user.model';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { AppState } from 'src/app/shared/store/app.state';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
+
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProviderGuard implements CanLoad {
+export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  @Select(RegistrationState.provider)
+  provider$: Observable<Provider>;
 
   constructor(public store: Store) { }
 
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false));
+    const isEditMode = this.store.selectSnapshot<boolean>(AppState.isEditMode);
+
+    return isEditMode ? true : this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false));
   }
+
+  canDeactivate(
+    component: unknown,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+    const isEditMode = this.store.selectSnapshot<boolean>(AppState.isEditMode);
+
+    if (isEditMode) {
+      this.store.dispatch(new ActivateEditMode(false));
+      return true;
+    } else {
+      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+
+      return this.provider$.pipe(map((provider: Provider) => provider !== undefined));
+    }
+  }
+
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 
 @Component({
@@ -16,8 +16,7 @@ export class ChildFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
-  constructor(private fb: FormBuilder) {
-  }
+  constructor() { }
 
   ngOnInit(): void { }
 

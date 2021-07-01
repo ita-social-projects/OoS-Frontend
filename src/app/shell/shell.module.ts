@@ -35,7 +35,7 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     PersonalCabinetGuard,

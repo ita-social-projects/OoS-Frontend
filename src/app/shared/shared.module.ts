@@ -30,6 +30,10 @@ import { WorkingHoursFormControlComponent } from './components/working-hours-for
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from '../shared/map/map.component';
+import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
+import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,11 @@ import { MapComponent } from '../shared/map/map.component';
     WorkingHoursFormControlComponent,
     ChildCardComponent,
     ApplicationChildFilterPipe,
-    MapComponent
+    MapComponent,
+    ConfirmationModalWindowComponent,
+    NavigationBarComponent,
+    WorkshopCheckboxDropdownComponent,
+    WorkshopFilterPipe,
   ],
   imports: [
     MaterialModule,
@@ -90,7 +98,12 @@ import { MapComponent } from '../shared/map/map.component';
     PersonCardComponent,
     WorkingHoursFormControlComponent,
     ChildCardComponent,
-    MapComponent
+    MapComponent,
+    ApplicationChildFilterPipe,
+    ConfirmationModalWindowComponent,
+    NavigationBarComponent,
+    WorkshopCheckboxDropdownComponent,
+    WorkshopFilterPipe,
   ]
 })
 export class SharedModule { }

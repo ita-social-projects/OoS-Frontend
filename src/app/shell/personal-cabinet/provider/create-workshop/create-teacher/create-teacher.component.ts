@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Teacher } from 'src/app/shared/models/teacher.model';
 
 @Component({
   selector: 'app-create-teacher',
@@ -8,20 +9,25 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class CreateTeacherComponent implements OnInit {
 
-  TeacherFormArray = new FormArray([]);
+  TeacherFormArray: FormArray = new FormArray([]);
+  @Input() teachers: Teacher[];
   @Output() passTeacherFormArray = new EventEmitter();
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.onAddTeacher();
+    if (this.teachers?.length) {
+      this.teachers.forEach((teahcer: Teacher) => this.onAddTeacher(teahcer));
+    } else {
+      this.onAddTeacher();
+    }
   }
 
   /**
   * This method add new FormGroup to teh FormArray
   */
-  onAddTeacher(): void {
-    this.TeacherFormArray.push(this.onCreateNewForm());
+  onAddTeacher(teacher?: Teacher): void {
+    this.TeacherFormArray.push(this.onCreateNewForm(teacher));
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -29,15 +35,17 @@ export class CreateTeacherComponent implements OnInit {
   * This method create new FormGroup
   * @param FormArray array
   */
-  onCreateNewForm(): FormGroup {
+  onCreateNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
       img: new FormControl(''),
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
-      birthDay: new FormControl(''),
+      dateOfBirth: new FormControl(''),
       description: new FormControl(''),
     });
+
+    teacher && teacherFormGroup.patchValue(teacher, { emitEvent: false });
     return teacherFormGroup;
   }
 
@@ -45,7 +53,7 @@ export class CreateTeacherComponent implements OnInit {
   * This method delete form from teh FormArray by index
   * @param index
   */
-  onDeleteForm(index): void {
+  onDeleteForm(index: number): void {
     this.TeacherFormArray.removeAt(index)
   }
 }

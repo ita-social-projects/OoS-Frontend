@@ -3,7 +3,7 @@ export class Teacher {
   firstName: string;
   lastName: string;
   middleName: string;
-  birthDay?: Date;
+  dateOfBirth?: Date;
   description?: string;
   image?: string;
 
@@ -11,7 +11,7 @@ export class Teacher {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    this.birthDay = info.birthDay;
+    this.dateOfBirth = info.dateOfBirth;
     this.description = info.description;
   }
 }

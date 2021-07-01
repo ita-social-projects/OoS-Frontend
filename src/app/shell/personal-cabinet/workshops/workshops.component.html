@@ -1,6 +1,6 @@
 <div *ngIf="userRole === role.provider" class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
   <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="'/create-workshop'"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
 </div>
 
 <div *ngIf="(workshops$ | async)?.length then WorkshopsList"></div>
@@ -11,7 +11,7 @@
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly space-evenly' fxLayoutGap="20px grid">
         <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-          [isMainPage]="false" [userRole]="userRole">
+          [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)">
         </app-workshop-card>
       </div>
     </ng-container>

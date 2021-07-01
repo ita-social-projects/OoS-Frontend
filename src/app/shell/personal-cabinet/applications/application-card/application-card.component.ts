@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ApplicationService } from 'src/app/shared/services/applications/application.service';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 
@@ -39,8 +37,8 @@ export class ApplicationCardComponent implements OnInit {
   @Output() infoHide = new EventEmitter();
 
   ngOnInit(): void {
-    this.childrenService.getChildrenById(this.application.childId).subscribe(child => this.child = child);
-    this.workshopService.getWorkshopsById(this.application.childId).subscribe(workshop => this.workshop = workshop);
+    this.childrenService.getChildById(this.application.childId).subscribe(child => this.child = child);
+    this.workshopService.getWorkshopsById(this.application.workshopId).subscribe(workshop => this.workshop = workshop);
   }
 
   /**

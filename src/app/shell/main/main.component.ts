@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GetTopWorkshops } from 'src/app/shared/store/filter.actions';
-import { ChangePage } from 'src/app/shared/store/app.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Category } from 'src/app/shared/models/category.model';
@@ -31,7 +30,6 @@ export class MainComponent implements OnInit {
     this.store.dispatch([
       new GetCategories(),
       new GetTopWorkshops(),
-      new ChangePage(true)
     ]);
   }
 }
