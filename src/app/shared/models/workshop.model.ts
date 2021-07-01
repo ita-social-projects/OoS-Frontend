@@ -28,9 +28,9 @@ export class Workshop {
   rate?: string;
   votes?: string;
   placeAmount?: number;
-  categoryId?: number;
-  subcategoryId?: number;
-  subsubcategoryId?: number;
+  directionId?: number;
+  departmentId?: number;
+  classId?: number;
   providerId: number;
   providerTitle?: string;
   isPerMonth?: string;
@@ -57,8 +57,8 @@ export class Workshop {
     this.type = about.type;
     this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
-    this.categoryId = description.categoryId;
-    this.subcategoryId = description.subcategoryId;
-    this.subsubcategoryId = description.subsubcategoryId;
+    this.directionId = description.directionId;
+    this.departmentId = description.departmentId;
+    this.classId = description.classId;
   }
 }

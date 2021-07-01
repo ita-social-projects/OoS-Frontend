@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { Category, Subcategory, Subsubcategory } from '../models/category.model';
+import { tap } from 'rxjs/operators';
+import { Class, Department, Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { KeyWord } from '../models/keyWord,model';
 import { SocialGroup } from '../models/socialGroup.model';
@@ -10,18 +9,18 @@ import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
 import {
   CityList,
-  GetCategories,
-  GetSubcategories,
-  GetSubsubcategories,
   KeyWordsList,
   GetSocialGroup,
-  ClearCategories
+  ClearCategories,
+  GetClasses,
+  GetDepartments,
+  GetDirections
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
-  categories: Category[];
-  subcategories: Subcategory[];
-  subsubcategories: Subsubcategory[];
+  directions: Direction[];
+  departments: Department[];
+  classes: Class[];
   filteredCities: City[];
   filteredkeyWords: KeyWord[];
   socialGroups: SocialGroup[],
@@ -30,9 +29,9 @@ export interface MetaDataStateModel {
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
-    categories: [],
-    subcategories: [],
-    subsubcategories: [],
+    directions: [],
+    departments: [],
+    classes: [],
     filteredCities: [],
     filteredkeyWords: [],
     socialGroups: [],
@@ -46,13 +45,13 @@ export class MetaDataState {
   static filteredCities(state: MetaDataStateModel): City[] { return state.filteredCities }
 
   @Selector()
-  static categories(state: MetaDataStateModel): Category[] { return state.categories }
+  static directions(state: MetaDataStateModel): Direction[] { return state.directions }
 
   @Selector()
-  static subcategories(state: MetaDataStateModel): Subcategory[] { return state.subcategories }
+  static departments(state: MetaDataStateModel): Department[] { return state.departments }
 
   @Selector()
-  static subsubcategories(state: MetaDataStateModel): Subsubcategory[] { return state.subsubcategories }
+  static classes(state: MetaDataStateModel): Class[] { return state.classes }
 
   @Selector()
   static filteredkeyWords(state: MetaDataStateModel): KeyWord[] { return state.filteredkeyWords }
@@ -64,30 +63,30 @@ export class MetaDataState {
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService) { }
 
-  @Action(GetCategories)
-  getCategories({ patchState }: StateContext<MetaDataStateModel>, { }: GetCategories) {
+  @Action(GetDirections)
+  getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections) {
     return this.categoriesService
-      .getCategories()
+      .getDirections()
       .pipe(
-        tap((categories: Category[]) => patchState({ categories: categories })
+        tap((directions: Direction[]) => patchState({ directions: directions })
         ))
   }
 
-  @Action(GetSubcategories)
-  getSubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubcategories) {
+  @Action(GetDepartments)
+  getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments) {
     return this.categoriesService
-      .getSubcategoryByCategoryId(payload)
+      .getDepartmentsBytDirectionId(payload)
       .pipe(
-        tap((subcategories: Subcategory[]) => patchState({ subcategories: subcategories })
+        tap((departments: Department[]) => patchState({ departments: departments })
         ))
   }
 
-  @Action(GetSubsubcategories)
-  getSubsubcategories({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetSubsubcategories) {
+  @Action(GetClasses)
+  getClasses({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetClasses) {
     return this.categoriesService
-      .getSubsubcategoryBySubcategoryId(payload)
+      .getClassByDepartmentId(payload)
       .pipe(
-        tap((subsubcategories: Subsubcategory[]) => patchState({ subsubcategories: subsubcategories })
+        tap((classes: Class[]) => patchState({ classes: classes })
         ))
   }
 
@@ -112,9 +111,9 @@ export class MetaDataState {
 
   @Action(ClearCategories)
   clearCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories) {
-    patchState({ categories: undefined });
-    patchState({ subcategories: undefined });
-    patchState({ subsubcategories: undefined });
+    patchState({ directions: undefined });
+    patchState({ departments: undefined });
+    patchState({ classes: undefined });
   }
 
 }

@@ -1,27 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Category, Subcategory, Subsubcategory } from '../../models/category.model';
+import { Class, Department, Direction } from '../../models/category.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
 
-  dataUrlCategories = '/assets/mock-categories-cards.json';
-  dataUrl = '/Category/Get';
-
   constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.dataUrl);
+  getDirections(): Observable<Direction[]> {
+    return this.http.get<Direction[]>('/Direction/Get');
   }
 
-  getSubcategoryByCategoryId(id: number): Observable<Subcategory[]> {
-    return this.http.get<Subcategory[]>(`/Subcategory/GetByCategoryId/${id}`);
+  getDepartmentsBytDirectionId(id: number): Observable<Department[]> {
+    return this.http.get<Department[]>(`/Department/GetByDirectionId/${id}`);
   }
 
-  getSubsubcategoryBySubcategoryId(id: number): Observable<Subsubcategory[]> {
-    return this.http.get<Subsubcategory[]>(`/Subsubcategory/GetBySubcategoryId/${id}`);
+  getClassByDepartmentId(id: number): Observable<Class[]> {
+    return this.http.get<Class[]>(`/Class/GetByDepartmentId/${id}`);
   }
 }
