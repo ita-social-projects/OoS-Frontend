@@ -80,34 +80,46 @@
   color: #444444;
 }
 
+::ng-deep .mat-button-toggle-group[_ngcontent-ufn-c204]{
+  background-color: none !important;
+}
+
 ::ng-deep .mat-button-toggle-button :active{
   color: #3849F9;
 }
 ::ng-deep .mat-button-toggle-checked {
   color: #3849F9 !important;
   background-color: #E3E3E3;
+ 
 }
 
 ::ng-deep .mat-button-toggle-group[_ngcontent-mxx-c204]{
   height: 2rem !important;
 }
 
-::ng-deep .mat-button-toggle-checked{
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle{
+  border-top-right-radius: 1rem !important;
+  border-bottom-right-radius: 1rem !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+::ng-deep .mat-button-toggle-checked {
   background-color: #E3E3E3;
   color: #2979FF;
-  border: 2px solid #3849F9;
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
+  border: 2px solid #3849F9;
 } 
 
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
   padding: 0px !important;
 }
 
-.map ::ng-deep .mat-button-toggle-checked :checked {
-  background-color: #E3E3E3;
-  color: #2979FF;
-  border: 1px solid  #3849F9 ;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
+::ng-deep .mat-button-toggle-group .mat-button-toggle:nth-child(2){
+ &.mat-button-toggle-checked{
+   border-left: 2px solid #3849F9;
+ }
 }
+
+
