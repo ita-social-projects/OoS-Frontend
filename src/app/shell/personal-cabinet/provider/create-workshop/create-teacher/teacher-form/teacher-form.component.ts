@@ -22,7 +22,7 @@ export class TeacherFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.TeacherFormGroup = this.formBuilder.group({
-      description: new FormControl('', [Validators.maxLength(Constants.Description_Max_Length), Validators.required])
+      description: new FormControl('', [Validators.maxLength(Constants.DESCRIPTION_MAX_LENGTH), Validators.required])
     })
    
   }

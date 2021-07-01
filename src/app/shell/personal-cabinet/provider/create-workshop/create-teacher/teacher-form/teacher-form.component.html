@@ -23,10 +23,10 @@
   </mat-form-field>
   <div class="step-label-combined">
   <label class="step-label"> Опис <span class="step-required">*</span></label>
-  <label class="step-characters-count"> {{TeacherFormGroup.get('description').value.length}}/{{constants.Description_Max_Length}}</label>
+  <label class="step-characters-count"> {{TeacherFormGroup.get('description').value.length}}/{{constants.DESCRIPTION_MAX_LENGTH}}</label>
   </div>
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.Description_Max_Length}} символів" formControlName="description"
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.DESCRIPTION_MAX_LENGTH}} символів" formControlName="description"
       required></textarea>
   </mat-form-field>
 
