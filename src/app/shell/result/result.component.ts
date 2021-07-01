@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UpdateCurrentView } from '../../shared/result.actions';
 import { Store } from '@ngxs/store';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { ChangePage } from 'src/app/shared/store/app.actions';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 
@@ -21,7 +20,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new ChangePage(false));
     this.currentView = 'show-data';
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
       {name: NavBarName.TopWorkshops, isActive: false, disable: true}

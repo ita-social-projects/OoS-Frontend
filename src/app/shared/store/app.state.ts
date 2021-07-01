@@ -5,11 +5,10 @@ import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ActivateEditMode, ChangePage, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ToggleLoading } from './app.actions';
+import { ActivateEditMode, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ToggleLoading } from './app.actions';
 
 export interface AppStateModel {
   isLoading: boolean;
-  isMainPage: boolean;
   city: String;
   lng: Number | null;
   lat: Number | null;
@@ -23,7 +22,6 @@ export interface AppStateModel {
   name: 'app',
   defaults: {
     isLoading: false,
-    isMainPage: true,
     city: "",
     lng: null,
     lat: null,
@@ -35,9 +33,7 @@ export interface AppStateModel {
 })
 @Injectable()
 export class AppState {
-  @Selector()
-  static isMainPage(state: AppStateModel): boolean { return state.isMainPage }
-
+ 
   @Selector()
   static isLoading(state: AppStateModel): boolean { return state.isLoading }
 
@@ -61,11 +57,6 @@ export class AppState {
   @Action(ToggleLoading)
   toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
     patchState({ isLoading: payload });
-  }
-
-  @Action(ChangePage)
-  changePage({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-    patchState({ isMainPage: payload });
   }
 
   @Action(SetLocation)

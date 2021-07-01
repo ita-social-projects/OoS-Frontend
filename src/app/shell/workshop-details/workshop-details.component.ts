@@ -5,7 +5,6 @@ import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { ChangePage } from 'src/app/shared/store/app.actions';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { GetWorkshopsById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -30,7 +29,6 @@ export class WorkshopDetailsComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
     const workshopId = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshopsById(workshopId));
     this.actions$
     .pipe(ofActionSuccessful(GetWorkshopsById),takeUntil(this.destroy$))
