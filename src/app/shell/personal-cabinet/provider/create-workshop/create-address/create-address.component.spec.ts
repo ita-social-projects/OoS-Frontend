@@ -49,6 +49,6 @@ describe('CreateAddressComponent', () => {
   template: ''
 })
 class MockMapComponent {
-  @Input() address: FormGroup;
+  @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
 }

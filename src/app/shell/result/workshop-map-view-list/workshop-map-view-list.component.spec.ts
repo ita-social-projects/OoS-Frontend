@@ -52,6 +52,6 @@ class MockMapListWorkshopCardComponent {
   template: ''
 })
 class MockResultMapComponent {
-  @Input() address: FormGroup;
+  @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
 }
