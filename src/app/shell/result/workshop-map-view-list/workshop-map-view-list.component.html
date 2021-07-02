@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div fxLayout='column' fxLayoutAlign='space-evenly'>
+  <div fxLayout='column' fxLayoutAlign='space-evenly' *ngIf="selectedWorkshops.length">
     <div class="workshop-list" fxLayout='row wrap' fxLayoutAlign='space-evenly'>
       <app-workshop-card class="workshop"
         *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
@@ -7,8 +7,7 @@
       </app-workshop-card>
     </div>
     <pagination-controls fxLayoutAlign="end" class="pagination" (pageChange)="currentPage = $event" maxSize="8"
-      directionLinks="true" autoHide="true" responsive="true" previousLabel="" nextLabel=""
-      screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+      directionLinks="true" autoHide="false" responsive="true" previousLabel="" nextLabel="">
     </pagination-controls>
   </div>
   <div class="map">

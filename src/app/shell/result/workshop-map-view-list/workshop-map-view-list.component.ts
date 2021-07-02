@@ -16,9 +16,7 @@ export class WorkshopMapViewListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    this.selectedWorkshops = this.workshops;
-  }
+  ngOnInit(): void { }
 
   onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);
@@ -27,7 +25,7 @@ export class WorkshopMapViewListComponent implements OnInit {
       this.selectedWorkshops = this.workshops.filter((workshop: Workshop) =>
         address.city === workshop.address.city &&
         address.street === workshop.address.street &&
-        address.buildingNumber === workshop.address.buildingNumber) : this.selectedWorkshops = this.workshops;
+        address.buildingNumber === workshop.address.buildingNumber) : this.selectedWorkshops = [];
   }
 
 }

@@ -7,6 +7,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AppState } from 'src/app/shared/store/app.state';
 import { Observable } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { GetWorkshops } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-result',
@@ -23,15 +24,16 @@ export class ResultComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     public navigationBarService: NavigationBarService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.currentView = 'show-data';
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      {name: NavBarName.TopWorkshops, isActive: false, disable: true}
-      )))
+      { name: NavBarName.TopWorkshops, isActive: false, disable: true }
+    )));
+    this.store.dispatch(new GetWorkshops())
   }
-  
+
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
