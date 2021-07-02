@@ -1,4 +1,3 @@
-import { KeyWord } from './keyWord,model';
 import { Address } from "./address.model";
 import { Provider } from "./provider.model";
 import { Teacher } from "./teacher.model";

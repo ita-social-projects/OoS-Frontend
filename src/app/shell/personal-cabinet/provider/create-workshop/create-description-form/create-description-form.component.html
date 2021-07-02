@@ -30,7 +30,7 @@
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу
     <div class="step-input" style="min-height:100px">
-      <mat-chip-list #chipList selectable="fakse">
+      <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
           {{keyWord}}
           <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
