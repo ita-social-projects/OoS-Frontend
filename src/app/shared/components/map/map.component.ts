@@ -6,9 +6,6 @@ import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { Workshop } from '../../models/workshop.model';
 
-const markerIcon = '/assets/icons/marker.png';
-const selectedMarkerIcon = '/assets/icons/selectMarker.png';
-
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -29,7 +26,6 @@ export class MapComponent implements AfterViewInit {
 
   map: Layer.Map;
   singleMarker: Layer.Marker;
-  isSelectedMarker: boolean = false;
   workshopMarkers: {
     id: number,
     marker: Layer.Marker,
@@ -73,7 +69,14 @@ export class MapComponent implements AfterViewInit {
           '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.map);
 
-      this.map.on('click', (L: Layer.LeafletMouseEvent) => this.workshops ? this.selectedAddress.emit(null) : this.setMapLocation(L.latlng));
+      this.map.on('click', (L: Layer.LeafletMouseEvent) => {
+        if (this.workshops) {
+          this.unselectMarkers();
+          this.selectedAddress.emit(null)
+        } else {
+          this.setMapLocation(L.latlng);
+        }
+      });
     });
 
     this.addressFormGroup && this.addressFormGroup.valueChanges.subscribe((address: Address) => address && this.setAddressLocation(address));
@@ -117,33 +120,30 @@ export class MapComponent implements AfterViewInit {
    * @param coords - type [number, number]
    */
   setWorkshopMarkers(coords: [number, number], address: Address, id: number): void {
-    let marker = this.createMarker(coords, false);
+    const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
-    this.workshopMarkers.push({ id, marker, isSelected: false });
-
+    this.workshopMarkers.push({ marker, isSelected: false, id });
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
-      const targetMarker: Layer.Marker = event.target;
+      this.unselectMarkers();
 
-      this.isSelectedMarker = !this.isSelectedMarker;
+      const targetMarker = this.workshopMarkers.find((workshopMarker) => workshopMarker.marker === event.target);
+      targetMarker.isSelected = true;
 
-      this.isSelectedMarker ? targetMarker.setIcon(this.selectedMarkerIcon) : targetMarker.setIcon(this.unselectedMarkerIcon);
-      console.log(this.map)
-
-      // targetMarker.setIcon(this.selectedMarkerIcon);
-      // if (this.isSelectedMarker) {
-      //   const selectedMarker = this.workshopMarkers.find((workshopMarkes) => workshopMarkes.isSelected);
-      //   selectedMarker.isSelected = false;
-      //   selectedMarker.marker.setIcon(this.unselectedMarkerIcon);
-      // }
-
-      // const newSelectedMarker = this.workshopMarkers.find((workshopMarkes) => workshopMarkes.id = id);
-      // newSelectedMarker.isSelected = true;
-      // newSelectedMarker.marker.setIcon(this.selectedMarkerIcon);
-      // this.selectedAddress.emit(address);
+      targetMarker.isSelected ? targetMarker.marker.setIcon(this.selectedMarkerIcon) : targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+      this.selectedAddress.emit(address);
     });
+  }
 
-
+  /**
+   * This method unselect target Marker
+   */
+  unselectMarkers(): void {
+    const selectedWorkshopMarker = this.workshopMarkers.find((workshopMarkes) => workshopMarkes.isSelected);
+    if (selectedWorkshopMarker) {
+      selectedWorkshopMarker.isSelected = false;
+      selectedWorkshopMarker.marker.setIcon(this.unselectedMarkerIcon);
+    }
   }
 
   /**
