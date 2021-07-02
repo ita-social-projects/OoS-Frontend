@@ -1,9 +1,22 @@
 <div class="wrapper">
-    <div class="workshops-list" >
-      <app-workshop-card
-        *ngFor="let workshop of selectedWorkshops" [workshop]="workshop" [isMainPage]="true" [userRole]="''">
+  <div *ngIf='selectedWorkshops.length'></div>
+  <ng-container>
+    <div class="workshop-list">
+      <app-workshop-card class="workshop-list"
+        *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 12, currentPage: currentPage }"
+        [workshop]="workshop" [isMainPage]="true" [userRole]="''">
       </app-workshop-card>
     </div>
+
+    <div class="pagination-wrapper" fxLayoutAlign="center">
+      <pagination-controls class="pagination" (pageChange)="currentPage = $event" maxSize="8" directionLinks="true"
+        autoHide="true" responsive="true" previousLabel="" nextLabel="" screenReaderPaginationLabel="Pagination"
+        screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+      </pagination-controls>
+    </div>
+
+  </ng-container>
+
   <div class="map">
     <app-map [workshops]="workshops" (selectedAddress)="onSelectedAddress($event)"></app-map>
   </div>

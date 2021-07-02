@@ -14,9 +14,6 @@ import { Role } from 'src/app/shared/enum/role';
 })
 export class WorkshopCardsListComponent implements OnInit {
 
-  readonly role: typeof Role = Role;
-  userRole: string;
-
   @Input() workshops: Workshop[];
 
   currentPage: number = 1;

@@ -12,10 +12,11 @@ export class WorkshopMapViewListComponent implements OnInit {
   @Input() workshops: Workshop[];
   selectedWorkshops: Workshop[] = [];
   isSelectedMarker: boolean = false;
+  currentPage: number = 1;
 
   constructor() { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.selectedWorkshops = this.workshops;
   }
 
@@ -23,10 +24,10 @@ export class WorkshopMapViewListComponent implements OnInit {
     this.isSelectedMarker = Boolean(address);
 
     (this.isSelectedMarker) ?
-      this.selectedWorkshops = this.workshops.filter((workshop: Workshop) => 
-      address.city === workshop.address.city && 
-      address.street === workshop.address.street && 
-      address.buildingNumber === workshop.address.buildingNumber) : this.selectedWorkshops = this.workshops; 
+      this.selectedWorkshops = this.workshops.filter((workshop: Workshop) =>
+        address.city === workshop.address.city &&
+        address.street === workshop.address.street &&
+        address.buildingNumber === workshop.address.buildingNumber) : this.selectedWorkshops = this.workshops;
   }
 
 }
