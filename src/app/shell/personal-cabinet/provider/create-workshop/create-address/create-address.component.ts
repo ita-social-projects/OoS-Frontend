@@ -28,9 +28,7 @@ export class CreateAddressComponent implements OnInit {
     this.address && this.AddressFormGroup.patchValue(this.address, { emitEvent: false });
   }
 
-  onReceiveAddressFromMap(form: FormGroup): void {
-    this.AddressFormGroup.get('city').setValue(form.get('city'));
-    this.AddressFormGroup.get('buildingNumber').setValue(form.get('buildingNumber'));
-    this.AddressFormGroup.get('street').setValue(form.get('street'));
+  onReceiveAddressFromMap(address: Address): void {
+    this.AddressFormGroup.patchValue(address)
   }
 }

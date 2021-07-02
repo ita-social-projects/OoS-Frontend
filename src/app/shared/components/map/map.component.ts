@@ -20,15 +20,15 @@ export class MapComponent implements AfterViewInit {
    * Sets Kyiv coords as map center by default
    */
   defaultCoords: [number, number];
-  
+
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
 
-  @Output() setAddressEvent = new EventEmitter<FormGroup>();
+  @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
   constructor(private geolocationService: GeolocationService) { }
-  
+
   map: Layer.Map;
   marker: Layer.Marker;
   markerIcon: Layer.Icon = Layer.icon({
@@ -39,7 +39,7 @@ export class MapComponent implements AfterViewInit {
     popupAnchor: [-3, -76],
     iconUrl: markerIcon,
   });
-  
+
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
    * Creates and sets map after div with is "map" renders.
@@ -48,23 +48,23 @@ export class MapComponent implements AfterViewInit {
    */
   ngAfterViewInit(): void {
     // set Kyiv geodata in coords by default in case user denies Geolocation
-    this.geolocationService.handleUserLocation((coords: Coords = {lat: 50.462235, lng: 30.545131}) => {
+    this.geolocationService.handleUserLocation((coords: Coords = { lat: 50.462235, lng: 30.545131 }) => {
 
-        this.defaultCoords = [coords.lat, coords.lng];
+      this.defaultCoords = [coords.lat, coords.lng];
 
-        this.map = Layer.map('map').setView(this.defaultCoords, 11);
+      this.map = Layer.map('map').setView(this.defaultCoords, 11);
 
-        Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution:
-            '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.map);
+      Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map);
 
-        this.map.on('click', (L: Layer.LeafletMouseEvent) =>  this.setMapLocation(L.latlng));
+      this.map.on('click', (L: Layer.LeafletMouseEvent) => this.setMapLocation(L.latlng));
     });
 
     if (this.addressFormGroup) {
       this.addressFormGroup.valueChanges
-      .subscribe((address: Address) => address.street && address.city && this.setFormLocation(address));
+        .subscribe((address: Address) => address && this.setFormLocation(address));
     }
 
     //this.workshops && this.workshops.forEach((workshop: Workshop)=> this.setFormLocation(workshop.address));
@@ -85,8 +85,8 @@ export class MapComponent implements AfterViewInit {
    * @param coords - type Coords
    */
   setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (addressFormGroup: FormGroup) => {
-      this.setAddressEvent.emit(addressFormGroup);
+    this.geolocationService.locationDecode(coords, (address: Address) => {
+      this.setAddressEvent.emit(address);
     });
   }
 
