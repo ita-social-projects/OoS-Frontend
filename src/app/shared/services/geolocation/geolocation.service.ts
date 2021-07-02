@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
@@ -23,22 +23,22 @@ export class GeolocationService {
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
-    callback({lat: data.coords.latitude, lng: data.coords.longitude});
+    callback({ lat: data.coords.latitude, lng: data.coords.longitude });
   }
-  
+
   /**
    * gets user location
    * renders Kyiv map by default in case user denies Geolocation
    *
    * @param callback - Function, which recieves 1 argument of type Coords
-   * 
+   *
    */
   handleUserLocation(callback: (Coords?: Coords) => void): void {
     navigator.geolocation.getCurrentPosition(
       (data: GeolocationPosition) => this.navigatorRecievedLocation(data, callback),
-      (error: GeolocationPositionError) => { 
-        this.navigatorRecievedError(error); 
-        callback(); 
+      (error: GeolocationPositionError) => {
+        this.navigatorRecievedError(error);
+        callback();
       }
     );
   }
@@ -51,14 +51,14 @@ export class GeolocationService {
    */
   locationDecode(coords: Coords, callback: (Address) => void): void {
     new Geocoder().options.geocoder.reverse(
-      {lat: coords.lat, lng: coords.lng},
+      { lat: coords.lat, lng: coords.lng },
       18,
       (result) => {
         if (result.length > 0) {
           const city = result[0].properties.address.city;
           const street = result[0].properties.address.road;
           const buildingNumber = result[0].properties.address.house_number;
-          callback({city, street, buildingNumber});
+          callback({ city, street, buildingNumber });
         } else {
           callback({
             city: '',
