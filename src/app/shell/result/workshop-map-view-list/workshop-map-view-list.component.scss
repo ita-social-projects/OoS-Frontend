@@ -2,17 +2,25 @@
 .wrapper{
   width:100%;
   max-height: 650px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-bottom: 1rem;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
 }
 .map {
-  width: 1200px;
+  display: inline-block;
+  width: 60%;
   height: 650px;
+  &-full{
+    width: 1200px;
+    height: 650px;
+  }
 }
 .workshop-list{
+  width: 30%;
+  max-height: 650px;
   overflow: auto;
+  display: inline-block;
+  margin-right: 1rem;
 }
 
 ::-webkit-scrollbar {
