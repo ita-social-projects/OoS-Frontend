@@ -1,20 +1,17 @@
 @import "src/app/shared/styles/pagination.scss";
 .wrapper{
-  width:100%;
   max-height: 650px;
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
 }
 .map {
   width: 1200px;
-    height: 650px;
+  height: 650px;
+
   &-full{
     width: 100%;
   }
   &-half{
     display: inline-block;
-    width: 60%;
+    width: 70%;
   }
 }
 .workshop-list{

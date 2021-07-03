@@ -1,6 +1,6 @@
-<div class="wrapper">
-  <div class="workshop-list">
-    <div fxLayout='column' fxLayoutAlign='space-evenly' *ngIf="selectedWorkshops.length">
+<div class="wrapper" fxLayout='row' fxLayoutAlign='space-evenly'>
+  <div class="workshop-list" *ngIf="selectedWorkshops.length">
+    <div fxLayout='column' fxLayoutAlign='space-evenly'>
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly'>
         <app-workshop-card class="workshop"
           *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
@@ -14,7 +14,7 @@
   </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
-    <div fxLayout='row' fxLayoutAlign='space-evenly'>
+    <div fxLayout='row' fxLayoutAlign='center'>
           <app-map class='map' [workshops]="workshops" (selectedAddress)="onSelectedAddress($event)"></app-map>
     </div>
   </div>
