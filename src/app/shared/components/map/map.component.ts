@@ -27,7 +27,6 @@ export class MapComponent implements AfterViewInit {
   map: Layer.Map;
   singleMarker: Layer.Marker;
   workshopMarkers: {
-    id: number,
     marker: Layer.Marker,
     isSelected?: boolean
   }[] = [];
@@ -81,17 +80,17 @@ export class MapComponent implements AfterViewInit {
 
     this.addressFormGroup && this.addressFormGroup.valueChanges.subscribe((address: Address) => address && this.setAddressLocation(address));
 
-    this.workshops && this.workshops.forEach((workshop: Workshop) => this.setAddressLocation(workshop.address, workshop.id));
+    this.workshops && this.workshops.forEach((workshop: Workshop) => this.setAddressLocation(workshop.address));
   }
 
   /**
    * uses GoelocationService to translate address into coords and sets marker on efault
    * @param address - type Address
    */
-  async setAddressLocation(address: Address, workshopId?: number): Promise<void> {
+  async setAddressLocation(address: Address): Promise<void> {
     const coords = await this.geolocationService.locationGeocode(address);
     if (coords) {
-      workshopId ? this.setWorkshopMarkers(coords, address, workshopId) : this.setNewSingleMarker(coords);
+      this.workshops ? this.setWorkshopMarkers(coords, address) : this.setNewSingleMarker(coords);
     }
   }
 
@@ -119,10 +118,10 @@ export class MapComponent implements AfterViewInit {
    * This method remove existed marker and set the new marke to the map
    * @param coords - type [number, number]
    */
-  setWorkshopMarkers(coords: [number, number], address: Address, id: number): void {
+  setWorkshopMarkers(coords: [number, number], address: Address): void {
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
-    this.workshopMarkers.push({ marker, isSelected: false, id });
+    this.workshopMarkers.push({ marker, isSelected: false});
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
