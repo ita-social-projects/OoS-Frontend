@@ -20,6 +20,8 @@ import {
   SetSearchQueryValue,
   SetOpenRecruitment,
   SetClosedRecruitment,
+  SetWithDisabilityOption,
+  SetWithoutDisabilityOption,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 export interface FilterStateModel {
@@ -38,6 +40,8 @@ export interface FilterStateModel {
   order: string;
   filteredWorkshops: Workshop[];
   topWorkshops: Workshop[];
+  withDisabilityOption:boolean;
+  withoutDisabilityOption:boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -56,7 +60,9 @@ export interface FilterStateModel {
     searchQuery: '',
     order: '',
     filteredWorkshops: [],
-    topWorkshops: []
+    topWorkshops: [],
+    withDisabilityOption:false,
+    withoutDisabilityOption:false,
   }
 })
 @Injectable()
@@ -151,5 +157,13 @@ export class FilterState {
     return this.appWorkshopsService
       .getTopWorkshops()
       .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops }))
+  }
+  @Action(SetWithDisabilityOption)
+  setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
+    patchState({ withDisabilityOption: payload });
+  }
+  @Action(SetWithoutDisabilityOption)
+  setWithoutDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithoutDisabilityOption) {
+    patchState({ withoutDisabilityOption: payload });
   }
 }

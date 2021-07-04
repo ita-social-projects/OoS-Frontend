@@ -61,3 +61,11 @@ export class GetTopWorkshops {
   static readonly type = '[filter] Get 4 Most Popular Workshop Cards';
   constructor() { }
 }
+export class SetWithDisabilityOption {
+  static readonly type = '[filter] Set with Disability option';
+  constructor(public payload: boolean) { }
+}
+export class SetWithoutDisabilityOption {
+  static readonly type = '[filter] Set without Disability option';
+  constructor(public payload: boolean) { }
+}
