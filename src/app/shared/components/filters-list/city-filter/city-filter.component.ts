@@ -14,6 +14,6 @@ export class CityFilterComponent implements OnInit {
   ngOnInit(): void { }
 
   onSelectedCity(event): void {
-    this.store.dispatch(new SetCity(event.city))
+    this.store.dispatch(new SetCity(event))
   }
 }
