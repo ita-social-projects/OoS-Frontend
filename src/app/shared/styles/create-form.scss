@@ -68,7 +68,7 @@ select:focus,
 button:focus {
   outline: none;
 }
-::placeholder {
+::ng-deep .placeholder {
   color:#333333;
   font-family: Open Sans;
   font-style: normal;
