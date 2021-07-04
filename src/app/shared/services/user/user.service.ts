@@ -15,4 +15,12 @@ export class UserService {
   getUserById(id): Observable<User> {
     return this.http.get<User>(`/User/GetUserById/${id}`);
   }
+
+  /**
+  * This method update Provider
+  * @param Provider
+  */
+  updateUser(user: User): Observable<Object> {
+  return this.http.put('/User/Update', user);
+  }
 }
