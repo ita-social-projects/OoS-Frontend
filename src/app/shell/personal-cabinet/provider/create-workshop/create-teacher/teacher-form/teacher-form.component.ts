@@ -14,6 +14,8 @@ export class TeacherFormComponent implements OnInit {
   @Input() teacherAmount: number;
 
   @Output() deleteForm = new EventEmitter();
+  
+  today: Date = new Date(); 
 
   constructor() { }
 

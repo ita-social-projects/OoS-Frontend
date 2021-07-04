@@ -16,6 +16,8 @@ export class ChildFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
+  today: Date = new Date(); 
+
   constructor() { }
 
   ngOnInit(): void { }
@@ -23,5 +25,4 @@ export class ChildFormComponent implements OnInit {
   delete(): void {
     this.deleteForm.emit(this.index);
   }
-
 }
