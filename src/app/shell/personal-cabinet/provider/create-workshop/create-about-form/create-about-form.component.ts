@@ -71,7 +71,7 @@ export class CreateAboutFormComponent implements OnInit {
       if(isPrice){
         this.AboutFormGroup.get('price').enable()
       }else{
-        this.AboutFormGroup.get('price').setValue(0); 
+        this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE); 
         this.AboutFormGroup.get('price').disable();
       }
     });

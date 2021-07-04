@@ -106,6 +106,15 @@ button:focus {
   color: #3849F9 !important;
   border: 2px solid blue;
 }
+::ng-deep .mat-radio-label-content{
+  padding: 0.8rem;
+}
+::ng-deep .mat-checkbox-layout .mat-checkbox-label{
+  margin: 1rem 0;
+  font-family: Open Sans;
+  font-weight: 400;
+  color:#444444;
+}
 .btn{
   color:white;
   background-color:#3849F9;
