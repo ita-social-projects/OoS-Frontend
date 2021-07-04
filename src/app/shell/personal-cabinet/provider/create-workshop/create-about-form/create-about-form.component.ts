@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -19,17 +20,17 @@ export class CreateAboutFormComponent implements OnInit {
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly constants: typeof Constants = Constants;
-  workingHours: SelectedWorkingHours[] = [];
 
-  priceRadioBtn: FormControl = new FormControl(false);
-  priceCtrl: FormControl = new FormControl({ value: this.constants.MIN_PRICE, disabled: true });
-
-  provider: Provider;
-  useProviderInfoCtrl: FormControl = new FormControl(false);
-
-  AboutFormGroup: FormGroup;
   @Input() workshop: Workshop;
   @Output() PassAboutFormGroup = new EventEmitter();
+
+  provider: Provider;
+  AboutFormGroup: FormGroup;
+  workingHours: SelectedWorkingHours[] = [];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  priceRadioBtn: FormControl = new FormControl(false);
+  useProviderInfoCtrl: FormControl = new FormControl(false);
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
@@ -43,8 +44,8 @@ export class CreateAboutFormComponent implements OnInit {
       website: new FormControl(''),
       facebook: new FormControl(''),
       instagram: new FormControl(''),
-      daysPerWeek: new FormControl(''),
-      price: new FormControl(0),
+      daysPerWeek: new FormControl('', [Validators.required]),
+      price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
     });
@@ -63,13 +64,24 @@ export class CreateAboutFormComponent implements OnInit {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   onPriceCtrlInit(): void {
-    this.priceCtrl.valueChanges.subscribe((price: number) =>
-      price ? this.AboutFormGroup.get('price').setValue(price) : this.AboutFormGroup.get('price').setValue(0)
-    );
+    this.priceRadioBtn.valueChanges
+    .pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((isPrice: boolean) =>{
+      if(isPrice){
+        this.AboutFormGroup.get('price').enable()
+      }else{
+        this.AboutFormGroup.get('price').setValue(0); 
+        this.AboutFormGroup.get('price').disable();
+      }
+    });
 
-    this.priceRadioBtn.valueChanges.subscribe((isPrice: boolean) =>
-      isPrice ? this.priceCtrl.enable() : this.priceCtrl.disable()
-    );
+    this.AboutFormGroup.get('price').valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(100),
+      ).subscribe((price: number) => this.AboutFormGroup.get('price').setValue(price) 
+    );  
   }
 
   /**
@@ -120,9 +132,11 @@ export class CreateAboutFormComponent implements OnInit {
   */
   activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
-    if (this.workshop.price) {
-      this.priceRadioBtn.setValue(true);
-      this.priceCtrl.setValue(this.workshop.price);
-    }
+    this.workshop.price && this.priceRadioBtn.setValue(true);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

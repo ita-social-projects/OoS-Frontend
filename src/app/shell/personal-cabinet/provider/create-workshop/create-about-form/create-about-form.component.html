@@ -78,7 +78,7 @@
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign='start center'>
       <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
-      <input matInput class="step-input step-input-age" appDigitOnly [formControl]="priceCtrl" type="number"
+      <input matInput class="step-input step-input-age" appDigitOnly formControlName="price" type="number"
         min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}>
       <p class="step-text">грн за</p>
       <mat-button-toggle-group color="primary" class="input-button-group" formControlName="isPerMonth">
