@@ -2,7 +2,7 @@
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  margin:1rem;
+  margin: 1rem 0;
   padding: 1rem;
   max-width: 40rem;
 }
@@ -13,7 +13,8 @@
   color: #3849F9;
 }
 .border{
-  border-top: 1px solid #E3E3E3;
+  border-bottom: 2px solid #E3E3E3;
+  margin: 1rem 0;
 }
 :host ::ng-deep .mat-tab-label-active {
   color: #3849F9;
