@@ -1,72 +1,67 @@
 <ng-container *ngIf="provider$ | async as provider">
   <div fxLayout='row' fxLayoutAlign='start'>
-    <div class="wrapper" fxLayout='row' fxLayoutAlign='center center'>
-      <mat-tab-group>
-        <mat-tab label="Інформація про заклад">
-          <a [routerLink]="['/create-provider', 'info']" class="edit-icon"><button mat-button style="color:#3849F9;"
-            (click)="ActivateEditMode()">
-            <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-            </button></a>
-          <h5>Форма властності</h5>
-          <p>{{ownershipTypeUkr[this.provider.ownership]}}</p>
-          <h5>Тип організації</h5>
-          <p>{{providerTypeUkr[this.provider.type]}}</p>
-          <h5>Повна назва організації</h5>
-          <p>{{provider.fullTitle}}</p>
-          <h5>Скорочена назва організації</h5>
-          <p>{{provider.shortTitle}}</p>
-          <h5>ПІБ керівника</h5>
-          <p>{{provider.director}}</p>
-          <h5>Дата народження керівника</h5>
-          <p>{{provider.directorBirthDay}}</p>
-          <h5>ЄДРПОУ/ІПН</h5>
-          <p>{{provider.edrpouIpn}}</p>
-          <h5>Телефон</h5>
-          <p>{{provider.phoneNumber}}</p>
-          <h5>Емейл</h5>
-          <p>{{provider.email}}</p>
-          <h5>Вебсайт</h5>
-          <p>{{provider.website}}</p>
-        </mat-tab>
-        <mat-tab label="Контакти">
-          <a [routerLink]="['/create-provider', 'contacts']" class="edit-icon"><button mat-button
-            style="color:#3849F9;" (click)="ActivateEditMode()">
-            <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-            </button></a>
-            <div class="border">
-              <h3>Юридична адреса</h3>
+    <div class="wrapper">
+      <a [routerLink]="['/create-provider', editLink]" class="edit-icon"><button mat-button style="color:#3849F9;"
+        (click)="ActivateEditMode()">
+        <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
+        </button></a>
+        <div fxLayout='row' fxLayoutAlign='center center'>
+          <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+            <mat-tab label="Інформація про заклад">
+              <h5>Форма властності</h5>
+              <p>{{ownershipTypeUkr[this.provider.ownership]}}</p>
+              <h5>Тип організації</h5>
+              <p>{{providerTypeUkr[this.provider.type]}}</p>
+              <h5>Повна назва організації</h5>
+              <p>{{provider.fullTitle}}</p>
+              <h5>Скорочена назва організації</h5>
+              <p>{{provider.shortTitle}}</p>
+              <h5>ПІБ керівника</h5>
+              <p>{{provider.director}}</p>
+              <h5>Дата народження керівника</h5>
+              <p>{{provider.directorBirthDay}}</p>
+              <h5>ЄДРПОУ/ІПН</h5>
+              <p>{{provider.edrpouIpn}}</p>
+              <h5>Телефон</h5>
+              <p>{{provider.phoneNumber}}</p>
+              <h5>Емейл</h5>
+              <p>{{provider.email}}</p>
+              <h5>Вебсайт</h5>
+              <p>{{provider.website}}</p>
+            </mat-tab>
+            <mat-tab label="Контакти">
+                <div class="border">
+                  <h3>Юридична адреса</h3>
+                  <h5>Область</h5>
+                  <p>{{provider.legalAddress.district}}</p>
+                  <h5>Місто</h5>
+                  <p>{{provider.legalAddress.city}}</p>
+                  <h5>Район</h5>
+                  <p>{{provider.legalAddress.region}}</p>
+                  <h5>Вулиця</h5>
+                  <p>{{provider.legalAddress.street}}</p>
+                  <h5>Будинок</h5>
+                  <p>{{provider.legalAddress.buildingNumber}}</p>
+                </div>
+              <h3>Фактична адреса</h3>
               <h5>Область</h5>
-              <p>{{provider.legalAddress.district}}</p>
+              <p>{{provider.actualAddress.district}}</p>
               <h5>Місто</h5>
-              <p>{{provider.legalAddress.city}}</p>
+              <p>{{provider.actualAddress.city}}</p>
               <h5>Район</h5>
-              <p>{{provider.legalAddress.region}}</p>
+              <p>{{provider.actualAddress.region}}</p>
               <h5>Вулиця</h5>
-              <p>{{provider.legalAddress.street}}</p>
+              <p>{{provider.actualAddress.street}}</p>
               <h5>Будинок</h5>
-              <p>{{provider.legalAddress.buildingNumber}}</p>
-            </div>
-          <h3>Фактична адреса</h3>
-          <h5>Область</h5>
-          <p>{{provider.actualAddress.district}}</p>
-          <h5>Місто</h5>
-          <p>{{provider.actualAddress.city}}</p>
-          <h5>Район</h5>
-          <p>{{provider.actualAddress.region}}</p>
-          <h5>Вулиця</h5>
-          <p>{{provider.actualAddress.street}}</p>
-          <h5>Будинок</h5>
-          <p>{{provider.actualAddress.buildingNumber}}</p>
-        </mat-tab>
-        <mat-tab label="Фото">
-          <a [routerLink]="['/create-provider', 'contacts']" class="edit-icon"><button mat-button
-            style="color:#3849F9;" (click)="ActivateEditMode()">
-            <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-            </button></a>
-          <h5>Опис</h5>
-          <p class="description">{{provider.description}}</p>
-        </mat-tab>
-      </mat-tab-group>
+              <p>{{provider.actualAddress.buildingNumber}}</p>
+            </mat-tab>
+            <mat-tab label="Фото">
+              <h5>Опис</h5>
+              <p class="description">{{provider.description}}</p>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      
     </div>
   </div>
   
