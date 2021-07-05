@@ -18,7 +18,6 @@ describe('UserConfigEditComponent', () => {
       imports: [
         MatIconModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
