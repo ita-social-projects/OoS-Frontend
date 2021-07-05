@@ -47,7 +47,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     CreateProviderGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-
   ]
 })
 export class ShellModule { }
