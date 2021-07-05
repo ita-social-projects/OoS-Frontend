@@ -140,3 +140,15 @@ export class OnUpdateProviderSuccess {
   static readonly type = '[user] update Provider success';
   constructor(public payload) { }
 }
+export class UpdateUser {
+  static readonly type = '[user] update User';
+  constructor(public payload: User) { }
+}
+export class OnUpdateUserFail {
+  static readonly type = '[user] update User fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateUserSuccess {
+  static readonly type = '[user] update User success';
+  constructor(public payload) { }
+}
