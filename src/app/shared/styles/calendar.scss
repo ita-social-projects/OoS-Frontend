@@ -14,6 +14,7 @@
   display: none;
 }
 ::ng-deep .mat-calendar-controls{
+  margin: 0 !important;
   display: flex;
   justify-content: center;
 }

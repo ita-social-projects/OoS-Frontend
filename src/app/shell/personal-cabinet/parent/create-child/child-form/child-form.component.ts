@@ -7,9 +7,6 @@ import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
   selector: 'app-child-form',
   templateUrl: './child-form.component.html',
   styleUrls: ['./child-form.component.scss'],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
-  ],
 })
 export class ChildFormComponent implements OnInit {
 
