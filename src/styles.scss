@@ -2,16 +2,16 @@
 
 @font-face {
   font-family: "Innerspace";
-  src: 
-    local("Innerspace"), 
+  src:
+    local("Innerspace"),
     url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format("truetype"),
     url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format("truetype");
 }
 
-html, body { 
-  height: 100%; 
+html, body {
+  height: 100%;
 }
-body { 
+body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 0.8125rem;
@@ -108,3 +108,14 @@ $config: mat-typography-config(
 @include mat-button-toggle-typography($config);
 @include mat-form-typography($config);
 // @include mat-core($config);
+
+::-webkit-scrollbar {
+ background-color: #E3E3E3;
+ width: 4px;
+ height: 4px;
+ border-radius: 5px;
+}
+::-webkit-scrollbar-thumb{
+  background-color: #a19e9e;
+  border-radius: 5px;
+}

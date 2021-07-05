@@ -1,17 +1,20 @@
-<p class="filter-text">Напрямки</p>
-<div class="search-bar" fxLayout='row' fxLayoutAlign='space-evenly'>
-  <button mat-stroked-button>
-    <mat-icon class="search-icon" style="transform: rotate(90deg)" (click)="onSearch()">
-      search</mat-icon>
-  </button>
-  <mat-form-field floatLabel=never appearance="none">
-    <input matInput type="text" maxlength="200" [formControl]="directionSearch" class="search" matInput
-      placeholder="Введіть назву напрямку">
-  </mat-form-field>
+<div class="wrapper">
+  <p class="filter-text">Напрямки</p>
+  <div class="search-bar" fxLayout='row' fxLayoutAlign='space-evenly'>
+    <button mat-stroked-button>
+      <mat-icon class="search-icon" style="transform: rotate(90deg)" (click)="onSearch()">
+        search</mat-icon>
+    </button>
+    <mat-form-field floatLabel=never appearance="none">
+      <input matInput type="text" maxlength="200" [formControl]="directionSearch" class="search" matInput
+        placeholder="Введіть назву напрямку">
+    </mat-form-field>
+  </div>
+  <div class="list-wrapper">
+    <div *ngIf="(showAll) then AllDirections; else FilteredDirections"></div>
+  </div>
 </div>
-<div class="list-wrapper">
-  <div *ngIf="(showAll) then AllDirections; else FilteredDirections"></div>
-</div>
+
 <ng-template #AllDirections>
   <ng-container *ngTemplateOutlet="Directions; context:{$implicit: allDirections}">
   </ng-container>
