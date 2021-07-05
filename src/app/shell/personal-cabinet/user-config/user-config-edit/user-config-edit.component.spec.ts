@@ -34,7 +34,7 @@ describe('UserConfigEditComponent', () => {
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
-      middleName: new FormControl(''),
+      middleName: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [Validators.required]),
     });
     fixture.detectChanges();

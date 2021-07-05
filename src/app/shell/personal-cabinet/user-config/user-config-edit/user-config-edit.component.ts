@@ -33,7 +33,7 @@ export class UserConfigEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$.subscribe((user: User) => this.user = user);
-    this.userEditFormGroup.patchValue(this.user);
+    this.user && this.userEditFormGroup.patchValue(this.user);
   }
 
   onSubmit(): void {
