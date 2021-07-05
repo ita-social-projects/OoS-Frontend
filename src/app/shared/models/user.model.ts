@@ -10,7 +10,6 @@ export class User {
   role: string;
 
   constructor(info, id?: string) {
-    this.id = info.id;
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
