@@ -34,7 +34,7 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
   
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
