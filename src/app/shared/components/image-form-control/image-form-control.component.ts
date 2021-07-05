@@ -17,7 +17,7 @@ export class ImageFormControlComponent implements OnInit {
 
   photoFormGroup: FormGroup;
 
-
+  gridCols: number;
   selectedImages: File[] = [];
   decodedImages = [];
 
@@ -29,6 +29,7 @@ export class ImageFormControlComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.onResize(window);
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -53,7 +54,9 @@ export class ImageFormControlComponent implements OnInit {
   imageDecoder(file: File): void {
     const myReader = new FileReader();
     myReader.onload = () => {
-      this.decodedImages.push(myReader.result);
+      if (this.decodedImages.length<this.imgMaxAmount){
+        this.decodedImages.push(myReader.result);
+      }
     };
     return myReader.readAsDataURL(file);
   }
@@ -92,5 +95,14 @@ export class ImageFormControlComponent implements OnInit {
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
   }
-
+  /* This method controls cols quantity in the img preview grid rows depending on screen width */
+  onResize(screen): void {
+    if(screen.innerWidth >= 500){
+      this.gridCols = 4;
+    }else if (screen.innerWidth < 500 && screen.innerWidth >= 366){
+      this.gridCols = 3;
+    }else {
+      this.gridCols = 2;
+    }
+  }
 }
