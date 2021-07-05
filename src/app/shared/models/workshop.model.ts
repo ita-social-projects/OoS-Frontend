@@ -21,7 +21,7 @@ export class Workshop {
   head: string;
   headBirthDate?: Date;
   type?: number;
-  keyWords?: string;
+  keyWords?: string[];
   address: Address;
   teachers: Teacher[];
   ownership?: string;
@@ -60,5 +60,6 @@ export class Workshop {
     this.directionId = description.directionId;
     this.departmentId = description.departmentId;
     this.classId = description.classId;
+    this.keyWords = description.keyWords;
   }
 }

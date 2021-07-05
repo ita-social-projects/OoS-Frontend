@@ -5,10 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
-import { KeyWordsService } from '../../../../../shared/services/key-words/key-words.service';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
-import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
-import { KeyWord } from '../../../../../shared/models/keyWord,model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
 @Component({
@@ -27,20 +24,17 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   keyWordsCtrl: FormControl = new FormControl();
   separatorKeysCodes: number[] = [ENTER];
-  keyWords: KeyWord[] = [];
-  allkeyWords: KeyWord[] = [];
+  keyWords: string[] = [];
+  keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Select(MetaDataState.filteredkeyWords)
-  filteredkeyWords$: Observable<KeyWordsService[]>;
+
 
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-
-  constructor(private formBuilder: FormBuilder, private store: Store,
-    private keyWordsService: KeyWordsService) {
+  
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
@@ -54,29 +48,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.onDisabilityOptionCtrlInit();
-
-    this.keyWordsService.getKeyWords()
-      .subscribe((data) => {
-        this.allkeyWords = data;
-      });
-
-    this.keyWordsCtrl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value) {
-          this.store.dispatch(new KeyWordsList(this._filter(value.trim())));
-        } else {
-          this.store.dispatch(new KeyWordsList([]));
-        };
-      });
-
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
-
     this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
   }
 
@@ -84,41 +56,27 @@ export class CreateDescriptionFormComponent implements OnInit {
    * This method remove already added key words from the list of key words
    * @param string word
    */
-  onRemoveKeyWord(word: KeyWord): void {
+  onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
-      this.allkeyWords.push(word);
+
     }
   }
-
-  /**
-   * This method adds an option from the list of filtered words
-   * to the list of added by user key words
-   * @param MatAutocompleteSelectedEvent value
-   */
-  onSelectKeyWord(event: MatAutocompleteSelectedEvent): void {
-    if (this.onValidation(event.option.value.keyWord, this.keyWords)) {
-      this.keyWords.push(event.option.value);
+  
+   onKeyWordsInput(event:KeyboardEvent):void{
+    let inputKeyWord=this.keyWord.trim().toLowerCase();
+    if(this.keyWord.trim()!=='' && !this.keyWords.includes(inputKeyWord)){
+      this.keyWords.push(inputKeyWord);
       this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
+      this.keyWordsInput.nativeElement.value = '';
+      this.keyWordsCtrl.setValue(null);
+      this.keyWord='';
     }
-    this.keyWordsInput.nativeElement.value = '';
-    this.keyWordsCtrl.setValue(null);
-    this.allkeyWords.splice(this.allkeyWords.indexOf(event.option.value), 1);
-  }
+    else{
+      this.keyWordsInput.nativeElement.value = '';
+      this.keyWord='';
 
-  /**
-   * This method filters the list of all key words according to the value of input
-   * @param string value
-   * @returns string[]
-   */
-  private _filter(value: string): KeyWord[] {
-    let filteredKeyWords = this.allkeyWords
-      .filter((word: KeyWord) => word.keyWord
-        .toLowerCase()
-        .startsWith(value.toLowerCase())
-      )
-      .map((word: KeyWord) => word);
-    return filteredKeyWords;
+    }
   }
 
   ngOnDestroy() {
@@ -126,14 +84,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  /**
-   * This method checks if the keyWord is already added to the selected key word list
-   * @param string value
-   * @returns boolean
-   */
-  onValidation(newWord: string, array: KeyWord[]): boolean {
-    return (array.filter((word: KeyWord) => word.keyWord.toLowerCase() === newWord.toLowerCase()).length === 0);
-  }
+
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     categoriesForm.get('directionId').valueChanges.subscribe((id: number) =>
