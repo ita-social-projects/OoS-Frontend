@@ -22,12 +22,14 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <div class="step-label-combined">
-  <label class="step-label"> Опис <span class="step-required">*</span></label>
-  <label class="step-characters-count"> {{TeacherFormGroup.get('description').value.length}}/{{constants.MAX_TEACHER_DESCRIPTION_LENGTH }}</label>
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{TeacherFormGroup.get('description').value.length}}/{{constants.MAX_TEACHER_DESCRIPTION_LENGTH }}</label>
   </div>
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_TEACHER_DESCRIPTION_LENGTH}} символів" formControlName="description"
-      required></textarea>
+    <textarea matInput class="step-textarea"
+      placeholder="Максимум {{constants.MAX_TEACHER_DESCRIPTION_LENGTH}} символів" formControlName="description"
+      required maxlength="{{constants.MAX_TEACHER_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="teacherAmount > 1">
