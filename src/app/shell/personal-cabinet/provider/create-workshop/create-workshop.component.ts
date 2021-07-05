@@ -53,11 +53,15 @@ export class CreateWorkshopComponent implements OnInit {
     const address = new Address(this.AddressFormGroup.value);
     const teachers = this.createTeachers(this.TeacherFormArray);
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+
+    const aboutInfo = this.AboutFormGroup.getRawValue();
+    const descInfo = this.DescriptionFormGroup.getRawValue();
+
     if (this.editMode) {
-      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, provider, this.workshop.id);
+      const workshop = new Workshop(aboutInfo,descInfo, address, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      const workshop = new Workshop(this.AboutFormGroup.value, this.DescriptionFormGroup.value, address, teachers, provider);
+      const workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
   }

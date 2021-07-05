@@ -1,7 +1,7 @@
 <form [formGroup]="InfoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <label class="step-label">Форма властності<span class="step-required">*</span></label>
 
-  <mat-form-field appearance="none">
+  <mat-form-field>
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
       name="ownership" required placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
@@ -14,7 +14,7 @@
 
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
 
-  <mat-form-field appearance="none">
+  <mat-form-field>
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
       required placeholder="Оберіть тип організації">
       <ng-container *ngFor="let type of providerType | keyvalue">

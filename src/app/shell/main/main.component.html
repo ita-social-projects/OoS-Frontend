@@ -7,7 +7,7 @@
       </a>
     </div>
     <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
-      <app-category-card *ngFor="let category of categories$ | async " [category]="category">
+      <app-category-card *ngFor="let direction of directions$ | async " [direction]="direction">
       </app-category-card>
     </div>
   </div>

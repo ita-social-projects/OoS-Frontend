@@ -22,9 +22,9 @@ export class AppWorkshopsService {
     if (filters.city) {
       params = params.set('address.city', filters.city.city);
     }
-    if (filters.categories.length > 0) {
-      for (let i = 0; i < filters.categories.length; i++) {
-        params = params.append('category.id', filters.categories[i].toString());
+    if (filters.directions.length > 0) {
+      for (let i = 0; i < filters.directions.length; i++) {
+        params = params.append('direction.id', filters.directions[i].toString());
       }
     }
     return params;

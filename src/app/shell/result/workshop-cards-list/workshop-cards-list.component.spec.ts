@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NgxsModule, Store } from '@ngxs/store';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -15,7 +14,6 @@ const MockUser = {
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
   let fixture: ComponentFixture<WorkshopCardsListComponent>;
-  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +25,6 @@ describe('WorkshopCardsListComponentt', () => {
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxsModule.forRoot([ ]),
         NgxPaginationModule
       ],
     })
@@ -35,9 +32,6 @@ describe('WorkshopCardsListComponentt', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
-
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -64,5 +58,3 @@ class MockListWorkshopCardComponent {
   @Input() isMainPage: boolean;
   @Input() userRole: string;
 }
-
-

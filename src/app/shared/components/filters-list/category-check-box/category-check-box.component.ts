@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Category } from 'src/app/shared/models/category.model';
-import { AppState } from 'src/app/shared/store/app.state';
-import { SetCategories } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { GetCategories } from 'src/app/shared/store/meta-data.actions';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Direction } from 'src/app/shared/models/category.model';
+import { SetDirections } from 'src/app/shared/store/filter.actions';
+import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
@@ -16,67 +15,80 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit {
-  @Select(MetaDataState.categories)
-  categories$: Observable<Category[]>;
+  @Select(MetaDataState.directions)
+  directions$: Observable<Direction[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  allCategories: Category[] = [];
-  selectedCategories: Category[] = [];
-  filteredCategories: Category[] = [];
-  categorySearch = new FormControl('');
+  allDirections: Direction[] = [];
+  selectedDirections: Direction[] = [];
+  filteredDirections: Direction[] = [];
+  directionSearch = new FormControl('');
   showAll = true;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetCategories());
-    this.categories$.subscribe(categories => this.allCategories = categories);
+    this.store.dispatch(new GetDirections());
+    this.directions$.pipe(
+        takeUntil(this.destroy$),
+      ).subscribe(directions => this.allDirections = directions);
 
-    this.categorySearch.valueChanges.subscribe((val) => {
+    this.directionSearch.valueChanges
+    .pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((val) => {
       if (val) {
-        this.onCategoryFilter(val);
+        this.onDirectionFilter(val);
         this.showAll = false;
       } else {
-        this.filteredCategories = [];
+        this.filteredDirections = [];
         this.showAll = true;
       }
     })
   }
 
   /**
-  * This method add checked category to the list of selected categories and distpatch filter action
-  * @param category
+  * This method add checked direction to the list of selected directions and distpatch filter action
+  * @param direction
   * @param event
   */
-  onCategoryCheck(category: Category, event: MatCheckbox,): void {
-    (event.checked) ? this.selectedCategories.push(category) : this.selectedCategories.splice(this.selectedCategories.indexOf(category), 1);
-    this.store.dispatch(new SetCategories(this.selectedCategories));
+  onDirectionCheck(direction: Direction, event: MatCheckbox,): void {
+    (event.checked) ? this.selectedDirections.push(direction) : this.selectedDirections.splice(this.selectedDirections.indexOf(direction), 1);
+    this.store.dispatch(new SetDirections(this.selectedDirections));
   }
 
   /**
-  * This method filter categories according to the input value
+  * This method filter directions according to the input value
   * @param value
   */
-  onCategoryFilter(value: string): void {
-    this.filteredCategories = this.allCategories
-      .filter(category => category.title
+  onDirectionFilter(value: string): void {
+    this.filteredDirections = this.allDirections
+      .filter(direction => direction.title
         .toLowerCase()
         .startsWith(value.toLowerCase())
       )
-      .map(category => category);
+      .map(direction => direction);
   }
 
   /**
   * This method check if value is checked
   * @returns boolean
   */
-  onSelectCheck(value: Category): boolean {
-    const result = this.selectedCategories
-      .some(category => category.title.startsWith(value.title)
+  onSelectCheck(value: Direction): boolean {
+    const result = this.selectedDirections
+      .some(direction => direction.title.startsWith(value.title)
       );
     return result;
   }
 
   onSearch(): void {
     this.showAll = true;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

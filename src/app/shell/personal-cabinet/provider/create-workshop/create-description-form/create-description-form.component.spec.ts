@@ -12,6 +12,7 @@ import { ImageFormControlComponent } from '../../../../../shared/components/imag
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MatRadioModule } from '@angular/material/radio';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -28,7 +29,8 @@ describe('CreateDescriptionFormComponent', () => {
         NgxsModule.forRoot([]),
         MatInputModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        MatRadioModule
       ],
       declarations: [
         CreateDescriptionFormComponent,
