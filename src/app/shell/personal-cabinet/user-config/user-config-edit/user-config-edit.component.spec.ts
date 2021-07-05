@@ -24,25 +24,21 @@ describe('UserConfigEditComponent', () => {
         MatInputModule,
         BrowserAnimationsModule
       ],
-      declarations: [ UserConfigEditComponent ]
+      declarations: [UserConfigEditComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserConfigEditComponent);
     component = fixture.componentInstance;
     component.userEditFormGroup = new FormGroup({
-        lastName: new FormControl('', [Validators.required]),
-        firstName: new FormControl('', [Validators.required]),
-        middleName: new FormControl(''),
-        phoneNumber: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        passwords: new FormGroup({
-          password: new FormControl('', [Validators.minLength(6)]),
-          confirmPassword: new FormControl('')
-        })
-      });
+      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      middleName: new FormControl(''),
+      phoneNumber: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+    });
     fixture.detectChanges();
   });
 
@@ -50,4 +46,3 @@ describe('UserConfigEditComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
