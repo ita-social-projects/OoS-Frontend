@@ -411,7 +411,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('User is updated', payload);
     this.showSnackBar('Особиста інформація успішно відредагована', 'primary');
-    dispatch(new CheckAuth())
+    dispatch(new CheckAuth());
     this.router.navigate(['/personal-cabinet/config']);
   }
 
