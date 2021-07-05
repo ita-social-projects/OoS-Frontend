@@ -150,23 +150,20 @@ export class CreateDescriptionFormComponent implements OnInit {
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-   onDisabilityOptionCtrlInit(): void {
+  onDisabilityOptionCtrlInit(): void {
     this.disabilityOptionRadioBtn.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((isPrice: boolean) =>{
-      if(isPrice){
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').enable()
-      }else{
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').disable();
-      }
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((isPrice: boolean) => {
+        isPrice ? this.DescriptionFormGroup.get('disabilityOptionsDesc').enable() : this.DescriptionFormGroup.get('disabilityOptionsDesc').disable();
+      });
 
     this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc').setValue(disabilityOptionsDesc) 
-    );  
+      ).subscribe((disabilityOptionsDesc: string) =>
+        this.DescriptionFormGroup.get('disabilityOptionsDesc').setValue(disabilityOptionsDesc)
+      );
   }
 }
