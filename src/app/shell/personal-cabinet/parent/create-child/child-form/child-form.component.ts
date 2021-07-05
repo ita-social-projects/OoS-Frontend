@@ -1,11 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 
 @Component({
   selector: 'app-child-form',
   templateUrl: './child-form.component.html',
-  styleUrls: ['./child-form.component.scss']
+  styleUrls: ['./child-form.component.scss'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+  ],
 })
 export class ChildFormComponent implements OnInit {
 
@@ -16,7 +20,7 @@ export class ChildFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
-  today: Date = new Date(); 
+  today: Date = new Date();
 
   constructor() { }
 
