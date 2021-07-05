@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup } from '@angular/forms';
-
+import { MatIconModule } from '@angular/material/icon';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('ResultComponent', () => {
@@ -20,7 +20,7 @@ describe('ResultComponent', () => {
         MatButtonToggleModule,
         MatSidenavModule,
         BrowserAnimationsModule,
-       
+        MatIconModule
 
       ],
       declarations: [
