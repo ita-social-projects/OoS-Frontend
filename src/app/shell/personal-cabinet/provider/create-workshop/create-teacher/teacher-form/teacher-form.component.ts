@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
+import { emit } from 'process';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-teacher-form',
@@ -8,6 +10,8 @@ import { Output, EventEmitter } from '@angular/core';
   styleUrls: ['./teacher-form.component.scss']
 })
 export class TeacherFormComponent implements OnInit {
+
+  readonly constants: typeof Constants = Constants;
 
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
@@ -17,7 +21,13 @@ export class TeacherFormComponent implements OnInit {
   
   today: Date = new Date(); 
 
-  constructor() { }
+
+  constructor(private formBuilder: FormBuilder) {
+    this.TeacherFormGroup = this.formBuilder.group({
+      description: new FormControl('', [Validators.maxLength(Constants.MAX_TEACHER_DESCRIPTION_LENGTH ), Validators.required])
+    })
+   
+  }
 
   ngOnInit(): void { }
 
