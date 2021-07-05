@@ -21,7 +21,6 @@ describe('UserConfigEditComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         MatFormFieldModule,
-        HttpClientTestingModule,
         MatInputModule,
         BrowserAnimationsModule
       ],
