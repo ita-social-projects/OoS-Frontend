@@ -11,6 +11,7 @@ import { ApplicationService } from '../services/applications/application.service
 import { ChildrenService } from '../services/children/children.service';
 import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
+import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { GetWorkshops, MarkFormDirty } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
@@ -49,7 +50,10 @@ import {
   OnUpdateWorkshopFail,
   UpdateProvider,
   OnUpdateProviderFail,
-  OnUpdateProviderSuccess
+  OnUpdateProviderSuccess,
+  UpdateUser,
+  OnUpdateUserFail,
+  OnUpdateUserSuccess
 } from './user.actions';
 
 export interface UserStateModel {
@@ -90,7 +94,8 @@ export class UserState {
     private providerService: ProviderService,
     private parentService: ParentService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   @Action(GetWorkshopsById)
@@ -382,6 +387,31 @@ export class UserState {
     console.log('Provider is updated', payload);
     this.showSnackBar('Організація успішно відредагована', 'primary');
     this.router.navigate(['/personal-cabinet/parent/info']);
+  }
+
+  @Action(UpdateUser)
+  updateUser({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateUser) {
+    return this.userService
+      .updateUser(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateUserSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateUserFail(error))))
+      );
+  }
+
+  @Action(OnUpdateUserFail)
+  onUpdateUserFail({ }: StateContext<UserStateModel>, { payload }: OnUpdateUserFail): void {
+    console.error('User updating is failed', payload);
+    throwError(payload);
+    this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
+  }
+
+  @Action(OnUpdateUserSuccess)
+  onUpdateUserSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateUserSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('User is updated', payload);
+    this.showSnackBar('Особиста інформація успішно відредагована', 'primary');
+    this.router.navigate(['/personal-cabinet/config']);
   }
 
   showSnackBar(message: string, color: string): void {
