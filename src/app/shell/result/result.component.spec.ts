@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -17,7 +18,9 @@ describe('ResultComponent', () => {
         NgxsModule.forRoot([]),
         MatButtonToggleModule,
         MatSidenavModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatIconModule
+
       ],
       declarations: [
         ResultComponent,
