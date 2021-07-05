@@ -60,12 +60,7 @@ export class CreateDescriptionFormComponent implements OnInit {
 
     }
   }
-
-  /**
-   * This method adds an option from the list of filtered words
-   * to the list of added by user key words
-   * @param MatAutocompleteSelectedEvent value
-   */
+  
    onKeyWordsInput(event:KeyboardEvent):void{
     let inputKeyWord=this.keyWord.trim().toLowerCase();
     if(this.keyWord.trim()!=='' && !this.keyWords.includes(inputKeyWord)){

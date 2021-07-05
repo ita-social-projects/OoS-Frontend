@@ -60,6 +60,6 @@ export class Workshop {
     this.directionId = description.directionId;
     this.departmentId = description.departmentId;
     this.classId = description.classId;
-    this.keyWords=description.keyWords;
+    this.keyWords = description.keyWords;
   }
 }
