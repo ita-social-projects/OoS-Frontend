@@ -1,14 +1,14 @@
 import { City } from "../models/city.model";
 import { KeyWord } from "../models/keyWord,model";
-export class GetCategories {
-  static readonly type = '[meta-data] Get Categories';
+export class GetDirections {
+  static readonly type = '[meta-data] Get Directions';
 }
-export class GetSubcategories {
-  static readonly type = '[meta-data] Get Subcategorries by Category Id';
+export class GetDepartments {
+  static readonly type = '[meta-data] Get Departments by Direction Id';
   constructor(public payload: number) { }
 }
-export class GetSubsubcategories {
-  static readonly type = '[meta-data] Get Subsubcategorries by Subcategory Id ';
+export class GetClasses {
+  static readonly type = '[meta-data] Get Classes by Department Id ';
   constructor(public payload: number) { }
 }
 export class CityList {

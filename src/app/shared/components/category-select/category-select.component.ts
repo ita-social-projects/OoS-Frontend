@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Category, Subcategory, Subsubcategory } from '../../models/category.model';
+import { Class, Department, Direction } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
-import { GetCategories, GetSubcategories, GetSubsubcategories } from '../../store/meta-data.actions';
+import { GetClasses, GetDirections, GetDepartments } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 
 @Component({
@@ -15,12 +15,12 @@ import { MetaDataState } from '../../store/meta-data.state';
 })
 export class CategorySelectComponent implements OnInit {
 
-  @Select(MetaDataState.categories)
-  categories$: Observable<Category[]>;
-  @Select(MetaDataState.subcategories)
-  subcategories$: Observable<Subcategory[]>;
-  @Select(MetaDataState.subsubcategories)
-  subsubcategories$: Observable<Subsubcategory[]>;
+  @Select(MetaDataState.directions)
+  directions$: Observable<Direction[]>;
+  @Select(MetaDataState.departments)
+  departments$: Observable<Department[]>;
+  @Select(MetaDataState.classes)
+  classes$: Observable<Class[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workshop: Workshop;
@@ -28,54 +28,54 @@ export class CategorySelectComponent implements OnInit {
 
   CategoryFormGroup: FormGroup;
 
-  selectedCategoryId: number;
-  selectedSubcategoryId: number;
-  selectedSubsubcategoryId: number;
+  selectedDirectionId: number;
+  selectedDepartmentId: number;
+  selectedClassId: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store) {
     this.CategoryFormGroup = this.formBuilder.group({
-      categoryId: new FormControl(''),
-      subcategoryId: new FormControl(''),
-      subsubcategoryId: new FormControl(''),
+      directionId: new FormControl(''),
+      departmentId: new FormControl(''),
+      classId: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
     this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
-    this.workshop ? this.activateEditMode() : this.store.dispatch(new GetCategories());
+    this.workshop ? this.activateEditMode() : this.store.dispatch(new GetDirections());
   }
 
-  onSelectCategory(id: number): void {
-    this.CategoryFormGroup.get('subcategoryId').reset();
-    this.CategoryFormGroup.get('subsubcategoryId').reset();
-    this.store.dispatch(new GetSubcategories(id));
+  onSelectDirection(id: number): void {
+    this.CategoryFormGroup.get('departmentId').reset();
+    this.CategoryFormGroup.get('classId').reset();
+    this.store.dispatch(new GetDepartments(id));
   }
 
-  onSelectSubcategory(id: number): void {
-    this.CategoryFormGroup.get('subsubcategoryId').reset();
-    this.store.dispatch(new GetSubsubcategories(id));
+  onSelectDepartment(id: number): void {
+    this.CategoryFormGroup.get('classId').reset();
+    this.store.dispatch(new GetClasses(id));
   }
 
   activateEditMode(): void {
-    this.store.dispatch(new GetCategories())
+    this.store.dispatch(new GetDirections())
       .pipe(
         takeUntil(this.destroy$),
       )
-      .subscribe(() => this.selectedCategoryId = this.workshop.categoryId);
+      .subscribe(() => this.selectedDirectionId = this.workshop.directionId);
 
-    this.store.dispatch(new GetSubcategories(this.workshop.categoryId))
+    this.store.dispatch(new GetDepartments(this.workshop.directionId))
       .pipe(
         takeUntil(this.destroy$),
       )
-      .subscribe(() => this.selectedSubcategoryId = this.workshop.subcategoryId);
+      .subscribe(() => this.selectedDepartmentId = this.workshop.departmentId);
 
-    this.store.dispatch(new GetSubsubcategories(this.workshop.subcategoryId))
+    this.store.dispatch(new GetClasses(this.workshop.departmentId))
       .pipe(
         takeUntil(this.destroy$),
       )
-      .subscribe(() => this.selectedSubsubcategoryId = this.workshop.subsubcategoryId);
+      .subscribe(() => this.selectedClassId = this.workshop.classId);
   }
 
   ngOnDestroy() {

@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MockOidcSecurityService } from '../../shared/mocks/mock-services';
 import { Component, Input } from '@angular/core';
-import { Category } from '../../shared/models/category.model';
+import { Direction } from '../../shared/models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop } from '../../shared/models/workshop.model';
 
@@ -50,7 +50,7 @@ describe('MainComponent', () => {
   template: ''
 })
 class MockMainCategoryCardComponent {
-  @Input() category: Category;
+  @Input() direction: Direction;
   @Input() icons: {};
 }
 

@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { GetTopWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { Category } from 'src/app/shared/models/category.model';
+import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop } from '../../shared/models/workshop.model';
-import { GetCategories } from 'src/app/shared/store/meta-data.actions';
+import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -21,14 +21,14 @@ export class MainComponent implements OnInit {
   topWorkshops$: Observable<Workshop[]>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
-  @Select(MetaDataState.categories)
-  categories$: Observable<Category[]>;
+  @Select(MetaDataState.directions)
+  directions$: Observable<Direction[]>;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch([
-      new GetCategories(),
+      new GetDirections(),
       new GetTopWorkshops(),
     ]);
   }

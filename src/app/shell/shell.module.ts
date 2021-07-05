@@ -18,6 +18,7 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
+import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
 @NgModule({
   declarations: [
     MainComponent,
@@ -25,6 +26,7 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
     WorkshopCardsListComponent,
     OrderingComponent,
     PersonalCabinetComponent,
+    WorkshopMapViewListComponent,
   ],
   imports: [
     CommonModule,
