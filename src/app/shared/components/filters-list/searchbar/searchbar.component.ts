@@ -37,4 +37,9 @@ export class SearchbarComponent implements OnInit {
     }
     return null;
   }
+  
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }
