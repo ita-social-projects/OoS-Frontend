@@ -16,7 +16,7 @@
 ::ng-deep .mat-calendar-controls{
   margin: 0 !important;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 ::ng-deep .mat-datepicker-content .mat-calendar-previous-button {
   order: -1;
