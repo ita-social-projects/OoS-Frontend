@@ -15,9 +15,7 @@
     padding: 0.5rem;
 
     &-date{
-    width: 30%;
-    padding: 0.2rem;
-    margin: 0;
+      width: 30%;
     }
 
     &-age{
@@ -113,6 +111,10 @@ button:focus {
   font-family: Open Sans;
   font-weight: 400;
   color:#444444;
+}
+::ng-deep .mat-form-field-suffix{
+  bottom: 10px;
+  right: 25px;
 }
 .btn{
   color:white;
