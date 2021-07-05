@@ -9,7 +9,7 @@ export class User {
   phoneNumber?: string;
   role: string;
 
-  constructor(info, id?: string) {
+  constructor(info, id: string) {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
