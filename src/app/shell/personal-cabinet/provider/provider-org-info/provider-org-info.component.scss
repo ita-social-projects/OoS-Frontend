@@ -1,3 +1,4 @@
+$basen-blue-color: #3849F9;
 .wrapper{
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -9,7 +10,7 @@
   position: relative;
   z-index: 1;
   left: 24rem;
-  color: #3849F9;
+  color: $basen-blue-color;
 }
 .border{
   border-bottom: 2px solid #E3E3E3;
@@ -18,7 +19,7 @@
 :host ::ng-deep .mat-tab-label-active {
   color: #3849F9;
   background: rgba(56, 73, 249, 0.07);
-  border: 2px solid #3849F9;
+  border: 2px solid $basen-blue-color;
   box-sizing: border-box;
   border-radius: 20px;
   opacity: 1;
