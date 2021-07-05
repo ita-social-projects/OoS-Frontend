@@ -17,7 +17,7 @@ export class ImageFormControlComponent implements OnInit {
 
   photoFormGroup: FormGroup;
 
-  breakpoint: number;
+  gridCols: number;
   selectedImages: File[] = [];
   decodedImages = [];
 
@@ -29,13 +29,7 @@ export class ImageFormControlComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if(window.innerWidth >= 500){
-      this.breakpoint = 4;
-    }else if (window.innerWidth < 500 && window.innerWidth >= 366){
-      this.breakpoint = 3;
-    }else {
-      this.breakpoint = 2;
-    }
+    this.onResize(window);
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -104,13 +98,13 @@ export class ImageFormControlComponent implements OnInit {
     this.disabled = disabled;
   }
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
-  onResize(event) {
-    if(event.target.innerWidth >= 500){
-      this.breakpoint = 4;
-    }else if (event.target.innerWidth < 500 && event.target.innerWidth >= 366){
-      this.breakpoint = 3;
+  onResize(screen) {
+    if(screen.innerWidth >= 500){
+      this.gridCols = 4;
+    }else if (screen.innerWidth < 500 && screen.innerWidth >= 366){
+      this.gridCols = 3;
     }else {
-      this.breakpoint = 2;
+      this.gridCols = 2;
     }
   }
 }
