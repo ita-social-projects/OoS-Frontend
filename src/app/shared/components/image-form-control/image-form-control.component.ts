@@ -40,8 +40,10 @@ export class ImageFormControlComponent implements OnInit {
     if (!this.disabled) {
       if (typeof event.target.files[0].name === 'string') {
         for (let i = 0; i < event.target.files.length; i++) {
-          this.imageDecoder(event.target.files[i]);
-          this.selectedImages.push(event.target.files[i]);
+          if (this.selectedImages.length<this.imgMaxAmount){
+            this.imageDecoder(event.target.files[i]);
+            this.selectedImages.push(event.target.files[i]);
+          }
         }
         this.onChange(this.selectedImages);
       }
@@ -96,7 +98,7 @@ export class ImageFormControlComponent implements OnInit {
     this.disabled = disabled;
   }
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
-  onResize(screen): void {
+  onResize(screen) {
     if(screen.innerWidth >= 500){
       this.gridCols = 4;
     }else if (screen.innerWidth < 500 && screen.innerWidth >= 366){
