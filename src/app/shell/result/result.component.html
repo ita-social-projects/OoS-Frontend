@@ -37,10 +37,10 @@
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="group.value==='map'; else ShowData">
-      <app-map></app-map>
+      <app-workshop-map-view-list [workshops]="allWorkshops$ | async"></app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards"></app-workshop-cards-list>
+      <app-workshop-cards-list class="cards" [workshops]="allWorkshops$ | async"></app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>

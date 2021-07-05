@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { LatLng } from 'leaflet';
+import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class GeolocationService {
   userCoords = {
-    childCards: [],
     lat: null,
     lng: null,
     city: ''
@@ -18,26 +18,31 @@ export class GeolocationService {
   constructor() {
   }
 
-  navigatorRecievedError(err): void {
+  navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  navigatorRecievedLocation(data, callback: (Coords) => void): void {
-    callback({lat: data.coords.latitude, lng: data.coords.longitude});
+  navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
+    callback({ lat: data.coords.latitude, lng: data.coords.longitude });
   }
+
   /**
    * gets user location
    * renders Kyiv map by default in case user denies Geolocation
    *
    * @param callback - Function, which recieves 1 argument of type Coords
-   * 
+   *
    */
-  handleUserLocation(callback: (Coords?) => void): void {
+  handleUserLocation(callback: (Coords?: Coords) => void): void {
     navigator.geolocation.getCurrentPosition(
-      (data) => this.navigatorRecievedLocation(data, callback),
-      (error) => { this.navigatorRecievedError(error); callback(); }
+      (data: GeolocationPosition) => this.navigatorRecievedLocation(data, callback),
+      (error: GeolocationPositionError) => {
+        this.navigatorRecievedError(error);
+        callback();
+      }
     );
   }
+
   /**
    * translates coords into address
    *
@@ -46,14 +51,14 @@ export class GeolocationService {
    */
   locationDecode(coords: Coords, callback: (Address) => void): void {
     new Geocoder().options.geocoder.reverse(
-      {lat: coords.lat, lng: coords.lng},
+      { lat: coords.lat, lng: coords.lng },
       18,
       (result) => {
         if (result.length > 0) {
           const city = result[0].properties.address.city;
           const street = result[0].properties.address.road;
           const buildingNumber = result[0].properties.address.house_number;
-          callback({city, street, buildingNumber});
+          callback({ city, street, buildingNumber });
         } else {
           callback({
             city: '',
