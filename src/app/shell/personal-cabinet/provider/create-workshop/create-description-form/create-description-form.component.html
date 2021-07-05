@@ -34,18 +34,11 @@
     <div class="step-input" style="min-height:100px">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-          {{keyWord.keyWord}}
+          {{keyWord}}
           <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
         </mat-chip>
-        <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        <input #keyWordsInput  [formControl]="keyWordsCtrl"  [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
       </mat-chip-list>
     </div>
   </label>
-
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
-    <mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
-      {{keyWord.keyWord}}
-    </mat-option>
-  </mat-autocomplete>
 </form>

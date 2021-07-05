@@ -25,7 +25,6 @@ describe('CreateDescriptionFormComponent', () => {
         HttpClientTestingModule,
         MatFormFieldModule,
         MatChipsModule,
-        MatAutocompleteModule,
         NgxsModule.forRoot([]),
         MatInputModule,
         BrowserAnimationsModule,
