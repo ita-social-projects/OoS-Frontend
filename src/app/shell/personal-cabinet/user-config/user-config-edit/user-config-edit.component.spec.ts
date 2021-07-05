@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { User } from 'src/app/shared/models/user.model';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -31,6 +32,13 @@ describe('UserConfigEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserConfigEditComponent);
     component = fixture.componentInstance;
+    component.user = {
+      lastName: '',
+      firstName: '',
+      middleName: '',
+      phoneNumber: ''
+    } as User;
+
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
