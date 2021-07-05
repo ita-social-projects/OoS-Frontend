@@ -81,4 +81,9 @@ export class PriceFilterComponent implements OnInit {
   onIsPaidClick(): void {
     this.isPaid = !this.isPaid;
   }
+  
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }

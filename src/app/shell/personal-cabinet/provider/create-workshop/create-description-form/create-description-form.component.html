@@ -19,9 +19,11 @@
   </mat-form-field>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
-  <mat-form-field>
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column' fxLayoutAlign='center space-between'>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
     <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
-  </mat-form-field>
+  </mat-radio-group>
 
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
   <app-category-select [workshop]="workshop" (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)">

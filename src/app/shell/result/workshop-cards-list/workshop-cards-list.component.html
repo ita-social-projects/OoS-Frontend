@@ -1,14 +1,12 @@
 <ng-container>
   <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid">
-    <app-workshop-card
-      *ngFor="let workshop of allWorkshops$ | async | paginate: { itemsPerPage: 4, currentPage: currentPage }"
+    <app-workshop-card *ngFor="let workshop of workshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
       [workshop]="workshop" [isMainPage]="true" [userRole]="''">
     </app-workshop-card>
   </div>
 </ng-container>
 <div class="pagination-wrapper" fxLayoutAlign="center">
-  <pagination-controls class="pagination" (pageChange)="currentPage = $event" maxSize="8" directionLinks="true"
-    autoHide="true" responsive="true" previousLabel="" nextLabel="" screenReaderPaginationLabel="Pagination"
-    screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+  <pagination-controls class="pagination" (pageChange)="currentPage = $event" maxSize="4" directionLinks="true"
+    autoHide="false" responsive="true" previousLabel="" nextLabel="">
   </pagination-controls>
 </div>

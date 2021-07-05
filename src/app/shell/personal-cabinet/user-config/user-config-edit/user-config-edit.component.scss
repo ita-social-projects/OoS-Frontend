@@ -2,18 +2,13 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form-wrapper.scss";
 
+.title{
+  margin-bottom: 2rem;
+}
 .wrapper {
   padding: 30px 122px;
   min-width: 654px;
   box-sizing: border-box;
-
-  &_title {
-    margin-bottom: 40px;
-  }
-
-  .step-label {
-    font-weight: 600;
-  }
 
   .phone {
     &_code {

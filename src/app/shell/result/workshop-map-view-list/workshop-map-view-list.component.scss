@@ -1,0 +1,27 @@
+@import "src/app/shared/styles/pagination.scss";
+.wrapper{
+  max-height: 650px;
+}
+.map {
+  width: 1200px;
+  height: 650px;
+
+  &-full{
+    width: 100%;
+  }
+  &-half{
+    display: inline-block;
+    width: 70%;
+  }
+}
+.workshop-list{
+  width: 30%;
+  max-height: 650px;
+  overflow: auto;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
