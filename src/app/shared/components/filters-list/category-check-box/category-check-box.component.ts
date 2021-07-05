@@ -30,23 +30,23 @@ export class CategoryCheckBoxComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
     this.directions$.pipe(
-        takeUntil(this.destroy$),
-      ).subscribe(directions => this.allDirections = directions);
+      takeUntil(this.destroy$),
+    ).subscribe(directions => this.allDirections = directions);
 
     this.directionSearch.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe((val) => {
-      if (val) {
-        this.onDirectionFilter(val);
-        this.showAll = false;
-      } else {
-        this.filteredDirections = [];
-        this.showAll = true;
-      }
-    })
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe((val) => {
+        if (val) {
+          this.onDirectionFilter(val);
+          this.showAll = false;
+        } else {
+          this.filteredDirections = [];
+          this.showAll = true;
+        }
+      })
   }
 
   /**
@@ -81,10 +81,6 @@ export class CategoryCheckBoxComponent implements OnInit {
       .some(direction => direction.title.startsWith(value.title)
       );
     return result;
-  }
-
-  onSearch(): void {
-    this.showAll = true;
   }
 
   ngOnDestroy() {

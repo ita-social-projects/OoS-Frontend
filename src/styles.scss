@@ -110,12 +110,11 @@ $config: mat-typography-config(
 // @include mat-core($config);
 
 ::-webkit-scrollbar {
- background-color: #E3E3E3;
+ background-color: transparent;
  width: 4px;
- height: 4px;
  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb{
-  background-color: #a19e9e;
+  background-color: #E0E0E0;
   border-radius: 5px;
 }
