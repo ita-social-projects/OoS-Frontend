@@ -11,8 +11,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+<<<<<<< HEAD
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
+=======
+import { MatGridListModule } from "@angular/material/grid-list";
+>>>>>>> 89b4c01 (added MatGridListComponent to components' specs)
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -29,7 +33,11 @@ describe('CreateDescriptionFormComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatIconModule,
+<<<<<<< HEAD
         MatRadioModule
+=======
+        MatGridListModule
+>>>>>>> 89b4c01 (added MatGridListComponent to components' specs)
       ],
       declarations: [
         CreateDescriptionFormComponent,
