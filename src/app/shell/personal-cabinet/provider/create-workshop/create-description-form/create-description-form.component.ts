@@ -154,8 +154,8 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.disabilityOptionRadioBtn.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-      ).subscribe((isPrice: boolean) => {
-        isPrice ? this.DescriptionFormGroup.get('disabilityOptionsDesc').enable() : this.DescriptionFormGroup.get('disabilityOptionsDesc').disable();
+      ).subscribe((isDisabilityOptionsDesc: boolean) => {
+        isDisabilityOptionsDesc ? this.DescriptionFormGroup.get('disabilityOptionsDesc').enable() : this.DescriptionFormGroup.get('disabilityOptionsDesc').disable();
       });
 
     this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges
