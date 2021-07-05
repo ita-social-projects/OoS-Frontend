@@ -3,7 +3,7 @@
     <div class="title" fxLayout='column' fxLayoutAlign='center center'>
       <h3 class="wrapper-title"> РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ</h3>
     </div>
-    <form [formGroup]="userEditFormGroup" fxLayout='column' fxLayoutAlign='center space-between' >
+    <form [formGroup]="userEditFormGroup" fxLayout='column' fxLayoutAlign='center space-between'>
 
       <label class="step-label"> Прізвище <span class="step-required">*</span></label>
       <mat-form-field>
@@ -47,34 +47,11 @@
         </mat-error>
       </mat-form-field>
 
-      <ng-container formGroupName="passwords">
-        <label class="step-label"> Пароль </label>
-        <mat-form-field>
-          <input matInput class="step-input" [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-          <mat-icon matSuffix (click)="hidePassword = !hidePassword">
-            {{ hidePassword ? 'visibility_off' : 'visibility' }}
-          </mat-icon>
-          <mat-error *ngIf="userEditFormGroup.get('passwords.password').hasError('minlength')">
-            Пароль має містити мінімум 6 символів
-          </mat-error>
-        </mat-form-field>
-
-        <label class="step-label"> Повторити пароль </label>
-        <mat-form-field>
-          <input matInput class="step-input" [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
-          <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
-            {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
-          </mat-icon>
-          <mat-error>
-            Пароль має містити мінімум 6 символів
-          </mat-error>
-        </mat-form-field>
-      </ng-container>
-
     </form>
     <div fxLayout='column' fxLayoutAlign='center center'>
       <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
+        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit"
+          (click)="onSubmit()">Зберегти</button>
       </div>
     </div>
   </div>

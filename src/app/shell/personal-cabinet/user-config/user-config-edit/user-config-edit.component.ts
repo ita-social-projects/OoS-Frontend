@@ -15,30 +15,30 @@ export class UserConfigEditComponent implements OnInit {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  user: User;
 
   public userEditFormGroup: FormGroup;
   public hidePassword = true;
   public hideConfirmPassword = true;
 
-  constructor( private fb: FormBuilder, private store: Store) { }
+  constructor(private fb: FormBuilder, private store: Store) {
+    this.userEditFormGroup = this.fb.group({
+      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      middleName: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+    });
+
+  }
 
   ngOnInit(): void {
-    this.user$.subscribe((user: User) => {
-      this.userEditFormGroup = this.fb.group({
-        lastName: new FormControl(user.lastName, [Validators.required]),
-        firstName: new FormControl(user.firstName, [Validators.required]),
-        middleName: new FormControl(user.middleName),
-        phoneNumber: new FormControl(user.phoneNumber, [Validators.required]),
-        email: new FormControl(user.email, [Validators.required, Validators.email]),
-        passwords: new FormGroup({
-          password: new FormControl('', [Validators.minLength(6)]),
-          confirmPassword: new FormControl('')
-        })
-      });
-    });
+    this.user$.subscribe((user: User) => this.user = user);
+    this.userEditFormGroup.patchValue(this.user);
   }
 
   onSubmit(): void {
-    this.store.dispatch(new UpdateUser(this.userEditFormGroup.value));
+    const user = new User(this.userEditFormGroup.value, this.user.id)
+    this.store.dispatch(new UpdateUser(user));
   }
 }
