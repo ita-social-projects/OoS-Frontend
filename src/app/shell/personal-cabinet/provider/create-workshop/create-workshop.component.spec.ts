@@ -5,15 +5,11 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
-<<<<<<< HEAD
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Address } from 'src/app/shared/models/address.model';
-=======
 import { MatGridListModule } from "@angular/material/grid-list";
-
->>>>>>> 89b4c01 (added MatGridListComponent to components' specs)
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;
   let fixture: ComponentFixture<CreateWorkshopComponent>;
@@ -25,11 +21,8 @@ describe('CreateWorkshopComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
-<<<<<<< HEAD
-        HttpClientTestingModule
-=======
+        HttpClientTestingModule,
         MatGridListModule
->>>>>>> 89b4c01 (added MatGridListComponent to components' specs)
       ],
       declarations: [
         CreateWorkshopComponent,
