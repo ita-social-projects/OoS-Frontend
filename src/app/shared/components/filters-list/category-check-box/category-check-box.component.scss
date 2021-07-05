@@ -24,9 +24,17 @@ font-weight: 700;
 line-height: 14.6px;
 color:#444444;
 }
+button {
+  border: none;
+  height: 100%;
+}
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
 }
 :host ::ng-deep .mat-form-field-infix {
   border: none;
+}
+:host ::ng-deep .mat-stroked-button {
+  min-width: inherit;
+  padding: 0;
 }

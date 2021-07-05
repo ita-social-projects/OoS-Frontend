@@ -83,6 +83,10 @@ export class CategoryCheckBoxComponent implements OnInit {
     return result;
   }
 
+  onSearch(): void {
+    this.showAll = true;
+  }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
