@@ -1,5 +1,6 @@
 <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
   [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
+  <p class="step-name__xs">Викладачі</p>
   <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
 
   <label class="step-label"> Призвіще <span class="step-required">*</span></label>

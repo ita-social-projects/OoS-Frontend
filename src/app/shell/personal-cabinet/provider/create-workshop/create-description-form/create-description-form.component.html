@@ -1,4 +1,5 @@
-<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
+<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <p class="step-name__xs">Опиc гуртка</p>
 
   <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
   </app-image-form-control>
@@ -41,4 +42,10 @@
       </mat-chip-list>
     </div>
   </label>
+
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
+    <mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
+      {{keyWord.keyWord}}
+    </mat-option>
+  </mat-autocomplete>
 </form>

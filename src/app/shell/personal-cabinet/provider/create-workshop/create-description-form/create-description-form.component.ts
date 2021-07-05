@@ -6,8 +6,13 @@ import { Select, Store } from '@ngxs/store';
 import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
+<<<<<<< HEAD
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
+=======
+import { KeyWordsList } from '../../../../../shared/store/meta-data.actions';
+import { KeyWord } from '../../../../../shared/models/keyWord,model';
+>>>>>>> e4f63f5 (responsibility improved)
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',

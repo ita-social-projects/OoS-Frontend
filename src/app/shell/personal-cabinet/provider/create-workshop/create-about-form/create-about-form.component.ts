@@ -9,7 +9,6 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { MatGridListModule } from "@angular/material/grid-list";
 
 @Component({
   selector: 'app-create-about-form',

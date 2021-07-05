@@ -10,7 +10,9 @@
         <ng-template matStepLabel>Про гурток</ng-template>
         <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop">
         </app-create-about-form>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs='column' fxLayoutAlign.xs='start center' fxLayoutGap.xs='7px'
+             class="footer">
           <button mat-raised-button class="btn btn-cancel"><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
@@ -34,7 +36,9 @@
         <ng-template matStepLabel>Контакти</ng-template>
         <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)" [address]="workshop?.address">
         </app-create-address>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs='column' fxLayoutAlign.xs='start center' fxLayoutGap.xs='7px'
+             class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
@@ -46,7 +50,9 @@
         <ng-template matStepLabel>Викладачі</ng-template>
         <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers">
         </app-create-teacher>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs='column' fxLayoutAlign.xs='start center' fxLayoutGap.xs='7px'
+             class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
