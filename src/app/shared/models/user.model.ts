@@ -15,7 +15,6 @@ export class User {
     this.lastName = info.lastName;
     this.middleName = info.middleName;
     this.phoneNumber = info.phoneNumber;
-    this.email = info.email;
     this.id = id;
   }
 }

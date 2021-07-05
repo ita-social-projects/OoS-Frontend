@@ -39,14 +39,6 @@
         </mat-form-field>
       </div>
 
-      <label class="step-label"> Емейл <span class="step-required">*</span></label>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="email" required>
-        <mat-error *ngIf="userEditFormGroup.get('email').hasError('required')">
-          Емейл є обов'язковим
-        </mat-error>
-      </mat-form-field>
-
     </form>
     <div fxLayout='column' fxLayoutAlign='center center'>
       <div fxLayout='row' fxLayoutAlign='center center' class="footer">

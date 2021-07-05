@@ -15,7 +15,7 @@ import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { GetWorkshops, MarkFormDirty } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
-import { GetProfile } from './registration.actions';
+import { CheckAuth, GetProfile } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
@@ -411,6 +411,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('User is updated', payload);
     this.showSnackBar('Особиста інформація успішно відредагована', 'primary');
+    dispatch(new CheckAuth())
     this.router.navigate(['/personal-cabinet/config']);
   }
 

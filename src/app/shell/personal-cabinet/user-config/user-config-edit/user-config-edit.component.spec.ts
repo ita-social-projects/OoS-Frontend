@@ -36,7 +36,6 @@ describe('UserConfigEditComponent', () => {
       firstName: new FormControl('', [Validators.required]),
       middleName: new FormControl(''),
       phoneNumber: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
     });
     fixture.detectChanges();
   });
