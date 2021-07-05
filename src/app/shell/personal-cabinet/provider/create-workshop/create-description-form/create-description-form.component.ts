@@ -37,12 +37,14 @@ export class CreateDescriptionFormComponent implements OnInit {
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
+  disabilityOptionRadioBtn: FormControl = new FormControl(false);
+
   constructor(private formBuilder: FormBuilder, private store: Store,
     private keyWordsService: KeyWordsService) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
-      disabilityOptionsDesc: new FormControl(''),
+      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
       directionId: new FormControl(''),
@@ -52,6 +54,8 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.onDisabilityOptionCtrlInit();
+
     this.keyWordsService.getKeyWords()
       .subscribe((data) => {
         this.allkeyWords = data;
@@ -141,5 +145,25 @@ export class CreateDescriptionFormComponent implements OnInit {
     categoriesForm.get('classId').valueChanges.subscribe((id: number) =>
       this.DescriptionFormGroup.get('classId').setValue(id)
     )
+  }
+
+  /**
+   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
+   */
+  onDisabilityOptionCtrlInit(): void {
+    this.disabilityOptionRadioBtn.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((isDisabilityOptionsDesc: boolean) => {
+        isDisabilityOptionsDesc ? this.DescriptionFormGroup.get('disabilityOptionsDesc').enable() : this.DescriptionFormGroup.get('disabilityOptionsDesc').disable();
+      });
+
+    this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(100),
+      ).subscribe((disabilityOptionsDesc: string) =>
+        this.DescriptionFormGroup.get('disabilityOptionsDesc').setValue(disabilityOptionsDesc)
+      );
   }
 }
