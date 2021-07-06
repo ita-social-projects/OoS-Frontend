@@ -19,7 +19,6 @@ import { CreateParent } from './user.actions';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
-  checkSessionChanged: boolean,
   provider: Provider;
   parent: Parent;
 }
@@ -29,7 +28,6 @@ export interface RegistrationStateModel {
   defaults: {
     isAuthorized: false,
     user: undefined,
-    checkSessionChanged: false,
     provider: undefined,
     parent: undefined
   }
