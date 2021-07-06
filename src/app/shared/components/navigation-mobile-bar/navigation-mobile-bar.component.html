@@ -1,0 +1,16 @@
+<nav class="navigation">
+  <ul class="navigation-link">
+
+    <li>
+      <div class="pathLink" >
+        <a routerLink="/"><mat-icon>arrow_back_ios_new</mat-icon></a>
+      </div>
+    </li>
+    <li *ngFor="let nav of navigationPathsMobile$ | async" [ngClass]="{is_active: nav.disable}">
+      <div class="pathLink" >
+        <a routerLink='{{nav.path}}'>{{nav.name}}</a>
+      </div>
+    </li>
+
+  </ul>
+</nav>

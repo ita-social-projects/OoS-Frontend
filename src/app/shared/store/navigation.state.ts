@@ -1,3 +1,4 @@
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Navigation } from './../models/navigation.model';
 import { State,Action,StateContext,Selector } from "@ngxs/store";
 import { Injectable } from '@angular/core';
@@ -6,12 +7,14 @@ import { AddNavPath, DeleteNavPath, RemoveLastNavPath } from './navigation.actio
 
 export interface NavStateModel {
     navigation: Navigation[];
+    isMobileView: boolean;
 }
 
 @State<NavStateModel>({
   name:'navigation',
   defaults: {
-      navigation:[]
+      navigation:[],
+      isMobileView: false,
   }
 })
 
@@ -20,6 +23,11 @@ export class NavigationState {
 
   @Selector()
   static navigationPaths(state: NavStateModel): Navigation[] {return state.navigation}
+
+  @Selector()
+  static navigationPathsMobile(state: NavStateModel): Navigation[] {
+    return state.navigation.filter(path => path.name !== NavBarName.MainPage)
+  }
 
   @Action(AddNavPath)
     addNavPath({patchState}:StateContext<NavStateModel>,{payload}: AddNavPath): void {

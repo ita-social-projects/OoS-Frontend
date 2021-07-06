@@ -1,8 +1,11 @@
-<div class="header" [ngClass]="!(navigationPaths$ | async)?.length ? '' : 'header_secondary'">
+<div class="header" [ngClass]="hasRoute('/') ? '' : 'header_secondary'">
   <div class="header_top">
+
     <div class="header_logo-wrapper">
       <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
     </div>
+    <app-navigation-mobile-bar *ngIf="isMobileView"></app-navigation-mobile-bar>
+    
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
@@ -11,7 +14,7 @@
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
-  <div *ngIf="!(navigationPaths$ | async)?.length then isMainPage;" class="header_wrapper"></div>
+  <div *ngIf="hasRoute('/') then isMainPage;" class="header_wrapper"></div>
 </div>
 
 <ng-template #isMainPage>

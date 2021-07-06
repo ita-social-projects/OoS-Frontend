@@ -1,5 +1,6 @@
 .navigation {
   padding: 10px 0;
+  color:#fff;
 
 .mat-icon {
   font-size: 13px;
@@ -39,7 +40,4 @@
     font-weight: bold;
   }
 
-  @media(max-width: 750px){
-    display: none;
-  }
 }
