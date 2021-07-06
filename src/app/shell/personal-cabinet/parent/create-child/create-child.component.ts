@@ -28,8 +28,6 @@ export class CreateChildComponent implements OnInit {
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
-  @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(AppState.isDirtyForm)
