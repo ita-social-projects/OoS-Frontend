@@ -41,8 +41,9 @@
   </mat-form-field>
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
-  <mat-form-field class="step-input step-input-date">
-    <input matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" required>
+  <mat-form-field class="step-input-date">
+    <input class="step-input" [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth"
+      required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Constants } from 'src/app/shared/constants/constants';
 import { Provider } from 'src/app/shared/models/provider.model';
 
 @Component({
@@ -8,6 +9,8 @@ import { Provider } from 'src/app/shared/models/provider.model';
   styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
+
+  readonly constants: typeof Constants = Constants;
 
   PhotoFormGroup: FormGroup;
 
