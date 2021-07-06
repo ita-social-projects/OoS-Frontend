@@ -15,7 +15,7 @@ import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { GetWorkshops, MarkFormDirty } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
-import { GetProfile } from './registration.actions';
+import { CheckAuth, GetProfile } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
@@ -28,7 +28,7 @@ import {
   DeleteWorkshopById,
   GetApplicationsByUserId,
   GetChildren,
-  GetWorkshopsById,
+  GetWorkshopsByProviderId,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
   OnCreateChildrenFail,
@@ -53,7 +53,9 @@ import {
   OnUpdateProviderSuccess,
   UpdateUser,
   OnUpdateUserFail,
-  OnUpdateUserSuccess
+  OnUpdateUserSuccess,
+  GetWorkshopById,
+  GetWorkshopsByParentId
 } from './user.actions';
 
 export interface UserStateModel {
@@ -98,13 +100,33 @@ export class UserState {
     private userService: UserService
   ) { }
 
-  @Action(GetWorkshopsById)
-  getWorkshopsById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsById) {
+  @Action(GetWorkshopById)
+  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById) {
     return this.userWorkshopService
-      .getWorkshopsById(payload)
+      .getWorkshopById(payload)
       .pipe(
-        tap((userWorkshop: Workshop) => {
-          return patchState({ selectedWorkshop: userWorkshop });
+        tap((workshop: Workshop) => {
+          return patchState({ selectedWorkshop: workshop });
+        }));
+  }
+
+  @Action(GetWorkshopsByProviderId)
+  getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId) {
+    return this.userWorkshopService
+      .getWorkshopsByProviderId(payload)
+      .pipe(
+        tap((userWorkshops: Workshop[]) => {
+          return patchState({ workshops: userWorkshops });
+        }));
+  }
+
+  @Action(GetWorkshopsByParentId)
+  getWorkshopsByParentId({ patchState }: StateContext<UserStateModel>, { }: GetWorkshopsByParentId) {
+    return this.userWorkshopService
+      .getWorkshopsByParentId()
+      .pipe(
+        tap((userWorkshops: Workshop[]) => {
+          return patchState({ workshops: userWorkshops });
         }));
   }
 
@@ -411,6 +433,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('User is updated', payload);
     this.showSnackBar('Особиста інформація успішно відредагована', 'primary');
+    dispatch(new CheckAuth());
     this.router.navigate(['/personal-cabinet/config']);
   }
 

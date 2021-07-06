@@ -65,7 +65,7 @@ import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-f
     SharedModule,
     LeafletModule,
     MatRadioModule,
-    FormsModule
+    FormsModule,
   ],
 
   providers: [

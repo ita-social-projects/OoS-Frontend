@@ -42,7 +42,7 @@ export class CreateWorkshopComponent implements OnInit {
     const workshopId = +this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
-      this.userWorkshopService.getWorkshopsById(workshopId).subscribe(workshop => this.workshop = workshop);
+      this.userWorkshopService.getWorkshopById(workshopId).subscribe(workshop => this.workshop = workshop);
     }
   }
 
@@ -58,7 +58,7 @@ export class CreateWorkshopComponent implements OnInit {
     const descInfo = this.DescriptionFormGroup.getRawValue();
 
     if (this.editMode) {
-      const workshop = new Workshop(aboutInfo,descInfo, address, teachers, provider, this.workshop.id);
+      const workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
       const workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);

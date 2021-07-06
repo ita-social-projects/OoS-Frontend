@@ -38,7 +38,7 @@ export class ApplicationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.childrenService.getChildById(this.application.childId).subscribe(child => this.child = child);
-    this.workshopService.getWorkshopsById(this.application.workshopId).subscribe(workshop => this.workshop = workshop);
+    this.workshopService.getWorkshopById(this.application.workshopId).subscribe(workshop => this.workshop = workshop);
   }
 
   /**
