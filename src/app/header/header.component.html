@@ -1,4 +1,4 @@
-<div class="header" [ngClass]="!(navigationPaths$ | async)?.length ? '' : 'header_secondary'">
+<div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
       <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
@@ -11,7 +11,7 @@
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
-  <div *ngIf="!(navigationPaths$ | async)?.length then isMainPage;" class="header_wrapper"></div>
+  <div *ngIf="isRouter('/') then isMainPage;" class="header_wrapper"></div>
 </div>
 
 <ng-template #isMainPage>
