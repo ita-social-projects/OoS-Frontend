@@ -4,13 +4,14 @@
   </app-image-form-control>
 
   <div class="step-label-combined">
-    <label class="step-label" > Опис <span class="step-required">*</span></label>
-    <label class="step-characters-count"> {{DescriptionFormGroup.get('description').value.length}}/{{this.descriptionMaxLength}}</label>
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{DescriptionFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
   </div>
 
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум {{this.descriptionMaxLength}} символів" formControlName="description"
-      maxlength="{{this.descriptionMaxLength}}" required></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}" required></textarea>
   </mat-form-field>
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field>
@@ -18,30 +19,26 @@
   </mat-form-field>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
-  <mat-form-field>
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column' fxLayoutAlign='center space-between'>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
     <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
-  </mat-form-field>
+  </mat-radio-group>
 
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
-  <app-category-select (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)"></app-category-select>
+  <app-category-select [workshop]="workshop" (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)">
+  </app-category-select>
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу
     <div class="step-input" style="min-height:100px">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-          {{keyWord.keyWord}}
-          <mat-icon class="mat-icon"  matChipRemove><img class="img-close" src="./../../../../../../assets/icons/close.png"></mat-icon>
+          {{keyWord}}
+          <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
         </mat-chip>
-        <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        <input #keyWordsInput  [formControl]="keyWordsCtrl"  [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
       </mat-chip-list>
     </div>
   </label>
-
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
-    <mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
-      {{keyWord.keyWord}}
-    </mat-option>
-  </mat-autocomplete>
 </form>

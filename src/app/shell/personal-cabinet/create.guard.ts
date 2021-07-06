@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, takeWhile } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 
 @Injectable({
@@ -28,8 +29,12 @@ export class CreateGuard implements CanDeactivate<unknown> {
         width: '330px',
         data: 'Залишити сторінку?'
       });
+      dialogRef.afterClosed()
+        .pipe(takeWhile(() => isDirty))
+        .subscribe(response => response && this.store.dispatch(new MarkFormDirty(false)));
 
-      return dialogRef.afterClosed().pipe(result => result);
+      return dialogRef.afterClosed();
+
     } else {
       return true;
     }

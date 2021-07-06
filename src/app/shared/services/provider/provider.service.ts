@@ -40,4 +40,12 @@ export class ProviderService {
   getProfile(): Observable<Provider> {
     return this.http.get<Provider>(`/Provider/GetProfile`);
   }
+
+  /**
+ * This method update Provider
+ * @param Provider
+ */
+  updateProvider(provider: Provider): Observable<Object> {
+    return this.http.put('/Provider/Update', provider);
+  }
 }

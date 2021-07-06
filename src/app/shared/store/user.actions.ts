@@ -104,6 +104,18 @@ export class OnCreateApplicationSuccess {
   static readonly type = '[user] create Application success';
   constructor(public payload) { }
 }
+export class UpdateWorkshop {
+  static readonly type = '[user] update Workshop';
+  constructor(public payload: Workshop) { }
+}
+export class OnUpdateWorkshopFail {
+  static readonly type = '[user] update Workshop fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateWorkshopSuccess {
+  static readonly type = '[user] update Workshop success';
+  constructor(public payload) { }
+}
 export class UpdateChild {
   static readonly type = '[user] update Child';
   constructor(public payload: Child) { }
@@ -114,5 +126,29 @@ export class OnUpdateChildFail {
 }
 export class OnUpdateChildSuccess {
   static readonly type = '[user] update Child success';
+  constructor(public payload) { }
+}
+export class UpdateProvider {
+  static readonly type = '[user] update Provider';
+  constructor(public payload: Provider) { }
+}
+export class OnUpdateProviderFail {
+  static readonly type = '[user] update Provider fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateProviderSuccess {
+  static readonly type = '[user] update Provider success';
+  constructor(public payload) { }
+}
+export class UpdateUser {
+  static readonly type = '[user] update User';
+  constructor(public payload: User) { }
+}
+export class OnUpdateUserFail {
+  static readonly type = '[user] update User fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateUserSuccess {
+  static readonly type = '[user] update User success';
   constructor(public payload) { }
 }

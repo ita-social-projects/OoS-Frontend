@@ -1,7 +1,6 @@
 import { Address } from "./address.model";
-import { Category, Subcategory, Subsubcategory } from "./category.model";
+import { Provider } from "./provider.model";
 import { Teacher } from "./teacher.model";
-
 export class Workshop {
   id?: number;
   title: string;
@@ -22,24 +21,22 @@ export class Workshop {
   head: string;
   headBirthDate?: Date;
   type?: number;
-  keyWords?: string;
+  keyWords?: string[];
   address: Address;
   teachers: Teacher[];
   ownership?: string;
   rate?: string;
   votes?: string;
   placeAmount?: number;
-  categoryId?: number;
-  subcategoryId?: number;
-  subsubcategoryId?: number;
-  category?: Category;
-  subcategory?: Subcategory;
-  subsubcategory?: Subsubcategory;
+  directionId?: number;
+  departmentId?: number;
+  classId?: number;
   providerId: number;
   providerTitle?: string;
   isPerMonth?: string;
 
-  constructor(about, description, addr, tchrs) {
+  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
+    this.id = id;
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -49,22 +46,20 @@ export class Workshop {
     this.head = description.head;
     this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
-    this.address = addr;
-    this.teachers = tchrs;
+    this.address = address;
+    this.teachers = teachers;
     this.website = about.website;
     this.facebook = about.facebook;
     this.instagram = about.instagram;
-    this.withDisabilityOptions = description.withDisabilityOptions;
+    this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
-    this.category = description.category;
-    this.categoryId = description.category.id;
-    this.providerId = 1;
+    this.providerId = provider.id;
     this.type = about.type;
-    this.providerTitle = about.providerTitle;
+    this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
-    this.subcategory = description.subcategory;
-    this.subcategoryId = description.subcategoryId;
-    this.subsubcategory = description.subcategory;
-    this.subsubcategoryId = description.subsubcategory.id;
+    this.directionId = description.directionId;
+    this.departmentId = description.departmentId;
+    this.classId = description.classId;
+    this.keyWords = description.keyWords;
   }
 }

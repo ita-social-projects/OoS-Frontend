@@ -5,9 +5,9 @@
   </mat-checkbox>
 
   <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
+  
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
-
-  <mat-form-field appearance="none">
+  <mat-form-field>
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required>
       <ng-container *ngFor="let type of workshopType | keyvalue">
         <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
@@ -49,18 +49,10 @@
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
     <mat-form-field>
-      <div fxLayout='row' fxLayoutAlign='start'>
-        <p class="step-text">Від</p>
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
+          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}> 
+          <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
           required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-      </div>
-    </mat-form-field>
-    <mat-form-field>
-      <div fxLayout='row' fxLayoutAlign='start'>
-        <p class="step-text">До</p>
-        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-      </div>
     </mat-form-field>
   </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
@@ -72,24 +64,8 @@
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
-  <label class="step-label">Вартість<span class="step-required">*</span></label>
-  <mat-radio-group [formControl]="radioBtn" color="primary">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
-      Безкоштовно</mat-radio-button>
-    <div fxLayout='row' fxLayoutAlign='start center'>
-      <mat-radio-button #radio2 name="radioBtn2" [value]="true"></mat-radio-button>
-      <input matInput class="step-input step-input-age" appDigitOnly [formControl]="priceCtrl" type="number"
-        min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}>
-      <p class="step-text">грн за</p>
-      <mat-button-toggle-group color="primary" class="input-button-group" formControlName="isPerMonth">
-        <mat-button-toggle [value]="false">Заняття</mat-button-toggle>
-        <mat-button-toggle [value]="true">Місяць</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
-  </mat-radio-group>
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
-
   <ng-container>
     <app-working-hours-form-control *ngFor="let workHour of workingHours" [workHour]="workHour"
       [workingHoursAmount]="workingHours.length" [index]="workingHours.indexOf(workHour)"
@@ -101,4 +77,21 @@
       <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
     </button>
   </div>
+
+  <label class="step-label">Вартість<span class="step-required">*</span></label>
+  <mat-radio-group [formControl]="priceRadioBtn" color="primary">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
+      Безкоштовно</mat-radio-button>
+    <div fxLayout='row' fxLayoutAlign='start center'>
+      <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age" appDigitOnly formControlName="price" type="number"
+        min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}></mat-radio-button>
+      <p class="step-text">грн за</p>
+      <mat-button-toggle-group color="primary" class="input-button-group" formControlName="isPerMonth">
+        <mat-button-toggle [value]="false">Заняття</mat-button-toggle>
+        <mat-button-toggle [value]="true">Місяць</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </mat-radio-group>
+
+  
 </form>

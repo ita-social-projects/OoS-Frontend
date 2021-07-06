@@ -1,4 +1,4 @@
-import { Category } from "../models/category.model";
+import { Direction } from "../models/category.model";
 import { City } from "../models/city.model";
 import { WorkingHours } from "../models/workingHours.model";
 export class SetCity {
@@ -9,9 +9,9 @@ export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) { }
 }
-export class SetCategories {
-  static readonly type = '[filter] Set Categoty';
-  constructor(public payload: Category[]) { }
+export class SetDirections {
+  static readonly type = '[filter] Set Direction';
+  constructor(public payload: Direction[]) { }
 }
 export class SetAgeRange {
   static readonly type = '[filter] Set Age Range';
@@ -60,4 +60,12 @@ export class GetFilteredWorkshops {
 export class GetTopWorkshops {
   static readonly type = '[filter] Get 4 Most Popular Workshop Cards';
   constructor() { }
+}
+export class SetWithDisabilityOption {
+  static readonly type = '[filter] Set with Disability option';
+  constructor(public payload: boolean) { }
+}
+export class SetWithoutDisabilityOption {
+  static readonly type = '[filter] Set without Disability option';
+  constructor(public payload: boolean) { }
 }

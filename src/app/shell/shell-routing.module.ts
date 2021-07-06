@@ -32,15 +32,17 @@ const routes: Routes = [
     loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
   },
   {
-    path: 'create-workshop', component: CreateWorkshopComponent,
+    path: 'create-workshop/:id', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+
   },
   {
-    path: 'create-provider', component: CreateProviderComponent,
+    path: 'create-provider/:param', component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [CreateProviderGuard],
-    canDeactivate: [CreateProviderGuard]
+    canDeactivate: [CreateProviderGuard, CreateGuard]
   },
   {
     path: 'create-child/:id', component: CreateChildComponent,

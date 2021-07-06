@@ -10,7 +10,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { DeleteWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { ChangePage, GetWorkshops } from '../../../shared/store/app.actions';
+import { GetWorkshops } from '../../../shared/store/app.actions';
 
 @Component({
   selector: 'app-workshops',
@@ -28,7 +28,6 @@ export class WorkshopsComponent implements OnInit {
   constructor(private store: Store, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new ChangePage(false));
     this.store.dispatch(new GetWorkshops());
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
   }

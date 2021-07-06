@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
+import { emit } from 'process';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-teacher-form',
@@ -9,16 +11,25 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class TeacherFormComponent implements OnInit {
 
+  readonly constants: typeof Constants = Constants;
+
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
+
   @Output() deleteForm = new EventEmitter();
+  
+  today: Date = new Date(); 
 
-  constructor(private fb: FormBuilder) {
+
+  constructor(private formBuilder: FormBuilder) {
+    this.TeacherFormGroup = this.formBuilder.group({
+      description: new FormControl('', [Validators.maxLength(Constants.MAX_TEACHER_DESCRIPTION_LENGTH ), Validators.required])
+    })
+   
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);

@@ -18,6 +18,8 @@ import { HttpTokenInterceptor } from '../shared/interceptors/http-token.intercep
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
+import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 @NgModule({
   declarations: [
     MainComponent,
@@ -25,6 +27,7 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
     WorkshopCardsListComponent,
     OrderingComponent,
     PersonalCabinetComponent,
+    WorkshopMapViewListComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,7 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
     SharedModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     PersonalCabinetGuard,
@@ -43,6 +46,7 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
     ParentGuard,
     CreateProviderGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
   ]
 })
 export class ShellModule { }
