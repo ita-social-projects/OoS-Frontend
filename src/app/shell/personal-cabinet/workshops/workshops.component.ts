@@ -32,7 +32,7 @@ export class WorkshopsComponent implements OnInit {
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
 
-    if (this.userRole === this.role.provider) {
+    if (this.userRole === Role.provider) {
       this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
       this.store.dispatch(new GetWorkshopsByProviderId(this.id));
     } else {
