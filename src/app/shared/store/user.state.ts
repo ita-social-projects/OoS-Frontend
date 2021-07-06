@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { Role } from '../enum/role';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
+import { User } from '../models/user.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -16,6 +18,7 @@ import { UserWorkshopService } from '../services/workshops/user-workshop/user-wo
 import { GetWorkshops, MarkFormDirty } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
+import { RegistrationState } from './registration.state';
 import {
   CreateApplication,
   CreateChildren,
@@ -97,7 +100,8 @@ export class UserState {
     private parentService: ParentService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private store: Store
   ) { }
 
   @Action(GetWorkshopById)
@@ -207,7 +211,6 @@ export class UserState {
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
     this.showSnackBar('Гурток видалено!', 'primary');
-    dispatch(new GetWorkshops());
   }
 
   @Action(CreateChildren)

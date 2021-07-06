@@ -5,10 +5,11 @@
   </mat-checkbox>
 
   <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
-  
+
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required>
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
+      required>
       <ng-container *ngFor="let type of workshopType | keyvalue">
         <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ workshopTypeUkr[type.key] }}
@@ -49,17 +50,17 @@
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
     <mat-form-field>
-        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}> 
-          <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+      <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
+        required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+      <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
+        required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
     </mat-form-field>
   </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="daysPerWeek"
-        required #maxAgeInput appDigitOnly maxlength="1" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
+        required #maxAgeInput appDigitOnly maxlength="2" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
         max={{constants.CLASS_AMOUNT_MAX}}>
       <p class="step-text">в тиждень</p>
     </div>
@@ -83,8 +84,9 @@
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign='start center'>
-      <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age" appDigitOnly formControlName="price" type="number"
-        min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}></mat-radio-button>
+      <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
+          appDigitOnly formControlName="price" type="number" min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}>
+      </mat-radio-button>
       <p class="step-text">грн за</p>
       <mat-button-toggle-group color="primary" class="input-button-group" formControlName="isPerMonth">
         <mat-button-toggle [value]="false">Заняття</mat-button-toggle>
@@ -93,5 +95,5 @@
     </div>
   </mat-radio-group>
 
-  
+
 </form>
