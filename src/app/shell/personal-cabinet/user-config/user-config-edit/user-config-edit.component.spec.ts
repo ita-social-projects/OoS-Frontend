@@ -29,13 +29,13 @@ describe('UserConfigEditComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserConfigEditComponent);
+    component = fixture.componentInstance;
     component.user = {
       lastName: '',
       firstName: '',
       middleName: '',
       phoneNumber: ''
     } as User;
-    component = fixture.componentInstance;
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
