@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <h3 class="title">Усі напрямки</h3>
+  <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+    <div class="shell-search">
+      <app-city-filter class="shell-city"></app-city-filter>
+      <app-searchbar class="shell-searchbar"></app-searchbar>
+    </div>
+  </div>
+</div>
+<div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
+  <app-category-card *ngFor="let direction of directions$ | async " [direction]="direction">
+  </app-category-card>
+</div>

@@ -29,7 +29,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
+  width: 40%;
   height: 34px;
   gap: 15px;
   border-radius: 60px;
@@ -90,7 +90,7 @@
 ::ng-deep .mat-button-toggle-checked {
   color: #3849F9 !important;
   background-color: #E3E3E3;
- 
+
 }
 
 ::ng-deep .mat-button-toggle-group[_ngcontent-mxx-c204]{
@@ -110,7 +110,7 @@
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
   border: 2px solid #3849F9;
-} 
+}
 
 ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
   padding: 0px !important;
@@ -121,5 +121,3 @@
    border-left: 2px solid #3849F9;
  }
 }
-
-
