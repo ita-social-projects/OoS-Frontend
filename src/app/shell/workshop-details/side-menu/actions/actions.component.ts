@@ -13,21 +13,26 @@ import { Login } from 'src/app/shared/store/registration.actions';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit {
-
-  isCreateApplicationDisplayed: boolean;
-  userRole: string;
+  displayed: boolean = this.isDisplayed();
 
   @Input() workshop: Workshop;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user)?.role
-    this.isCreateApplicationDisplayed = this.userRole === Role.parent || this.userRole === undefined;
+    this.isDisplayed();
   }
 
-  onCreateApplication(): void {
-    !this.userRole && this.store.dispatch(new Login());
-  }
+  /**
+ * This method takes user Role and return boolean type for "displayed"
+ * to display button
+ */
 
+  isDisplayed(): boolean {
+    const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
+    if (user && user.role === Role.provider) {
+      return false
+    }
+    return true
+  }
 }
