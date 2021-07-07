@@ -11,26 +11,16 @@ import { Role } from 'src/app/shared/enum/role';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit {
-  displayed: boolean = this.isDisplayed();
+
+  isCreateApplicationDisplayed: boolean;
+  user: User;
+
   @Input() workshop: Workshop;
 
   constructor(private store: Store) { }
 
-  /**
-  * This method takes user Role and return boolean type for "displayed"
-  * to display button 
-  */
-
-  isDisplayed(): boolean {
-    const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-    if(user && user.role === Role.provider) {
-      return false
-    }
-    return true
-  }
-
   ngOnInit(): void {
-    this.isDisplayed();
+    this.isCreateApplicationDisplayed = this.store.selectSnapshot<User>(RegistrationState.user).role === Role.provider;
   }
 
 }
