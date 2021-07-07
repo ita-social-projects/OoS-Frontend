@@ -12,7 +12,8 @@ describe('ActionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule,
+      imports: [
+        RouterTestingModule,
         NgxsModule.forRoot([])
       ],
       declarations: [ActionsComponent]
