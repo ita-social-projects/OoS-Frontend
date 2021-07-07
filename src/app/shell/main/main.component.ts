@@ -1,3 +1,4 @@
+import { ProgressBarService } from './../../shared/services/progress-bar/progress-bar.service';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -24,7 +25,7 @@ export class MainComponent implements OnInit {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store, public ProgressBarService: ProgressBarService) { }
 
   ngOnInit(): void {
     this.store.dispatch([

@@ -1,4 +1,8 @@
+
 <div class="main">
+  <div class="main_progress_bar">
+    <mat-progress-bar *ngIf="ProgressBarService.isLoading | async" mode="indeterminate"></mat-progress-bar>
+    </div>
   <div class="main_categories">
     <div class="main_header" fxLayoutAlign="space-between center">
       <h3>Найпопулярніші напрямки</h3>
@@ -18,7 +22,6 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-between' fxLayoutGap="20px grid">
         <app-workshop-card *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop" [isMainPage]="true"

@@ -1,3 +1,4 @@
+import { InterceptorService } from './shared/services/progress-bar/interceptor.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserState } from './shared/store/user.state';
 import { NavigationState } from './shared/store/navigation.state';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,7 @@ import { NavigationState } from './shared/store/navigation.state';
     MatProgressSpinnerModule
   ],
   providers: [
-
+    {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })
