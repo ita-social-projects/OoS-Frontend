@@ -1,3 +1,4 @@
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -48,6 +49,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatGridListModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule { }

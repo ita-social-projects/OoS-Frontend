@@ -18,6 +18,7 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-between' fxLayoutGap="20px grid">
         <app-workshop-card *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop" [isMainPage]="true"
