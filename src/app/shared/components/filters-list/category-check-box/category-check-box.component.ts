@@ -15,7 +15,6 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit {
-
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
