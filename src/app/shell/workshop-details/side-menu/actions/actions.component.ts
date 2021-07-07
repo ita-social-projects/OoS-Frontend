@@ -4,8 +4,6 @@ import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Role } from 'src/app/shared/enum/role';
-import { Router } from '@angular/router';
-import { Login } from 'src/app/shared/store/registration.actions';
 
 @Component({
   selector: 'app-actions',
@@ -14,19 +12,14 @@ import { Login } from 'src/app/shared/store/registration.actions';
 })
 export class ActionsComponent implements OnInit {
   displayed: boolean = this.isDisplayed();
-
   @Input() workshop: Workshop;
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void {
-    this.isDisplayed();
-  }
-
   /**
- * This method takes user Role and return boolean type for "displayed"
- * to display button
- */
+  * This method takes user Role and return boolean type for "displayed"
+  * to display button
+  */
 
   isDisplayed(): boolean {
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
@@ -35,4 +28,9 @@ export class ActionsComponent implements OnInit {
     }
     return true
   }
+
+  ngOnInit(): void {
+    this.isDisplayed();
+  }
+
 }
