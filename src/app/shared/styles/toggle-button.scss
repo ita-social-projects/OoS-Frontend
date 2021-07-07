@@ -40,3 +40,17 @@
    border-left: 2px solid #3849F9;
  }
 }
+.mat-button-toggle-group {
+  align-items: center;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  font-weight: bold;
+     .mat-button-toggle{
+       .mat-button-toggle-checked{
+       border: 1px solid #3849F9;
+       box-sizing: border-box;
+       border-radius: 20px;
+     }
+  }
+}
