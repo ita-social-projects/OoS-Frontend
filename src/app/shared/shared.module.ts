@@ -31,8 +31,9 @@ import { ChildCardComponent } from './components/child-card/child-card.component
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from '../shared/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
-import { PlaceholderFormDirective } from './directives/placeholder-form.directive';
-import { ValidationHintFormDirective } from './directives/validation-hint-form.directive';
+import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
+import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
+import { ValidationHintForInputComponent } from './components/validation-hint-for-input/validation-hint-for-input.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ValidationHintFormDirective } from './directives/validation-hint-form.d
     MapComponent,
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
-    ValidationHintFormDirective
+    ValidationMessageStyling,
+    ValidationHintForInputComponent
   ],
   imports: [
     MaterialModule,
@@ -100,7 +102,8 @@ import { ValidationHintFormDirective } from './directives/validation-hint-form.d
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
-    ValidationHintFormDirective
+    ValidationMessageStyling,
+    ValidationHintForInputComponent
   ]
 })
 export class SharedModule { }

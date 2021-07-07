@@ -3,9 +3,10 @@
   border: 1px solid #C72A21;
 }
 
-input.birthDay.ng-invalid.ng-touched {
-  border: none;
-}
+// Check if needed later:
+// input.birthDay.ng-invalid.ng-touched {
+//   border: none;
+// }
 
 .disabled-button {
   opacity: 0.5;

@@ -1,0 +1,26 @@
+<ng-container *ngIf = "type === 'requiredField' && invalid; then requiredInput"></ng-container>
+<ng-container *ngIf = "type === 'requiredEmailField' && isEmptyCheck && invalid; then requiredInput"></ng-container>
+<ng-container *ngIf = "type === 'validEmail' && isEmailCheck && invalid; then incorrectEmail"></ng-container>
+<ng-container *ngIf = "type === 'requiredLength' && invalid; then notEnoughCharacters"></ng-container>
+
+<ng-template #requiredInput>
+  <small appValidationMessageStyling>
+    Це поле є обов'язковим
+  </small>
+</ng-template>
+
+<ng-template #incorrectEmail >
+  <small appValidationMessageStyling>
+    Введіть коректний імейл
+  </small>
+</ng-template>
+
+
+<ng-template #notEnoughCharacters>
+  <!-- <small *ngIf="ChildFormGroup.get('password').errors.minlength)">
+    Пароль має містити мінімум {{ChildFormGroup.get('password').errors.minlength.requiredLength)}} символів
+  </small> -->
+Пароль має містити мінімум 6 символів
+</ng-template>
+
+

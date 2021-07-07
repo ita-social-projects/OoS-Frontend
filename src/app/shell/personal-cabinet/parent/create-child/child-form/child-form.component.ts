@@ -15,7 +15,7 @@ export class ChildFormComponent implements OnInit {
   @Input() socialGroups: SocialGroup[];
 
   @Output() deleteForm = new EventEmitter();
-
+  
   constructor(private fb: FormBuilder) {
   }
 

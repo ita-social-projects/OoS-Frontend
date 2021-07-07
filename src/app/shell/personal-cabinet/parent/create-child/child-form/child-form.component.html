@@ -1,56 +1,51 @@
 <form [formGroup]="ChildFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
   [ngClass]="(childrenAmount>1) ? 'step-border' : ''">
   
-    <label class="step-label">Прізвище<span class="step-required">*</span></label>
-    <mat-form-field appPlaceholderForm>
-      <input matInput class="step-input" type="text" formControlName="lastName" placeholder="01.01.2010">
-    </mat-form-field>
-    <div *ngIf="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched">
-      <small appValidationHintForm *ngIf="ChildFormGroup.get('lastName').errors.required">
-        Це поле є обов'язковим
-      </small>
-    </div>
+  <label class="step-label">Прізвище<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="lastName">
+  </mat-form-field>
+  <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched" ></app-validation-hint-for-input> -->
 
-    <label class="step-label">Ім'я<span class="step-required">*</span></label>
-    <mat-form-field>
-      <input matInput class="step-input" type="text" formControlName="firstName">
-    </mat-form-field>
-    <div *ngIf="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched">
-      <small appValidationHintForm *ngIf="ChildFormGroup.get('firstName').errors.required">
-        Це поле є обов'язковим
-      </small>
-    </div>
+  <label class="step-label">Ім'я<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="firstName">
+  </mat-form-field>
+  <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched" ></app-validation-hint-for-input> -->
 
-    <label class="step-label">По-батькові</label>
-    <mat-form-field>
-      <input matInput class="step-input" type="text" formControlName="middleName">
-    </mat-form-field>
+  <label class="step-label">По-батькові</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="middleName">
+  </mat-form-field>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
-  <mat-form-field appPlaceholderForm class="step-input step-input-date" floatLabel="never">
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
     <input class="birthDay" matInput [matDatepicker]="picker" formControlName="birthDay" placeholder="01.01.2010">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <div *ngIf="ChildFormGroup.get('birthDay').invalid && ChildFormGroup.get('birthDay').touched">
-    <small appValidationHintForm *ngIf="ChildFormGroup.get('birthDay').errors.required">
+  <!-- <div *ngIf="ChildFormGroup.get('birthDay').invalid && ChildFormGroup.get('birthDay').touched">
+    <small appValidationMessageStyling *ngIf="ChildFormGroup.get('birthDay').errors.required">
       Це поле є обов'язковим
     </small>
-  </div>
+  </div> -->
+  <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "ChildFormGroup.get('birthDay').invalid && ChildFormGroup.get('birthDay').touched" ></app-validation-hint-for-input> -->
+
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
   <mat-radio-group formControlName="gender" color="primary">
     <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
     <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
   </mat-radio-group>
-  <div *ngIf="ChildFormGroup.get('gender').invalid && ChildFormGroup.get('gender').touched">
-    <small appValidationHintForm *ngIf="ChildFormGroup.get('gender').errors.required">
+  <!-- <div *ngIf="ChildFormGroup.get('gender').invalid && ChildFormGroup.get('gender').touched">
+    <small appValidationMessageStyling *ngIf="ChildFormGroup.get('gender').errors.required">
       Це поле є обов'язковим
     </small>
-  </div>
+  </div> -->
+  <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "ChildFormGroup.get('gender').invalid && ChildFormGroup.get('gender').touched" ></app-validation-hint-for-input> -->
 
   <label class="step-label">Соціальна група<span class="step-required">*</span></label>
-  <mat-form-field appPlaceholderForm floatLabel="never" appearance="none">
+  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
       <mat-select class="step-input" placeholder="Соціальна група" formControlName="socialGroupId">
         <mat-option [value]="0"> Відсутня </mat-option>
         <mat-option *ngFor="let group of socialGroups" [value]="group.id">
@@ -58,11 +53,12 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  <div *ngIf="ChildFormGroup.get('socialGroupId').invalid && ChildFormGroup.get('socialGroupId').touched">
-    <small appValidationHintForm *ngIf="ChildFormGroup.get('socialGroupId').errors.required">
+  <!-- <div *ngIf="ChildFormGroup.get('socialGroupId').invalid && ChildFormGroup.get('socialGroupId').touched">
+    <small appValidationMessageStyling *ngIf="ChildFormGroup.get('socialGroupId').errors.required">
       Це поле є обов'язковим
     </small>
-  </div>
+  </div> -->
+  <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "ChildFormGroup.get('socialGroupId').invalid && ChildFormGroup.get('socialGroupId').touched" ></app-validation-hint-for-input> -->
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1">
     <button class="btn-reset" type="reset" mat-button (click)="delete()">

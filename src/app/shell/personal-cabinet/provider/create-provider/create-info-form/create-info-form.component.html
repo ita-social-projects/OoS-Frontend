@@ -34,10 +34,15 @@
     <input matInput class="step-input" type="text" formControlName="shortTitle" required>
   </mat-form-field>
 
+  <pre>{{InfoFormGroup.get('director').errors | json}}</pre>
   <label class="step-label"> ПІБ керівника <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="director" required>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "InfoFormGroup.get('director').invalid && InfoFormGroup.get('director').touched" 
+  ></app-validation-hint-for-input>
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
   <mat-form-field class="step-input step-input-date">
@@ -61,10 +66,23 @@
     </div>
   </mat-form-field>
 
+  
+  <pre>{{InfoFormGroup.get('email').errors | json}}</pre>
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="email" formControlName="email" required>
+    <!-- <input matInput class="step-input" type="email" formControlName="email" required> -->
+    <input matInput class="step-input" type="email" formControlName="email">
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredEmailField" 
+    [isEmptyCheck] = "InfoFormGroup.get('email').errors?.required"
+    [invalid] = "InfoFormGroup.get('email').invalid && InfoFormGroup.get('email').touched" 
+  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input 
+    type = "validEmail" 
+    [isEmailCheck] = "InfoFormGroup.get('email').errors?.email"
+    [invalid] = "InfoFormGroup.get('email').invalid && InfoFormGroup.get('email').touched" 
+  ></app-validation-hint-for-input>
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>

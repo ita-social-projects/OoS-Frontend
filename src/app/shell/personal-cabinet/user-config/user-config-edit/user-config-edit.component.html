@@ -8,18 +8,14 @@
       <label class="step-label"> Прізвище <span class="step-required">*</span></label>
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="lastName" required>
-        <mat-error *ngIf="userEditFormGroup.get('lastName').hasError('required')">
-          Прізвище є обов'язковим
-        </mat-error>
       </mat-form-field>
+      <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched" ></app-validation-hint-for-input> -->
 
       <label class="step-label"> Ім'я <span class="step-required">*</span></label>
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="firstName" required>
-        <mat-error *ngIf="userEditFormGroup.get('firstName').hasError('required')">
-          Ім'я є обов'язковим
-        </mat-error>
       </mat-form-field>
+      <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched" ></app-validation-hint-for-input> -->
 
       <label class="step-label"> По-батькові </label>
       <mat-form-field>
@@ -33,15 +29,16 @@
         </mat-form-field>
         <mat-form-field class="phone_number">
           <input matInput class="step-input" type="text" formControlName="phoneNumber" maxlength="10">
-          <mat-error *ngIf="userEditFormGroup.get('phoneNumber').hasError('required')">
+          <!-- <mat-error *ngIf="userEditFormGroup.get('phoneNumber').hasError('required')">
             Телефон є обов'язковим
-          </mat-error>
+          </mat-error> -->
         </mat-form-field>
       </div>
+      <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched" ></app-validation-hint-for-input> -->
 
       <label class="step-label"> Емейл <span class="step-required">*</span></label>
       <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="email" required>
+        <input matInput class="step-input" type="text" formControlName="email">
         <mat-error *ngIf="userEditFormGroup.get('email').hasError('required')">
           Емейл є обов'язковим
         </mat-error>
