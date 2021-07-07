@@ -30,6 +30,9 @@
 
 .link{
   margin:0.5rem;
+  &:hover{
+    opacity: 0.6;
+  }
 }
 
 @media(max-width: 750px) {

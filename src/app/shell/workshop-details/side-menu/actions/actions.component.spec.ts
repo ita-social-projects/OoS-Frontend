@@ -26,7 +26,7 @@ describe('ActionsComponent', () => {
     fixture = TestBed.createComponent(ActionsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
-    component.user = {} as User;
+    component.userRole = '';
     fixture.detectChanges();
   });
 

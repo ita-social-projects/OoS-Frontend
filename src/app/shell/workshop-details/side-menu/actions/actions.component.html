@@ -1,10 +1,7 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap='0.8rem'>
   <h4>{{workshop.price}} грн/заняття</h4>
-  <span class="time-till-expiration">
-    <img src="assets/icons/time.png" alt="time">
-    Залишилося х днів до початку заняття
-  </span>
-  <a [routerLink]="['/create-application', workshop.id]" *ngIf="isCreateApplicationDisplayed">
+  <a [routerLink]="['/create-application', workshop.id]" *ngIf="isCreateApplicationDisplayed"
+    (click)="onCreateApplication()">
     <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
       Подати заявку
     </button>

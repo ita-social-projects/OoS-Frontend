@@ -101,7 +101,6 @@ export class UserState {
     private snackBar: MatSnackBar,
     private router: Router,
     private userService: UserService,
-    private store: Store
   ) { }
 
   @Action(GetWorkshopById)
