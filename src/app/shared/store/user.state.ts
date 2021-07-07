@@ -97,7 +97,7 @@ export class UserState {
     private parentService: ParentService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private userService: UserService,
+    private userService: UserService
   ) { }
 
   @Action(GetWorkshopById)
