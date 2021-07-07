@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import { Logout, CheckAuth, Login, CheckRegistration } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
-import { Navigation } from '../shared/models/navigation.model';
-import { NavigationState } from '../shared/store/navigation.state';
+import { Router } from '@angular/router';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -22,8 +21,6 @@ export class HeaderComponent implements OnInit {
 
   showModalReg = false;
 
-  @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>
   @Select(AppState.isLoading)
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
@@ -33,7 +30,10 @@ export class HeaderComponent implements OnInit {
   user: User;
   roles = RoleLinks;
 
-  constructor(public store: Store) { }
+  constructor(
+    public store: Store,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
@@ -46,5 +46,9 @@ export class HeaderComponent implements OnInit {
 
   login(): void {
     this.store.dispatch(new Login());
+  }
+
+  isRouter(route: string): boolean {
+    return this.router.url === route
   }
 }

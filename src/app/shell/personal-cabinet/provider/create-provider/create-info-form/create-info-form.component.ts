@@ -20,6 +20,7 @@ export class CreateInfoFormComponent implements OnInit {
   readonly providerTypeUkr = ProviderTypeUkr;
 
   InfoFormGroup: FormGroup;
+  today: Date = new Date();
 
   @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();

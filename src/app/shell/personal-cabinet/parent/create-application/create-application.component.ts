@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetChildren, GetWorkshopsById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 
@@ -24,7 +24,7 @@ import { UserState } from 'src/app/shared/store/user.state';
   templateUrl: './create-application.component.html',
   styleUrls: ['./create-application.component.scss']
 })
-export class CreateApplicationComponent implements OnInit,OnDestroy {
+export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   readonly CardType = cardType;
 
@@ -48,10 +48,10 @@ export class CreateApplicationComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetChildren());
     const workshopId = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopsById(workshopId));
+    this.store.dispatch(new GetWorkshopById(workshopId));
     this.workshop$.subscribe(workshop => this.workshop = workshop);
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      {name: NavBarName.TopWorkshops, isActive: false, disable: true})))
+      { name: NavBarName.TopWorkshops, isActive: false, disable: true })))
   }
 
   ngOnDestroy(): void {
