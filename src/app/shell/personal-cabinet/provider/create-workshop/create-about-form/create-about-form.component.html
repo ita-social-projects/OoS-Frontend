@@ -88,7 +88,7 @@
           appDigitOnly formControlName="price" type="number" min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}>
       </mat-radio-button>
       <p class="step-text">грн за</p>
-      <mat-button-toggle-group color="primary" class="input-button-group" formControlName="isPerMonth">
+      <mat-button-toggle-group color="primary" formControlName="isPerMonth">
         <mat-button-toggle [value]="false">Заняття</mat-button-toggle>
         <mat-button-toggle [value]="true">Місяць</mat-button-toggle>
       </mat-button-toggle-group>

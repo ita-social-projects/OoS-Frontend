@@ -97,13 +97,6 @@ button:focus {
 ::ng-deep .mat-form-field-infix {
   border: none;
 }
-::ng-deep .mat-button-toggle-group{
-  border-radius: 20px !important;
-}
-::ng-deep.mat-button-toggle-checked{
-  color: #3849F9 !important;
-  border: 2px solid blue;
-}
 ::ng-deep .mat-radio-label-content{
   padding: 0.8rem;
 }
