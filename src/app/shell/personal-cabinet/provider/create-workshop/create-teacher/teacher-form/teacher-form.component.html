@@ -16,16 +16,20 @@
   </mat-form-field>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
-  <mat-form-field class="step-input step-input-date">
-    <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
+  <mat-form-field class="step-input-date">
+    <input class="step-input" [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-
-  <label class="step-label"> Опис <span class="step-required">*</span></label>
+  <div class="step-label-combined">
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{TeacherFormGroup.get('description').value.length}}/{{constants.MAX_TEACHER_DESCRIPTION_LENGTH }}</label>
+  </div>
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
-      required></textarea>
+    <textarea matInput class="step-textarea"
+      placeholder="Максимум {{constants.MAX_TEACHER_DESCRIPTION_LENGTH}} символів" formControlName="description"
+      required maxlength="{{constants.MAX_TEACHER_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="teacherAmount > 1">

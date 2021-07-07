@@ -7,7 +7,7 @@
   line-height: none;
 }
 
-.poinrer{
+.pointer{
   cursor:pointer;
 }
 
@@ -320,7 +320,7 @@
     }
     &_top {
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       position: fixed;
       width: 100%;
       box-sizing: border-box;

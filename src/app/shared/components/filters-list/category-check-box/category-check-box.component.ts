@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Direction } from 'src/app/shared/models/category.model';
 import { SetDirections } from 'src/app/shared/store/filter.actions';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
@@ -16,6 +17,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 export class CategoryCheckBoxComponent implements OnInit {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   allDirections: Direction[] = [];
   selectedDirections: Direction[] = [];
@@ -27,17 +29,24 @@ export class CategoryCheckBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
-    this.directions$.subscribe(directions => this.allDirections = directions);
+    this.directions$.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe(directions => this.allDirections = directions);
 
-    this.directionSearch.valueChanges.subscribe((val) => {
-      if (val) {
-        this.onDirectionFilter(val);
-        this.showAll = false;
-      } else {
-        this.filteredDirections = [];
-        this.showAll = true;
-      }
-    })
+    this.directionSearch.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe((val) => {
+        if (val) {
+          this.onDirectionFilter(val);
+          this.showAll = false;
+        } else {
+          this.filteredDirections = [];
+          this.showAll = true;
+        }
+      })
   }
 
   /**
@@ -76,5 +85,10 @@ export class CategoryCheckBoxComponent implements OnInit {
 
   onSearch(): void {
     this.showAll = true;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

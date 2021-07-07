@@ -3,13 +3,11 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Class, Department, Direction } from '../models/category.model';
 import { City } from '../models/city.model';
-import { KeyWord } from '../models/keyWord,model';
 import { SocialGroup } from '../models/socialGroup.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
 import {
   CityList,
-  KeyWordsList,
   GetSocialGroup,
   ClearCategories,
   GetClasses,
@@ -22,7 +20,6 @@ export interface MetaDataStateModel {
   departments: Department[];
   classes: Class[];
   filteredCities: City[];
-  filteredkeyWords: KeyWord[];
   socialGroups: SocialGroup[],
 }
 
@@ -33,7 +30,6 @@ export interface MetaDataStateModel {
     departments: [],
     classes: [],
     filteredCities: [],
-    filteredkeyWords: [],
     socialGroups: [],
   }
 
@@ -53,8 +49,6 @@ export class MetaDataState {
   @Selector()
   static classes(state: MetaDataStateModel): Class[] { return state.classes }
 
-  @Selector()
-  static filteredkeyWords(state: MetaDataStateModel): KeyWord[] { return state.filteredkeyWords }
 
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
@@ -95,10 +89,6 @@ export class MetaDataState {
     patchState({ filteredCities: payload });
   }
 
-  @Action(KeyWordsList)
-  keyWordsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: KeyWordsList): void {
-    patchState({ filteredkeyWords: payload });
-  }
 
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup) {

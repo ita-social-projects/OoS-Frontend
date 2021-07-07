@@ -19,9 +19,11 @@
   </mat-form-field>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
-  <mat-form-field>
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column' fxLayoutAlign='center space-between'>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
     <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
-  </mat-form-field>
+  </mat-radio-group>
 
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
   <app-category-select [workshop]="workshop" (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)">
@@ -32,18 +34,11 @@
     <div class="step-input" style="min-height:100px">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-          {{keyWord.keyWord}}
+          {{keyWord}}
           <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
         </mat-chip>
-        <input #keyWordsInput [formControl]="keyWordsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        <input #keyWordsInput  [formControl]="keyWordsCtrl"  [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
       </mat-chip-list>
     </div>
   </label>
-
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectKeyWord($event)">
-    <mat-option *ngFor="let keyWord of filteredkeyWords$ | async" [value]="keyWord">
-      {{keyWord.keyWord}}
-    </mat-option>
-  </mat-autocomplete>
 </form>

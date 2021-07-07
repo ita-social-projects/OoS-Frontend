@@ -20,7 +20,7 @@ enum RoleLinks {
 export class HeaderComponent implements OnInit {
 
   showModalReg = false;
-  isMobileView: boolean = false;
+  MobileView: boolean = false;
 
   @Select(AppState.isLoading)
   isLoading$: Observable<boolean>;
@@ -33,21 +33,26 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store,
-    public router: Router
+    private router: Router
     ) { }
+
+  /**
+   * @param event global variable window
+   * method defined window.width and assign MobileView: boolean     
+   */
+  isWindowMobile(event: any): void {
+    (event.innerWidth <= 750) ?  this.MobileView = true : this.MobileView = false;
+  }
+
+ @HostListener("window: resize",["$event.target"])
+  onResize(event: any ): void {
+    this.isWindowMobile(event);
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
-  }
-
-  @HostListener("window: resize",["$event"]) onResize(event: any ): void {
-    console.log('-------resized.target.innerWidth------', event.target.innerWidth) // investigation 
-    if(event.target.innerWidth <= 750){
-      this.isMobileView = true;
-    } else {
-      this.isMobileView = false;
-    }
+    this.isWindowMobile(window);
   }
 
   logout(): void {
@@ -58,7 +63,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new Login());
   }
 
-  hasRoute(route: string): boolean {
+  isRouter(route: string): boolean {
     return this.router.url === route;
   }
 }

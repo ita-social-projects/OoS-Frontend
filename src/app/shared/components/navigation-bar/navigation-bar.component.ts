@@ -2,7 +2,7 @@ import { NavigationState } from './../../store/navigation.state';
 import { Navigation } from './../../models/navigation.model';
 import { Observable } from 'rxjs';
 import { Component} from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class NavigationBarComponent {
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>
 
-  constructor(private store: Store) { }
+  constructor() { }
 }
 
 

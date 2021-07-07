@@ -1,15 +1,17 @@
 .navigation {
-  padding: 10px 0;
   color:#fff;
-
+    .log {
+      width: 130px;
+    }
+  
 .mat-icon {
-  font-size: 13px;
-  width: 14px;
-  height: 14px;
-  margin: 0 5px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0;
 }
 
-&-link {
+&-links {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -17,27 +19,22 @@
 
   li {
     list-style: none;
+    margin-left: 5px;
   }
 }
 
-  .is_active {
-    color: #888888;
-    pointer-events: none;
-  }
-
-  .hide {
-    display: none;
-  }
-
-  .pathLink {
+  .Link {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  a {
-    font-size: 13px;
-    font-weight: bold;
+  .pointer {
+    cursor: pointer;
   }
 
+  a {
+    font-weight: bold;
+    font-size: 16px;
+  }
 }

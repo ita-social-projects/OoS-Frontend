@@ -6,6 +6,8 @@ import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -17,7 +19,9 @@ describe('ResultComponent', () => {
         NgxsModule.forRoot([]),
         MatButtonToggleModule,
         MatSidenavModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatIconModule
+
       ],
       declarations: [
         ResultComponent,
@@ -26,7 +30,7 @@ describe('ResultComponent', () => {
         MockFiltersListComponent,
         MockCityFilterComponent,
         MockWorkshopCardsListComponent,
-        MockResultMapComponent
+        MockWorkshopMapViewListComponent
       ]
     })
       .compileComponents();
@@ -75,12 +79,12 @@ class MockCityFilterComponent {
   template: ''
 })
 class MockWorkshopCardsListComponent {
-  @Input() type: string;
+  @Input() workshops: Workshop[];
 }
 @Component({
-  selector: 'app-map',
+  selector: 'app-workshop-map-view-list',
   template: ''
 })
-class MockResultMapComponent {
-  @Input() address: FormGroup;
+class MockWorkshopMapViewListComponent {
+  @Input() workshops: Workshop[];
 }

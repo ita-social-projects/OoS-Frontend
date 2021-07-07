@@ -19,4 +19,6 @@
 <div fxLayout='column' fxLayoutAlign='center center'>
   <p>Або позначти на карті</p>
 </div>
-<app-map [address]="AddressFormGroup" (setAddressEvent)="onReceiveAddressFromMap($event)"></app-map>
+<div class="map">
+  <app-map [addressFormGroup]="AddressFormGroup" (setAddressEvent)="onReceiveAddressFromMap($event)"></app-map>
+</div>

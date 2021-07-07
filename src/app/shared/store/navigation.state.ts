@@ -1,4 +1,3 @@
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Navigation } from './../models/navigation.model';
 import { State,Action,StateContext,Selector } from "@ngxs/store";
 import { Injectable } from '@angular/core';
@@ -6,15 +5,13 @@ import { AddNavPath, DeleteNavPath, RemoveLastNavPath } from './navigation.actio
 
 
 export interface NavStateModel {
-    navigation: Navigation[];
-    isMobileView: boolean;
+  navigation: Navigation[];
 }
 
 @State<NavStateModel>({
   name:'navigation',
   defaults: {
-      navigation:[],
-      isMobileView: false,
+    navigation:[]
   }
 })
 
@@ -26,7 +23,8 @@ export class NavigationState {
 
   @Selector()
   static navigationPathsMobile(state: NavStateModel): Navigation[] {
-    return state.navigation.filter(path => path.name !== NavBarName.MainPage)
+     const navigation = [...state.navigation]
+     return [navigation.pop()] 
   }
 
   @Action(AddNavPath)
@@ -36,19 +34,19 @@ export class NavigationState {
       })
     }
     
-    @Action(RemoveLastNavPath)
-    removeNavPath({getState,patchState}:StateContext<NavStateModel>): void {
-      const state = getState().navigation
-      state.pop();
-      patchState({
-        navigation: [...state]
-      })
-    }
+  @Action(RemoveLastNavPath)
+  removeNavPath({getState,patchState}:StateContext<NavStateModel>): void {
+    const state = getState().navigation
+    state.pop();
+    patchState({
+      navigation: [...state]
+    })
+  }
 
-    @Action(DeleteNavPath)
-    deleteNavPath({patchState}:StateContext<NavStateModel>): void {
-      patchState({
-        navigation: []
-      })
-    }
+  @Action(DeleteNavPath)
+  deleteNavPath({patchState}:StateContext<NavStateModel>): void {
+    patchState({
+      navigation: []
+    })
+  }
 }

@@ -29,7 +29,7 @@ import { WorkingHoursComponent } from './components/filters-list/working-hours/w
 import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
-import { MapComponent } from '../shared/map/map.component';
+import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
