@@ -1,4 +1,7 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
+import { Direction } from 'src/app/shared/models/category.model';
 
 import { AllCategoriesComponent } from './all-categories.component';
 
@@ -8,9 +11,17 @@ describe('AllCategoriesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AllCategoriesComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [
+        AllCategoriesComponent,
+        MockAllCategoriesSearchbarComponent,
+        MockAllCategoriesCityFilterComponent,
+        MockAllCategoriesCardComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -23,3 +34,24 @@ describe('AllCategoriesComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-city-filter',
+  template: ''
+})
+class MockAllCategoriesCityFilterComponent {
+}
+@Component({
+  selector: 'app-searchbar',
+  template: ''
+})
+class MockAllCategoriesSearchbarComponent {
+}
+@Component({
+  selector: 'app-category-card',
+  template: ''
+})
+class MockAllCategoriesCardComponent {
+  @Input() direction: Direction;
+  @Input() icons: {};
+}
