@@ -17,7 +17,6 @@ describe('AllCategoriesComponent', () => {
       declarations: [
         AllCategoriesComponent,
         MockAllCategoriesSearchbarComponent,
-        MockAllCategoriesCityFilterComponent,
         MockAllCategoriesCardComponent
       ]
     })
@@ -36,13 +35,7 @@ describe('AllCategoriesComponent', () => {
 });
 
 @Component({
-  selector: 'app-city-filter',
-  template: ''
-})
-class MockAllCategoriesCityFilterComponent {
-}
-@Component({
-  selector: 'app-searchbar',
+  selector: 'app-full-search-bar',
   template: ''
 })
 class MockAllCategoriesSearchbarComponent {

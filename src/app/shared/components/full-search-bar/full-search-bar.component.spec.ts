@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 
 import { FullSearchBarComponent } from './full-search-bar.component';
 
@@ -8,9 +9,10 @@ describe('FullSearchBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FullSearchBarComponent ]
+      imports: [MatIconModule],
+      declarations: [FullSearchBarComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
