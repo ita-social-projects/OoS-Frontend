@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
-import { Login, Logout, CheckAuth, OnAuthFail, CheckRegistration, GetProfile, RegisterUser } from './registration.actions';
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Login, Logout, CheckAuth, OnAuthFail, CheckRegistration, GetProfile } from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,7 +11,6 @@ import { Parent } from '../models/parent.model';
 import { tap } from 'rxjs/operators';
 import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
-
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { CreateParent } from './user.actions';
@@ -19,7 +18,6 @@ import { CreateParent } from './user.actions';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
-  checkSessionChanged: boolean,
   provider: Provider;
   parent: Parent;
 }
@@ -29,7 +27,6 @@ export interface RegistrationStateModel {
   defaults: {
     isAuthorized: false,
     user: undefined,
-    checkSessionChanged: false,
     provider: undefined,
     parent: undefined
   }

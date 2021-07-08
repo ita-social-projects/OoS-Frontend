@@ -18,12 +18,12 @@ export class ActionsComponent implements OnInit {
 
   /**
   * This method takes user Role and return boolean type for "displayed"
-  * to display button 
+  * to display button
   */
 
   isDisplayed(): boolean {
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-    if(user && user.role === Role.provider) {
+    if (user && user.role === Role.provider) {
       return false
     }
     return true
