@@ -35,6 +35,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
+import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { NavigationMobileBarComponent } from './components/navigation-mobile-bar
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
     NavigationMobileBarComponent,
+    FullSearchBarComponent,
   ],
   imports: [
     MaterialModule,
@@ -107,6 +109,7 @@ import { NavigationMobileBarComponent } from './components/navigation-mobile-bar
     NavigationMobileBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
+    FullSearchBarComponent
   ]
 })
 export class SharedModule { }

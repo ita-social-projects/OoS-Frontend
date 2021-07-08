@@ -17,9 +17,7 @@ export class UserConfigEditComponent implements OnInit {
   user$: Observable<User>;
   user: User;
 
-  public userEditFormGroup: FormGroup;
-  public hidePassword = true;
-  public hideConfirmPassword = true;
+  userEditFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.userEditFormGroup = this.fb.group({
@@ -33,6 +31,7 @@ export class UserConfigEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$.subscribe((user: User) => this.user = user);
+    this.user && this.userEditFormGroup.patchValue(this.user);
   }
 
   onSubmit(): void {

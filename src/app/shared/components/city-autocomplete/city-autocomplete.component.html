@@ -1,13 +1,9 @@
-<form class="search-city">
+<form class="city-search">
   <mat-form-field appearance="none">
-    <input matInput type="text"
-      matInput
-      [formControl]="cityControl"
-      [matAutocomplete]="auto"
-      >
+    <input matInput type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)">
-      <mat-option [disabled]= "noCity" *ngFor="let city of filteredCities$ | async" [value]="city.city">
-          {{city.city}}
+      <mat-option [disabled]="noCity" *ngFor="let city of filteredCities$ | async" [value]="city.city">
+        {{city.city}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

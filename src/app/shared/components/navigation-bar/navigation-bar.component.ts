@@ -1,7 +1,7 @@
 import { NavigationState } from './../../store/navigation.state';
 import { Navigation } from './../../models/navigation.model';
 import { Observable } from 'rxjs';
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 
 
@@ -17,5 +17,3 @@ export class NavigationBarComponent {
 
   constructor() { }
 }
-
-
