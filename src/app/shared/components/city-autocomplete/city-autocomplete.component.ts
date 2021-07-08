@@ -37,7 +37,7 @@ export class CityAutocompleteComponent implements OnInit {
     this.cityControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
+        debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
       ).subscribe(value =>
