@@ -21,3 +21,6 @@ export class GetSocialGroup {
 export class ClearCategories {
   static readonly type = '[meta-data] clear categories state';
 }
+export class GetCities {
+  static readonly type = '[meta-data] Get all Cities';
+}

@@ -6,13 +6,15 @@ import { City } from '../models/city.model';
 import { SocialGroup } from '../models/socialGroup.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
+import { CityService } from '../services/cities/city.service';
 import {
   CityList,
   GetSocialGroup,
   ClearCategories,
   GetClasses,
   GetDepartments,
-  GetDirections
+  GetDirections,
+  GetCities
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -20,6 +22,7 @@ export interface MetaDataStateModel {
   departments: Department[];
   classes: Class[];
   filteredCities: City[];
+  cities: City[],
   socialGroups: SocialGroup[],
 }
 
@@ -30,6 +33,7 @@ export interface MetaDataStateModel {
     departments: [],
     classes: [],
     filteredCities: [],
+    cities: [],
     socialGroups: [],
   }
 
@@ -53,9 +57,13 @@ export class MetaDataState {
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
 
+  @Selector()
+  static cities(state: MetaDataStateModel): City[] { return state.cities }
+
   constructor(
     private categoriesService: CategoriesService,
-    private childrenService: ChildrenService) { }
+    private childrenService: ChildrenService,
+    private cityService: CityService) { }
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections) {
@@ -104,6 +112,14 @@ export class MetaDataState {
     patchState({ directions: undefined });
     patchState({ departments: undefined });
     patchState({ classes: undefined });
+  }
+  @Action(GetCities)
+  getCities({ patchState }: StateContext<MetaDataStateModel>, { }: GetCities) {
+    return this.cityService
+      .getCities()
+      .pipe(
+        tap((cities: City[]) => patchState({ cities: cities })
+        ))
   }
 
 }

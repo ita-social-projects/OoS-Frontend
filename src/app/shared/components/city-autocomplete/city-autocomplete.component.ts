@@ -1,14 +1,17 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
-import { CityList } from '../../store/meta-data.actions';
+import { CityList, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
-import { FormGroup } from '@angular/forms';
-import { CityFilterService } from '../../services/filters-services/city-filter/city-filter.service';
+
+const noCity: City = {
+  id: null,
+  name: 'Такого міста немає'
+} as City;
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -16,8 +19,8 @@ import { CityFilterService } from '../../services/filters-services/city-filter/c
   styleUrls: ['./city-autocomplete.component.scss']
 })
 export class CityAutocompleteComponent implements OnInit {
+
   @Output() selectedCity = new EventEmitter();
-  @Input() address: FormGroup;
 
   city: City;
   cityControl = new FormControl();
@@ -25,18 +28,20 @@ export class CityAutocompleteComponent implements OnInit {
   noCity = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  @Select(MetaDataState.cities)
+  cities$: Observable<City[]>;
   @Select(MetaDataState.filteredCities)
   filteredCities$: Observable<City[]>;
 
-
-  constructor(public filterCityService: CityFilterService, public store: Store) {
-  }
+  constructor(public store: Store) { }
 
   ngOnInit(): void {
-    this.filterCityService.fetchCities()
-      .subscribe((data) => {
-        this.cities = data;
-      });
+    this.store.dispatch(new GetCities());
+
+    this.cities$
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((cities) => this.cities = cities);
 
     this.cityControl.valueChanges
       .pipe(
@@ -44,15 +49,9 @@ export class CityAutocompleteComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         startWith(''),
-      ).subscribe(value => {
-      if (value) {
-        this.store.dispatch(new CityList(this._filter(value)));
-      } else {
-        this.store.dispatch(new CityList([]));
-      }
-      ;
-    });
-    this.address && this.address.valueChanges.subscribe(address => this.cityControl.setValue(address.city));
+      ).subscribe(value =>
+        value ? this.store.dispatch(new CityList(this._filter(value))) : this.store.dispatch(new CityList([]))
+      );
   }
 
   /**
@@ -64,19 +63,14 @@ export class CityAutocompleteComponent implements OnInit {
    */
   private _filter(value: string): City[] {
     const filteredCities = this.cities
-      .filter(c => c.city
+      .filter(c => c.name
         .toLowerCase()
         .startsWith(value.toLowerCase())
       )
       .map(c => c);
 
-    if (filteredCities.length === 0) {
-      this.noCity = true;
-      return [{ id: null, city: 'Такого міста немає' }];
-    } else {
-      this.noCity = false;
-      return filteredCities;
-    }
+    this.noCity = Boolean(filteredCities.length);
+    return this.noCity ? [noCity] : filteredCities;
   }
 
   /**
