@@ -112,7 +112,7 @@ export class MetaDataState {
     return this.cityService
       .getCities(payload)
       .pipe(
-        tap((cities: City[]) => cities ? patchState({ cities: cities, isCity: true }) : patchState({ cities: [{ name: 'Такого міста немає' } as City], isCity: false })
+        tap((cities: City[]) => patchState(cities ? { cities: cities, isCity: true } : { cities: [{ name: 'Такого міста немає' } as City], isCity: false })
         ))
   }
 
