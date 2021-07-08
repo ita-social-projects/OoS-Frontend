@@ -41,7 +41,7 @@ export class CityAutocompleteComponent implements OnInit {
         distinctUntilChanged(),
         startWith(''),
       ).subscribe(value =>
-        (value.length > 2 && value) ? this.store.dispatch(new GetCities(value)) : this.store.dispatch(new ClearCities()));
+        (value.length > 2) ? this.store.dispatch(new GetCities(value)) : this.store.dispatch(new ClearCities()));
   }
   /**
    * This method selects an option from the list of filtered cities as a chosen city
