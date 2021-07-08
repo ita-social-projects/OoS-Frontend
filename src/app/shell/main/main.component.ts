@@ -1,3 +1,4 @@
+import { AppState } from './../../shared/store/app.state';
 import { ProgressBarService } from './../../shared/services/progress-bar/progress-bar.service';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -9,6 +10,7 @@ import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop } from '../../shared/models/workshop.model';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
+import { ToggleLoading } from 'src/app/shared/store/app.actions';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -24,13 +26,18 @@ export class MainComponent implements OnInit {
   isAuthorized$: Observable<boolean>;
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+  // @Select(AppState.isLoading)
+  // isLoading$: Observable<Boolean>;
 
-  constructor(private store: Store, public ProgressBarService: ProgressBarService) { }
+  constructor(private store: Store, public ProgressBarService: ProgressBarService) {  
+  }
 
   ngOnInit(): void {
     this.store.dispatch([
       new GetDirections(),
       new GetTopWorkshops(),
     ]);
+    this.topWorkshops$.subscribe((topWorkshops : Workshop[])=>
+      topWorkshops.length ? this.store.dispatch(new ToggleLoading(false)) :  this.store.dispatch(new ToggleLoading(true)))
   }
 }

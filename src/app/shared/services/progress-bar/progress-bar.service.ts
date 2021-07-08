@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ProgressBarService {
-  public isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
+  public isLoading: Boolean = true
 
-  constructor() { }
+  constructor(isLoading) {
+    this.isLoading=isLoading;
+   }
 }

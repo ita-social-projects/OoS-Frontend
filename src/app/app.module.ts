@@ -14,7 +14,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from './../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { InterceptorService } from './shared/services/progress-bar/interceptor.service';
+// import { InterceptorService } from './shared/services/progress-bar/interceptor.service';
 
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
@@ -57,9 +57,7 @@ import { NavigationState } from './shared/store/navigation.state';
     RegistrationModule,
     MatProgressSpinnerModule
   ],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
