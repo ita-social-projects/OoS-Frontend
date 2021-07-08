@@ -1,12 +1,6 @@
 <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="start center">
   <h3 class="title">Усі напрямки</h3>
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <div class="header_search">
-      <mat-icon> place</mat-icon>
-      <app-city-filter class="header_city"></app-city-filter>
-      <app-searchbar class="header_bar"></app-searchbar>
-    </div>
-  </div>
+  <app-full-search-bar></app-full-search-bar>
 </div>
 <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
   <app-category-card *ngFor="let direction of directions$ | async " [direction]="direction">

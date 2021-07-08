@@ -1,13 +1,5 @@
 .mat-form-field {
   font-size: 14px;
-  width: max-content;
-  input {
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 22px;
-    color: #AAAAAA;
-    opacity: 0.4;
-  }
 }
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
@@ -19,11 +11,11 @@ button {
   border: none;
   height: 100%;
 }
-.search-icon{
-  margin: 1rem;
-}
-@media(max-width: 415px) {
-  .search {
-    font-size: inherit !important;
-  }
+input {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #161414;
+  opacity: 0.4;
+  min-width: 230px;
 }

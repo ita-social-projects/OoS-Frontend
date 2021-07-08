@@ -12,20 +12,20 @@
     </button>
   </div>
   <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-    <div class="shell-search">
-      <app-city-filter class="shell-city"></app-city-filter>
-      <app-searchbar class="shell-searchbar"></app-searchbar>
-    </div>
+    <app-full-search-bar></app-full-search-bar>
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
       <app-ordering></app-ordering>
       <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView"
         (change)="SetCurrentView(group.value)">
-        <mat-button-toggle class = "list"value="show-data" aria-label="show-data" fxLayout="row" fxLayoutAlign="center center"><mat-icon>view_module</mat-icon>Список
+        <mat-button-toggle class="list" value="show-data" aria-label="show-data" fxLayout="row"
+          fxLayoutAlign="center center">
+          <mat-icon>view_module</mat-icon>Список
 
         </mat-button-toggle>
 
 
-        <mat-button-toggle class="map" value="map" aria-label="map" fxLayout="row" fxLayoutAlign="center center"><mat-icon> map</mat-icon> Карта
+        <mat-button-toggle class="map" value="map" aria-label="map" fxLayout="row" fxLayoutAlign="center center">
+          <mat-icon> map</mat-icon> Карта
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
