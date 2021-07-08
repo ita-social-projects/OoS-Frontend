@@ -23,9 +23,9 @@
     <a [href]="workshop.website">{{workshop.website}}</a>
   </p>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <a *ngIf="workshop.instagram" href="{{workshop.instagram}}" class="link"><img src="assets/icons/inst.png"
-        alt="instagram"></a>
-    <a *ngIf="workshop.facebook" href="{{workshop.facebook}}" class="link"><img src="assets/icons/facebook.png"
-        alt="facebook"></a>
+    <a href="{{workshop.instagram}}" [ngClass]="workshop.instagram ? 'link' : 'disable'"><img
+        src="assets/icons/inst.png" alt="instagram"></a>
+    <a href="{{workshop.facebook}}" [ngClass]="workshop.facebook ? 'link' : 'disable'"><img
+        src="assets/icons/facebook.png" alt="facebook"></a>
   </div>
 </div>
