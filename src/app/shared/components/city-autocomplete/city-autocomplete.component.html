@@ -2,7 +2,7 @@
   <mat-form-field appearance="none">
     <input matInput type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)">
-      <mat-option [disabled]="noCity" *ngFor="let city of filteredCities$ | async" [value]="city.city">
+      <mat-option [disabled]="isCity | async" *ngFor="let city of cities$ | async" [value]="city">
         {{city.name}}
       </mat-option>
     </mat-autocomplete>

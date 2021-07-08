@@ -14,16 +14,17 @@ import {
   GetClasses,
   GetDepartments,
   GetDirections,
-  GetCities
+  GetCities,
+  ClearCities
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
   departments: Department[];
   classes: Class[];
-  filteredCities: City[];
   cities: City[],
   socialGroups: SocialGroup[],
+  isCity: boolean;
 }
 
 @State<MetaDataStateModel>({
@@ -32,17 +33,14 @@ export interface MetaDataStateModel {
     directions: [],
     departments: [],
     classes: [],
-    filteredCities: [],
-    cities: [],
+    cities: null,
     socialGroups: [],
+    isCity: false
   }
 
 })
 @Injectable()
 export class MetaDataState {
-
-  @Selector()
-  static filteredCities(state: MetaDataStateModel): City[] { return state.filteredCities }
 
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] { return state.directions }
@@ -53,12 +51,14 @@ export class MetaDataState {
   @Selector()
   static classes(state: MetaDataStateModel): Class[] { return state.classes }
 
-
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
 
   @Selector()
   static cities(state: MetaDataStateModel): City[] { return state.cities }
+
+  @Selector()
+  static isCity(state: MetaDataStateModel): boolean { return state.isCity }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -92,12 +92,6 @@ export class MetaDataState {
         ))
   }
 
-  @Action(CityList)
-  cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
-    patchState({ filteredCities: payload });
-  }
-
-
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup) {
     return this.childrenService
@@ -114,12 +108,17 @@ export class MetaDataState {
     patchState({ classes: undefined });
   }
   @Action(GetCities)
-  getCities({ patchState }: StateContext<MetaDataStateModel>, { }: GetCities) {
+  getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities) {
     return this.cityService
-      .getCities()
+      .getCities(payload)
       .pipe(
-        tap((cities: City[]) => patchState({ cities: cities })
+        tap((cities: City[]) => cities ? patchState({ cities: cities, isCity: true }) : patchState({ cities: [{ name: 'Такого міста немає' } as City], isCity: false })
         ))
+  }
+
+  @Action(ClearCities)
+  clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities) {
+    patchState({ cities: null });
   }
 
 }

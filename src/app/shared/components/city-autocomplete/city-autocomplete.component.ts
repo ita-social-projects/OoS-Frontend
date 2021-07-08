@@ -4,14 +4,9 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
-import { CityList, GetCities } from '../../store/meta-data.actions';
+import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
-
-const noCity: City = {
-  id: null,
-  name: 'Такого міста немає'
-} as City;
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -22,22 +17,18 @@ export class CityAutocompleteComponent implements OnInit {
 
   @Output() selectedCity = new EventEmitter();
 
-  city: City;
   cityControl = new FormControl();
   cities: City[] = [];
-  noCity = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(MetaDataState.cities)
   cities$: Observable<City[]>;
-  @Select(MetaDataState.filteredCities)
-  filteredCities$: Observable<City[]>;
+  @Select(MetaDataState.isCity)
+  isCity$: Observable<boolean[]>;
 
   constructor(public store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetCities());
-
     this.cities$
       .pipe(
         takeUntil(this.destroy$),
@@ -50,29 +41,8 @@ export class CityAutocompleteComponent implements OnInit {
         distinctUntilChanged(),
         startWith(''),
       ).subscribe(value =>
-        value ? this.store.dispatch(new CityList(this._filter(value))) : this.store.dispatch(new CityList([]))
-      );
+        (value.length > 2 && value) ? this.store.dispatch(new GetCities(value)) : this.store.dispatch(new ClearCities()));
   }
-
-  /**
-   * This method filters the list of all cities according to the value of input;
-   * If the input value does not match with options
-   * the further selection is disabled and a user receive "Такого міста немає"
-   * @param string value
-   * @returns string[]
-   */
-  private _filter(value: string): City[] {
-    const filteredCities = this.cities
-      .filter(c => c.name
-        .toLowerCase()
-        .startsWith(value.toLowerCase())
-      )
-      .map(c => c);
-
-    this.noCity = Boolean(filteredCities.length);
-    return this.noCity ? [noCity] : filteredCities;
-  }
-
   /**
    * This method selects an option from the list of filtered cities as a chosen city
    * and pass this value to teh parent component
