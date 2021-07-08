@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,7 +11,10 @@ describe('FullSearchBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatIconModule],
-      declarations: [FullSearchBarComponent]
+      declarations: [
+        FullSearchBarComponent,
+        MockCityFilterComponent,
+        MockSearchBarComponent]
     })
       .compileComponents();
   });
@@ -25,3 +29,15 @@ describe('FullSearchBarComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-searchbar',
+  template: ''
+})
+class MockSearchBarComponent {
+}
+@Component({
+  selector: 'app-city-filter',
+  template: ''
+})
+class MockCityFilterComponent {
+}
