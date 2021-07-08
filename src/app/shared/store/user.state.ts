@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
@@ -13,7 +13,7 @@ import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
-import { GetWorkshops, MarkFormDirty } from './app.actions';
+import { MarkFormDirty } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 import {
@@ -207,7 +207,6 @@ export class UserState {
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
     this.showSnackBar('Гурток видалено!', 'primary');
-    dispatch(new GetWorkshops());
   }
 
   @Action(CreateChildren)

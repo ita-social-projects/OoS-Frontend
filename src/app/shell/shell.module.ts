@@ -20,6 +20,7 @@ import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { AllCategoriesComponent } from './all-categories/all-categories.component';
 @NgModule({
   declarations: [
     MainComponent,
@@ -28,6 +29,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     OrderingComponent,
     PersonalCabinetComponent,
     WorkshopMapViewListComponent,
+    AllCategoriesComponent,
   ],
   imports: [
     CommonModule,
