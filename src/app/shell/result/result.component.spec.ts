@@ -20,6 +20,7 @@ describe('ResultComponent', () => {
         MatButtonToggleModule,
         MatSidenavModule,
         BrowserAnimationsModule,
+        MatIconModule
       ],
       declarations: [
         ResultComponent,
