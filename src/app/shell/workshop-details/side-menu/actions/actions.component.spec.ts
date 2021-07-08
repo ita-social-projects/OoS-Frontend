@@ -12,8 +12,9 @@ describe('ActionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, 
-      NgxsModule.forRoot([])
+      imports: [
+        RouterTestingModule,
+        NgxsModule.forRoot([])
       ],
       declarations: [ActionsComponent]
     })
@@ -22,7 +23,7 @@ describe('ActionsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store,'selectSnapshot').and.returnValue({role: ''} as User)
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User)
     fixture = TestBed.createComponent(ActionsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
