@@ -40,19 +40,19 @@
   <div class="authorization">
     <span class="header_menu-button">
 
-      <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer"> 
-        <mat-icon>notifications_none</mat-icon> 
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
+        <mat-icon>notifications_none</mat-icon>
       </button>
       <span class="header_menu-button_account-circle">
-        <mat-icon matBadge="1" matBadgePosition="before" ></mat-icon>
+        <mat-icon matBadge="1" matBadgePosition="before"></mat-icon>
       </span>
-     
-    <mat-menu #menu="matMenu" class="notification">
-      <span>1 нова заявка очікує підтвердження <mat-icon class="circle-notification">brightness_1</mat-icon></span>
-      <button mat-menu-item [routerLink]="'url'" class="btn-notification">
-        <span>Переглянути </span>
-      </button>
-    </mat-menu>
+
+      <mat-menu #menu="matMenu" class="notification">
+        <span>1 нова заявка очікує підтвердження <mat-icon class="circle-notification">brightness_1</mat-icon></span>
+        <button mat-menu-item [routerLink]="'url'" class="btn-notification">
+          <span>Переглянути </span>
+        </button>
+      </mat-menu>
 
       <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon>account_circle</mat-icon>

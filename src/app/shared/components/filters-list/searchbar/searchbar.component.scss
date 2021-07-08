@@ -1,12 +1,6 @@
-.search-field {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 100%;
-}
 .mat-form-field {
-  width: 100%;
   font-size: 14px;
+  width: max-content;
   input {
     font-weight: normal;
     font-size: 16px;
@@ -21,15 +15,13 @@
 :host ::ng-deep .mat-form-field-infix {
   border: none;
 }
-:host ::ng-deep .mat-stroked-button {
-  min-width: inherit;
-  padding: 0;
-}
 button {
   border: none;
   height: 100%;
 }
-
+.search-icon{
+  margin: 1rem;
+}
 @media(max-width: 415px) {
   .search {
     font-size: inherit !important;
