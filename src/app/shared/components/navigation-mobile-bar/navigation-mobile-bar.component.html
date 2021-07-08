@@ -1,21 +1,14 @@
-<ng-container *ngIf="(navigationPaths$ | async)?.length then mobileNav; else logo"></ng-container>
-
-<ng-template #mobileNav>
- <nav class="navigation" >
-  <ul class="navigation-links">
+ <nav class="mobile-navigation">
+  <ul class="mobile-navigation-links" *ngFor="let nav of navigationPathsMobile$ | async">
     <li>
-      <div class="Link pointer" >
+      <div class="link pointer">
         <a (click)="goBack()"><mat-icon>arrow_back_ios_new</mat-icon></a>
       </div>
     </li>
-    <li *ngFor="let nav of navigationPathsMobile$ | async">
-      <div class="Link"><a>{{nav?.name}}</a></div>
+    <li >
+      <div class="link"><a>{{nav?.name}}</a></div>
     </li>
   </ul>
 </nav> 
-</ng-template>
 
-<ng-template #logo>
-  <a routerLink="/"><img class="logo" src="../../../../assets/images/Logo.svg" alt="Позашкілля"></a>
-</ng-template>
 

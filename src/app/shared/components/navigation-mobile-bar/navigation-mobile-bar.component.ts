@@ -14,9 +14,7 @@ export class NavigationMobileBarComponent {
 
   @Select(NavigationState.navigationPathsMobile)
   navigationPathsMobile$: Observable<Navigation[]>;
-  @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>;
-
+  
   constructor(private location: Location) { }
 
   goBack(): void {

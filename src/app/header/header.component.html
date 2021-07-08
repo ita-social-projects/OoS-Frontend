@@ -2,8 +2,13 @@
   <div class="header_top">
 
     <div class="header_logo-wrapper">
-        <a routerLink="/" *ngIf="!MobileView"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
-        <app-navigation-mobile-bar *ngIf="MobileView"></app-navigation-mobile-bar>
+        <div *ngIf="MobileView && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
+        <ng-template #mobileNav>
+          <app-navigation-mobile-bar></app-navigation-mobile-bar>
+        </ng-template>
+        <ng-template #logo>
+          <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
+        </ng-template>
     </div>
     
     <div class="header_btns">
