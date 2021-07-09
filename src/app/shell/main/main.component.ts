@@ -34,7 +34,6 @@ export class MainComponent implements OnInit {
       new GetTopWorkshops(),
     ]);
     this.topWorkshops$.subscribe((topWorkshops:Workshop[])=>
-    (topWorkshops.length)? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true)));
-    console.log(GetTopWorkshops);
+    (topWorkshops.length || topWorkshops===undefined)? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true)));
   }
 }
