@@ -1,4 +1,4 @@
-import { Component, OnInit,HostListener } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
    * method defined window.width and assign MobileView: boolean     
    */
   isWindowMobile(event: any): void {
-    (event.innerWidth <= 750) ?  this.MobileView = true : this.MobileView = false;
+    this.MobileView = event.innerWidth <= 750;
   }
 
  @HostListener("window: resize",["$event.target"])
