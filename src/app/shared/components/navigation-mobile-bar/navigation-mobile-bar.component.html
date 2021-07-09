@@ -1,11 +1,11 @@
  <nav class="mobile-navigation">
-  <ul class="mobile-navigation-links" *ngFor="let nav of navigationPathsMobile$ | async">
+  <ul class="mobile-navigation-links">
     <li>
       <div class="link pointer">
         <a (click)="goBack()"><mat-icon>arrow_back_ios_new</mat-icon></a>
       </div>
     </li>
-    <li >
+    <li *ngFor="let nav of navigationPathsMobile$ | async">
       <div class="link"><a>{{nav?.name}}</a></div>
     </li>
   </ul>
