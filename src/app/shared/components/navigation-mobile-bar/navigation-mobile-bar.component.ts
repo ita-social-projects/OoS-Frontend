@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { NavigationState } from '../../store/navigation.state';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-navigation-mobile-bar',
