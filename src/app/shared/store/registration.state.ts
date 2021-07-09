@@ -100,11 +100,7 @@ export class RegistrationState {
   checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
 
-    if (state.user.isRegistered) {
-      dispatch(new GetProfile());
-    } else {
-      (state.user.role === Role.provider) && this.router.navigate(['/create-provider', '']);
-    }
+    (state.user.isRegistered) ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
   }
 
   @Action(GetProfile)
