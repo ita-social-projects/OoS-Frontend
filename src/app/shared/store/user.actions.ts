@@ -88,18 +88,6 @@ export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
   constructor(public payload) { }
 }
-export class CreateParent {
-  static readonly type = '[parent] create Parent';
-  constructor(public payload: User) { }
-}
-export class OnCreateParentFail {
-  static readonly type = '[parent] create Parent fail';
-  constructor(public payload: Error) { }
-}
-export class OnCreateParentSuccess {
-  static readonly type = '[parent] create Parent success';
-  constructor(public payload) { }
-}
 export class CreateApplication {
   static readonly type = '[user] create Application';
   constructor(public payload: Application) { }
