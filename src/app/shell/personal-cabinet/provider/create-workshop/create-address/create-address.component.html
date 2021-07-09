@@ -1,5 +1,5 @@
-<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
-
+<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <p class="step-name__xs">Контакти</p>
   <label class="step-label">Місто<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput required class="step-input" type="text" formControlName="city" maxlength="15">
@@ -15,7 +15,7 @@
     <input matInput required class="step-input" type="text" formControlName="buildingNumber">
   </mat-form-field>
 </form>
-<hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3" />
+<hr fxLayout='row' fxLayoutAlign='center center' width="100%" size="2" color="#E3E3E3" />
 <div fxLayout='column' fxLayoutAlign='center center'>
   <p>Або позначти на карті</p>
 </div>
