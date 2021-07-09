@@ -20,10 +20,13 @@
 <ng-template #MainView>
   <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
     <p class="card_text"><img src="assets/icons/rate.png" alt="rate"> {{ workshop.rate }} </p>
-    <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop.ownership }} </p>
-    <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }} </p>
-    <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop.price ? workshop.price :
-      "Безкоштовно" }} </p>
+    <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop.providerTitle }} </p>
+    <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop.minAge }} - {{ workshop.maxAge }} років
+    </p>
+    <p class="card_text" *ngIf="!workshop.price"><img src="assets/icons/price.png" alt="price"> Безкоштовно </p>
+    <p class="card_text" *ngIf="workshop.price"><img src="assets/icons/price.png" alt="price"> {{ workshop.price }} грн/
+      {{ workshop.isPerMonth
+      ? 'місяць' : 'заняття' }} </p>
     <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop.address.city }}, {{
       workshop.address.street }}, {{
       workshop.address.buildingNumber }} </p>

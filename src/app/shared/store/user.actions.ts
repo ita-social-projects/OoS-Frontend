@@ -4,8 +4,16 @@ import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
 import { Workshop } from '../models/workshop.model';
 
-export class GetWorkshopsById {
-  static readonly type = '[user] get Workshop';
+export class GetWorkshopsByProviderId {
+  static readonly type = '[user] get Workshops By Provider Id';
+  constructor(public payload: number) { }
+}
+export class GetWorkshopsByParentId {
+  static readonly type = '[user] get Workshops By Parent Id';
+  constructor() { } //TODO: add get workshops by ParentId
+}
+export class GetWorkshopById {
+  static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: number) { }
 }
 export class GetApplicationsByUserId {
@@ -78,18 +86,6 @@ export class OnCreateProviderFail {
 }
 export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
-  constructor(public payload) { }
-}
-export class CreateParent {
-  static readonly type = '[parent] create Parent';
-  constructor(public payload: User) { }
-}
-export class OnCreateParentFail {
-  static readonly type = '[parent] create Parent fail';
-  constructor(public payload: Error) { }
-}
-export class OnCreateParentSuccess {
-  static readonly type = '[parent] create Parent success';
   constructor(public payload) { }
 }
 export class CreateApplication {

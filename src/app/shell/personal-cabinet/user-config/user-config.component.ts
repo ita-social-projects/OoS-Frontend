@@ -16,5 +16,5 @@ export class UserConfigComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { }
 }
