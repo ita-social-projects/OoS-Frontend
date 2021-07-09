@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -40,8 +40,13 @@ export class CityAutocompleteComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
-      ).subscribe(value =>
-        (value.length > 2) ? this.store.dispatch(new GetCities(value)) : this.store.dispatch(new ClearCities()));
+        map((value: string) => {
+          !value.length && this.store.dispatch(new ClearCities());
+          return value;
+        }),
+        filter(value => value.length > 2)
+      ).subscribe(value => this.store.dispatch(new GetCities(value)));
+
   }
   /**
    * This method selects an option from the list of filtered cities as a chosen city
@@ -50,6 +55,7 @@ export class CityAutocompleteComponent implements OnInit {
    */
   onSelect(event: MatAutocompleteSelectedEvent): void {
     this.selectedCity.emit(event.option.value);
+    this.store.dispatch(new ClearCities());
   }
 
   ngOnDestroy() {
