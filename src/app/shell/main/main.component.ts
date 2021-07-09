@@ -26,8 +26,6 @@ export class MainComponent implements OnInit {
   directions$: Observable<Direction[]>;
 
   constructor(private store: Store) {
-    this.topWorkshops$.subscribe((topWorkshops:Workshop[])=>
-    topWorkshops.length ? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true)));
    }
 
   ngOnInit(): void {
@@ -35,6 +33,8 @@ export class MainComponent implements OnInit {
       new GetDirections(),
       new GetTopWorkshops(),
     ]);
-    
+    this.topWorkshops$.subscribe((topWorkshops:Workshop[])=>
+    (topWorkshops.length)? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true)));
+    console.log(GetTopWorkshops);
   }
 }

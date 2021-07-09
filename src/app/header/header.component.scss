@@ -149,12 +149,7 @@
 .icon-account {
   color:white;
 }
-.spinner {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
+
 ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
@@ -164,7 +159,8 @@
 }
 
 .progress-bar{
-  margin: 1rem;
+ position:  absolute;
+ width: 100vw;
 }
 
 @media (max-width: 1024px) {

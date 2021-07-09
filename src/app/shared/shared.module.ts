@@ -35,6 +35,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
-    FullSearchBarComponent,
+    FullSearchBarComponent
   ],
   imports: [
     MaterialModule,
@@ -76,6 +77,7 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
     RouterModule,
     FormsModule,
     NgxSliderModule,
+    MatProgressBarModule
   ],
   exports: [
     FiltersListComponent,
@@ -106,7 +108,7 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
-    FullSearchBarComponent
+    FullSearchBarComponent,
   ]
 })
 export class SharedModule { }
