@@ -13,8 +13,6 @@ import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
-import { CreateParent } from './user.actions';
-
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
@@ -102,11 +100,7 @@ export class RegistrationState {
   checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
 
-    if (state.user.isRegistered) {
-      dispatch(new GetProfile());
-    } else {
-      (state.user.role === Role.provider) ? this.router.navigate(['/create-provider', '']) : dispatch(new CreateParent(state.user));
-    }
+    (state.user.isRegistered) ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
   }
 
   @Action(GetProfile)
