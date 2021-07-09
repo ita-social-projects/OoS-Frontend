@@ -1,3 +1,4 @@
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +26,7 @@ describe('HeaderComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientModule,
         RouterTestingModule,
-        MatProgressSpinnerModule,
+        MatProgressBarModule,
         MatMenuModule
       ],
       declarations: [
