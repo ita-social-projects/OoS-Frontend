@@ -3,7 +3,6 @@ import { State,Action,StateContext,Selector } from "@ngxs/store";
 import { Injectable } from '@angular/core';
 import { AddNavPath, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
 
-
 export interface NavStateModel {
   navigation: Navigation[];
 }
