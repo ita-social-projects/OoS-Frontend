@@ -19,9 +19,6 @@ import { CheckAuth, GetProfile } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
-  CreateParent,
-  OnCreateParentFail,
-  OnCreateParentSuccess,
   CreateProvider,
   CreateWorkshop,
   DeleteChildById,
@@ -283,29 +280,6 @@ export class UserState {
     console.log('Application is created', payload);
     this.showSnackBar('Заявку створено!', 'primary');
     this.router.navigate(['']);
-  }
-
-  @Action(CreateParent)
-  createParent({ dispatch }: StateContext<UserStateModel>, { payload }: CreateParent) {
-    return this.parentService
-      .createParent(payload)
-      .pipe(
-        tap((res) => dispatch(new OnCreateParentSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateParentFail(error))))
-      );
-  }
-
-  @Action(OnCreateParentFail)
-  onCreateParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentFail): void {
-    console.error('Parent creation is failed', payload);
-    throwError(payload);
-    this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-  }
-
-  @Action(OnCreateParentSuccess)
-  onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
-    dispatch(new GetProfile());
-    console.log('Parent is created', payload);
   }
 
   @Action(DeleteChildById)
