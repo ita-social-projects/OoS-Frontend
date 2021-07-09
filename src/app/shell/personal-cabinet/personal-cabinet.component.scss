@@ -3,6 +3,10 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
   padding: 0.5rem;
+
+  @media(max-width: 750px){
+    margin-top: 40px;
+  }
 }
 .title, .nav {
   margin:10px;
