@@ -21,7 +21,6 @@ import { FooterComponent } from './footer/footer.component';
 import { RegistrationModule } from './shared/registration/registration.module';
 import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserState } from './shared/store/user.state';
 import { NavigationState } from './shared/store/navigation.state';
 
@@ -54,7 +53,6 @@ import { NavigationState } from './shared/store/navigation.state';
     FlexLayoutModule,
     ShellModule,
     RegistrationModule,
-    MatProgressSpinnerModule,
     MatProgressBarModule
   ],
   providers: [
