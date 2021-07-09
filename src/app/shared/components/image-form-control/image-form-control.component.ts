@@ -18,6 +18,8 @@ export class ImageFormControlComponent implements OnInit {
   photoFormGroup: FormGroup;
 
   gridCols: number;
+  mediumScreen: number = 500;
+  smallScreen: number = 366;
   selectedImages: File[] = [];
   decodedImages = [];
 
@@ -98,12 +100,12 @@ export class ImageFormControlComponent implements OnInit {
     this.disabled = disabled;
   }
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
-  onResize(screen) {
-    if(screen.innerWidth >= 500){
+  onResize(screen): void {
+    if (screen.innerWidth >= this.mediumScreen) {
       this.gridCols = 4;
-    }else if (screen.innerWidth < 500 && screen.innerWidth >= 366){
+    } else if (screen.innerWidth < this.mediumScreen && screen.innerWidth >= this.smallScreen) {
       this.gridCols = 3;
-    }else {
+    } else {
       this.gridCols = 2;
     }
   }
