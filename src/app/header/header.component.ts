@@ -21,8 +21,6 @@ export class HeaderComponent implements OnInit {
 
   showModalReg = false;
 
-  @Select(AppState.isLoading)
-  isLoading$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
@@ -33,7 +31,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public store: Store,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
