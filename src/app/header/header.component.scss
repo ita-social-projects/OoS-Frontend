@@ -163,6 +163,10 @@
   padding: 0px !important;
 }
 
+.progress-bar{
+  margin: 1rem;
+}
+
 @media (max-width: 1024px) {
   .header {
     &_search {
@@ -358,3 +362,4 @@ and (max-device-width : 480px){
     font-size: 9px;
 }
 }
+

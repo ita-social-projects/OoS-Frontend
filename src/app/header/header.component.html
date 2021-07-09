@@ -87,11 +87,11 @@
     </mat-menu>
   </div>
 </ng-template>
-<ng-container *ngIf="(isLoading$ | async) then Spinner;"></ng-container>
+<ng-container *ngIf="(isLoading$ | async) then ProgressBar;"></ng-container>
 
-<ng-template #Spinner>
-  <div class="spinner">
-    <mat-progress-spinner diameter=80 mode="indeterminate" color="primary">
-    </mat-progress-spinner>
+<ng-template #ProgressBar>
+  <div class="progress-bar">
+    <mat-progress-bar  mode="indeterminate">
+    </mat-progress-bar>
   </div>
 </ng-template>
