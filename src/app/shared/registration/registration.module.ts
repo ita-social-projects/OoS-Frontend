@@ -11,13 +11,16 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
 
   return () => {
     oidcConfigService.withConfig({
+      useRefreshToken: true,
+      silentRenew: true,
+      silentRenewTimeoutInSeconds: 10,
       clientId: 'angular',
       stsServer: environment.stsServer,
       responseType: 'code',
       redirectUrl: window.location.origin,
       postLogoutRedirectUri: window.location.origin,
-      scope: 'openid outofschoolapi.read',
-      logLevel: LogLevel.Debug,
+      scope: 'openid outofschoolapi.read offline_access',
+      logLevel: LogLevel.Error,
     })
   }
 }
