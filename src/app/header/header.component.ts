@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     public store: Store,
     private router: Router
-    ) { }
+  ) { }
 
   /**
    * @param event global variable window

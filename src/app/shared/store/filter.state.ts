@@ -40,8 +40,8 @@ export interface FilterStateModel {
   order: string;
   filteredWorkshops: Workshop[];
   topWorkshops: Workshop[];
-  withDisabilityOption:boolean;
-  withoutDisabilityOption:boolean;
+  withDisabilityOption: boolean;
+  withoutDisabilityOption: boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -56,13 +56,13 @@ export interface FilterStateModel {
     minPrice: 0,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    city: { id: null, city: '' },
+    city: undefined,
     searchQuery: '',
     order: '',
     filteredWorkshops: [],
     topWorkshops: [],
-    withDisabilityOption:false,
-    withoutDisabilityOption:false,
+    withDisabilityOption: false,
+    withoutDisabilityOption: false,
   }
 })
 @Injectable()
