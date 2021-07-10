@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
     this.isWindowMobile(window);
-    this.showSnackBar('', 'error');
   }
 
   logout(): void {
