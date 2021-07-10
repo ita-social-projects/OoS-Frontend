@@ -36,7 +36,7 @@ import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbo
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
-import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
+import { MessageBarComponent } from './components/message-bar/message-bar.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,7 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
     WorkshopFilterPipe,
     NavigationMobileBarComponent,
     FullSearchBarComponent,
-    SnackBarComponent,
+    MessageBarComponent,
   ],
   imports: [
     MaterialModule,
@@ -112,7 +112,7 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
     FullSearchBarComponent,
-    SnackBarComponent
+    MessageBarComponent
   ]
 })
 export class SharedModule { }

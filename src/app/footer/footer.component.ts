@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, ofAction } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SnackBarComponent } from '../shared/components/snack-bar/snack-bar.component';
+import { MessageBarComponent } from '../shared/components/message-bar/message-bar.component';
 import { ShowMessageBar } from '../shared/store/app.actions';
 
 @Component({
@@ -26,7 +26,7 @@ export class FooterComponent implements OnInit {
   }
 
   showSnackBar({ message, type }): void {
-    this.snackBar.openFromComponent(SnackBarComponent, {
+    this.snackBar.openFromComponent(MessageBarComponent, {
       duration: 5000,
       panelClass: type,
       data: { message, type },

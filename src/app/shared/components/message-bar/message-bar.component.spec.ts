@@ -2,18 +2,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
-import { SnackBarComponent } from './snack-bar.component';
+import { MessageBarComponent } from './message-bar.component';
 
 describe('SnackBarComponent', () => {
-  let component: SnackBarComponent;
-  let fixture: ComponentFixture<SnackBarComponent>;
+  let component: MessageBarComponent;
+  let fixture: ComponentFixture<MessageBarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         MatIconModule,
         MatSnackBarModule],
-      declarations: [SnackBarComponent],
+      declarations: [MessageBarComponent],
       providers: [
         { provide: MAT_SNACK_BAR_DATA, useValue: {} }
       ]
@@ -22,7 +22,7 @@ describe('SnackBarComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SnackBarComponent);
+    fixture = TestBed.createComponent(MessageBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
