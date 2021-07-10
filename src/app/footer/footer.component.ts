@@ -15,7 +15,6 @@ export class FooterComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
   constructor(private actions$: Actions, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
