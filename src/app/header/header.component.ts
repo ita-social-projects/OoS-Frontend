@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, Login, CheckRegistration } from '../shared/store/registration.actions';
+import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
@@ -37,19 +37,18 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store,
-    private router: Router
-  ) { }
+    private router: Router) { }
 
   /**
    * @param event global variable window
-   * method defined window.width and assign MobileView: boolean     
+   * method defined window.width and assign MobileView: boolean
    */
   isWindowMobile(event: any): void {
     this.MobileView = event.innerWidth <= 750;
   }
 
- @HostListener("window: resize",["$event.target"])
-  onResize(event: any ): void {
+  @HostListener("window: resize", ["$event.target"])
+  onResize(event: any): void {
     this.isWindowMobile(event);
   }
 
@@ -57,6 +56,7 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
     this.isWindowMobile(window);
+    this.showSnackBar('', 'error');
   }
 
   logout(): void {

@@ -1,0 +1,36 @@
+::ng-deep .mat-snack-bar-container{
+  padding: 8px 12px;
+  border-radius: 24px;
+  color: #444444;
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.icon{
+  border-radius: 2rem;
+  border: solid 1px #444444;
+  margin: 5px;
+}
+
+.action{
+  color: #444444;
+  cursor: pointer;
+  &:hover{
+    opacity: 0.5;;
+  }
+}
+
+::ng-deep .success{
+  background: #C4EBC5;
+}
+::ng-deep .error{
+  background: #F8E4DD;
+}
+::ng-deep .warningBlue{
+  background:#E1F1F9;
+}
+::ng-deep .warningYellow{
+  background:#FFBD00 30%;
+}
