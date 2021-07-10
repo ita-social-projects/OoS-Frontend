@@ -12,7 +12,8 @@ describe('FooterComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MatSnackBarModule],
       declarations: [FooterComponent],
-      providers: [Actions]
+      providers: [{ provide: Actions, useValue: {} }
+      ]
     })
       .compileComponents();
   });

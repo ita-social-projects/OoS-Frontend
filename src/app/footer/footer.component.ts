@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, ofAction } from '@ngxs/store';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SnackBarComponent } from '../shared/components/snack-bar/snack-bar.component';
 import { ShowMessageBar } from '../shared/store/app.actions';
 
@@ -11,10 +13,16 @@ import { ShowMessageBar } from '../shared/store/app.actions';
 })
 export class FooterComponent implements OnInit {
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+
   constructor(private actions$: Actions, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.actions$.pipe(ofAction(ShowMessageBar)).subscribe((payload) => this.showSnackBar(payload.payload));
+    this.actions$.pipe(ofAction(ShowMessageBar))
+      .pipe(
+        takeUntil(this.destroy$))
+      .subscribe((payload) => this.showSnackBar(payload.payload));
   }
 
   showSnackBar({ message, type }): void {
@@ -23,6 +31,11 @@ export class FooterComponent implements OnInit {
       panelClass: type,
       data: { message, type },
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }
