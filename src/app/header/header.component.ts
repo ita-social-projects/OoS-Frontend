@@ -26,8 +26,6 @@ export class HeaderComponent implements OnInit {
 
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
-  @Select(AppState.isLoading)
-  isLoading$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
