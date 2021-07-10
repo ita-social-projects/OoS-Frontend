@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Actions } from '@ngxs/store';
+import { Actions, NgxsModule } from '@ngxs/store';
 
 import { FooterComponent } from './footer.component';
 
@@ -10,10 +10,12 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatSnackBarModule],
+      imports: [
+        MatSnackBarModule,
+        NgxsModule.forRoot([]),
+      ],
       declarations: [FooterComponent],
-      providers: [{ provide: Actions, useValue: {} }
-      ]
+
     })
       .compileComponents();
   });
