@@ -50,6 +50,11 @@ export class RegistrationState {
     return state.provider;
   }
 
+  @Selector()
+  static parent(state: RegistrationStateModel): Parent {
+    return state.parent;
+  }
+
   constructor(
     private oidcSecurityService: OidcSecurityService,
     private snackBar: MatSnackBar,
