@@ -5,7 +5,7 @@ import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ActivateEditMode, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ToggleLoading } from './app.actions';
+import { ActivateEditMode, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ShowMessageBar, ToggleLoading } from './app.actions';
 
 export interface AppStateModel {
   isLoading: boolean;
@@ -33,7 +33,7 @@ export interface AppStateModel {
 })
 @Injectable()
 export class AppState {
- 
+
   @Selector()
   static isLoading(state: AppStateModel): boolean { return state.isLoading }
 
@@ -88,5 +88,9 @@ export class AppState {
   @Action(ActivateEditMode)
   activateEditMode({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
     patchState({ isEditMode: payload });
+  }
+
+  @Action(ShowMessageBar)
+  showMessageBar({ }: StateContext<AppStateModel>, { payload }: ShowMessageBar): void {
   }
 }

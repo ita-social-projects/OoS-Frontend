@@ -40,7 +40,7 @@ export class WorkshopsComponent implements OnInit {
     }
   }
 
-  onDelete(workshopId: number): void {
+  onDelete(workshop: Workshop): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: 'Видалити гурток?'
@@ -48,7 +48,7 @@ export class WorkshopsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.store.dispatch(new DeleteWorkshopById(workshopId));
+        this.store.dispatch(new DeleteWorkshopById(workshop));
       }
     });
   }

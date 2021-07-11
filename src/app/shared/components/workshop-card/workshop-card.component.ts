@@ -20,7 +20,7 @@ export class WorkshopCardComponent implements OnInit {
   @Input() userRole: string;
   @Input() isMainPage: boolean;
 
-  @Output() deleteWorkshop = new EventEmitter<number>();
+  @Output() deleteWorkshop = new EventEmitter<Workshop>();
 
   status: string = 'approved'; //temporary
 
@@ -33,7 +33,7 @@ export class WorkshopCardComponent implements OnInit {
   }
 
   onDelete(): void {
-    this.deleteWorkshop.emit(this.workshop.id);
+    this.deleteWorkshop.emit(this.workshop);
   }
 
   onLike(): void {
