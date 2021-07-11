@@ -183,9 +183,9 @@ export class UserState {
   @Action(DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById) {
     return this.userWorkshopService
-      .deleteWorkshop(payload)
+      .deleteWorkshop(payload.id)
       .pipe(
-        tap((res) => dispatch(new OnDeleteWorkshopSuccess(res))),
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
@@ -199,7 +199,7 @@ export class UserState {
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
-    dispatch(new ShowMessageBar({ message: 'Гурток видалено!', type: 'success' }));
+    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload}" видалено!`, type: 'success' }));
   }
 
   @Action(CreateChildren)
