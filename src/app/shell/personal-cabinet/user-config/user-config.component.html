@@ -1,17 +1,29 @@
-<div class="config" *ngIf="user$ | async as user">
-  <a routerLink="edit" class="config_edit-icon">
-    <button mat-button style="color:#3849F9;">
-      <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-    </button>
-  </a>
-  <h4>Ім'я</h4>
-  <p>{{user.firstName}}</p>
-  <h4>Призвіще</h4>
-  <p>{{user.lastName}}</p>
-  <h4>По-батькові</h4>
-  <p>{{user.middleName}}</p>
-  <h4>Телефон</h4>
-  <p>{{user.phoneNumber}}</p>
-  <h4>Емейл</h4>
-  <p>{{user.email}}</p>
+<div *ngIf="user$ | async as user" fxLayout='row' fxLayoutAlign='start'>
+  <div class="config">
+    <a routerLink="edit" class="config_edit-icon">
+      <button mat-button style="color:#3849F9;">
+        <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
+      </button>
+    </a>
+    <h4>Ім'я</h4>
+    <p>{{user.firstName}}</p>
+    <h4>Призвіще</h4>
+    <p>{{user.lastName}}</p>
+    <h4>По-батькові</h4>
+    <p>{{user.middleName}}</p>
+    <h4>Телефон</h4>
+    <p>{{user.phoneNumber}}</p>
+  </div>
+  <div class="config">
+    <h4>Емейл</h4>
+    <p style="margin-bottom: 0;">{{user.email}}</p>
+    <a class="link" href="{{authServer}}/Account/ChangeEmail">
+      <p>Змінити емейл</p>
+    </a>
+    <h4>Пароль<span class="important">*</span></h4>
+    <a class="link" href="{{authServer}}/Account/ChangePassword">
+      <p>Змінити емейл</p>
+    </a>
+
+  </div>
 </div>

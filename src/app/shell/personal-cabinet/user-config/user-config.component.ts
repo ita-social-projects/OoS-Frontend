@@ -3,6 +3,7 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-config',
@@ -13,8 +14,11 @@ export class UserConfigComponent implements OnInit {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  authServer: string;
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.authServer = environment.stsServer;
+  }
 }
