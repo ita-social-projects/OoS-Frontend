@@ -15,7 +15,6 @@ import { WorkshopFilterPipe } from 'src/app/shared/pipes/workshop-filter.pipe';
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
   let fixture: ComponentFixture<ApplicationsComponent>;
-  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,9 +37,6 @@ describe('ApplicationsComponent', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
-
     fixture = TestBed.createComponent(ApplicationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

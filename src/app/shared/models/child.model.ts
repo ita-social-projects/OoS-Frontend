@@ -18,14 +18,14 @@ export class Child {
     childId: number;
   }
 
-  constructor(info, id?) {
+  constructor(info, parentId, id?) {
     this.id = id;
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
     this.dateOfBirth = info.dateOfBirth;
     this.gender = info.gender;
-    this.socialGroupId = info.socialGroupId;
-    this.parentId = 1; // TODO: add parentID when getProfile will be fixed
+    this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
+    this.parentId = parentId;
   }
 }

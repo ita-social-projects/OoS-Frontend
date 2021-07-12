@@ -24,9 +24,9 @@ export class GetApplications {
   static readonly type = '[user] get Applications';
   constructor() { }
 }
-export class GetChildren {
-  static readonly type = '[user] get Children';
-  constructor() { }
+export class GetChildrenByParentId {
+  static readonly type = '[user] get Children by Parent Id';
+  constructor(public payload: number) { }
 }
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';
@@ -42,11 +42,11 @@ export class OnCreateWorkshopSuccess {
 }
 export class DeleteWorkshopById {
   static readonly type = '[user] delete Workshop';
-  constructor(public payload: number) { }
+  constructor(public payload: Workshop) { }
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';
-  constructor(public payload) { }
+  constructor(public payload: string) { }
 }
 export class OnDeleteWorkshopFail {
   static readonly type = '[user] delete Workshop fail';
@@ -86,18 +86,6 @@ export class OnCreateProviderFail {
 }
 export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
-  constructor(public payload) { }
-}
-export class CreateParent {
-  static readonly type = '[parent] create Parent';
-  constructor(public payload: User) { }
-}
-export class OnCreateParentFail {
-  static readonly type = '[parent] create Parent fail';
-  constructor(public payload: Error) { }
-}
-export class OnCreateParentSuccess {
-  static readonly type = '[parent] create Parent success';
   constructor(public payload) { }
 }
 export class CreateApplication {

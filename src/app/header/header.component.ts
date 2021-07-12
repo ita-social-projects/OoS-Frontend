@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
-import { Logout, CheckAuth, Login, CheckRegistration } from '../shared/store/registration.actions';
+import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
 import { FilterState } from '../shared/store/filter.state';
+=======
+import { NavigationState } from '../shared/store/navigation.state';
+import { Navigation } from '../shared/models/navigation.model';
+>>>>>>> develop
 
 enum RoleLinks {
   provider = 'організацію',
@@ -21,9 +26,15 @@ enum RoleLinks {
 export class HeaderComponent implements OnInit {
 
   showModalReg = false;
+  MobileView: boolean = false;
 
+<<<<<<< HEAD
   @Select(FilterState.isLoading)
   isLoading$: Observable<boolean>;
+=======
+  @Select(NavigationState.navigationPaths)
+  navigationPaths$: Observable<Navigation[]>;
+>>>>>>> develop
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
@@ -33,12 +44,25 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store,
-    private router: Router
-    ) { }
+    private router: Router) { }
+
+  /**
+   * @param event global variable window
+   * method defined window.width and assign MobileView: boolean
+   */
+  isWindowMobile(event: any): void {
+    this.MobileView = event.innerWidth <= 750;
+  }
+
+  @HostListener("window: resize", ["$event.target"])
+  onResize(event: any): void {
+    this.isWindowMobile(event);
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
+    this.isWindowMobile(window);
   }
 
   logout(): void {
@@ -50,6 +74,6 @@ export class HeaderComponent implements OnInit {
   }
 
   isRouter(route: string): boolean {
-    return this.router.url === route
+    return this.router.url === route;
   }
 }

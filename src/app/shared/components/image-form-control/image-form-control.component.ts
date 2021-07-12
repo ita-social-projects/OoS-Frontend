@@ -17,7 +17,9 @@ export class ImageFormControlComponent implements OnInit {
 
   photoFormGroup: FormGroup;
 
-
+  gridCols: number;
+  mediumScreen: number = 500;
+  smallScreen: number = 366;
   selectedImages: File[] = [];
   decodedImages = [];
 
@@ -29,6 +31,7 @@ export class ImageFormControlComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.onResize(window);
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -39,8 +42,10 @@ export class ImageFormControlComponent implements OnInit {
     if (!this.disabled) {
       if (typeof event.target.files[0].name === 'string') {
         for (let i = 0; i < event.target.files.length; i++) {
-          this.imageDecoder(event.target.files[i]);
-          this.selectedImages.push(event.target.files[i]);
+          if (this.selectedImages.length<this.imgMaxAmount){
+            this.imageDecoder(event.target.files[i]);
+            this.selectedImages.push(event.target.files[i]);
+          }
         }
         this.onChange(this.selectedImages);
       }
@@ -53,7 +58,9 @@ export class ImageFormControlComponent implements OnInit {
   imageDecoder(file: File): void {
     const myReader = new FileReader();
     myReader.onload = () => {
-      this.decodedImages.push(myReader.result);
+      if (this.decodedImages.length<this.imgMaxAmount){
+        this.decodedImages.push(myReader.result);
+      }
     };
     return myReader.readAsDataURL(file);
   }
@@ -92,5 +99,14 @@ export class ImageFormControlComponent implements OnInit {
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
   }
-
+  /* This method controls cols quantity in the img preview grid rows depending on screen width */
+  onResize(screen): void {
+    if (screen.innerWidth >= this.mediumScreen) {
+      this.gridCols = 4;
+    } else if (screen.innerWidth < this.mediumScreen && screen.innerWidth >= this.smallScreen) {
+      this.gridCols = 3;
+    } else {
+      this.gridCols = 2;
+    }
+  }
 }

@@ -31,7 +31,8 @@ describe('HeaderComponent', () => {
       ],
       declarations: [
         HeaderComponent,
-        MockSearchBarComponent
+        MockSearchBarComponent,
+        MockNavigationMobileBarComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
@@ -57,3 +58,9 @@ describe('HeaderComponent', () => {
 })
 class MockSearchBarComponent {
 }
+
+@Component({
+  selector: 'app-navigation-mobile-bar',
+  template: ''
+})
+class MockNavigationMobileBarComponent{}

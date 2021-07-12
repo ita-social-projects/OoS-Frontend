@@ -34,8 +34,13 @@ import { ConfirmationModalWindowComponent } from './components/confirmation-moda
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
+import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
+<<<<<<< HEAD
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+=======
+import { MessageBarComponent } from './components/message-bar/message-bar.component';
+>>>>>>> develop
 
 @NgModule({
   declarations: [
@@ -67,7 +72,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
+<<<<<<< HEAD
     FullSearchBarComponent
+=======
+    NavigationMobileBarComponent,
+    FullSearchBarComponent,
+    MessageBarComponent,
+>>>>>>> develop
   ],
   imports: [
     MaterialModule,
@@ -106,9 +117,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
     NavigationBarComponent,
+    NavigationMobileBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
     FullSearchBarComponent,
+<<<<<<< HEAD
+=======
+    MessageBarComponent
+>>>>>>> develop
   ]
 })
 export class SharedModule { }
