@@ -9,17 +9,7 @@ import { SocialGroup } from '../../models/socialGroup.model';
 
 export class ChildrenService {
 
-  dataUrlmock = '/assets/mock-child-cards.json';
-
   constructor(private http: HttpClient) { }
-
-  /**
-  * This method get all children by User id
-  * @param id
-  */
-  getChildren(): Observable<Child[]> {
-    return this.http.get<Child[]>('/Child/Get');
-  }
 
   /**
   * This method get children by Child id
@@ -28,6 +18,14 @@ export class ChildrenService {
   getChildById(id: number): Observable<Child> {
     const dataUrl = `/Child/GetById/${id}`;
     return this.http.get<Child>(dataUrl);
+  }
+
+  /**
+  * This method get children by Parent Child id
+  * @param id
+  */
+  getChildrenByParentId(id: number): Observable<Child[]> {
+    return this.http.get<Child[]>(`/Child/GetByParentId/${id}`);
   }
 
 
