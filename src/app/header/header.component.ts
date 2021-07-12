@@ -6,6 +6,7 @@ import { Logout, CheckAuth, Login, CheckRegistration } from '../shared/store/reg
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
+import { FilterState } from '../shared/store/filter.state';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -21,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   showModalReg = false;
 
-  @Select(AppState.isLoading)
+  @Select(FilterState.isLoading)
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;

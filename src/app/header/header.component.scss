@@ -157,12 +157,10 @@
 ::ng-deep .mat-menu-item{
   padding: 0px !important;
 }
-
 .progress-bar{
- position:  absolute;
- width: 100vw;
-}
-
+  position:  absolute;
+  width: 100vw;
+ }
 @media (max-width: 1024px) {
   .header {
     &_search {

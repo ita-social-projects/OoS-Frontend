@@ -42,6 +42,7 @@ export interface FilterStateModel {
   topWorkshops: Workshop[];
   withDisabilityOption:boolean;
   withoutDisabilityOption:boolean;
+  isLoading:boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -63,6 +64,7 @@ export interface FilterStateModel {
     topWorkshops: [],
     withDisabilityOption:false,
     withoutDisabilityOption:false,
+    isLoading:true,
   }
 })
 @Injectable()
@@ -76,6 +78,9 @@ export class FilterState {
 
   @Selector()
   static directions(state: FilterStateModel): Direction[] { return state.directions }
+
+  @Selector()
+  static isLoading(state: FilterStateModel): boolean {return state.isLoading}
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -147,6 +152,7 @@ export class FilterState {
 
   @Action(GetFilteredWorkshops)
   getFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
+    
     return this.appWorkshopsService
       .getFilteredWorkshops(payload)
       .subscribe((workshops: Workshop[]) => patchState({ filteredWorkshops: workshops }))
@@ -156,7 +162,7 @@ export class FilterState {
   getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
     return this.appWorkshopsService
       .getTopWorkshops()
-      .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops }))
+      .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops, isLoading: false }))
   }
   @Action(SetWithDisabilityOption)
   setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {

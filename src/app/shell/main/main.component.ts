@@ -8,7 +8,7 @@ import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop } from '../../shared/models/workshop.model';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { ToggleLoading } from 'src/app/shared/store/app.actions';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -17,7 +17,6 @@ import { ToggleLoading } from 'src/app/shared/store/app.actions';
 })
 
 export class MainComponent implements OnInit {
-
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<Workshop[]>;
   @Select(RegistrationState.isAuthorized)
@@ -26,14 +25,17 @@ export class MainComponent implements OnInit {
   directions$: Observable<Direction[]>;
 
   constructor(private store: Store) {
+    // this.topWorkshops$.subscribe((topWorkshops:Workshop[])=>
+    // {
+    // (topWorkshops.length) ? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true))});
    }
+   
 
   ngOnInit(): void {
     this.store.dispatch([
       new GetDirections(),
       new GetTopWorkshops(),
     ]);
-    this.topWorkshops$.subscribe((topWorkshops:Workshop[])=>
-    (topWorkshops.length || topWorkshops===undefined)? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true)));
+   
   }
 }
