@@ -92,6 +92,7 @@
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
+</ng-template>
 <ng-container *ngIf="(isLoading$ | async) then ProgressBar;"></ng-container>
 <ng-template #ProgressBar>
   <div class="progress-bar">
@@ -99,4 +100,3 @@
     </mat-progress-bar>
   </div>
 </ng-template> 
-</ng-template>
