@@ -3,14 +3,14 @@
 
     <div class="header_logo-wrapper">
       <div *ngIf="MobileView && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
-        <ng-template #mobileNav>
-          <app-navigation-mobile-bar></app-navigation-mobile-bar>
-        </ng-template>
-        <ng-template #logo>
-          <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
-        </ng-template>    
+      <ng-template #mobileNav>
+        <app-navigation-mobile-bar></app-navigation-mobile-bar>
+      </ng-template>
+      <ng-template #logo>
+        <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
+      </ng-template>
     </div>
-    
+
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>

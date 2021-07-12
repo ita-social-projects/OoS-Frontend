@@ -42,11 +42,11 @@ export class OnCreateWorkshopSuccess {
 }
 export class DeleteWorkshopById {
   static readonly type = '[user] delete Workshop';
-  constructor(public payload: number) { }
+  constructor(public payload: Workshop) { }
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';
-  constructor(public payload) { }
+  constructor(public payload: string) { }
 }
 export class OnDeleteWorkshopFail {
   static readonly type = '[user] delete Workshop fail';
