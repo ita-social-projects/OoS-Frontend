@@ -26,7 +26,6 @@ export class ApplicationsComponent implements OnInit {
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
   readonly Role = Role;
-  user: User;
 
   @Select(AppState.allWorkshops)
   workshops$: Observable<Workshop[]>;
@@ -49,12 +48,11 @@ export class ApplicationsComponent implements OnInit {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     this.store.dispatch(new GetWorkshops());
 
-    if (this.user.role === Role.provider) {
-      this.store.dispatch(new GetApplications());
-      this.activateChildInfoBox();
+    if (parent) {
+      this.store.dispatch(new GetChildrenByParentId(parent.id)); //TODO: Add GetApplicationByParentId
     } else {
-      // this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
-      this.store.dispatch(new GetChildrenByParentId(parent.id));
+      this.store.dispatch(new GetApplications());//TODO: Add GetApplicationByProviderId
+      this.activateChildInfoBox();
     }
 
     this.applications$.subscribe(applications =>
