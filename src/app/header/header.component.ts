@@ -8,6 +8,7 @@ import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
 import { NavigationState } from '../shared/store/navigation.state';
 import { Navigation } from '../shared/models/navigation.model';
+import { Role } from '../shared/enum/role';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -21,6 +22,7 @@ enum RoleLinks {
 })
 export class HeaderComponent implements OnInit {
 
+  Role = Role;
   showModalReg = false;
   MobileView: boolean = false;
 
