@@ -25,7 +25,7 @@ export class Child {
     this.middleName = info.middleName;
     this.dateOfBirth = info.dateOfBirth;
     this.gender = info.gender;
-    this.socialGroupId = info.socialGroupId;
+    this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
     this.parentId = parentId;
   }
 }
