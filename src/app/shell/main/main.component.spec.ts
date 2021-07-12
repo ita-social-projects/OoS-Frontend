@@ -9,7 +9,6 @@ import { Component, Input } from '@angular/core';
 import { Direction } from '../../shared/models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop } from '../../shared/models/workshop.model';
-import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -19,12 +18,9 @@ describe('MainComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatSnackBarModule,
-        NgxsModule.forRoot([
-          MatProgressBarModule
-        ]),
+        NgxsModule.forRoot([]),
         HttpClientTestingModule,
         RouterTestingModule,
-        MatProgressBarModule
       ],
       declarations: [
         MainComponent,

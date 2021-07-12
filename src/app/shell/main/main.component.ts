@@ -24,11 +24,7 @@ export class MainComponent implements OnInit {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
 
-  constructor(private store: Store) {
-    // this.topWorkshops$.subscribe((topWorkshops:Workshop[])=>
-    // {
-    // (topWorkshops.length) ? this.store.dispatch(new ToggleLoading(false)):this.store.dispatch(new ToggleLoading(true))});
-   }
+  constructor(private store: Store) {}
    
 
   ngOnInit(): void {
