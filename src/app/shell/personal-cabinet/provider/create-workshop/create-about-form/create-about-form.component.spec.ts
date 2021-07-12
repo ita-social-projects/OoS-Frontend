@@ -15,6 +15,7 @@ import { ImageFormControlComponent } from '../../../../../shared/components/imag
 import { WorkingHoursFormControlComponent } from '../../../../../shared/components/working-hours-form-control/working-hours-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { MatGridListModule } from "@angular/material/grid-list";
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -35,7 +36,8 @@ describe('CreateAboutFormComponent', () => {
         MatRadioModule,
         MatButtonToggleModule,
         MatIconModule,
-        MatSelectModule
+        MatSelectModule,
+        MatGridListModule
       ],
       declarations: [
         CreateAboutFormComponent,
