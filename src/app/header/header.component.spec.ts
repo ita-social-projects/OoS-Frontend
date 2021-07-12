@@ -1,3 +1,4 @@
+import { MaterialModule } from 'src/app/shared/material/material.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +11,7 @@ import { MockOidcSecurityService } from '../shared/mocks/mock-services';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -24,7 +26,8 @@ describe('HeaderComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientModule,
         RouterTestingModule,
-        MatMenuModule
+        MatMenuModule,
+        MatProgressBarModule
       ],
       declarations: [
         HeaderComponent,
