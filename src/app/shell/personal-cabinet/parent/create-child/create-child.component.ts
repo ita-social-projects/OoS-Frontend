@@ -83,10 +83,6 @@ export class CreateChildComponent implements OnInit {
       socialGroupId: new FormControl(''),
     });
 
-    childFormGroup.get('socialGroupId').valueChanges.subscribe((id: number) =>
-      (!id) && childFormGroup.get('socialGroupId').setValue(null)
-    );
-
     if (this.editMode) {
       childFormGroup.patchValue(child);
     }
@@ -114,7 +110,6 @@ export class CreateChildComponent implements OnInit {
   */
   onSubmit() {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-
     if (this.editMode) {
       let child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
       this.store.dispatch(new UpdateChild(child));
