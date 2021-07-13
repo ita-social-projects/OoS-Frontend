@@ -6,9 +6,11 @@ import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
+import { FilterState } from '../shared/store/filter.state';
 import { NavigationState } from '../shared/store/navigation.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
+
 
 enum RoleLinks {
   provider = 'організацію',
@@ -26,6 +28,8 @@ export class HeaderComponent implements OnInit {
   showModalReg = false;
   MobileView: boolean = false;
 
+  @Select(FilterState.isLoading)
+  isLoading$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)

@@ -8,6 +8,7 @@ import { takeWhile } from 'rxjs/operators';
 import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { User } from 'src/app/shared/models/user.model';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -65,12 +66,13 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   onSubmit() {
     const legalAddress = new Address(this.ActualAddressFormGroup.value);
     const actulaAdress = new Address(this.LegalAddressFormGroup.value);
+    const user = this.store.selectSnapshot<User>(RegistrationState.user);
 
     if (this.editMode) {
-      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, this.provider.id);
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider.id);
       this.store.dispatch(new UpdateProvider(provider));
     } else {
-      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value);
+      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
       this.store.dispatch(new CreateProvider(provider));
     }
 
