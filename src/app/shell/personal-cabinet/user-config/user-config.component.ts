@@ -24,8 +24,9 @@ export class UserConfigComponent implements OnInit {
     this.authServer = environment.stsServer;
   }
 
-  openDialogWindow():void{
-    const dialogRef = this.dialog.open(EditModalComponent);
+  openDialogWindow(link: string): void {
+    const dialogRef = this.dialog.open(EditModalComponent, { data: link }
+    );
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
