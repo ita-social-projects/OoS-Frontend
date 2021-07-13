@@ -1,6 +1,6 @@
-<mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
-  [ngClass]="(application.status === applicationStatus.approved) ? 'card-new' : ''">
-  <mat-card-content *ngIf="application" class="card-block" fxLayout='row' fxLayoutAlign='start center'>
+<mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
+  [ngClass]="(application.status === applicationStatus.pending) ? 'card card-new' : 'card'">
+  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <div class="avatar" *ngIf="userRole === Role.provider">
       <img mat-card-avatar #img src="assets/icons/child-{{application.child.gender}}.png" alt="child-photo"
         (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">

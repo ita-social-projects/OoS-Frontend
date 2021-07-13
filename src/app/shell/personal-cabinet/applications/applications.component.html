@@ -48,7 +48,7 @@
       <ng-template #ChildApplication>
         <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
         </ng-container>
       </ng-template>
 

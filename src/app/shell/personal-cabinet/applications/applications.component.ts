@@ -14,7 +14,7 @@ import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.servic
 import { GetWorkshops } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 @Component({
@@ -28,7 +28,7 @@ export class ApplicationsComponent implements OnInit {
   readonly applicationStatus = ApplicationStatus;
   readonly role = Role;
 
-  @Select(AppState.allWorkshops)
+  @Select(UserState.workshops)
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
@@ -55,9 +55,12 @@ export class ApplicationsComponent implements OnInit {
 
       this.store.dispatch(new GetChildrenByParentId(parent.id));
       this.store.dispatch(new GetApplicationsByParentId(parent.id));
+      this.store.dispatch(new GetWorkshopsByParentId()); //TODO: add parent id
+
     } else {
       const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
 
+      this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
       this.store.dispatch(new GetApplicationsByProviderId(provider.id));
       this.activateChildInfoBox();
     }
