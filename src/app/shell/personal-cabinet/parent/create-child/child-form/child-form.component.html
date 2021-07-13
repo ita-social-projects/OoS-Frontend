@@ -29,7 +29,8 @@
 
   <label class="step-label">Соціальна група<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" required placeholder="Соціальна група" formControlName="socialGroupId">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" required
+      placeholder="Соціальна група" formControlName="socialGroupId">
       <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
       <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
         {{group.name}}

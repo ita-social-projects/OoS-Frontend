@@ -24,7 +24,7 @@ import {
   DeleteChildById,
   DeleteWorkshopById,
   GetApplicationsByUserId,
-  GetChildren,
+  GetChildrenByParentId,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
@@ -145,13 +145,13 @@ export class UserState {
         }));
   }
 
-  @Action(GetChildren)
-  getChildren({ patchState }: StateContext<UserStateModel>, { }: GetChildren) {
+  @Action(GetChildrenByParentId)
+  getChildrenByParentId({ patchState }: StateContext<UserStateModel>, { payload }: GetChildrenByParentId) {
     return this.childrenService
-      .getChildren()
+      .getChildrenByParentId(payload)
       .pipe(
         tap(
-          (userChildren: Child[]) => patchState({ children: userChildren })
+          (children: Child[]) => patchState({ children: children })
         ))
   }
 
@@ -295,7 +295,6 @@ export class UserState {
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
     dispatch(new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }));
-    dispatch(new GetChildren());
   }
 
   @Action(UpdateWorkshop)

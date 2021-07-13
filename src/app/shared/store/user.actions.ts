@@ -24,9 +24,9 @@ export class GetApplications {
   static readonly type = '[user] get Applications';
   constructor() { }
 }
-export class GetChildren {
-  static readonly type = '[user] get Children';
-  constructor() { }
+export class GetChildrenByParentId {
+  static readonly type = '[user] get Children by Parent Id';
+  constructor(public payload: number) { }
 }
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';

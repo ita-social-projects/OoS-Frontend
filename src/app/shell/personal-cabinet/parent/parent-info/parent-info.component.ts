@@ -4,7 +4,9 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Child } from 'src/app/shared/models/child.model';
-import { DeleteChildById, GetChildren } from 'src/app/shared/store/user.actions';
+import { Parent } from 'src/app/shared/models/parent.model';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { DeleteChildById, GetChildrenByParentId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 
@@ -20,7 +22,9 @@ export class ParentInfoComponent implements OnInit {
   constructor(private store: Store, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetChildren());
+    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+
+    this.store.dispatch(new GetChildrenByParentId(parent.id));
   }
 
   onDelete(childId: number): void {

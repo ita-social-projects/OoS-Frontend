@@ -59,14 +59,6 @@ export class CreateChildComponent implements OnInit {
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }
-
-    this.ChildrenFormArray.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
-      });
   }
 
   /**
@@ -83,13 +75,15 @@ export class CreateChildComponent implements OnInit {
       socialGroupId: new FormControl(''),
     });
 
-    childFormGroup.get('socialGroupId').valueChanges.subscribe((id: number) =>
-      (!id) && childFormGroup.get('socialGroupId').setValue(null)
-    );
+    childFormGroup.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
 
-    if (this.editMode) {
-      childFormGroup.patchValue(child);
-    }
+    this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
 
     return childFormGroup;
   }
@@ -114,7 +108,6 @@ export class CreateChildComponent implements OnInit {
   */
   onSubmit() {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-
     if (this.editMode) {
       let child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
       this.store.dispatch(new UpdateChild(child));
