@@ -32,12 +32,11 @@ export class ApplicationsComponent implements OnInit {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  applications: Application[];
-  workshopList: Workshop[];
-  user: User;
-
   @Select(UserState.children)
   children$: Observable<Child[]>;
+
+  workshopList: Workshop[];
+  user: User;
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -62,11 +61,6 @@ export class ApplicationsComponent implements OnInit {
       this.store.dispatch(new GetApplicationsByProviderId(provider.id));
       this.activateChildInfoBox();
     }
-
-    this.applications$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((applications: Application[]) => this.applications = applications);
   }
 
   /**
@@ -91,8 +85,7 @@ export class ApplicationsComponent implements OnInit {
   * @param Application event
   */
   onApprove(event: Application): void {
-    const application = this.applications.find((application) => (application === event));
-    application.status = this.applicationStatus.approved;
+    console.log(event) //TODO: add functionality of approving the application
   }
 
   /**
@@ -100,8 +93,7 @@ export class ApplicationsComponent implements OnInit {
   * @param Application event
   */
   onReject(event: Application): void {
-    const application = this.applications.find((application) => (application === event))
-    application.status = this.applicationStatus.rejected;
+    console.log(event) //TODO: add functionality of rejecting the application
   }
 
   /**
