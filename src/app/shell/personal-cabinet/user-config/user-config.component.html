@@ -17,9 +17,7 @@
   <div class="config">
     <h4>Емейл</h4>
     <p style="margin-bottom: 0;">{{user.email}}</p>
-    <a class="link" href="{{authServer}}/Account/ChangeEmail">
-      <p>Змінити емейл</p>
-    </a>
+    <p class="link" (click)="openDialogWindow()">Змінити емейл</p>
     <h4>Пароль<span class="important">*</span></h4>
     <a class="link" href="{{authServer}}/Account/ChangePassword">
       <p>Змінити емейл</p>
