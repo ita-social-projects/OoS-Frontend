@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('UserConfigComponent', () => {
   let component: UserConfigComponent;
@@ -15,13 +16,14 @@ describe('UserConfigComponent', () => {
         NgxsModule.forRoot([]),
         MatCardModule,
         MatIconModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDialogModule,
       ],
       declarations: [
         UserConfigComponent
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
