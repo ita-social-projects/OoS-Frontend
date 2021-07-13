@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { FilterState } from '../shared/store/filter.state';
 import { NavigationState } from '../shared/store/navigation.state';
 import { Navigation } from '../shared/models/navigation.model';
+import { Role } from '../shared/enum/role';
 
 
 enum RoleLinks {
@@ -23,6 +24,7 @@ enum RoleLinks {
 })
 export class HeaderComponent implements OnInit {
 
+  Role = Role;
   showModalReg = false;
   MobileView: boolean = false;
 

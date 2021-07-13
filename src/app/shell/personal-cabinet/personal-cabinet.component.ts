@@ -22,7 +22,8 @@ export class PersonalCabinetComponent implements OnInit,OnDestroy {
 
   roles = RoleLinks;
   userRole: string;
-
+  Role = Role;
+  
   constructor(
     private store: Store,
     public navigationBarService: NavigationBarService,
