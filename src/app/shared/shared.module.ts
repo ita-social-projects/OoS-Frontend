@@ -34,6 +34,9 @@ import { ConfirmationModalWindowComponent } from './components/confirmation-moda
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
+import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
+import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
+import { MessageBarComponent } from './components/message-bar/message-bar.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +68,9 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
+    NavigationMobileBarComponent,
+    FullSearchBarComponent,
+    MessageBarComponent,
   ],
   imports: [
     MaterialModule,
@@ -102,8 +108,11 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
     NavigationBarComponent,
+    NavigationMobileBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
+    FullSearchBarComponent,
+    MessageBarComponent
   ]
 })
 export class SharedModule { }

@@ -30,8 +30,6 @@ export class CreateChildComponent implements OnInit {
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
-  @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(AppState.isDirtyForm)
@@ -90,10 +88,6 @@ export class CreateChildComponent implements OnInit {
       socialGroupId: new FormControl(''),
     });
 
-    childFormGroup.get('socialGroupId').valueChanges.subscribe((id: number) =>
-      (!id) && childFormGroup.get('socialGroupId').setValue(null)
-    );
-
     if (this.editMode) {
       childFormGroup.patchValue(child);
     }
@@ -120,12 +114,13 @@ export class CreateChildComponent implements OnInit {
   * This method create or edit Child and distpatch CreateChild action
   */
   onSubmit() {
+    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
-      let child: Child = new Child(this.ChildrenFormArray.controls[0].value, this.child.id);
+      let child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
       this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-        let child: Child = new Child(form.value);
+        let child: Child = new Child(form.value, parent.id);
         this.store.dispatch(new CreateChildren(child));
       })
     }

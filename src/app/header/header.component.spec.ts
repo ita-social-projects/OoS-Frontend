@@ -30,8 +30,8 @@ describe('HeaderComponent', () => {
       ],
       declarations: [
         HeaderComponent,
-        MockCityFilterComponent,
-        MockSearchBarComponent
+        MockSearchBarComponent,
+        MockNavigationMobileBarComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
@@ -52,14 +52,14 @@ describe('HeaderComponent', () => {
 });
 
 @Component({
-  selector: 'app-city-filter',
-  template: ''
-})
-class MockCityFilterComponent {
-}
-@Component({
-  selector: 'app-searchbar',
+  selector: 'app-full-search-bar',
   template: ''
 })
 class MockSearchBarComponent {
 }
+
+@Component({
+  selector: 'app-navigation-mobile-bar',
+  template: ''
+})
+class MockNavigationMobileBarComponent{}

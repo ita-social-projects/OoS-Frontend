@@ -1,3 +1,5 @@
+@import "src/app/shared/styles/toggle-button.scss";
+
 .view-control-panel {
   margin-top: 1.5rem;
   margin-bottom: 1.0625rem;
@@ -24,44 +26,13 @@
     background: #FFFFFF;
   }
 }
-.shell-search {
-  background: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 50%;
-  height: 34px;
-  gap: 15px;
-  border-radius: 60px;
-  padding: 0 20px;
-  .shell-searchbar {
-    flex-grow: 1;
-    width: 70%;
-  }
-  .shell-city {
-    border-right: 1px solid #E3E3E3;
-    width: 30%;
-  }
-}
 .mat-button-toggle-group {
-  height: 30px;
-  align-items: center;
-  background: #FFFFFF;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  font-weight: bold;
-    .mat-button-toggle{
-      height: 100%;
-      min-width:100px;
-      .mat-button-toggle-checked{
-      background: rgba(56, 73, 249, 0.07);
-      border: 1px solid #3849F9;
-      box-sizing: border-box;
-      border-radius: 20px;
-    }
+  height: 2rem;
+  .mat-button-toggle{
+    height: 100%;
+    min-width:100px;
   }
 }
-
 .mat-drawer-container {
   min-height: 600px;
   background-color: inherit;

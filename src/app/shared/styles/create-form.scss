@@ -1,4 +1,7 @@
 .step{
+  max-width: 28.5vw;
+  min-width: 410px;
+  margin: 0 90px;
   &-radio{
     margin: 1rem;
   }
@@ -97,13 +100,6 @@ button:focus {
 ::ng-deep .mat-form-field-infix {
   border: none;
 }
-::ng-deep .mat-button-toggle-group{
-  border-radius: 20px !important;
-}
-::ng-deep.mat-button-toggle-checked{
-  color: #3849F9 !important;
-  border: 2px solid blue;
-}
 ::ng-deep .mat-radio-label-content{
   padding: 0.8rem;
 }
@@ -150,4 +146,29 @@ button:focus {
   font-weight: normal;
   font-size: 13px;
   color: #333333;
+}
+.step-name__xs{
+  display: none;
+  font-family: Open Sans;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #3849F9;
+}
+@media only screen and (max-width: 650px) {
+  .step{
+    max-width: 65vw;
+    margin:0 0 0 45px;
+  }
+  .step-name__xs{
+    display: flex;
+    justify-content: center;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .step{
+    max-width: 85vw;
+    min-width: 80vw;
+    margin:0;
+  }
 }

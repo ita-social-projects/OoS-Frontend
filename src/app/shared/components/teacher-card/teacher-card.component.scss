@@ -1,7 +1,7 @@
 @import "src/app/shared/styles/cards.scss";
 
 mat-card {
-  height: 370px;
+  min-height: 370px;
   width: 300px;
 
   .mat-card-image {

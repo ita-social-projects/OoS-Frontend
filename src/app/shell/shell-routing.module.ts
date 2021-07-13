@@ -14,10 +14,12 @@ import { CreateApplicationComponent } from './personal-cabinet/parent/create-app
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 import { UserConfigEditComponent } from './personal-cabinet/user-config/user-config-edit/user-config-edit.component';
 import { CreateGuard } from './personal-cabinet/create.guard';
+import { AllCategoriesComponent } from './all-categories/all-categories.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'result', component: ResultComponent },
+  { path: 'all-categories', component: AllCategoriesComponent },
   {
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
