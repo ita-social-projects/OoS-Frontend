@@ -1,7 +1,7 @@
 <div class="container" *ngIf="(applications$ | async)?.length then isApplications; else isEmptyList"></div>
 
 <ng-template #isApplications>
-  <div class="container" *ngIf="(user.role === Role.provider) then isProvider; else isParent"></div>
+  <div class="container" *ngIf="(user.role === role.provider) then isProvider; else isParent"></div>
 </ng-template>
 
 <ng-template #isProvider>

@@ -1,19 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { GetWorkshops } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplications, GetApplicationsByUserId, GetChildrenByParentId } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 @Component({
@@ -25,7 +26,7 @@ export class ApplicationsComponent implements OnInit {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
-  readonly Role = Role;
+  readonly role = Role;
 
   @Select(AppState.allWorkshops)
   workshops$: Observable<Workshop[]>;
@@ -33,6 +34,7 @@ export class ApplicationsComponent implements OnInit {
   applications$: Observable<Application[]>;
   applications: Application[];
   workshopList: Workshop[];
+  user: User;
 
   @Select(UserState.children)
   children$: Observable<Child[]>;
@@ -45,13 +47,19 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
+
     this.store.dispatch(new GetWorkshops());
 
-    if (parent) {
-      this.store.dispatch(new GetChildrenByParentId(parent.id)); //TODO: Add GetApplicationByParentId
+    if (this.user.role === Role.parent) {
+      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+
+      this.store.dispatch(new GetChildrenByParentId(parent.id));
+      this.store.dispatch(new GetApplicationsByParentId(parent.id));
     } else {
-      this.store.dispatch(new GetApplications());//TODO: Add GetApplicationByProviderId
+      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+
+      this.store.dispatch(new GetApplicationsByProviderId(provider.id));
       this.activateChildInfoBox();
     }
 
