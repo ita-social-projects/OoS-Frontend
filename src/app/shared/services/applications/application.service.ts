@@ -15,7 +15,7 @@ export class ApplicationService {
   }
 
   /**
- * This method get applications by User id
+ * This method get applications by Parent id
  * @param id
  */
   getApplicationsByParentId(id: number): Observable<Application[]> {
