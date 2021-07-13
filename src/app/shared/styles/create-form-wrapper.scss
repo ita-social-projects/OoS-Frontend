@@ -65,3 +65,9 @@
     cursor: pointer;
   }
 }
+
+::ng-deep .mat-checkbox.step-check-box {
+  label.mat-checkbox-layout {
+    white-space: normal;
+  }
+}

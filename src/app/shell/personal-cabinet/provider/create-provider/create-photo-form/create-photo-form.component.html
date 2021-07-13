@@ -2,6 +2,10 @@
   <app-image-form-control [imgMaxAmount]="4" [label]="'Фото'" formControlName="image">
   </app-image-form-control>
   <label class="step-label"> Опис <span class="step-required">*</span></label>
-  
-  
+  <mat-form-field>
+    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
+      required></textarea>
+  </mat-form-field>
+
+
 </form>
