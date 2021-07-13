@@ -1,14 +1,14 @@
 .container{
   width: 100%;
 }
-:host ::ng-deep .mat-tab-label-active {
+::ng-deep .mat-tab-label-active {
   background: rgba(56, 73, 249, 0.07);
   border: 2px solid #3849F9;
   box-sizing: border-box;
   border-radius: 20px;
 }
 ::ng-deep .mat-tab-header {
-    border: none;
+  border: none;
 }
 ::ng-deep .mat-ink-bar{
   display: none;

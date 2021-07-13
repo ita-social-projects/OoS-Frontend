@@ -63,9 +63,10 @@ export class ApplicationsComponent implements OnInit {
       this.activateChildInfoBox();
     }
 
-    this.applications$.subscribe(applications =>
-      this.applications = applications
-    );
+    this.applications$
+      .pipe(
+        takeUntil(this.destroy$)
+      ).subscribe((applications: Application[]) => this.applications = applications);
   }
 
   /**
