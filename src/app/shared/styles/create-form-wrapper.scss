@@ -66,11 +66,23 @@
   }
 }
 
-::ng-deep .mat-checkbox.step-check-box {
-  label.mat-checkbox-layout {
-    white-space: normal;
-  }
+.wrapper-check-box {
+  margin:0 auto;
 }
+
+::ng-deep .mat-checkbox-label {
+    white-space: normal;
+}
+
+::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+  font-family: unset !important;
+  }
+
+
+.link {
+  font-weight: bold !important;
+}
+
 @media only screen and (max-width: 650px) {
   .wrapper{
     max-width: 100%;
