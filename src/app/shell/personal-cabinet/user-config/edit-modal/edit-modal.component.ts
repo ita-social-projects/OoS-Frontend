@@ -18,8 +18,6 @@ export class EditModalComponent implements OnInit {
   ngOnInit(): void {
     this.authServer = environment.stsServer;
     this.link = this.sanitizer.bypassSecurityTrustResourceUrl(this.authServer + this.data);
-
-    console.log(this.link)
   }
 
 }
