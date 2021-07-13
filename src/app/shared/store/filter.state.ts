@@ -161,6 +161,7 @@ export class FilterState {
   @Action(GetTopWorkshops)
   getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
     patchState({isLoading:true})
+    
     return this.appWorkshopsService
       .getTopWorkshops()
       .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops, isLoading: false }))
