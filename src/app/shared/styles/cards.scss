@@ -92,16 +92,17 @@
 .chip_denied{
   background: red;
 }
-::ng-deep .mat-card{
+.mat-card{
+  max-width: 300px !important;
   padding:0 !important;
 }
-::ng-deep .mat-card-content,
-::ng-deep .mat-card-footer{
+.mat-card-content,
+.mat-card-footer{
   margin: 0 1rem !important;
 }
-::ng-deep .mat-card-header{
+.mat-card-header{
   margin:0 1rem !important;
 }
-::ng-deep .mat-card-image{
+.mat-card-image{
   margin-bottom:0 !important;
 }
