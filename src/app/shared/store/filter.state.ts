@@ -40,9 +40,9 @@ export interface FilterStateModel {
   order: string;
   filteredWorkshops: Workshop[];
   topWorkshops: Workshop[];
-  withDisabilityOption:boolean;
-  withoutDisabilityOption:boolean;
-  isLoading:boolean;
+  withDisabilityOption: boolean;
+  withoutDisabilityOption: boolean;
+  isLoading: boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -63,8 +63,8 @@ export interface FilterStateModel {
     filteredWorkshops: [],
     topWorkshops: [],
     withDisabilityOption:false,
-    withoutDisabilityOption:false,
-    isLoading:true,
+    withoutDisabilityOption: false,
+    isLoading: false,
   }
 })
 @Injectable()
@@ -160,6 +160,7 @@ export class FilterState {
 
   @Action(GetTopWorkshops)
   getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
+    patchState({isLoading:true})
     return this.appWorkshopsService
       .getTopWorkshops()
       .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops, isLoading: false }))
