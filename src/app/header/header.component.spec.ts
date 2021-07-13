@@ -10,7 +10,7 @@ import { MockOidcSecurityService } from '../shared/mocks/mock-services';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -25,8 +25,8 @@ describe('HeaderComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientModule,
         RouterTestingModule,
-        MatProgressSpinnerModule,
-        MatMenuModule
+        MatMenuModule,
+        MatProgressBarModule
       ],
       declarations: [
         HeaderComponent,

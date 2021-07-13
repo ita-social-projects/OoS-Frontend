@@ -1,6 +1,5 @@
 <div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
   <div class="header_top">
-
     <div class="header_logo-wrapper">
       <div *ngIf="MobileView && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
       <ng-template #mobileNav>
@@ -10,7 +9,6 @@
         <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
       </ng-template>
     </div>
-
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
@@ -95,3 +93,8 @@
     </mat-menu>
   </div>
 </ng-template>
+  <div *ngIf="isLoading$ | async" class="progress-bar">
+    <mat-progress-bar  mode="indeterminate">
+    </mat-progress-bar>
+  </div>
+

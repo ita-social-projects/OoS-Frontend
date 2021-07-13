@@ -36,6 +36,7 @@ import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbo
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 
 @NgModule({
@@ -80,6 +81,7 @@ import { MessageBarComponent } from './components/message-bar/message-bar.compon
     RouterModule,
     FormsModule,
     NgxSliderModule,
+    MatProgressBarModule
   ],
   exports: [
     FiltersListComponent,
@@ -112,7 +114,8 @@ import { MessageBarComponent } from './components/message-bar/message-bar.compon
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
     FullSearchBarComponent,
-    MessageBarComponent
+    MessageBarComponent,
+    MatProgressBarModule
   ]
 })
 export class SharedModule { }

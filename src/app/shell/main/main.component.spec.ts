@@ -20,7 +20,7 @@ describe('MainComponent', () => {
         MatSnackBarModule,
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       declarations: [
         MainComponent,
