@@ -21,11 +21,9 @@
   <p> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
   <label class="card-label">Соціальна група</label>
   <p> {{ card.socialGroupId === 0 ? 'Відстуня' : "Присутня" }} </p>
-
 </ng-template>
 
 <ng-template #ParentView>
-
   <div class="card-edit">
     <label class="card-label">ПІБ</label>
     <a class="edit" routerLink="/personal-cabinet/config/edit">
@@ -37,7 +35,6 @@
   <p> {{ card.phoneNumber }} </p>
   <label class="card-label">Емейл</label>
   <p> {{ card.email}} </p>
-
 </ng-template>
 
 <ng-template #UserView>
