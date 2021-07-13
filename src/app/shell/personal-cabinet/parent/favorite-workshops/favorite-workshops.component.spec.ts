@@ -18,7 +18,7 @@ describe('FavoriteWorkshopsComponent', () => {
       ],
       declarations: [ 
         FavoriteWorkshopsComponent,
-        MockWorkshopCardComponent,
+        MockWorkshopCardComponent
       ]
     })
     .compileComponents();
@@ -36,7 +36,6 @@ describe('FavoriteWorkshopsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
 @Component({
   selector: 'app-workshop-card',
   template: ''

@@ -1,7 +1,7 @@
 <div class="wrapper-card">
   <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="10px grid">
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-      [isMainPage]="true" [userRole]="userRole">
+      [isMainPage]="true">
     </app-workshop-card>
   </div>
 </div>
