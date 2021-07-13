@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { EditModalComponent } from './edit-modal.component';
 
@@ -12,7 +12,10 @@ describe('EditModalComponent', () => {
       imports: [
         MatDialogModule,
       ],
-      declarations: [EditModalComponent]
+      declarations: [EditModalComponent],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ]
     })
       .compileComponents();
   });
