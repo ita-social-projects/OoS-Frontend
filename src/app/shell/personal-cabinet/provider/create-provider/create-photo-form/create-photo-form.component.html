@@ -3,7 +3,10 @@
   </app-image-form-control>
   <label class="step-label"> Опис <span class="step-required">*</span></label>
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"
-      required></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched" 
+  ></app-validation-hint-for-input>
 </form>

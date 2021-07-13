@@ -25,10 +25,10 @@ export class CreateInfoFormComponent implements OnInit {
     this.InfoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', Validators.required),
       shortTitle: new FormControl('', Validators.required),
-      edrpouIpn: new FormControl('', Validators.required),
+      edrpouIpn: new FormControl('', [Validators.required, Validators.minLength(8)]),
       director: new FormControl('', Validators.required),
       directorBirthDay: new FormControl('', Validators.required),
-      phoneNumber: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.minLength(9)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(10)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       website: new FormControl(''),
       facebook: new FormControl(''),
@@ -38,9 +38,14 @@ export class CreateInfoFormComponent implements OnInit {
       ownership: new FormControl(0, Validators.required),
     });
   }
+  // debugger
+  chooseLabel() {
+    console.log(this.InfoFormGroup.get('type'))
+  }
 
   ngOnInit(): void {
     this.passInfoFormGroup.emit(this.InfoFormGroup);
+    // console.log(this.InfoFormGroup.get('type'))
   }
 
 }

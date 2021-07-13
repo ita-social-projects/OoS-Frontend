@@ -7,15 +7,21 @@
 
       <label class="step-label"> Прізвище <span class="step-required">*</span></label>
       <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="lastName" required>
+        <input matInput class="step-input" type="text" formControlName="lastName">
       </mat-form-field>
-      <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched" ></app-validation-hint-for-input> -->
+      <app-validation-hint-for-input 
+        type = "requiredField" 
+        [invalid] = "userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched" 
+      ></app-validation-hint-for-input>
 
       <label class="step-label"> Ім'я <span class="step-required">*</span></label>
       <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="firstName" required>
+        <input matInput class="step-input" type="text" formControlName="firstName">
       </mat-form-field>
-      <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched" ></app-validation-hint-for-input> -->
+      <app-validation-hint-for-input 
+        type = "requiredField" 
+        [invalid] = "userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched" 
+      ></app-validation-hint-for-input>
 
       <label class="step-label"> По-батькові </label>
       <mat-form-field>
@@ -29,20 +35,34 @@
         </mat-form-field>
         <mat-form-field class="phone_number">
           <input matInput class="step-input" type="text" formControlName="phoneNumber" maxlength="10">
-          <!-- <mat-error *ngIf="userEditFormGroup.get('phoneNumber').hasError('required')">
-            Телефон є обов'язковим
-          </mat-error> -->
         </mat-form-field>
       </div>
-      <!-- <app-validation-hint-for-input type = "requiredField" [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched" ></app-validation-hint-for-input> -->
+      <app-validation-hint-for-input 
+        type = "requiredEmptyField"
+        [isEmptyCheck] = "userEditFormGroup.get('phoneNumber').errors?.required"
+        [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched" 
+      ></app-validation-hint-for-input>
+      <app-validation-hint-for-input 
+        type = "minDigitsLength"
+        [minLength] = "userEditFormGroup.get('phoneNumber').errors?.minlength"
+        [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
+        [minCharachters] = "userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength"
+      ></app-validation-hint-for-input>
 
       <label class="step-label"> Емейл <span class="step-required">*</span></label>
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="email">
-        <mat-error *ngIf="userEditFormGroup.get('email').hasError('required')">
-          Емейл є обов'язковим
-        </mat-error>
       </mat-form-field>
+      <app-validation-hint-for-input 
+        type = "requiredEmptyField" 
+        [isEmptyCheck] = "userEditFormGroup.get('email').errors?.required"
+        [invalid] = "userEditFormGroup.get('email').invalid && userEditFormGroup.get('email').touched" 
+      ></app-validation-hint-for-input>
+      <app-validation-hint-for-input 
+        type = "validEmail" 
+        [isEmailCheck] = "userEditFormGroup.get('email').errors?.email"
+        [invalid] = "userEditFormGroup.get('email').invalid && userEditFormGroup.get('email').touched" 
+      ></app-validation-hint-for-input>
 
       <ng-container formGroupName="passwords">
         <label class="step-label"> Пароль </label>
@@ -51,9 +71,17 @@
           <mat-icon matSuffix (click)="hidePassword = !hidePassword">
             {{ hidePassword ? 'visibility_off' : 'visibility' }}
           </mat-icon>
-          <mat-error *ngIf="userEditFormGroup.get('passwords.password').hasError('minlength')">
-            Пароль має містити мінімум 6 символів
-          </mat-error>
+          <app-validation-hint-for-input 
+            type = "requiredEmptyField" 
+            [isEmptyCheck] = "userEditFormGroup.get('passwords.password').errors?.required"
+            [invalid] = "userEditFormGroup.get('passwords.password').invalid && userEditFormGroup.get('passwords.password').touched" 
+          ></app-validation-hint-for-input>
+          <app-validation-hint-for-input 
+            type = "minValueLength"
+            [minLength] = "userEditFormGroup.get('passwords.password').errors?.minlength"
+            [invalid] = "userEditFormGroup.get('passwords.password').invalid && userEditFormGroup.get('passwords.password').touched"
+            [minCharachters] = "userEditFormGroup.get('passwords.password').errors?.minlength?.requiredLength"
+          ></app-validation-hint-for-input>
         </mat-form-field>
 
         <label class="step-label"> Повторити пароль </label>
@@ -62,9 +90,6 @@
           <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
             {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
           </mat-icon>
-          <mat-error>
-            Пароль має містити мінімум 6 символів
-          </mat-error>
         </mat-form-field>
       </ng-container>
 

@@ -34,14 +34,14 @@ export class UserConfigEditComponent implements OnInit {
   public ngOnInit(): void {
     this.user$.subscribe((user: User) => {
       this.userEditFormGroup = this.fb.group({
-        lastName: new FormControl(user.lastName, [Validators.required]),
-        firstName: new FormControl(user.firstName, [Validators.required]),
+        lastName: new FormControl(user.lastName, Validators.required),
+        firstName: new FormControl(user.firstName, Validators.required),
         middleName: new FormControl(user.middleName),
-        phoneNumber: new FormControl(user.phoneNumber, [Validators.required]),
+        phoneNumber: new FormControl(user.phoneNumber, [Validators.required, Validators.minLength(10)]),
         email: new FormControl(user.email, [Validators.required, Validators.email]),
         passwords: new FormGroup({
-          password: new FormControl('', [Validators.minLength(6)]),
-          confirmPassword: new FormControl('')
+          password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+          confirmPassword: new FormControl('',)
         })
       });
     });

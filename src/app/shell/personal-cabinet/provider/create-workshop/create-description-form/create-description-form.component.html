@@ -10,12 +10,21 @@
 
   <mat-form-field>
     <textarea matInput class="step-textarea" placeholder="Максимум {{this.descriptionMaxLength}} символів" formControlName="description"
-      maxlength="{{this.descriptionMaxLength}}" required></textarea>
+      maxlength="{{this.descriptionMaxLength}}"></textarea>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "DescriptionFormGroup.get('buildingNumber').invalid && DescriptionFormGroup.get('buildingNumber').touched" 
+  ></app-validation-hint-for-input>
+  
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" placeholder="П.І.Б." formControlName="head" required>
+    <input matInput class="step-input" placeholder="П.І.Б." formControlName="head">
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "DescriptionFormGroup.get('buildingNumber').invalid && DescriptionFormGroup.get('buildingNumber').touched" 
+  ></app-validation-hint-for-input>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
   <mat-form-field>

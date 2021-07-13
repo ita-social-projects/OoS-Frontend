@@ -11,6 +11,10 @@ export class ValidationHintForInputComponent {
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number;
+  
+  
  
   constructor () { 
 
