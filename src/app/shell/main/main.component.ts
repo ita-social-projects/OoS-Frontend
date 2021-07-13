@@ -8,6 +8,7 @@ import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop } from '../../shared/models/workshop.model';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -16,7 +17,6 @@ import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 })
 
 export class MainComponent implements OnInit {
-
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<Workshop[]>;
   @Select(RegistrationState.isAuthorized)
@@ -24,12 +24,14 @@ export class MainComponent implements OnInit {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
+   
 
   ngOnInit(): void {
     this.store.dispatch([
       new GetDirections(),
       new GetTopWorkshops(),
     ]);
+   
   }
 }
