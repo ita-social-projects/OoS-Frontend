@@ -17,7 +17,7 @@ import { CreateGuard } from './personal-cabinet/create.guard';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
 
 const routes: Routes = [
-  { path: '/', component: MainComponent },
+  { path: '', component: MainComponent },
   { path: 'result', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   {
