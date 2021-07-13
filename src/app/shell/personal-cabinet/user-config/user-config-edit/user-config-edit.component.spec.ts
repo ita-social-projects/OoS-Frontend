@@ -22,7 +22,7 @@ describe('UserConfigEditComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        MatDialogModule
+        MatDialogModule,
       ],
       declarations: [UserConfigEditComponent]
     })
