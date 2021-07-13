@@ -18,7 +18,6 @@ describe('PersonCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatIconModule,
-        MatCardModule,
         ReactiveFormsModule,
         FormsModule,
         MatFormFieldModule,
