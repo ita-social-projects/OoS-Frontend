@@ -114,7 +114,8 @@ import { MessageBarComponent } from './components/message-bar/message-bar.compon
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
     FullSearchBarComponent,
-    MessageBarComponent
+    MessageBarComponent,
+    MatProgressBarModule
   ]
 })
 export class SharedModule { }
