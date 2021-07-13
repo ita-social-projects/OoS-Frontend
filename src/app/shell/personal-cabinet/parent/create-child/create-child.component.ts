@@ -59,14 +59,6 @@ export class CreateChildComponent implements OnInit {
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }
-
-    this.ChildrenFormArray.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
-      });
   }
 
   /**
@@ -83,9 +75,15 @@ export class CreateChildComponent implements OnInit {
       socialGroupId: new FormControl(''),
     });
 
-    if (this.editMode) {
-      childFormGroup.patchValue(child);
-    }
+    childFormGroup.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
+
+    this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
 
     return childFormGroup;
   }
