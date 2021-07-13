@@ -26,7 +26,7 @@ export class CreateChildComponent implements OnInit {
   AgreementFormControl = new FormControl(false);
   editMode: boolean = false;
   child: Child;
-  isAgreed: boolean;
+  isAgreed: boolean = false;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -52,8 +52,11 @@ export class CreateChildComponent implements OnInit {
         }
       });
     const childId = +this.route.snapshot.paramMap.get('id');
+   
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+
     this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
-    
+
     if (childId) {
       this.editMode = true;
       this.childrenService.getChildById(childId).subscribe((child: Child) => {

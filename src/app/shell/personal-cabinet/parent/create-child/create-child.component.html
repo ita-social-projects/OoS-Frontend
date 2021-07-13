@@ -16,7 +16,7 @@
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
 
-      <div *ngIf="!isAgreed" fxLayout='column' fxLayoutAlign='center center' class="wrapper-check-box">
+      <div *ngIf="!editMode"  fxLayout='column' fxLayoutAlign='center center' class="wrapper-check-box">
         <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"> Додаючи дані про дитину я погоджуюсь з <a class="link">Правилами користування </a>
           та надаю згоду на обробку персональних даних
         </mat-checkbox>
