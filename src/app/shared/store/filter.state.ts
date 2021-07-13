@@ -62,7 +62,7 @@ export interface FilterStateModel {
     order: '',
     filteredWorkshops: [],
     topWorkshops: [],
-    withDisabilityOption:false,
+    withDisabilityOption: false,
     withoutDisabilityOption: false,
     isLoading: false,
   }
@@ -160,8 +160,7 @@ export class FilterState {
 
   @Action(GetTopWorkshops)
   getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
-    patchState({isLoading:true})
-    
+    patchState({isLoading:true});   
     return this.appWorkshopsService
       .getTopWorkshops()
       .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops, isLoading: false }))
