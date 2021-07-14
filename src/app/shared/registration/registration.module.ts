@@ -13,7 +13,7 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
     oidcConfigService.withConfig({
       useRefreshToken: true,
       silentRenew: true,
-      silentRenewTimeoutInSeconds: 2000,
+      silentRenewTimeoutInSeconds: 300,
       clientId: 'angular',
       stsServer: environment.stsServer,
       responseType: 'code',
