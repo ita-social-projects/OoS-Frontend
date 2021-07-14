@@ -47,11 +47,7 @@ export class ApplicationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.store.selectSnapshot<User>(RegistrationState.user);
-
-    this.store.dispatch(new GetWorkshops());
     this.getApplication();
-
-
   }
 
   /**
@@ -97,14 +93,12 @@ export class ApplicationsComponent implements OnInit {
 
     if (this.user.role === Role.parent) {
       const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-
       this.store.dispatch(new GetChildrenByParentId(parent.id));
       this.store.dispatch(new GetApplicationsByParentId(parent.id));
       this.store.dispatch(new GetWorkshopsByParentId()); //TODO: add parent id
 
     } else {
       const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
       this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
       this.store.dispatch(new GetApplicationsByProviderId(provider.id));
       this.activateChildInfoBox();
