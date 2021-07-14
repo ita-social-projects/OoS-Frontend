@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
@@ -29,6 +30,7 @@ export class WorkshopsComponent implements OnInit {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   workshops: Workshop[];
   children: Child[];
@@ -59,10 +61,16 @@ export class WorkshopsComponent implements OnInit {
     if (this.userRole === Role.provider) {
       this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
       this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+      this.workshops$.pipe(takeUntil(this.destroy$)).subscribe((workshops: Workshop[]) => this.workshops = workshops);
     } else {
       this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
       this.store.dispatch(new GetApplicationsByParentId(this.id));
-      this.applications$.subscribe((applications: Application[]) => { })
+      this.applications$.pipe(takeUntil(this.destroy$)).subscribe((applications: Application[]) => console.log(applications));
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
