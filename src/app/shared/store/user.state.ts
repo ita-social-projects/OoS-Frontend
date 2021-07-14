@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
@@ -51,7 +50,10 @@ import {
   GetWorkshopById,
   GetWorkshopsByParentId,
   GetApplicationsByProviderId,
-  GetApplicationsByParentId
+  GetApplicationsByParentId,
+  OnUpdateApplicationSuccess,
+  UpdateApplication,
+  OnUpdateApplicationFail
 } from './user.actions';
 
 export interface UserStateModel {
@@ -392,5 +394,27 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'Особиста інформація успішно відредагована', type: 'success' }));
     dispatch(new CheckAuth());
     this.router.navigate(['/personal-cabinet/config']);
+  }
+
+
+  @Action(UpdateApplication)
+  updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication) {
+    return this.applicationService
+      .updateApplication(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+      );
+  }
+
+  @Action(OnUpdateApplicationFail)
+  onUpdateApplicationfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateApplicationSuccess)
+  onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
+    dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінений', type: 'success' }));
   }
 }
