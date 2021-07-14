@@ -36,7 +36,6 @@ describe('CreateApplicationComponent', () => {
         BrowserAnimationsModule,
         MatTabsModule,
         RouterTestingModule,
-        MatCardModule,
         MatDialogModule
       ],
       declarations: [
