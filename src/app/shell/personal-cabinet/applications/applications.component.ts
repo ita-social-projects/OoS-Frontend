@@ -87,6 +87,9 @@ export class ApplicationsComponent implements OnInit {
     this.getApplication();
   }
 
+  /**
+  * This method get data according to teh user roles
+  */
   getApplication(): void {
 
     if (this.user.role === Role.parent) {

@@ -25,8 +25,6 @@ export class WorkshopsComponent implements OnInit {
 
   readonly role: typeof Role = Role;
 
-  @Select(UserState.workshops)
-  workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   applications: Application[];
@@ -41,9 +39,12 @@ export class WorkshopsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
-    this.getWorkshops();
+    (this.userRole === Role.provider) ? this.getProviderWorkshops() : this.getParentWorkshops();
   }
 
+  /**
+ * This method delete workshop By Workshop Id
+ */
   onDelete(workshop: Workshop): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
@@ -57,6 +58,9 @@ export class WorkshopsComponent implements OnInit {
     });
   }
 
+  /**
+  * This method changed the target application status to "leave"
+  */
   onLeaveWorkshop(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
@@ -71,28 +75,32 @@ export class WorkshopsComponent implements OnInit {
     });
   }
 
-  getWorkshops(): void {
-    if (this.userRole === Role.provider) {
-      this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
-      this.store.dispatch(new GetWorkshopsByProviderId(this.id));
-      this.workshops$.pipe(takeUntil(this.destroy$)).subscribe((workshops: Workshop[]) => this.workshops = workshops);
-    } else {
-      this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
-      this.store.dispatch(new GetApplicationsByParentId(this.id));
-      this.applications$.pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((applications: Application[]) => {
-        if (applications) {
-          this.applications = applications;
-          this.workshops = applications.map((application: Application) => application.workshop);
+  /**
+  * This method get workshops by provider id
+  */
+  getProviderWorkshops(): void {
+    this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+    this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+  }
 
-          this.children = applications.reduce((unique, nextApplication) => {
-            (!unique.some((application) => application.childId === nextApplication.childId)) && unique.push(nextApplication);
-            return unique;
-          }, []).map((application: Application) => application.child);
-        }
-      });
-    }
+  /**
+  * This method get applications by Parent Id, then filter the unique children of child applications
+  */
+  getParentWorkshops(): void {
+    this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
+    this.store.dispatch(new GetApplicationsByParentId(this.id));
+    this.applications$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((applications: Application[]) => {
+      if (applications) {
+        this.applications = applications;
+
+        this.children = applications.reduce((unique, nextApplication) => {
+          (!unique.some((application) => application.childId === nextApplication.childId)) && unique.push(nextApplication);
+          return unique;
+        }, []).map((application: Application) => application.child);
+      }
+    });
   }
 
   ngOnDestroy() {
