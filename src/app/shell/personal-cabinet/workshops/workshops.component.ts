@@ -12,7 +12,7 @@ import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteWorkshopById, GetApplicationsByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { DeleteWorkshopById, GetApplicationsByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from '../../../shared/models/workshop.model';
 
@@ -25,6 +25,8 @@ export class WorkshopsComponent implements OnInit {
 
   readonly role: typeof Role = Role;
 
+  @Select(UserState.workshops)
+  workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   applications: Application[];
