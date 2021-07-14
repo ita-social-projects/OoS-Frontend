@@ -3,12 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Role } from 'src/app/shared/enum/role';
+import {  Login } from 'src/app/shared/store/registration.actions';
 
-import { Logout, CheckAuth, Login } from 'src/app/shared/store/registration.actions';
-import { AppState } from 'src/app/shared/store/app.state';
-import { Router } from '@angular/router';
-import { FilterState } from 'src/app/shared/store/filter.state';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
