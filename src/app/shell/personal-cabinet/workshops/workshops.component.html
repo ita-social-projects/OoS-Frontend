@@ -1,19 +1,35 @@
-<div *ngIf="userRole === role.provider" class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
-  <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
-</div>
+<div *ngIf="(userRole === role.provider) then isProvider; else isParent"></div>
 
-<div *ngIf="(workshops$ | async)?.length then WorkshopsList"></div>
+<ng-template #isProvider>
+  <div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
+    <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
+    <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  </div>
+
+  <div *ngIf="!(workshops$ | async)?.length then isEmptyList;">
+    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
+      [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
+  </div>
 
 
-<ng-template #WorkshopsList>
-  <div class="wrapper-card">
-    <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="20px grid">
-        <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-          [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)">
+</ng-template>
+
+<ng-template #isParent>
+  <div *ngIf="applications$ | async">
+    <div *ngFor="let child of children">
+      <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
+        :'shortDate'}})</h3>
+      <div fxLayout='row' fxLayoutAlign='start center'>
+        <app-workshop-card class="cards"
+          *ngFor="let application of (applications$ | async | applicationChildFilter : child)"
+          [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application"
+          (deleteWorkshop)="onDelete($event)" (leaveWorkshop)="onLeaveWorkshop($event)">
         </app-workshop-card>
       </div>
-    </ng-container>
+    </div>
   </div>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <p class="empty-list-wrapper">Гуртків поки немає</p>
 </ng-template>

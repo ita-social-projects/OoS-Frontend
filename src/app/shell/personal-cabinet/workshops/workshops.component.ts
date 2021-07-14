@@ -4,18 +4,17 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
+import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
-import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteWorkshopById, GetApplicationsByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { DeleteWorkshopById, GetApplicationsByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { GetWorkshops } from '../../../shared/store/app.actions';
 
 @Component({
   selector: 'app-workshops',
@@ -30,10 +29,11 @@ export class WorkshopsComponent implements OnInit {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
+  applications: Application[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  workshops: Workshop[];
-  children: Child[];
+  workshops: Workshop[] = [];
+  children: Child[] = [];
   userRole: string;
   id: number;
 
@@ -56,8 +56,22 @@ export class WorkshopsComponent implements OnInit {
       }
     });
   }
-  getWorkshops(): void {
 
+  onLeaveWorkshop(application: Application): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: 'Залишити гурток?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.left);
+        this.store.dispatch(new UpdateApplication(applicationUpdate));
+      }
+    });
+  }
+
+  getWorkshops(): void {
     if (this.userRole === Role.provider) {
       this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
       this.store.dispatch(new GetWorkshopsByProviderId(this.id));
@@ -65,7 +79,19 @@ export class WorkshopsComponent implements OnInit {
     } else {
       this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
       this.store.dispatch(new GetApplicationsByParentId(this.id));
-      this.applications$.pipe(takeUntil(this.destroy$)).subscribe((applications: Application[]) => console.log(applications));
+      this.applications$.pipe(
+        takeUntil(this.destroy$)
+      ).subscribe((applications: Application[]) => {
+        if (applications) {
+          this.applications = applications;
+          this.workshops = applications.map((application: Application) => application.workshop);
+
+          this.children = applications.reduce((unique, nextApplication) => {
+            (!unique.some((application) => application.childId === nextApplication.childId)) && unique.push(nextApplication);
+            return unique;
+          }, []).map((application: Application) => application.child);
+        }
+      });
     }
   }
 

@@ -59,20 +59,22 @@
 
 <ng-template #ProviderChangeStatus>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
+    <!-- <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
       <p class="status_text">{{ status === 'approved'
         ? "Набір відкрито" : "Набір завершено" }}</p>
     </mat-chip>
-    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')"> Призупинити
-      набір </p>
+    <p class="card_link status_action" *ngIf="status === 'approved'"> Призупинити
+      набір </p>:TODO add workshop status -->
   </div>
 </ng-template>
 
 <ng-template #ParentChangeStatus>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="status_{{status}}"><img src="assets/icons/{{status}}.png" alt="{{status}}"> {{ status === 'approved'
-      ? "Підтверджено" : "Відхилено" }} </p>
-    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')">Залишити гурток
+    <p><img src="assets/icons/{{applicationStatus[application.status] }}.png"
+        alt="{{applicationStatus[application.status]}}"> {{
+      applicationStatusUkr[application.status] }} </p>
+    <p class="card_link status_action" *ngIf="applicationStatus[application.status] === applicationStatus.approved"
+      (click)="onWorkshopLeave()">Залишити гурток
     </p>
   </div>
 </ng-template>
