@@ -49,7 +49,7 @@ export class ApplicationService {
 
   /**
   * This method update Application
-  * @param Provider
+  * @param ApplicationUpdate
   */
   updateApplication(application: ApplicationUpdate): Observable<Object> {
     return this.http.put('/Application/Update', application);

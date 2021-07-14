@@ -75,7 +75,6 @@ export class ApplicationsComponent implements OnInit {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
     this.getApplication();
-
   }
 
   /**
@@ -86,7 +85,6 @@ export class ApplicationsComponent implements OnInit {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
     this.getApplication();
-
   }
 
   getApplication(): void {
