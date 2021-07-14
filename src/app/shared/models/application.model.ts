@@ -19,3 +19,13 @@ export class Application {
     this.parentId = parent.id;
   }
 }
+
+export class ApplicationUpdate {
+  id: number;
+  status: number;
+
+  constructor(id, status) {
+    this.id = id;
+    this.status = status;
+  }
+}
