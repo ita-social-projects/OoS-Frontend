@@ -4,11 +4,14 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Role } from 'src/app/shared/enum/role';
+import { Application } from 'src/app/shared/models/application.model';
+import { Child } from 'src/app/shared/models/child.model';
+import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteWorkshopById, GetWorkshopsByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { DeleteWorkshopById, GetApplicationsByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { GetWorkshops } from '../../../shared/store/app.actions';
@@ -24,6 +27,11 @@ export class WorkshopsComponent implements OnInit {
 
   @Select(UserState.workshops)
   workshops$: Observable<Workshop[]>;
+  @Select(UserState.applications)
+  applications$: Observable<Application[]>;
+
+  workshops: Workshop[];
+  children: Child[];
   userRole: string;
   id: number;
 
@@ -31,13 +39,7 @@ export class WorkshopsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
-
-    if (this.userRole === Role.provider) {
-      this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
-      this.store.dispatch(new GetWorkshopsByProviderId(this.id));
-    } else {
-      this.store.dispatch(new GetWorkshopsByParentId());
-    }
+    this.getWorkshops();
   }
 
   onDelete(workshop: Workshop): void {
@@ -51,5 +53,16 @@ export class WorkshopsComponent implements OnInit {
         this.store.dispatch(new DeleteWorkshopById(workshop));
       }
     });
+  }
+  getWorkshops(): void {
+
+    if (this.userRole === Role.provider) {
+      this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+      this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+    } else {
+      this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
+      this.store.dispatch(new GetApplicationsByParentId(this.id));
+      this.applications$.subscribe((applications: Application[]) => { })
+    }
   }
 }
