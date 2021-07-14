@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { User } from 'src/app/shared/models/user.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -20,7 +21,8 @@ describe('UserConfigEditComponent', () => {
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDialogModule,
       ],
       declarations: [UserConfigEditComponent]
     })

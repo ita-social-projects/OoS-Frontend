@@ -17,6 +17,7 @@ import { ParentInfoComponent } from './parent-info/parent-info.component';
 import { CreateApplicationComponent } from './create-application/create-application.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-workshops.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CreateChildComponent,
     ChildFormComponent,
     ParentInfoComponent,
-    CreateApplicationComponent
+    CreateApplicationComponent,
+    FavoriteWorkshopsComponent
   ],
   imports: [
     CommonModule,
