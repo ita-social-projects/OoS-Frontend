@@ -2,6 +2,13 @@
 .container{
   width: 100%;
 }
+.no-application-wrapper{
+  min-height: 66px;
+  background: #e5e6f1;
+  border-radius: 5px;
+  padding: 20px 24px;
+  margin-top:20px;
+}
 .tab-wrapper{
   bottom: 5.5rem;
   position: relative;

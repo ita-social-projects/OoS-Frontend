@@ -14,9 +14,9 @@ import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.servic
 import { GetWorkshops } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { Application } from '../../../shared/models/application.model';
+import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -49,21 +49,9 @@ export class ApplicationsComponent implements OnInit {
     this.user = this.store.selectSnapshot<User>(RegistrationState.user);
 
     this.store.dispatch(new GetWorkshops());
+    this.getApplication();
 
-    if (this.user.role === Role.parent) {
-      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
 
-      this.store.dispatch(new GetChildrenByParentId(parent.id));
-      this.store.dispatch(new GetApplicationsByParentId(parent.id));
-      this.store.dispatch(new GetWorkshopsByParentId()); //TODO: add parent id
-
-    } else {
-      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
-      this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
-      this.store.dispatch(new GetApplicationsByProviderId(provider.id));
-      this.activateChildInfoBox();
-    }
   }
 
   /**
@@ -87,16 +75,40 @@ export class ApplicationsComponent implements OnInit {
   * This method changes status of emitted event to "approved"
   * @param Application event
   */
-  onApprove(event: Application): void {
-    console.log(event) //TODO: add functionality of approving the application
+  onApprove(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
+    this.getApplication();
+
   }
 
   /**
   * This method changes status of emitted event to "rejected"
   * @param Application event
   */
-  onReject(event: Application): void {
-    console.log(event) //TODO: add functionality of rejecting the application
+  onReject(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
+    this.getApplication();
+
+  }
+
+  getApplication(): void {
+
+    if (this.user.role === Role.parent) {
+      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+
+      this.store.dispatch(new GetChildrenByParentId(parent.id));
+      this.store.dispatch(new GetApplicationsByParentId(parent.id));
+      this.store.dispatch(new GetWorkshopsByParentId()); //TODO: add parent id
+
+    } else {
+      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+
+      this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
+      this.store.dispatch(new GetApplicationsByProviderId(provider.id));
+      this.activateChildInfoBox();
+    }
   }
 
   /**
