@@ -5,6 +5,10 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Role } from 'src/app/shared/enum/role';
 
+import { Logout, CheckAuth, Login } from 'src/app/shared/store/registration.actions';
+import { AppState } from 'src/app/shared/store/app.state';
+import { Router } from '@angular/router';
+import { FilterState } from 'src/app/shared/store/filter.state';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -23,12 +27,14 @@ export class ActionsComponent implements OnInit {
 
   isDisplayed(): boolean {
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-    if (user && user.role === Role.provider) {
+    if (user) {
       return false
     }
     return true
   }
-
+  login(): void {
+    this.store.dispatch(new Login());
+  }
   ngOnInit(): void {
     this.isDisplayed();
   }
