@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application } from '../../models/application.model';
+import { Application, ApplicationUpdate } from '../../models/application.model';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
@@ -15,19 +15,19 @@ export class ApplicationService {
   }
 
   /**
- * This method get all applications
+ * This method get applications by Parent id
+ * @param id
  */
-  getApplications(): Observable<Application[]> {
-    return this.http.get<Application[]>(`/Application/Get`);
+  getApplicationsByParentId(id: number): Observable<Application[]> {
+    return this.http.get<Application[]>(`/Application/GetByParentId/${id}`);
   }
 
   /**
- * This method get applications by User id
+ * This method get applications by Provider id
  * @param id
  */
-  getApplicationsByUserId(id: string): Observable<Application[]> {
-    const url = `/Application/Get/${id}`;
-    return this.http.get<Application[]>(this.dataUrlmock);
+  getApplicationsByProviderId(id: number): Observable<Application[]> {
+    return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`);
   }
 
   /**
@@ -45,5 +45,13 @@ export class ApplicationService {
   deleteApplication(id: number): Observable<Object> {
     const dataUrl = `Application/Delete/${id}`;
     return this.http.delete(dataUrl);
+  }
+
+  /**
+  * This method update Application
+  * @param ApplicationUpdate
+  */
+  updateApplication(application: ApplicationUpdate): Observable<Object> {
+    return this.http.put('/Application/Update', application);
   }
 }

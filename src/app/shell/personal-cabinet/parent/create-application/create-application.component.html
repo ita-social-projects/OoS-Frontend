@@ -1,24 +1,22 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper application">
     <h3 class="wrapper-title" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
-    <mat-card>
-      <div class="card" fxLayout="row" fxLayoutAlign="space-between space-between">
-        <img class="card-image" src="assets/icons/workshop.png" alt="workshop-photo">
-        <mat-card-content class="card-content" fxLayout="column" fxLayoutAlign="start">
-          <h5> {{workshop?.title}} </h5>
-          <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop?.ownership }} </p>
-          <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop?.minAge }} - {{ workshop?.maxAge
-            }}
-            років
-          </p>
-          <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop?.price ? workshop?.price :
-            "Безкоштовно" }} </p>
-          <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop?.address.city }}, {{
-            workshop?.address.street }}, {{
-            workshop?.address.buildingNumber }} </p>
-        </mat-card-content>
+    <div class="card" fxLayout="row" fxLayoutAlign="space-between space-between">
+      <img class="card-image" src="assets/icons/workshop.png" alt="workshop-photo">
+      <div class="card-content" fxLayout="column" fxLayoutAlign="start">
+        <h5> {{workshop?.title}} </h5>
+        <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop?.ownership }} </p>
+        <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop?.minAge }} - {{ workshop?.maxAge
+          }}
+          років
+        </p>
+        <p class="card_text"><img src="assets/icons/price.png" alt="price"> {{ workshop?.price ? workshop?.price :
+          "Безкоштовно" }} </p>
+        <p class="card_text"><img src="assets/icons/address.png" alt="address"> {{ workshop?.address.city }}, {{
+          workshop?.address.street }}, {{
+          workshop?.address.buildingNumber }} </p>
       </div>
-    </mat-card>
+    </div>
     <div class="card-border"></div>
     <mat-tab-group class="nav">
       <mat-tab label="Подати дані про дитину">
@@ -26,8 +24,8 @@
 
           <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
           <mat-form-field appearance="none">
-            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child"
-              required placeholder="Діти">
+            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+              [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" required placeholder="Діти">
               <mat-option *ngFor="let child of (children$ | async)" [value]="child" class="dropdown-option">
                 {{child.firstName}} {{child.middleName}} {{child.lastName}}
               </mat-option>
