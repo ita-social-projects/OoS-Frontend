@@ -3,8 +3,10 @@
 <mat-card>
   <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
     <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
-    <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
-      <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
+    <mat-card-header>
+      <mat-card-title matTooltip={{workshop.title}} [matTooltipDisabled]="!IsShowToolTip" [matTooltipPosition]="below">
+        {{workshop.title}}</mat-card-title>
+      <img class="card_category" src="assets/icons/lang.png"
         alt="workshop-category">
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
@@ -53,7 +55,7 @@
 
 <ng-template #UserActions>
   <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn"><img src="assets/icons/fav.png" alt="fav" (click)="onLike()"></div>
+    <div class="actions_btn"><mat-icon (click)="onLike()">favorite_border</mat-icon></div>
   </div>
 </ng-template>
 

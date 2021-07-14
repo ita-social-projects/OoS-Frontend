@@ -49,6 +49,7 @@
   margin:0.5rem;
   cursor: pointer;
   z-index: 2;
+  display: flex;
   &:hover{
     opacity: 0.5;
   }
@@ -102,6 +103,20 @@
 }
 .mat-card-header{
   margin:0 1rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .mat-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    height: 20px;
+  }
+  img {
+    margin-block-end: auto;
+  }
 }
 .mat-card-image{
   margin-bottom:0 !important;

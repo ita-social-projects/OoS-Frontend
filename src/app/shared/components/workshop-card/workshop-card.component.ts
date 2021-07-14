@@ -15,6 +15,8 @@ import { DeleteWorkshopById } from '../../store/user.actions';
 export class WorkshopCardComponent implements OnInit {
 
   readonly role: typeof Role = Role;
+  public below: string = 'below';
+  public IsShowToolTip: boolean;
 
   @Input() workshop: Workshop;
   @Input() userRole: string;
@@ -26,7 +28,9 @@ export class WorkshopCardComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.IsShowToolTip = this.workshop.title.length > 18;
+  }
 
   onEdit(): void {
     console.log("I edit it")
