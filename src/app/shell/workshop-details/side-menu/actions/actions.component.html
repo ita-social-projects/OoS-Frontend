@@ -1,12 +1,12 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap='0.8rem'>
   <h4 *ngIf="workshop.price"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття' }} </h4>
   <h4 *ngIf="!workshop.price"> Безкоштовно </h4>
-  <a [routerLink]="['/create-application', workshop.id]" *ngIf="!displayed" >
+  <a [routerLink]="['/create-application', workshop.id]" *ngIf="displayed" >
     <button   mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
       Подати заявку
     </button>
    </a>
-   <a *ngIf="displayed" (click)="login()">
+   <a *ngIf="!displayed" (click)="login()">
     <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
       Подати заявку
     </button></a>
