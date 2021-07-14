@@ -34,6 +34,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   children: Child[] = [];
   selectedChild: Child;
+  parent: Parent;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
@@ -47,8 +48,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     public navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    this.store.dispatch(new GetChildrenByParentId(parent.id));
+    this.parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+    this.store.dispatch(new GetChildrenByParentId(this.parent.id));
 
     const workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(workshopId));
@@ -73,7 +74,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const application = new Application(this.selectedChild.id, this.workshop.id);
+        const application = new Application(this.selectedChild, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));
       }
     });

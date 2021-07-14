@@ -9,7 +9,6 @@ import { Child } from '../models/child.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
-import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
@@ -23,7 +22,6 @@ import {
   CreateWorkshop,
   DeleteChildById,
   DeleteWorkshopById,
-  GetApplicationsByUserId,
   GetChildrenByParentId,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
@@ -38,7 +36,6 @@ import {
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
-  GetApplications,
   UpdateChild,
   OnUpdateChildFail,
   OnUpdateChildSuccess,
@@ -52,7 +49,9 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
-  GetWorkshopsByParentId
+  GetWorkshopsByParentId,
+  GetApplicationsByProviderId,
+  GetApplicationsByParentId
 } from './user.actions';
 
 export interface UserStateModel {
@@ -125,23 +124,23 @@ export class UserState {
         }));
   }
 
-  @Action(GetApplicationsByUserId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByUserId) {
+  @Action(GetApplicationsByParentId)
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId) {
     return this.applicationService
-      .getApplicationsByUserId(payload)
+      .getApplicationsByParentId(payload)
       .pipe(
-        tap((userApplications: Application[]) => {
-          return patchState({ applications: userApplications });
+        tap((applications: Application[]) => {
+          return patchState({ applications: applications });
         }));
   }
 
-  @Action(GetApplications)
-  getApplications({ patchState }: StateContext<UserStateModel>, { }: GetApplications) {
+  @Action(GetApplicationsByProviderId)
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByProviderId) {
     return this.applicationService
-      .getApplications()
+      .getApplicationsByProviderId(payload)
       .pipe(
-        tap((userApplications: Application[]) => {
-          return patchState({ applications: userApplications });
+        tap((applications: Application[]) => {
+          return patchState({ applications: applications });
         }));
   }
 

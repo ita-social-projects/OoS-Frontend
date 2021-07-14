@@ -16,13 +16,13 @@ export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: number) { }
 }
-export class GetApplicationsByUserId {
-  static readonly type = '[user] get Applications By User Id';
-  constructor(public payload: string) { }
+export class GetApplicationsByParentId {
+  static readonly type = '[user] get Applications By Parent Id';
+  constructor(public payload: number) { }
 }
-export class GetApplications {
-  static readonly type = '[user] get Applications';
-  constructor() { }
+export class GetApplicationsByProviderId {
+  static readonly type = '[user] get Applications By Provider Id';
+  constructor(public payload: number) { }
 }
 export class GetChildrenByParentId {
   static readonly type = '[user] get Children by Parent Id';

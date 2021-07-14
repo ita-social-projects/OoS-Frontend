@@ -15,19 +15,19 @@ export class ApplicationService {
   }
 
   /**
- * This method get all applications
+ * This method get applications by Parent id
+ * @param id
  */
-  getApplications(): Observable<Application[]> {
-    return this.http.get<Application[]>(`/Application/Get`);
+  getApplicationsByParentId(id: number): Observable<Application[]> {
+    return this.http.get<Application[]>(`/Application/GetByParentId/${id}`);
   }
 
   /**
- * This method get applications by User id
+ * This method get applications by Provider id
  * @param id
  */
-  getApplicationsByUserId(id: string): Observable<Application[]> {
-    const url = `/Application/Get/${id}`;
-    return this.http.get<Application[]>(this.dataUrlmock);
+  getApplicationsByProviderId(id: number): Observable<Application[]> {
+    return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`);
   }
 
   /**

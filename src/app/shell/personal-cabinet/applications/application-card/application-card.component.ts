@@ -21,25 +21,17 @@ export class ApplicationCardComponent implements OnInit {
   readonly applicationStatus = ApplicationStatus;
   readonly Role = Role;
 
-  constructor(private childrenService: ChildrenService,
-    private workshopService: UserWorkshopService) { }
+  constructor() { }
 
   @Input() application: Application;
   @Input() userRole: string;
-
-  child: Child;
-  provider: Provider;
-  workshop: Workshop;
 
   @Output() approved = new EventEmitter();
   @Output() rejected = new EventEmitter();
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
-  ngOnInit(): void {
-    this.childrenService.getChildById(this.application.childId).subscribe(child => this.child = child);
-    this.workshopService.getWorkshopById(this.application.workshopId).subscribe(workshop => this.workshop = workshop);
-  }
+  ngOnInit(): void { }
 
   /**
   * This method emit on approve action
@@ -62,7 +54,7 @@ export class ApplicationCardComponent implements OnInit {
   * @param Application application
   */
   onInfoShow(element: Element): void {
-    this.infoShow.emit({ element, child: this.child });
+    this.infoShow.emit({ element, child: this.application.child });
   }
 
   /**

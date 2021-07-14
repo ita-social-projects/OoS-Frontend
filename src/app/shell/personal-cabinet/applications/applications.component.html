@@ -1,7 +1,7 @@
 <div class="container" *ngIf="(applications$ | async)?.length then isApplications; else isEmptyList"></div>
 
 <ng-template #isApplications>
-  <div class="container" *ngIf="(user.role === Role.provider) then isProvider; else isParent"></div>
+  <div class="container" *ngIf="(user.role === role.provider) then isProvider; else isParent"></div>
 </ng-template>
 
 <ng-template #isProvider>
@@ -12,22 +12,22 @@
     <mat-tab-group mat-align-tabs="start">
       <mat-tab label="Усі">
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
         </ng-container>
       </mat-tab>
       <mat-tab label="Очікують підтвердження">
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.pending | workshopFilter: workshopList }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.pending | workshopFilter: workshopList }">
         </ng-container>
       </mat-tab>
       <mat-tab label="Підтвердженні">
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.approved | workshopFilter: workshopList }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.approved | workshopFilter: workshopList }">
         </ng-container>
       </mat-tab>
       <mat-tab label="Відхилені">
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationFilter : applicationStatus.rejected | workshopFilter: workshopList}">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.rejected | workshopFilter: workshopList}">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -48,7 +48,7 @@
       <ng-template #ChildApplication>
         <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications | applicationChildFilter : child }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
         </ng-container>
       </ng-template>
 
