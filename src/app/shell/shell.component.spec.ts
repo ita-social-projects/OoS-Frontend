@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShellComponent } from './shell.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Component } from '@angular/core';
 
 describe('ShellComponent', () => {
   let component: ShellComponent;
@@ -11,7 +12,10 @@ describe('ShellComponent', () => {
       imports: [
         RouterTestingModule
       ],
-      declarations: [ShellComponent]
+      declarations: [
+        ShellComponent,
+        MockNavigationBarComponent,
+      ]
     })
       .compileComponents();
   });
@@ -26,3 +30,9 @@ describe('ShellComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-navigation-bar',
+  template: ''
+})
+class MockNavigationBarComponent{}

@@ -3,8 +3,9 @@
 <ng-template #IsTeachers>
   <div class="wrapper">
     <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="20px">
+      <div fxLayout='row wrap' fxLayout.lt-md='row nowrap' fxLayoutAlign='start space-evenly' fxLayoutGap="20px" fxLayoutGap.lt-md="10px">
         <app-teacher-card class="cards" *ngFor="let teacher of teachers" [teacher]="teacher">
+       
         </app-teacher-card>
       </div>
     </ng-container>

@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserConfigEditComponent } from './user-config-edit.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { User } from 'src/app/shared/models/user.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -18,32 +18,32 @@ describe('UserConfigEditComponent', () => {
       imports: [
         MatIconModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule,
         ReactiveFormsModule,
         MatFormFieldModule,
-        HttpClientTestingModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDialogModule,
       ],
-      declarations: [ UserConfigEditComponent ]
+      declarations: [UserConfigEditComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserConfigEditComponent);
     component = fixture.componentInstance;
+    component.user = {
+      lastName: '',
+      firstName: '',
+      middleName: '',
+      phoneNumber: ''
+    } as User;
     component.userEditFormGroup = new FormGroup({
-        lastName: new FormControl('', [Validators.required]),
-        firstName: new FormControl('', [Validators.required]),
-        middleName: new FormControl(''),
-        phoneNumber: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required, Validators.email]),
-        passwords: new FormGroup({
-          password: new FormControl('', [Validators.minLength(6)]),
-          confirmPassword: new FormControl('')
-        })
-      });
+      lastName: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      middleName: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [Validators.required]),
+    });
     fixture.detectChanges();
   });
 
@@ -51,4 +51,3 @@ describe('UserConfigEditComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-

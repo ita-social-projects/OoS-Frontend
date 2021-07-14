@@ -1,10 +1,12 @@
 .container {
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  padding: 24px;
-  margin-top:80px;
   margin-bottom: 20px;
-  height: 94px;
+  padding: 0.5rem;
+
+  @media(max-width: 750px){
+    margin-top: 40px;
+  }
 }
 .title, .nav {
   margin:10px;
@@ -21,6 +23,4 @@
 }
 ::ng-deep .mat-tab-link {
   min-width:0px !important;
-  padding: inherit !important;
-  margin: 10px;
 }

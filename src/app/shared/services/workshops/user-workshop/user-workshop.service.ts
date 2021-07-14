@@ -11,20 +11,36 @@ export class UserWorkshopService {
   tepmUrl = '/Workshop/Get';
 
   constructor(private http: HttpClient) { }
+
   /**
-  * This method get workshops by User id
+  * This method get workshops by Provider id
   * @param id
   */
-  getWorkshopsById(id: number): Observable<Workshop> {
-    const dataUrl = `/Workshop/GetById/${id}`;
-    return this.http.get<Workshop>(dataUrl);
+  getWorkshopsByProviderId(id: number): Observable<Workshop[]> {
+    return this.http.get<Workshop[]>(`/Workshop/GetByProviderId/${id}`);
+  }
+
+  /**
+ * This method get workshops by Parent id
+ * @param id
+ */
+  getWorkshopsByParentId(): Observable<Workshop[]> {
+    return this.http.get<Workshop[]>(`/Workshop/Get`); //TODO: change to get Workshop By parent ID
+  }
+
+  /**
+  * This method get workshops by Workshop id
+  * @param id
+  */
+  getWorkshopById(id: number): Observable<Workshop> {
+    return this.http.get<Workshop>(`/Workshop/GetById/${id}`);
   }
 
   /**
   * This method create workshop
   * @param Workshop
   */
-  createWorkshop(workshop: Workshop): any {
+  createWorkshop(workshop: Workshop): Observable<Object> {
     return this.http.post('/Workshop/Create', workshop);
   }
 
@@ -32,9 +48,17 @@ export class UserWorkshopService {
   * This method delete workshop by Workshop id
   * @param id
   */
-  deleteWorkshop(id: number): any {
+  deleteWorkshop(id: number): Observable<Object> {
     const dataUrl = `/Workshop/Delete/${id}`;
     return this.http.delete(dataUrl);
+  }
+
+  /**
+  * This method update workshop
+  * @param Workshop
+  */
+  updateWorkshop(workshop: Workshop): Observable<Object> {
+    return this.http.put('/Workshop/Update', workshop);
   }
 
 }

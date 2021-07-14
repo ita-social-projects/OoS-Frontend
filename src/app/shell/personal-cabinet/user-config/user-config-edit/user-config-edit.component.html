@@ -1,7 +1,7 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
   <div class="wrapper">
-    <div fxLayout='column' fxLayoutAlign='center center'>
-      <h3 class="wrapper_title">РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ</h3>
+    <div class="title" fxLayout='column' fxLayoutAlign='center center'>
+      <h3 class="wrapper-title"> РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ</h3>
     </div>
     <form [formGroup]="userEditFormGroup" fxLayout='column' fxLayoutAlign='center space-between'>
 
@@ -42,14 +42,14 @@
         [isEmptyCheck] = "userEditFormGroup.get('phoneNumber').errors?.required"
         [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched" 
       ></app-validation-hint-for-input>
-      <app-validation-hint-for-input 
+      <app-validation-hint-for-input
         type = "minDigitsLength"
         [minLength] = "userEditFormGroup.get('phoneNumber').errors?.minlength"
         [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
         [minCharachters] = "userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength"
       ></app-validation-hint-for-input>
 
-      <label class="step-label"> Емейл <span class="step-required">*</span></label>
+      <!-- <label class="step-label"> Емейл <span class="step-required">*</span></label>
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="email">
       </mat-form-field>
@@ -91,12 +91,13 @@
             {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
           </mat-icon>
         </mat-form-field>
-      </ng-container>
+      </ng-container> -->
 
     </form>
     <div fxLayout='column' fxLayoutAlign='center center'>
       <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="save()">Зберегти</button>
+        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit"
+          (click)="onSubmit()">Зберегти</button>
       </div>
     </div>
   </div>

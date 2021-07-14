@@ -27,6 +27,9 @@
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
     <input class="birthDay" matInput [matDatepicker]="picker" formControlName="birthDay" placeholder="01.01.2010">
+    <!-- Check how it works -->
+  <!-- <mat-form-field class="step-input-date">
+    <input class="step-input" [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" required> -->
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
@@ -44,9 +47,10 @@
 
   <label class="step-label">Соціальна група<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-      <mat-select class="step-input" placeholder="Соціальна група" formControlName="socialGroupId">
-        <mat-option [value]="0"> Відсутня </mat-option>
-        <mat-option *ngFor="let group of socialGroups" [value]="group.id">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" 
+        placeholder="Соціальна група" formControlName="socialGroupId">
+        <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
+        <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
           {{group.name}}
         </mat-option>
       </mat-select>

@@ -5,35 +5,34 @@ import { Teacher } from '../models/teacher.model';
 import { Workshop } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ChangePage, GetTeachersById, GetWorkshops, SetLocation, ToggleLoading } from './app.actions';
-import { FilterStateModel } from './filter.state';
+import { ActivateEditMode, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ShowMessageBar, ToggleLoading } from './app.actions';
 
 export interface AppStateModel {
   isLoading: boolean;
-  isMainPage: boolean;
   city: String;
   lng: Number | null;
   lat: Number | null;
   allWorkshops: Workshop[];
-  teachers: Teacher[]
+  teachers: Teacher[],
+  isDirtyForm: boolean,
+  isEditMode: boolean
 }
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
     isLoading: false,
-    isMainPage: true,
     city: "",
     lng: null,
     lat: null,
     allWorkshops: [],
     teachers: [],
+    isDirtyForm: false,
+    isEditMode: false
   }
 })
 @Injectable()
 export class AppState {
-  @Selector()
-  static isMainPage(state: AppStateModel): boolean { return state.isMainPage }
 
   @Selector()
   static isLoading(state: AppStateModel): boolean { return state.isLoading }
@@ -44,6 +43,12 @@ export class AppState {
   @Selector()
   static teachers(state: AppStateModel): Teacher[] { return state.teachers }
 
+  @Selector()
+  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm }
+
+  @Selector()
+  static isEditMode(state: AppStateModel): boolean { return state.isEditMode }
+
   constructor(
     private appWorkshopsService: AppWorkshopsService,
     private teacherService: TeacherService
@@ -52,11 +57,6 @@ export class AppState {
   @Action(ToggleLoading)
   toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
     patchState({ isLoading: payload });
-  }
-
-  @Action(ChangePage)
-  changePage({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-    patchState({ isMainPage: payload });
   }
 
   @Action(SetLocation)
@@ -78,5 +78,19 @@ export class AppState {
       .pipe(
         tap((workshopTeachers: Teacher[]) => patchState({ teachers: workshopTeachers })
         ))
+  }
+
+  @Action(MarkFormDirty)
+  markFormDirty({ patchState }: StateContext<AppStateModel>, { payload }: MarkFormDirty): void {
+    patchState({ isDirtyForm: payload });
+  }
+
+  @Action(ActivateEditMode)
+  activateEditMode({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
+    patchState({ isEditMode: payload });
+  }
+
+  @Action(ShowMessageBar)
+  showMessageBar({ }: StateContext<AppStateModel>, { payload }: ShowMessageBar): void {
   }
 }

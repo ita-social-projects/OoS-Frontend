@@ -55,9 +55,9 @@
 
     <label class="step-label">Соціальна група<span class="step-required">*</span></label>
     <mat-form-field>
-      <mat-select class="step-input" formControlName="socialGroupId">
-        <mat-option value="0" selected> Присутня </mat-option>
-        <mat-option value="1"> Відсутня </mat-option>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="socialGroupId">
+        <mat-option value="0" selected class="dropdown-option"> Присутня </mat-option>
+        <mat-option value="1" class="dropdown-option"> Відсутня </mat-option>
       </mat-select>
     </mat-form-field>
 

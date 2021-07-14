@@ -1,15 +1,18 @@
-<div fxLayout='row' fxLayoutAlign='center center'>
+<div fxLayout='row' fxLayoutAlign='center center' *ngIf="(editMode && workshop) || !editMode">
   <div class="wrapper">
     <div fxLayout='column' fxLayoutAlign='center center'>
-      <h3 class="wrapper-title">НОВИЙ ГУРТОК</h3>
-      <p class="wrapper-text">Додайте новий гурток, секцію або групу для навчання</p>
+      <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК'}}</h3>
+      <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
     </div>
 
     <mat-horizontal-stepper>
       <mat-step [stepControl]="AboutFormGroup">
-        <ng-template matStepLabel>Про гурток</ng-template>
-        <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)"></app-create-about-form>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <ng-template matStepLabel><p class="step-name">Про гурток</p></ng-template>
+        <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop">
+        </app-create-about-form>
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs="column" fxLayoutAlign.xs="center center" fxLayoutGap.xs="5px"
+             class="footer">
           <button mat-raised-button class="btn btn-cancel"><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
           <button class="btn" mat-raised-button matStepperNext>Далі</button>
@@ -17,10 +20,13 @@
       </mat-step>
 
       <mat-step [stepControl]="DescriptionFormGroup">
-        <ng-template matStepLabel>Опис</ng-template>
-        <app-create-description-form (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
+        <ng-template matStepLabel><p class="step-name">Опис</p></ng-template>
+        <app-create-description-form (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)"
+          [workshop]="workshop">
         </app-create-description-form>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs="column" fxLayoutAlign.xs="center center" fxLayoutGap.xs="5px"
+             class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a [routerLink]="'/personal-cabinet/workshops'"> Скасувати
             </a></button>
@@ -29,9 +35,12 @@
       </mat-step>
 
       <mat-step [stepControl]="AddressFormGroup">
-        <ng-template matStepLabel>Контакти</ng-template>
-        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)"></app-create-address>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <ng-template matStepLabel><p class="step-name">Контакти</p></ng-template>
+        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)" [address]="workshop?.address">
+        </app-create-address>
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs="column" fxLayoutAlign.xs="center center" fxLayoutGap.xs="5px"
+             class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>
@@ -40,9 +49,12 @@
       </mat-step>
 
       <mat-step>
-        <ng-template matStepLabel>Викладачі</ng-template>
-        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)"></app-create-teacher>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <ng-template matStepLabel><p class="step-name">Викладачі</p></ng-template>
+        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers">
+        </app-create-teacher>
+        <div fxLayout='row' fxLayoutAlign='center center'
+             fxLayout.xs="column" fxLayoutAlign.xs="center center" fxLayoutGap.xs="5px"
+             class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
           <button class="btn btn-cancel" mat-raised-button><a
               [routerLink]="'/personal-cabinet/workshops'">Скасувати</a></button>

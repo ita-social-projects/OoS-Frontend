@@ -6,11 +6,14 @@ import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.di
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
+import { Parent } from 'src/app/shared/models/parent.model';
 import { User } from 'src/app/shared/models/user.model';
-import { ChildrenService } from 'src/app/shared/services/children/children.service';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
+import { GetWorkshops } from 'src/app/shared/store/app.actions';
+import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplications, GetApplicationsByUserId, GetChildren } from 'src/app/shared/store/user.actions';
+import { GetApplications, GetApplicationsByUserId, GetChildrenByParentId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application } from '../../../shared/models/application.model';
 @Component({
@@ -23,15 +26,16 @@ export class ApplicationsComponent implements OnInit {
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
   readonly Role = Role;
-  user: User;
 
+  @Select(AppState.allWorkshops)
+  workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   applications: Application[];
+  workshopList: Workshop[];
 
   @Select(UserState.children)
   children$: Observable<Child[]>;
-
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -41,14 +45,14 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
+    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+    this.store.dispatch(new GetWorkshops());
 
-    if (this.user.role === Role.provider) {
-      this.store.dispatch(new GetApplications());
-      this.activateChildInfoBox();
+    if (parent) {
+      this.store.dispatch(new GetChildrenByParentId(parent.id)); //TODO: Add GetApplicationByParentId
     } else {
-      this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
-      this.store.dispatch(new GetChildren());
+      this.store.dispatch(new GetApplications());//TODO: Add GetApplicationByProviderId
+      this.activateChildInfoBox();
     }
 
     this.applications$.subscribe(applications =>

@@ -3,7 +3,8 @@
   </app-image-form-control>
   <label class="step-label"> Опис <span class="step-required">*</span></label>
   <mat-form-field>
-    <textarea matInput class="step-textarea" placeholder="Максимум 500 символів" formControlName="description"></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 

@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { MatGridListModule } from "@angular/material/grid-list";
 
 describe('CreateTeacherComponent', () => {
   let component: CreateTeacherComponent;
@@ -15,6 +17,7 @@ describe('CreateTeacherComponent', () => {
         MatFormFieldModule,
         ReactiveFormsModule,
         MatIconModule,
+        MatGridListModule
       ],
       declarations: [
         CreateTeacherComponent,
@@ -22,7 +25,7 @@ describe('CreateTeacherComponent', () => {
         MockImageFormControlComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -50,4 +53,4 @@ class MockTeacherFormComponent {
   selector: 'app-image-form-control',
   template: ''
 })
-class MockImageFormControlComponent {}
+class MockImageFormControlComponent { }

@@ -20,11 +20,11 @@ export class AppWorkshopsService {
       params = params.set('title', filters.searchQuery);
     }
     if (filters.city) {
-      params = params.set('address.city', filters.city.city);
+      params = params.set('address.city', filters.city.name);
     }
-    if (filters.categories.length > 0) {
-      for (let i = 0; i < filters.categories.length; i++) {
-        params = params.append('category.id', filters.categories[i].toString());
+    if (filters.directions.length > 0) {
+      for (let i = 0; i < filters.directions.length; i++) {
+        params = params.append('direction.id', filters.directions[i].toString());
       }
     }
     return params;

@@ -2,12 +2,12 @@
   <div class="main_categories">
     <div class="main_header" fxLayoutAlign="space-between center">
       <h3>Найпопулярніші напрямки</h3>
-      <a routerLink="/result" class="main_link">
+      <a routerLink="/all-categories" class="main_link">
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
     <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
-      <app-category-card *ngFor="let category of categories$ | async " [category]="category">
+      <app-category-card *ngFor="let direction of directions$ | async " [direction]="direction">
       </app-category-card>
     </div>
   </div>

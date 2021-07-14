@@ -14,10 +14,12 @@ import { CreateApplicationComponent } from './personal-cabinet/parent/create-app
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 import { UserConfigEditComponent } from './personal-cabinet/user-config/user-config-edit/user-config-edit.component';
 import { CreateGuard } from './personal-cabinet/create.guard';
+import { AllCategoriesComponent } from './all-categories/all-categories.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'result', component: ResultComponent },
+  { path: 'all-categories', component: AllCategoriesComponent },
   {
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
@@ -32,19 +34,20 @@ const routes: Routes = [
     loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
   },
   {
-    path: 'create-workshop', component: CreateWorkshopComponent,
+    path: 'create-workshop/:id', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
+
   },
   {
-    path: 'create-provider', component: CreateProviderComponent,
+    path: 'create-provider/:param', component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [CreateProviderGuard],
-    canDeactivate: [CreateProviderGuard]
+    canDeactivate: [CreateProviderGuard, CreateGuard]
   },
   {
-    path: 'create-child', component: CreateChildComponent,
+    path: 'create-child/:id', component: CreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]

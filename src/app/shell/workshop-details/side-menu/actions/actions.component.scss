@@ -5,18 +5,10 @@
   margin:20px;
   width: 300px;
   max-height: 272px;
-
-  .time-till-expiration {
-    white-space: nowrap;
-    color: #E93D5C;
-    font-weight: 700;
-    font-size: 11px;
-    
     img {
       position: relative;
       top: 2px;
     }
-  }
 }
 
 .button {
@@ -42,5 +34,12 @@
       &-icon{
         margin:5px;
       }
+  }
+}
+
+@media(max-width: 750px) {
+  .container {
+    width: 100%;
+    margin:0 20px;
   }
 }

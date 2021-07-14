@@ -9,35 +9,42 @@ import { SocialGroup } from '../../models/socialGroup.model';
 
 export class ChildrenService {
 
-  dataUrlmock = '/assets/mock-child-cards.json';
-
   constructor(private http: HttpClient) { }
-
-  /**
-  * This method get all children by User id
-  * @param id
-  */
-  getChildren(): Observable<Child[]> {
-    return this.http.get<Child[]>('/Child/Get');
-  }
 
   /**
   * This method get children by Child id
   * @param id
   */
-  getChildrenById(id: number): Observable<Child> {
+  getChildById(id: number): Observable<Child> {
     const dataUrl = `/Child/GetById/${id}`;
     return this.http.get<Child>(dataUrl);
+  }
+
+  /**
+  * This method get children by Parent Child id
+  * @param id
+  */
+  getChildrenByParentId(id: number): Observable<Child[]> {
+    return this.http.get<Child[]>(`/Child/GetByParentId/${id}`);
   }
 
 
   /**
   * This method create Child
-  * @param Workshop
+  * @param Child
   */
   createChild(child: Child): Observable<Object> {
     return this.http.post('/Child/Create', child);
   }
+
+  /**
+  * This method update Child
+  * @param Child
+  */
+  updateChild(child: Child): Observable<Object> {
+    return this.http.put('/Child/Update', child);
+  }
+
 
   /**
   * This method delete child by Child id

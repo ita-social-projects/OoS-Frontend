@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
@@ -11,23 +11,21 @@ import { ApplicationService } from '../services/applications/application.service
 import { ChildrenService } from '../services/children/children.service';
 import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
+import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
-import { GetWorkshops } from './app.actions';
+import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
-import { GetProfile, RegisterUser } from './registration.actions';
+import { CheckAuth, GetProfile } from './registration.actions';
 import {
   CreateApplication,
   CreateChildren,
-  CreateParent,
-  OnCreateParentFail,
-  OnCreateParentSuccess,
   CreateProvider,
   CreateWorkshop,
   DeleteChildById,
   DeleteWorkshopById,
   GetApplicationsByUserId,
-  GetChildren,
-  GetWorkshopsById,
+  GetChildrenByParentId,
+  GetWorkshopsByProviderId,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
   OnCreateChildrenFail,
@@ -40,7 +38,21 @@ import {
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
-  GetApplications
+  GetApplications,
+  UpdateChild,
+  OnUpdateChildFail,
+  OnUpdateChildSuccess,
+  OnUpdateWorkshopSuccess,
+  UpdateWorkshop,
+  OnUpdateWorkshopFail,
+  UpdateProvider,
+  OnUpdateProviderFail,
+  OnUpdateProviderSuccess,
+  UpdateUser,
+  OnUpdateUserFail,
+  OnUpdateUserSuccess,
+  GetWorkshopById,
+  GetWorkshopsByParentId
 } from './user.actions';
 
 export interface UserStateModel {
@@ -79,18 +91,37 @@ export class UserState {
     private applicationService: ApplicationService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
-    private parentService: ParentService,
-    private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
-  @Action(GetWorkshopsById)
-  getWorkshopsById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsById) {
+  @Action(GetWorkshopById)
+  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById) {
     return this.userWorkshopService
-      .getWorkshopsById(payload)
+      .getWorkshopById(payload)
       .pipe(
-        tap((userWorkshop: Workshop) => {
-          return patchState({ selectedWorkshop: userWorkshop });
+        tap((workshop: Workshop) => {
+          return patchState({ selectedWorkshop: workshop });
+        }));
+  }
+
+  @Action(GetWorkshopsByProviderId)
+  getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId) {
+    return this.userWorkshopService
+      .getWorkshopsByProviderId(payload)
+      .pipe(
+        tap((userWorkshops: Workshop[]) => {
+          return patchState({ workshops: userWorkshops });
+        }));
+  }
+
+  @Action(GetWorkshopsByParentId)
+  getWorkshopsByParentId({ patchState }: StateContext<UserStateModel>, { }: GetWorkshopsByParentId) {
+    return this.userWorkshopService
+      .getWorkshopsByParentId()
+      .pipe(
+        tap((userWorkshops: Workshop[]) => {
+          return patchState({ workshops: userWorkshops });
         }));
   }
 
@@ -114,13 +145,13 @@ export class UserState {
         }));
   }
 
-  @Action(GetChildren)
-  getChildren({ patchState }: StateContext<UserStateModel>, { }: GetChildren) {
+  @Action(GetChildrenByParentId)
+  getChildrenByParentId({ patchState }: StateContext<UserStateModel>, { payload }: GetChildrenByParentId) {
     return this.childrenService
-      .getChildren()
+      .getChildrenByParentId(payload)
       .pipe(
         tap(
-          (userChildren: Child[]) => patchState({ children: userChildren })
+          (children: Child[]) => patchState({ children: children })
         ))
   }
 
@@ -136,49 +167,39 @@ export class UserState {
 
   @Action(OnCreateWorkshopFail)
   onCreateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
-    console.log('Workshop creation is failed', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateWorkshopSuccess)
   onCreateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Workshop is created', payload);
-    setTimeout(() => {
-      this.showSnackBar('Гурток створено!', 'primary', 'top');
-      this.router.navigate(['/personal-cabinet/workshops']);
-    }, 1000);
+    dispatch(new ShowMessageBar({ message: 'Гурток створено!', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/workshops']);
     dispatch(new ClearCategories());
   }
 
   @Action(DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById) {
     return this.userWorkshopService
-      .deleteWorkshop(payload)
+      .deleteWorkshop(payload.id)
       .pipe(
-        tap((res) => dispatch(new OnDeleteWorkshopSuccess(res))),
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
 
   @Action(OnDeleteWorkshopFail)
   onDeleteWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopFail): void {
-    console.log('Workshop is not deleted', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
-    setTimeout(() => {
-      this.showSnackBar('Гурток видалено!', 'primary', 'top');
-    }, 1000);
-    dispatch(new GetWorkshops());
+    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload}" видалено!`, type: 'success' }));
   }
 
   @Action(CreateChildren)
@@ -193,20 +214,16 @@ export class UserState {
 
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenFail): void {
-    console.log('Child creation is failed', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateChildrenSuccess)
   onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Child is created', payload);
-    setTimeout(() => {
-      this.showSnackBar('Дитина усіпшно зареєстрована', 'primary', 'top');
-      this.router.navigate(['/personal-cabinet/parent/info']);
-    }, 1000);
+    dispatch(new ShowMessageBar({ message: 'Дитина успішно зареєстрована', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/parent/info']);
   }
 
   @Action(CreateProvider)
@@ -221,21 +238,17 @@ export class UserState {
 
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
-    console.log('Provider creation is failed', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Provider is created', payload);
     dispatch(new GetProfile());
-    setTimeout(() => {
-      this.showSnackBar('Організацію успішно створено', 'primary');
-      this.router.navigate(['']);
-    }, 1000);
+    dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
+    this.router.navigate(['']);
   }
 
   @Action(CreateApplication)
@@ -250,45 +263,16 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    console.log('Application creation is failed', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
+    dispatch(new MarkFormDirty(false));
     console.log('Application is created', payload);
-    setTimeout(() => {
-      this.showSnackBar('Заявку створено!', 'primary', 'top');
-      this.router.navigate(['']);
-    }, 1000);
-  }
-
-  @Action(CreateParent)
-  createParent({ dispatch }: StateContext<UserStateModel>, { payload }: CreateParent) {
-    return this.parentService
-      .createParent(payload)
-      .pipe(
-        tap((res) => dispatch(new OnCreateParentSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateParentFail(error))))
-      );
-  }
-
-  @Action(OnCreateParentFail)
-  onCreateParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentFail): void {
-    console.log('Parent creation is failed', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
-  }
-
-  @Action(OnCreateParentSuccess)
-  onCreateParentSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateParentSuccess): void {
-    dispatch(new GetProfile());
-    console.log('Parent is created', payload);
+    dispatch(new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }));
+    this.router.navigate(['']);
   }
 
   @Action(DeleteChildById)
@@ -303,33 +287,111 @@ export class UserState {
 
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildFail): void {
-    console.log('Child is not deleted', payload);
-    setTimeout(() => {
-      throwError(payload);
-      this.showSnackBar('На жаль виникла помилка', 'red-snackbar');
-    }, 1000);
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
-    setTimeout(() => {
-      this.showSnackBar('Дитину видалено!', 'primary', 'top');
-    }, 1000);
-    dispatch(new GetChildren());
+    dispatch(new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }));
   }
 
-  showSnackBar(
-    message: string,
-    color: string,
-    vertical: MatSnackBarVerticalPosition = 'bottom',
-    horizontal: MatSnackBarHorizontalPosition = 'center'): void {
+  @Action(UpdateWorkshop)
+  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop) {
+    return this.userWorkshopService
+      .updateWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateWorkshopFail(error))))
+      );
+  }
 
-    this.snackBar.open(message, '', {
-      duration: 2000,
-      horizontalPosition: horizontal,
-      verticalPosition: vertical,
-      panelClass: [color],
-    });
+  @Action(OnUpdateWorkshopFail)
+  onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(UpdateChild)
+  updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild) {
+    return this.childrenService
+      .updateChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateChildSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
+      );
+  }
+
+
+  @Action(OnUpdateChildFail)
+  onUpdateChildfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateWorkshopSuccess)
+  onUpdateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Workshop is updated', payload);
+    dispatch(new ShowMessageBar({ message: 'Гурток оновлено!', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/workshops']);
+  }
+
+  @Action(OnUpdateChildSuccess)
+  onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Child is updated', payload);
+    dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/parent/info']);
+  }
+
+  @Action(UpdateProvider)
+  updateProvider({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateProvider) {
+    return this.providerService
+      .updateProvider(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateProviderFail(error))))
+      );
+  }
+
+  @Action(OnUpdateProviderFail)
+  onUpdateProviderfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateProviderSuccess)
+  onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Provider is updated', payload);
+    dispatch(new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/parent/info']);
+  }
+
+  @Action(UpdateUser)
+  updateUser({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateUser) {
+    return this.userService
+      .updateUser(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateUserSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateUserFail(error))))
+      );
+  }
+
+  @Action(OnUpdateUserFail)
+  onUpdateUserFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateUserFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateUserSuccess)
+  onUpdateUserSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateUserSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('User is updated', payload);
+    dispatch(new ShowMessageBar({ message: 'Особиста інформація успішно відредагована', type: 'success' }));
+    dispatch(new CheckAuth());
+    this.router.navigate(['/personal-cabinet/config']);
   }
 }

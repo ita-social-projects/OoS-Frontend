@@ -6,6 +6,7 @@
   position: relative;
   padding: 20px 25px;
   background-color: #ffffff;
+  margin-right: 2rem;
 
   &_edit-icon{
     position: absolute;
@@ -14,8 +15,12 @@
     z-index: 2;
     color : #3849F9;
   }
-
-  &_info-item {
-    margin: 5px 0;
+  .important{
+    color : red;
+  }
+  .link{
+    color : #3849F9;
+    font-weight: 600;
+    cursor: pointer;
   }
 }

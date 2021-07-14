@@ -1,23 +1,23 @@
 <form [formGroup]="CategoryFormGroup">
-  <mat-select class="step-input" formControlName="category" (selectionChange)="onSelectCategory($event.value)"
-    placeholder="Категорія">
-    <mat-option *ngFor="let category of categories$ | async" [value]="category">
-      {{ category.title }}
+  <mat-select class="step-input" disableOptionCentering panelClass="dropdown-panel" formControlName="directionId"
+    (selectionChange)="onSelectDirection($event.value)" placeholder="Напрямок" [(value)]="selectedDirectionId">
+    <mat-option *ngFor="let direction of directions$ | async" [value]="direction.id" class="dropdown-option">
+      {{ direction.title }}
     </mat-option>
   </mat-select>
 
-  <mat-select *ngIf="(subcategories$ | async)?.length" class="step-input" formControlName="subcategory"
-    (selectionChange)="onSelectSubcategory($event.value)" placeholder="Сабкатегорія">
-    <mat-option *ngFor="let subcategory of subcategories$ | async" [value]="subcategory">
-      {{ subcategory.title }}
+  <mat-select *ngIf="(departments$ | async)?.length" disableOptionCentering panelClass="dropdown-panel"
+    class="step-input" formControlName="departmentId" (selectionChange)="onSelectDepartment($event.value)"
+    placeholder="Відділ" [(value)]="selectedDepartmentId">
+    <mat-option *ngFor="let department of departments$ | async" [value]="department.id" class="dropdown-option">
+      {{ department.title }}
     </mat-option>
   </mat-select>
 
-  <mat-select *ngIf="(subsubcategories$ | async)?.length" class="step-input" formControlName="subsubcategory"
-    placeholder="СабСабкатегорія:))">
-    <mat-option *ngFor="let subsubcategory of subsubcategories$ | async" [value]="subsubcategory">
-      {{ subsubcategory.title }}
+  <mat-select *ngIf="(classes$ | async)?.length" disableOptionCentering panelClass="dropdown-panel" class="step-input"
+    formControlName="classId" placeholder="Клас" [(value)]="selectedClassId">
+    <mat-option *ngFor="let class of classes$ | async" [value]="class.id" class="dropdown-option">
+      {{ class.title }}
     </mat-option>
   </mat-select>
-
 </form>

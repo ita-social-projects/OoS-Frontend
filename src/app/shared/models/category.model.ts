@@ -1,18 +1,18 @@
-export interface Category {
+export interface Direction {
   id: number;
   title: string;
   description: string;
 }
-export interface Subcategory {
+export interface Department {
   id: number;
-  categoryId: number;
+  directionId: number;
   title: string;
   description: string;
 }
 
-export interface Subsubcategory {
+export interface Class {
   id: number;
   title: string;
   description: string;
-  subcategoryId: number;
+  departmentId: number;
 }

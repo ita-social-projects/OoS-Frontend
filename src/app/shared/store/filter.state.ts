@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Category } from '../models/category.model';
+import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { Workshop } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
@@ -9,7 +9,7 @@ import {
   SetCity,
   GetFilteredWorkshops,
   GetTopWorkshops,
-  SetCategories,
+  SetDirections,
   SetAgeRange,
   SetWorkingDays,
   SetWorkingHours,
@@ -20,10 +20,12 @@ import {
   SetSearchQueryValue,
   SetOpenRecruitment,
   SetClosedRecruitment,
+  SetWithDisabilityOption,
+  SetWithoutDisabilityOption,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 export interface FilterStateModel {
-  categories: Category[];
+  directions: Direction[];
   ageRange: string[];
   workingHours: WorkingHours[];
   workingDays: WorkingHours[];
@@ -38,11 +40,14 @@ export interface FilterStateModel {
   order: string;
   filteredWorkshops: Workshop[];
   topWorkshops: Workshop[];
+  withDisabilityOption: boolean;
+  withoutDisabilityOption: boolean;
+  isLoading: boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    categories: [],
+    directions: [],
     ageRange: [''],
     workingDays: [],
     workingHours: [],
@@ -52,11 +57,14 @@ export interface FilterStateModel {
     minPrice: 0,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    city: { id: null, city: '' },
+    city: undefined,
     searchQuery: '',
     order: '',
     filteredWorkshops: [],
-    topWorkshops: []
+    topWorkshops: [],
+    withDisabilityOption: false,
+    withoutDisabilityOption: false,
+    isLoading: false,
   }
 })
 @Injectable()
@@ -69,7 +77,10 @@ export class FilterState {
   static topWorkshops(state: FilterStateModel): Workshop[] { return state.topWorkshops }
 
   @Selector()
-  static categories(state: FilterStateModel): Category[] { return state.categories }
+  static directions(state: FilterStateModel): Direction[] { return state.directions }
+
+  @Selector()
+  static isLoading(state: FilterStateModel): boolean {return state.isLoading}
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -84,9 +95,9 @@ export class FilterState {
     patchState({ order: payload });
   }
 
-  @Action(SetCategories)
-  setCategories({ patchState }: StateContext<FilterStateModel>, { payload }: SetCategories): void {
-    patchState({ categories: payload });
+  @Action(SetDirections)
+  setDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
+    patchState({ directions: payload });
   }
 
   @Action(SetAgeRange)
@@ -141,6 +152,7 @@ export class FilterState {
 
   @Action(GetFilteredWorkshops)
   getFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
+    
     return this.appWorkshopsService
       .getFilteredWorkshops(payload)
       .subscribe((workshops: Workshop[]) => patchState({ filteredWorkshops: workshops }))
@@ -148,8 +160,17 @@ export class FilterState {
 
   @Action(GetTopWorkshops)
   getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
+    patchState({isLoading:true});   
     return this.appWorkshopsService
       .getTopWorkshops()
-      .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops }))
+      .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops, isLoading: false }))
+  }
+  @Action(SetWithDisabilityOption)
+  setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
+    patchState({ withDisabilityOption: payload });
+  }
+  @Action(SetWithoutDisabilityOption)
+  setWithoutDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithoutDisabilityOption) {
+    patchState({ withoutDisabilityOption: payload });
   }
 }

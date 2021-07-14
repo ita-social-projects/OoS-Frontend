@@ -6,6 +6,8 @@ import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -17,16 +19,16 @@ describe('ResultComponent', () => {
         NgxsModule.forRoot([]),
         MatButtonToggleModule,
         MatSidenavModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatIconModule
       ],
       declarations: [
         ResultComponent,
         MockSearchbarComponent,
         MockOrderingComponent,
         MockFiltersListComponent,
-        MockCityFilterComponent,
         MockWorkshopCardsListComponent,
-        MockResultMapComponent
+        MockWorkshopMapViewListComponent
       ]
     })
       .compileComponents();
@@ -44,7 +46,7 @@ describe('ResultComponent', () => {
 });
 
 @Component({
-  selector: 'app-searchbar',
+  selector: 'app-full-search-bar',
   template: ''
 })
 class MockSearchbarComponent {
@@ -63,24 +65,17 @@ class MockOrderingComponent {
 })
 class MockFiltersListComponent {
 }
-
-@Component({
-  selector: 'app-city-filter',
-  template: ''
-})
-class MockCityFilterComponent {
-}
 @Component({
   selector: 'app-workshop-cards-list',
   template: ''
 })
 class MockWorkshopCardsListComponent {
-  @Input() type: string;
+  @Input() workshops: Workshop[];
 }
 @Component({
-  selector: 'app-map',
+  selector: 'app-workshop-map-view-list',
   template: ''
 })
-class MockResultMapComponent {
-  @Input() address: FormGroup;
+class MockWorkshopMapViewListComponent {
+  @Input() workshops: Workshop[];
 }

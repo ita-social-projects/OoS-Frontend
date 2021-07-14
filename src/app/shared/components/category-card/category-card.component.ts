@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Category } from '../../models/category.model';
-import { SetCategories } from '../../store/filter.actions';
+import { Direction } from '../../models/category.model';
+import { SetDirections } from '../../store/filter.actions';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { SetCategories } from '../../store/filter.actions';
 })
 export class CategoryCardComponent implements OnInit {
 
-  @Input() category: Category;
+  @Input() direction: Direction;
   @Input() icons: {};
   workshopsAmount = Math.floor(Math.random() * 300);
 
@@ -21,8 +21,8 @@ export class CategoryCardComponent implements OnInit {
     this.getWord();
   }
 
-  selectCategory(category: Category): void  {
-    this.store.dispatch(new SetCategories([category]));
+  selectDirection(direction: Direction): void {
+    this.store.dispatch(new SetDirections([direction]));
   }
   /**
    * Returns correct form of the ukrainian word "гурток" depending on the amount of workshops by category.
