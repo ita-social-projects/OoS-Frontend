@@ -28,9 +28,11 @@ export class WorkshopCardComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { 
-    this.IsShowToolTip = this.workshop.title.length > 18;
+  ifOverflow(id:any): boolean {
+    return id.scrollWidth > id.clientWidth;
   }
+
+  ngOnInit(): void { }
 
   onEdit(): void {
     console.log("I edit it")
