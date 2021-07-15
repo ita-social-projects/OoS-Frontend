@@ -27,7 +27,7 @@ export class SideMenuComponent implements OnInit {
         this.isDisplayed = true;
       }
     }
-    else{
+    else {
       this.isDisplayed = true;
     }
 

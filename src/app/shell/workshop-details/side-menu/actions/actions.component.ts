@@ -1,7 +1,7 @@
 import { Store } from '@ngxs/store';
 import { Component, Input, OnInit } from '@angular/core';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import {  Login } from 'src/app/shared/store/registration.actions';
+import { Login } from 'src/app/shared/store/registration.actions';
 
 
 @Component({
@@ -12,13 +12,13 @@ import {  Login } from 'src/app/shared/store/registration.actions';
 export class ActionsComponent implements OnInit {
   @Input() workshop: Workshop;
   @Input() isRegistered: boolean;
-  
+
 
   constructor(private store: Store) { }
 
   login(isReg: boolean): void {
-    if(!isReg){
-    this.store.dispatch(new Login());
+    if (!isReg) {
+      this.store.dispatch(new Login());
     }
   }
   ngOnInit(): void {
