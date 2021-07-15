@@ -1,5 +1,5 @@
 import { Store } from '@ngxs/store';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Provider } from '@angular/core';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -12,7 +12,8 @@ import { Role } from 'src/app/shared/enum/role';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit {
-  displayed: boolean = this.isRegistered();
+  displayed: boolean = this.isDisplayed();
+  registered:boolean = false;
   @Input() workshop: Workshop;
 
   constructor(private store: Store) { }
@@ -22,18 +23,21 @@ export class ActionsComponent implements OnInit {
   * to display button
   */
 
-  isRegistered(): boolean {
+   isDisplayed(): boolean {
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-    if (user && user.role !== Role.provider) {
-      return true
+    if (user) {
+      this.registered=true;
+      if(user.role === Role.provider){
+      return false
+      }
     }
-    return false
+    return true
   }
   login(): void {
     this.store.dispatch(new Login());
   }
   ngOnInit(): void {
-    this.isRegistered();
+    this.isDisplayed();
   }
 
 }
