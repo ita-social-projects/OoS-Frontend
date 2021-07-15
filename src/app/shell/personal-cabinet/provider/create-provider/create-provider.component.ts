@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
@@ -50,32 +50,30 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
       this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     }
 
-    this.RobotFormControl.valueChanges.subscribe(val => this.isNotRobot = val);
-    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+    this.RobotFormControl.valueChanges.subscribe((val: boolean) => this.isNotRobot = val);
+    this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
   }
 
   ngAfterViewInit() {
-    this.route.params.subscribe((params) => {
-      this.stepper.selectedIndex = +createProviderSteps[params.param];
-    })
+    this.route.params.subscribe((params: Params) => this.stepper.selectedIndex = +createProviderSteps[params.param]);
   }
 
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
   onSubmit() {
-    const legalAddress = new Address(this.ActualAddressFormGroup.value);
-    const actulaAdress = new Address(this.LegalAddressFormGroup.value);
-    const user = this.store.selectSnapshot<User>(RegistrationState.user);
+    const legalAddress: Address = new Address(this.ActualAddressFormGroup.value);
+    const actulaAdress: Address = new Address(this.LegalAddressFormGroup.value);
+    const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
+    let provider: Provider;
 
     if (this.editMode) {
-      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider.id);
+      provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
       this.store.dispatch(new UpdateProvider(provider));
     } else {
-      const provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
+      provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
       this.store.dispatch(new CreateProvider(provider));
     }
-
   }
 
   /**
@@ -110,7 +108,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     this.subscribeOnDirtyForm(form);
   }
 
-  subscribeOnDirtyForm(form: FormGroup): void {
+  private subscribeOnDirtyForm(form: FormGroup): void {
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine))

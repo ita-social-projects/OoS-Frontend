@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { ApplicationStatus, ApplicationStatusUkr } from '../../enum/applications';
 import { Role } from '../../enum/role';
+import { Application } from '../../models/application.model';
 import { User } from '../../models/user.model';
 import { Workshop } from '../../models/workshop.model';
 import { AppState } from '../../store/app.state';
@@ -14,6 +16,8 @@ import { DeleteWorkshopById } from '../../store/user.actions';
 })
 export class WorkshopCardComponent implements OnInit {
 
+  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
   public below: string = 'below';
   public IsShowToolTip: boolean;
@@ -21,8 +25,12 @@ export class WorkshopCardComponent implements OnInit {
   @Input() workshop: Workshop;
   @Input() userRole: string;
   @Input() isMainPage: boolean;
+  @Input() application: Application;
+
 
   @Output() deleteWorkshop = new EventEmitter<Workshop>();
+  @Output() leaveWorkshop = new EventEmitter<Application>();
+
 
   status: string = 'approved'; //temporary
 
@@ -42,7 +50,7 @@ export class WorkshopCardComponent implements OnInit {
     console.log("I like it")
   }
 
-  onChangeStatus(status): void {
-    this.status = status;
+  onWorkshopLeave(): void {
+    this.leaveWorkshop.emit(this.application);
   }
 }

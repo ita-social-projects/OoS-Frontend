@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application } from '../../models/application.model';
+import { Application, ApplicationUpdate } from '../../models/application.model';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
@@ -45,5 +45,13 @@ export class ApplicationService {
   deleteApplication(id: number): Observable<Object> {
     const dataUrl = `Application/Delete/${id}`;
     return this.http.delete(dataUrl);
+  }
+
+  /**
+  * This method update Application
+  * @param ApplicationUpdate
+  */
+  updateApplication(application: ApplicationUpdate): Observable<Object> {
+    return this.http.put('/Application/Update', application);
   }
 }
