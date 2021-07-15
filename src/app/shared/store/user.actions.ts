@@ -1,4 +1,4 @@
-import { Application } from '../models/application.model';
+import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
@@ -8,21 +8,17 @@ export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: number) { }
 }
-export class GetWorkshopsByParentId {
-  static readonly type = '[user] get Workshops By Parent Id';
-  constructor() { } //TODO: add get workshops by ParentId
-}
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: number) { }
 }
-export class GetApplicationsByUserId {
-  static readonly type = '[user] get Applications By User Id';
-  constructor(public payload: string) { }
+export class GetApplicationsByParentId {
+  static readonly type = '[user] get Applications By Parent Id';
+  constructor(public payload: number) { }
 }
-export class GetApplications {
-  static readonly type = '[user] get Applications';
-  constructor() { }
+export class GetApplicationsByProviderId {
+  static readonly type = '[user] get Applications By Provider Id';
+  constructor(public payload: number) { }
 }
 export class GetChildrenByParentId {
   static readonly type = '[user] get Children by Parent Id';
@@ -146,5 +142,17 @@ export class OnUpdateUserFail {
 }
 export class OnUpdateUserSuccess {
   static readonly type = '[user] update User success';
+  constructor(public payload) { }
+}
+export class UpdateApplication {
+  static readonly type = '[user] update Application';
+  constructor(public payload: ApplicationUpdate) { }
+}
+export class OnUpdateApplicationFail {
+  static readonly type = '[user] update Application fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateApplicationSuccess {
+  static readonly type = '[user] update Application success';
   constructor(public payload) { }
 }

@@ -67,21 +67,13 @@ export class CreateChildComponent implements OnInit {
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }
-
-    this.ChildrenFormArray.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
-      });
   }
 
   /**
   * This method create new FormGroup
   * @param FormArray array
   */
-  newForm(child?: Child): FormGroup {
+  private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
       lastName: new FormControl(''),
       firstName: new FormControl(''),
@@ -91,9 +83,15 @@ export class CreateChildComponent implements OnInit {
       socialGroupId: new FormControl(''),
     });
 
-    if (this.editMode) {
-      childFormGroup.patchValue(child);
-    }
+    childFormGroup.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
+
+    this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
 
     return childFormGroup;
   }

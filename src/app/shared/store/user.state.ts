@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
@@ -9,7 +8,6 @@ import { Child } from '../models/child.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
-import { ParentService } from '../services/parent/parent.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
@@ -23,7 +21,6 @@ import {
   CreateWorkshop,
   DeleteChildById,
   DeleteWorkshopById,
-  GetApplicationsByUserId,
   GetChildrenByParentId,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
@@ -38,7 +35,6 @@ import {
   OnDeleteChildSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
-  GetApplications,
   UpdateChild,
   OnUpdateChildFail,
   OnUpdateChildSuccess,
@@ -52,7 +48,11 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
-  GetWorkshopsByParentId
+  GetApplicationsByProviderId,
+  GetApplicationsByParentId,
+  OnUpdateApplicationSuccess,
+  UpdateApplication,
+  OnUpdateApplicationFail
 } from './user.actions';
 
 export interface UserStateModel {
@@ -115,33 +115,23 @@ export class UserState {
         }));
   }
 
-  @Action(GetWorkshopsByParentId)
-  getWorkshopsByParentId({ patchState }: StateContext<UserStateModel>, { }: GetWorkshopsByParentId) {
-    return this.userWorkshopService
-      .getWorkshopsByParentId()
+  @Action(GetApplicationsByParentId)
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId) {
+    return this.applicationService
+      .getApplicationsByParentId(payload)
       .pipe(
-        tap((userWorkshops: Workshop[]) => {
-          return patchState({ workshops: userWorkshops });
+        tap((applications: Application[]) => {
+          return patchState({ applications: applications });
         }));
   }
 
-  @Action(GetApplicationsByUserId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByUserId) {
+  @Action(GetApplicationsByProviderId)
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByProviderId) {
     return this.applicationService
-      .getApplicationsByUserId(payload)
+      .getApplicationsByProviderId(payload)
       .pipe(
-        tap((userApplications: Application[]) => {
-          return patchState({ applications: userApplications });
-        }));
-  }
-
-  @Action(GetApplications)
-  getApplications({ patchState }: StateContext<UserStateModel>, { }: GetApplications) {
-    return this.applicationService
-      .getApplications()
-      .pipe(
-        tap((userApplications: Application[]) => {
-          return patchState({ applications: userApplications });
+        tap((applications: Application[]) => {
+          return patchState({ applications: applications });
         }));
   }
 
@@ -393,5 +383,27 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'Особиста інформація успішно відредагована', type: 'success' }));
     dispatch(new CheckAuth());
     this.router.navigate(['/personal-cabinet/config']);
+  }
+
+
+  @Action(UpdateApplication)
+  updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication) {
+    return this.applicationService
+      .updateApplication(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+      );
+  }
+
+  @Action(OnUpdateApplicationFail)
+  onUpdateApplicationfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateApplicationSuccess)
+  onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
+    dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінений', type: 'success' }));
   }
 }

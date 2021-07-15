@@ -37,8 +37,8 @@ export class CreateContactsFormComponent implements OnInit {
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
-    this.isSameAddressControl.valueChanges.subscribe(val => {
-      (val) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
+    this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
+      (isSame) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
     })
 
     if (this.provider) {

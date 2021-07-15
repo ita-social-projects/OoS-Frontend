@@ -63,25 +63,25 @@ export class CreateAboutFormComponent implements OnInit {
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-  onPriceCtrlInit(): void {
+  private onPriceCtrlInit(): void {
     this.priceRadioBtn.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((isPrice: boolean) =>{
-      if(isPrice){
-        this.AboutFormGroup.get('price').enable()
-      }else{
-        this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE); 
-        this.AboutFormGroup.get('price').disable();
-      }
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((isPrice: boolean) => {
+        if (isPrice) {
+          this.AboutFormGroup.get('price').enable()
+        } else {
+          this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
+          this.AboutFormGroup.get('price').disable();
+        }
+      });
 
     this.AboutFormGroup.get('price').valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(100),
-      ).subscribe((price: number) => this.AboutFormGroup.get('price').setValue(price) 
-    );  
+      ).subscribe((price: number) => this.AboutFormGroup.get('price').setValue(price)
+      );
   }
 
   /**
@@ -108,7 +108,7 @@ export class CreateAboutFormComponent implements OnInit {
   /**
   * This method fills in the info from provider to the workshop if check box is checked
   */
-  useProviderInfo(): void {
+  private useProviderInfo(): void {
     this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
       if (useProviderInfo) {
         this.AboutFormGroup.get('email').setValue(this.provider.email);
@@ -130,7 +130,7 @@ export class CreateAboutFormComponent implements OnInit {
   /**
   * This method fills inputs with information of edited workshop
   */
-  activateEditMode(): void {
+  private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
   }

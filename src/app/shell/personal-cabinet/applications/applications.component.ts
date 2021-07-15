@@ -1,21 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetWorkshops } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplications, GetApplicationsByUserId, GetChildrenByParentId } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { Application } from '../../../shared/models/application.model';
+import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -25,17 +24,18 @@ export class ApplicationsComponent implements OnInit {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
-  readonly Role = Role;
+  readonly role = Role;
 
-  @Select(AppState.allWorkshops)
+  @Select(UserState.workshops)
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  applications: Application[];
-  workshopList: Workshop[];
-
   @Select(UserState.children)
   children$: Observable<Child[]>;
+
+  workshopList: Workshop[];
+  userRole: string;
+  id: number;
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -45,25 +45,14 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    this.store.dispatch(new GetWorkshops());
-
-    if (parent) {
-      this.store.dispatch(new GetChildrenByParentId(parent.id)); //TODO: Add GetApplicationByParentId
-    } else {
-      this.store.dispatch(new GetApplications());//TODO: Add GetApplicationByProviderId
-      this.activateChildInfoBox();
-    }
-
-    this.applications$.subscribe(applications =>
-      this.applications = applications
-    );
+    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
+    (this.userRole === Role.provider) ? this.getProviderApplications() : this.getParentApplications();
   }
 
   /**
   * This method initialize functionality to open child-info-box
   */
-  activateChildInfoBox(): void {
+   private activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -81,18 +70,37 @@ export class ApplicationsComponent implements OnInit {
   * This method changes status of emitted event to "approved"
   * @param Application event
   */
-  onApprove(event: Application): void {
-    const application = this.applications.find((application) => (application === event));
-    application.status = this.applicationStatus.approved;
+  onApprove(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**
   * This method changes status of emitted event to "rejected"
   * @param Application event
   */
-  onReject(event: Application): void {
-    const application = this.applications.find((application) => (application === event))
-    application.status = this.applicationStatus.rejected;
+  onReject(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
+  }
+
+  /**
+  * This method get data by Provider Id
+  */
+  private getProviderApplications(): void {
+    this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+    this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+    this.store.dispatch(new GetApplicationsByProviderId(this.id));
+    this.activateChildInfoBox();
+  }
+
+  /**
+  * This method get data by Parent Id
+  */
+  private getParentApplications(): void {
+    this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+    this.store.dispatch(new GetChildrenByParentId(this.id));
+    this.store.dispatch(new GetApplicationsByParentId(this.id));
   }
 
   /**
