@@ -13,26 +13,44 @@
 </ng-template>
 
 <ng-template #ProviderWorkshops>
-  <div fxLayout='row' fxLayoutAlign='start center'>
+  <div fxLayout='row wrap' fxLayoutAlign='start center'>
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
       [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
   </div>
 </ng-template>
 
 <ng-template #ParentWorkshops>
-  <div *ngFor="let child of children">
-    <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
-      :'shortDate'}})</h3>
-    <div fxLayout='row' fxLayoutAlign='start center'>
-      <app-workshop-card class="cards"
-        *ngFor="let application of (applications$ | async | applicationChildFilter : child)"
-        [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application"
-        (deleteWorkshop)="onDelete($event)" (leaveWorkshop)="onLeaveWorkshop($event)">
-      </app-workshop-card>
-    </div>
-  </div>
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Активні">
+        <ng-container
+          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.pending : applicationStatus.approved : applicationStatus.acceptedForSelection }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Неактивні">
+        <ng-container
+          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.rejected : applicationStatus.left }">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
 </ng-template>
 
 <ng-template #isEmptyList>
   <p class="empty-list-wrapper">Гуртків поки немає</p>
+</ng-template>
+
+<ng-template #ParentApplications let-applications>
+  <ng-container *ngIf="applications?.length then Applications; else isEmptyList;"></ng-container>
+
+   <ng-template #Applications>
+    <div *ngFor="let child of children$ | async">
+       <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date :'shortDate'}})</h3>
+      <div fxLayout='row' fxLayoutAlign='start center'>
+        <app-workshop-card class="cards"
+          *ngFor="let application of applications | applicationChildFilter : child"
+          [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
+        </app-workshop-card>
+      </div>
+    </div>
+  </ng-template>
+
 </ng-template>

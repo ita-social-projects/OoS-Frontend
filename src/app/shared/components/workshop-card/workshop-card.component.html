@@ -1,4 +1,4 @@
-<div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions">
+<div *ngIf="!(isMainPage || userRole !== role.provider) then ProviderActions;">
 </div>
 <mat-card>
   <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
@@ -51,11 +51,11 @@
   </div>
 </ng-template>
 
-<ng-template #UserActions>
+<!-- <ng-template #UserActions>
   <div fxLayout="row" fxLayoutAlign="end start">
     <div class="actions_btn"><img src="assets/icons/fav.png" alt="fav" (click)="onLike()"></div>
   </div>
-</ng-template>
+</ng-template> :TODO add like icon-->
 
 <ng-template #ProviderChangeStatus>
   <div fxLayout="row" fxLayoutAlign="space-between center">
