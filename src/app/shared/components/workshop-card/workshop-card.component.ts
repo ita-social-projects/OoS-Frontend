@@ -28,10 +28,6 @@ export class WorkshopCardComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  ifOverflow(id:any): boolean {
-    return id.scrollWidth > id.clientWidth;
-  }
-
   ngOnInit(): void { }
 
   onEdit(): void {
