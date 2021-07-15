@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { CabinetDataComponent } from './cabinet-data.component';
 
@@ -8,9 +9,12 @@ describe('CabinetDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CabinetDataComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [CabinetDataComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
