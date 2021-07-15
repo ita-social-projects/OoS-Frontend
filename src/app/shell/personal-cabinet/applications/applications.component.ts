@@ -11,10 +11,8 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetWorkshops } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 @Component({
@@ -36,7 +34,8 @@ export class ApplicationsComponent implements OnInit {
   children$: Observable<Child[]>;
 
   workshopList: Workshop[];
-  user: User;
+  userRole: string;
+  id: number;
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -46,14 +45,14 @@ export class ApplicationsComponent implements OnInit {
     private infoBoxService: InfoBoxService) { }
 
   ngOnInit(): void {
-    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
-    this.getApplication();
+    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
+    (this.userRole === Role.provider) ? this.getProviderApplications() : this.getParentApplications();
   }
 
   /**
   * This method initialize functionality to open child-info-box
   */
-  activateChildInfoBox(): void {
+   private activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -74,7 +73,6 @@ export class ApplicationsComponent implements OnInit {
   onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
-    this.getApplication();
   }
 
   /**
@@ -84,23 +82,25 @@ export class ApplicationsComponent implements OnInit {
   onReject(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
-    this.getApplication();
   }
 
-  getApplication(): void {
+  /**
+  * This method get data by Provider Id
+  */
+  private getProviderApplications(): void {
+    this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+    this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+    this.store.dispatch(new GetApplicationsByProviderId(this.id));
+    this.activateChildInfoBox();
+  }
 
-    if (this.user.role === Role.parent) {
-      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-      this.store.dispatch(new GetChildrenByParentId(parent.id));
-      this.store.dispatch(new GetApplicationsByParentId(parent.id));
-      this.store.dispatch(new GetWorkshopsByParentId()); //TODO: add parent id
-
-    } else {
-      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-      this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
-      this.store.dispatch(new GetApplicationsByProviderId(provider.id));
-      this.activateChildInfoBox();
-    }
+  /**
+  * This method get data by Parent Id
+  */
+  private getParentApplications(): void {
+    this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+    this.store.dispatch(new GetChildrenByParentId(this.id));
+    this.store.dispatch(new GetApplicationsByParentId(this.id));
   }
 
   /**

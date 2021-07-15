@@ -6,6 +6,10 @@ import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from '../../../shared/models/user.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+import { Application } from 'src/app/shared/models/application.model';
+import { ApplicationFilterPipe } from 'src/app/shared/pipes/application-filter.pipe';
+import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 
 describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
@@ -17,11 +21,14 @@ describe('WorkshopsComponent', () => {
       imports: [
         RouterTestingModule,
         NgxsModule.forRoot([]),
-        MatDialogModule
+        MatDialogModule,
+        MatTabsModule
       ],
       declarations: [
         WorkshopsComponent,
-        MockWorkshopCardComponent
+        MockWorkshopCardComponent,
+        ApplicationFilterPipe,
+        ApplicationChildFilterPipe,
       ],
     })
       .compileComponents();
@@ -50,4 +57,5 @@ class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() application: Application;
 }

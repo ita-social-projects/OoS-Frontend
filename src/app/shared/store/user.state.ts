@@ -48,7 +48,6 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
-  GetWorkshopsByParentId,
   GetApplicationsByProviderId,
   GetApplicationsByParentId,
   OnUpdateApplicationSuccess,
@@ -110,16 +109,6 @@ export class UserState {
   getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId) {
     return this.userWorkshopService
       .getWorkshopsByProviderId(payload)
-      .pipe(
-        tap((userWorkshops: Workshop[]) => {
-          return patchState({ workshops: userWorkshops });
-        }));
-  }
-
-  @Action(GetWorkshopsByParentId)
-  getWorkshopsByParentId({ patchState }: StateContext<UserStateModel>, { }: GetWorkshopsByParentId) {
-    return this.userWorkshopService
-      .getWorkshopsByParentId()
       .pipe(
         tap((userWorkshops: Workshop[]) => {
           return patchState({ workshops: userWorkshops });

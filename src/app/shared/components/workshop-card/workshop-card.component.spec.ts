@@ -9,6 +9,7 @@ import { Workshop } from '../../models/workshop.model';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { MatChipsModule } from '@angular/material/chips';
+import { Application } from '../../models/application.model';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -33,6 +34,7 @@ describe('WorkshopCardComponent', () => {
     fixture = TestBed.createComponent(WorkshopCardComponent);
     component = fixture.componentInstance;
     component.status = '';
+    component.application = {status: null} as Application;
     component.workshop = {
       id: 1,
       title: '',
