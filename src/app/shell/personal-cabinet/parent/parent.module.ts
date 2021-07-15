@@ -21,7 +21,6 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-worksh
 
 
 
-
 @NgModule({
   declarations: [
     CreateChildComponent,

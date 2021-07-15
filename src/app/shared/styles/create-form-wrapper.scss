@@ -52,11 +52,13 @@
 .footer{
   margin:20px;
 }
+
 .link{
   text-decoration: underline;
   color: #3849F9;
   cursor: pointer;
 }
+
 .mat-icon-delete{
   color:#3849F9;
   opacity: 1;
@@ -78,8 +80,7 @@
 
 ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
   font-family: unset !important;
-  }
-
+}
 
 .link {
   font-weight: bold !important;
