@@ -23,8 +23,10 @@ import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
 export class CreateChildComponent implements OnInit {
 
   ChildrenFormArray = new FormArray([]);
+  AgreementFormControl = new FormControl(false);
   editMode: boolean = false;
   child: Child;
+  isAgreed: boolean = false;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -50,12 +52,18 @@ export class CreateChildComponent implements OnInit {
         }
       });
     const childId = +this.route.snapshot.paramMap.get('id');
+   
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+
+    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+
     if (childId) {
       this.editMode = true;
       this.childrenService.getChildById(childId).subscribe((child: Child) => {
         this.child = child;
         this.ChildrenFormArray.push(this.newForm(this.child));
       })
+     
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }
