@@ -15,7 +15,7 @@
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
-    [invalid] = "DescriptionFormGroup.get('buildingNumber').invalid && DescriptionFormGroup.get('buildingNumber').touched" 
+    [invalid] = "DescriptionFormGroup.get('description').invalid && DescriptionFormGroup.get('description').touched" 
   ></app-validation-hint-for-input>
   
   <label class="step-label"> Директор <span class="step-required">*</span></label>
@@ -24,7 +24,7 @@
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
-    [invalid] = "DescriptionFormGroup.get('buildingNumber').invalid && DescriptionFormGroup.get('buildingNumber').touched" 
+    [invalid] = "DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched" 
   ></app-validation-hint-for-input>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>

@@ -41,7 +41,7 @@
   <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="user-form">
 
     <label class="step-label">Дата народження<span class="step-required">*</span></label>
-    <mat-form-field class="step-input step-input-date">
+    <mat-form-field class="step-input-date">
       <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

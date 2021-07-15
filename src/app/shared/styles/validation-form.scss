@@ -1,9 +1,10 @@
-.step-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, mat-form-field.step-input-date.ng-invalid.ng-touched {
+// .step-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, mat-form-field.step-input-date.ng-invalid.ng-touched {
+  .step-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched { 
   outline: none;
   border: 1px solid #C72A21;
 }
 
-// Check if needed later:
+// Check if needed later:;
 // input.birthDay.ng-invalid.ng-touched {
 //   border: none;
 // }

@@ -26,16 +26,13 @@
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input class="birthDay" matInput [matDatepicker]="picker" formControlName="birthDay" placeholder="01.01.2010">
-    <!-- Check how it works -->
-  <!-- <mat-form-field class="step-input-date">
-    <input class="step-input" [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" required> -->
+    <input  [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="01.01.2010">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
-    [invalid] = "ChildFormGroup.get('birthDay').invalid && ChildFormGroup.get('birthDay').touched" 
+    [invalid] = "ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').touched" 
   ></app-validation-hint-for-input>
 
 

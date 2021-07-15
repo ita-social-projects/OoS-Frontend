@@ -69,7 +69,7 @@
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
-    [invalid] = "InfoFormGroup.get('directorBirthDay').invalid && InfoFormGroup.get('directorBirthDay').touched" 
+    [invalid] = "InfoFormGroup.get('directorDateOfBirth').invalid && InfoFormGroup.get('directorDateOfBirth').touched" 
   ></app-validation-hint-for-input>
 
   <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}} <span class="step-required">*</span></label>
