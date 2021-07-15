@@ -9,7 +9,7 @@
 </ng-template>
 
 <ng-template #isParent>
-  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container> >
+  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
 </ng-template>
 
 <ng-template #ProviderWorkshops>
@@ -20,18 +20,18 @@
 </ng-template>
 
 <ng-template #ParentWorkshops>
-    <mat-tab-group mat-align-tabs="start">
-      <mat-tab label="Активні">
-        <ng-container
-          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.pending : applicationStatus.approved : applicationStatus.acceptedForSelection }">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="Неактивні">
-        <ng-container
-          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.rejected : applicationStatus.left }">
-        </ng-container>
-      </mat-tab>
-    </mat-tab-group>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Активні">
+      <ng-container
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.pending : applicationStatus.approved : applicationStatus.acceptedForSelection }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Неактивні">
+      <ng-container
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.rejected : applicationStatus.left }">
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
 </ng-template>
 
 <ng-template #isEmptyList>
@@ -41,13 +41,14 @@
 <ng-template #ParentApplications let-applications>
   <ng-container *ngIf="applications?.length then Applications; else isEmptyList;"></ng-container>
 
-   <ng-template #Applications>
+  <ng-template #Applications>
     <div *ngFor="let child of children$ | async">
-       <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date :'shortDate'}})</h3>
+      <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
+        :'shortDate'}})</h3>
       <div fxLayout='row' fxLayoutAlign='start center'>
-        <app-workshop-card class="cards"
-          *ngFor="let application of applications | applicationChildFilter : child"
-          [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
+        <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
+          [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application"
+          (leaveWorkshop)="onLeaveWorkshops($event)">
         </app-workshop-card>
       </div>
     </div>
