@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -39,7 +40,6 @@ export class CabinetDataComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  id: number;
   userRole: string;
   provider: Provider;
   parent: Parent;
@@ -47,7 +47,7 @@ export class CabinetDataComponent implements OnInit, OnDestroy {
   applications: Application[];
   children: Child[];
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, public matDialog: MatDialog) { }
 
   ngOnInit(): void { }
 
@@ -57,31 +57,31 @@ export class CabinetDataComponent implements OnInit, OnDestroy {
     if (this.userRole === Role.provider) {
       this.provider$.pipe(
         filter((provider: Provider) => !!provider),
-        // takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => this.id = provider.id);
+        takeUntil(this.destroy$)
+      ).subscribe((provider: Provider) => this.provider = provider);
 
     } else {
       this.parent$.pipe(
         filter((parent: Parent) => !!parent),
-        // takeUntil(this.destroy$)
-      ).subscribe((parent: Parent) => this.id = parent.id);
+        takeUntil(this.destroy$)
+      ).subscribe((parent: Parent) => this.parent = parent);
     }
   }
 
   getProviderApplications(): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.id));
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id));
   }
 
   getParenApplications(): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.id));
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
 
   getParenChildren(): void {
-    this.store.dispatch(new GetChildrenByParentId(this.id));
+    this.store.dispatch(new GetChildrenByParentId(this.parent.id));
   }
 
   getProviderWorkshops(): void {
-    this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
   }
 
   ngOnDestroy() {

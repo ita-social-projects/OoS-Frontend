@@ -16,8 +16,8 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 })
 export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
-  constructor(store: Store, private matDialog: MatDialog) {
-    super(store);
+  constructor(store: Store, matDialog: MatDialog) {
+    super(store, matDialog);
   }
 
   ngOnInit(): void {
@@ -26,8 +26,8 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     if (this.userRole === Role.provider) {
       this.getProviderWorkshops();
     } else {
-      this.getParenApplications();
       this.getParenChildren();
+      this.getParenApplications();
     }
   }
 
