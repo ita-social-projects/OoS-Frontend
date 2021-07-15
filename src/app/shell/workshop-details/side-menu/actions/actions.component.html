@@ -1,23 +1,17 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap='0.8rem'>
   <h4 *ngIf="workshop.price"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття' }} </h4>
   <h4 *ngIf="!workshop.price"> Безкоштовно </h4>
-  <a [routerLink]="['/create-application', workshop.id]" *ngIf="displayed && registered" >
+  <a [routerLink]="['/create-application', workshop.id]" (click)="login(isRegistered)" >
     <button   mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
       Подати заявку
     </button>
    </a>
-   <a *ngIf="displayed && !registered" (click)="login()">
-    <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
-      Подати заявку
-    </button></a>
-  <button mat-raised-button class="button button-msg" *ngIf="displayed && registered">
+
+  <button mat-raised-button class="button button-msg" (click)="login(isRegistered)">
     <img class="button-msg-icon" src="assets/icons/message.png" alt="email">
     Надіслати повідомлення
   </button>
-  <button mat-raised-button class="button button-msg" *ngIf="displayed && !registered" (click)="login()">
-    <img class="button-msg-icon" src="assets/icons/message.png" alt="email">
-    Надіслати повідомлення
-  </button>
+
   <button mat-button fxLayout="row" fxLayoutAlign="center center">
     <img src="assets/icons/add_fav.png" alt="add_fav">
     Додати в улюблені
