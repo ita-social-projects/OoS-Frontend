@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SideMenuComponent } from './side-menu.component';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -9,6 +12,10 @@ describe('SideMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        NgxsModule.forRoot([])
+      ],
       declarations: [
         SideMenuComponent,
         MockScheduleComponent,
