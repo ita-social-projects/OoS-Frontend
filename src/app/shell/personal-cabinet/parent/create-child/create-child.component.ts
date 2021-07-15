@@ -65,7 +65,7 @@ export class CreateChildComponent implements OnInit {
   * This method create new FormGroup
   * @param FormArray array
   */
-  newForm(child?: Child): FormGroup {
+  private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
       lastName: new FormControl(''),
       firstName: new FormControl(''),

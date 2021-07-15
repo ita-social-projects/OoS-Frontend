@@ -52,10 +52,9 @@ export class WorkshopsComponent implements OnInit {
       data: 'Видалити гурток?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(new DeleteWorkshopById(workshop));
-      }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteWorkshopById(workshop));
+
     });
   }
 
@@ -68,7 +67,7 @@ export class WorkshopsComponent implements OnInit {
       data: 'Залишити гурток?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.left);
         this.store.dispatch(new UpdateApplication(applicationUpdate));
@@ -79,7 +78,7 @@ export class WorkshopsComponent implements OnInit {
   /**
   * This method get workshops by provider id
   */
-   private getProviderWorkshops(): void {
+  private getProviderWorkshops(): void {
     this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
     this.store.dispatch(new GetWorkshopsByProviderId(this.id));
   }
@@ -87,7 +86,7 @@ export class WorkshopsComponent implements OnInit {
   /**
   * This method get applications by Parent Id
   */
-   private getParentWorkshops(): void {
+  private getParentWorkshops(): void {
     this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
     this.store.dispatch(new GetChildrenByParentId(this.id));
     this.store.dispatch(new GetApplicationsByParentId(this.id));
