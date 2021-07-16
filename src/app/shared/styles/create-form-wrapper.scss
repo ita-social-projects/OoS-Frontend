@@ -71,10 +71,11 @@
 .wrapper-check-box {
   margin:0 auto;
   max-width: 535px;
+
 }
 
 ::ng-deep .mat-checkbox-label {
-  white-space: normal;
+    white-space: normal;
 }
 
 ::ng-deep .mat-checkbox-layout .mat-checkbox-label {

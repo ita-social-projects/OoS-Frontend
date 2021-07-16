@@ -52,7 +52,7 @@ export class ApplicationsComponent implements OnInit {
   /**
   * This method initialize functionality to open child-info-box
   */
-   private activateChildInfoBox(): void {
+  private activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -98,7 +98,7 @@ export class ApplicationsComponent implements OnInit {
   * This method get data by Parent Id
   */
   private getParentApplications(): void {
-    this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+    this.id = this.store.selectSnapshot<Parent>(RegistrationState.parent).id;
     this.store.dispatch(new GetChildrenByParentId(this.id));
     this.store.dispatch(new GetApplicationsByParentId(this.id));
   }
