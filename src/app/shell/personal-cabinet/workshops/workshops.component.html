@@ -39,10 +39,8 @@
 </ng-template>
 
 <ng-template #ParentApplications let-applications>
-  <ng-container *ngIf="applications?.length then Applications; else isEmptyList;"></ng-container>
-
-  <ng-template #Applications>
-    <div *ngFor="let child of children$ | async">
+  <div *ngFor="let child of children$ | async">
+    <div *ngIf="isApplications(applications, child)">
       <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
         :'shortDate'}})</h3>
       <div fxLayout='row' fxLayoutAlign='start center'>
@@ -52,6 +50,5 @@
         </app-workshop-card>
       </div>
     </div>
-  </ng-template>
-
+  </div>
 </ng-template>

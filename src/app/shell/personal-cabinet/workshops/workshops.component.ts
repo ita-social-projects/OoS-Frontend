@@ -5,6 +5,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
+import { Child } from 'src/app/shared/models/child.model';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
@@ -33,6 +34,9 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     }
   }
 
+  isApplications(applications: Application[], child: Child): boolean {
+    return applications.some((application: Application) => application.child.id === child.id);
+  }
   /**
  * This method delete workshop By Workshop Id
  */
