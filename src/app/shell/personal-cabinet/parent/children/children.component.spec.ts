@@ -1,16 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ParentInfoComponent } from './parent-info.component';
-import { NgxsModule, Store } from '@ngxs/store';
+import { ChildrenComponent } from './children.component';
+import { NgxsModule } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component, Input } from '@angular/core';
 import { Child } from '../../../../shared/models/child.model';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Parent } from 'src/app/shared/models/parent.model';
 
 describe('ParentInfoComponent', () => {
-  let component: ParentInfoComponent;
-  let fixture: ComponentFixture<ParentInfoComponent>;
-  let store: Store;
+  let component: ChildrenComponent;
+  let fixture: ComponentFixture<ChildrenComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -20,7 +18,7 @@ describe('ParentInfoComponent', () => {
         MatDialogModule
       ],
       declarations: [
-        ParentInfoComponent,
+        ChildrenComponent,
         MockParentChildCardComponent
       ]
     })
@@ -28,9 +26,7 @@ describe('ParentInfoComponent', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ id: 1 } as Parent);
-    fixture = TestBed.createComponent(ParentInfoComponent);
+    fixture = TestBed.createComponent(ChildrenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
