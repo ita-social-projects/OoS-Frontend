@@ -21,9 +21,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   exports: [
+    MatTooltipModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,

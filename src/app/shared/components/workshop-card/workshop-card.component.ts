@@ -19,6 +19,7 @@ export class WorkshopCardComponent implements OnInit {
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
+  public below: string = 'below';
 
   @Input() workshop: Workshop;
   @Input() userRole: string;
