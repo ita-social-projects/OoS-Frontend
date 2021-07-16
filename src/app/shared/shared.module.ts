@@ -41,6 +41,7 @@ import { NavigationMobileBarComponent } from './components/navigation-mobile-bar
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
+import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { MessageBarComponent } from './components/message-bar/message-bar.compon
     NavigationMobileBarComponent,
     FullSearchBarComponent,
     MessageBarComponent,
+    ShowTooltipIfTruncatedDirective,
   ],
   imports: [
     MaterialModule,
@@ -124,7 +126,8 @@ import { MessageBarComponent } from './components/message-bar/message-bar.compon
     WorkshopFilterPipe,
     FullSearchBarComponent,
     MessageBarComponent,
-    MatProgressBarModule
+    MatProgressBarModule,
+    ShowTooltipIfTruncatedDirective
   ]
 })
 export class SharedModule { }

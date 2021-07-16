@@ -33,7 +33,13 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.user) user$: Observable<User>;
 
   children: Child[] = [];
+  AgreementFormControl = new FormControl(false);
+  ParentAgreementFormControl = new FormControl(false);
   selectedChild: Child;
+  parent: Parent;
+  isAgreed: boolean;
+  editMode: boolean;
+  isParentAgreed: boolean;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
@@ -47,8 +53,17 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     public navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    this.store.dispatch(new GetChildrenByParentId(parent.id));
+
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+    this.ParentAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isParentAgreed = val);
+    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+
+    if (this.editMode) {
+      this.parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+    }
+
+    this.parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+    this.store.dispatch(new GetChildrenByParentId(this.parent.id));
 
     const workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(workshopId));
@@ -71,9 +86,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       data: 'Подати заявку?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const application = new Application(this.selectedChild.id, this.workshop.id);
+        const application = new Application(this.selectedChild, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));
       }
     });

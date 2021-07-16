@@ -1,54 +1,70 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
-import { AppState } from 'src/app/shared/store/app.state';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteWorkshopById, GetWorkshopsByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
+import { Child } from 'src/app/shared/models/child.model';
+import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { GetWorkshops } from '../../../shared/store/app.actions';
+import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 
 @Component({
   selector: 'app-workshops',
   templateUrl: './workshops.component.html',
   styleUrls: ['./workshops.component.scss']
 })
-export class WorkshopsComponent implements OnInit {
+export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
-  readonly role: typeof Role = Role;
-
-  @Select(UserState.workshops)
-  workshops$: Observable<Workshop[]>;
-  userRole: string;
-  id: number;
-
-  constructor(private store: Store, private matDialog: MatDialog) { }
+  constructor(store: Store, matDialog: MatDialog) {
+    super(store, matDialog);
+  }
 
   ngOnInit(): void {
-    this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
+    this.getUserData();
+  }
 
+  init(): void {
     if (this.userRole === Role.provider) {
-      this.id = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
-      this.store.dispatch(new GetWorkshopsByProviderId(this.id));
+      this.getProviderWorkshops();
     } else {
-      this.store.dispatch(new GetWorkshopsByParentId());
+      this.getParenChildren();
+      this.getParenApplications();
     }
   }
 
+  isApplications(applications: Application[], child: Child): boolean {
+    return applications.some((application: Application) => application.child.id === child.id);
+  }
+  /**
+ * This method delete workshop By Workshop Id
+ */
   onDelete(workshop: Workshop): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: 'Видалити гурток?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteWorkshopById(workshop));
+
+    });
+  }
+
+  /**
+  * This method changed the target application status to "leave"
+  */
+  onLeaveWorkshops(application: Application): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: 'Залишити гурток?'
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.store.dispatch(new DeleteWorkshopById(workshop));
+        const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.left);
+        this.store.dispatch(new UpdateApplication(applicationUpdate));
       }
     });
   }

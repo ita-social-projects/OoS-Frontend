@@ -12,16 +12,20 @@
         [socialGroups]="(socialGroups$ | async)" (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
     <div fxLayout='column' fxLayoutAlign='center center'>
-      <button *ngIf="!editMode" class="btn-add" mat-button (click)="addChild()">
+      <button *ngIf="!editMode" class="btn-add" mat-button (click)="addChild()" >
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
-      <div fxLayout="column" fxLayoutAlign="center center">
-        Додаючи дані про дитину я погоджуюсь з <a class="link">Правилами користування </a>
-        та надаю згоду на обробку персональних даних
+
+      <div *ngIf="!editMode"  fxLayout='column' fxLayoutAlign='center center' class="wrapper-check-box">
+        <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"> Додаючи дані про дитину я погоджуюсь з <a class="link">Правилами користування </a>
+          та надаю згоду на обробку персональних даних
+        </mat-checkbox>
       </div>
+
       <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-        <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
-        <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
+        <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Додати пізніше</a></button>
+        <button class="btn" mat-button type="submit" (click)="onSubmit()"
+        [disabled]="(!isAgreed && !editMode)">Зберегти</button>
       </div>
     </div>
   </div>

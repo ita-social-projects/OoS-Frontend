@@ -1,19 +1,19 @@
-<mat-card class="card" fxLayout='row' fxLayoutAlign='space-evenly center'
-  [ngClass]="(application.status === applicationStatus.approved) ? 'card-new' : ''">
-  <mat-card-content *ngIf="child" class="card-block" fxLayout='row' fxLayoutAlign='start center'>
+<mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
+  [ngClass]="(application.status === applicationStatus.pending) ? 'card card-new' : 'card'">
+  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
     <div class="avatar" *ngIf="userRole === Role.provider">
-      <img mat-card-avatar #img src="assets/icons/child-{{child.gender}}.png" alt="child-photo"
+      <img mat-card-avatar #img src="assets/icons/child-{{application.child.gender}}.png" alt="child-photo"
         (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">
     </div>
     <div fxLayout='column' fxLayoutAlign='start start'>
-      <h5>{{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h5>
-      <p class="card-text">Дата народження: {{ child.dateOfBirth | date: 'shortDate'}}</p>
+      <h5>{{ application.child.firstName }} {{ application.child.lastName }} {{ application.child.middleName }}</h5>
+      <p class="card-text">Дата народження: {{ application.child.dateOfBirth | date: 'shortDate'}}</p>
       <p class="card-text">Дата подання заявки: {{ application.creationTime | date: 'shortDate' }}</p>
     </div>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
-    <h2 *ngIf="provider">{{ provider?.shortTitle }}</h2>
-    <h4 *ngIf="workshop">{{ workshop?.title}}</h4>
+    <h4>{{ application?.workshop.providerTitle }}</h4>
+    <h4>{{ application?.workshop.title}}</h4>
     <p class="card-tex"><img src="assets/icons/age.png" alt="people"> Доступних місць:
     </p>
   </mat-card-content>

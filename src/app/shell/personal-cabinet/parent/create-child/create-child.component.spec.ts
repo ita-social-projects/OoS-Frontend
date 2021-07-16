@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CreateChildComponent', () => {
@@ -21,7 +22,9 @@ describe('CreateChildComponent', () => {
         ReactiveFormsModule,
         MatIconModule,
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatCheckboxModule
+        
       ],
       declarations: [
         CreateChildComponent,

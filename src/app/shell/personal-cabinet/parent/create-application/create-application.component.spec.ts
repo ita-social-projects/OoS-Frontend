@@ -15,6 +15,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Parent } from 'src/app/shared/models/parent.model';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -36,8 +37,8 @@ describe('CreateApplicationComponent', () => {
         BrowserAnimationsModule,
         MatTabsModule,
         RouterTestingModule,
-        MatCardModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCheckboxModule
       ],
       declarations: [
         CreateApplicationComponent,

@@ -1,9 +1,9 @@
-<div class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
+<div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
   <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>
   <a [routerLink]="['/create-child', '']"><button class="btn" mat-raised-button>Додати дитину</button></a>
 </div>
 
-<div *ngIf="(children$ | async)?.length then ChildList"></div>
+<div *ngIf="(children$ | async)?.length then ChildList; else isEmptyList"></div>
 
 <ng-template #ChildList>
   <div class="wrapper-card">
@@ -15,4 +15,8 @@
       </div>
     </ng-container>
   </div>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <p class="empty-list-wrapper">Дітей поки не додано до списку</p>
 </ng-template>

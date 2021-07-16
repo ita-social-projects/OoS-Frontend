@@ -29,7 +29,7 @@ export class Provider {
   workshop?: Workshop;
   image?: File[];
 
-  constructor(info, legalAddress: Address, actualAddress: Address, photo, user: User, id?: number) {
+  constructor(info, legalAddress: Address, actualAddress: Address, photo, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
     this.type = info.type;
@@ -43,10 +43,16 @@ export class Provider {
     this.director = info.director;
     this.directorDateOfBirth = info.directorDateOfBirth;
     this.founder = info.founder;
+    if (provider.legalAddressId) {
+      this.legalAddressId = provider.legalAddressId;
+    };
+    if (provider.actualAddressId) {
+      this.actualAddressId = provider.actualAddressId;
+    };
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;
     this.userId = user.id;
-    this.id = id;
+    this.id = provider.id;
   }
 }
