@@ -4,7 +4,7 @@
   <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
     <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
     <mat-card-header>
-      <mat-card-title matTooltip="{{workshop.title}}" showTooltipIfTruncated [matTooltipPosition]="below">
+      <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated [matTooltipPosition]="below">
         {{workshop.title}}</mat-card-title>
       <img class="card_category" src="assets/icons/lang.png"
         alt="workshop-category">

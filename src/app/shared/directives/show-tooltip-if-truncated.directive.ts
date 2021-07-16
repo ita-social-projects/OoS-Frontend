@@ -7,10 +7,7 @@ import { Directive } from '@angular/core';
 })
 export class ShowTooltipIfTruncatedDirective implements AfterViewInit {
 
-  constructor(
-    private el: ElementRef,
-    private matTooltip: MatTooltip
-    ) { }
+  constructor(private el: ElementRef, private matTooltip: MatTooltip) { }
 
   ngAfterViewInit(): void {
    this.matTooltip.disabled = this.el.nativeElement.scrollWidth <= this.el.nativeElement.clientWidth;

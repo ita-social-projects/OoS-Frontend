@@ -16,7 +16,6 @@ export class WorkshopCardComponent implements OnInit {
 
   readonly role: typeof Role = Role;
   public below: string = 'below';
-  public IsShowToolTip: boolean;
 
   @Input() workshop: Workshop;
   @Input() userRole: string;
