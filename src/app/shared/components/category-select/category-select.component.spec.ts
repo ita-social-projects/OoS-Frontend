@@ -19,7 +19,10 @@ describe('CategorySelectComponent', () => {
         MatOptionModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [CategorySelectComponent, MockValidationHintForInputComponent],
+      declarations: [
+        CategorySelectComponent, 
+        MockValidationHintForInputComponent
+      ],
     })
       .compileComponents();
   });
