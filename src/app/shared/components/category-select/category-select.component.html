@@ -7,7 +7,7 @@
   </mat-select>
   <app-validation-hint-for-input 
     type = "requiredField" 
-    [invalid] = "CategoryFormGroup.get('directionId').invalid && CategoryFormGroup.get('directionId').touched" 
+    [invalid] = "CategoryFormGroup.get('directionId').invalid && CategoryFormGroup.get('directionId').touched"
   ></app-validation-hint-for-input>
 
   <mat-select *ngIf="(departments$ | async)?.length" disableOptionCentering panelClass="dropdown-panel"

@@ -27,7 +27,8 @@ describe('CreateAddressComponent', () => {
       ],
       declarations: [
         CreateAddressComponent,
-        MockMapComponent
+        MockMapComponent,
+        MockValidationHintForInputComponent
       ]
     })
       .compileComponents();
@@ -51,4 +52,18 @@ describe('CreateAddressComponent', () => {
 class MockMapComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
+}
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
 }

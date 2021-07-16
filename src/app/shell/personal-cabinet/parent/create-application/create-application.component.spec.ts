@@ -42,7 +42,8 @@ describe('CreateApplicationComponent', () => {
       ],
       declarations: [
         CreateApplicationComponent,
-        MockPersonCardComponent
+        MockPersonCardComponent,
+        MockValidationHintForInputComponent
       ],
     })
       .compileComponents();
@@ -67,4 +68,18 @@ describe('CreateApplicationComponent', () => {
 class MockPersonCardComponent {
   @Input() card;
   @Input() cardType: cardType;
+}
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
 }
