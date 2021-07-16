@@ -4,7 +4,7 @@
 
   <mat-form-field floatLabel="never">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
-      name="ownership" required placeholder="Оберіть форму властності">
+      name="ownership" placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
         <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ ownershipTypeUkr[type.key] }}
@@ -21,7 +21,7 @@
 
   <mat-form-field floatLabel="never">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
-      required placeholder="Оберіть тип організації">
+      placeholder="Оберіть тип організації">
       <ng-container *ngFor="let type of providerType | keyvalue">
         <mat-option *ngIf="providerTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ providerTypeUkr[type.key] }}
@@ -63,7 +63,7 @@
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" placeholder="01.01.2010">
+    <input [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" placeholder="01.01.2000">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>

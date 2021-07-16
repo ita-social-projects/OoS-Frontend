@@ -14,9 +14,5 @@ export class ValidationHintForInputComponent {
   @Input() minLength: boolean;
   @Input() minCharachters: number; 
   
-  
- 
-  constructor () { 
-
-  }
+  constructor () { }
 }

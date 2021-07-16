@@ -5,7 +5,7 @@
 
   <label class="step-label"> Призвіще <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" required>
+    <input matInput class="step-input" type="text" formControlName="lastName">
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
@@ -14,7 +14,7 @@
 
   <label class="step-label"> Ім'я <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" required>
+    <input matInput class="step-input" type="text" formControlName="firstName">
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
@@ -23,7 +23,7 @@
 
   <label class="step-label"> По-батькові <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" required>
+    <input matInput class="step-input" type="text" formControlName="middleName">
   </mat-form-field>
   <app-validation-hint-for-input 
     type = "requiredField" 
@@ -32,7 +32,7 @@
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input  [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="01.01.2010">
+    <input  [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="01.01.2000">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>

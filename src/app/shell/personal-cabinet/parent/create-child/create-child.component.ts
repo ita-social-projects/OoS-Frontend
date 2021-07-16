@@ -71,7 +71,7 @@ export class CreateChildComponent implements OnInit {
       firstName: new FormControl('', Validators.required),
       middleName: new FormControl(''),
       dateOfBirth: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
+      gender: new FormControl(''),
       socialGroupId: new FormControl('', Validators.required),
     });
 

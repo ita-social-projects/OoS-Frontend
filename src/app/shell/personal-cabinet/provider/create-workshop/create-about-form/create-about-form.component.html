@@ -9,8 +9,7 @@
 
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
-      required>
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type">
       <ng-container *ngFor="let type of workshopType | keyvalue">
         <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ workshopTypeUkr[type.key] }}
@@ -85,7 +84,7 @@
     <div fxLayout='column' fxLayoutAlign='start'>
       <mat-form-field>
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
       </mat-form-field>
       <app-validation-hint-for-input 
         type = "requiredField" 
@@ -95,7 +94,7 @@
     <div fxLayout='column'>
       <mat-form-field>
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
       </mat-form-field>
       <app-validation-hint-for-input 
         type = "requiredField" 
