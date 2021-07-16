@@ -35,7 +35,9 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   ngOnInit(): void {
     this.getUserData();
+  }
 
+  init(): void {
     if (this.userRole === Role.provider) {
       this.getProviderWorkshops();
       this.getProviderApplications();
@@ -45,7 +47,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getParenApplications();
     }
   }
-
   /**
   * This method initialize functionality to open child-info-box
   */

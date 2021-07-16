@@ -22,7 +22,9 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData();
+  }
 
+  init(): void {
     if (this.userRole === Role.provider) {
       this.getProviderWorkshops();
     } else {

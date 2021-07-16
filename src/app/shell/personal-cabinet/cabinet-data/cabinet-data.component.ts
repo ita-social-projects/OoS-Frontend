@@ -20,7 +20,7 @@ import { UserState } from 'src/app/shared/store/user.state';
   templateUrl: './cabinet-data.component.html',
   styleUrls: ['./cabinet-data.component.scss']
 })
-export class CabinetDataComponent implements OnInit, OnDestroy {
+export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
@@ -51,6 +51,8 @@ export class CabinetDataComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void { }
 
+  abstract init(): void;
+
   getUserData(): void {
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => this.userRole = user.role);
 
@@ -58,13 +60,19 @@ export class CabinetDataComponent implements OnInit, OnDestroy {
       this.provider$.pipe(
         filter((provider: Provider) => !!provider),
         takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => this.provider = provider);
+      ).subscribe((provider: Provider) => {
+        this.provider = provider;
+        this.init();
+      });
 
     } else {
       this.parent$.pipe(
         filter((parent: Parent) => !!parent),
         takeUntil(this.destroy$)
-      ).subscribe((parent: Parent) => this.parent = parent);
+      ).subscribe((parent: Parent) => {
+        this.parent = parent;
+        this.init();
+      });
     }
   }
 
