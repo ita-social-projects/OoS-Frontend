@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ChildFormComponent } from './create-child/child-form/child-form.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateChildComponent } from './create-child/create-child.component';
-import { ParentInfoComponent } from './parent-info/parent-info.component';
+import { ChildrenComponent } from './children/children.component';
 import { CreateApplicationComponent } from './create-application/create-application.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -25,7 +25,7 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-worksh
   declarations: [
     CreateChildComponent,
     ChildFormComponent,
-    ParentInfoComponent,
+    ChildrenComponent,
     CreateApplicationComponent,
     FavoriteWorkshopsComponent
   ],
