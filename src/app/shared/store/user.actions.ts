@@ -8,10 +8,6 @@ export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: number) { }
 }
-export class GetWorkshopsByParentId {
-  static readonly type = '[user] get Workshops By Parent Id';
-  constructor() { } //TODO: add get workshops by ParentId
-}
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: number) { }
