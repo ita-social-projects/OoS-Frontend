@@ -72,7 +72,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       data: 'Подати заявку?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const application = new Application(this.selectedChild, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));

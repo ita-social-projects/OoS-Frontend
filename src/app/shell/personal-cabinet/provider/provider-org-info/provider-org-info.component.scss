@@ -6,12 +6,11 @@ $basen-blue-color: #3849F9;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding: 20px 25px;
-  max-width: 40rem;
+  max-width: 30rem;
+  margin-bottom: 2rem;
 }
 .edit-icon{
   position: relative;
-  z-index: 1;
-  left: 24rem;
   color: $basen-blue-color;
 }
 .border{
@@ -20,4 +19,7 @@ $basen-blue-color: #3849F9;
 }
 .description{
   max-width: 35rem;
+}
+.nav{
+  width: 30rem;
 }

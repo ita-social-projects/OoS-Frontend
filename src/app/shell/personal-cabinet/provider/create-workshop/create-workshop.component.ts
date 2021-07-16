@@ -42,7 +42,7 @@ export class CreateWorkshopComponent implements OnInit {
     const workshopId = +this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
-      this.userWorkshopService.getWorkshopById(workshopId).subscribe(workshop => this.workshop = workshop);
+      this.userWorkshopService.getWorkshopById(workshopId).subscribe((workshop: Workshop) => this.workshop = workshop);
     }
   }
 
@@ -50,18 +50,20 @@ export class CreateWorkshopComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    const address = new Address(this.AddressFormGroup.value);
-    const teachers = this.createTeachers(this.TeacherFormArray);
-    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    const address: Address = new Address(this.AddressFormGroup.value);
+    const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
+    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
 
     const aboutInfo = this.AboutFormGroup.getRawValue();
     const descInfo = this.DescriptionFormGroup.getRawValue();
 
+    let workshop: Workshop;
+
     if (this.editMode) {
-      const workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
+      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
       this.store.dispatch(new UpdateWorkshop(workshop));
     } else {
-      const workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
+      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
       this.store.dispatch(new CreateWorkshop(workshop));
     }
   }
@@ -106,7 +108,7 @@ export class CreateWorkshopComponent implements OnInit {
    * This method create array of teachers
    * @param FormArray formArray
    */
-  createTeachers(formArray: FormArray): Teacher[] {
+  private createTeachers(formArray: FormArray): Teacher[] {
     const teachers: Teacher[] = [];
     formArray.controls.forEach((form: FormGroup) => {
       let teacher: Teacher = new Teacher(form.value);
@@ -115,7 +117,7 @@ export class CreateWorkshopComponent implements OnInit {
     return teachers;
   }
 
-  subscribeOnDirtyForm(form: FormGroup | FormArray): void {
+  private subscribeOnDirtyForm(form: FormGroup | FormArray): void {
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine))

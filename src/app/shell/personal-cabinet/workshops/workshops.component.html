@@ -1,19 +1,56 @@
-<div *ngIf="userRole === role.provider" class="wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
-  <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
-</div>
+<div *ngIf="(userRole === role.provider) then isProvider; else isParent"></div>
 
-<div *ngIf="(workshops$ | async)?.length then WorkshopsList"></div>
+<ng-template #isProvider>
+  <div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
+    <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
+    <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  </div>
+  <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops; else isEmptyList;"></ng-container>
+</ng-template>
 
+<ng-template #isParent>
+  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container> >
+</ng-template>
 
-<ng-template #WorkshopsList>
-  <div class="wrapper-card">
-    <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="20px grid">
-        <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-          [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)">
+<ng-template #ProviderWorkshops>
+  <div fxLayout='row wrap' fxLayoutAlign='start center'>
+    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
+      [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
+  </div>
+</ng-template>
+
+<ng-template #ParentWorkshops>
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Активні">
+        <ng-container
+          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.pending : applicationStatus.approved : applicationStatus.acceptedForSelection }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Неактивні">
+        <ng-container
+          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : applicationStatus.rejected : applicationStatus.left }">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <p class="empty-list-wrapper">Гуртків поки немає</p>
+</ng-template>
+
+<ng-template #ParentApplications let-applications>
+  <ng-container *ngIf="applications?.length then Applications; else isEmptyList;"></ng-container>
+
+   <ng-template #Applications>
+    <div *ngFor="let child of children$ | async">
+       <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date :'shortDate'}})</h3>
+      <div fxLayout='row' fxLayoutAlign='start center'>
+        <app-workshop-card class="cards"
+          *ngFor="let application of applications | applicationChildFilter : child"
+          [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
         </app-workshop-card>
       </div>
-    </ng-container>
-  </div>
+    </div>
+  </ng-template>
+
 </ng-template>

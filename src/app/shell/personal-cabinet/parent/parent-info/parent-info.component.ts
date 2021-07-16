@@ -33,10 +33,8 @@ export class ParentInfoComponent implements OnInit {
       data: 'Видалити дитину?'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(new DeleteChildById(childId));
-      }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      (result) && this.store.dispatch(new DeleteChildById(childId));
     });
   }
 
