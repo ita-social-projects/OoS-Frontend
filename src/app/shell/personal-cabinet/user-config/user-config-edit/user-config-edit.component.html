@@ -34,7 +34,7 @@
           <input matInput class="step-input" type="text" value="+38" disabled>
         </mat-form-field>
         <mat-form-field class="phone_number">
-          <input matInput class="step-input" type="text" formControlName="phoneNumber" maxlength="10">
+          <input matInput class="step-input"  type="text" formControlName="phoneNumber" appDigitOnly maxlength="{{constants.PHONE_DIGITS}}">
         </mat-form-field>
       </div>
       <app-validation-hint-for-input 
@@ -48,50 +48,6 @@
         [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
         [minCharachters] = "userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength"
       ></app-validation-hint-for-input>
-
-      <!-- <label class="step-label"> Емейл <span class="step-required">*</span></label>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="email">
-      </mat-form-field>
-      <app-validation-hint-for-input 
-        type = "requiredEmptyField" 
-        [isEmptyCheck] = "userEditFormGroup.get('email').errors?.required"
-        [invalid] = "userEditFormGroup.get('email').invalid && userEditFormGroup.get('email').touched" 
-      ></app-validation-hint-for-input>
-      <app-validation-hint-for-input 
-        type = "validEmail" 
-        [isEmailCheck] = "userEditFormGroup.get('email').errors?.email"
-        [invalid] = "userEditFormGroup.get('email').invalid && userEditFormGroup.get('email').touched" 
-      ></app-validation-hint-for-input>
-
-      <ng-container formGroupName="passwords">
-        <label class="step-label"> Пароль </label>
-        <mat-form-field>
-          <input matInput class="step-input" [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-          <mat-icon matSuffix (click)="hidePassword = !hidePassword">
-            {{ hidePassword ? 'visibility_off' : 'visibility' }}
-          </mat-icon>
-          <app-validation-hint-for-input 
-            type = "requiredEmptyField" 
-            [isEmptyCheck] = "userEditFormGroup.get('passwords.password').errors?.required"
-            [invalid] = "userEditFormGroup.get('passwords.password').invalid && userEditFormGroup.get('passwords.password').touched" 
-          ></app-validation-hint-for-input>
-          <app-validation-hint-for-input 
-            type = "minValueLength"
-            [minLength] = "userEditFormGroup.get('passwords.password').errors?.minlength"
-            [invalid] = "userEditFormGroup.get('passwords.password').invalid && userEditFormGroup.get('passwords.password').touched"
-            [minCharachters] = "userEditFormGroup.get('passwords.password').errors?.minlength?.requiredLength"
-          ></app-validation-hint-for-input>
-        </mat-form-field>
-
-        <label class="step-label"> Повторити пароль </label>
-        <mat-form-field>
-          <input matInput class="step-input" [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
-          <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
-            {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
-          </mat-icon>
-        </mat-form-field>
-      </ng-container> -->
 
     </form>
     <div fxLayout='column' fxLayoutAlign='center center'>

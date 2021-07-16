@@ -2,7 +2,6 @@
 <ng-container *ngIf = "type === 'requiredEmptyField' && isEmptyCheck && invalid; then requiredInput"></ng-container>
 <ng-container *ngIf = "type === 'validEmail' && isEmailCheck && invalid; then incorrectEmail"></ng-container>
 <ng-container *ngIf = "type === 'minDigitsLength' && minLength && invalid; then notEnoughDigits"></ng-container>
-<ng-container *ngIf = "type === 'minValueLength' && minLength && invalid; then notEnoughCharacters"></ng-container>
 <ng-container *ngIf = "type === 'minCharachtersLengthFOP' && minLength && invalid; then notEnoughCharactersFOP"></ng-container>
 
 <ng-template #requiredInput>
@@ -23,14 +22,8 @@
   </small>
 </ng-template>
 
-<ng-template #notEnoughCharacters>
-  <small appValidationMessageStyling>
-    Пароль має містити мінімум {{minCharachters}} символів
-  </small>
-</ng-template>
-
 <ng-template #notEnoughCharactersFOP>
   <small appValidationMessageStyling>
     Введіть 10 цифр з ІПН. <br> У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр 
-  </small>
+  </small> 
 </ng-template>

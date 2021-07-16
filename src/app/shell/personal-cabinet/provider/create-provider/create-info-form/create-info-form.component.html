@@ -2,7 +2,7 @@
 
   <label class="step-label">Форма властності<span class="step-required">*</span></label>
 
-  <mat-form-field>
+  <mat-form-field floatLabel="never">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
       name="ownership" required placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
@@ -19,7 +19,7 @@
 
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
 
-  <mat-form-field>
+  <mat-form-field floatLabel="never">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
       required placeholder="Оберіть тип організації">
       <ng-container *ngFor="let type of providerType | keyvalue">
@@ -62,11 +62,12 @@
   ></app-validation-hint-for-input>
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
-  <mat-form-field class="step-input-date">
-    <input class="step-input" [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth">
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+    <input [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" placeholder="01.01.2010">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+
   <app-validation-hint-for-input 
     type = "requiredField" 
     [invalid] = "InfoFormGroup.get('directorDateOfBirth').invalid && InfoFormGroup.get('directorDateOfBirth').touched" 
@@ -100,7 +101,7 @@
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+38</span>
       <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-        ui-hide-group-sep maxlength="10">
+        ui-hide-group-sep maxlength="{{constants.PHONE_DIGITS}}">
     </div>
   </mat-form-field>
   <app-validation-hint-for-input 

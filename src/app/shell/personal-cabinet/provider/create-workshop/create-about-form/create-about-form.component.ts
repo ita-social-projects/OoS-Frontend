@@ -36,7 +36,7 @@ export class CreateAboutFormComponent implements OnInit {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
-      phone: new FormControl('', [Validators.required, Validators.minLength(10)]),
+      phone: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_DIGITS)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       minAge: new FormControl('', [Validators.required]),
       maxAge: new FormControl('', [Validators.required]),

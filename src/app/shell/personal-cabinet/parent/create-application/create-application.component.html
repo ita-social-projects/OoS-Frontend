@@ -26,13 +26,19 @@
 
           <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
           <mat-form-field appearance="none">
-            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child"
+            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" 
+            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child"
               required placeholder="Діти">
               <mat-option *ngFor="let child of (children$ | async)" [value]="child" class="dropdown-option">
                 {{child.firstName}} {{child.middleName}} {{child.lastName}}
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <app-validation-hint-for-input 
+            type = "requiredField" 
+            [invalid] = "ChildFormControl.invalid && ChildFormControl.touched" 
+          ></app-validation-hint-for-input>
+
 
           <a [routerLink]="['/create-child', '']" class="btn-add-child">
             <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину

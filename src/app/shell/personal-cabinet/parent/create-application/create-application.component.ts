@@ -38,7 +38,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  ChildFormControl = new FormControl('');
+  ChildFormControl = new FormControl('', Validators.required);
 
   constructor(
     private store: Store,

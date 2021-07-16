@@ -12,7 +12,7 @@ export class ValidationHintForInputComponent {
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
-  @Input() minCharachters: number;
+  @Input() minCharachters: number; 
   
   
  

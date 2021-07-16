@@ -37,7 +37,7 @@
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+38</span>
       <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly ui-number-mask
-        ui-hide-group-sep minlength="10" maxlength="10">
+        ui-hide-group-sep maxlength="{{constants.PHONE_DIGITS}}">
     </div>
   </mat-form-field>
   <app-validation-hint-for-input 
@@ -92,7 +92,6 @@
         [invalid] = "AboutFormGroup.get('minAge').invalid && AboutFormGroup.get('minAge').touched" 
       ></app-validation-hint-for-input>
     </div>
-    <!-- <div fxLayout='column' fxLayoutAlign='start'> -->
     <div fxLayout='column'>
       <mat-form-field>
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"

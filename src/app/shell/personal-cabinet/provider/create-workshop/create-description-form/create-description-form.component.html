@@ -9,7 +9,7 @@
       {{DescriptionFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
   </div>
 
-  <mat-form-field>
+  <mat-form-field appPlaceholderStyling>
     <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
       formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
@@ -50,4 +50,8 @@
       </mat-chip-list>
     </div>
   </label>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "keyWordsCtrl.invalid && keyWordsCtrl.touched" 
+  ></app-validation-hint-for-input>
 </form>
