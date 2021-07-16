@@ -1,6 +1,6 @@
-<div *ngIf="!(isMainPage || userRole !== role.provider) then ProviderActions;">
+<mat-card class="position">
+  <div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
 </div>
-<mat-card>
   <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
     <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
     <mat-card-header>
@@ -46,27 +46,26 @@
 </ng-template>
 
 <ng-template #ProviderActions>
-  <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn" [routerLink]="['/create-workshop', workshop.id]"><img src="assets/icons/edit.png"
-        alt="edit"></div>
-    <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
+  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+    <div class="actions_btn" [routerLink]="['/create-workshop', workshop.id]"><mat-icon>edit</mat-icon></div>
+    <div class="actions_btn" (click)="onDelete()"><mat-icon>delete</mat-icon></div>
   </div>
 </ng-template>
 
-<!-- <ng-template #UserActions>
-  <div fxLayout="row" fxLayoutAlign="end start">
+<ng-template #UserActions>
+  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
     <div class="actions_btn"><mat-icon (click)="onLike()">favorite_border</mat-icon></div>
   </div>
-</ng-template> :TODO add like icon-->
+</ng-template>
 
 <ng-template #ProviderChangeStatus>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <!-- <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
+    <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
       <p class="status_text">{{ status === 'approved'
         ? "Набір відкрито" : "Набір завершено" }}</p>
     </mat-chip>
     <p class="card_link status_action" *ngIf="status === 'approved'"> Призупинити
-      набір </p>:TODO add workshop status -->
+      набір </p>
   </div>
 </ng-template>
 

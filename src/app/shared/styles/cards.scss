@@ -41,8 +41,6 @@
   }
 }
 .actions_btn {
-  position: relative;
-  top: 3rem;
   border-radius: 50%;
   background-color: #494545b9;
   padding: 0.5rem;
@@ -120,4 +118,14 @@
 }
 .mat-card-image{
   margin-bottom:0 !important;
+}
+
+.position {
+  position: relative;
+}
+
+.actions {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
