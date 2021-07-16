@@ -71,11 +71,10 @@
 .wrapper-check-box {
   margin:0 auto;
   max-width: 535px;
-
 }
 
 ::ng-deep .mat-checkbox-label {
-    white-space: normal;
+  white-space: normal;
 }
 
 ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
@@ -84,6 +83,13 @@
 
 .link {
   font-weight: bold !important;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #cccccc;
+  background-color: #cccccc;
+  color: #666666;
 }
 
 @media only screen and (max-width: 650px) {
