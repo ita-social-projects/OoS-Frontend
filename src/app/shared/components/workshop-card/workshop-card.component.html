@@ -1,10 +1,12 @@
-<div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions">
+<mat-card class="position">
+  <div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
 </div>
-<mat-card>
   <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
     <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
-    <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
-      <mat-card-title>{{workshop.title}}</mat-card-title><img class="card_category" src="assets/icons/lang.png"
+    <mat-card-header>
+      <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated [matTooltipPosition]="below">
+        {{workshop.title}}</mat-card-title>
+      <img class="card_category" src="assets/icons/lang.png"
         alt="workshop-category">
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
@@ -44,16 +46,15 @@
 </ng-template>
 
 <ng-template #ProviderActions>
-  <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn" [routerLink]="['/create-workshop', workshop.id]"><img src="assets/icons/edit.png"
-        alt="edit"></div>
-    <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
+  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+    <div class="actions_btn" [routerLink]="['/create-workshop', workshop.id]"><mat-icon>edit</mat-icon></div>
+    <div class="actions_btn" (click)="onDelete()"><mat-icon>delete</mat-icon></div>
   </div>
 </ng-template>
 
 <ng-template #UserActions>
-  <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn"><img src="assets/icons/fav.png" alt="fav" (click)="onLike()"></div>
+  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+    <div class="actions_btn"><mat-icon (click)="onLike()">favorite_border</mat-icon></div>
   </div>
 </ng-template>
 
@@ -63,16 +64,18 @@
       <p class="status_text">{{ status === 'approved'
         ? "Набір відкрито" : "Набір завершено" }}</p>
     </mat-chip>
-    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')"> Призупинити
+    <p class="card_link status_action" *ngIf="status === 'approved'"> Призупинити
       набір </p>
   </div>
 </ng-template>
 
 <ng-template #ParentChangeStatus>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="status_{{status}}"><img src="assets/icons/{{status}}.png" alt="{{status}}"> {{ status === 'approved'
-      ? "Підтверджено" : "Відхилено" }} </p>
-    <p class="card_link status_action" *ngIf="status === 'approved'" (click)="onChangeStatus('denied')">Залишити гурток
+    <p><img src="assets/icons/{{applicationStatus[application.status] }}.png"
+        alt="{{applicationStatus[application.status]}}"> {{
+      applicationStatusUkr[application.status] }} </p>
+    <p class="card_link status_action" *ngIf="applicationStatus[application.status] === applicationStatus.approved"
+      (click)="onWorkshopLeave()">Залишити гурток
     </p>
   </div>
 </ng-template>

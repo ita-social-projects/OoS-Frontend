@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChildCardComponent } from './child-card.component';
 import { MatCardModule } from '@angular/material/card';
@@ -14,6 +15,7 @@ describe('ChildCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MatIconModule,
         MatCardModule,
         RouterTestingModule,
         NgxsModule.forRoot([]),

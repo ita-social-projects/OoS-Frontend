@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
@@ -11,49 +12,45 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetWorkshops } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
+import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss']
 })
-export class ApplicationsComponent implements OnInit {
-
-  readonly applicationStatusUkr = ApplicationStatusUkr;
-  readonly applicationStatus = ApplicationStatus;
-  readonly role = Role;
-
-  @Select(UserState.workshops)
-  workshops$: Observable<Workshop[]>;
-  @Select(UserState.applications)
-  applications$: Observable<Application[]>;
-  @Select(UserState.children)
-  children$: Observable<Child[]>;
-
-  workshopList: Workshop[];
-  user: User;
+export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store,
-    private infoBoxService: InfoBoxService) { }
-
-  ngOnInit(): void {
-    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
-    this.getApplication();
+  constructor(store: Store,
+    private infoBoxService: InfoBoxService,
+    matDialog: MatDialog) {
+    super(store, matDialog);
   }
 
+  ngOnInit(): void {
+    this.getUserData();
+  }
+
+  init(): void {
+    if (this.userRole === Role.provider) {
+      this.getProviderWorkshops();
+      this.getProviderApplications();
+      this.activateChildInfoBox();
+    } else {
+      this.getParenChildren();
+      this.getParenApplications();
+    }
+  }
   /**
   * This method initialize functionality to open child-info-box
   */
-  activateChildInfoBox(): void {
+  private activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -74,7 +71,6 @@ export class ApplicationsComponent implements OnInit {
   onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
-    this.getApplication();
   }
 
   /**
@@ -84,23 +80,6 @@ export class ApplicationsComponent implements OnInit {
   onReject(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
-    this.getApplication();
-  }
-
-  getApplication(): void {
-
-    if (this.user.role === Role.parent) {
-      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-      this.store.dispatch(new GetChildrenByParentId(parent.id));
-      this.store.dispatch(new GetApplicationsByParentId(parent.id));
-      this.store.dispatch(new GetWorkshopsByParentId()); //TODO: add parent id
-
-    } else {
-      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-      this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
-      this.store.dispatch(new GetApplicationsByProviderId(provider.id));
-      this.activateChildInfoBox();
-    }
   }
 
   /**
@@ -113,10 +92,5 @@ export class ApplicationsComponent implements OnInit {
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
