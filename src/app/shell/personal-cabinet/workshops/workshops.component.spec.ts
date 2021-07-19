@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopsComponent } from './workshops.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { User } from '../../../shared/models/user.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Application } from 'src/app/shared/models/application.model';
@@ -14,7 +13,6 @@ import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-chi
 describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
   let fixture: ComponentFixture<WorkshopsComponent>;
-  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,9 +33,6 @@ describe('WorkshopsComponent', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
-
     fixture = TestBed.createComponent(WorkshopsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

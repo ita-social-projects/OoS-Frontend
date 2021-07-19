@@ -391,7 +391,7 @@ export class UserState {
     return this.applicationService
       .updateApplication(payload)
       .pipe(
-        tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
+        tap((res) => dispatch(new OnUpdateApplicationSuccess(res))),
         catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
       );
   }
@@ -404,6 +404,6 @@ export class UserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-    dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінений', type: 'success' }));
+    dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінено', type: 'success' }));
   }
 }
