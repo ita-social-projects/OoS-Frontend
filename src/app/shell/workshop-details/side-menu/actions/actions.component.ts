@@ -16,12 +16,13 @@ export class ActionsComponent implements OnInit {
 
   constructor(private store: Store) { }
 
+  ngOnInit(): void {
+  }
+
   login(isReg: boolean): void {
     if (!isReg) {
       this.store.dispatch(new Login());
     }
-  }
-  ngOnInit(): void {
   }
 
 }
