@@ -17,12 +17,16 @@
 
       </div>
       <p fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <img src="assets/icons/rate.png" alt="">
-        <span>{{workshop.rating}}</span>
+        <span class="icon-text">
+          <mat-icon class="icon">star</mat-icon>
+          {{workshop.rating}}
+        </span>
       </p>
       <p fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <img src="assets/icons/home.svg" alt="">
-        <a [routerLink]="'./provider-about'" class="workshop-link">Школа танців</a>
+        <a [routerLink]="'./provider-about'" class="workshop-link">
+          <mat-icon>home</mat-icon>
+          Школа танців
+        </a>
       </p>
     </div>
     <mat-tab-group>
