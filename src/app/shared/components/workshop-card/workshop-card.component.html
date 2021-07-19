@@ -63,10 +63,10 @@
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start" class="actions">
-    <div class="actions_btn action" [routerLink]="['/create-workshop', workshop.id]">
+    <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshop.id]">
       <mat-icon>edit</mat-icon>
     </div>
-    <div class="actions_btn action" (click)="onDelete()">
+    <div class="actions_btn action-icon" (click)="onDelete()">
       <mat-icon>delete</mat-icon>
     </div>
   </div>
@@ -74,7 +74,7 @@
 
 <ng-template #UserActions>
   <div fxLayout="row" fxLayoutAlign="end start" class="actions">
-    <div class="actions_btn action">
+    <div class="actions_btn action-icon">
       <mat-icon (click)="onLike()">favorite_border</mat-icon>
     </div>
   </div>
