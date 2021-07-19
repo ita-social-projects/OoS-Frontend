@@ -21,15 +21,8 @@ export class SideMenuComponent implements OnInit {
 
   ngOnInit(): void {
     const user = this.store.selectSnapshot<User>(RegistrationState.user);
-    if (user) {
-      this.isRegistered = true;
-      if (user.role !== Role.provider) {
-        this.isDisplayed = true;
-      }
-    }
-    else {
-      this.isDisplayed = true;
-    }
+    this.isRegistered = Boolean(user);
+    this.isDisplayed=Boolean((!user) || (user && user.role !== Role.provider))
 
   }
 }
