@@ -14,5 +14,5 @@ export class Constants {
   static readonly RATING_DESC = 'ratingDesc';
   static readonly PRICE_ASC = 'priceAsc';
   static readonly PRICE_DECS = 'priceDesc';
-  static readonly PHONE_DIGITS = 10;
+  static readonly PHONE_LENGTH = 10;
 };

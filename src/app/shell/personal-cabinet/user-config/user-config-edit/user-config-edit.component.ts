@@ -27,7 +27,7 @@ export class UserConfigEditComponent implements OnInit {
       lastName: new FormControl('', Validators.required),
       firstName: new FormControl('', Validators.required),
       middleName: new FormControl(''),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_DIGITS)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
     });
 
   }

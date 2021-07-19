@@ -32,7 +32,7 @@ export class CreateInfoFormComponent implements OnInit {
       edrpouIpn: new FormControl('', [Validators.required, Validators.minLength(8)]),
       director: new FormControl('', Validators.required),
       directorDateOfBirth: new FormControl('', Validators.required),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_DIGITS)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       website: new FormControl(''),
       facebook: new FormControl(''),
