@@ -2,13 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SideMenuComponent } from './side-menu.component';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
+import { Store } from '@ngxs/store';
+import { User } from 'src/app/shared/models/user.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
   let fixture: ComponentFixture<SideMenuComponent>;
+  let store : Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        NgxsModule.forRoot([])
+      ],
       declarations: [
         SideMenuComponent,
         MockScheduleComponent,
@@ -20,6 +29,8 @@ describe('SideMenuComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User)
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -44,6 +55,7 @@ class MockContactsComponent {
 })
 class MockActionsComponent {
   @Input() workshop: Workshop;
+  @Input() isRegistered: boolean;
 }
 
 @Component({
