@@ -29,12 +29,12 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         );
     }
 
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenTitle = (token) ? `Bearer ${token}` : '';
 
     if (typeof (token) === 'string') {
       return next.handle(request.clone({
-        url: url,
+        url,
         setHeaders: { Authorization: tokenTitle }
       }))
         .pipe(
@@ -45,7 +45,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request.clone({
-      url: url,
+      url,
     }))
       .pipe(
         catchError((error) => {

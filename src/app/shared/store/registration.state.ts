@@ -13,6 +13,7 @@ import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
+import {Observable} from 'rxjs';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
@@ -66,7 +67,7 @@ export class RegistrationState {
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.authorize(null , {customParams: {culture: 'uk'}});
+    this.oidcSecurityService.authorize();
   }
 
   @Action(Logout)
@@ -81,9 +82,10 @@ export class RegistrationState {
       .checkAuth()
       .subscribe((auth) => {
         console.log('is authenticated', auth);
-        patchState({ isAuthorized: auth });
+        patchState({ isAuthorized: auth.isAuthenticated });
         if (auth) {
-          const id = jwt_decode(this.oidcSecurityService.getToken()).sub;
+          let id = jwt_decode(this.oidcSecurityService.getIdToken()) as any;
+          id = id.sub;
           this.userService.getUserById(id).subscribe(user => {
             patchState({ user });
             dispatch(new CheckRegistration());
@@ -109,7 +111,7 @@ export class RegistrationState {
   }
 
   @Action(GetProfile)
-  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile) {
+  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile): Observable<Parent> |  Observable<Provider>{
     const state = getState();
 
     if (state.user.role === Role.parent) {

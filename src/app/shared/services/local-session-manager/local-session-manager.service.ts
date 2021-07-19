@@ -8,8 +8,8 @@ export class LocalSessionManagerService implements AbstractSecurityStorage {
   remove(key: string): void {
     localStorage.removeItem(key);
   }
-  read(key: string) {
-    let item = localStorage.getItem(key);
+  read(key: string): string {
+    const item = localStorage.getItem(key);
     if (!!item) {
       return JSON.parse(item);
     }
@@ -17,9 +17,12 @@ export class LocalSessionManagerService implements AbstractSecurityStorage {
       return null;
     }
   }
-  write(key: string, value: any) {
+  write(key: string, value: any): boolean {
     value = value || null;
     localStorage.setItem(key, JSON.stringify(value));
     return true;
+  }
+
+  clear(configId?: string): void {
   }
 }
