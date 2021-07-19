@@ -66,7 +66,7 @@ export class RegistrationState {
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.authorize(null , {customParams: {culture:"uk"}});
+    this.oidcSecurityService.authorize(null , {customParams: {culture: 'uk'}});
   }
 
   @Action(Logout)
@@ -83,9 +83,9 @@ export class RegistrationState {
         console.log('is authenticated', auth);
         patchState({ isAuthorized: auth });
         if (auth) {
-          const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
+          const id = jwt_decode(this.oidcSecurityService.getToken()).sub;
           this.userService.getUserById(id).subscribe(user => {
-            patchState({ user: user });
+            patchState({ user });
             dispatch(new CheckRegistration());
           });
         }
@@ -95,7 +95,7 @@ export class RegistrationState {
   @Action(OnAuthFail)
   onAuthFail(): void {
     console.log('Authorization failed');
-    this.snackBar.open("Упс! Перевірте з'єднання", '', {
+    this.snackBar.open('Упс! Перевірте з\'єднання', '', {
       duration: 5000,
       panelClass: ['red-snackbar'],
     });
@@ -117,14 +117,14 @@ export class RegistrationState {
         .getProfile()
         .pipe(
           tap(
-            (parent: Parent) => patchState({ parent: parent })
+            (parent: Parent) => patchState({ parent })
           ));
     } else {
       return this.providerService
         .getProfile()
         .pipe(
           tap(
-            (provider: Provider) => patchState({ provider: provider })
+            (provider: Provider) => patchState({ provider })
           ));
     }
   }
