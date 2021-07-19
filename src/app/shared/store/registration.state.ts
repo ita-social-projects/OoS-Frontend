@@ -66,7 +66,7 @@ export class RegistrationState {
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.authorize();
+    this.oidcSecurityService.authorize(null , {customParams: {culture:"uk"}});
   }
 
   @Action(Logout)
