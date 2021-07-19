@@ -9,15 +9,17 @@
 .action-icon {
   color: #fff;
 }
-.approved{
-  color:#199953
-}
-.pending{
-  color: #FFBD00;
-}
-.acceptedForSelection{
-  color: #27A3FF;
-}
-.rejected, .left, .blocked{
-  color: #C72A21;
+.parent-status{
+  .approved{
+    color:#199953
+  }
+  .pending{
+    color: #FFBD00;
+  }
+  .acceptedForSelection{
+    color: #27A3FF;
+  }
+  .rejected, .left, .blocked{
+    color: #C72A21;
+  }
 }
