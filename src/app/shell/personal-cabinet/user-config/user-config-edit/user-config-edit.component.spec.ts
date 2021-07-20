@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { User } from 'src/app/shared/models/user.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Input } from '@angular/core';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -24,7 +25,10 @@ describe('UserConfigEditComponent', () => {
         BrowserAnimationsModule,
         MatDialogModule,
       ],
-      declarations: [UserConfigEditComponent]
+      declarations: [
+        UserConfigEditComponent, 
+        MockValidationHintForInputComponent
+      ]
     })
       .compileComponents();
   });
@@ -51,3 +55,20 @@ describe('UserConfigEditComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}
+
+
+ 

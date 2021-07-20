@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -75,12 +75,12 @@ export class CreateChildComponent implements OnInit {
   */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl(''),
-      firstName: new FormControl(''),
+      lastName: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
       middleName: new FormControl(''),
-      dateOfBirth: new FormControl(''),
+      dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
-      socialGroupId: new FormControl(''),
+      socialGroupId: new FormControl('', Validators.required),
     });
 
     childFormGroup.valueChanges
@@ -104,7 +104,7 @@ export class CreateChildComponent implements OnInit {
   }
 
   /**
-  * This method delete FormGroup from teh FormArray by index
+  * This method delete FormGroup from the FormArray by index
   * @param index
   */
   onDeleteForm(index: number): void {

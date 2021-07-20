@@ -9,8 +9,7 @@
 
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
-      required>
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type">
       <ng-container *ngFor="let type of workshopType | keyvalue">
         <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ workshopTypeUkr[type.key] }}
@@ -18,23 +17,55 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "AboutFormGroup.get('type').invalid && AboutFormGroup.get('type').touched" 
+  ></app-validation-hint-for-input>
 
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title" required>
+    <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched" 
+  ></app-validation-hint-for-input>
+
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+38</span>
       <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly ui-number-mask
-        ui-hide-group-sep minlength="10" maxlength="10" required>
+        ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
     </div>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredEmptyField"
+    [isEmptyCheck] = "AboutFormGroup.get('phone').errors?.required"
+    [invalid] = "AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched" 
+  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input 
+    type = "minDigitsLength"
+    [minLength] = "AboutFormGroup.get('phone').errors?.minlength"
+    [invalid] = "AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched"
+    [minCharachters] = "AboutFormGroup.get('phone').errors?.minlength?.requiredLength"
+  ></app-validation-hint-for-input>
+
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="email" formControlName="email" required>
+    <input matInput class="step-input" type="email" formControlName="email">
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredEmptyField" 
+    [isEmptyCheck] = "AboutFormGroup.get('email').errors?.required"
+    [invalid] = "AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched" 
+  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input 
+    type = "validEmail" 
+    [isEmailCheck] = "AboutFormGroup.get('email').errors?.email"
+    [invalid] = "AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched" 
+  ></app-validation-hint-for-input>
+
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website">
@@ -50,24 +81,40 @@
   <hr fxLayout='row' fxLayoutAlign='center center' width="100%" size="2" color="#E3E3E3" />
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
-    <mat-form-field>
-      <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
-        required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
-        required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-    </mat-form-field>
+    <div fxLayout='column' fxLayoutAlign='start'>
+      <mat-form-field>
+        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
+          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+      </mat-form-field>
+      <app-validation-hint-for-input 
+        type = "requiredField" 
+        [invalid] = "AboutFormGroup.get('minAge').invalid && AboutFormGroup.get('minAge').touched" 
+      ></app-validation-hint-for-input>
+    </div>
+    <div fxLayout='column'>
+      <mat-form-field>
+        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
+          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+      </mat-form-field>
+      <app-validation-hint-for-input 
+        type = "requiredField" 
+        [invalid] = "AboutFormGroup.get('maxAge').invalid && AboutFormGroup.get('maxAge').touched" 
+      ></app-validation-hint-for-input>
+    </div>
   </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="daysPerWeek"
-        required #maxAgeInput appDigitOnly maxlength="2" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
+        #maxAgeInput appDigitOnly maxlength="2" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
         max={{constants.CLASS_AMOUNT_MAX}}>
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "AboutFormGroup.get('daysPerWeek').invalid && AboutFormGroup.get('daysPerWeek').touched" 
+  ></app-validation-hint-for-input>
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
   <ng-container>
@@ -76,6 +123,7 @@
       (deleteWorkHour)="deleteWorkHour(workHour)" formControlName="workingHours">
     </app-working-hours-form-control>
   </ng-container>
+
   <div fxLayout='row' fxLayoutAlign='start center'>
     <button class="btn-add" mat-button (click)="addWorkHour()">
       <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
@@ -97,5 +145,9 @@
       </mat-button-toggle-group>
     </div>
   </mat-radio-group>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "AboutFormGroup.get('isPerMonth').invalid && AboutFormGroup.get('isPerMonth').touched" 
+  ></app-validation-hint-for-input>
 
 </form>

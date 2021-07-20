@@ -36,7 +36,8 @@ describe('CreateDescriptionFormComponent', () => {
       declarations: [
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
-        ImageFormControlComponent
+        ImageFormControlComponent,
+        MockValidationHintForInputComponent
       ],
     })
       .compileComponents();
@@ -59,4 +60,18 @@ describe('CreateDescriptionFormComponent', () => {
 })
 class MockCategorySelectComponent {
   @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
 }

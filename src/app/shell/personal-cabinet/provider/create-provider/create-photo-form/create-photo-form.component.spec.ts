@@ -8,6 +8,7 @@ import { ImageFormControlComponent } from '../../../../../shared/components/imag
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule } from "@angular/material/grid-list";
+import { Component, Input } from '@angular/core';
 
 describe('CreatePhotoFormComponent', () => {
   let component: CreatePhotoFormComponent;
@@ -25,10 +26,11 @@ describe('CreatePhotoFormComponent', () => {
         MatIconModule,
         MatGridListModule
       ],
-      declarations:
-        [CreatePhotoFormComponent,
-          ImageFormControlComponent
-        ]
+      declarations: [
+        CreatePhotoFormComponent,
+        ImageFormControlComponent,
+        MockValidationHintForInputComponent
+      ]
     })
       .compileComponents();
   });
@@ -48,3 +50,17 @@ describe('CreatePhotoFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}
