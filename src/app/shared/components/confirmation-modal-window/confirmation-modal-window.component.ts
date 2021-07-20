@@ -8,9 +8,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ConfirmationModalWindowComponent implements OnInit {
 
+  modalTitle: string;
+  modalConfirmationtext: string;
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: string) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.modalTitle = this.data.toUpperCase();
+    this.modalConfirmationtext = this.data.toLowerCase();
+  }
 
 }
