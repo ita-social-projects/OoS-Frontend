@@ -29,9 +29,9 @@ export class HeaderComponent implements OnInit {
   MobileView: boolean = false;
 
   @Select(FilterState.isLoading)
-  isLoading$: Observable<boolean>;
+  isLoadingMainPage$: Observable<boolean>;
   @Select(AppState.isLoading)
-  isLoadingApp$: Observable<boolean>;
+  isLoadingResultPage$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
