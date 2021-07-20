@@ -41,11 +41,15 @@
   <form [formGroup]="UserFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="user-form">
 
     <label class="step-label">Дата народження<span class="step-required">*</span></label>
-    <mat-form-field class="step-input step-input-date">
-      <input matInput [matDatepicker]="picker" formControlName="birthDay" required>
+    <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+      <input matInput [matDatepicker]="picker" formControlName="birthDay" placeholder="01.01.2000">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <app-validation-hint-for-input 
+      type = "requiredField" 
+      [invalid] = "UserFormGroup.get('birthDay').invalid && UserFormGroup.get('birthDay').touched" 
+    ></app-validation-hint-for-input>
 
     <label class="step-label">Стать<span class="step-required">*</span></label>
     <mat-radio-group formControlName="gender" color="primary">
@@ -54,12 +58,17 @@
     </mat-radio-group>
 
     <label class="step-label">Соціальна група<span class="step-required">*</span></label>
-    <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="socialGroupId">
+    <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" 
+        placeholder="Соціальна група" formControlName="socialGroupId">
         <mat-option value="0" selected class="dropdown-option"> Присутня </mat-option>
         <mat-option value="1" class="dropdown-option"> Відсутня </mat-option>
       </mat-select>
     </mat-form-field>
+    <app-validation-hint-for-input 
+      type = "requiredField" 
+      [invalid] = "UserFormGroup.get('socialGroupId').invalid && UserFormGroup.get('socialGroupId').touched" 
+    ></app-validation-hint-for-input>
 
   </form>
 

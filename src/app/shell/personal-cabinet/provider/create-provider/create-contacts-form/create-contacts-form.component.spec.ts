@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Component, Input } from '@angular/core';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;
@@ -22,7 +23,10 @@ describe('CreateContactsFormComponent', () => {
         BrowserAnimationsModule,
         MatCheckboxModule
       ],
-      declarations: [CreateContactsFormComponent]
+      declarations: [
+        CreateContactsFormComponent,
+        MockValidationHintForInputComponent
+      ]
     })
       .compileComponents();
   });
@@ -37,3 +41,17 @@ describe('CreateContactsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}

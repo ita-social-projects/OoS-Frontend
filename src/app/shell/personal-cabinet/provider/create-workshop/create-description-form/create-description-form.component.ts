@@ -22,7 +22,7 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   DescriptionFormGroup: FormGroup;
 
-  keyWordsCtrl: FormControl = new FormControl();
+  keyWordsCtrl: FormControl = new FormControl('', Validators.required);
   separatorKeysCodes: number[] = [ENTER];
   keyWords: string[] = [];
   keyWord: string;

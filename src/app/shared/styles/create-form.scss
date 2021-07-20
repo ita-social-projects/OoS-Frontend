@@ -15,10 +15,12 @@
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
     border-radius: 21px;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+ 
 
     &-date{
-      width: 30%;
+    width: 35%;
+    padding: 0.1rem 1rem;
     }
 
     &-age{
@@ -26,6 +28,7 @@
       max-height: 40px;
     }
   }
+
   &-text{
     font-family: Open Sans;
     font-weight: 700;
@@ -90,10 +93,10 @@ button:focus {
   }
 }
 
-::ng-deep .mat-form-field-underline,
-::ng-deep .mat-form-field-label-wrapper {
+::ng-deep .mat-form-field-underline {
   display: none;
 }
+
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
   padding-bottom: 0;
 }
@@ -108,10 +111,7 @@ button:focus {
   font-weight: 400;
   color:#444444;
 }
-::ng-deep .mat-form-field-suffix{
-  bottom: 10px;
-  right: 25px;
-}
+
 .btn{
   color:white;
   background-color:#3849F9;

@@ -1,6 +1,6 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { cardType } from '../../enum/role';
 @Component({
   selector: 'app-person-card',
@@ -18,9 +18,9 @@ export class PersonCardComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.UserFormGroup = this.fb.group({
-      birthDay: new FormControl(''),
+      birthDay: new FormControl('', Validators.required),
       gender: new FormControl(''),
-      socialGroupId: new FormControl(''),
+      socialGroupId: new FormControl('', Validators.required),
     })
   }
 

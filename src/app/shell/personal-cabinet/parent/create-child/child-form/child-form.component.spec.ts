@@ -5,10 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
+import { Component, Input } from '@angular/core';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
@@ -29,7 +30,10 @@ describe('ChildFormComponent', () => {
         MatSelectModule,
         MatIconModule
       ],
-      declarations: [ChildFormComponent]
+      declarations: [
+        ChildFormComponent,
+        MockValidationHintForInputComponent
+      ]
     })
       .compileComponents();
   });
@@ -53,3 +57,17 @@ describe('ChildFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}

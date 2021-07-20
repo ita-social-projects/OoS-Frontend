@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageFormControlComponent } from '../../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatGridListModule } from "@angular/material/grid-list";
+import { Component, Input } from '@angular/core';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -30,7 +31,9 @@ describe('TeacherFormComponent', () => {
       ],
       declarations: [
         ImageFormControlComponent,
-        TeacherFormComponent]
+        TeacherFormComponent,
+        MockValidationHintForInputComponent
+      ]
     })
       .compileComponents();
   });
@@ -53,3 +56,17 @@ describe('TeacherFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}

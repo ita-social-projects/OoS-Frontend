@@ -2,9 +2,12 @@
   <app-image-form-control [imgMaxAmount]="4" [label]="'Фото'" formControlName="image">
   </app-image-form-control>
   <label class="step-label"> Опис <span class="step-required">*</span></label>
-  <mat-form-field>
+  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
     <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}" required></textarea>
+      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
-
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched" 
+  ></app-validation-hint-for-input>
 </form>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class CategorySelectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store) {
     this.CategoryFormGroup = this.formBuilder.group({
-      directionId: new FormControl(''),
+      directionId: new FormControl('', Validators.required),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
     });
