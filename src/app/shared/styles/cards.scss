@@ -33,11 +33,18 @@
     font-weight: 700;
   }
   &_text {
-    padding: 0;
-    margin: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 0.813rem;
     line-height: 1.125rem;
     color: #333333;
+    margin: 0.3rem;
+    padding: 0;
+  }
+  &_icon{
+    color: #AAAAAA;
+    margin-right: 0.2rem;
   }
 }
 .actions_btn {
@@ -74,6 +81,8 @@
     font-size: 11px;
     line-height: 12px;
     color: #FFFFFF;
+    margin: 0;
+    padding: 0;
   }
 
   &_action{
