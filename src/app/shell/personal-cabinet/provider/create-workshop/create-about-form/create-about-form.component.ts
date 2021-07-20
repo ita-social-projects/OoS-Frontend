@@ -1,3 +1,4 @@
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
@@ -31,6 +32,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   priceRadioBtn: FormControl = new FormControl(false);
   useProviderInfoCtrl: FormControl = new FormControl(false);
+  competitiveSelectionRadioBtn: FormControl = new FormControl(false);
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
@@ -48,6 +50,7 @@ export class CreateAboutFormComponent implements OnInit {
       price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
+      competitiveSelectionDescription: new FormControl(''),
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
@@ -55,6 +58,7 @@ export class CreateAboutFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.onCompetitiveSelectionCtrlInit();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.workshop && this.activateEditMode();
@@ -133,6 +137,26 @@ export class CreateAboutFormComponent implements OnInit {
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
+  }
+
+  /**
+   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
+   */
+  private onCompetitiveSelectionCtrlInit(): void {
+    this.competitiveSelectionRadioBtn.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((iscompetitiveSelectionDesc: boolean) => {
+        iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
+      });
+
+    this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(100),
+      ).subscribe((disabilityOptionsDesc: string) =>
+        this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
+      );
   }
 
   ngOnDestroy() {
