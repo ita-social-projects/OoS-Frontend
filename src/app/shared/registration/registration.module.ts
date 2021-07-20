@@ -3,9 +3,10 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AuthModule, LogLevel, OidcConfigService, OpenIdConfiguration} from 'angular-auth-oidc-client';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {environment} from 'src/environments/environment';
 import {LocalSessionManagerService} from '../services/local-session-manager/local-session-manager.service';
+import {HttpTokenInterceptor} from '../interceptors/http-token.interceptor';
 
 // export function configureAuth(oidcConfigService: OidcConfigService): Promise<OpenIdConfiguration[]> {
 //     return oidcConfigService.withConfigs([{

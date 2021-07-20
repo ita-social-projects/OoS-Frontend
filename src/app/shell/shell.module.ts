@@ -47,7 +47,6 @@ import { AllCategoriesComponent } from './all-categories/all-categories.componen
     ProviderGuard,
     ParentGuard,
     CreateProviderGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
   ]
 })

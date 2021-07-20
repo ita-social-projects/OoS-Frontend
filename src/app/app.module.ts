@@ -22,6 +22,8 @@ import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
 import { UserState } from './shared/store/user.state';
 import { NavigationState } from './shared/store/navigation.state';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpTokenInterceptor} from './shared/interceptors/http-token.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,7 @@ import { NavigationState } from './shared/store/navigation.state';
     RegistrationModule,
   ],
   providers: [
-
+    { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

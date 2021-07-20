@@ -46,6 +46,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
     return next.handle(request.clone({
       url,
+      setHeaders: { 'Content-Language' : 'uk' }
     }))
       .pipe(
         catchError((error) => {
