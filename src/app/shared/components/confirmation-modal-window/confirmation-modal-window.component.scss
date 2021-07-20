@@ -5,6 +5,9 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 }
+::ng-deep .mat-dialog-actions{
+  padding-bottom: 2rem;
+}
 ::ng-deep .mat-dialog-title{
   margin-bottom: 0;
   font-family: Innerspace;

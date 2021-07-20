@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Child } from 'src/app/shared/models/child.model';
 import { DeleteChildById } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 
@@ -25,14 +26,17 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
     this.getParenChildren();
   }
 
-  onDelete(childId: number): void {
+  onDelete(child: Child): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
-      data: 'Видалити дитину?'
+      data: {
+        type: 'delete',
+        property: `${child.firstName} ${child.lastName}`
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      (result) && this.store.dispatch(new DeleteChildById(childId));
+      (result) && this.store.dispatch(new DeleteChildById(child.id));
     });
   }
 

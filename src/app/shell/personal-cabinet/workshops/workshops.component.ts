@@ -43,7 +43,10 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   onDelete(workshop: Workshop): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
-      data: 'Видалити гурток?'
+      data: {
+        type: 'delete',
+        property: workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -58,7 +61,10 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   onLeaveWorkshops(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
-      data: 'Залишити гурток?'
+      data: {
+        type: 'leaveWorkshop',
+        property: application.workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

@@ -27,7 +27,9 @@ export class CreateGuard implements CanDeactivate<unknown> {
     if (isDirty) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
-        data: 'Залишити сторінку?'
+        data: {
+          type: 'leavePage'
+        }
       });
       dialogRef.afterClosed()
         .pipe(takeWhile(() => isDirty))

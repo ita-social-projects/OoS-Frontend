@@ -1,6 +1,8 @@
 <div fxLayout='column' fxLayoutAlign='center center'>
   <h2 mat-dialog-title>{{ modalTitle }}</h2>
-  <p class="confirmation">Ви впевнені, що хочете {{ modalConfirmationtext }}</p>
+  <p class="confirmation"> {{ modalConfirmationText }} {{ modalConfirmationProperty && modalConfirmationProperty + "?"}}
+  </p>
+  <p></p>
   <mat-dialog-actions fxLayout='row' fxLayoutAlign='center center'>
     <button class="btn" mat-button [mat-dialog-close]="true" cdkFocusInitial>ПІДТВЕРДИТИ</button>
     <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
