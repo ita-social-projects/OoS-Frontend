@@ -41,6 +41,7 @@
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу
     <div class="step-input" style="min-height:100px">
+      <!-- [class.redBorder] = "DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched" -->
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
           {{keyWord}}
@@ -55,3 +56,5 @@
     [invalid] = "keyWordsCtrl.invalid && keyWordsCtrl.touched" 
   ></app-validation-hint-for-input>
 </form>
+
+
