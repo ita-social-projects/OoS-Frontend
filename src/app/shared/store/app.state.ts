@@ -54,10 +54,10 @@ export class AppState {
     private teacherService: TeacherService
   ) { }
 
-  @Action(ToggleLoading)
-  toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-    patchState({ isLoading: payload });
-  }
+  // @Action(ToggleLoading)
+  // toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
+  //   patchState({ isLoading: payload });
+  // }
 
   @Action(SetLocation)
   setLocation({ patchState }: StateContext<AppStateModel>, { payload }: SetLocation): void {
@@ -66,9 +66,10 @@ export class AppState {
 
   @Action(GetWorkshops)
   getWorkshops({ patchState }: StateContext<AppStateModel>, { }: GetWorkshops) {
+  patchState({isLoading:true});   
     return this.appWorkshopsService
       .getAllWorkshops()
-      .subscribe((workshops: Workshop[]) => patchState({ allWorkshops: workshops }))
+      .subscribe((workshops: Workshop[]) => patchState({ allWorkshops: workshops, isLoading: false}))
   }
 
   @Action(GetTeachersById)
