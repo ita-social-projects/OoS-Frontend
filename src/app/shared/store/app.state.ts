@@ -54,11 +54,6 @@ export class AppState {
     private teacherService: TeacherService
   ) { }
 
-  // @Action(ToggleLoading)
-  // toggleLoading({ patchState }: StateContext<AppStateModel>, { payload }: ToggleLoading): void {
-  //   patchState({ isLoading: payload });
-  // }
-
   @Action(SetLocation)
   setLocation({ patchState }: StateContext<AppStateModel>, { payload }: SetLocation): void {
     patchState({ city: payload.city, lng: payload.lng, lat: payload.lat });
