@@ -10,7 +10,6 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
 
   dataUrlMock = '/assets/mock-org-cards.json';
-  dataUrl = '/Workshop/Get';
 
   constructor(private http: HttpClient) { }
 
@@ -33,20 +32,20 @@ export class AppWorkshopsService {
   * This method get all workshops
   */
   getAllWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(this.dataUrl);
+    return this.http.get<Workshop[]>('/Workshop/GetAll');
   }
   /**
   * This method get workshops with applied filter options
   */
   getFilteredWorkshops(filters: FilterStateModel): Observable<Workshop[]> {
     const options = { params: this.setParams(filters) };
-    return this.http.get<Workshop[]>(this.dataUrl, options);
+    return this.http.get<Workshop[]>('/Workshop/GetAll', options);
   }
 
   /**
    * This method get top workshops
    */
   getTopWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(this.dataUrl);
+    return this.http.get<Workshop[]>('/Workshop/GetAll');
   }
 }

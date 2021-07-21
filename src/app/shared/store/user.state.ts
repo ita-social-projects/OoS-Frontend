@@ -5,6 +5,7 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
+import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -52,12 +53,14 @@ import {
   GetApplicationsByParentId,
   OnUpdateApplicationSuccess,
   UpdateApplication,
-  OnUpdateApplicationFail
+  OnUpdateApplicationFail,
+  GetProviderById
 } from './user.actions';
 
 export interface UserStateModel {
   workshops: Workshop[];
   selectedWorkshop: Workshop;
+  selectedProvider: Provider;
   applications: Application[];
   children: Child[];
 }
@@ -66,6 +69,7 @@ export interface UserStateModel {
   defaults: {
     workshops: Workshop[''],
     selectedWorkshop: null,
+    selectedProvider: null,
     applications: Application[''],
     children: Child[''],
   }
@@ -76,6 +80,9 @@ export class UserState {
 
   @Selector()
   static workshops(state: UserStateModel): Workshop[] { return state.workshops }
+
+  @Selector()
+  static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider }
 
   @Selector()
   static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop }
@@ -92,7 +99,7 @@ export class UserState {
     private childrenService: ChildrenService,
     private providerService: ProviderService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   @Action(GetWorkshopById)
@@ -102,6 +109,16 @@ export class UserState {
       .pipe(
         tap((workshop: Workshop) => {
           return patchState({ selectedWorkshop: workshop });
+        }));
+  }
+
+  @Action(GetProviderById)
+  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById) {
+    return this.providerService
+      .getProviderById(payload)
+      .pipe(
+        tap((provider: Provider) => {
+          return patchState({ selectedProvider: provider });
         }));
   }
 
