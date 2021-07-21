@@ -33,23 +33,29 @@ export class CreateDescriptionFormComponent implements OnInit {
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-  
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, public element: ElementRef) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
-      keyWords: new FormControl(''),
+      keyWords: new FormControl('', Validators.required),
       directionId: new FormControl(''),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
+      keyWordsList: new FormControl('')
     });
   }
 
   ngOnInit(): void {
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+    
+    // let getMatChipEl = this.element.nativeElement.getElementsByClassName('mat-chip-list');
+    // if (getMatChipEl.getAttribute('tabindex') === 0) {
+    // console.log(this.element)
+    // }
+
   }
 
   /**
