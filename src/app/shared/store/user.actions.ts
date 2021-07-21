@@ -2,7 +2,7 @@ import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
-import { Workshop } from '../models/workshop.model';
+import { Workshop, WorkshopCard } from '../models/workshop.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -10,6 +10,10 @@ export class GetWorkshopsByProviderId {
 }
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
+  constructor(public payload: number) { }
+}
+export class GetProviderById {
+  static readonly type = '[user] get Provider By Provider Id';
   constructor(public payload: number) { }
 }
 export class GetApplicationsByParentId {
@@ -38,7 +42,7 @@ export class OnCreateWorkshopSuccess {
 }
 export class DeleteWorkshopById {
   static readonly type = '[user] delete Workshop';
-  constructor(public payload: Workshop) { }
+  constructor(public payload: WorkshopCard) { }
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';

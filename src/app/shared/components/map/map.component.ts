@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { Workshop } from '../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 
 @Component({
   selector: 'app-map',
@@ -17,7 +17,7 @@ export class MapComponent implements AfterViewInit {
   zoom: number = 11;
 
   @Input() addressFormGroup: FormGroup;
-  @Input() workshops: Workshop[];
+  @Input() workshops: WorkshopCard[];
 
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
@@ -80,7 +80,7 @@ export class MapComponent implements AfterViewInit {
 
     this.addressFormGroup && this.addressFormGroup.valueChanges.subscribe((address: Address) => address && this.setAddressLocation(address));
 
-    this.workshops && this.workshops.forEach((workshop: Workshop) => this.setAddressLocation(workshop.address));
+    this.workshops && this.workshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
   }
 
   /**
@@ -121,7 +121,7 @@ export class MapComponent implements AfterViewInit {
   setWorkshopMarkers(coords: [number, number], address: Address): void {
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
-    this.workshopMarkers.push({ marker, isSelected: false});
+    this.workshopMarkers.push({ marker, isSelected: false });
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();

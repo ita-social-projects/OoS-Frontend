@@ -5,7 +5,7 @@ import { ApplicationStatus, ApplicationStatusUkr } from '../../enum/applications
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { User } from '../../models/user.model';
-import { Workshop } from '../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 import { AppState } from '../../store/app.state';
 import { RegistrationState } from '../../store/registration.state';
 import { DeleteWorkshopById } from '../../store/user.actions';
@@ -21,13 +21,13 @@ export class WorkshopCardComponent implements OnInit {
   readonly role: typeof Role = Role;
   public below: string = 'below';
 
-  @Input() workshop: Workshop;
+  @Input() workshop: WorkshopCard;
   @Input() userRole: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
 
 
-  @Output() deleteWorkshop = new EventEmitter<Workshop>();
+  @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
 
 

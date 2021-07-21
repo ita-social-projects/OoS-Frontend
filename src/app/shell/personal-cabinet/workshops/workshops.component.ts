@@ -7,7 +7,7 @@ import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
-import { Workshop } from '../../../shared/models/workshop.model';
+import { Workshop, WorkshopCard } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 
 @Component({
@@ -40,7 +40,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   /**
  * This method delete workshop By Workshop Id
  */
-  onDelete(workshop: Workshop): void {
+  onDelete(workshop: WorkshopCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
