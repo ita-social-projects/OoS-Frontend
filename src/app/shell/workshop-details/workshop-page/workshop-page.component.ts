@@ -11,6 +11,8 @@ export class WorkshopPageComponent implements OnInit {
 
   @Input() workshop: Workshop;
   @Input() provider: Provider;
+  @Input() providerWorkshops: Workshop[];
+
 
 
   constructor() { }

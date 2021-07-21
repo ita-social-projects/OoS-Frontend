@@ -190,7 +190,7 @@ export class UserState {
   @Action(DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById) {
     return this.userWorkshopService
-      .deleteWorkshop(payload.id)
+      .deleteWorkshop(payload.workshopId)
       .pipe(
         tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))

@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -20,7 +20,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(UserState.selectedProvider) provider$: Observable<Provider>;
-
+  @Select(UserState.workshops) workshops$: Observable<Workshop[]>;
 
   constructor(
     private store: Store,
@@ -37,6 +37,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((workshop: Workshop) => {
       this.store.dispatch(new GetProviderById(workshop.providerId));
+      this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
     });
 
 

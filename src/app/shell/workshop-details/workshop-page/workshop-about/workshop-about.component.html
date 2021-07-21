@@ -1,11 +1,10 @@
 <div class="wrapper">
+  <h5>Опис</h5>
   <p>{{workshop.description}}</p>
-  <h5>Програма</h5>
-  <p>{{workshopDetailsMock.programm}}</p>
-  <h5>Розклад занять</h5>
-  <p>{{workshopDetailsMock.schedule}}</p>
-  <h5>Тривалість занять</h5>
-  <p>{{workshopDetailsMock.duration}}</p>
-  <h5>Вартість</h5>
-  <p>{{workshop.price}}</p>
+  <p> Кількість занять у тиждень: {{workshop.daysPerWeek}} </p>
+  <h5> Вартість </h5>
+  <p *ngIf="!workshop.price"> Безкоштовно </p>
+  <p *ngIf="workshop.price"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття' }} </p>
+  <h5> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </h5>
+  <p> {{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'Відсутні' }} </p>
 </div>
