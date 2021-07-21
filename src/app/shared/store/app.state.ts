@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Teacher } from '../models/teacher.model';
-import { Workshop } from '../models/workshop.model';
+import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { ActivateEditMode, GetTeachersById, GetWorkshops, MarkFormDirty, SetLocation, ShowMessageBar, ToggleLoading } from './app.actions';
@@ -12,7 +12,7 @@ export interface AppStateModel {
   city: String;
   lng: Number | null;
   lat: Number | null;
-  allWorkshops: Workshop[];
+  allWorkshops: WorkshopCard[];
   teachers: Teacher[],
   isDirtyForm: boolean,
   isEditMode: boolean
@@ -38,7 +38,7 @@ export class AppState {
   static isLoading(state: AppStateModel): boolean { return state.isLoading }
 
   @Selector()
-  static allWorkshops(state: AppStateModel): Workshop[] { return state.allWorkshops }
+  static allWorkshops(state: AppStateModel): WorkshopCard[] { return state.allWorkshops }
 
   @Selector()
   static teachers(state: AppStateModel): Teacher[] { return state.teachers }
@@ -61,10 +61,10 @@ export class AppState {
 
   @Action(GetWorkshops)
   getWorkshops({ patchState }: StateContext<AppStateModel>, { }: GetWorkshops) {
-  patchState({isLoading:true});   
+    patchState({ isLoading: true });
     return this.appWorkshopsService
       .getAllWorkshops()
-      .subscribe((workshops: Workshop[]) => patchState({ allWorkshops: workshops, isLoading: false}))
+      .subscribe((workshops: WorkshopCard[]) => patchState({ allWorkshops: workshops, isLoading: false }))
   }
 
   @Action(GetTeachersById)

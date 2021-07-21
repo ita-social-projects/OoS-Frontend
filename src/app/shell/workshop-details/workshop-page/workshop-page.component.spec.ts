@@ -81,5 +81,5 @@ class MockProviderAboutComponent {
   template: ''
 })
 class MockAllProviderWorkshopsComponent {
-  @Input() provider: Provider;
+  @Input() providerWorkshops: Workshop[];
 }

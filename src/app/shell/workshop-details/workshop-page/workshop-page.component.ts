@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
 @Component({
@@ -9,9 +10,14 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 export class WorkshopPageComponent implements OnInit {
 
   @Input() workshop: Workshop;
+  @Input() provider: Provider;
+  @Input() providerWorkshops: Workshop[];
+
+
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 }
