@@ -1,4 +1,6 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AllProviderWorkshopsComponent } from './all-provider-workshops.component';
 
 describe('AllProviderWorkshopsComponent', () => {
@@ -7,9 +9,11 @@ describe('AllProviderWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AllProviderWorkshopsComponent ]
+      declarations: [
+        AllProviderWorkshopsComponent,
+        MockProviderWorkshopCardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -22,3 +26,13 @@ describe('AllProviderWorkshopsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-workshop-card',
+  template: ''
+})
+class MockProviderWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() isMainPage: boolean;
+  @Input() userRole: string;
+}
