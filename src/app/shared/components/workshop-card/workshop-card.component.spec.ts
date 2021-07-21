@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Workshop } from '../../models/workshop.model';
+import { WorkshopCard } from '../../models/workshop.model';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { MatChipsModule } from '@angular/material/chips';
@@ -37,19 +37,18 @@ describe('WorkshopCardComponent', () => {
     fixture = TestBed.createComponent(WorkshopCardComponent);
     component = fixture.componentInstance;
     component.status = '';
-    component.application = {status: null} as Application;
+    component.application = { status: null } as Application;
     component.workshop = {
-      id: 1,
+      workshopId: 1,
       title: '',
       phone: '',
       email: '',
       minAge: 1,
       maxAge: 12,
-      daysPerWeek: 3,
-      ownership: '',
-      rate: '',
       price: 1,
       description: '',
+      direction: '',
+      rating: 1,
       head: '',
       address: {
         city: '',
@@ -57,7 +56,7 @@ describe('WorkshopCardComponent', () => {
         buildingNumber: '',
       } as Address,
       teachers: [{} as Teacher],
-    } as Workshop;
+    } as unknown as WorkshopCard;
     fixture.detectChanges();
   });
 

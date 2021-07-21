@@ -65,3 +65,18 @@ export class Workshop {
     this.keyWords = description.keyWords;
   }
 }
+
+export interface WorkshopCard {
+  address: Address;
+  direction: string;
+  isPerMonth: boolean;
+  maxAge: number;
+  minAge: number;
+  //photo:
+  price: number;
+  providerId: number;
+  providerTitle: string;
+  rating: number;
+  title: string;
+  workshopId: number;
+}
