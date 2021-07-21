@@ -54,6 +54,8 @@ describe('WorkshopDetailsComponent', () => {
 class MockWorkshopPageComponent {
   @Input() workshop: Workshop;
   @Input() provider: Provider;
+  @Input() providerWorkshops: Workshop[];
+
 }
 
 @Component({
