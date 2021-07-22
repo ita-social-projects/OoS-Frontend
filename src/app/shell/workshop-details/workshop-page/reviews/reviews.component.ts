@@ -4,6 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
+import { modalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -56,14 +57,21 @@ export class ReviewsComponent implements OnInit {
   }
 
   onRate(): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: modalConfirmationType.rate,
+      }
+    });
 
-    if (!this.hasRate) {
-      this.store.dispatch(new CreateRating({
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new CreateRating({
         rate: 1,
         type: Constants.WORKSHOP_ENTITY_TYPE,
         entityId: this.workshop.id,
         parentId: this.parent.id
-      }))
-    }
+      })
+      )
+    })
   }
 }
