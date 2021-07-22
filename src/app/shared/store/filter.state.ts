@@ -163,7 +163,7 @@ export class FilterState {
     patchState({ isLoading: true });
     return this.appWorkshopsService
       .getTopWorkshops()
-      .subscribe((workshops: WorkshopCard[]) => patchState({ topWorkshops: workshops, isLoading: false }))
+      .subscribe((workshops: WorkshopCard[]) => patchState({ topWorkshops: workshops, isLoading: false }), () => patchState({ isLoading: false }))
   }
   @Action(SetWithDisabilityOption)
   setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
