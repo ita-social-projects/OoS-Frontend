@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { modalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
@@ -43,7 +44,10 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   onDelete(workshop: WorkshopCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
-      data: 'Видалити гурток?'
+      data: {
+        type: modalConfirmationType.delete,
+        property: workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -58,7 +62,10 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   onLeaveWorkshops(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
-      data: 'Залишити гурток?'
+      data: {
+        type: modalConfirmationType.leaveWorkshop,
+        property: application.workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

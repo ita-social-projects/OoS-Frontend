@@ -13,7 +13,7 @@ export class ChildCardComponent implements OnInit {
 
   @Input() child: Child;
 
-  @Output() deleteChild = new EventEmitter<number>();
+  @Output() deleteChild = new EventEmitter<Child>();
 
   workshops: Workshop[];
 
@@ -22,6 +22,6 @@ export class ChildCardComponent implements OnInit {
   ngOnInit(): void { }
 
   onDelete(): void {
-    this.deleteChild.emit(this.child.id);
+    this.deleteChild.emit(this.child);
   }
 }
