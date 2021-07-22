@@ -49,7 +49,11 @@ export class ReviewsComponent implements OnInit {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
     this.parent$.subscribe((parent: Parent) => this.parent = parent);
 
-    this.rating$.subscribe((rating: Rate[]) => this.hasRate = rating.some((rate: Rate) => rate.parentId === this.parent.id));
+    this.rating$.subscribe((rating: Rate[]) => {
+      if (rating) {
+        this.hasRate = rating.some((rate: Rate) => rate.parentId === this.parent.id)
+      }
+    })
   }
 
   onRate(): void {
