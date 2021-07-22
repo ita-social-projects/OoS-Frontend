@@ -1,7 +1,7 @@
 <form [formGroup]="CategoryFormGroup">
   <input  matInput  type="text" 
           placeholder="Почніть вводити напрямок або виберіть зі списку"  class="step-input "
-          [formControl]="directionId"
+          formControlName="directionId"  
           [matAutocomplete]="auto"
           disableOptionCentering 
   >
