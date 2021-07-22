@@ -31,7 +31,8 @@ export class CreateDescriptionFormComponent implements OnInit {
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-  constructor(private formBuilder: FormBuilder, public element: ElementRef) {
+  
+  constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
@@ -41,7 +42,6 @@ export class CreateDescriptionFormComponent implements OnInit {
       directionId: new FormControl(''),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
-      keyWordsList: new FormControl('')
     });
   }
 
