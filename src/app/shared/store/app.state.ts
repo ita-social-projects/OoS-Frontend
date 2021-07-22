@@ -64,7 +64,7 @@ export class AppState {
     patchState({ isLoading: true });
     return this.appWorkshopsService
       .getAllWorkshops()
-      .subscribe((workshops: WorkshopCard[]) => patchState({ allWorkshops: workshops, isLoading: false }))
+      .subscribe((workshops: WorkshopCard[]) => patchState({ allWorkshops: workshops, isLoading: false }), () => patchState({ isLoading: false }))
   }
 
   @Action(GetTeachersById)
