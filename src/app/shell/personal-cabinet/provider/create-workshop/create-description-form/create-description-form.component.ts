@@ -65,23 +65,26 @@ export class CreateDescriptionFormComponent implements OnInit {
   onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
-
+      if (this.keyWords.length) {
+        this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
+      } else {
+        this.DescriptionFormGroup.get('keyWords').reset();
+      }
+      this.DescriptionFormGroup.get('keyWords').markAsTouched();
     }
   }
   
    onKeyWordsInput(event:KeyboardEvent):void{
-    let inputKeyWord=this.keyWord.trim().toLowerCase();
-    if(this.keyWord.trim()!=='' && !this.keyWords.includes(inputKeyWord)){
+    let inputKeyWord = this.keyWord.trim().toLowerCase();
+    if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
       this.keyWords.push(inputKeyWord);
-      this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
+      this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
       this.keyWordsInput.nativeElement.value = '';
       this.keyWordsCtrl.setValue(null);
       this.keyWord='';
-    }
-    else{
+    } else {
       this.keyWordsInput.nativeElement.value = '';
-      this.keyWord='';
-
+      this.keyWord = '';
     }
   }
 

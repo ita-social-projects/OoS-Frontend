@@ -47,7 +47,7 @@
           {{keyWord}}
           <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
         </mat-chip>
-        <input #keyWordsInput [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
+        <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
       </mat-chip-list>
     </div>
   </label>
