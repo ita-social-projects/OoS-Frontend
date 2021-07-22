@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Workshop } from '../../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
 
   dataUrlMock = '/assets/mock-org-cards.json';
-  dataUrl = '/Workshop/Get';
 
   constructor(private http: HttpClient) { }
 
@@ -32,21 +31,21 @@ export class AppWorkshopsService {
   /**
   * This method get all workshops
   */
-  getAllWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(this.dataUrl);
+  getAllWorkshops(): Observable<WorkshopCard[]> {
+    return this.http.get<WorkshopCard[]>('/Workshop/GetAll');
   }
   /**
   * This method get workshops with applied filter options
   */
-  getFilteredWorkshops(filters: FilterStateModel): Observable<Workshop[]> {
+  getFilteredWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
     const options = { params: this.setParams(filters) };
-    return this.http.get<Workshop[]>(this.dataUrl, options);
+    return this.http.get<WorkshopCard[]>('/Workshop/GetAll', options);
   }
 
   /**
    * This method get top workshops
    */
-  getTopWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(this.dataUrl);
+  getTopWorkshops(): Observable<WorkshopCard[]> {
+    return this.http.get<WorkshopCard[]>('/Workshop/GetAll');
   }
 }

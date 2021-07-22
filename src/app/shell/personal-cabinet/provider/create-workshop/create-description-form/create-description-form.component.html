@@ -41,19 +41,23 @@
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу
     <div class="step-input" style="min-height:100px" 
-      [class.redBorder] = "DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
+      [class.redBorder] = "DescriptionFormGroup.get('keyWords').markAsTouched()">
       <mat-chip-list #chipList formControlName="keyWordsList">
         <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
           {{keyWord}}
           <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
         </mat-chip>
-        <input #keyWordsInput [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
+        <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
       </mat-chip-list>
-      <mat-error>Too many chips</mat-error>
     </div>
   </label>
   <app-validation-hint-for-input 
     type = "requiredField" 
-    [invalid] = "DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched" 
+    [invalid] = "DescriptionFormGroup.get('keyWords').markAsTouched()" 
   ></app-validation-hint-for-input>
+
+  <!-- <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched" 
+  ></app-validation-hint-for-input> -->
 </form>

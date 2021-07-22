@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Workshop } from '../../../shared/models/workshop.model';
+import { Workshop, WorkshopCard } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -8,7 +8,7 @@ import { Workshop } from '../../../shared/models/workshop.model';
 })
 export class WorkshopCardsListComponent implements OnInit {
 
-  @Input() workshops: Workshop[];
+  @Input() workshops: WorkshopCard[];
   currentPage: number = 1;
 
   constructor() { }
