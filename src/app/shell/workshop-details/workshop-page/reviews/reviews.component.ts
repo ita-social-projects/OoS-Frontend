@@ -11,7 +11,6 @@ import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateRating } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-reviews',
@@ -43,7 +42,7 @@ export class ReviewsComponent implements OnInit {
     date: new Date()
   }]
 
-  constructor(private store: Store, matDialog: MatDialog) { }
+  constructor(private store: Store, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
@@ -57,6 +56,7 @@ export class ReviewsComponent implements OnInit {
   }
 
   onRate(): void {
+
     if (!this.hasRate) {
       this.store.dispatch(new CreateRating({
         rate: 1,
@@ -65,20 +65,5 @@ export class ReviewsComponent implements OnInit {
         parentId: this.parent.id
       }))
     }
-  }
-
-  /**
-  * This method open modal window for rating the workshop
-  */
-  onCreateRate(): void {
-    // const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-    //   width: '330px',
-    //   data: 'Видалити гурток?'
-    // });
-
-    // dialogRef.afterClosed().subscribe((result: boolean) => {
-    //   result && this.store.dispatch(new DeleteWorkshopById(workshop));
-
-    // });
   }
 }
