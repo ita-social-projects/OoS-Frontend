@@ -9,7 +9,8 @@
 
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type"
+      name="type">
       <ng-container *ngFor="let type of workshopType | keyvalue">
         <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ workshopTypeUkr[type.key] }}
@@ -17,19 +18,17 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AboutFormGroup.get('type').invalid && AboutFormGroup.get('type').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('type').invalid && AboutFormGroup.get('type').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
@@ -39,32 +38,23 @@
         ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
     </div>
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredEmptyField"
-    [isEmptyCheck] = "AboutFormGroup.get('phone').errors?.required"
-    [invalid] = "AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched" 
-  ></app-validation-hint-for-input>
-  <app-validation-hint-for-input 
-    type = "minDigitsLength"
-    [minLength] = "AboutFormGroup.get('phone').errors?.minlength"
-    [invalid] = "AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched"
-    [minCharachters] = "AboutFormGroup.get('phone').errors?.minlength?.requiredLength"
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="AboutFormGroup.get('phone').errors?.required"
+    [invalid]="AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="minDigitsLength" [minLength]="AboutFormGroup.get('phone').errors?.minlength"
+    [invalid]="AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched"
+    [minCharachters]="AboutFormGroup.get('phone').errors?.minlength?.requiredLength"></app-validation-hint-for-input>
 
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="email" formControlName="email">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredEmptyField" 
-    [isEmptyCheck] = "AboutFormGroup.get('email').errors?.required"
-    [invalid] = "AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched" 
-  ></app-validation-hint-for-input>
-  <app-validation-hint-for-input 
-    type = "validEmail" 
-    [isEmailCheck] = "AboutFormGroup.get('email').errors?.email"
-    [invalid] = "AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="AboutFormGroup.get('email').errors?.required"
+    [invalid]="AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validEmail" [isEmailCheck]="AboutFormGroup.get('email').errors?.email"
+    [invalid]="AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
@@ -86,20 +76,18 @@
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
           appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
       </mat-form-field>
-      <app-validation-hint-for-input 
-        type = "requiredField" 
-        [invalid] = "AboutFormGroup.get('minAge').invalid && AboutFormGroup.get('minAge').touched" 
-      ></app-validation-hint-for-input>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="AboutFormGroup.get('minAge').invalid && AboutFormGroup.get('minAge').touched">
+      </app-validation-hint-for-input>
     </div>
     <div fxLayout='column'>
       <mat-form-field>
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
           appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
       </mat-form-field>
-      <app-validation-hint-for-input 
-        type = "requiredField" 
-        [invalid] = "AboutFormGroup.get('maxAge').invalid && AboutFormGroup.get('maxAge').touched" 
-      ></app-validation-hint-for-input>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="AboutFormGroup.get('maxAge').invalid && AboutFormGroup.get('maxAge').touched">
+      </app-validation-hint-for-input>
     </div>
   </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
@@ -111,10 +99,9 @@
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AboutFormGroup.get('daysPerWeek').invalid && AboutFormGroup.get('daysPerWeek').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('daysPerWeek').invalid && AboutFormGroup.get('daysPerWeek').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
   <ng-container>
@@ -145,9 +132,23 @@
       </mat-button-toggle-group>
     </div>
   </mat-radio-group>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AboutFormGroup.get('isPerMonth').invalid && AboutFormGroup.get('isPerMonth').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('isPerMonth').invalid && AboutFormGroup.get('isPerMonth').touched">
+  </app-validation-hint-for-input>
+
+  <label class="step-label"> Конкурсний відбір </label>
+  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
+    fxLayoutAlign='center space-between'>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Без конкурсного відбору</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Є конкурсний відбір</mat-radio-button>
+    <div class="step-label-combined">
+      <label class="step-label"> Інформація про відбір<span class="step-required">*</span></label>
+      <label class="step-characters-count">
+        {{AboutFormGroup.get('competitiveSelectionDescription').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
+    </div>
+    <textarea matInput class="step-textarea step-textarea-short"
+      placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+      formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+  </mat-radio-group>
 
 </form>
