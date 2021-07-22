@@ -28,8 +28,6 @@ export class CreateDescriptionFormComponent implements OnInit {
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
-
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
@@ -45,20 +43,11 @@ export class CreateDescriptionFormComponent implements OnInit {
       classId: new FormControl(''),
       keyWordsList: new FormControl('')
     });
-   
   }
 
   ngOnInit(): void {
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
-    
-    // let getMatChipEl = this.element.nativeElement.getElementsByClassName('mat-chip-list');
-    // if (getMatChipEl.getAttribute('tabindex') === 0) {
-    // console.log(this.element)
-    // }
-
-    // let getMatChipEl = this.element.nativeElement.getElementsByClassName('mat-chip-list');
-    // console.log(getMatChipEl.getAttribute('ng-invalid'))
   }
 
   /**
@@ -73,7 +62,6 @@ export class CreateDescriptionFormComponent implements OnInit {
       } else {
         this.DescriptionFormGroup.get('keyWords').reset();
       }
-      this.DescriptionFormGroup.get('keyWords').markAsTouched();
     }
   }
   
