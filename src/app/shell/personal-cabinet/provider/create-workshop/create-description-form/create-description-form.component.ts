@@ -41,7 +41,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl(''),
-      directionId: new FormControl(''),
+      directionId: new FormControl('', Validators.required),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
     });

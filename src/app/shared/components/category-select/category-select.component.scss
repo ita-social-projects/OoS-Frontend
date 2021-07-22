@@ -17,13 +17,22 @@ button:focus {
 }
 
 ::placeholder {
-  color:#333333;
+  color: rgba(0,0,0,.42);
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+::ng-deep .step-input[_ngcontent-ywr-c273] {
+  margin-bottom: none !important;
 }
 
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
+

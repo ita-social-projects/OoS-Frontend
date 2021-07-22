@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounce, debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { Class, Department, Direction } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
 import { GetClasses, GetDirections, GetDepartments } from '../../store/meta-data.actions';
@@ -36,7 +36,7 @@ export class CategorySelectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store) {
     this.CategoryFormGroup = this.formBuilder.group({
-      directionId: new FormControl('', Validators.required),
+      directionId: new FormControl(''),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
     });
@@ -45,6 +45,18 @@ export class CategorySelectComponent implements OnInit {
   ngOnInit(): void {
     this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
     this.workshop ? this.activateEditMode() : this.store.dispatch(new GetDirections());
+    
+    this.CategoryFormGroup.valueChanges
+    .pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      startWith(''),
+      map((value: string) => {
+        !value.length && this.store.dispatch(new GetDirections());
+        return value;
+      }),
+      filter(value => value.length > 2)).subscribe(value=> this.store.dispatch(new GetDirections()));
+    
   }
 
   onSelectDirection(id: number): void {

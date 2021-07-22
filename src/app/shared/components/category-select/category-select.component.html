@@ -1,10 +1,25 @@
 <form [formGroup]="CategoryFormGroup">
-  <mat-select class="step-input" disableOptionCentering panelClass="dropdown-panel" formControlName="directionId"
+  <input  matInput  type="text" 
+          placeholder="Почніть вводити напрямок або виберіть зі списку"  class="step-input "
+          [formControl]="directionId"
+          [matAutocomplete]="auto"
+          disableOptionCentering 
+  >
+  <mat-autocomplete 
+    #auto="matAutocomplete" 
+    (selectionChange)='onSelectDirection($event.value)'>
+    <mat-option *ngFor="let direction of directions$ | async" 
+        [value]="direction.title"  
+        class="dropdown-option">
+        {{ direction.title }}
+    </mat-option>
+  </mat-autocomplete>
+  <!-- <mat-select class="step-input" disableOptionCentering panelClass="dropdown-panel" formControlName="directionId"
     (selectionChange)="onSelectDirection($event.value)" placeholder="Напрямок" [(value)]="selectedDirectionId">
     <mat-option *ngFor="let direction of directions$ | async" [value]="direction.id" class="dropdown-option">
       {{ direction.title }}
     </mat-option>
-  </mat-select>
+  </mat-select> -->
   <app-validation-hint-for-input 
     type = "requiredField" 
     [invalid] = "CategoryFormGroup.get('directionId').invalid && CategoryFormGroup.get('directionId').touched"
