@@ -1,3 +1,9 @@
+export enum modalConfirmationType {
+  delete = 'delete',
+  leaveWorkshop = 'leaveWorkshop',
+  leavePage = 'leavePage',
+  rate = 'rate',
+}
 export enum modalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
