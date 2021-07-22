@@ -1,1 +1,15 @@
-<p>reviews works!</p>
+<div class="wrapper" fxLayout='column' fxLayoutAlign='start space-between'>
+  <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
+    <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
+      <mat-icon class="star-icon">star</mat-icon> 4.9 <p class="rate-amount">(27 відгуків)</p>
+    </div>
+    <button mat-raised-button class="button">
+      <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
+    </button>
+  </div>
+
+  <div class="rate" *ngFor="let rate of rates ">
+    <p class="rate-author"> {{rate.author}} </p>
+    <p class="rate-date">{{rate.rate}} {{rate.date}}</p>
+  </div>
+</div>

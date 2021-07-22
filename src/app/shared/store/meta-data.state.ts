@@ -3,19 +3,21 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Class, Department, Direction } from '../models/category.model';
 import { City } from '../models/city.model';
+import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CityService } from '../services/cities/city.service';
+import { RatingService } from '../services/rating/rating.service';
 import {
-  CityList,
   GetSocialGroup,
   ClearCategories,
   GetClasses,
   GetDepartments,
   GetDirections,
   GetCities,
-  ClearCities
+  ClearCities,
+  GetRateByEntityId
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -25,6 +27,7 @@ export interface MetaDataStateModel {
   cities: City[],
   socialGroups: SocialGroup[],
   isCity: boolean;
+  rating: Rate[]
 }
 
 @State<MetaDataStateModel>({
@@ -35,7 +38,8 @@ export interface MetaDataStateModel {
     classes: [],
     cities: null,
     socialGroups: [],
-    isCity: false
+    isCity: false,
+    rating: []
   }
 
 })
@@ -60,10 +64,14 @@ export class MetaDataState {
   @Selector()
   static isCity(state: MetaDataStateModel): boolean { return state.isCity }
 
+  @Selector()
+  static rating(state: MetaDataStateModel): Rate[] { return state.rating }
+
   constructor(
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService,
-    private cityService: CityService) { }
+    private cityService: CityService,
+    private ratingService: RatingService) { }
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections) {
@@ -119,6 +127,15 @@ export class MetaDataState {
   @Action(ClearCities)
   clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities) {
     patchState({ cities: null });
+  }
+
+  @Action(GetRateByEntityId)
+  getRateByEntityId({ patchState }: StateContext<MetaDataStateModel>, { enitityType, entitytId }: GetRateByEntityId) {
+    return this.ratingService
+      .getRateByEntityId(enitityType, entitytId)
+      .pipe(
+        tap((rating: Rate[]) => patchState({ rating: rating })
+        ))
   }
 
 }
