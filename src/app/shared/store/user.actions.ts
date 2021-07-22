@@ -160,3 +160,15 @@ export class OnUpdateApplicationSuccess {
   static readonly type = '[user] update Application success';
   constructor(public payload) { }
 }
+export class CreateRating {
+  static readonly type = '[parent] create Rating';
+  constructor(public payload: any) { }
+}
+export class OnCreateRatingFail {
+  static readonly type = '[user] create Rating fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateRatingSuccess {
+  static readonly type = '[user] create Rating success';
+  constructor(public payload) { }
+}
