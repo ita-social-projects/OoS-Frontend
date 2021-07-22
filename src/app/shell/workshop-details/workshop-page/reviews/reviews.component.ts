@@ -30,6 +30,8 @@ export class ReviewsComponent implements OnInit {
   rating$: Observable<Rate[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  hasRate: boolean;
+
   rates = [{
     author: 's',
     rate: 5,
@@ -46,15 +48,19 @@ export class ReviewsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
     this.parent$.subscribe((parent: Parent) => this.parent = parent);
+
+    this.rating$.subscribe((rating: Rate[]) => this.hasRate = rating.some((rate: Rate) => rate.parentId === this.parent.id));
   }
 
   onRate(): void {
-    this.store.dispatch(new CreateRating({
-      rate: 1,
-      type: Constants.WORKSHOP_ENTITY_TYPE,
-      entityId: this.workshop.id,
-      parentId: this.parent.id
-    }))
+    if (!this.hasRate) {
+      this.store.dispatch(new CreateRating({
+        rate: 1,
+        type: Constants.WORKSHOP_ENTITY_TYPE,
+        entityId: this.workshop.id,
+        parentId: this.parent.id
+      }))
+    }
   }
 
   /**
