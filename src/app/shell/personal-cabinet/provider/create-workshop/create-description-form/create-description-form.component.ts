@@ -45,6 +45,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       classId: new FormControl(''),
       keyWordsList: new FormControl('')
     });
+   
   }
 
   ngOnInit(): void {
@@ -56,6 +57,8 @@ export class CreateDescriptionFormComponent implements OnInit {
     // console.log(this.element)
     // }
 
+    // let getMatChipEl = this.element.nativeElement.getElementsByClassName('mat-chip-list');
+    // console.log(getMatChipEl.getAttribute('ng-invalid'))
   }
 
   /**
@@ -76,12 +79,13 @@ export class CreateDescriptionFormComponent implements OnInit {
       this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
       this.keyWordsInput.nativeElement.value = '';
       this.keyWordsCtrl.setValue(null);
-      this.keyWord='';
+      this.keyWord = '';
+      console.log(this.keyWordsInput.nativeElement)
     }
     else{
       this.keyWordsInput.nativeElement.value = '';
       this.keyWord='';
-
+      
     }
   }
 

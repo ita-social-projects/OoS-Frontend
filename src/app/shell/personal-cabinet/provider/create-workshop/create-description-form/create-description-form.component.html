@@ -49,6 +49,7 @@
         </mat-chip>
         <input #keyWordsInput [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"  (keyup.enter)="onKeyWordsInput($event)" [(ngModel)]="keyWord">
       </mat-chip-list>
+      <mat-error>Too many chips</mat-error>
     </div>
   </label>
   <app-validation-hint-for-input 
