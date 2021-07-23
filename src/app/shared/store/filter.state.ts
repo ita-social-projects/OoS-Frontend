@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
-import { Workshop, WorkshopCard } from '../models/workshop.model';
+import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
 import {
   SetOrder,
@@ -82,6 +82,9 @@ export class FilterState {
   @Selector()
   static isLoading(state: FilterStateModel): boolean { return state.isLoading }
 
+  @Selector()
+  static city(state: FilterStateModel): City { return state.city }
+
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
 
@@ -159,11 +162,11 @@ export class FilterState {
   }
 
   @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
+  getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetTopWorkshops) {
     patchState({ isLoading: true });
     return this.appWorkshopsService
-      .getTopWorkshops()
-      .subscribe((workshops: WorkshopCard[]) => patchState({ topWorkshops: workshops, isLoading: false }), () => patchState({ isLoading: false }))
+      .getTopWorkshops(payload)
+      .subscribe((filterResult: WorkshopFilterCard) => patchState({ topWorkshops: filterResult.entities, isLoading: false }), () => patchState({ isLoading: false }))
   }
   @Action(SetWithDisabilityOption)
   setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {

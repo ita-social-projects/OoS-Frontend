@@ -59,7 +59,7 @@ export class GetFilteredWorkshops {
 }
 export class GetTopWorkshops {
   static readonly type = '[filter] Get 4 Most Popular Workshop Cards';
-  constructor() { }
+  constructor(public payload: string) { }
 }
 export class SetWithDisabilityOption {
   static readonly type = '[filter] Set with Disability option';

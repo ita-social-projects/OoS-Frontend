@@ -13,23 +13,20 @@ export class Workshop {
   maxAge: number;
   daysPerWeek: number;
   price: number;
-  priceType?: string;
   description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
   image?: File[];
   head: string;
-  headBirthDate?: Date;
+  headDateOfBirth?: Date;
   type?: number;
   keyWords?: string[];
   address: Address;
   teachers: Teacher[];
-  ownership?: string;
   rating?: number;
   numberOfRatings?: number;
-  votes?: string;
-  placeAmount?: number;
   directionId?: number;
+  direction: string;
   departmentId?: number;
   classId?: number;
   providerId: number;
@@ -37,6 +34,7 @@ export class Workshop {
   isPerMonth?: string;
   isCompetitiveSelection: boolean;
   competitiveSelectionDescription: string;
+  logo: string;
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
     this.id = id;

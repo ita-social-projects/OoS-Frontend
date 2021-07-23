@@ -45,7 +45,8 @@ export class AppWorkshopsService {
   /**
    * This method get top workshops
    */
-  getTopWorkshops(): Observable<WorkshopFilterCard[]> {
-    return this.http.get<WorkshopFilterCard[]>('/Workshop/GetByFilter?OrderByField=1&Size=4');
+  getTopWorkshops(city?: string): Observable<WorkshopFilterCard> {
+    const url = city ? `/Workshop/GetByFilter?OrderByField=1&City=${city}&Size=4` : `/Workshop/GetByFilter?OrderByField=1&Size=4`;
+    return this.http.get<WorkshopFilterCard>(url);
   }
 }

@@ -6,7 +6,7 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Workshop, WorkshopCard } from '../../shared/models/workshop.model';
+import { WorkshopCard } from '../../shared/models/workshop.model';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 
 @Component({
@@ -30,8 +30,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch([
       new GetDirections(),
-      new GetTopWorkshops(),
+      new GetTopWorkshops(''),
     ]);
-
   }
 }
