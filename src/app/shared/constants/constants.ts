@@ -9,10 +9,18 @@ export class Constants {
   static readonly MIN_PRICE = 0;
   static readonly MAX_PRICE = 10000;
   static readonly MAX_DESCRIPTION_LENGTH = 500;
-  static readonly MAX_TEACHER_DESCRIPTION_LENGTH  = 300;
+  static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
   static readonly RATING_ASC = 'ratingAsc';
   static readonly RATING_DESC = 'ratingDesc';
   static readonly PRICE_ASC = 'priceAsc';
   static readonly PRICE_DECS = 'priceDesc';
   static readonly PHONE_LENGTH = 10;
+  static readonly PROVIDER_ENTITY_TYPE = 2;
+  static readonly WORKSHOP_ENTITY_TYPE = 2;
+
+  static readonly RATE_ONE_STAR = 1;
+  static readonly RATE_TWO_STAR = 2;
+  static readonly RATE_THREE_STAR = 3;
+  static readonly RATE_FOUR_STAR = 4;
+  static readonly RATE_FIVE_STAR = 5;
 };
