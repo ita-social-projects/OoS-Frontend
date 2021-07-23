@@ -21,9 +21,17 @@ export class RatingService {
 
   /**
   * This method create workshop
-  * @param Workshop
+  * @param Rate
   */
   createRate(rate: Rate): Observable<Object> {
     return this.http.post('/Rating/Create', rate);
+  }
+
+  /**
+  * This method update workshop
+  * @param Rate
+  */
+  updateRate(rate: Rate): Observable<Object> {
+    return this.http.put('/Rating/Update', rate);
   }
 }

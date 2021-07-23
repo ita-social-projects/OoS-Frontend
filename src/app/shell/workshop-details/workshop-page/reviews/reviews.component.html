@@ -1,15 +1,16 @@
 <div class="wrapper" fxLayout='column' fxLayoutAlign='start space-between'>
   <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
     <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
-      <mat-icon class="star-icon">star</mat-icon> 4.9 <p class="rate-amount">(27 відгуків)</p>
+      <mat-icon class="star-icon">star</mat-icon> {{currentRate?.rate}} <p class="rate-amount">
+        ({{ (rating$|async)?.length }} відгуків)</p>
     </div>
     <button mat-raised-button class="button" (click)="onRate()">
-      <mat-icon class="button-icon">edit</mat-icon>{{hasRate ? "ЗАЛИШИТИ ОЦІНКУ" : "ЗМІНИТИ ОЦІНКУ"}}
+      <mat-icon class="button-icon">edit</mat-icon>{{currentRate ? "ЗМІНИТИ ОЦІНКУ" : "ЗАЛИШИТИ ОЦІНКУ"}}
     </button>
   </div>
 
-  <div class="rate" *ngFor="let rate of rates ">
-    <p class="rate-author"> {{rate.author}} </p>
-    <p class="rate-date">{{rate.rate}} {{rate.date}}</p>
+  <div class="rate" *ngFor="let rate of (rating$|async)">
+    <p class="rate-author"> (Тут має бути автор) </p>
+    <p class="rate-date">{{rate.rate}} (тут має бути дата)</p>
   </div>
 </div>

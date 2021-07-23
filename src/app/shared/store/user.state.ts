@@ -58,7 +58,10 @@ import {
   GetProviderById,
   CreateRating,
   OnCreateRatingFail,
-  OnCreateRatingSuccess
+  OnCreateRatingSuccess,
+  UpdateRating,
+  OnUpdateRatingFail,
+  OnUpdateRatingSuccess
 } from './user.actions';
 
 export interface UserStateModel {
@@ -449,5 +452,27 @@ export class UserState {
     console.log('Rate is created', payload);
     dispatch(new ShowMessageBar({ message: 'Оцінка успішно поставлена!', type: 'success' }));
   }
+
+  @Action(UpdateRating)
+  updateRating({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateRating) {
+    return this.ratingService
+      .updateRate(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateRatingSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateRatingFail(error))))
+      );
+  }
+
+  @Action(OnUpdateRatingFail)
+  onUpdateRatingFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateRatingFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateRatingSuccess)
+  onUpdateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateRatingSuccess): void {
+    dispatch(new ShowMessageBar({ message: 'Оцінку заявки успішно змінено', type: 'success' }));
+  }
+
 
 }

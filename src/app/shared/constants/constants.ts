@@ -17,4 +17,10 @@ export class Constants {
   static readonly PHONE_LENGTH = 10;
   static readonly PROVIDER_ENTITY_TYPE = 2;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
+
+  static readonly RATE_ONE_STAR = 1;
+  static readonly RATE_TWO_STAR = 2;
+  static readonly RATE_THREE_STAR = 3;
+  static readonly RATE_FOUR_STAR = 4;
+  static readonly RATE_FIVE_STAR = 5;
 };
