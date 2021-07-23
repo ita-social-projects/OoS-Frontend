@@ -38,17 +38,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     ).subscribe((workshop: Workshop) => {
       this.store.dispatch(new GetProviderById(workshop.providerId));
       this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
+      this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+        { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
+      )));
     });
-
-
-    this.actions$
-      .pipe(ofActionSuccessful(GetWorkshopById), takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-          { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-          { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
-        )));
-      });
   }
 
   ngOnDestroy(): void {
