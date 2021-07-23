@@ -33,18 +33,6 @@ export class ReviewsComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   currentRate: Rate;
-
-  rates = [{
-    author: 's',
-    rate: 5,
-    date: new Date()
-  },
-  {
-    author: 'sa',
-    rate: 4,
-    date: new Date()
-  }]
-
   constructor(private store: Store, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
