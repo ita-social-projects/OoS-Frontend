@@ -21,10 +21,9 @@ export class TeacherFormComponent implements OnInit {
   
   today: Date = new Date(); 
 
-
   constructor(private formBuilder: FormBuilder) {
     this.TeacherFormGroup = this.formBuilder.group({
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_TEACHER_DESCRIPTION_LENGTH ), Validators.required])
+      description: new FormControl('', [Validators.maxLength(Constants.MAX_TEACHER_DESCRIPTION_LENGTH ), Validators.required]),
     })
    
   }

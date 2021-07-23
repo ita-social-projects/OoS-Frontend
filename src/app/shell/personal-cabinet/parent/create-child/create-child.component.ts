@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -23,8 +23,10 @@ import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
 export class CreateChildComponent implements OnInit {
 
   ChildrenFormArray = new FormArray([]);
+  AgreementFormControl = new FormControl(false);
   editMode: boolean = false;
   child: Child;
+  isAgreed: boolean = false;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -50,46 +52,46 @@ export class CreateChildComponent implements OnInit {
         }
       });
     const childId = +this.route.snapshot.paramMap.get('id');
+   
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+
+    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
+
     if (childId) {
       this.editMode = true;
       this.childrenService.getChildById(childId).subscribe((child: Child) => {
         this.child = child;
         this.ChildrenFormArray.push(this.newForm(this.child));
       })
+     
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }
-
-    this.ChildrenFormArray.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
-      });
   }
 
   /**
   * This method create new FormGroup
   * @param FormArray array
   */
-  newForm(child?: Child): FormGroup {
+  private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl(''),
-      firstName: new FormControl(''),
+      lastName: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
       middleName: new FormControl(''),
-      dateOfBirth: new FormControl(''),
+      dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
-      socialGroupId: new FormControl(''),
+      socialGroupId: new FormControl('', Validators.required),
     });
 
-    childFormGroup.get('socialGroupId').valueChanges.subscribe((id: number) =>
-      (!id) && childFormGroup.get('socialGroupId').setValue(null)
-    );
+    childFormGroup.valueChanges
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe(() => {
+        this.isPristine = false;
+        this.store.dispatch(new MarkFormDirty(true))
+      });
 
-    if (this.editMode) {
-      childFormGroup.patchValue(child);
-    }
+    this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
 
     return childFormGroup;
   }
@@ -102,7 +104,7 @@ export class CreateChildComponent implements OnInit {
   }
 
   /**
-  * This method delete FormGroup from teh FormArray by index
+  * This method delete FormGroup from the FormArray by index
   * @param index
   */
   onDeleteForm(index: number): void {
@@ -113,12 +115,13 @@ export class CreateChildComponent implements OnInit {
   * This method create or edit Child and distpatch CreateChild action
   */
   onSubmit() {
+    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
-      let child: Child = new Child(this.ChildrenFormArray.controls[0].value, this.child.id);
+      let child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
       this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-        let child: Child = new Child(form.value);
+        let child: Child = new Child(form.value, parent.id);
         this.store.dispatch(new CreateChildren(child));
       })
     }

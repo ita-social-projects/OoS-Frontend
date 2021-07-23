@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatGridListModule } from "@angular/material/grid-list";
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -29,12 +30,14 @@ describe('CreateDescriptionFormComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatIconModule,
-        MatRadioModule
+        MatRadioModule,
+        MatGridListModule
       ],
       declarations: [
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
-        ImageFormControlComponent
+        ImageFormControlComponent,
+        MockValidationHintForInputComponent
       ],
     })
       .compileComponents();
@@ -57,4 +60,18 @@ describe('CreateDescriptionFormComponent', () => {
 })
 class MockCategorySelectComponent {
   @Input() workshop: Workshop;
+}
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
 }

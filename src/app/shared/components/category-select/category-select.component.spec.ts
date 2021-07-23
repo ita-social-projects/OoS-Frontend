@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { NgxsModule } from '@ngxs/store';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { Component, Input } from '@angular/core';
 
 describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
@@ -18,7 +19,10 @@ describe('CategorySelectComponent', () => {
         MatOptionModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [CategorySelectComponent],
+      declarations: [
+        CategorySelectComponent, 
+        MockValidationHintForInputComponent
+      ],
     })
       .compileComponents();
   });
@@ -38,3 +42,17 @@ describe('CategorySelectComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}

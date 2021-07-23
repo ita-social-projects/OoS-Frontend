@@ -33,22 +33,28 @@
     font-weight: 700;
   }
   &_text {
-    padding: 0;
-    margin: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 0.813rem;
     line-height: 1.125rem;
     color: #333333;
+    margin: 0.3rem;
+    padding: 0;
+  }
+  &_icon{
+    color: #AAAAAA;
+    margin-right: 0.2rem;
   }
 }
 .actions_btn {
-  position: relative;
-  top: 3rem;
   border-radius: 50%;
   background-color: #494545b9;
   padding: 0.5rem;
   margin:0.5rem;
   cursor: pointer;
   z-index: 2;
+  display: flex;
   &:hover{
     opacity: 0.5;
   }
@@ -75,6 +81,8 @@
     font-size: 11px;
     line-height: 12px;
     color: #FFFFFF;
+    margin: 0;
+    padding: 0;
   }
 
   &_action{
@@ -92,17 +100,41 @@
 .chip_denied{
   background: red;
 }
-::ng-deep .mat-card{
+.mat-card{
   max-width: 300px !important;
   padding:0 !important;
+  margin: 1rem;
 }
-::ng-deep .mat-card-content,
-::ng-deep .mat-card-footer{
+.mat-card-content,
+.mat-card-footer{
   margin: 0 1rem !important;
 }
-::ng-deep .mat-card-header{
+.mat-card-header{
   margin:0 1rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .mat-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+    height: 20px;
+  }
+  img {
+    margin-block-end: auto;
+  }
 }
-::ng-deep .mat-card-image{
+.mat-card-image{
   margin-bottom:0 !important;
+}
+
+.position {
+  position: relative;
+}
+
+.actions {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

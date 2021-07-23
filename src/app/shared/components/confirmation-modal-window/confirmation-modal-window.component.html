@@ -1,7 +1,15 @@
 <div fxLayout='column' fxLayoutAlign='center center'>
-  <h2 mat-dialog-title>{{ data }}</h2>
+  <h2 mat-dialog-title>{{ modalTitle }}</h2>
+  <p class="confirmation"> {{ modalConfirmationText }} {{ modalConfirmationProperty && modalConfirmationProperty + "?"}}
+  </p>
+  <div *ngIf="data.type === modalConfirmationType.rate">
+    <app-rating-form-control (ratingSelect)="ratingSelectControl = $event"></app-rating-form-control>
+  </div>
+  <p></p>
   <mat-dialog-actions fxLayout='row' fxLayoutAlign='center center'>
-    <button mat-button [mat-dialog-close]="false">НІ</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Так</button>
+    <button class="btn" mat-button
+      [mat-dialog-close]="(data.type === modalConfirmationType.rate) ? ratingSelectControl?.value : true"
+      cdkFocusInitial>ПІДТВЕРДИТИ</button>
+    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>

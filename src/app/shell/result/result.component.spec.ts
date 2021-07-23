@@ -21,14 +21,12 @@ describe('ResultComponent', () => {
         MatSidenavModule,
         BrowserAnimationsModule,
         MatIconModule
-
       ],
       declarations: [
         ResultComponent,
         MockSearchbarComponent,
         MockOrderingComponent,
         MockFiltersListComponent,
-        MockCityFilterComponent,
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent
       ]
@@ -48,7 +46,7 @@ describe('ResultComponent', () => {
 });
 
 @Component({
-  selector: 'app-searchbar',
+  selector: 'app-full-search-bar',
   template: ''
 })
 class MockSearchbarComponent {
@@ -66,13 +64,6 @@ class MockOrderingComponent {
   template: ''
 })
 class MockFiltersListComponent {
-}
-
-@Component({
-  selector: 'app-city-filter',
-  template: ''
-})
-class MockCityFilterComponent {
 }
 @Component({
   selector: 'app-workshop-cards-list',

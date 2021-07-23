@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 
 @Component({
@@ -27,7 +27,7 @@ export class CreateTeacherComponent implements OnInit {
   * This method add new FormGroup to teh FormArray
   */
   onAddTeacher(teacher?: Teacher): void {
-    this.TeacherFormArray.push(this.onCreateNewForm(teacher));
+    this.TeacherFormArray.push(this.createNewForm(teacher));
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -35,14 +35,14 @@ export class CreateTeacherComponent implements OnInit {
   * This method create new FormGroup
   * @param FormArray array
   */
-  onCreateNewForm(teacher?: Teacher): FormGroup {
+  private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
       img: new FormControl(''),
-      lastName: new FormControl(''),
-      firstName: new FormControl(''),
-      middleName: new FormControl(''),
-      dateOfBirth: new FormControl(''),
-      description: new FormControl(''),
+      lastName: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      middleName: new FormControl('', Validators.required),
+      dateOfBirth: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
     });
 
     teacher && teacherFormGroup.patchValue(teacher, { emitEvent: false });

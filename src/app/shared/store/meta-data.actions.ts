@@ -21,3 +21,14 @@ export class GetSocialGroup {
 export class ClearCategories {
   static readonly type = '[meta-data] clear categories state';
 }
+export class GetCities {
+  static readonly type = '[meta-data] Get Cities';
+  constructor(public payload: string) { }
+}
+export class ClearCities {
+  static readonly type = '[meta-data] clear cities state';
+}
+export class GetRateByEntityId {
+  static readonly type = '[meta-data] Get Rate';
+  constructor(public enitityType: string, public entitytId: number) { }
+}

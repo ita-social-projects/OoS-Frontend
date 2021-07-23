@@ -1,19 +1,5 @@
-.search-field {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 100%;
-}
 .mat-form-field {
-  width: 100%;
   font-size: 14px;
-  input {
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 22px;
-    color: #AAAAAA;
-    opacity: 0.4;
-  }
 }
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
@@ -21,17 +7,15 @@
 :host ::ng-deep .mat-form-field-infix {
   border: none;
 }
-:host ::ng-deep .mat-stroked-button {
-  min-width: inherit;
-  padding: 0;
-}
 button {
   border: none;
   height: 100%;
 }
-
-@media(max-width: 415px) {
-  .search {
-    font-size: inherit !important;
-  }
+input {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #161414;
+  opacity: 0.4;
+  min-width: 230px;
 }

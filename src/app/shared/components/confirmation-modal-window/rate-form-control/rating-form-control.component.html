@@ -1,0 +1,6 @@
+<mat-button-toggle-group [formControl]="ratingFormControl">
+  <mat-button-toggle *ngFor="let rate of rating" class="toggle" fxLayout='row' fxLayoutAlign='center center'
+    [value]="rate">
+    <mat-icon class="star-icon">star_border</mat-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>

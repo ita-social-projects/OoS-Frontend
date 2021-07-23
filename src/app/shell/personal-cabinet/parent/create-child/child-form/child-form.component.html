@@ -1,25 +1,40 @@
 <form [formGroup]="ChildFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
   [ngClass]="(childrenAmount>1) ? 'step-border' : ''">
+  
+  <label class="step-label">Прізвище<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="lastName">
+  </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched" 
+  ></app-validation-hint-for-input>
 
-  <label class="step-label"> Призвіще <span class="step-required">*</span></label>
+  <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" required>
+    <input matInput class="step-input" type="text" formControlName="firstName">
   </mat-form-field>
-  <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched" 
+  ></app-validation-hint-for-input>
+
+  <label class="step-label">По-батькові</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" required>
-  </mat-form-field>
-  <label class="step-label"> По-батькові <span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" required>
+    <input matInput class="step-input" type="text" formControlName="middleName">
   </mat-form-field>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
-  <mat-form-field class="step-input-date">
-    <input class="step-input" [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+    <input [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="01.01.2010">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').touched" 
+  ></app-validation-hint-for-input>
+
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
   <mat-radio-group formControlName="gender" color="primary">
@@ -28,14 +43,19 @@
   </mat-radio-group>
 
   <label class="step-label">Соціальна група<span class="step-required">*</span></label>
-  <mat-form-field appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" required placeholder="Соціальна група" formControlName="socialGroupId">
-      <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
-      <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
-        {{group.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" 
+        placeholder="Соціальна група" formControlName="socialGroupId">
+        <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
+        <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
+          {{group.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "ChildFormGroup.get('socialGroupId').invalid && ChildFormGroup.get('socialGroupId').touched" 
+  ></app-validation-hint-for-input>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1">
     <button class="btn-reset" type="reset" mat-button (click)="delete()">

@@ -1,5 +1,5 @@
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Role } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -18,21 +18,22 @@ enum RoleLinks {
   styleUrls: ['./personal-cabinet.component.scss']
 })
 
-export class PersonalCabinetComponent implements OnInit,OnDestroy {
+export class PersonalCabinetComponent implements OnInit, OnDestroy {
 
   roles = RoleLinks;
   userRole: string;
+  Role = Role;
 
   constructor(
     private store: Store,
     public navigationBarService: NavigationBarService,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      {name: NavBarName.PersonalCabinet, isActive: false, disable: true}
-      )))
+      { name: NavBarName.PersonalCabinet, isActive: false, disable: true }
+    )))
   }
 
   ngOnDestroy(): void {

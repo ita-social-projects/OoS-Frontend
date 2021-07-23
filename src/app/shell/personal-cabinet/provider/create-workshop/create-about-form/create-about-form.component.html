@@ -1,14 +1,16 @@
 <form [formGroup]="AboutFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <p class="step-name__xs">Про гурток</p>
   <mat-checkbox class="step-check-box" color="primary" [formControl]="useProviderInfoCtrl">Використати контактні дані
     надавача
     освітніх послуг
   </mat-checkbox>
 
   <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
-  
+
   <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
   <mat-form-field>
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type" required>
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type"
+      name="type">
       <ng-container *ngFor="let type of workshopType | keyvalue">
         <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ workshopTypeUkr[type.key] }}
@@ -16,23 +18,44 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('type').invalid && AboutFormGroup.get('type').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title" required>
+    <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched">
+  </app-validation-hint-for-input>
+
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">+38</span>
       <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly ui-number-mask
-        ui-hide-group-sep minlength="10" maxlength="10" required>
+        ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
     </div>
   </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="AboutFormGroup.get('phone').errors?.required"
+    [invalid]="AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="minDigitsLength" [minLength]="AboutFormGroup.get('phone').errors?.minlength"
+    [invalid]="AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched"
+    [minCharachters]="AboutFormGroup.get('phone').errors?.minlength?.requiredLength"></app-validation-hint-for-input>
+
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="email" formControlName="email" required>
+    <input matInput class="step-input" type="email" formControlName="email">
   </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="AboutFormGroup.get('email').errors?.required"
+    [invalid]="AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validEmail" [isEmailCheck]="AboutFormGroup.get('email').errors?.email"
+    [invalid]="AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched">
+  </app-validation-hint-for-input>
+
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website">
@@ -45,25 +68,40 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="instagram">
   </mat-form-field>
-  <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3" />
+  <hr fxLayout='row' fxLayoutAlign='center center' width="100%" size="2" color="#E3E3E3" />
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
-    <mat-form-field>
+    <div fxLayout='column' fxLayoutAlign='start'>
+      <mat-form-field>
         <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}> 
-          <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
-          required appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-    </mat-form-field>
+          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+      </mat-form-field>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="AboutFormGroup.get('minAge').invalid && AboutFormGroup.get('minAge').touched">
+      </app-validation-hint-for-input>
+    </div>
+    <div fxLayout='column'>
+      <mat-form-field>
+        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
+          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+      </mat-form-field>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="AboutFormGroup.get('maxAge').invalid && AboutFormGroup.get('maxAge').touched">
+      </app-validation-hint-for-input>
+    </div>
   </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="daysPerWeek"
-        required #maxAgeInput appDigitOnly maxlength="1" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
+        #maxAgeInput appDigitOnly maxlength="2" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
         max={{constants.CLASS_AMOUNT_MAX}}>
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('daysPerWeek').invalid && AboutFormGroup.get('daysPerWeek').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
   <ng-container>
@@ -72,6 +110,7 @@
       (deleteWorkHour)="deleteWorkHour(workHour)" formControlName="workingHours">
     </app-working-hours-form-control>
   </ng-container>
+
   <div fxLayout='row' fxLayoutAlign='start center'>
     <button class="btn-add" mat-button (click)="addWorkHour()">
       <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
@@ -82,16 +121,34 @@
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
-    <div fxLayout='row' fxLayoutAlign='start center'>
-      <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age" appDigitOnly formControlName="price" type="number"
-        min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}></mat-radio-button>
+    <div fxLayout='row' fxLayoutAlign='start center' fxLayout.xs='column' fxLayoutAlign.xs="center start">
+      <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
+          appDigitOnly formControlName="price" type="number" min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}>
+      </mat-radio-button>
       <p class="step-text">грн за</p>
-      <mat-button-toggle-group color="primary" class="input-button-group" formControlName="isPerMonth">
+      <mat-button-toggle-group color="primary" formControlName="isPerMonth">
         <mat-button-toggle [value]="false">Заняття</mat-button-toggle>
         <mat-button-toggle [value]="true">Місяць</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
   </mat-radio-group>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('isPerMonth').invalid && AboutFormGroup.get('isPerMonth').touched">
+  </app-validation-hint-for-input>
 
-  
+  <label class="step-label"> Конкурсний відбір </label>
+  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
+    fxLayoutAlign='center space-between'>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Без конкурсного відбору</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Є конкурсний відбір</mat-radio-button>
+    <div class="step-label-combined">
+      <label class="step-label"> Інформація про відбір<span class="step-required">*</span></label>
+      <label class="step-characters-count">
+        {{AboutFormGroup.get('competitiveSelectionDescription').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
+    </div>
+    <textarea matInput class="step-textarea step-textarea-short"
+      placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+      formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+  </mat-radio-group>
+
 </form>

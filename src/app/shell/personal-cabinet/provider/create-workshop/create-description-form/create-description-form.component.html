@@ -1,5 +1,5 @@
-<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
-
+<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <p class="step-name__xs">Опис гуртка</p>
   <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
   </app-image-form-control>
 
@@ -9,14 +9,23 @@
       {{DescriptionFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
   </div>
 
-  <mat-form-field>
+  <mat-form-field appPlaceholderStyling>
     <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}" required></textarea>
+      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "DescriptionFormGroup.get('description').invalid && DescriptionFormGroup.get('description').touched" 
+  ></app-validation-hint-for-input>
+  
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" placeholder="П.І.Б." formControlName="head" required>
+    <input matInput class="step-input" placeholder="П.І.Б." formControlName="head">
   </mat-form-field>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched" 
+  ></app-validation-hint-for-input>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
   <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column' fxLayoutAlign='center space-between'>
@@ -41,4 +50,8 @@
       </mat-chip-list>
     </div>
   </label>
+  <app-validation-hint-for-input 
+    type = "requiredField" 
+    [invalid] = "keyWordsCtrl.invalid && keyWordsCtrl.touched" 
+  ></app-validation-hint-for-input>
 </form>

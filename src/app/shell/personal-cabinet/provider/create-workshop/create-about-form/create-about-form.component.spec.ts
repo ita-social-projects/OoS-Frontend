@@ -15,6 +15,8 @@ import { ImageFormControlComponent } from '../../../../../shared/components/imag
 import { WorkingHoursFormControlComponent } from '../../../../../shared/components/working-hours-form-control/working-hours-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { MatGridListModule } from "@angular/material/grid-list";
+import { Component, Input } from '@angular/core';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -35,12 +37,14 @@ describe('CreateAboutFormComponent', () => {
         MatRadioModule,
         MatButtonToggleModule,
         MatIconModule,
-        MatSelectModule
+        MatSelectModule,
+        MatGridListModule
       ],
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
-        WorkingHoursFormControlComponent
+        WorkingHoursFormControlComponent,
+        MockValidationHintForInputComponent
       ]
     })
       .compileComponents();
@@ -57,3 +61,17 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}

@@ -9,6 +9,8 @@ import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker
 import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Component, Input } from '@angular/core';
 
 describe('PersonCardComponent', () => {
   let component: PersonCardComponent;
@@ -18,7 +20,6 @@ describe('PersonCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatIconModule,
-        MatCardModule,
         ReactiveFormsModule,
         FormsModule,
         MatFormFieldModule,
@@ -26,9 +27,13 @@ describe('PersonCardComponent', () => {
         MatOptionModule,
         BrowserAnimationsModule,
         MatDatepickerModule,
-        MatRadioModule
+        MatRadioModule,
+        RouterTestingModule
       ],
-      declarations: [PersonCardComponent]
+      declarations: [
+        PersonCardComponent,
+        MockValidationHintForInputComponent
+      ]
     })
       .compileComponents();
   });
@@ -50,3 +55,17 @@ describe('PersonCardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
+}

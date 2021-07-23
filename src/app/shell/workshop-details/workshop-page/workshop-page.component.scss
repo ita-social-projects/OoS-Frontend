@@ -2,7 +2,7 @@
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
-  margin:20px;
+  margin: 20px;
   max-width: 1000px;
 }
 .workshop{
@@ -19,6 +19,9 @@
     margin:1rem;
   }
   &-link{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     color:#3849F9;
     &:hover{
       color:#a6ade7;
@@ -40,7 +43,7 @@
   }
 }
 .title, .nav{
-  margin:10px;
+  margin: 10px;
   font-weight: 700;
   opacity: 1;
 }
@@ -60,4 +63,17 @@
     margin: 0 10px 0 0;
     font-size: 20px;
   }
+}
+.icon-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
+  color: #333333;
+  padding: 0;
+}
+.icon{
+  color: #AAAAAA;
+  margin-right: 0.2rem;
 }

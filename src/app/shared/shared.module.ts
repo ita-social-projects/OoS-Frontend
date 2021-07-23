@@ -31,9 +31,18 @@ import { ChildCardComponent } from './components/child-card/child-card.component
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
+import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
+import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
+import { ValidationHintForInputComponent } from './components/validation-hint-for-input/validation-hint-for-input.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
+import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
+import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MessageBarComponent } from './components/message-bar/message-bar.component';
+import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
+import { RatingFormControlComponent } from './components/confirmation-modal-window/rate-form-control/rating-form-control.component';
 
 @NgModule({
   declarations: [
@@ -62,9 +71,17 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
+    PlaceholderFormDirective,
+    ValidationMessageStyling,
+    ValidationHintForInputComponent,
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
+    NavigationMobileBarComponent,
+    FullSearchBarComponent,
+    MessageBarComponent,
+    ShowTooltipIfTruncatedDirective,
+    RatingFormControlComponent,
   ],
   imports: [
     MaterialModule,
@@ -74,6 +91,7 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     RouterModule,
     FormsModule,
     NgxSliderModule,
+    MatProgressBarModule
   ],
   exports: [
     FiltersListComponent,
@@ -101,9 +119,18 @@ import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
+    PlaceholderFormDirective,
+    ValidationMessageStyling,
+    ValidationHintForInputComponent,
     NavigationBarComponent,
+    NavigationMobileBarComponent,
     WorkshopCheckboxDropdownComponent,
     WorkshopFilterPipe,
+    FullSearchBarComponent,
+    MessageBarComponent,
+    MatProgressBarModule,
+    ShowTooltipIfTruncatedDirective,
+    RatingFormControlComponent
   ]
 })
 export class SharedModule { }

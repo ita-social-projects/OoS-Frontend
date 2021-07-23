@@ -38,4 +38,8 @@
     font-size: 13px;
     font-weight: bold;
   }
+
+  @media(max-width: 750px){
+    display: none;
+  }
 }

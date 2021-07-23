@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ParentInfoComponent } from './parent-info/parent-info.component';
+import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-workshops.component';
+import { ChildrenComponent } from './children/children.component';
 
 const routes: Routes = [
-  { path: 'info', component: ParentInfoComponent },
+  { path: 'info', component: ChildrenComponent },
+  { path: 'favorite', component: FavoriteWorkshopsComponent }
 ];
 
 @NgModule({

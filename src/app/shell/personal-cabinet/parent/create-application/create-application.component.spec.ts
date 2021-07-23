@@ -14,10 +14,13 @@ import { cardType } from 'src/app/shared/enum/role';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Parent } from 'src/app/shared/models/parent.model';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
   let fixture: ComponentFixture<CreateApplicationComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -34,18 +37,21 @@ describe('CreateApplicationComponent', () => {
         BrowserAnimationsModule,
         MatTabsModule,
         RouterTestingModule,
-        MatCardModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCheckboxModule
       ],
       declarations: [
         CreateApplicationComponent,
-        MockPersonCardComponent
+        MockPersonCardComponent,
+        MockValidationHintForInputComponent
       ],
     })
       .compileComponents();
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store, 'selectSnapshot').and.returnValue({ id: 1 } as Parent);
     fixture = TestBed.createComponent(CreateApplicationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -62,4 +68,18 @@ describe('CreateApplicationComponent', () => {
 class MockPersonCardComponent {
   @Input() card;
   @Input() cardType: cardType;
+}
+
+@Component({
+  selector: 'app-validation-hint-for-input',
+  template: ''
+})
+
+class MockValidationHintForInputComponent{
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number; 
 }

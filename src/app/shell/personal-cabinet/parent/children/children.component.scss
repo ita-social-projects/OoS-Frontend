@@ -1,0 +1,21 @@
+@import "src/app/shared/styles/list-wrappers.scss";
+.btn{
+  color:white;
+  background-color:#3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+.text{
+  font-family: Open Sans;
+  font-weight: 400;
+  color:#272425;
+}
+.wrapper-card{
+  background:transparent;
+  border-radius: 5px;
+  flex: 1;
+}
+.cards{
+  margin:20px;
+}

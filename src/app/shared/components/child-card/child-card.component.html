@@ -1,10 +1,13 @@
 <div *ngIf="child">
-  <div fxLayout="row" fxLayoutAlign="end start">
-    <div class="actions_btn" [routerLink]="['/create-child', child.id]"><img src="assets/icons/edit.png" alt="edit">
+  <mat-card class="position">
+    <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+      <div class="actions_btn" [routerLink]="['/create-child', child.id]">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div class="actions_btn" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </div>
     </div>
-    <div class="actions_btn" (click)="onDelete()"><img src="assets/icons/delete.png" alt="delete"></div>
-  </div>
-  <mat-card>
     <div class="card" fxLayout="column" fxLayoutAlign="space-evenly space-between">
       <div fxLayout="row" fxLayoutAlign="center">
         <img class="card-image" mat-card-image src="assets/icons/child-{{child.gender}}.png" alt="child-photo">
@@ -15,9 +18,13 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
-          <p class="card_text"><img src="assets/icons/calendar.png" alt="calendar"> {{child.dateOfBirth | date:
-            'shortDate'}} </p>
-          <h5 class="card_text"><img src="assets/icons/group.png" alt="name"> Гуртки </h5>
+          <p class="card_text">
+            <mat-icon class="card_icon">calendar_today</mat-icon> {{child.dateOfBirth | date:
+            'shortDate'}}
+          </p>
+          <h5 class="card_text">
+            <mat-icon class="card_icon">apps</mat-icon>Гуртки
+          </h5>
           <div *ngIf="workshops?.length then WorkshopsList; else NoWorkshops "></div>
         </mat-card-content>
       </div>

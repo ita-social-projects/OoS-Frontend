@@ -1,32 +1,33 @@
-import { Application } from '../models/application.model';
+import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
+import { Rate } from '../models/rating';
 import { User } from '../models/user.model';
-import { Workshop } from '../models/workshop.model';
+import { Workshop, WorkshopCard } from '../models/workshop.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: number) { }
 }
-export class GetWorkshopsByParentId {
-  static readonly type = '[user] get Workshops By Parent Id';
-  constructor() { } //TODO: add get workshops by ParentId
-}
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: number) { }
 }
-export class GetApplicationsByUserId {
-  static readonly type = '[user] get Applications By User Id';
-  constructor(public payload: string) { }
+export class GetProviderById {
+  static readonly type = '[user] get Provider By Provider Id';
+  constructor(public payload: number) { }
 }
-export class GetApplications {
-  static readonly type = '[user] get Applications';
-  constructor() { }
+export class GetApplicationsByParentId {
+  static readonly type = '[user] get Applications By Parent Id';
+  constructor(public payload: number) { }
 }
-export class GetChildren {
-  static readonly type = '[user] get Children';
-  constructor() { }
+export class GetApplicationsByProviderId {
+  static readonly type = '[user] get Applications By Provider Id';
+  constructor(public payload: number) { }
+}
+export class GetChildrenByParentId {
+  static readonly type = '[user] get Children by Parent Id';
+  constructor(public payload: number) { }
 }
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';
@@ -42,11 +43,11 @@ export class OnCreateWorkshopSuccess {
 }
 export class DeleteWorkshopById {
   static readonly type = '[user] delete Workshop';
-  constructor(public payload: number) { }
+  constructor(public payload: WorkshopCard) { }
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';
-  constructor(public payload) { }
+  constructor(public payload: string) { }
 }
 export class OnDeleteWorkshopFail {
   static readonly type = '[user] delete Workshop fail';
@@ -86,18 +87,6 @@ export class OnCreateProviderFail {
 }
 export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
-  constructor(public payload) { }
-}
-export class CreateParent {
-  static readonly type = '[parent] create Parent';
-  constructor(public payload: User) { }
-}
-export class OnCreateParentFail {
-  static readonly type = '[parent] create Parent fail';
-  constructor(public payload: Error) { }
-}
-export class OnCreateParentSuccess {
-  static readonly type = '[parent] create Parent success';
   constructor(public payload) { }
 }
 export class CreateApplication {
@@ -158,5 +147,41 @@ export class OnUpdateUserFail {
 }
 export class OnUpdateUserSuccess {
   static readonly type = '[user] update User success';
+  constructor(public payload) { }
+}
+export class UpdateApplication {
+  static readonly type = '[user] update Application';
+  constructor(public payload: ApplicationUpdate) { }
+}
+export class OnUpdateApplicationFail {
+  static readonly type = '[user] update Application fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateApplicationSuccess {
+  static readonly type = '[user] update Application success';
+  constructor(public payload) { }
+}
+export class CreateRating {
+  static readonly type = '[parent] create Rating';
+  constructor(public payload: any) { }
+}
+export class OnCreateRatingFail {
+  static readonly type = '[user] create Rating fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateRatingSuccess {
+  static readonly type = '[user] create Rating success';
+  constructor(public payload) { }
+}
+export class UpdateRating {
+  static readonly type = '[user] update Rating';
+  constructor(public payload: Rate) { }
+}
+export class OnUpdateRatingFail {
+  static readonly type = '[user] update Rating fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateRatingSuccess {
+  static readonly type = '[user] update Rating success';
   constructor(public payload) { }
 }

@@ -1,7 +1,13 @@
 <div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
-      <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
+      <div *ngIf="MobileView && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
+      <ng-template #mobileNav>
+        <app-navigation-mobile-bar></app-navigation-mobile-bar>
+      </ng-template>
+      <ng-template #logo>
+        <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
+      </ng-template>
     </div>
     <div class="header_btns">
       <button mat-flat-button class="header_lang">
@@ -22,11 +28,7 @@
     <h2 class="header_descr">
       Понад 500 найрізноманітніших гуртків
     </h2>
-    <div class="header_search">
-      <mat-icon> place</mat-icon>
-      <app-city-filter class="header_city"></app-city-filter>
-      <app-searchbar class="header_bar"></app-searchbar>
-    </div>
+    <app-full-search-bar></app-full-search-bar>
   </div>
 </ng-template>
 
@@ -40,19 +42,19 @@
   <div class="authorization">
     <span class="header_menu-button">
 
-      <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer"> 
-        <mat-icon>notifications_none</mat-icon> 
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
+        <mat-icon>notifications_none</mat-icon>
       </button>
       <span class="header_menu-button_account-circle">
-        <mat-icon matBadge="1" matBadgePosition="before" ></mat-icon>
+        <mat-icon matBadge="1" matBadgePosition="before"></mat-icon>
       </span>
-     
-    <mat-menu #menu="matMenu" class="notification">
-      <span>1 нова заявка очікує підтвердження <mat-icon class="circle-notification">brightness_1</mat-icon></span>
-      <button mat-menu-item [routerLink]="'url'" class="btn-notification">
-        <span>Переглянути </span>
-      </button>
-    </mat-menu>
+
+      <mat-menu #menu="matMenu" class="notification">
+        <span>1 нова заявка очікує підтвердження <mat-icon class="circle-notification">brightness_1</mat-icon></span>
+        <button mat-menu-item [routerLink]="'url'" class="btn-notification">
+          <span>Переглянути </span>
+        </button>
+      </mat-menu>
 
       <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon>account_circle</mat-icon>
@@ -87,15 +89,13 @@
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
       <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
       <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>
+      <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button mat-menu-item>Улюблене</button></a>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
 </ng-template>
-<ng-container *ngIf="(isLoading$ | async) then Spinner;"></ng-container>
-
-<ng-template #Spinner>
-  <div class="spinner">
-    <mat-progress-spinner diameter=80 mode="indeterminate" color="primary">
-    </mat-progress-spinner>
+  <div *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) " class="progress-bar">
+    <mat-progress-bar  mode="indeterminate">
+    </mat-progress-bar>
   </div>
-</ng-template>
+

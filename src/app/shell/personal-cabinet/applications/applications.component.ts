@@ -1,70 +1,56 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, map, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
+import { Parent } from 'src/app/shared/models/parent.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetWorkshops } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplications, GetApplicationsByUserId, GetChildren } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { Application } from '../../../shared/models/application.model';
+import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
+import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss']
 })
-export class ApplicationsComponent implements OnInit {
-
-  readonly applicationStatusUkr = ApplicationStatusUkr;
-  readonly applicationStatus = ApplicationStatus;
-  readonly Role = Role;
-  user: User;
-
-  @Select(AppState.allWorkshops)
-  workshops$: Observable<Workshop[]>;
-  @Select(UserState.applications)
-  applications$: Observable<Application[]>;
-  applications: Application[];
-  workshopList: Workshop[];
-
-  @Select(UserState.children)
-  children$: Observable<Child[]>;
+export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store,
-    private infoBoxService: InfoBoxService) { }
-
-  ngOnInit(): void {
-    this.user = this.store.selectSnapshot<User>(RegistrationState.user);
-    this.store.dispatch(new GetWorkshops());
-
-    if (this.user.role === Role.provider) {
-      this.store.dispatch(new GetApplications());
-      this.activateChildInfoBox();
-    } else {
-      this.store.dispatch(new GetApplicationsByUserId(this.user?.id));
-      this.store.dispatch(new GetChildren());
-    }
-
-    this.applications$.subscribe(applications =>
-      this.applications = applications
-    );
+  constructor(store: Store,
+    private infoBoxService: InfoBoxService,
+    matDialog: MatDialog) {
+    super(store, matDialog);
   }
 
+  ngOnInit(): void {
+    this.getUserData();
+  }
+
+  init(): void {
+    if (this.userRole === Role.provider) {
+      this.getProviderWorkshops();
+      this.getProviderApplications();
+      this.activateChildInfoBox();
+    } else {
+      this.getParenChildren();
+      this.getParenApplications();
+    }
+  }
   /**
   * This method initialize functionality to open child-info-box
   */
-  activateChildInfoBox(): void {
+  private activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
     this.infoBoxService.isMouseOver$
@@ -82,18 +68,18 @@ export class ApplicationsComponent implements OnInit {
   * This method changes status of emitted event to "approved"
   * @param Application event
   */
-  onApprove(event: Application): void {
-    const application = this.applications.find((application) => (application === event));
-    application.status = this.applicationStatus.approved;
+  onApprove(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**
   * This method changes status of emitted event to "rejected"
   * @param Application event
   */
-  onReject(event: Application): void {
-    const application = this.applications.find((application) => (application === event))
-    application.status = this.applicationStatus.rejected;
+  onReject(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**
@@ -106,10 +92,5 @@ export class ApplicationsComponent implements OnInit {
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

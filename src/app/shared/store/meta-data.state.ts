@@ -3,24 +3,31 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Class, Department, Direction } from '../models/category.model';
 import { City } from '../models/city.model';
+import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
+import { CityService } from '../services/cities/city.service';
+import { RatingService } from '../services/rating/rating.service';
 import {
-  CityList,
   GetSocialGroup,
   ClearCategories,
   GetClasses,
   GetDepartments,
-  GetDirections
+  GetDirections,
+  GetCities,
+  ClearCities,
+  GetRateByEntityId
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
   departments: Department[];
   classes: Class[];
-  filteredCities: City[];
+  cities: City[],
   socialGroups: SocialGroup[],
+  isCity: boolean;
+  rating: Rate[]
 }
 
 @State<MetaDataStateModel>({
@@ -29,16 +36,15 @@ export interface MetaDataStateModel {
     directions: [],
     departments: [],
     classes: [],
-    filteredCities: [],
+    cities: null,
     socialGroups: [],
+    isCity: false,
+    rating: []
   }
 
 })
 @Injectable()
 export class MetaDataState {
-
-  @Selector()
-  static filteredCities(state: MetaDataStateModel): City[] { return state.filteredCities }
 
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] { return state.directions }
@@ -49,13 +55,23 @@ export class MetaDataState {
   @Selector()
   static classes(state: MetaDataStateModel): Class[] { return state.classes }
 
-
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
 
+  @Selector()
+  static cities(state: MetaDataStateModel): City[] { return state.cities }
+
+  @Selector()
+  static isCity(state: MetaDataStateModel): boolean { return state.isCity }
+
+  @Selector()
+  static rating(state: MetaDataStateModel): Rate[] { return state.rating }
+
   constructor(
     private categoriesService: CategoriesService,
-    private childrenService: ChildrenService) { }
+    private childrenService: ChildrenService,
+    private cityService: CityService,
+    private ratingService: RatingService) { }
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections) {
@@ -84,12 +100,6 @@ export class MetaDataState {
         ))
   }
 
-  @Action(CityList)
-  cityList({ patchState }: StateContext<MetaDataStateModel>, { payload }: CityList): void {
-    patchState({ filteredCities: payload });
-  }
-
-
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup) {
     return this.childrenService
@@ -104,6 +114,28 @@ export class MetaDataState {
     patchState({ directions: undefined });
     patchState({ departments: undefined });
     patchState({ classes: undefined });
+  }
+  @Action(GetCities)
+  getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities) {
+    return this.cityService
+      .getCities(payload)
+      .pipe(
+        tap((cities: City[]) => patchState(cities ? { cities: cities, isCity: true } : { cities: [{ name: 'Такого міста немає' } as City], isCity: false })
+        ))
+  }
+
+  @Action(ClearCities)
+  clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities) {
+    patchState({ cities: null });
+  }
+
+  @Action(GetRateByEntityId)
+  getRateByEntityId({ patchState }: StateContext<MetaDataStateModel>, { enitityType, entitytId }: GetRateByEntityId) {
+    return this.ratingService
+      .getRateByEntityId(enitityType, entitytId)
+      .pipe(
+        tap((rating: Rate[]) => patchState({ rating: rating })
+        ))
   }
 
 }

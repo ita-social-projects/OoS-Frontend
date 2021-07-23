@@ -7,7 +7,7 @@
   line-height: none;
 }
 
-.poinrer{
+.pointer{
   cursor:pointer;
 }
 
@@ -89,29 +89,6 @@
     margin-top: 1rem;
   }
 
-  &_search {
-    background: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 1rem;
-    width: 55%;
-    height: 52px;
-    gap: 15px;
-    border-radius: 60px;
-    padding: 0 20px;
-  }
-
-  &_bar {
-    flex-grow: 1;
-  }
-
-  &_city {
-    border-right: 1px solid #E3E3E3;
-    width: 143px;
-  }
-
   &_username {
     font-size: medium;
     font-weight: bold;
@@ -172,12 +149,7 @@
 .icon-account {
   color:white;
 }
-.spinner {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
+
 ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }
@@ -185,7 +157,10 @@
 ::ng-deep .mat-menu-item{
   padding: 0px !important;
 }
-
+.progress-bar{
+  position:  absolute;
+  width: 100vw;
+ }
 @media (max-width: 1024px) {
   .header {
     &_search {
@@ -381,3 +356,4 @@ and (max-device-width : 480px){
     font-size: 9px;
 }
 }
+

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { UpdateUser } from 'src/app/shared/store/user.actions';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-user-config-edit',
@@ -17,14 +18,16 @@ export class UserConfigEditComponent implements OnInit {
   user$: Observable<User>;
   user: User;
 
+  readonly constants: typeof Constants = Constants;
+
   userEditFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder, private store: Store) {
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', [Validators.required]),
-      firstName: new FormControl('', [Validators.required]),
-      middleName: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      middleName: new FormControl(''),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
     });
 
   }

@@ -1,6 +1,7 @@
 import { StateContext, Store } from "@ngxs/store";
 import { RegistrationState, RegistrationStateModel } from "../store/registration.state";
 import { Address } from "./address.model";
+import { User } from "./user.model";
 import { Workshop } from "./workshop.model";
 
 export class Provider {
@@ -28,7 +29,7 @@ export class Provider {
   workshop?: Workshop;
   image?: File[];
 
-  constructor(info, legalAddress: Address, actualAddress: Address, photo, id?: number) {
+  constructor(info, legalAddress: Address, actualAddress: Address, photo, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
     this.type = info.type;
@@ -42,9 +43,18 @@ export class Provider {
     this.director = info.director;
     this.directorDateOfBirth = info.directorDateOfBirth;
     this.founder = info.founder;
+    if (provider?.legalAddressId) {
+      this.legalAddressId = provider.legalAddressId;
+    };
+    if (provider?.actualAddressId) {
+      this.actualAddressId = provider.actualAddressId;
+    };
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;
-    this.id = id;
+    this.userId = user.id;
+    if (provider?.id) {
+      this.id = provider.id;
+    };
   }
 }

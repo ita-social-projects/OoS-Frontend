@@ -10,7 +10,7 @@ import { MockOidcSecurityService } from '../shared/mocks/mock-services';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -25,13 +25,13 @@ describe('HeaderComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientModule,
         RouterTestingModule,
-        MatProgressSpinnerModule,
-        MatMenuModule
+        MatMenuModule,
+        MatProgressBarModule
       ],
       declarations: [
         HeaderComponent,
-        MockCityFilterComponent,
-        MockSearchBarComponent
+        MockSearchBarComponent,
+        MockNavigationMobileBarComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
@@ -52,14 +52,14 @@ describe('HeaderComponent', () => {
 });
 
 @Component({
-  selector: 'app-city-filter',
-  template: ''
-})
-class MockCityFilterComponent {
-}
-@Component({
-  selector: 'app-searchbar',
+  selector: 'app-full-search-bar',
   template: ''
 })
 class MockSearchBarComponent {
 }
+
+@Component({
+  selector: 'app-navigation-mobile-bar',
+  template: ''
+})
+class MockNavigationMobileBarComponent{}

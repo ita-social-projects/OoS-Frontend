@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayout.lt-lg="row wrap" fxLayoutAlign="start center" fxLayoutAlign.lt-lg="space-between">
-  <app-actions [workshop]="workshop"></app-actions>
+  <app-actions *ngIf="isDisplayed" [isRegistered]="isRegistered" [workshop]="workshop"></app-actions>
   <app-contacts [workshop]="workshop"></app-contacts>
   <app-schedule [workshop]="workshop"></app-schedule>
 </div>

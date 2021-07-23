@@ -7,21 +7,21 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
 import { Component, Input } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
-import { User } from 'src/app/shared/models/user.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { WorkshopFilterPipe } from 'src/app/shared/pipes/workshop-filter.pipe';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
   let fixture: ComponentFixture<ApplicationsComponent>;
-  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         NgxsModule.forRoot([]),
-        MatTabsModule
+        MatTabsModule,
+        MatDialogModule
       ],
       declarations: [
         ApplicationsComponent,
@@ -38,9 +38,6 @@ describe('ApplicationsComponent', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
-
     fixture = TestBed.createComponent(ApplicationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

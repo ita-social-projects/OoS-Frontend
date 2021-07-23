@@ -8,6 +8,7 @@
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">ГУРТКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>
+    <a *ngIf="userRole === Role.parent" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
   </nav>
 </div>
 <router-outlet></router-outlet>

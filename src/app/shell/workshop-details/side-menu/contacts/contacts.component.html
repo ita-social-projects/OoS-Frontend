@@ -1,6 +1,7 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap='0.1rem'>
   <h4>КОНТАКТИ</h4>
-  <p *ngIf="workshop.address" class="contact-info"><img src="assets/icons/address.png" alt="address">{{workshop.address.city}},
+  <p *ngIf="workshop.address" class="contact-info"><img src="assets/icons/address.png"
+      alt="address">{{workshop.address.city}},
     {{workshop.address.street}}, {{workshop.address.buildingNumber}}
   </p>
 
@@ -16,7 +17,7 @@
   </p>
 
   <p *ngIf="workshop.phone" class="contact-info">
-    <img src="assets/icons/phone.png" alt="phone"><a href="tel:{{workshop.phone}}">{{workshop.phone}}</a>
+    <img src="assets/icons/phone.png" alt="phone">+380 <a href="tel:{{workshop.phone}}">{{workshop.phone}}</a>
   </p>
 
   <p *ngIf="workshop.email" class="contact-info">
@@ -27,7 +28,9 @@
     <a [href]="workshop.website">{{workshop.website}}</a>
   </p>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <a [routerLink]="''" class="link"><img src="assets/icons/inst.png" alt=""></a>
-    <a [routerLink]="''" class="link"><img src="assets/icons/facebook.png" alt=""></a>
+    <a href="{{workshop.instagram}}" [ngClass]="workshop.instagram ? 'link' : 'disable'"><img
+        src="assets/icons/inst.png" alt="instagram"></a>
+    <a href="{{workshop.facebook}}" [ngClass]="workshop.facebook ? 'link' : 'disable'"><img
+        src="assets/icons/facebook.png" alt="facebook"></a>
   </div>
 </div>
