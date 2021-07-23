@@ -14,5 +14,6 @@ module.exports = {
         "<rootDir>/dist/",
         "<rootDir>/cypress/",
         "<rootDir>/src/test.ts",
+        "<rootDir>/src/app/shell/shell.component.spec.ts"
     ]
 };
