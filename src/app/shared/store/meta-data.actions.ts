@@ -28,3 +28,7 @@ export class GetCities {
 export class ClearCities {
   static readonly type = '[meta-data] clear cities state';
 }
+export class GetRateByEntityId {
+  static readonly type = '[meta-data] Get Rate';
+  constructor(public enitityType: string, public entitytId: number) { }
+}

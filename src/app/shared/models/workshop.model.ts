@@ -25,7 +25,8 @@ export class Workshop {
   address: Address;
   teachers: Teacher[];
   ownership?: string;
-  rate?: string;
+  rating?: number;
+  numberOfRatings?: number;
   votes?: string;
   placeAmount?: number;
   directionId?: number;
@@ -34,6 +35,8 @@ export class Workshop {
   providerId: number;
   providerTitle?: string;
   isPerMonth?: string;
+  isCompetitiveSelection: boolean;
+  competitiveSelectionDescription: string;
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
     this.id = id;

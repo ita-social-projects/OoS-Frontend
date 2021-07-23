@@ -31,7 +31,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-  
+
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
@@ -46,8 +46,10 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.onDisabilityOptionCtrlInit();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+
   }
 
   /**
@@ -64,8 +66,8 @@ export class CreateDescriptionFormComponent implements OnInit {
       }
     }
   }
-  
-   onKeyWordsInput(event:KeyboardEvent):void{
+
+  onKeyWordsInput(event: KeyboardEvent): void {
     let inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
       this.keyWords.push(inputKeyWord);

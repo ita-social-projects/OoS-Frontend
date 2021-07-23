@@ -1,0 +1,41 @@
+::ng-deep .mat-dialog-container{
+  min-width: 411px;
+  min-height: 178px;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+}
+::ng-deep .mat-dialog-actions{
+  padding-bottom: 2rem;
+}
+::ng-deep .mat-dialog-title{
+  margin-bottom: 0;
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  color: #444444;
+}
+.confirmation{
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 18px;
+  color: #333333;
+}
+.btn{
+  color: white;
+  background-color: #3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  &-cancel{
+    color: #444444!important;
+    background-color: transparent !important;
+    border-color: #444444!important;
+  }
+}
