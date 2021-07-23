@@ -5,8 +5,3 @@ export interface Rate {
   entityId: string;
   parentId: number;
 }
-
-export interface StarRate {
-  value: number;
-  selected: boolean
-}
