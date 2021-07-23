@@ -5,10 +5,12 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
+import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
+import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
@@ -52,20 +54,31 @@ import {
   GetApplicationsByParentId,
   OnUpdateApplicationSuccess,
   UpdateApplication,
-  OnUpdateApplicationFail
+  OnUpdateApplicationFail,
+  GetProviderById,
+  CreateRating,
+  OnCreateRatingFail,
+  OnCreateRatingSuccess,
+  UpdateRating,
+  OnUpdateRatingFail,
+  OnUpdateRatingSuccess
 } from './user.actions';
 
 export interface UserStateModel {
+  isLoading: boolean;
   workshops: Workshop[];
   selectedWorkshop: Workshop;
+  selectedProvider: Provider;
   applications: Application[];
   children: Child[];
 }
 @State<UserStateModel>({
   name: 'user',
   defaults: {
+    isLoading: false,
     workshops: Workshop[''],
     selectedWorkshop: null,
+    selectedProvider: null,
     applications: Application[''],
     children: Child[''],
   }
@@ -73,9 +86,14 @@ export interface UserStateModel {
 @Injectable()
 export class UserState {
   postUrl = '/Workshop/Create';
+  @Selector()
+  static isLoading(state: UserStateModel): boolean { return state.isLoading }
 
   @Selector()
   static workshops(state: UserStateModel): Workshop[] { return state.workshops }
+
+  @Selector()
+  static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider }
 
   @Selector()
   static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop }
@@ -92,36 +110,50 @@ export class UserState {
     private childrenService: ChildrenService,
     private providerService: ProviderService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private ratingService: RatingService
   ) { }
 
   @Action(GetWorkshopById)
   getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById) {
+    patchState({ isLoading: true })
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
         tap((workshop: Workshop) => {
-          return patchState({ selectedWorkshop: workshop });
+          return patchState({ selectedWorkshop: workshop, isLoading: false });
+        }));
+  }
+
+  @Action(GetProviderById)
+  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById) {
+    return this.providerService
+      .getProviderById(payload)
+      .pipe(
+        tap((provider: Provider) => {
+          return patchState({ selectedProvider: provider });
         }));
   }
 
   @Action(GetWorkshopsByProviderId)
   getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId) {
+    patchState({ isLoading: true })
     return this.userWorkshopService
       .getWorkshopsByProviderId(payload)
       .pipe(
         tap((userWorkshops: Workshop[]) => {
-          return patchState({ workshops: userWorkshops });
+          return patchState({ workshops: userWorkshops, isLoading: false });
         }));
   }
 
   @Action(GetApplicationsByParentId)
   getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId) {
+    patchState({ isLoading: true })
     return this.applicationService
       .getApplicationsByParentId(payload)
       .pipe(
         tap((applications: Application[]) => {
-          return patchState({ applications: applications });
+          return patchState({ applications: applications, isLoading: false });
         }));
   }
 
@@ -173,7 +205,7 @@ export class UserState {
   @Action(DeleteWorkshopById)
   deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById) {
     return this.userWorkshopService
-      .deleteWorkshop(payload.id)
+      .deleteWorkshop(payload.workshopId)
       .pipe(
         tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
@@ -406,4 +438,48 @@ export class UserState {
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
     dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінено', type: 'success' }));
   }
+  @Action(CreateRating)
+  createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating) {
+    return this.ratingService
+      .createRate(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateRatingSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateRatingFail(error))))
+      );
+  }
+
+  @Action(OnCreateRatingFail)
+  onCreateRatingFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnCreateRatingSuccess)
+  onCreateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingSuccess): void {
+    console.log('Rate is created', payload);
+    dispatch(new ShowMessageBar({ message: 'Оцінка успішно поставлена!', type: 'success' }));
+  }
+
+  @Action(UpdateRating)
+  updateRating({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateRating) {
+    return this.ratingService
+      .updateRate(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateRatingSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateRatingFail(error))))
+      );
+  }
+
+  @Action(OnUpdateRatingFail)
+  onUpdateRatingFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateRatingFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateRatingSuccess)
+  onUpdateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateRatingSuccess): void {
+    dispatch(new ShowMessageBar({ message: 'Оцінку заявки успішно змінено', type: 'success' }));
+  }
+
+
 }

@@ -8,6 +8,7 @@ import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
 import { FilterState } from '../shared/store/filter.state';
 import { NavigationState } from '../shared/store/navigation.state';
+import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
 
@@ -29,7 +30,11 @@ export class HeaderComponent implements OnInit {
   MobileView: boolean = false;
 
   @Select(FilterState.isLoading)
-  isLoading$: Observable<boolean>;
+  isLoadingMainPage$: Observable<boolean>;
+  @Select(AppState.isLoading)
+  isLoadingResultPage$: Observable<boolean>;
+  @Select (UserState.isLoading)
+  isLoadingProviderCabinet$: Observable<boolean>
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)

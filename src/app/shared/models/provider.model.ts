@@ -43,16 +43,18 @@ export class Provider {
     this.director = info.director;
     this.directorDateOfBirth = info.directorDateOfBirth;
     this.founder = info.founder;
-    if (provider.legalAddressId) {
+    if (provider?.legalAddressId) {
       this.legalAddressId = provider.legalAddressId;
     };
-    if (provider.actualAddressId) {
+    if (provider?.actualAddressId) {
       this.actualAddressId = provider.actualAddressId;
     };
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;
     this.userId = user.id;
-    this.id = provider.id;
+    if (provider?.id) {
+      this.id = provider.id;
+    };
   }
 }

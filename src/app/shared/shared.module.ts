@@ -42,6 +42,7 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
+import { RatingFormControlComponent } from './components/confirmation-modal-window/rate-form-control/rating-form-control.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-tr
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
+    RatingFormControlComponent,
   ],
   imports: [
     MaterialModule,
@@ -127,7 +129,8 @@ import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-tr
     FullSearchBarComponent,
     MessageBarComponent,
     MatProgressBarModule,
-    ShowTooltipIfTruncatedDirective
+    ShowTooltipIfTruncatedDirective,
+    RatingFormControlComponent
   ]
 })
 export class SharedModule { }

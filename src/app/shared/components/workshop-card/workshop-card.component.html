@@ -10,7 +10,7 @@
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-      <a [routerLink]="['/workshop-details', workshop.id]" class="card_link">
+      <a [routerLink]="['/workshop-details', workshop.workshopId]" class="card_link">
         Детальніше
         <span class="material-icons arrow">arrow_forward</span>
       </a>
@@ -21,7 +21,7 @@
 <ng-template #MainView>
   <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
     <p class="card_text">
-      <mat-icon class="card_icon">star</mat-icon> {{ workshop.rate }}
+      <mat-icon class="card_icon">star</mat-icon> {{ workshop.rating }}
     </p>
     <p class="card_text">
       <mat-icon class="card_icon">home</mat-icon>{{ workshop.providerTitle }}

@@ -1,1 +1,16 @@
-<p>reviews works!</p>
+<div class="wrapper" fxLayout='column' fxLayoutAlign='start space-between'>
+  <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
+    <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
+      <mat-icon class="star-icon">star</mat-icon> {{currentRate?.rate}} <p class="rate-amount">
+        ({{ (rating$|async)?.length ? (rating$|async)?.length : 0 }} відгуків)</p>
+    </div>
+    <button mat-raised-button class="button" (click)="onRate()">
+      <mat-icon class="button-icon">edit</mat-icon>{{currentRate ? "ЗМІНИТИ ОЦІНКУ" : "ЗАЛИШИТИ ОЦІНКУ"}}
+    </button>
+  </div>
+
+  <div class="rate" *ngFor="let rate of (rating$|async)">
+    <p class="rate-author"> (Тут має бути автор) </p>
+    <p class="rate-date">{{rate.rate}} (тут має бути дата)</p>
+  </div>
+</div>

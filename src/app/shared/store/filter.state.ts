@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
-import { Workshop } from '../models/workshop.model';
+import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { WorkingHours } from '../models/workingHours.model';
 import {
   SetOrder,
@@ -38,8 +38,8 @@ export interface FilterStateModel {
   city: City;
   searchQuery: string;
   order: string;
-  filteredWorkshops: Workshop[];
-  topWorkshops: Workshop[];
+  filteredWorkshops: WorkshopCard[];
+  topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   withoutDisabilityOption: boolean;
   isLoading: boolean;
@@ -71,16 +71,16 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static filteredlWorkshops(state: FilterStateModel): Workshop[] { return state.filteredWorkshops }
+  static filteredlWorkshops(state: FilterStateModel): WorkshopCard[] { return state.filteredWorkshops }
 
   @Selector()
-  static topWorkshops(state: FilterStateModel): Workshop[] { return state.topWorkshops }
+  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops }
 
   @Selector()
   static directions(state: FilterStateModel): Direction[] { return state.directions }
 
   @Selector()
-  static isLoading(state: FilterStateModel): boolean {return state.isLoading}
+  static isLoading(state: FilterStateModel): boolean { return state.isLoading }
 
   @Selector()
   static city(state: FilterStateModel): City {return state.city}
@@ -155,18 +155,18 @@ export class FilterState {
 
   @Action(GetFilteredWorkshops)
   getFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
-    
+
     return this.appWorkshopsService
       .getFilteredWorkshops(payload)
-      .subscribe((workshops: Workshop[]) => patchState({ filteredWorkshops: workshops }))
+      .subscribe((workshops: WorkshopCard[]) => patchState({ filteredWorkshops: workshops }))
   }
 
   @Action(GetTopWorkshops)
   getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
-    patchState({isLoading:true});   
+    patchState({ isLoading: true });
     return this.appWorkshopsService
       .getTopWorkshops()
-      .subscribe((workshops: Workshop[]) => patchState({ topWorkshops: workshops, isLoading: false }))
+      .subscribe((workshops: WorkshopCard[]) => patchState({ topWorkshops: workshops, isLoading: false }), () => patchState({ isLoading: false }))
   }
   @Action(SetWithDisabilityOption)
   setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
