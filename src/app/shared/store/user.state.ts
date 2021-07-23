@@ -58,6 +58,7 @@ import {
 } from './user.actions';
 
 export interface UserStateModel {
+  isLoading: boolean;
   workshops: Workshop[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
@@ -67,6 +68,7 @@ export interface UserStateModel {
 @State<UserStateModel>({
   name: 'user',
   defaults: {
+    isLoading: false,
     workshops: Workshop[''],
     selectedWorkshop: null,
     selectedProvider: null,
@@ -77,6 +79,8 @@ export interface UserStateModel {
 @Injectable()
 export class UserState {
   postUrl = '/Workshop/Create';
+  @Selector()
+  static isLoading(state: UserStateModel): boolean { return state.isLoading }
 
   @Selector()
   static workshops(state: UserStateModel): Workshop[] { return state.workshops }
@@ -104,11 +108,12 @@ export class UserState {
 
   @Action(GetWorkshopById)
   getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById) {
+    patchState({ isLoading: true })
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
         tap((workshop: Workshop) => {
-          return patchState({ selectedWorkshop: workshop });
+          return patchState({ selectedWorkshop: workshop, isLoading: false });
         }));
   }
 
@@ -124,21 +129,23 @@ export class UserState {
 
   @Action(GetWorkshopsByProviderId)
   getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId) {
+    patchState({ isLoading: true })
     return this.userWorkshopService
       .getWorkshopsByProviderId(payload)
       .pipe(
         tap((userWorkshops: Workshop[]) => {
-          return patchState({ workshops: userWorkshops });
+          return patchState({ workshops: userWorkshops, isLoading: false });
         }));
   }
 
   @Action(GetApplicationsByParentId)
   getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId) {
+    patchState({ isLoading: true })
     return this.applicationService
       .getApplicationsByParentId(payload)
       .pipe(
         tap((applications: Application[]) => {
-          return patchState({ applications: applications });
+          return patchState({ applications: applications, isLoading: false });
         }));
   }
 
