@@ -8,17 +8,18 @@
   <mat-autocomplete 
     #auto="matAutocomplete" 
     (selectionChange)="onSelectDirection($event.value)"
-    formControlName="directionId">
-    <mat-option *ngFor="let direction of filteredDirections$ | async" [value]="direction.title" class="dropdown-option">
+    [displayWith] = "optionDisplay">
+    <mat-option *ngFor="let direction of filteredDirections$ | async" [value]="direction" class="dropdown-option">
       {{ direction.title }}
     </mat-option>
-  </mat-autocomplete>
+</mat-autocomplete>
   <!-- <mat-select class="step-input" disableOptionCentering panelClass="dropdown-panel" formControlName="directionId"
     (selectionChange)="onSelectDirection($event.value)" placeholder="Напрямок" [(value)]="selectedDirectionId">
     <mat-option *ngFor="let direction of directions$ | async" [value]="direction.id" class="dropdown-option">
       {{ direction.title }}
     </mat-option>
   </mat-select> -->
+
   <app-validation-hint-for-input 
     type = "requiredField" 
     [invalid] = "CategoryFormGroup.get('directionId').invalid && CategoryFormGroup.get('directionId').touched">

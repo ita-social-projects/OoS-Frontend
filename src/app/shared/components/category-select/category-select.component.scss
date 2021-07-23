@@ -25,6 +25,7 @@ button:focus {
 
 input:focus::placeholder {
   color: transparent;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 ::ng-deep .step-input[_ngcontent-ywr-c273] {

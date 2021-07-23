@@ -75,10 +75,16 @@ export class CategorySelectComponent implements OnInit {
      return filteredDirections;
   }
 
-  onSelectDirection(id: number): void {
+  optionDisplay(direction: Direction){
+    return direction.title;
+  }
+
+  onSelectDirection(direction: Direction): void {
     this.CategoryFormGroup.get('departmentId').reset();
     this.CategoryFormGroup.get('classId').reset();
-    this.store.dispatch(new GetDepartments(id));
+    this.CategoryFormGroup.get('directionId').setValue(direction.id);
+    this.CategoryFormGroup.updateValueAndValidity({ onlySelf: false, emitEvent: true });
+    this.store.dispatch(new GetDepartments(direction.id));
   }
 
   onSelectDepartment(id: number): void {
