@@ -160,6 +160,7 @@
 .progress-bar{
   position:  absolute;
   width: 100vw;
+  z-index: 999;
  }
 @media (max-width: 1024px) {
   .header {
