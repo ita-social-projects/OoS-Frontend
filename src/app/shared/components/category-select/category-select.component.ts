@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounce, debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { Class, Department, Direction } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
-import { GetClasses, GetDirections, GetDepartments } from '../../store/meta-data.actions';
+import { GetClasses, GetDirections, GetDepartments, ClearCategories, FilteredDirectionsList } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 
 @Component({
@@ -17,6 +17,9 @@ export class CategorySelectComponent implements OnInit {
 
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+  directions: Direction[];
+  @Select(MetaDataState.filteredDirections)
+  filteredDirections$: Observable<Direction[]>;
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
   @Select(MetaDataState.classes)
@@ -27,6 +30,7 @@ export class CategorySelectComponent implements OnInit {
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 
   CategoryFormGroup: FormGroup;
+  directionsFormControl = new FormControl('');
 
   selectedDirectionId: number;
   selectedDepartmentId: number;
@@ -45,18 +49,30 @@ export class CategorySelectComponent implements OnInit {
   ngOnInit(): void {
     this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
     this.workshop ? this.activateEditMode() : this.store.dispatch(new GetDirections());
-    
-    this.CategoryFormGroup.valueChanges
+    this.directions$.subscribe((directions: Direction[])=> this.directions = directions);
+    this.directionsFormControl.valueChanges
     .pipe(
-      debounceTime(500),
+      takeUntil(this.destroy$),
+      debounceTime(300),
       distinctUntilChanged(),
       startWith(''),
-      map((value: string) => {
-        !value.length && this.store.dispatch(new GetDirections());
-        return value;
-      }),
-      filter(value => value.length > 2)).subscribe(value=> this.store.dispatch(new GetDirections()));
-    
+    ).subscribe(value => {
+      if (value.length) {
+        this.store.dispatch(new FilteredDirectionsList(this.filter(value.trim())));
+      } else {
+        this.store.dispatch(new FilteredDirectionsList([]));
+      };
+    });
+  }
+
+  private filter(value: string): Direction[] {
+    let filteredDirections = this.directions
+      .filter((direction: Direction) => direction.title
+        .toLowerCase()
+        .startsWith(value.toLowerCase())
+      )
+      .map((direction: Direction) => direction);
+     return filteredDirections;
   }
 
   onSelectDirection(id: number): void {

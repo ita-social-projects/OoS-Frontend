@@ -8,14 +8,14 @@ import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CityService } from '../services/cities/city.service';
 import {
-  CityList,
   GetSocialGroup,
   ClearCategories,
   GetClasses,
   GetDepartments,
   GetDirections,
   GetCities,
-  ClearCities
+  ClearCities,
+  FilteredDirectionsList
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -25,6 +25,7 @@ export interface MetaDataStateModel {
   cities: City[],
   socialGroups: SocialGroup[],
   isCity: boolean;
+  filteredDirections: Direction[];
 }
 
 @State<MetaDataStateModel>({
@@ -35,7 +36,8 @@ export interface MetaDataStateModel {
     classes: [],
     cities: null,
     socialGroups: [],
-    isCity: false
+    isCity: false,
+    filteredDirections: []
   }
 
 })
@@ -59,6 +61,10 @@ export class MetaDataState {
 
   @Selector()
   static isCity(state: MetaDataStateModel): boolean { return state.isCity }
+
+  @Selector()
+  static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections }
+
 
   constructor(
     private categoriesService: CategoriesService,
@@ -107,6 +113,7 @@ export class MetaDataState {
     patchState({ departments: undefined });
     patchState({ classes: undefined });
   }
+  
   @Action(GetCities)
   getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities) {
     return this.cityService
@@ -119,6 +126,11 @@ export class MetaDataState {
   @Action(ClearCities)
   clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities) {
     patchState({ cities: null });
+  }
+  
+  @Action(FilteredDirectionsList)
+  filteredDirectionsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredDirectionsList): void {
+    patchState({ filteredDirections: payload });
   }
 
 }
