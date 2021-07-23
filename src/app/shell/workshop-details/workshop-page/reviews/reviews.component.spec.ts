@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 import { ReviewsComponent } from './reviews.component';
 
 describe('ReviewsComponent', () => {
@@ -7,9 +8,12 @@ describe('ReviewsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReviewsComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
+      declarations: [ReviewsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
