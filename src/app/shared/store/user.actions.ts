@@ -1,6 +1,7 @@
 import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
+import { Rate } from '../models/rating';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 
@@ -158,5 +159,29 @@ export class OnUpdateApplicationFail {
 }
 export class OnUpdateApplicationSuccess {
   static readonly type = '[user] update Application success';
+  constructor(public payload) { }
+}
+export class CreateRating {
+  static readonly type = '[parent] create Rating';
+  constructor(public payload: any) { }
+}
+export class OnCreateRatingFail {
+  static readonly type = '[user] create Rating fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateRatingSuccess {
+  static readonly type = '[user] create Rating success';
+  constructor(public payload) { }
+}
+export class UpdateRating {
+  static readonly type = '[user] update Rating';
+  constructor(public payload: Rate) { }
+}
+export class OnUpdateRatingFail {
+  static readonly type = '[user] update Rating fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateRatingSuccess {
+  static readonly type = '[user] update Rating success';
   constructor(public payload) { }
 }

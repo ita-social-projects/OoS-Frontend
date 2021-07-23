@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { map, takeWhile } from 'rxjs/operators';
+import { takeWhile } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { modalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 
@@ -29,7 +29,7 @@ export class CreateGuard implements CanDeactivate<unknown> {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: {
-          type: modalConfirmationType.leavePage
+          type: ModalConfirmationType.leavePage
         }
       });
       dialogRef.afterClosed()

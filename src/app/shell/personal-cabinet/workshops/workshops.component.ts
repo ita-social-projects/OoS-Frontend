@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { modalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
-import { Workshop, WorkshopCard } from '../../../shared/models/workshop.model';
+import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 
 @Component({
@@ -45,7 +45,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
-        type: modalConfirmationType.delete,
+        type: ModalConfirmationType.delete,
         property: workshop.title
       }
     });
@@ -63,7 +63,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
-        type: modalConfirmationType.leaveWorkshop,
+        type: ModalConfirmationType.leaveWorkshop,
         property: application.workshop.title
       }
     });

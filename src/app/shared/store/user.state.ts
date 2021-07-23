@@ -10,6 +10,7 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
+import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
@@ -54,7 +55,13 @@ import {
   OnUpdateApplicationSuccess,
   UpdateApplication,
   OnUpdateApplicationFail,
-  GetProviderById
+  GetProviderById,
+  CreateRating,
+  OnCreateRatingFail,
+  OnCreateRatingSuccess,
+  UpdateRating,
+  OnUpdateRatingFail,
+  OnUpdateRatingSuccess
 } from './user.actions';
 
 export interface UserStateModel {
@@ -100,6 +107,7 @@ export class UserState {
     private providerService: ProviderService,
     private router: Router,
     private userService: UserService,
+    private ratingService: RatingService
   ) { }
 
   @Action(GetWorkshopById)
@@ -423,4 +431,48 @@ export class UserState {
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
     dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінено', type: 'success' }));
   }
+  @Action(CreateRating)
+  createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating) {
+    return this.ratingService
+      .createRate(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateRatingSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateRatingFail(error))))
+      );
+  }
+
+  @Action(OnCreateRatingFail)
+  onCreateRatingFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnCreateRatingSuccess)
+  onCreateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingSuccess): void {
+    console.log('Rate is created', payload);
+    dispatch(new ShowMessageBar({ message: 'Оцінка успішно поставлена!', type: 'success' }));
+  }
+
+  @Action(UpdateRating)
+  updateRating({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateRating) {
+    return this.ratingService
+      .updateRate(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateRatingSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateRatingFail(error))))
+      );
+  }
+
+  @Action(OnUpdateRatingFail)
+  onUpdateRatingFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateRatingFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateRatingSuccess)
+  onUpdateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateRatingSuccess): void {
+    dispatch(new ShowMessageBar({ message: 'Оцінку заявки успішно змінено', type: 'success' }));
+  }
+
+
 }
