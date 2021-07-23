@@ -25,7 +25,7 @@ export class Workshop {
   address: Address;
   teachers: Teacher[];
   ownership?: string;
-  rating?: string;
+  rating?: number;
   votes?: string;
   placeAmount?: number;
   directionId?: number;
