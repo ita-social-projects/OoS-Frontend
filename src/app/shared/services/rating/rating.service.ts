@@ -20,7 +20,7 @@ export class RatingService {
   }
 
   /**
-  * This method create workshop
+  * This method create Rate
   * @param Rate
   */
   createRate(rate: Rate): Observable<Object> {
@@ -28,7 +28,7 @@ export class RatingService {
   }
 
   /**
-  * This method update workshop
+  * This method update Rate
   * @param Rate
   */
   updateRate(rate: Rate): Observable<Object> {
