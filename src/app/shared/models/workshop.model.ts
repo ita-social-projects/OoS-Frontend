@@ -81,3 +81,7 @@ export interface WorkshopCard {
   title: string;
   workshopId: number;
 }
+export interface WorkshopFilterCard {
+  totalAmount: number,
+  entities: WorkshopCard[]
+}

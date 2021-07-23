@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Workshop, WorkshopCard } from '../../../models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class AppWorkshopsService {
   /**
    * This method get top workshops
    */
-  getTopWorkshops(): Observable<WorkshopCard[]> {
-    return this.http.get<WorkshopCard[]>('/Workshop/GetAll');
+  getTopWorkshops(): Observable<WorkshopFilterCard[]> {
+    return this.http.get<WorkshopFilterCard[]>('/Workshop/GetByFilter?OrderByField=1&Size=4');
   }
 }
