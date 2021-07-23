@@ -34,7 +34,7 @@ describe('ConfirmationModalWindowComponent', () => {
   });
 });
 @Component({
-  selector: 'app-all-rating-form-control',
+  selector: 'app-rating-form-control',
   template: ''
 })
 class MockRatingFormControlComponent {
