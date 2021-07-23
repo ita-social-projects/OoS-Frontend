@@ -11,7 +11,7 @@ import { Workshop } from '../../models/workshop.model';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit{
 
   defaultKievCoords: Coords = { lat: 50.462235, lng: 30.545131 };
   zoom: number = 11;

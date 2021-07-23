@@ -1,3 +1,5 @@
+import { Coords } from './../shared/models/coords.model';
+import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShellComponent } from './shell.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,6 +17,9 @@ describe('ShellComponent', () => {
       declarations: [
         ShellComponent,
         MockNavigationBarComponent,
+      ],
+      providers:[ 
+        {provide: GeolocationService, useValue: {handleUserLocation: () => {}}}
       ]
     })
       .compileComponents();
