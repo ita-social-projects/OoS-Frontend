@@ -28,8 +28,6 @@ export class CreateDescriptionFormComponent implements OnInit {
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
-
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
@@ -40,7 +38,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
-      keyWords: new FormControl(''),
+      keyWords: new FormControl('', Validators.required),
       directionId: new FormControl(''),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
@@ -61,7 +59,11 @@ export class CreateDescriptionFormComponent implements OnInit {
   onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
-
+      if (this.keyWords.length) {
+        this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
+      } else {
+        this.DescriptionFormGroup.get('keyWords').reset();
+      }
     }
   }
 
@@ -69,15 +71,13 @@ export class CreateDescriptionFormComponent implements OnInit {
     let inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
       this.keyWords.push(inputKeyWord);
-      this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
+      this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
       this.keyWordsInput.nativeElement.value = '';
       this.keyWordsCtrl.setValue(null);
-      this.keyWord = '';
-    }
-    else {
+      this.keyWord='';
+    } else {
       this.keyWordsInput.nativeElement.value = '';
       this.keyWord = '';
-
     }
   }
 
