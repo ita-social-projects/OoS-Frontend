@@ -83,7 +83,6 @@ export class CategorySelectComponent implements OnInit {
     this.CategoryFormGroup.get('departmentId').reset();
     this.CategoryFormGroup.get('classId').reset();
     this.CategoryFormGroup.get('directionId').setValue(direction.id);
-    this.CategoryFormGroup.updateValueAndValidity({ onlySelf: false, emitEvent: true });
     this.store.dispatch(new GetDepartments(direction.id));
   }
 

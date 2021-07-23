@@ -7,7 +7,7 @@
   >
   <mat-autocomplete 
     #auto="matAutocomplete" 
-    (selectionChange)="onSelectDirection($event.value)"
+    (optionSelected)="onSelectDirection($event.option.value)"
     [displayWith] = "optionDisplay">
     <mat-option *ngFor="let direction of filteredDirections$ | async" [value]="direction" class="dropdown-option">
       {{ direction.title }}
