@@ -66,7 +66,7 @@ export interface FilterStateModel {
     topWorkshops: [],
     withDisabilityOption: false,
     withoutDisabilityOption: false,
-    isLoading: false,
+    isLoading: false
   }
 })
 @Injectable()

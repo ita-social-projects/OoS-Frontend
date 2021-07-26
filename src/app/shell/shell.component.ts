@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Coords } from '../shared/models/coords.model';
+import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-shell',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShellComponent implements OnInit {
 
-  constructor() { }
+  constructor( private geolocationService: GeolocationService) { }
 
   ngOnInit(): void {
+    this.geolocationService.handleUserLocation((coords: Coords)=> {})
   }
 
 }
