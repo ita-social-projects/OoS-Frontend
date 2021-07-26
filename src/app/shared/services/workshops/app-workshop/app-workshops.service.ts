@@ -17,7 +17,7 @@ export class AppWorkshopsService {
   private setParams(filters: FilterStateModel): HttpParams {
     let params = new HttpParams();
 
-    filters.city && params.set('City', filters.city.name);
+    filters.city && params.set('City', filters.city);
 
     filters.maxPrice && params.set('MaxPrice', filters.maxPrice.toString());
 

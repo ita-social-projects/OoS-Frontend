@@ -3,7 +3,7 @@ import { City } from "../models/city.model";
 import { WorkingHours } from "../models/workingHours.model";
 export class SetCity {
   static readonly type = '[app] Set City';
-  constructor(public payload: City) { }
+  constructor(public payload: string) { }
 }
 export class SetOrder {
   static readonly type = '[filter] Set Order';
@@ -68,4 +68,9 @@ export class SetWithDisabilityOption {
 export class SetWithoutDisabilityOption {
   static readonly type = '[filter] Set without Disability option';
   constructor(public payload: boolean) { }
+}
+
+export class FilterChange {
+  static readonly type = '[app] Filter Change';
+  constructor() { }
 }
