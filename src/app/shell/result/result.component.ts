@@ -24,7 +24,6 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
   constructor(
     private actions$: Actions,
     private store: Store,
