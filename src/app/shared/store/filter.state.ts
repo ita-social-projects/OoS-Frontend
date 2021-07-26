@@ -64,7 +64,7 @@ export interface FilterStateModel {
     topWorkshops: [],
     withDisabilityOption: false,
     withoutDisabilityOption: false,
-    isLoading: false,
+    isLoading: false
   }
 })
 @Injectable()
@@ -81,6 +81,9 @@ export class FilterState {
 
   @Selector()
   static isLoading(state: FilterStateModel): boolean { return state.isLoading }
+
+  @Selector()
+  static city(state: FilterStateModel): City {return state.city}
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
