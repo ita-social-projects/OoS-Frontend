@@ -40,8 +40,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.directions.length > 0) {
-      const directionIds = filters.directions.map((direction: Direction) => direction.id).toString();
-      params = params.set('DirectionIds', directionIds);
+      filters.directions.forEach((direction: Direction) => params = params.set('DirectionIds', direction.id.toString()));
     }
 
     return params;
