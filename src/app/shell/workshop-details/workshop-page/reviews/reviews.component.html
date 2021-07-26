@@ -10,7 +10,7 @@
   </div>
 
   <div class="rate" *ngFor="let rate of (rating$|async)">
-    <p class="rate-author"> (Тут має бути автор) </p>
-    <p class="rate-date">{{rate.rate}} (тут має бути дата)</p>
+    <p class="rate-author"> {{rate.firstName}} {{rate.lastName}} </p>
+    <p class="rate-date">{{rate.rate}} {{rate.creationTime}}</p>
   </div>
 </div>
