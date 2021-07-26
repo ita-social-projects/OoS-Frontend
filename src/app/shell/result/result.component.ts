@@ -6,8 +6,9 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Observable } from 'rxjs';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { GetWorkshops } from 'src/app/shared/store/app.actions';
+import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-result',
@@ -16,7 +17,7 @@ import { GetWorkshops } from 'src/app/shared/store/app.actions';
 })
 export class ResultComponent implements OnInit, OnDestroy {
 
-  @Select(AppState.allWorkshops) allWorkshops$: Observable<Workshop[]>;
+  @Select(FilterState.filteredWorkshops) filteredWorkshops$: Observable<WorkshopCard[]>;
 
   public currentView: string;
   isFiltersVisible: boolean = true;
@@ -28,18 +29,20 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentView = 'show-data';
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.TopWorkshops, isActive: false, disable: true }
-    )));
-    this.store.dispatch(new GetWorkshops())
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch([
+      // new AddNavPath(this.navigationBarService.creatOneNavPath(
+      //   { name: NavBarName.TopWorkshops, isActive: false, disable: true }
+      // )),
+      new GetFilteredWorkshops()]
+    );
   }
 
   public SetCurrentView(view: string) {
     this.currentView = view;
     this.store.dispatch(new UpdateCurrentView(view));
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new DeleteNavPath());
   }
 }

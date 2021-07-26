@@ -55,7 +55,7 @@ export class SetClosedRecruitment {
 }
 export class GetFilteredWorkshops {
   static readonly type = '[filter] Get Filtered Workshops';
-  constructor(public payload) { }
+  constructor() { }
 }
 export class GetTopWorkshops {
   static readonly type = '[filter] Get 4 Most Popular Workshop Cards';

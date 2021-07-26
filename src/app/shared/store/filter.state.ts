@@ -71,7 +71,7 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static filteredlWorkshops(state: FilterStateModel): WorkshopCard[] { return state.filteredWorkshops }
+  static filteredWorkshops(state: FilterStateModel): WorkshopCard[] { return state.filteredWorkshops }
 
   @Selector()
   static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops }
@@ -154,11 +154,14 @@ export class FilterState {
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
+  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { }: GetFilteredWorkshops) {
+    patchState({ isLoading: true });
+    const state: FilterStateModel = getState();
 
     return this.appWorkshopsService
-      .getFilteredWorkshops(payload)
-      .subscribe((workshops: WorkshopCard[]) => patchState({ filteredWorkshops: workshops }))
+      .getFilteredWorkshops(state)
+      .subscribe((filterResult: WorkshopFilterCard) => patchState({ filteredWorkshops: filterResult.entities, isLoading: false }),
+        () => patchState({ isLoading: false }))
   }
 
   @Action(GetTopWorkshops)
