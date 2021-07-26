@@ -24,6 +24,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() isRegistered: boolean;
+  @Input() isDisplayedforProvider: boolean;
+
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
@@ -33,7 +35,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   rating$: Observable<Rate[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  currentRate: Rate;
   constructor(private store: Store, private matDialog: MatDialog) { }
 
   ngOnInit(): void {

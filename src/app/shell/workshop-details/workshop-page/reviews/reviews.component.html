@@ -4,7 +4,7 @@
       <mat-icon class="star-icon">star</mat-icon> {{workshop.rating}} <p class="rate-amount">
         ({{ (rating$|async)?.length ? (rating$|async)?.length : 0 }} відгуків)</p>
     </div>
-    <button mat-raised-button class="button" (click)="onRate()">
+    <button mat-raised-button class="button" (click)="onRate()" *ngIf="isDisplayedforProvider">
       <mat-icon class="button-icon">edit</mat-icon> "ЗАЛИШИТИ ОЦІНКУ"
     </button>
   </div>
