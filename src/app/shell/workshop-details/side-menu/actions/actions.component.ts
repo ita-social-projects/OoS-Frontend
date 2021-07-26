@@ -19,10 +19,7 @@ export class ActionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(isReg: boolean): void {
-    if (!isReg) {
-      this.store.dispatch(new Login());
-    }
+  login(): void {
+    this.isRegistered && this.store.dispatch(new Login());
   }
-
 }
