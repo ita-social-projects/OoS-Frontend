@@ -53,5 +53,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

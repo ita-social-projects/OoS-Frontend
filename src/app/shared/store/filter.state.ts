@@ -183,10 +183,12 @@ export class FilterState {
   }
 
   @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState }: StateContext<FilterStateModel>, { payload }: GetTopWorkshops) {
+  getTopWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
     patchState({ isLoading: true });
+    const state: FilterStateModel = getState();
+
     return this.appWorkshopsService
-      .getTopWorkshops(payload)
+      .getTopWorkshops(state)
       .subscribe((filterResult: WorkshopFilterCard) => patchState({ topWorkshops: filterResult?.entities, isLoading: false }), () => patchState({ isLoading: false }))
   }
 
