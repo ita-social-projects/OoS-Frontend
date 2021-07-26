@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AgeRange } from 'src/app/shared/models/ageRange.model';
 import { Direction } from 'src/app/shared/models/category.model';
 
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
@@ -17,13 +18,25 @@ export class AppWorkshopsService {
   private setParams(filters: FilterStateModel): HttpParams {
     let params = new HttpParams();
 
-    filters.city && params.set('City', filters.city);
+    if (filters.city) {
+      params = params.set('City', filters.city);
+    }
 
-    filters.maxPrice && params.set('MaxPrice', filters.maxPrice.toString());
+    if (filters.maxPrice) {
+      params = params.set('MaxPrice', filters.maxPrice.toString());
+    }
 
-    filters.minPrice && params.set('MinPrice', filters.minPrice.toString());
+    if (filters.minPrice) {
+      params = params.set('MinPrice', filters.minPrice.toString());
+    }
 
-    filters.searchQuery && params.set('SearchText', filters.searchQuery);
+    if (filters.searchQuery) {
+      params = params.set('SearchText', filters.searchQuery);
+    }
+
+    if (filters.ageRange?.length > 0) {
+      filters.ageRange.forEach((range: AgeRange) => params = params.set('Ages', JSON.stringify(range)));
+    }
 
     if (filters.directions.length > 0) {
       const directionIds = filters.directions.map((direction: Direction) => direction.id).toString();

@@ -1,4 +1,6 @@
-<ng-container>
+<ng-container *ngIf="workshops?.length then WorkshopList; else isEmptyList;"></ng-container>
+
+<ng-container #WorkshopList>
   <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid">
     <app-workshop-card *ngFor="let workshop of workshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
       [workshop]="workshop" [isMainPage]="true">
@@ -10,3 +12,7 @@
     autoHide="false" responsive="true" previousLabel="" nextLabel="">
   </pagination-controls>
 </div>
+
+<ng-template #isEmptyList>
+  <p class="empty-list-wrapper">За результатами пошуку нічого не знайдено</p>
+</ng-template>

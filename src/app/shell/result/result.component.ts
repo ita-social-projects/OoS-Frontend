@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { FilterChange, GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
@@ -41,6 +41,8 @@ export class ResultComponent implements OnInit, OnDestroy {
 
     this.actions$.pipe(ofAction(FilterChange))
       .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new GetFilteredWorkshops()));
   }

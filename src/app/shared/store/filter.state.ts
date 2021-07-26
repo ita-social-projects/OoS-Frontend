@@ -28,7 +28,7 @@ import { AppWorkshopsService } from '../services/workshops/app-workshop/app-work
 import { AgeRange } from '../models/ageRange.model';
 export interface FilterStateModel {
   directions: Direction[];
-  ageRange: AgeRange;
+  ageRange: AgeRange[];
   workingHours: WorkingHours[];
   workingDays: WorkingHours[];
   isPaid: boolean;
@@ -50,7 +50,7 @@ export interface FilterStateModel {
   name: 'filter',
   defaults: {
     directions: [],
-    ageRange: undefined,
+    ageRange: [],
     workingDays: [],
     workingHours: [],
     isPaid: false,
@@ -175,7 +175,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getFilteredWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState({ filteredWorkshops: filterResult.entities, isLoading: false }),
+      .subscribe((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult.entities, isLoading: false } : { filteredWorkshops: [], isLoading: false }),
         () => patchState({ isLoading: false }))
   }
 

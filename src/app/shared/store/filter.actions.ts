@@ -1,3 +1,4 @@
+import { AgeRange } from "../models/ageRange.model";
 import { Direction } from "../models/category.model";
 import { City } from "../models/city.model";
 import { WorkingHours } from "../models/workingHours.model";
@@ -15,7 +16,7 @@ export class SetDirections {
 }
 export class SetAgeRange {
   static readonly type = '[filter] Set Age Range';
-  constructor(public payload: string[]) { }
+  constructor(public payload: AgeRange[]) { }
 }
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';
