@@ -25,9 +25,10 @@ import {
   FilterChange,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+import { AgeRange } from '../models/ageRange.model';
 export interface FilterStateModel {
   directions: Direction[];
-  ageRange: string[];
+  ageRange: AgeRange;
   workingHours: WorkingHours[];
   workingDays: WorkingHours[];
   isPaid: boolean;
@@ -49,7 +50,7 @@ export interface FilterStateModel {
   name: 'filter',
   defaults: {
     directions: [],
-    ageRange: [''],
+    ageRange: undefined,
     workingDays: [],
     workingHours: [],
     isPaid: false,
