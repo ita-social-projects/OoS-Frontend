@@ -37,7 +37,7 @@ export interface FilterStateModel {
   minPrice: number;
   isOpenRecruitment: boolean;
   isClosedRecruitment: boolean;
-  city: string;
+  city: City;
   searchQuery: string;
   order: string;
   filteredWorkshops: WorkshopCard[];
@@ -83,6 +83,9 @@ export class FilterState {
 
   @Selector()
   static isLoading(state: FilterStateModel): boolean { return state.isLoading }
+
+  @Selector()
+  static city(state: FilterStateModel): City { return state.city }
 
 
   constructor(

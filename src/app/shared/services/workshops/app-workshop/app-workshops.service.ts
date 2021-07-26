@@ -19,7 +19,7 @@ export class AppWorkshopsService {
     let params = new HttpParams();
 
     if (filters.city) {
-      params = params.set('City', filters.city);
+      params = params.set('City', filters.city.name);
     }
 
     if (filters.maxPrice) {

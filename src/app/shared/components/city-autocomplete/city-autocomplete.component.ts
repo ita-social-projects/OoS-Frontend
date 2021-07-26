@@ -27,16 +27,16 @@ export class CityAutocompleteComponent implements OnInit {
   @Select(MetaDataState.isCity)
   isCity$: Observable<boolean[]>;
   @Select(FilterState.city)
-  city$ :Observable<City>;
+  city$: Observable<City>;
 
-  constructor(public store: Store) { 
+  constructor(public store: Store) {
     this.city$.pipe(takeUntil(this.destroy$)).subscribe(city => this.cityControl.setValue(city));
   }
 
   displayCityName(city: City): string {
     return city?.name;
   }
-  
+
   ngOnInit(): void {
     this.cities$
       .pipe(

@@ -31,7 +31,7 @@ export class GeolocationService {
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.store.dispatch(new SetCity(kiev.name));
+    this.store.dispatch(new SetCity(kiev));
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {

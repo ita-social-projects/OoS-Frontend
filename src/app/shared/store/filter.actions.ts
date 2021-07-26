@@ -4,7 +4,7 @@ import { City } from "../models/city.model";
 import { WorkingHours } from "../models/workingHours.model";
 export class SetCity {
   static readonly type = '[app] Set City';
-  constructor(public payload: string) { }
+  constructor(public payload: City) { }
 }
 export class SetOrder {
   static readonly type = '[filter] Set Order';
