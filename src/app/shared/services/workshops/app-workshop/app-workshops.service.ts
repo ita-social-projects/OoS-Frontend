@@ -1,8 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Constants } from 'src/app/shared/constants/constants';
+import { AgeRange } from 'src/app/shared/models/ageRange.model';
+import { Direction } from 'src/app/shared/models/category.model';
 
-import { Workshop, WorkshopCard } from '../../../models/workshop.model';
+import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
   providedIn: 'root'
@@ -15,17 +18,31 @@ export class AppWorkshopsService {
 
   private setParams(filters: FilterStateModel): HttpParams {
     let params = new HttpParams();
-    if (filters.searchQuery) {
-      params = params.set('title', filters.searchQuery);
-    }
+
     if (filters.city) {
-      params = params.set('address.city', filters.city.name);
+      params = params.set('City', filters.city.name);
     }
+
+    if (filters.maxPrice) {
+      params = params.set('MaxPrice', filters.maxPrice.toString());
+    }
+
+    if (filters.minPrice) {
+      params = params.set('MinPrice', filters.minPrice.toString());
+    }
+
+    if (filters.searchQuery) {
+      params = params.set('SearchText', filters.searchQuery);
+    }
+
+    if (filters.ageRange?.length > 0) {
+      filters.ageRange.forEach((range: AgeRange) => params = params.set('Ages', JSON.stringify(range)));
+    }
+
     if (filters.directions.length > 0) {
-      for (let i = 0; i < filters.directions.length; i++) {
-        params = params.append('direction.id', filters.directions[i].toString());
-      }
+      filters.directions.forEach((direction: Direction) => params = params.set('DirectionIds', direction.id.toString()));
     }
+
     return params;
   }
   /**
@@ -37,15 +54,23 @@ export class AppWorkshopsService {
   /**
   * This method get workshops with applied filter options
   */
-  getFilteredWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
+  getFilteredWorkshops(filters: FilterStateModel): Observable<WorkshopFilterCard> {
     const options = { params: this.setParams(filters) };
-    return this.http.get<WorkshopCard[]>('/Workshop/GetAll', options);
+    return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', options);
   }
 
   /**
    * This method get top workshops
    */
-  getTopWorkshops(): Observable<WorkshopCard[]> {
-    return this.http.get<WorkshopCard[]>('/Workshop/GetAll');
+  getTopWorkshops(filters: FilterStateModel): Observable<WorkshopFilterCard> {
+    let params = new HttpParams();
+    params = params.set('OrderByField', '1');
+    params = params.set('Size', '4');
+
+    if (filters.city) {
+      params = params.set('City', filters.city.name);
+    }
+
+    return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', { params });
   }
 }

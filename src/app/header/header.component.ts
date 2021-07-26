@@ -12,7 +12,6 @@ import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
 
-
 enum RoleLinks {
   provider = 'організацію',
   parent = 'дитину'
@@ -33,7 +32,7 @@ export class HeaderComponent implements OnInit {
   isLoadingMainPage$: Observable<boolean>;
   @Select(AppState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-  @Select (UserState.isLoading)
+  @Select(UserState.isLoading)
   isLoadingProviderCabinet$: Observable<boolean>
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
