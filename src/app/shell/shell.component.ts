@@ -20,7 +20,7 @@ export class ShellComponent implements OnInit {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
       // to do geo proposition if user allow 
       // waiting for endpoint 
-      this.store.dispatch(new SetCity({
+      coords && this.store.dispatch(new SetCity({
         district: " ",
         id: 34446,
         longitude: coords.lng,
