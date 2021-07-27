@@ -43,6 +43,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
+
     this.parent$.pipe(
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => this.parent = parent);
