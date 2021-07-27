@@ -29,6 +29,8 @@ export class HeaderComponent implements OnInit {
   showModalReg = false;
   MobileView: boolean = false;
 
+  languages = ['uk', 'en']
+
   @Select(FilterState.isLoading)
   isLoadingMainPage$: Observable<boolean>;
   @Select(AppState.isLoading)
@@ -78,4 +80,11 @@ export class HeaderComponent implements OnInit {
   isRouter(route: string): boolean {
     return this.router.url === route;
   }
+
+  setLanguage() {
+    console.log("Language")
+    // localStorage.setItem("lang", value)
+    
+  }
+
 }
