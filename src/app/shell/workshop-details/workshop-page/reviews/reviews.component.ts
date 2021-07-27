@@ -79,7 +79,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         });
       });
 
-    console.log(this.hasApprovedApplication)
+    console.log('hasApprovedApplication', this.hasApprovedApplication)
+    console.log('isRated', this.isRated)
+
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
