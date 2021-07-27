@@ -66,6 +66,8 @@ class MockWorkshopTeachersComponent {
 })
 class MockReviewsComponent {
   @Input() workshop: Workshop;
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
 }
 
 @Component({
