@@ -23,8 +23,8 @@ export class ShellComponent implements OnInit {
       this.store.dispatch(new SetCity({
         district: " ",
         id: 34446,
-        longitude: coords.lng,
-        latitude: coords.lat,  
+        longitude: coords?.lng,
+        latitude: coords?.lat,  
         name: "ВАШЕ МІСТО",
         region: " "
       }))
