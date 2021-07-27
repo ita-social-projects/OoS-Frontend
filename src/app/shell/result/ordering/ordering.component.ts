@@ -21,7 +21,7 @@ export class OrderingComponent {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.orderFormControl.valueChanges.subscribe((val) => this.store.dispatch(new SetOrder(this.selectedOption)))
+    this.orderFormControl.valueChanges.subscribe(() => this.store.dispatch(new SetOrder(this.selectedOption)))
   }
 
   OnSelectOption(event: MatSelectChange): void {

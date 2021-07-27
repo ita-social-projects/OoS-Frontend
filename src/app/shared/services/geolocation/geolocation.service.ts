@@ -1,5 +1,5 @@
 import { City } from './../../models/city.model';
-import { SetCity} from './../../store/filter.actions';
+import { SetCity } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';

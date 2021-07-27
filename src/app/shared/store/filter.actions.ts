@@ -1,3 +1,4 @@
+import { AgeRange } from "../models/ageRange.model";
 import { Direction } from "../models/category.model";
 import { City } from "../models/city.model";
 import { WorkingHours } from "../models/workingHours.model";
@@ -15,7 +16,7 @@ export class SetDirections {
 }
 export class SetAgeRange {
   static readonly type = '[filter] Set Age Range';
-  constructor(public payload: string[]) { }
+  constructor(public payload: AgeRange[]) { }
 }
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';
@@ -55,7 +56,7 @@ export class SetClosedRecruitment {
 }
 export class GetFilteredWorkshops {
   static readonly type = '[filter] Get Filtered Workshops';
-  constructor(public payload) { }
+  constructor() { }
 }
 export class GetTopWorkshops {
   static readonly type = '[filter] Get 4 Most Popular Workshop Cards';
@@ -68,4 +69,9 @@ export class SetWithDisabilityOption {
 export class SetWithoutDisabilityOption {
   static readonly type = '[filter] Set without Disability option';
   constructor(public payload: boolean) { }
+}
+
+export class FilterChange {
+  static readonly type = '[app] Filter Change';
+  constructor() { }
 }

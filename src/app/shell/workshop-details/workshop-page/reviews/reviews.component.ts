@@ -1,5 +1,5 @@
 import { NgModuleCompileResult } from '@angular/compiler/src/ng_module_compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -20,7 +20,7 @@ import { CreateRating, UpdateRating } from 'src/app/shared/store/user.actions';
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.scss']
 })
-export class ReviewsComponent implements OnInit {
+export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
 
