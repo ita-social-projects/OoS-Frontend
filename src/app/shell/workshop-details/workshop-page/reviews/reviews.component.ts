@@ -5,7 +5,9 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -13,7 +15,8 @@ import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Login } from 'src/app/shared/store/registration.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { CreateRating, GetApplicationsByParentId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-reviews',
@@ -29,8 +32,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
+  @Select(UserState.applications)
+  applications$: Observable<Application[]>;
   parent: Parent;
+  approvedApplications: Application[];
   isRated: boolean = false;
+  hasApprovedApplication: boolean = false;
 
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
@@ -45,16 +52,34 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
 
     this.parent$.pipe(
+      filter((parent: Parent) => parent !== undefined),
       takeUntil(this.destroy$)
-    ).subscribe((parent: Parent) => this.parent = parent);
+    ).subscribe((parent: Parent) => {
+      this.parent = parent;
+      this.store.dispatch(new GetApplicationsByParentId(parent.id));
+      this.applications$.pipe(
+        filter((applications: Application[]) => applications?.length > 0),
+        takeUntil(this.destroy$)
+      ).subscribe((applications: Application[]) =>
+        this.approvedApplications = applications.filter((application: Application) => application.status = ApplicationStatus.approved))
+    });
 
     this.rating$
       .pipe(
         filter((rating: Rate[]) => rating.length > 0),
         takeUntil(this.destroy$)
       ).subscribe((rating: Rate[]) => {
-        rating.some((rate: Rate) => this.isRated = (rate.parentId === this.parent.id))
+        rating.some((rate: Rate) => {
+          if (this.parent) {
+            this.isRated = (rate.parentId === this.parent.id);
+            this.hasApprovedApplication = this.approvedApplications?.some((application: Application) => {
+              (+rate.entityId === application.workshopId);
+            })
+          }
+        });
       });
+
+    console.log(this.hasApprovedApplication)
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
