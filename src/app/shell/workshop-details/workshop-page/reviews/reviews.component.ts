@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -30,6 +30,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   parent: Parent;
+  isRated: boolean = false;
 
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
@@ -45,6 +46,14 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.parent$.pipe(
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => this.parent = parent);
+
+    this.rating$
+      .pipe(
+        filter((rating: Rate[]) => rating.length > 0),
+        takeUntil(this.destroy$)
+      ).subscribe((rating: Rate[]) => {
+        rating.some((rate: Rate) => this.isRated = (rate.parentId === this.parent.id))
+      });
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(

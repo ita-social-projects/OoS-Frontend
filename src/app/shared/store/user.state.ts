@@ -448,7 +448,7 @@ export class UserState {
   @Action(OnCreateRatingFail)
   onCreateRatingFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'Ви вже оцінили цей гурток', type: 'warningYellow' }));
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateRatingSuccess)
