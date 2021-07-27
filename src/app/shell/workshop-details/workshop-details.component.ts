@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { CreateRating, GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -40,7 +40,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(this.workshopId));
-    
+
     this.workshop$.pipe(
       filter((workshop: Workshop) => !!workshop),
       takeUntil(this.destroy$)
@@ -53,16 +53,17 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       )));
     });
 
-     this.setUserView();
+    this.setUserView();
 
-     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
-      .pipe(distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshopId)))
-      .unsubscribe();
+    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged())
+      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshopId)));
   }
 
-  private setUserView(): void{
-    this.user$.subscribe((user: User)=> this.user = user);
+  private setUserView(): void {
+    this.user$.subscribe((user: User) => this.user = user);
     this.isRegistered = Boolean(this.user);
     this.isDisplayedforProvider = (this.user?.role !== Role.provider);
   }

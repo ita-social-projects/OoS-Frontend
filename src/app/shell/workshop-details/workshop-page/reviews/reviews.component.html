@@ -9,8 +9,15 @@
     </button>
   </div>
 
-  <div class="rate" *ngFor="let rate of (rating$|async)">
+  <div class="rate" *ngFor="let rate of (rating$|async)" fxLayout='column' fxLayoutAlign='start space-between'>
     <p class="rate-author"> {{rate.firstName}} {{rate.lastName}} </p>
-    <p class="rate-date">{{rate.rate}} {{rate.creationTime}}</p>
+    <p class="rate-date" fxLayout='row' fxLayoutAlign='start center'>
+      <mat-icon class="star-icon">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate >= 2) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate >= 3) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate >= 4) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate === 5) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      {{rate.creationTime | date: 'shortDate'}}
+    </p>
   </div>
 </div>

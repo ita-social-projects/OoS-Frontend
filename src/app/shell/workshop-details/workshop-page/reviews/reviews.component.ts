@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -13,7 +13,7 @@ import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Login } from 'src/app/shared/store/registration.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating } from 'src/app/shared/store/user.actions';
+import { CreateRating, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-reviews',
@@ -35,17 +35,26 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   rating$: Observable<Rate[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private matDialog: MatDialog) { }
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog,
+    private actions$: Actions,) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
     this.parent$.pipe(
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => this.parent = parent);
+
+    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged())
+      .subscribe(() => this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id)));
   }
 
   onRate(): void {
-    this.isRegistered ? this.store.dispatch(new Login()) : this.setWorkshopRating();
+    this.isRegistered ? this.setWorkshopRating() : this.store.dispatch(new Login());
   }
 
   private setWorkshopRating(): void {
@@ -58,12 +67,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: number) => {
       if (result) {
-          this.store.dispatch(new CreateRating({
-            rate: result,
-            type: Constants.WORKSHOP_ENTITY_TYPE,
-            entityId: this.workshop.id,
-            parentId: this.parent.id,
-          }));
+        this.store.dispatch(new CreateRating({
+          rate: result,
+          type: Constants.WORKSHOP_ENTITY_TYPE,
+          entityId: this.workshop.id,
+          parentId: this.parent.id,
+        }));
       }
     })
   }
