@@ -36,11 +36,11 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   constructor(private geolocationService: GeolocationService) { 
     this.city$
     .pipe(takeUntil(this.destroy$))
-    .subscribe((city)=> this.defaultCoords = {lat:city?.latitude, lng:city?.longitude});
-
-    this.city$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((city)=> this.flyTo({lat:city?.latitude, lng:city?.longitude}));
+    .subscribe((city)=> {
+      const coords = {lat:city?.latitude, lng:city?.longitude};
+        this.defaultCoords = coords;
+        this.flyTo(coords);
+    });
   }
 
   map: Layer.Map;
