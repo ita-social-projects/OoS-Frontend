@@ -1,20 +1,31 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { Workshop, WorkshopCard } from '../../models/workshop.model';
+import { Select } from '@ngxs/store';
+import { FilterState } from '../../store/filter.state';
+import { Observable } from 'rxjs';
+import { City } from '../../models/city.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit{
+export class MapComponent implements AfterViewInit, OnDestroy{
 
-  defaultKievCoords: Coords = { lat: 50.462235, lng: 30.545131 };
-  zoom: number = 11;
+  @Select(FilterState.city)
+  city$ :Observable<City>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public defaultCoords: Coords;
+  public zoom: number = 11;
 
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: WorkshopCard[];
@@ -22,7 +33,15 @@ export class MapComponent implements AfterViewInit{
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
-  constructor(private geolocationService: GeolocationService) { }
+  constructor(private geolocationService: GeolocationService) { 
+    this.city$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((city)=> this.defaultCoords = {lat:city?.latitude, lng:city?.longitude});
+
+    this.city$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((city)=> this.flyTo({lat:city?.latitude, lng:city?.longitude}));
+  }
 
   map: Layer.Map;
   singleMarker: Layer.Marker;
@@ -49,6 +68,36 @@ export class MapComponent implements AfterViewInit{
     iconUrl: '/assets/icons/selectMarker.png',
   });
 
+/**
+ * changing position on map 
+ * @param coords:Coords 
+ */
+  flyTo(coords: Coords):void {
+    this.map?.flyTo(coords, this.zoom);
+  }
+
+/**
+ * method init start position on map 
+ */
+  initMap():void {
+    this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
+
+    Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      updateWhenZooming: true,
+      attribution:
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    this.map.on('click', (L: Layer.LeafletMouseEvent) => {
+      if (this.workshops) {
+        this.unselectMarkers();
+        this.selectedAddress.emit(null)
+      } else {
+        this.setMapLocation(L.latlng);
+      }
+    });
+  }
+
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
    * Creates and sets map after div with is "map" renders.
@@ -56,30 +105,8 @@ export class MapComponent implements AfterViewInit{
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.geolocationService.handleUserLocation((coords: Coords) => {
-
-      const defaultCoords = coords ? coords : this.defaultKievCoords;
-
-      this.map = Layer.map('map').setView(defaultCoords, this.zoom);
-
-      Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        updateWhenZooming: true,
-        attribution:
-          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
-
-      this.map.on('click', (L: Layer.LeafletMouseEvent) => {
-        if (this.workshops) {
-          this.unselectMarkers();
-          this.selectedAddress.emit(null)
-        } else {
-          this.setMapLocation(L.latlng);
-        }
-      });
-    });
-
+    this.initMap();
     this.addressFormGroup && this.addressFormGroup.valueChanges.subscribe((address: Address) => address && this.setAddressLocation(address));
-
     this.workshops && this.workshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
   }
 
@@ -153,6 +180,11 @@ export class MapComponent implements AfterViewInit{
   */
   createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
     return new Layer.Marker(coords, { draggable, icon: this.unselectedMarkerIcon, riseOnHover: true });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }
