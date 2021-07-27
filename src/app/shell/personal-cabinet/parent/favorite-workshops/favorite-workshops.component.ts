@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { GetWorkshops } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 
 @Component({
@@ -18,7 +17,6 @@ export class FavoriteWorkshopsComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetWorkshops());
   }
 
 }

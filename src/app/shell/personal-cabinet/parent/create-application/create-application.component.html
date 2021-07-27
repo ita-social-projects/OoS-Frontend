@@ -5,7 +5,6 @@
       <img class="card-image" src="assets/icons/workshop.png" alt="workshop-photo">
       <div class="card-content" fxLayout="column" fxLayoutAlign="start">
         <h5> {{workshop?.title}} </h5>
-        <p class="card_text"><img src="assets/icons/name.png" alt="name"> {{ workshop?.ownership }} </p>
         <p class="card_text"><img src="assets/icons/age.png" alt="age"> {{ workshop?.minAge }} - {{ workshop?.maxAge
           }}
           років
@@ -24,17 +23,15 @@
 
           <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
           <mat-form-field appearance="none">
-            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" [formControl]="ChildFormControl" 
-              [(ngModel)]="selectedChild" name="child" placeholder="Діти">
+            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+              [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
               <mat-option *ngFor="let child of (children$ | async)" [value]="child" class="dropdown-option">
                 {{child.firstName}} {{child.middleName}} {{child.lastName}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <app-validation-hint-for-input 
-            type = "requiredField" 
-            [invalid] = "ChildFormControl.invalid && ChildFormControl.touched" 
-          ></app-validation-hint-for-input>
+          <app-validation-hint-for-input type="requiredField"
+            [invalid]="ChildFormControl.invalid && ChildFormControl.touched"></app-validation-hint-for-input>
 
           <a [routerLink]="['/create-child', '']" class="btn-add-child">
             <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
@@ -62,20 +59,22 @@
     </mat-tab-group>
     <div *ngIf="!editMode" fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box ">
       <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
-      Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас
+        Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас
       </mat-checkbox>
       <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
         Я(моя дитина) не маю противопоказів щодо відвідування гуртока/секції/класу
-        </mat-checkbox>
+      </mat-checkbox>
       <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
-      Я погоджуюсь з <a class="link">Правилами користування </a>
-      та надаю згоду на обробку персональних даних
-    </mat-checkbox>
+        Я погоджуюсь з <a class="link">Правилами користування </a>
+        та надаю згоду на обробку персональних даних
+      </mat-checkbox>
     </div>
 
     <div fxLayout='row' fxLayoutAlign='center center' class="footer">
       <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
-      <button class="btn" mat-button type="submit" [disabled]="(!isAgreed || !isParentAgreed ||!selectedChild) && !editMode "(click)="onSubmit()">Відправити</button>
+      <button class="btn" mat-button type="submit"
+        [disabled]="(!isAgreed || !isParentAgreed ||!selectedChild) && !editMode "
+        (click)="onSubmit()">Відправити</button>
     </div>
   </div>
 </div>
