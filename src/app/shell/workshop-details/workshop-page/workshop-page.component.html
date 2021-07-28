@@ -40,7 +40,8 @@
         <app-all-provider-workshops [providerWorkshops]="providerWorkshops"></app-all-provider-workshops>
       </mat-tab>
       <mat-tab label="ВІДГУКИ">
-        <app-reviews [workshop]="workshop"></app-reviews>
+        <app-reviews [workshop]="workshop" [isDisplayedforProvider]="isDisplayedforProvider">
+        </app-reviews>
       </mat-tab>
     </mat-tab-group>
   </div>

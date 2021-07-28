@@ -55,7 +55,8 @@ class MockWorkshopPageComponent {
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: Workshop[];
-
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
 }
 
 @Component({
@@ -64,4 +65,6 @@ class MockWorkshopPageComponent {
 })
 class MockSideMenuComponent {
   @Input() workshop: Workshop;
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
 }

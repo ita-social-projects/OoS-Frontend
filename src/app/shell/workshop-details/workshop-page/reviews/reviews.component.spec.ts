@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -16,7 +17,8 @@ describe('ReviewsComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
         MatDialogModule,
-        MatIconModule
+        MatIconModule,
+        MatTooltipModule
       ],
       declarations: [ReviewsComponent]
     })
