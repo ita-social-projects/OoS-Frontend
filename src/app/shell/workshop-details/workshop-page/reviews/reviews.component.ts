@@ -49,8 +49,17 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     private actions$: Actions,) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
+    this.getParentData();
+    this.getWorkshopRatingList();
 
+    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged())
+      .subscribe(() => this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id)));
+  }
+
+  private getParentData(): void {
     this.parent$.pipe(
       filter((parent: Parent) => parent !== undefined),
       takeUntil(this.destroy$)
@@ -63,7 +72,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       ).subscribe((applications: Application[]) =>
         this.approvedApplications = applications.filter((application: Application) => application.status = ApplicationStatus.approved))
     });
+  }
 
+  private getWorkshopRatingList(): void {
+    this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
     this.rating$
       .pipe(
         filter((rating: Rate[]) => rating.length > 0),
@@ -78,23 +90,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           }
         });
       });
-
-    console.log('hasApprovedApplication', this.hasApprovedApplication)
-    console.log('isRated', this.isRated)
-
-
-    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
-      .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id)));
   }
 
   onRate(): void {
-    this.isRegistered ? this.setWorkshopRating() : this.store.dispatch(new Login());
-  }
-
-  private setWorkshopRating(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {

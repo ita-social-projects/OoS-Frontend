@@ -20,6 +20,6 @@ export class ActionsComponent implements OnInit {
   }
 
   login(): void {
-    this.isRegistered && this.store.dispatch(new Login());
+    !this.isRegistered && this.store.dispatch(new Login());
   }
 }
