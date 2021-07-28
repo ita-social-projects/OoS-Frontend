@@ -1,6 +1,8 @@
+import { Store } from '@ngxs/store';
 import { Component, OnInit } from '@angular/core';
 import { Coords } from '../shared/models/coords.model';
 import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
+import { SetCity } from '../shared/store/filter.actions';
 
 @Component({
   selector: 'app-shell',
@@ -9,10 +11,23 @@ import { GeolocationService } from '../shared/services/geolocation/geolocation.s
 })
 export class ShellComponent implements OnInit {
 
-  constructor( private geolocationService: GeolocationService) { }
+  constructor( 
+    private geolocationService: GeolocationService,
+    private store:Store
+    ) { }
 
   ngOnInit(): void {
-    this.geolocationService.handleUserLocation((coords: Coords)=> {})
+    this.geolocationService.handleUserLocation((coords: Coords)=> {
+      //TODO: waiting for endpoint 
+      coords && this.store.dispatch(new SetCity({
+        district: " ",
+        id: 34446,
+        longitude: coords.lng,
+        latitude: coords.lat,  
+        name: "ВАШЕ МІСТО",
+        region: " "
+      }))
+    })
   }
 
 }
