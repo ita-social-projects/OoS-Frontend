@@ -1,4 +1,4 @@
-import { Direction } from "../models/category.model";
+import { Department, Direction } from "../models/category.model";
 import { City } from "../models/city.model";
 export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
@@ -33,4 +33,9 @@ export class ClearCities {
 export class FilteredDirectionsList {
   static readonly type = '[meta-data] Get list of filtered directions';
   constructor(public payload: Direction[]) { }
+}
+
+export class FilteredDepartmentsList {
+  static readonly type = '[meta-data] Get list of filtered departments';
+  constructor(public payload: Department[]) { }
 }

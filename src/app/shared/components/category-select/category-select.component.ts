@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounce, debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { Class, Department, Direction } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
-import { GetClasses, GetDirections, GetDepartments, ClearCategories, FilteredDirectionsList } from '../../store/meta-data.actions';
+import { GetClasses, GetDirections, GetDepartments, ClearCategories, FilteredDirectionsList, FilteredDepartmentsList } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 
 @Component({
@@ -22,6 +22,9 @@ export class CategorySelectComponent implements OnInit {
   filteredDirections$: Observable<Direction[]>;
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
+  departments : Department[];
+  @Select(MetaDataState.filteredDepartments)
+  filteredDepartments$: Observable<Department[]>;
   @Select(MetaDataState.classes)
   classes$: Observable<Class[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -31,6 +34,7 @@ export class CategorySelectComponent implements OnInit {
 
   CategoryFormGroup: FormGroup;
   directionsFormControl = new FormControl('');
+  departmentsFormControl = new FormControl('');
 
   selectedDirectionId: number;
   selectedDepartmentId: number;
@@ -63,6 +67,20 @@ export class CategorySelectComponent implements OnInit {
         this.store.dispatch(new FilteredDirectionsList([]));
       };
     });
+    this.departments$.subscribe((departments: Department[])=> this.departments = departments);
+    this.departmentsFormControl.valueChanges
+    .pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      startWith(''),
+    ).subscribe(value => {
+      if (value.length) {
+        this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.trim())));
+      } else {
+        this.store.dispatch(new FilteredDepartmentsList([]));
+      };
+    });
   }
 
   private filter(value: string): Direction[] {
@@ -73,6 +91,19 @@ export class CategorySelectComponent implements OnInit {
       )
       .map((direction: Direction) => direction);
      return filteredDirections;
+  }
+  private filterDepartments(value: string): Department[] {
+    let filteredDepartments = this.departments
+      .filter((department: Department) => department.title
+        .toLowerCase()
+        .startsWith(value.toLowerCase())
+      )
+      .map((department: Department) => department);
+     return filteredDepartments;
+  }
+
+  optionDisplayDepartment(department : Department){
+    return department.title;
   }
 
   optionDisplay(direction: Direction){
@@ -86,9 +117,10 @@ export class CategorySelectComponent implements OnInit {
     this.store.dispatch(new GetDepartments(direction.id));
   }
 
-  onSelectDepartment(id: number): void {
+  onSelectDepartment(department: Department): void {
     this.CategoryFormGroup.get('classId').reset();
-    this.store.dispatch(new GetClasses(id));
+    this.CategoryFormGroup.get('departmentId').setValue(department.id);
+    this.store.dispatch(new GetClasses(department.id));
   }
 
   activateEditMode(): void {
