@@ -1,4 +1,5 @@
-import { Department, Direction } from "../models/category.model";
+import { Class } from "leaflet";
+import { Department, Direction, IClass } from "../models/category.model";
 import { City } from "../models/city.model";
 export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
@@ -38,6 +39,11 @@ export class FilteredDirectionsList {
 export class FilteredDepartmentsList {
   static readonly type = '[meta-data] Get list of filtered departments';
   constructor(public payload: Department[]) { }
+}
+
+export class FilteredClassesList {
+  static readonly type = '[meta-data] Get list of filtered classes';
+  constructor(public payload: IClass[]) { }
 }
 
 export class GetRateByEntityId {

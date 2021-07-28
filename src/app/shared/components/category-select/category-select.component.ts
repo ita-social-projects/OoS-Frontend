@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounce, debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
-import { Class, Department, Direction } from '../../models/category.model';
+import { Department, Direction, IClass } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
-import { GetClasses, GetDirections, GetDepartments, ClearCategories, FilteredDirectionsList, FilteredDepartmentsList } from '../../store/meta-data.actions';
+import { GetClasses, GetDirections, GetDepartments, ClearCategories, FilteredDirectionsList, FilteredDepartmentsList, FilteredClassesList } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 
 @Component({
@@ -26,8 +26,11 @@ export class CategorySelectComponent implements OnInit {
   @Select(MetaDataState.filteredDepartments)
   filteredDepartments$: Observable<Department[]>;
   @Select(MetaDataState.classes)
-  classes$: Observable<Class[]>;
+  classes$: Observable<IClass[]>;
+  classes: IClass[];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(MetaDataState.filteredClasses)
+  filteredClasses$: Observable<IClass[]>;
 
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
@@ -35,6 +38,7 @@ export class CategorySelectComponent implements OnInit {
   CategoryFormGroup: FormGroup;
   directionsFormControl = new FormControl('');
   departmentsFormControl = new FormControl('');
+  сlassesFormControl = new FormControl('');
 
   selectedDirectionId: number;
   selectedDepartmentId: number;
@@ -67,6 +71,7 @@ export class CategorySelectComponent implements OnInit {
         this.store.dispatch(new FilteredDirectionsList([]));
       };
     });
+
     this.departments$.subscribe((departments: Department[])=> this.departments = departments);
     this.departmentsFormControl.valueChanges
     .pipe(
@@ -79,6 +84,21 @@ export class CategorySelectComponent implements OnInit {
         this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.trim())));
       } else {
         this.store.dispatch(new FilteredDepartmentsList([]));
+      };
+    });
+
+    this.classes$.subscribe((classes: IClass[])=> this.classes = classes);
+    this.сlassesFormControl.valueChanges
+    .pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      startWith(''),
+    ).subscribe(value => {
+      if (value.length) {
+        this.store.dispatch(new FilteredClassesList(this.filterClasses(value.trim())));
+      } else {
+        this.store.dispatch(new FilteredClassesList([]));
       };
     });
   }
@@ -102,6 +122,20 @@ export class CategorySelectComponent implements OnInit {
      return filteredDepartments;
   }
 
+  private filterClasses(value: string): IClass[] {
+    let filteredClasses = this.classes
+      .filter((classItem : IClass) => classItem.title
+        .toLowerCase()
+        .startsWith(value.toLowerCase())
+      )
+      .map((classItem: IClass) => classItem);
+     return filteredClasses;
+  }
+
+    optionDisplayClass(classItem: IClass){
+      return classItem.title;
+    }
+  
   optionDisplayDepartment(department : Department){
     return department.title;
   }
@@ -118,10 +152,18 @@ export class CategorySelectComponent implements OnInit {
   }
 
   onSelectDepartment(department: Department): void {
+    this.CategoryFormGroup.get('departmentId').reset();
     this.CategoryFormGroup.get('classId').reset();
     this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
+
+  onSelectClasses(classItem : IClass): void{
+     this.CategoryFormGroup.get('departmentId').reset();
+     this.CategoryFormGroup.get('classId').reset();
+     this.CategoryFormGroup.get('classId').setValue(classItem.id);
+     this.store.dispatch(new GetClasses(classItem.id));
+   }
 
   activateEditMode(): void {
     this.store.dispatch(new GetDirections())

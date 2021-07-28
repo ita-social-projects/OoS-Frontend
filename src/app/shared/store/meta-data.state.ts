@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Class, Department, Direction } from '../models/category.model';
+import { Department, Direction, IClass } from '../models/category.model';
 import { City } from '../models/city.model';
 import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
@@ -19,18 +19,20 @@ import {
   ClearCities,
   FilteredDirectionsList,
   FilteredDepartmentsList,
+  FilteredClassesList,
   GetRateByEntityId
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
   departments: Department[];
-  classes: Class[];
+  classes: IClass[];
   cities: City[],
   socialGroups: SocialGroup[],
   isCity: boolean;
   filteredDirections: Direction[];
   filteredDepartments : Department[];
+  filteredClasses : IClass[];
   rating: Rate[];
 }
 
@@ -45,6 +47,7 @@ export interface MetaDataStateModel {
     isCity: false,
     filteredDirections: [],
     filteredDepartments:[],
+    filteredClasses:[],
     rating: []
   }
 
@@ -59,7 +62,7 @@ export class MetaDataState {
   static departments(state: MetaDataStateModel): Department[] { return state.departments }
 
   @Selector()
-  static classes(state: MetaDataStateModel): Class[] { return state.classes }
+  static classes(state: MetaDataStateModel): IClass[] { return state.classes }
 
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
@@ -75,6 +78,10 @@ export class MetaDataState {
 
   @Selector()
   static filteredDepartments(state: MetaDataStateModel): Department[] { return state.filteredDepartments }
+
+  @Selector()
+  static filteredClasses(state: MetaDataStateModel): IClass[] { return state.filteredClasses }
+
   static rating(state: MetaDataStateModel): Rate[] { return state.rating }
 
   constructor(
@@ -106,7 +113,7 @@ export class MetaDataState {
     return this.categoriesService
       .getClassByDepartmentId(payload)
       .pipe(
-        tap((classes: Class[]) => patchState({ classes: classes })
+        tap((classes: IClass[]) => patchState({ classes: classes })
         ))
   }
 
@@ -150,6 +157,10 @@ export class MetaDataState {
     patchState({ filteredDepartments : payload });
   }
 
+  @Action(FilteredClassesList)
+  FilteredClassesList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredClassesList): void {
+    patchState({ filteredClasses : payload });
+  }
 
   @Action(GetRateByEntityId)
   getRateByEntityId({ patchState }: StateContext<MetaDataStateModel>, { enitityType, entitytId }: GetRateByEntityId) {

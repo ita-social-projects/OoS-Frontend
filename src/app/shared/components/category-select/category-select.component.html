@@ -22,31 +22,46 @@
   <input  matInput  type="text" 
           placeholder="Почніть вводити відділ або виберіть зі списку"  class="step-input"
           [formControl]="departmentsFormControl"
-          [matAutocomplete]="auto"
+          [matAutocomplete]="autoDepartment"
           disableOptionCentering panelClass="dropdown-panel"
   >
   <mat-autocomplete 
-    #auto="matAutocomplete" 
+    #autoDepartment="matAutocomplete" 
     (optionSelected)="onSelectDepartment($event.option.value)"
-    [displayWith] = "optionDisplay">
+    [displayWith] = "optionDisplayDepartment">
     <mat-option *ngFor="let department of filteredDepartments$ | async" [value]="department" class="dropdown-option">
       {{ department.title }}
     </mat-option>
 </mat-autocomplete>
-<!-- 
 
-  <mat-select *ngIf="(departments$ | async)?.length" disableOptionCentering panelClass="dropdown-panel"
-    class="step-input" formControlName="departmentId" (selectionChange)="onSelectDepartment($event.value)"
-    placeholder="Відділ" [(value)]="selectedDepartmentId">
-    <mat-option *ngFor="let department of departments$ | async" [value]="department.id" class="dropdown-option">
-      {{ department.title }}
+<app-validation-hint-for-input 
+type = "requiredField" 
+[invalid] = "CategoryFormGroup.get('departmentId').invalid && CategoryFormGroup.get('deprtmentId').touched">
+</app-validation-hint-for-input>
+<ng-container *ngIf="(classes$ | async)?.length">
+  <input  matInput  type="text" 
+          placeholder="Почніть вводити клас або виберіть зі списку"  class="step-input"
+          [formControl]="сlassesFormControl"
+          [matAutocomplete]="autoClasses"
+          disableOptionCentering panelClass="dropdown-panel"
+  >
+  <mat-autocomplete 
+    #autoClasses="matAutocomplete" 
+    (optionSelected)="onSelectClasses($event.option.value)"
+    [displayWith] = "optionDisplayClass"
+    >
+    <mat-option *ngFor="let classItem of filteredClasses$ | async" [value]="classItem" class="dropdown-option">
+      {{ classItem.title }}
     </mat-option>
-  </mat-select> -->
+</mat-autocomplete>
 
-  <mat-select *ngIf="(classes$ | async)?.length" disableOptionCentering panelClass="dropdown-panel" class="step-input"
+</ng-container>
+
+
+  <!-- <mat-select *ngIf="(classes$ | async)?.length" disableOptionCentering panelClass="dropdown-panel" class="step-input"
     formControlName="classId" placeholder="Клас" [(value)]="selectedClassId">
     <mat-option *ngFor="let class of classes$ | async" [value]="class.id" class="dropdown-option">
       {{ class.title }}
     </mat-option>
-  </mat-select>
+  </mat-select> -->
 </form>
