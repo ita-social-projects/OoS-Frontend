@@ -1,16 +1,27 @@
 <div class="wrapper" fxLayout='column' fxLayoutAlign='start space-between'>
   <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
     <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
-      <mat-icon class="star-icon">star</mat-icon> {{currentRate?.rate}} <p class="rate-amount">
+      <mat-icon class="star-icon">star</mat-icon> {{workshop.rating}} <p class="rate-amount">
         ({{ (rating$|async)?.length ? (rating$|async)?.length : 0 }} відгуків)</p>
     </div>
-    <button mat-raised-button class="button" (click)="onRate()">
-      <mat-icon class="button-icon">edit</mat-icon>{{currentRate ? "ЗМІНИТИ ОЦІНКУ" : "ЗАЛИШИТИ ОЦІНКУ"}}
-    </button>
+    <div [matTooltip]="isRated ? 'Ви вже оцінили цей гурток' : 'Ви повинні бути прийнятим до даного гуртка'"
+      [matTooltipDisabled]="hasApprovedApplication && isRated">
+      <button mat-raised-button class="button" (click)="onRate()" *ngIf="isDisplayedforProvider"
+        [disabled]="isRated || !hasApprovedApplication">
+        <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
+      </button>
+    </div>
   </div>
 
-  <div class="rate" *ngFor="let rate of (rating$|async)">
-    <p class="rate-author"> (Тут має бути автор) </p>
-    <p class="rate-date">{{rate.rate}} (тут має бути дата)</p>
+  <div class="rate" *ngFor="let rate of (rating$|async)" fxLayout='column' fxLayoutAlign='start space-between'>
+    <p class="rate-author"> {{rate.firstName}} {{rate.lastName}} </p>
+    <p class="rate-date" fxLayout='row' fxLayoutAlign='start center'>
+      <mat-icon class="star-icon">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate >= 2) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate >= 3) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate >= 4) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      <mat-icon [ngClass]="(rate.rate === 5) ? 'star-icon' : 'star-icon-gray'">star</mat-icon>
+      {{rate.creationTime | date: 'shortDate'}}
+    </p>
   </div>
 </div>

@@ -4,4 +4,7 @@ export interface Rate {
   type: string;
   entityId: string;
   parentId: number;
+  creationTime: Date;
+  lastName: string;
+  firstName: string;
 }

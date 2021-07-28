@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
   let fixture: ComponentFixture<SideMenuComponent>;
-  let store : Store;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -47,6 +47,7 @@ describe('SideMenuComponent', () => {
 })
 class MockContactsComponent {
   @Input() workshop: Workshop;
+  @Input() isRegistered: boolean;
 }
 
 @Component({

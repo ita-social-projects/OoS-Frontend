@@ -1,7 +1,15 @@
 <div *ngIf="workshop$ && provider$ | async" class="wrapper" fxLayout="row" fxLayout.lt-lg="row wrap"
   fxLayoutAlign="center space-between">
-  <app-workshop-page [workshop]="workshop$ | async" [provider]="provider$ | async"
-    [providerWorkshops]="workshops$ | async">
+  <app-workshop-page 
+    [workshop]="workshop$ | async" 
+    [provider]="provider$ | async"
+    [providerWorkshops]="workshops$ | async" 
+    [isDisplayedforProvider]="isDisplayedforProvider" 
+    [isRegistered]="isRegistered">
   </app-workshop-page>
-  <app-side-menu [workshop]="workshop$ | async"></app-side-menu>
+  <app-side-menu 
+    [workshop]="workshop$ | async" 
+    [isDisplayedforProvider]="isDisplayedforProvider" 
+    [isRegistered]="isRegistered">
+</app-side-menu>
 </div>
