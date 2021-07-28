@@ -18,6 +18,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateApplication, GetChildrenByParentId, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 
 
 @Component({
@@ -83,7 +84,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
-      data: 'Подати заявку?'
+      data: {
+        type: ModalConfirmationType.createApplication,
+        property: this.workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
