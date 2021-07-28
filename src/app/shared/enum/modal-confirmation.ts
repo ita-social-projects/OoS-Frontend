@@ -9,7 +9,7 @@ export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
   leavePage = 'ЗАЛИШИТИ СТОРІНКУ?',
-  createApplication = 'Подати заявку?',
+  createApplication = 'ПОДАТИ ЗАЯВКУ?',
 }
 
 export enum ModalConfirmationText {
