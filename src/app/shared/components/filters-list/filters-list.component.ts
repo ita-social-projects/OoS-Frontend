@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption, SetWithoutDisabilityOption } from '../../store/filter.actions';
+import { SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
   styleUrls: ['./filters-list.component.scss']
 })
-export class FiltersListComponent implements OnInit {
+export class FiltersListComponent implements OnInit, OnDestroy {
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
-  WithoutDisabilityOptionControl= new FormControl(false);
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -22,21 +21,17 @@ export class FiltersListComponent implements OnInit {
 
   ngOnInit(): void {
     this.OpenRecruitmentControl.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-    ).subscribe(val => this.store.dispatch(new SetOpenRecruitment(val)));
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe(val => this.store.dispatch(new SetOpenRecruitment(val)));
     this.ClosedRecruitmentControl.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-    ).subscribe(val => this.store.dispatch(new SetClosedRecruitment(val)));
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe(val => this.store.dispatch(new SetClosedRecruitment(val)));
     this.WithDisabilityOptionControl.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-    ).subscribe(val => this.store.dispatch(new SetWithDisabilityOption(val)));
-    this.WithoutDisabilityOptionControl.valueChanges
-    .pipe(
-      takeUntil(this.destroy$),
-    ).subscribe(val => this.store.dispatch(new SetWithoutDisabilityOption(val)));
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe(val => this.store.dispatch(new SetWithDisabilityOption(val)));
   }
 
   ngOnDestroy() {

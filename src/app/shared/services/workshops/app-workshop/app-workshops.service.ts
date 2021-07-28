@@ -1,8 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
-import { AgeRange } from 'src/app/shared/models/ageRange.model';
 import { Direction } from 'src/app/shared/models/category.model';
 
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
@@ -35,9 +33,9 @@ export class AppWorkshopsService {
       params = params.set('SearchText', filters.searchQuery);
     }
 
-    if (filters.ageRange?.length > 0) {
-      filters.ageRange.forEach((range: AgeRange) => params = params.set('Ages', JSON.stringify(range)));
-    }
+    // if (filters.ageRange?.length > 0) {
+    //   filters.ageRange.forEach((range: AgeRange) => params = params.set('Ages', JSON.stringify(range)));
+    // }
 
     if (filters.directions.length > 0) {
       filters.directions.forEach((direction: Direction) => params = params.set('DirectionIds', direction.id.toString()));
