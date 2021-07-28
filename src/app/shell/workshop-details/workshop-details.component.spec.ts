@@ -6,6 +6,7 @@ import { Workshop } from '../../shared/models/workshop.model';
 import { User } from '../../shared/models/user.model';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 const MockUser = {
   role: '',
@@ -52,6 +53,10 @@ describe('WorkshopDetailsComponent', () => {
 })
 class MockWorkshopPageComponent {
   @Input() workshop: Workshop;
+  @Input() provider: Provider;
+  @Input() providerWorkshops: Workshop[];
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
 }
 
 @Component({
@@ -60,4 +65,6 @@ class MockWorkshopPageComponent {
 })
 class MockSideMenuComponent {
   @Input() workshop: Workshop;
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
 }

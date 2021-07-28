@@ -1,9 +1,5 @@
-import { Store } from '@ngxs/store';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Component, Input, OnInit, Provider } from '@angular/core';
-import { User } from 'src/app/shared/models/user.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Role } from 'src/app/shared/enum/role';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-side-menu',
@@ -12,17 +8,11 @@ import { Role } from 'src/app/shared/enum/role';
 })
 export class SideMenuComponent implements OnInit {
 
-  isDisplayed: boolean = false;
-  isRegistered: boolean = false;
-
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
   @Input() workshop: Workshop;
 
-  constructor(private store: Store) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    const user = this.store.selectSnapshot<User>(RegistrationState.user);
-    this.isRegistered = Boolean(user);
-    this.isDisplayed = (user?.role !== Role.provider);
-
-  }
+  ngOnInit(): void { }
 }

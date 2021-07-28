@@ -7,6 +7,7 @@ import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
+import { FilterState } from '../../store/filter.state';
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -25,8 +26,16 @@ export class CityAutocompleteComponent implements OnInit {
   cities$: Observable<City[]>;
   @Select(MetaDataState.isCity)
   isCity$: Observable<boolean[]>;
+  @Select(FilterState.city)
+  city$: Observable<City>;
 
-  constructor(public store: Store) { }
+  constructor(public store: Store) {
+    this.city$.pipe(takeUntil(this.destroy$)).subscribe(city => this.cityControl.setValue(city));
+  }
+
+  displayCityName(city: City): string {
+    return city?.name;
+  }
 
   ngOnInit(): void {
     this.cities$

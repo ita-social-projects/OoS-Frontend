@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, Provider } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 @Component({
   selector: 'app-provider-about',

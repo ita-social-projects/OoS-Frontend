@@ -4,18 +4,18 @@
       <div fxLayout='row wrap' fxLayoutAlign='space-evenly'>
         <app-workshop-card class="workshop"
           *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
-          [workshop]="workshop" [isMainPage]="true" [userRole]="''">
+          [workshop]="workshop" [isMainPage]="true">
         </app-workshop-card>
       </div>
       <pagination-controls fxLayoutAlign="end" class="pagination" (pageChange)="currentPage = $event" maxSize="8"
         directionLinks="true" autoHide="false" responsive="true" previousLabel="" nextLabel="">
       </pagination-controls>
-    </div> 
+    </div>
   </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout='row' fxLayoutAlign='center'>
-          <app-map class='map' [workshops]="workshops" (selectedAddress)="onSelectedAddress($event)"></app-map>
+      <app-map class='map' [workshops]="workshops" (selectedAddress)="onSelectedAddress($event)"></app-map>
     </div>
   </div>
 </div>

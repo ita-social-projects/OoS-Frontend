@@ -39,3 +39,8 @@ export class FilteredDepartmentsList {
   static readonly type = '[meta-data] Get list of filtered departments';
   constructor(public payload: Department[]) { }
 }
+
+export class GetRateByEntityId {
+  static readonly type = '[meta-data] Get Rate';
+  constructor(public enitityType: string, public entitytId: number) { }
+}

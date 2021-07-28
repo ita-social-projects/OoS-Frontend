@@ -1,5 +1,6 @@
 export enum messageType {
   success = 'done',
-  warning = 'priority_high',
+  warningYellow = 'priority_high',
+  warningBlue = 'priority_high',
   error = 'close',
 }

@@ -13,27 +13,28 @@ export class Workshop {
   maxAge: number;
   daysPerWeek: number;
   price: number;
-  priceType?: string;
   description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
   image?: File[];
   head: string;
-  headBirthDate?: Date;
+  headDateOfBirth?: Date;
   type?: number;
   keyWords?: string[];
   address: Address;
   teachers: Teacher[];
-  ownership?: string;
-  rate?: string;
-  votes?: string;
-  placeAmount?: number;
+  rating?: number;
+  numberOfRatings?: number;
   directionId?: number;
+  direction: string;
   departmentId?: number;
   classId?: number;
   providerId: number;
   providerTitle?: string;
   isPerMonth?: string;
+  isCompetitiveSelection: boolean;
+  competitiveSelectionDescription: string;
+  logo: string;
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
     this.id = id;
@@ -62,4 +63,23 @@ export class Workshop {
     this.classId = description.classId;
     this.keyWords = description.keyWords;
   }
+}
+
+export interface WorkshopCard {
+  address: Address;
+  direction: string;
+  isPerMonth: boolean;
+  maxAge: number;
+  minAge: number;
+  //photo:
+  price: number;
+  providerId: number;
+  providerTitle: string;
+  rating: number;
+  title: string;
+  workshopId: number;
+}
+export interface WorkshopFilterCard {
+  totalAmount: number,
+  entities: WorkshopCard[]
 }

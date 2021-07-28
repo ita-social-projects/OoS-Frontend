@@ -16,7 +16,6 @@ describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
   let fixture: ComponentFixture<ApplicationsComponent>;
 
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [

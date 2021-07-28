@@ -1,1 +1,4 @@
-<p>all-provider-workshops works!</p>
+<div fxLayout='row wrap' fxLayoutAlign='start center'>
+  <app-workshop-card class="cards" *ngFor="let workshop of providerWorkshops " [workshop]="workshop"
+    [isMainPage]="true"></app-workshop-card>
+</div>

@@ -1,8 +1,20 @@
+import { City } from './../../models/city.model';
+import { SetCity } from './../../store/filter.actions';
+import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
+
+const kiev: City = {
+  district: "м.Київ",
+  id: 14446,
+  latitude: 50.44029,
+  longitude: 30.5595,
+  name: "КИЇВ",
+  region: "м.Київ"
+}
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +27,11 @@ export class GeolocationService {
     city: ''
   };
 
-  constructor() {
-  }
+  constructor(public store: Store) { }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
+    this.store.dispatch(new SetCity(kiev));
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {

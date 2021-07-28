@@ -28,28 +28,28 @@ export class CreateDescriptionFormComponent implements OnInit {
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
-
   @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-  
+
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
-      keyWords: new FormControl(''),
-      directionId: new FormControl('', Validators.required),
+      keyWords: new FormControl('', Validators.required),
+      directionId: new FormControl(''),
       departmentId: new FormControl(''),
       classId: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
+    this.onDisabilityOptionCtrlInit();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+
   }
 
   /**
@@ -59,23 +59,25 @@ export class CreateDescriptionFormComponent implements OnInit {
   onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
-
+      if (this.keyWords.length) {
+        this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
+      } else {
+        this.DescriptionFormGroup.get('keyWords').reset();
+      }
     }
   }
-  
-   onKeyWordsInput(event:KeyboardEvent):void{
-    let inputKeyWord=this.keyWord.trim().toLowerCase();
-    if(this.keyWord.trim()!=='' && !this.keyWords.includes(inputKeyWord)){
+
+  onKeyWordsInput(event: KeyboardEvent): void {
+    let inputKeyWord = this.keyWord.trim().toLowerCase();
+    if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
       this.keyWords.push(inputKeyWord);
-      this.DescriptionFormGroup.get('keyWords').setValue(this.keyWords);
+      this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
       this.keyWordsInput.nativeElement.value = '';
       this.keyWordsCtrl.setValue(null);
       this.keyWord='';
-    }
-    else{
+    } else {
       this.keyWordsInput.nativeElement.value = '';
-      this.keyWord='';
-
+      this.keyWord = '';
     }
   }
 
