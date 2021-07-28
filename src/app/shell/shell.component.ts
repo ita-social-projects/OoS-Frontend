@@ -18,8 +18,7 @@ export class ShellComponent implements OnInit {
 
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
-      // to do geo proposition if user allow 
-      // waiting for endpoint 
+      //TODO: waiting for endpoint 
       coords && this.store.dispatch(new SetCity({
         district: " ",
         id: 34446,

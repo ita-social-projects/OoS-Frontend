@@ -4,13 +4,13 @@ import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
-import { Select } from '@ngxs/store';
+import { WorkshopCard } from '../../models/workshop.model';
+import { Select, Store } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
@@ -22,25 +22,35 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   @Select(FilterState.city)
   city$ :Observable<City>;
 
+  @Select(FilterState.filteredWorkshops)
+  workshops$: Observable<WorkshopCard[]>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   public defaultCoords: Coords;
   public zoom: number = 11;
+  public workshops: WorkshopCard[];
 
   @Input() addressFormGroup: FormGroup;
-  @Input() workshops: WorkshopCard[];
-
+  
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
   constructor(private geolocationService: GeolocationService) { 
+
     this.city$
-    .pipe(takeUntil(this.destroy$))
+    .pipe(takeUntil(this.destroy$), filter((city)=> !!city))
     .subscribe((city)=> {
-      const coords = {lat:city?.latitude, lng:city?.longitude};
-        this.defaultCoords = coords;
-        this.flyTo(coords);
+        this.defaultCoords = {lat: city.latitude, lng: city.longitude};
+        this.flyTo(this.defaultCoords);
     });
+
+    this.workshops$
+    .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
+    .subscribe(filteredWorkshops => {
+      this.workshops = filteredWorkshops;
+      filteredWorkshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+    })
   }
 
   map: Layer.Map;
@@ -72,7 +82,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
  * changing position on map 
  * @param coords:Coords 
  */
-  flyTo(coords: Coords):void {
+  flyTo(coords: Coords): void {
     this.map?.flyTo(coords, this.zoom);
   }
 
