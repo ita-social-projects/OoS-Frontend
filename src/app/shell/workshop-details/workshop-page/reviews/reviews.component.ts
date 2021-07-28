@@ -26,22 +26,20 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
-  @Input() isRegistered: boolean;
   @Input() isDisplayedforProvider: boolean;
-
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
+  @Select(MetaDataState.rating)
+  rating$: Observable<Rate[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   parent: Parent;
   approvedApplications: Application[];
   isRated: boolean = false;
   hasApprovedApplication: boolean = false;
-
-  @Select(MetaDataState.rating)
-  rating$: Observable<Rate[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
