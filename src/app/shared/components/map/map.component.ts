@@ -23,7 +23,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   city$ :Observable<City>;
 
   @Select(FilterState.filteredWorkshops)
-  workshops$: Observable<WorkshopCard[]>;
+  filteredWorkshops$: Observable<WorkshopCard[]>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -45,7 +45,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
         this.flyTo(this.defaultCoords);
     });
 
-    this.workshops$
+    this.filteredWorkshops$
     .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
     .subscribe(filteredWorkshops => {
       this.workshops = filteredWorkshops;
