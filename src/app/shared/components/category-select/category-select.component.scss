@@ -32,6 +32,23 @@ input:focus::placeholder {
   margin-bottom: none !important;
 }
 
+::ng-deep .mat-input-element{
+  padding: 0.5rem 1rem !important;
+}
+
+::ng-deep .mat-option-ripple:hover{
+  background: lightgray;
+}
+
+::ng-deep .dropdown-option .mat-option-text{
+  padding-left: 1rem !important;
+}
+
+::ng-deep .mat-option{
+  padding: 0 !important;
+  min-width: 425px;
+}
+
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;

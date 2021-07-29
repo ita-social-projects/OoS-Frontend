@@ -17,14 +17,15 @@
   <app-validation-hint-for-input 
     type = "requiredField" 
     [invalid] = "CategoryFormGroup.get('directionId').invalid && CategoryFormGroup.get('directionId').touched">
-  </app-validation-hint-for-input>
+  </app-validation-hint-for-input> 
 
-  <input  matInput  type="text" 
+  <ng-container *ngIf="(departments$ | async)?.length">
+    <input  matInput  type="text" 
           placeholder="Почніть вводити відділ або виберіть зі списку"  class="step-input"
           [formControl]="departmentsFormControl"
           [matAutocomplete]="autoDepartment"
           disableOptionCentering panelClass="dropdown-panel"
-  >
+    >
   <mat-autocomplete 
     #autoDepartment="matAutocomplete" 
     (optionSelected)="onSelectDepartment($event.option.value)"
@@ -32,16 +33,13 @@
     <mat-option *ngFor="let department of filteredDepartments$ | async" [value]="department" class="dropdown-option">
       {{ department.title }}
     </mat-option>
-</mat-autocomplete>
+  </mat-autocomplete>
+</ng-container>
 
-<app-validation-hint-for-input 
-type = "requiredField" 
-[invalid] = "CategoryFormGroup.get('departmentId').invalid && CategoryFormGroup.get('deprtmentId').touched">
-</app-validation-hint-for-input>
 <ng-container *ngIf="(classes$ | async)?.length">
   <input  matInput  type="text" 
           placeholder="Почніть вводити клас або виберіть зі списку"  class="step-input"
-          [formControl]="сlassesFormControl"
+          [formControl]="classesFormControl"
           [matAutocomplete]="autoClasses"
           disableOptionCentering panelClass="dropdown-panel"
   >
@@ -54,14 +52,6 @@ type = "requiredField"
       {{ classItem.title }}
     </mat-option>
 </mat-autocomplete>
-
 </ng-container>
 
-
-  <!-- <mat-select *ngIf="(classes$ | async)?.length" disableOptionCentering panelClass="dropdown-panel" class="step-input"
-    formControlName="classId" placeholder="Клас" [(value)]="selectedClassId">
-    <mat-option *ngFor="let class of classes$ | async" [value]="class.id" class="dropdown-option">
-      {{ class.title }}
-    </mat-option>
-  </mat-select> -->
 </form>

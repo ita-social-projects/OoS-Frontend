@@ -25,8 +25,8 @@ export class CategorySelectComponent implements OnInit {
   departments : Department[];
   @Select(MetaDataState.filteredDepartments)
   filteredDepartments$: Observable<Department[]>;
-  @Select(MetaDataState.classes)
-  classes$: Observable<IClass[]>;
+   @Select(MetaDataState.classes)
+   classes$: Observable<IClass[]>;
   classes: IClass[];
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Select(MetaDataState.filteredClasses)
@@ -38,7 +38,7 @@ export class CategorySelectComponent implements OnInit {
   CategoryFormGroup: FormGroup;
   directionsFormControl = new FormControl('');
   departmentsFormControl = new FormControl('');
-  сlassesFormControl = new FormControl('');
+  classesFormControl = new FormControl('');
 
   selectedDirectionId: number;
   selectedDepartmentId: number;
@@ -88,7 +88,7 @@ export class CategorySelectComponent implements OnInit {
     });
 
     this.classes$.subscribe((classes: IClass[])=> this.classes = classes);
-    this.сlassesFormControl.valueChanges
+    this.classesFormControl.valueChanges
     .pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
@@ -132,7 +132,7 @@ export class CategorySelectComponent implements OnInit {
      return filteredClasses;
   }
 
-    optionDisplayClass(classItem: IClass){
+  optionDisplayClass(classItem: IClass){
       return classItem.title;
     }
   
@@ -162,7 +162,6 @@ export class CategorySelectComponent implements OnInit {
      this.CategoryFormGroup.get('departmentId').reset();
      this.CategoryFormGroup.get('classId').reset();
      this.CategoryFormGroup.get('classId').setValue(classItem.id);
-     this.store.dispatch(new GetClasses(classItem.id));
    }
 
   activateEditMode(): void {
