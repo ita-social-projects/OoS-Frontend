@@ -58,4 +58,9 @@ import { NavigationState } from './shared/store/navigation.state';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    localStorage.setItem("ui-culture", 'uk')
+    localStorage.getItem("ui-culture")
+  }
+}

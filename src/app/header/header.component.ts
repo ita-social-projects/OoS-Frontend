@@ -50,8 +50,6 @@ export class HeaderComponent implements OnInit {
   constructor(
     public store: Store,
     private router: Router) {
-      localStorage.setItem("ui-culture", 'uk')
-      localStorage.getItem("ui-culture")
     }
 
   /**
