@@ -41,6 +41,9 @@
   padding: 0.5rem;
   max-width: 80px;
 }
+.input-wrapper{
+  margin-bottom: 0 !important;
+}
 ::ng-deep .mat-form-field-underline {
   display: none;
 }

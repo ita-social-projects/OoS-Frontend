@@ -1,8 +1,10 @@
 <p class="filter-text">Вартість</p>
 <div fxLayout='column' fxLayoutAlign='center space-between' fxLayoutGap='1rem'>
   <mat-checkbox color="primary" [formControl]="isFreeControl"> Безкоштовно</mat-checkbox>
-  <mat-checkbox color="primary" [checked]="!!this.minValue || !!this.maxValue">Платні</mat-checkbox>
-  <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+
+  <p class="filter-text">Діапазон Ціни</p>
+
+  <div class="input-wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
         <p class="filter-text">Від</p>
@@ -11,7 +13,7 @@
       </div>
     </mat-form-field>
     <mat-form-field>
-      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+      <div class="input-wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
         <p class="filter-text">До</p>
         <input matInput class="price-input" type="number" ng-model="number" appDigitOnly maxlength="4"
           min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}} [formControl]="maxPriceControl" appMinMax>

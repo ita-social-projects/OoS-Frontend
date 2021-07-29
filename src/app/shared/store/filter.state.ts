@@ -176,8 +176,9 @@ export class FilterState {
   }
 
   @Action(SetWithDisabilityOption)
-  setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
+  setWithDisabilityOption({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
     patchState({ withDisabilityOption: payload });
+    dispatch(new FilterChange());
   }
 
   @Action(SetMinAge)

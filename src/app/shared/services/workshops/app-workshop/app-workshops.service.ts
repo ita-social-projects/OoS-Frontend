@@ -33,9 +33,25 @@ export class AppWorkshopsService {
       params = params.set('SearchText', filters.searchQuery);
     }
 
-    // if (filters.ageRange?.length > 0) {
-    //   filters.ageRange.forEach((range: AgeRange) => params = params.set('Ages', JSON.stringify(range)));
-    // }
+    if (filters.minAge) {
+      params = params.set('MinAge', filters.minAge.toString());
+    }
+
+    if (filters.maxAge) {
+      params = params.set('MAxAge', filters.maxAge.toString());
+    }
+
+    if (filters.isFree || (filters.minAge === 0)) {
+      params = params.set('IsFree', "true");
+    }
+
+    if (filters.withDisabilityOption) {
+      params = params.set('WithDisabilityOptions', "true");
+    }
+
+    if (filters.order) {
+      params = params.set('OrderByField', filters.order);
+    }
 
     if (filters.directions.length > 0) {
       filters.directions.forEach((direction: Direction) => params = params.set('DirectionIds', direction.id.toString()));

@@ -21,8 +21,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   minValue: number = 0;
   maxValue: number = 0;
   options: Options = {
-    floor: 0,
-    ceil: 2000,
+    floor: Constants.MIN_PRICE,
+    ceil: Constants.MAX_PRICE,
   };
   destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -23,15 +23,15 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     this.OpenRecruitmentControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-      ).subscribe(val => this.store.dispatch(new SetOpenRecruitment(val)));
+      ).subscribe((val: boolean) => this.store.dispatch(new SetOpenRecruitment(val)));
     this.ClosedRecruitmentControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-      ).subscribe(val => this.store.dispatch(new SetClosedRecruitment(val)));
+      ).subscribe((val: boolean) => this.store.dispatch(new SetClosedRecruitment(val)));
     this.WithDisabilityOptionControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-      ).subscribe(val => this.store.dispatch(new SetWithDisabilityOption(val)));
+      ).subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
   }
 
   ngOnDestroy() {
