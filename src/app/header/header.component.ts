@@ -11,6 +11,7 @@ import { NavigationState } from '../shared/store/navigation.state';
 import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
+import { Languages } from '../shared/enum/languages';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -24,11 +25,12 @@ enum RoleLinks {
 })
 export class HeaderComponent implements OnInit {
 
+  readonly Languages: typeof Languages = Languages;
+  selectedLanguage: string = "uk"
+
   Role = Role;
   showModalReg = false;
   MobileView: boolean = false;
-
-  languages = ['uk', 'en']
 
   @Select(FilterState.isLoading)
   isLoadingMainPage$: Observable<boolean>;
@@ -47,7 +49,10 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store,
-    private router: Router) { }
+    private router: Router) {
+      localStorage.setItem("ui-culture", 'uk')
+      localStorage.getItem("ui-culture")
+    }
 
   /**
    * @param event global variable window
@@ -81,9 +86,8 @@ export class HeaderComponent implements OnInit {
   }
 
   setLanguage() {
-    console.log("Language")
-    // localStorage.setItem("lang", value)
-    
+    localStorage.setItem("ui-culture", this.selectedLanguage)
   }
 
 }
+

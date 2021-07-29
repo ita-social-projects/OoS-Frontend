@@ -150,6 +150,14 @@
   color:white;
 }
 
+::ng-deep .mat-select-value, ::ng-deep .mat-select-arrow {
+  color:white !important;
+}
+
+.lang-option {
+  padding-right: 25px;
+}
+
 ::ng-deep .mat-form-field-infix {
   width: auto !important;
 }

@@ -12,12 +12,10 @@
     <div class="header_btns">
       <button mat-flat-button class="header_lang" >
         <mat-icon>language</mat-icon>
-        <mat-select (change)="setLanguage()">
-          <mat-option *ngFor="let option of languages" [language]="option">
-          {{option}}
-          </mat-option>
+        <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option"> 
+          <mat-option value="uk"> {{Languages.uk}} </mat-option>
+          <!-- <mat-option value="en" disabled> {{Languages.en}} </mat-option> -->
         </mat-select>
-        <!-- УКР -->
       </button>
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
     </div>
