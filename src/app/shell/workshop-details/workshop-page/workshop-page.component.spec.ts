@@ -66,6 +66,7 @@ class MockWorkshopTeachersComponent {
 })
 class MockReviewsComponent {
   @Input() workshop: Workshop;
+  @Input() isDisplayedforProvider: boolean;
 }
 
 @Component({

@@ -10,8 +10,8 @@ import { GeolocationPositionError, GeolocationPosition } from '../../models/geol
 const kiev: City = {
   district: "м.Київ",
   id: 14446,
-  latitude: 50.44029,
   longitude: 30.5595,
+  latitude: 50.44029,
   name: "КИЇВ",
   region: "м.Київ"
 }

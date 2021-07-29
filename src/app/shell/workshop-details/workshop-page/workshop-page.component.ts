@@ -12,12 +12,10 @@ export class WorkshopPageComponent implements OnInit {
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: Workshop[];
-
-
+  @Input() isDisplayedforProvider: boolean;
+  @Input() isRegistered: boolean;
 
   constructor() { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 }

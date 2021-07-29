@@ -173,15 +173,3 @@ export class OnCreateRatingSuccess {
   static readonly type = '[user] create Rating success';
   constructor(public payload) { }
 }
-export class UpdateRating {
-  static readonly type = '[user] update Rating';
-  constructor(public payload: Rate) { }
-}
-export class OnUpdateRatingFail {
-  static readonly type = '[user] update Rating fail';
-  constructor(public payload: Error) { }
-}
-export class OnUpdateRatingSuccess {
-  static readonly type = '[user] update Rating success';
-  constructor(public payload) { }
-}
