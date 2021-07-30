@@ -1,46 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { SetAgeRange } from 'src/app/shared/store/filter.actions';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { AgeRange } from 'src/app/shared/models/ageRange.model';
-
+import { Constants } from 'src/app/shared/constants/constants';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
 @Component({
   selector: 'app-age-filter',
   templateUrl: './age-filter.component.html',
   styleUrls: ['./age-filter.component.scss']
 })
-export class AgeFilterComponent implements OnInit {
-  ageValues: AgeRange[] = [
-    {
-      minAge: 0,
-      maxAge: 5
-    },
-    {
-      minAge: 6,
-      maxAge: 10
-    },
-    {
-      minAge: 11,
-      maxAge: 14
-    },
-    {
-      minAge: 15,
-      maxAge: 16
-    }
-  ];
-  selectedAgeRange: AgeRange[] = [];
+export class AgeFilterComponent implements OnInit, OnDestroy {
+
+  readonly constants: typeof Constants = Constants;
+
+  minAgeFormControl = new FormControl('');
+  maxAgeFormControl = new FormControl('');
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.minAgeFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((age: number) => !!age)
+    ).subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
 
-  /**
-  * This method check selected age range and distpatch filter action
-  * @param ageRange
-  * @param event
-  */
-  onAgeRangeCheck(ageRange: AgeRange, event: MatCheckbox): void {
-    (event.checked) ? this.selectedAgeRange.push(ageRange) : this.selectedAgeRange.splice(this.selectedAgeRange.indexOf(ageRange), 1);
-    this.store.dispatch(new SetAgeRange(this.selectedAgeRange));
+    this.maxAgeFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((age: number) => !!age)
+    ).subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
+
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

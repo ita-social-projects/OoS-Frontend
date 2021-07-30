@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Store } from '@ngxs/store';
 import { Constants } from 'src/app/shared/constants/constants';
+import { Ordering } from 'src/app/shared/enum/ordering';
 import { SetOrder } from 'src/app/shared/store/filter.actions';
 @Component({
   selector: 'app-ordering',
@@ -12,10 +13,9 @@ import { SetOrder } from 'src/app/shared/store/filter.actions';
 
 export class OrderingComponent {
 
-  readonly constants: typeof Constants = Constants;
+  readonly ordering: typeof Ordering = Ordering;
 
-  selectedOption: string = this.constants.RATING_ASC;
-  visible: boolean = false;
+  selectedOption: string = Ordering.rating;
   orderFormControl = new FormControl();
 
   constructor(private store: Store) { }
