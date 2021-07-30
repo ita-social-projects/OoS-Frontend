@@ -8,7 +8,10 @@
 .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle {
   border: none;
 }
-.mat-button-toggle-checked{
+.selected-star{
+  color: #3849F9;
+}
+.mat-button-toggle-checked {
   background-color: transparent;
    .star-icon{
     color: #3849F9;

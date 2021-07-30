@@ -11,7 +11,7 @@ export class RatingFormControlComponent implements OnInit {
 
   ratingFormControl = new FormControl('');
   @Output() ratingSelect = new EventEmitter();
-
+  selectedStars = 0;
   rating: number[] = [
     Constants.RATE_ONE_STAR,
     Constants.RATE_TWO_STAR,
@@ -24,5 +24,8 @@ export class RatingFormControlComponent implements OnInit {
 
   ngOnInit(): void {
     this.ratingSelect.emit(this.ratingFormControl);
+  }
+  onClick(stars: number) {
+    this.selectedStars = stars;
   }
 }
