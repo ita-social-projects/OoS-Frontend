@@ -1,6 +1,7 @@
 <div fxLayout='column' fxLayoutAlign='center center'>
   <h2 mat-dialog-title>{{ modalTitle }}</h2>
-  <p class="confirmation"> {{ modalConfirmationText }} {{ modalConfirmationProperty && modalConfirmationProperty + "?"}}
+  <p class="confirmation"> {{ modalConfirmationText }} {{ modalConfirmationProperty && '"'+ modalConfirmationProperty +
+    '"?'}}
   </p>
   <div *ngIf="data.type === modalConfirmationType.rate">
     <app-rating-form-control (ratingSelect)="ratingSelectControl = $event"></app-rating-form-control>
