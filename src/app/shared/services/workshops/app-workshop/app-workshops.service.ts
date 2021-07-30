@@ -46,7 +46,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.withDisabilityOption) {
-      params = params.set('WithDisabilityOptions', "true");
+      params = params.set('WithDisabilityOptions', 'true');
     }
 
     if (filters.order) {
