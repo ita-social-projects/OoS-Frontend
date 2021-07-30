@@ -41,8 +41,8 @@ export class AppWorkshopsService {
       params = params.set('MAxAge', filters.maxAge.toString());
     }
 
-    if (filters.isFree || (filters.minAge === 0)) {
-      params = params.set('IsFree', "true");
+    if (filters.isFree || !filters.minAge) {
+      params = params.set('IsFree', 'true');
     }
 
     if (filters.withDisabilityOption) {
