@@ -19,7 +19,8 @@ describe('StarsComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        ReactiveFormsModule
       ],
       declarations: [ StarsComponent ]
     })

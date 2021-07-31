@@ -81,7 +81,7 @@ import { StarsComponent } from './components/stars/stars.component';
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
-    StarsComponent,
+    StarsComponent
   ],
   imports: [
     MaterialModule,

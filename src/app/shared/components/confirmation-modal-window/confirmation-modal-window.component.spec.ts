@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ConfirmationModalWindowComponent } from './confirmation-modal-window.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ConfirmationModalWindowComponent', () => {
   let component: ConfirmationModalWindowComponent;
@@ -11,7 +12,10 @@ describe('ConfirmationModalWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule],
+      imports: [
+        MatDialogModule, 
+        FormsModule, 
+        ReactiveFormsModule],
       declarations: [
         ConfirmationModalWindowComponent,
         MockStarsComponent,

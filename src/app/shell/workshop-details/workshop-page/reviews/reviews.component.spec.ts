@@ -7,6 +7,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ReviewsComponent } from './reviews.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('ReviewsComponent', () => {
   let component: ReviewsComponent;
@@ -19,7 +20,9 @@ describe('ReviewsComponent', () => {
         NgxsModule.forRoot([]),
         MatDialogModule,
         MatIconModule,
-        MatTooltipModule
+        MatTooltipModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       declarations: [
         ReviewsComponent,
