@@ -42,7 +42,6 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
-import { RatingFormControlComponent } from './components/confirmation-modal-window/rate-form-control/rating-form-control.component';
 import { StarsComponent } from './components/stars/stars.component';
 
 @NgModule({
@@ -82,7 +81,6 @@ import { StarsComponent } from './components/stars/stars.component';
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
-    RatingFormControlComponent,
     StarsComponent,
   ],
   imports: [
