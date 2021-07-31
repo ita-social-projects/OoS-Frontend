@@ -91,7 +91,7 @@ import { StarsComponent } from './components/stars/stars.component';
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   exports: [
     FiltersListComponent,
@@ -130,6 +130,7 @@ import { StarsComponent } from './components/stars/stars.component';
     MessageBarComponent,
     MatProgressBarModule,
     ShowTooltipIfTruncatedDirective,
+    ReactiveFormsModule,
     StarsComponent
   ]
 })

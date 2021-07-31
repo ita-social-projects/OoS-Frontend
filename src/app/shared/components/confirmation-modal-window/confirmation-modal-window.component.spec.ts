@@ -18,7 +18,6 @@ describe('ConfirmationModalWindowComponent', () => {
         ReactiveFormsModule],
       declarations: [
         ConfirmationModalWindowComponent,
-        MockStarsComponent,
         StarsComponent
       ],
       providers: [
@@ -39,9 +38,3 @@ describe('ConfirmationModalWindowComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-@Component({
-  selector: 'app-stars',
-  template: ''
-})
-class MockStarsComponent {
-}
