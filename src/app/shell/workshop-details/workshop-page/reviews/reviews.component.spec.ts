@@ -19,10 +19,11 @@ describe('ReviewsComponent', () => {
         NgxsModule.forRoot([]),
         MatDialogModule,
         MatIconModule,
-        MatTooltipModule,
-        StarsComponent
+        MatTooltipModule
       ],
-      declarations: [ReviewsComponent]
+      declarations: [
+        ReviewsComponent,
+        StarsComponent]
     })
       .compileComponents();
   });

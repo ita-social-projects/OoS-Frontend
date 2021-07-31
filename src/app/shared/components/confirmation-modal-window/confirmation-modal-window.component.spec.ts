@@ -14,7 +14,7 @@ describe('ConfirmationModalWindowComponent', () => {
       imports: [MatDialogModule],
       declarations: [
         ConfirmationModalWindowComponent,
-        MockRatingFormControlComponent,
+        MockStarsComponent,
         StarsComponent
       ],
       providers: [
@@ -36,8 +36,8 @@ describe('ConfirmationModalWindowComponent', () => {
   });
 });
 @Component({
-  selector: 'app-rating-form-control',
+  selector: 'app-stars',
   template: ''
 })
-class MockRatingFormControlComponent {
+class MockStarsComponent {
 }
