@@ -1,6 +1,18 @@
-<p class="filter-text">Вік</p>
-<li class="list" *ngFor="let ageValue of ageValues">
-  <mat-checkbox color="primary" (change)="onAgeRangeCheck(ageValue, $event)">
-    {{ageValue.minAge}} - {{ageValue.maxAge}} років
-  </mat-checkbox>
-</li>
+<p class="filter-text title">Обрати Вік</p>
+
+<div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+  <mat-form-field>
+    <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+      <p class="filter-text">Від</p>
+      <input matInput class="age-input" type="number" ng-model="number" [formControl]="minAgeFormControl" appDigitOnly
+        maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+    </div>
+  </mat-form-field>
+  <mat-form-field>
+    <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+      <p class="filter-text">До</p>
+      <input matInput class="age-input" type="number" ng-model="number" [formControl]="maxAgeFormControl" appDigitOnly
+        maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+    </div>
+  </mat-form-field>
+</div>
