@@ -40,6 +40,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   approvedApplications: Application[];
   isRated: boolean = false;
   hasApprovedApplication: boolean = false;
+  typeOfWindow = "list";
 
   constructor(
     private store: Store,
