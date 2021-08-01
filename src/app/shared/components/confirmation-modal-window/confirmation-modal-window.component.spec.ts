@@ -5,6 +5,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 
 import { ConfirmationModalWindowComponent } from './confirmation-modal-window.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 describe('ConfirmationModalWindowComponent', () => {
   let component: ConfirmationModalWindowComponent;
@@ -15,7 +16,8 @@ describe('ConfirmationModalWindowComponent', () => {
       imports: [
         MatDialogModule, 
         FormsModule, 
-        ReactiveFormsModule],
+        ReactiveFormsModule,
+        MatButtonToggleModule],
       declarations: [
         ConfirmationModalWindowComponent,
         StarsComponent

@@ -43,6 +43,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { StarsComponent } from './components/stars/stars.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { StarsComponent } from './components/stars/stars.component';
     FormsModule,
     NgxSliderModule,
     MatProgressBarModule,
+    MatButtonToggleModule
   ],
   exports: [
     FiltersListComponent,

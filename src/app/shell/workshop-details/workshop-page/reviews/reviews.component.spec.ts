@@ -4,10 +4,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxsModule, Store } from '@ngxs/store';
+
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ReviewsComponent } from './reviews.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 describe('ReviewsComponent', () => {
   let component: ReviewsComponent;
@@ -22,7 +24,8 @@ describe('ReviewsComponent', () => {
         MatIconModule,
         MatTooltipModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatButtonToggleModule
       ],
       declarations: [
         ReviewsComponent,

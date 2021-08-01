@@ -4,7 +4,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { StarsComponent } from './stars.component';
 
 describe('StarsComponent', () => {
@@ -19,7 +18,7 @@ describe('StarsComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MatIconModule,
+        MatIconModule
       ],
       declarations: [StarsComponent]
     })
