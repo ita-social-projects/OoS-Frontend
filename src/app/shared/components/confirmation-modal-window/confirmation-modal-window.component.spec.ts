@@ -16,11 +16,12 @@ describe('ConfirmationModalWindowComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatDialogModule, 
-        FormsModule, 
+        MatDialogModule,
+        FormsModule,
         ReactiveFormsModule,
         MatButtonToggleModule,
-        MatIconModule ],
+        MatIconModule,
+      ],
       declarations: [
         ConfirmationModalWindowComponent,
         StarsComponent

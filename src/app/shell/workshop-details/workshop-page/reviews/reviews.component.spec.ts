@@ -25,7 +25,7 @@ describe('ReviewsComponent', () => {
         MatTooltipModule,
         FormsModule,
         ReactiveFormsModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
       ],
       declarations: [
         ReviewsComponent,
