@@ -20,16 +20,17 @@ describe('StarsComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         MatIconModule,
-        ReactiveFormsModule
       ],
-      declarations: [ StarsComponent ]
+      declarations: [StarsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StarsComponent);
     component = fixture.componentInstance;
+    component.type = '';
+    component.ratingInList = 0;
     fixture.detectChanges();
   });
 
