@@ -44,6 +44,7 @@ import { MessageBarComponent } from './components/message-bar/message-bar.compon
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { StarsComponent } from './components/stars/stars.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     FormsModule,
     NgxSliderModule,
     MatProgressBarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatIconModule
   ],
   exports: [
     FiltersListComponent,
