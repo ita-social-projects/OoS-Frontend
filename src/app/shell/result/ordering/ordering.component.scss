@@ -1,40 +1,20 @@
-.ordering-button{
-  position: relative;
-  width: 120px;
-  height: 2.125rem;
-  background: #FFFFFF;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  border: none;
-  font-weight: bold;
-  font-family: "Open Sans", sans-serif;
-}
-.options{
-  position: absolute;
-  background-color: white;
-  border: 1px solid rgba(0,0,0,.12);
-  width: 120px;
-  z-index: 2;
-  .option {
-    cursor: pointer;
-    &:hover{
-      background-color: rgb(239, 239, 239);
-    }
-    .option-inner{
-      pointer-events: none;
-    }
-  }
-}
+@import "src/app/shared/styles/dropdown.scss";
 .select{
   min-width:200px;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
-  padding: 0.5rem;
 }
-
-:host mat-select ::ng-deep .mat-select-arrow {
+.select, .options{
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0.5rem 1rem  ;
+}
+::ng-deep .mat-select-arrow {
   border: 0;
 }
 
