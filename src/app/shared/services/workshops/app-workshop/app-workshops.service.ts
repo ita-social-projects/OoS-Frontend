@@ -1,8 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
-import { AgeRange } from 'src/app/shared/models/ageRange.model';
 import { Direction } from 'src/app/shared/models/category.model';
 
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
@@ -35,8 +33,24 @@ export class AppWorkshopsService {
       params = params.set('SearchText', filters.searchQuery);
     }
 
-    if (filters.ageRange?.length > 0) {
-      filters.ageRange.forEach((range: AgeRange) => params = params.set('Ages', JSON.stringify(range)));
+    if (filters.minAge) {
+      params = params.set('MinAge', filters.minAge.toString());
+    }
+
+    if (filters.maxAge) {
+      params = params.set('MAxAge', filters.maxAge.toString());
+    }
+
+    if (filters.isFree || !filters.minAge) {
+      params = params.set('IsFree', 'true');
+    }
+
+    if (filters.withDisabilityOption) {
+      params = params.set('WithDisabilityOptions', 'true');
+    }
+
+    if (filters.order) {
+      params = params.set('OrderByField', filters.order);
     }
 
     if (filters.directions.length > 0) {
