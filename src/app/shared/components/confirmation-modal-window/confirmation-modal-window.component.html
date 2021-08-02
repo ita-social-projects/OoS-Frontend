@@ -4,7 +4,7 @@
     '"?'}}
   </p>
   <div *ngIf="data.type === modalConfirmationType.rate">
-    <app-stars (ratingSelect)="ratingSelectControl = $event" [type]="windowType"></app-stars>
+    <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
   </div>
   <p></p>
   <mat-dialog-actions fxLayout='row' fxLayoutAlign='center center'>

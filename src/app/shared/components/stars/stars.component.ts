@@ -13,10 +13,10 @@ export class StarsComponent implements OnInit {
 
   ratingFormControl = new FormControl('');
   @Output() ratingSelect = new EventEmitter();
-  @Input() type : string;
-  @Input() ratingInList : number;
+  @Input() modalWindow = false;
+  @Input() rating : number;
   selectedStars = 0;
-  rating: number[] = [
+  ratingStars: number[] = [
     Constants.RATE_ONE_STAR,
     Constants.RATE_TWO_STAR,
     Constants.RATE_THREE_STAR,

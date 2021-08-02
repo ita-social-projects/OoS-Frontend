@@ -9,7 +9,7 @@ import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } 
   styleUrls: ['./confirmation-modal-window.component.scss']
 })
 export class ConfirmationModalWindowComponent implements OnInit {
-  windowType = "modal";
+  readonly modalWindow = true;
   modalTitle: string;
   modalConfirmationText: string;
   modalConfirmationProperty: string;

@@ -3,3 +3,9 @@
   position: relative;
   box-sizing: border-box;
 }
+
+@media(max-width: 750px) {
+  app-footer {
+    display: none;
+  }
+}

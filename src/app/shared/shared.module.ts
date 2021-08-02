@@ -45,6 +45,7 @@ import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-tr
 import { StarsComponent } from './components/stars/stars.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { FooterComponent } from '../footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { MatIconModule } from '@angular/material/icon';
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
-    StarsComponent
+    StarsComponent,
+    FooterComponent,
   ],
   imports: [
     MaterialModule,
@@ -135,7 +137,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatProgressBarModule,
     ShowTooltipIfTruncatedDirective,
     ReactiveFormsModule,
-    StarsComponent
+    StarsComponent,
+    FooterComponent,
   ]
 })
 export class SharedModule { }
