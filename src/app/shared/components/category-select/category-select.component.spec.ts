@@ -5,6 +5,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { Component, Input } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
@@ -18,6 +19,7 @@ describe('CategorySelectComponent', () => {
         MatSelectModule,
         MatOptionModule,
         NgxsModule.forRoot([]),
+        MatAutocompleteModule
       ],
       declarations: [
         CategorySelectComponent, 

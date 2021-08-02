@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Class, Department, Direction } from '../../models/category.model';
+import { IClass, Department, Direction } from '../../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class CategoriesService {
     return this.http.get<Department[]>(`/Department/GetByDirectionId/${id}`);
   }
 
-  getClassByDepartmentId(id: number): Observable<Class[]> {
-    return this.http.get<Class[]>(`/Class/GetByDepartmentId/${id}`);
+  getClassByDepartmentId(id: number): Observable<IClass[]> {
+    return this.http.get<IClass[]>(`/Class/GetByDepartmentId/${id}`);
   }
 }
