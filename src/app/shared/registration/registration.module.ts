@@ -21,8 +21,8 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
       postLogoutRedirectUri: window.location.origin,
       scope: 'openid outofschoolapi.read offline_access',
       logLevel: LogLevel.Error,
-      secureRoutes: ['http://auth.oos.dmytrominochkin.cloud'],
-      customParams: {culture: localStorage.getItem("ui-culture"), 'ui-culture': localStorage.getItem("ui-culture")},
+      secureRoutes: [this.stsServer],
+      customParams: {culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture')},
     })
   }
 }

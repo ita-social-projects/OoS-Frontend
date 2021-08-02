@@ -26,7 +26,7 @@ enum RoleLinks {
 export class HeaderComponent implements OnInit {
 
   readonly Languages: typeof Languages = Languages;
-  selectedLanguage: string = "uk"
+  selectedLanguage: string = 'uk'
 
   Role = Role;
   showModalReg = false;
@@ -83,8 +83,8 @@ export class HeaderComponent implements OnInit {
     return this.router.url === route;
   }
 
-  setLanguage() {
-    localStorage.setItem("ui-culture", this.selectedLanguage)
+  setLanguage(): void {
+    localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
 }

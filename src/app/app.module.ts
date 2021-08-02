@@ -60,7 +60,6 @@ import { NavigationState } from './shared/store/navigation.state';
 })
 export class AppModule {
   constructor() {
-    localStorage.setItem("ui-culture", 'uk')
-    localStorage.getItem("ui-culture")
+    localStorage.setItem('ui-culture', 'uk');
   }
 }
