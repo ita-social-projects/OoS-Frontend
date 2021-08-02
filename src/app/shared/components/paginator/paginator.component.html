@@ -1,0 +1,18 @@
+<div fxLayout='row' fxLayoutAlign='center center'>
+  <span *ngIf="currentPage > 1" class="page page-selected" (click)="onPreviousPage()">
+    <mat-icon>arrow_back</mat-icon>
+  </span>
+  <span *ngIf="currentPage > 2"
+    [ngClass]="totalPageAmount === currentPage ? 'page page-selected' : 'page page-unselected'"
+    (click)="onPageChange(1)">1</span>
+  <span *ngIf="currentPage > 2" class="dots">...</span>
+  <span *ngFor="let page of pageList" [ngClass]="page === currentPage ? 'page page-selected' : 'page page-unselected'"
+    (click)="onPageChange(page)">{{page}}</span>
+  <span *ngIf="pageList.length+1 < totalPageAmount" class="dots">...</span>
+  <span *ngIf="pageList.length < totalPageAmount"
+    [ngClass]="totalPageAmount === currentPage ? 'page page-selected' : 'page page-unselected'"
+    (click)="onPageChange(totalPageAmount)">{{totalPageAmount}}</span>
+  <span *ngIf="currentPage < totalPageAmount" class="page page-selected" (click)="onNextPage()">
+    <mat-icon>arrow_forward</mat-icon>
+  </span>
+</div>

@@ -8,11 +8,13 @@
   </div>
 </ng-template>
 
-<div class="pagination-wrapper" fxLayoutAlign="center">
+<!-- <div class="pagination-wrapper" fxLayoutAlign="center">
   <pagination-controls class="pagination" (pageChange)="currentPage = $event" maxSize="4" directionLinks="true"
     autoHide="false" responsive="true" previousLabel="" nextLabel="">
   </pagination-controls>
-</div>
+</div> -->
+
+<app-paginator [totalPageAmount]="12" [currentPage]="currentPage" (pageChange)="currentPage = $event"></app-paginator>
 
 <ng-template #isEmptyList>
   <p class="empty-list-wrapper">За результатами пошуку нічого не знайдено</p>

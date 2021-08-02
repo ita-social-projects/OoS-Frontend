@@ -43,6 +43,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { RatingFormControlComponent } from './components/confirmation-modal-window/rate-form-control/rating-form-control.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { RatingFormControlComponent } from './components/confirmation-modal-wind
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
     RatingFormControlComponent,
+    PaginatorComponent,
   ],
   imports: [
     MaterialModule,
@@ -130,7 +132,8 @@ import { RatingFormControlComponent } from './components/confirmation-modal-wind
     MessageBarComponent,
     MatProgressBarModule,
     ShowTooltipIfTruncatedDirective,
-    RatingFormControlComponent
+    RatingFormControlComponent,
+    PaginatorComponent
   ]
 })
 export class SharedModule { }
