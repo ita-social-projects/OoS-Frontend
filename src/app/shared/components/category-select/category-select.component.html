@@ -36,6 +36,11 @@
   </mat-autocomplete>
 </ng-container>
 
+<app-validation-hint-for-input 
+type = "requiredField" 
+[invalid] = "CategoryFormGroup.get('departmentId').invalid && CategoryFormGroup.get('departmentId').touched">
+</app-validation-hint-for-input> 
+
 <ng-container *ngIf="(classes$ | async)?.length">
   <input  matInput  type="text" 
           placeholder="Почніть вводити клас або виберіть зі списку"  class="step-input"
@@ -53,5 +58,10 @@
     </mat-option>
 </mat-autocomplete>
 </ng-container>
+
+<app-validation-hint-for-input 
+type = "requiredField" 
+[invalid] = "CategoryFormGroup.get('classId').invalid && CategoryFormGroup.get('classId').touched">
+</app-validation-hint-for-input> 
 
 </form>

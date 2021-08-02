@@ -25,8 +25,8 @@ export class CategorySelectComponent implements OnInit {
   departments : Department[];
   @Select(MetaDataState.filteredDepartments)
   filteredDepartments$: Observable<Department[]>;
-   @Select(MetaDataState.classes)
-   classes$: Observable<IClass[]>;
+  @Select(MetaDataState.classes)
+  classes$: Observable<IClass[]>;
   classes: IClass[];
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Select(MetaDataState.filteredClasses)
