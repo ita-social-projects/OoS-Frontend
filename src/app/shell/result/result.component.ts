@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -10,8 +10,8 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 enum ViewType {
-  map = "map",
-  data = "show-data"
+  map = 'map',
+  data = 'show-data'
 }
 @Component({
   selector: 'app-result',
@@ -22,11 +22,16 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   @Select(FilterState.filteredWorkshops) filteredWorkshops$: Observable<WorkshopCard[]>;
 
-  public currentView: string = ViewType.data;
-  isFiltersVisible: boolean = true;
-  viewType = ViewType;
+  public currentView: ViewType = ViewType.data;
+  public isFiltersVisible = true;
+  public viewType = ViewType;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @HostListener('window:resize', ['$event'])
+  public onResize(event): void {
+    this.isFiltersVisible = window.innerWidth > 750;
+  }
 
   constructor(
     private actions$: Actions,
@@ -35,7 +40,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
     this.store.dispatch(
       new AddNavPath(this.navigationBarService.creatOneNavPath(
         { name: NavBarName.TopWorkshops, isActive: false, disable: true }
@@ -48,6 +52,8 @@ export class ResultComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new GetFilteredWorkshops()));
+
+    this.isFiltersVisible = window.innerWidth > 750;
   }
 
   ngOnDestroy(): void {

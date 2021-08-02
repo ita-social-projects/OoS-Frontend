@@ -1,31 +1,48 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Address } from 'src/app/shared/models/address.model';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 
 @Component({
   selector: 'app-workshop-map-view-list',
   templateUrl: './workshop-map-view-list.component.html',
-  styleUrls: ['./workshop-map-view-list.component.scss']
+  styleUrls: ['./workshop-map-view-list.component.scss'],
+  animations: [
+    trigger('fade', [
+      transition('* => true', [
+        style({ bottom: '-25px', opacity: 0 }),
+        animate('200ms ease-in-out')
+      ])
+    ])
+  ]
 })
-export class WorkshopMapViewListComponent implements OnInit {
+export class WorkshopMapViewListComponent {
 
-  @Input() workshops: WorkshopCard[];
-  selectedWorkshops: WorkshopCard[] = [];
-  isSelectedMarker: boolean = false;
-  currentPage: number = 1;
+  @Input() public workshops: WorkshopCard[];
+  public selectedWorkshops: WorkshopCard[] = [];
+  public isSelectedMarker = false;
+  public currentPage = 1;
 
-  constructor() { }
-
-  ngOnInit(): void { }
+  public workshopDetailsAnimationState = false;
 
   onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);
 
-    (this.isSelectedMarker) ?
+    if (this.isSelectedMarker) {
       this.selectedWorkshops = this.workshops.filter((workshop: WorkshopCard) =>
         address.city === workshop.address.city &&
         address.street === workshop.address.street &&
-        address.buildingNumber === workshop.address.buildingNumber) : this.selectedWorkshops = [];
+        address.buildingNumber === workshop.address.buildingNumber);
+
+      this.workshopDetailsAnimationState = true;
+    }
+    else {
+      this.selectedWorkshops = [];
+    }
+  }
+
+  public fadeAnimationDone(): void {
+    this.workshopDetailsAnimationState = false;
   }
 
 }
