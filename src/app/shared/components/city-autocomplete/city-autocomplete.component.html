@@ -1,7 +1,8 @@
 <form class="city-search">
   <mat-form-field appearance="none">
-    <input matInput type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto" >
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
+    <input matInput type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
+      (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
       <mat-option [disabled]="isCity | async" *ngFor="let city of cities$ | async" [value]="city">
         {{city.name}}
       </mat-option>

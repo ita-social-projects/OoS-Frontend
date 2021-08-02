@@ -49,8 +49,7 @@ export class UserWorkshopService {
   * @param id
   */
   deleteWorkshop(id: number): Observable<Object> {
-    const dataUrl = `/Workshop/Delete/${id}`;
-    return this.http.delete(dataUrl);
+    return this.http.delete(`/Workshop/Delete/${id}`);
   }
 
   /**

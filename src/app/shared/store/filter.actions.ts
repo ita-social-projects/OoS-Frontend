@@ -1,4 +1,3 @@
-import { AgeRange } from "../models/ageRange.model";
 import { Direction } from "../models/category.model";
 import { City } from "../models/city.model";
 import { WorkingHours } from "../models/workingHours.model";
@@ -14,10 +13,6 @@ export class SetDirections {
   static readonly type = '[filter] Set Direction';
   constructor(public payload: Direction[]) { }
 }
-export class SetAgeRange {
-  static readonly type = '[filter] Set Age Range';
-  constructor(public payload: AgeRange[]) { }
-}
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';
   constructor(public payload: WorkingHours[]) { }
@@ -28,10 +23,6 @@ export class SetWorkingHours {
 }
 export class SetIsFree {
   static readonly type = '[filter] Set Is Free type of payment';
-  constructor(public payload: boolean) { }
-}
-export class SetIsPaid {
-  static readonly type = '[filter] Set Is Paid type of payment';
   constructor(public payload: boolean) { }
 }
 export class SetMinPrice {
@@ -66,12 +57,17 @@ export class SetWithDisabilityOption {
   static readonly type = '[filter] Set with Disability option';
   constructor(public payload: boolean) { }
 }
-export class SetWithoutDisabilityOption {
-  static readonly type = '[filter] Set without Disability option';
-  constructor(public payload: boolean) { }
-}
 
 export class FilterChange {
   static readonly type = '[app] Filter Change';
   constructor() { }
+}
+
+export class SetMinAge {
+  static readonly type = '[filter] Set Min Age';
+  constructor(public payload: number) { }
+}
+export class SetMaxAge {
+  static readonly type = '[filter] Set Max Age';
+  constructor(public payload: number) { }
 }

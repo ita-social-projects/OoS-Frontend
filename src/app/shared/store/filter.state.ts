@@ -10,28 +10,26 @@ import {
   GetFilteredWorkshops,
   GetTopWorkshops,
   SetDirections,
-  SetAgeRange,
   SetWorkingDays,
   SetWorkingHours,
   SetIsFree,
-  SetIsPaid,
   SetMinPrice,
   SetMaxPrice,
   SetSearchQueryValue,
   SetOpenRecruitment,
   SetClosedRecruitment,
   SetWithDisabilityOption,
-  SetWithoutDisabilityOption,
   FilterChange,
+  SetMinAge,
+  SetMaxAge,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { AgeRange } from '../models/ageRange.model';
 export interface FilterStateModel {
   directions: Direction[];
-  ageRange: AgeRange[];
+  maxAge: number;
+  minAge: number;
   workingHours: WorkingHours[];
   workingDays: WorkingHours[];
-  isPaid: boolean;
   isFree: boolean;
   maxPrice: number;
   minPrice: number;
@@ -43,17 +41,16 @@ export interface FilterStateModel {
   filteredWorkshops: WorkshopCard[];
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
-  withoutDisabilityOption: boolean;
   isLoading: boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
     directions: [],
-    ageRange: [],
+    maxAge: null,
+    minAge: null,
     workingDays: [],
     workingHours: [],
-    isPaid: false,
     isFree: false,
     maxPrice: 0,
     minPrice: 0,
@@ -65,7 +62,6 @@ export interface FilterStateModel {
     filteredWorkshops: [],
     topWorkshops: [],
     withDisabilityOption: false,
-    withoutDisabilityOption: false,
     isLoading: false
   }
 })
@@ -109,12 +105,6 @@ export class FilterState {
     dispatch(new FilterChange());
   }
 
-  @Action(SetAgeRange)
-  setAgeRange({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetAgeRange) {
-    patchState({ ageRange: payload });
-    dispatch(new FilterChange());
-  }
-
   @Action(SetWorkingDays)
   setWorkingDays({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWorkingDays) {
     patchState({ workingDays: payload });
@@ -131,13 +121,6 @@ export class FilterState {
   setIsFree({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsFree) {
     patchState({ isFree: payload });
     dispatch(new FilterChange());
-  }
-
-  @Action(SetIsPaid)
-  setIsPaid({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsPaid) {
-    patchState({ isPaid: payload });
-    dispatch(new FilterChange());
-    ;
   }
 
   @Action(SetMinPrice)
@@ -193,13 +176,21 @@ export class FilterState {
   }
 
   @Action(SetWithDisabilityOption)
-  setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
+  setWithDisabilityOption({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
     patchState({ withDisabilityOption: payload });
+    dispatch(new FilterChange());
   }
 
-  @Action(SetWithoutDisabilityOption)
-  setWithoutDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithoutDisabilityOption) {
-    patchState({ withoutDisabilityOption: payload });
+  @Action(SetMinAge)
+  setMinAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinAge) {
+    patchState({ minAge: payload });
+    dispatch(new FilterChange());
+  }
+
+  @Action(SetMaxAge)
+  setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
+    patchState({ maxAge: payload });
+    dispatch(new FilterChange());
   }
 
   @Action(FilterChange)
