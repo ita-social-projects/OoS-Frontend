@@ -152,14 +152,13 @@ export class CategorySelectComponent implements OnInit {
   }
 
   onSelectDepartment(department: Department): void {
-    this.CategoryFormGroup.get('departmentId').reset();
+    this.CategoryFormGroup.get('classId').reset();
     this.CategoryFormGroup.get('classId').reset();
     this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
 
   onSelectClasses(classItem : IClass): void{
-     this.CategoryFormGroup.get('departmentId').reset();
      this.CategoryFormGroup.get('classId').reset();
      this.CategoryFormGroup.get('classId').setValue(classItem.id);
    }
