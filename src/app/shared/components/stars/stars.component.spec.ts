@@ -1,16 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StarsComponent } from './stars.component';
 
-import { RatingFormControlComponent } from './rating-form-control.component';
-
-describe('RateFormControlComponent', () => {
-  let component: RatingFormControlComponent;
-  let fixture: ComponentFixture<RatingFormControlComponent>;
+describe('StarsComponent', () => {
+  let component: StarsComponent;
+  let fixture: ComponentFixture<StarsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -22,14 +20,16 @@ describe('RateFormControlComponent', () => {
         BrowserAnimationsModule,
         MatIconModule
       ],
-      declarations: [RatingFormControlComponent]
+      declarations: [StarsComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RatingFormControlComponent);
+    fixture = TestBed.createComponent(StarsComponent);
     component = fixture.componentInstance;
+    component.modalWindow;
+    component.rating = 0;
     fixture.detectChanges();
   });
 

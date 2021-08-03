@@ -1,3 +1,5 @@
+import { Class } from "leaflet";
+import { Department, Direction, IClass } from "../models/category.model";
 import { City } from "../models/city.model";
 export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
@@ -28,6 +30,22 @@ export class GetCities {
 export class ClearCities {
   static readonly type = '[meta-data] clear cities state';
 }
+
+export class FilteredDirectionsList {
+  static readonly type = '[meta-data] Get list of filtered directions';
+  constructor(public payload: Direction[]) { }
+}
+
+export class FilteredDepartmentsList {
+  static readonly type = '[meta-data] Get list of filtered departments';
+  constructor(public payload: Department[]) { }
+}
+
+export class FilteredClassesList {
+  static readonly type = '[meta-data] Get list of filtered classes';
+  constructor(public payload: IClass[]) { }
+}
+
 export class GetRateByEntityId {
   static readonly type = '[meta-data] Get Rate';
   constructor(public enitityType: string, public entitytId: number) { }

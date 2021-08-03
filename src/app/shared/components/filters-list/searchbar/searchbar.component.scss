@@ -2,7 +2,7 @@
   font-size: 14px;
 }
 :host ::ng-deep .mat-form-field-wrapper {
-  padding: 0;
+  padding: 0 0 0 10px;
 }
 :host ::ng-deep .mat-form-field-infix {
   border: none;
@@ -13,9 +13,9 @@ button {
 }
 input {
   font-weight: normal;
-  font-size: 16px;
   line-height: 22px;
   color: #161414;
   opacity: 0.4;
   min-width: 230px;
+  text-overflow: ellipsis;
 }

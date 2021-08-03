@@ -56,6 +56,12 @@
     }
   }
 }
+
+app-footer {
+  visibility: hidden;
+  position: absolute;
+}
+
 @media(max-width: 675px) {
   .main_registration {
     padding: 20px;
@@ -67,6 +73,13 @@
       text-align: center;
       margin-top: 10px;
     }
+  }
+}
+
+@media(max-width:750px) {
+  app-footer {
+    visibility: visible;
+    position: static;
   }
 }
 
