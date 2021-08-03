@@ -42,7 +42,9 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
-import { RatingFormControlComponent } from './components/confirmation-modal-window/rate-form-control/rating-form-control.component';
+import { StarsComponent } from './components/stars/stars.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
 
 @NgModule({
@@ -82,7 +84,7 @@ import { FooterComponent } from '../footer/footer.component';
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
-    RatingFormControlComponent,
+    StarsComponent,
     FooterComponent,
   ],
   imports: [
@@ -93,7 +95,9 @@ import { FooterComponent } from '../footer/footer.component';
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatButtonToggleModule,
+    MatIconModule
   ],
   exports: [
     FiltersListComponent,
@@ -132,7 +136,8 @@ import { FooterComponent } from '../footer/footer.component';
     MessageBarComponent,
     MatProgressBarModule,
     ShowTooltipIfTruncatedDirective,
-    RatingFormControlComponent,
+    ReactiveFormsModule,
+    StarsComponent,
     FooterComponent,
   ]
 })
