@@ -11,6 +11,7 @@ import { NavigationState } from '../shared/store/navigation.state';
 import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
+import { Languages } from '../shared/enum/languages';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -23,6 +24,9 @@ enum RoleLinks {
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+  readonly Languages: typeof Languages = Languages;
+  selectedLanguage: string = 'uk'
 
   Role = Role;
   showModalReg = false;
@@ -45,7 +49,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public store: Store,
-    private router: Router) { }
+    private router: Router) {
+    }
 
   /**
    * @param event global variable window
@@ -77,4 +82,10 @@ export class HeaderComponent implements OnInit {
   isRouter(route: string): boolean {
     return this.router.url === route;
   }
+
+  setLanguage(): void {
+    localStorage.setItem('ui-culture', this.selectedLanguage);
+  }
+
 }
+
