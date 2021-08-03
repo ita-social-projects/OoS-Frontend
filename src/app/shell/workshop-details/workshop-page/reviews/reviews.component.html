@@ -5,10 +5,8 @@
         ({{ (rating$|async)?.length ? (rating$|async)?.length : 0 }} відгуків)</p>
     </div>
     <div [matTooltip]="isRated ? 'Ви вже оцінили цей гурток' : 'Ви повинні бути прийнятим до даного гуртка'"
-      [matTooltipDisabled]="false">
-      <!-- hasApprovedApplication && isRated -->
-      <button mat-raised-button class="button" (click)="onRate()" *ngIf="isDisplayedforProvider" [disabled]="false"> 
-        <!-- [disabled]=[disabled]="isRated || !hasApprovedApplication" -->
+      [matTooltipDisabled]=" hasApprovedApplication && isRated">
+      <button mat-raised-button class="button" (click)="onRate()" *ngIf="isDisplayedforProvider" [disabled]=[disabled]="isRated || !hasApprovedApplication"> 
         <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
       </button>
     </div>
