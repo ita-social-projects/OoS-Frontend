@@ -1,8 +1,13 @@
+import { MatIconModule } from '@angular/material/icon';
+import { StarsComponent } from './../stars/stars.component';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ConfirmationModalWindowComponent } from './confirmation-modal-window.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 
 describe('ConfirmationModalWindowComponent', () => {
   let component: ConfirmationModalWindowComponent;
@@ -10,10 +15,16 @@ describe('ConfirmationModalWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule],
+      imports: [
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatIconModule,
+      ],
       declarations: [
         ConfirmationModalWindowComponent,
-        MockRatingFormControlComponent
+        StarsComponent
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
@@ -33,9 +44,3 @@ describe('ConfirmationModalWindowComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-@Component({
-  selector: 'app-rating-form-control',
-  template: ''
-})
-class MockRatingFormControlComponent {
-}

@@ -1,35 +1,10 @@
 <div class="view-control-panel" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap='1.5rem'>
-  <div fxFlex="302px" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
     <h3>Знайдено Х гуртків</h3>
-    <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
-      (click)="isFiltersVisible = !isFiltersVisible">
-      <span class="material-icons btn-icon">
-        <img src="assets/icons/blue-filter-icon.svg" class="btn-icon" *ngIf="isFiltersVisible; else hidden">
-        <ng-template #hidden>
-          <img src="assets/icons/filter-icon.svg" class="btn-icon">
-        </ng-template>
-      </span>
-    </button>
+    <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
-  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-    <app-full-search-bar></app-full-search-bar>
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
-      <app-ordering></app-ordering>
-
-      <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentView" (change)="currentView = group.value">
-
-        <mat-button-toggle class="list" value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"
-          fxLayoutAlign="center center">
-          <mat-icon>view_module</mat-icon>Список
-        </mat-button-toggle>
-
-        <mat-button-toggle class="map" value="{{viewType.map}}" aria-label="{{viewType.map}}" fxLayout="row"
-          fxLayoutAlign="center center">
-          <mat-icon> map</mat-icon> Карта
-        </mat-button-toggle>
-
-      </mat-button-toggle-group>
-    </div>
+  <div class="workshops-search" fxFlex fxLayout="row" fxLayout.lt-md="row wrap" fxLayoutAlign="space-between center" fxLayoutAlign.lt-md="center center">
+    <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
 </div>
 
@@ -38,6 +13,10 @@
     <app-filters-list></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
+    <div class="workshops-search-mobile" fxLayout="row wrap" fxLayoutAlign="center center">
+      <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
+    </div>
+
     <div *ngIf="currentView === viewType.map; else ShowData">
       <app-workshop-map-view-list [workshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
     </div>
@@ -47,3 +26,33 @@
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
+
+<ng-template #filterButton>
+  <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
+  (click)="isFiltersVisible = !isFiltersVisible">
+    <span class="material-icons btn-icon">
+      <img src="assets/icons/blue-filter-icon.svg" class="btn-icon" *ngIf="isFiltersVisible; else hidden">
+      <ng-template #hidden>
+        <img src="assets/icons/filter-icon.svg" class="btn-icon">
+      </ng-template>
+    </span>
+  </button>
+</ng-template>
+
+<ng-template #searchBlock>
+  <app-full-search-bar></app-full-search-bar>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
+    <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
+    <app-ordering></app-ordering>
+    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView" (change)="currentView = group.value">
+      <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row" fxLayoutAlign="center center">
+        <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
+        <span class="view-toggle_icon">Список</span>
+      </mat-button-toggle>
+      <mat-button-toggle value="{{viewType.map}}" aria-label="{{viewType.map}}" fxLayout="row" fxLayoutAlign="center center">
+        <mat-icon class="view-toggle_icon_small">map</mat-icon>
+        <span class="view-toggle_icon">Карта</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</ng-template>

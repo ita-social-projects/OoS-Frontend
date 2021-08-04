@@ -1,11 +1,15 @@
+import { StarsComponent } from './../../../../shared/components/stars/stars.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxsModule, Store } from '@ngxs/store';
+
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ReviewsComponent } from './reviews.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 describe('ReviewsComponent', () => {
   let component: ReviewsComponent;
@@ -18,9 +22,14 @@ describe('ReviewsComponent', () => {
         NgxsModule.forRoot([]),
         MatDialogModule,
         MatIconModule,
-        MatTooltipModule
+        MatTooltipModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
       ],
-      declarations: [ReviewsComponent]
+      declarations: [
+        ReviewsComponent,
+        StarsComponent]
     })
       .compileComponents();
   });

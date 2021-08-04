@@ -1,7 +1,7 @@
-<div class="wrapper" fxLayout='row' fxLayoutAlign='space-evenly'>
+<div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
   <div class="workshop-list" *ngIf="selectedWorkshops.length">
-    <div fxLayout='column' fxLayoutAlign='space-evenly'>
-      <div fxLayout='row wrap' fxLayoutAlign='space-evenly'>
+    <div fxLayout="column" fxLayoutAlign="space-evenly">
+      <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
         <app-workshop-card class="workshop"
           *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
           [workshop]="workshop" [isMainPage]="true">
@@ -14,8 +14,48 @@
   </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
-    <div fxLayout='row' fxLayoutAlign='center'>
-      <app-map class='map'(selectedAddress)="onSelectedAddress($event)"></app-map>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <app-map class="map" (selectedAddress)="onSelectedAddress($event)"></app-map>
+    </div>
+  </div>
+  
+  <div class="workshop-details-cards" fxLayout="row nowrap" fxLayoutGap="10px">
+    <div *ngFor="let selectedWorkshop of selectedWorkshops">
+      <mat-card [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()" class="workshop-details-card" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <div class="workshop-details-card_image" fxLayout=row fxLayoutAlign="center">
+          <img src="assets/icons/workshop.png">
+        </div>
+        <div class="workshop-details-card_content">
+          <div class="header">
+            <h4>{{ selectedWorkshop.title }}</h4>
+            <img class="workshop-details-card_category" src="assets/icons/lang.png" alt="workshop-category">
+          </div>
+          <div class="info">
+            <div class="info_item">
+              <div class="icon">
+                <img src="assets/icons/name.png" alt="name">
+              </div>
+              <a href="#">{{ selectedWorkshop.providerTitle }}</a>
+            </div>
+            <div class="info_item">
+              <div class="icon">
+                <img src="assets/icons/price.png" alt="price">
+              </div>{{ selectedWorkshop.price }}
+            </div>
+            <div class="info_item">
+              <div class="icon">
+                <img src="assets/icons/address.png" alt="address">
+              </div>{{ selectedWorkshop.address.city }}, {{ selectedWorkshop.address.street }} {{ selectedWorkshop.address.buildingNumber }}
+            </div>
+          </div>
+          <div class="footer">
+            <a [routerLink]="['/workshop-details', selectedWorkshop.workshopId]">
+              Детальніше
+              <span class="material-icons arrow">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </mat-card>
     </div>
   </div>
 </div>
