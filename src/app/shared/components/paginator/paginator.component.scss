@@ -1,24 +1,18 @@
-.dots, .page{
+.page{
   font-family: Innerspace;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-}
-.page{
   margin: 1rem;
-
-  &-unselected{
-    color: #444444;
-  }
+  color: #444444;
 
   &-selected{
     color: #3849F9;
   }
+}
 
-  &:hover{
-    cursor: pointer;
-    opacity: 0.5;
-  }
-
+.page-selected:hover, .page-unselected:hover{
+  cursor: pointer;
+  opacity: 0.5;
 }

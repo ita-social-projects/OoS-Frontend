@@ -14,7 +14,7 @@
   </pagination-controls>
 </div> -->
 
-<app-paginator [totalPageAmount]="12" [currentPage]="currentPage" (pageChange)="currentPage = $event"></app-paginator>
+<app-paginator [totalEntities]="200" [currentPage]="currentPage" (pageChange)="currentPage = $event"></app-paginator>
 
 <ng-template #isEmptyList>
   <p class="empty-list-wrapper">За результатами пошуку нічого не знайдено</p>
