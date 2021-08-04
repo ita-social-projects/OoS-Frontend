@@ -1,5 +1,13 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
+  <span class="page arrow" (click)="onPageChange(+currentPage.element)">
+    <mat-icon>arrow_back</mat-icon>
+  </span>
+
   <span *ngFor="let page of carouselPageList" class="page"
-    [ngClass]="page === currentPage ? 'page-selected' : 'page-unselected'"
-    (click)="onPageChange(page)">{{page.element}}</span>
+    [ngClass]="page.isActive && ((page.element === currentPage.element) ?  'page-selected' : 'page-unselected')"
+    (click)="onPageChange(+page.element)">{{page.element}}</span>
+
+  <span class="page arrow" (click)="onPageChange(+currentPage.element)">
+    <mat-icon>arrow_forward</mat-icon>
+  </span>
 </div>

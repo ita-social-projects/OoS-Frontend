@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { PaginationElement } from '../../models/paginationElement.model';
 @Component({
   selector: 'app-paginator',
@@ -23,35 +23,55 @@ export class PaginatorComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
+    this.totalPageAmount = this.getTotalPageAmount();
+
     this.createInitialPageList();
   }
 
-  ngOnChanges() {
-
-    if (this.carouselPageList.indexOf(this.currentPage) > this.PAGINATION_SHIFT_DELTA) {
-      this.carouselPageList = [];
-
-      let firstPage = +this.currentPage.element - this.PAGINATION_SHIFT_DELTA;
-      let lastPage = +this.currentPage.element + this.PAGINATION_SHIFT_DELTA;
-
-      let pageList = this.createDisplayedPageList(firstPage, lastPage);
-
-
-      if (this.totalPageAmount < this.MAX_PAGE_PAGINATOR_DISPLAY) {
-        this.carouselPageList = pageList;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.currentPage.previousValue) {
+      let isForward: boolean = changes.currentPage.previousValue.element < changes.currentPage.currentValue.element;
+      if (isForward) {
+        if (this.carouselPageList.indexOf(this.currentPage) > this.PAGINATION_SHIFT_DELTA) {
+          this.onRecreateDisplayedPageList();
+        }
       } else {
-        this.createCarouselPageList(pageList, Boolean(firstPage > this.PAGINATION_SHIFT_DELTA), true);
+        if (this.carouselPageList.indexOf(this.currentPage) < this.PAGINATION_SHIFT_DELTA) {
+          this.onRecreateDisplayedPageList();
+        }
       }
     }
+
   }
 
-  onPageChange(page: PaginationElement) {
+  private onRecreateDisplayedPageList(): void {
+    this.carouselPageList = [];
+
+    let firstPage = +this.currentPage.element - this.PAGINATION_SHIFT_DELTA;
+    firstPage = firstPage < this.FIRST_PAGINATION_PAGE ? this.FIRST_PAGINATION_PAGE : firstPage;
+
+    let lastPage = +this.currentPage.element + this.PAGINATION_SHIFT_DELTA;
+    lastPage = lastPage > this.totalPageAmount ? this.totalPageAmount : lastPage;
+
+    let pageList = this.createDisplayedPageList(firstPage, lastPage);
+
+    if (this.totalPageAmount < this.MAX_PAGE_PAGINATOR_DISPLAY) {
+      this.carouselPageList = pageList;
+    } else {
+      this.createCarouselPageList(pageList, pageList[0].element !== this.FIRST_PAGINATION_PAGE, true);
+    }
+
+  }
+
+  onPageChange(pageNum: number): void {
+    let page: PaginationElement = {
+      element: pageNum,
+      isActive: true
+    };
     this.pageChange.emit(page);
   }
 
   private createInitialPageList() {
-    this.totalPageAmount = Math.ceil(this.totalEntities / this.MAX_PAGE_PAGINATOR_DISPLAY);
-
     let pageList = [];
 
     if (this.totalPageAmount < this.MAX_PAGE_PAGINATOR_DISPLAY) {
@@ -61,6 +81,10 @@ export class PaginatorComponent implements OnInit, OnChanges {
       pageList = this.createDisplayedPageList(this.FIRST_PAGINATION_PAGE, this.MAX_PAGE_PAGINATOR_DISPLAY);
       this.createCarouselPageList(pageList, false, true);
     }
+  }
+
+  private getTotalPageAmount(): number {
+    return Math.ceil(this.totalEntities / this.MAX_PAGE_PAGINATOR_DISPLAY);
   }
 
   private createDisplayedPageList(startPage: number, endPage: number): PaginationElement[] {
@@ -79,32 +103,37 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   private createCarouselPageList(pageList: PaginationElement[], isOnStart?: boolean, isOnEnd?: boolean) {
     if (isOnStart) {
-      const start = [
+      let start: PaginationElement[] = [
         {
           element: this.FIRST_PAGINATION_PAGE,
           isActive: true
-        },
-        {
-          element: this.PAGINATION_DOTS,
-          isActive: false
         }
       ];
+      if (pageList[0].element !== 2) {
+        start.push(
+          {
+            element: this.PAGINATION_DOTS,
+            isActive: false
+          })
+      }
       this.carouselPageList = this.carouselPageList.concat(start);
     };
 
     this.carouselPageList = this.carouselPageList.concat(pageList);
 
     if (isOnEnd) {
-      const end = [
-        {
-          element: this.PAGINATION_DOTS,
-          isActive: false
-        },
+      let end: PaginationElement[] = [
         {
           element: this.totalPageAmount,
           isActive: true
         }
-      ]
+      ];
+      if (pageList[pageList.length - 1].element !== this.totalPageAmount) {
+        end.unshift({
+          element: this.PAGINATION_DOTS,
+          isActive: false
+        })
+      }
       this.carouselPageList = this.carouselPageList.concat(end);
     }
   }

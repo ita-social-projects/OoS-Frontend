@@ -4,15 +4,21 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  margin: 1rem;
   color: #444444;
+  margin: 1rem;
+  pointer-events: none;
 
   &-selected{
     color: #3849F9;
   }
 }
-
-.page-selected:hover, .page-unselected:hover{
+.arrow, .page-selected, .page-unselected{
+  pointer-events: all;
+}
+.arrow:hover{
+  color: #3849F9;
+}
+.page-selected:hover, .page-unselected:hover, .arrow:hover{
   cursor: pointer;
   opacity: 0.5;
 }
