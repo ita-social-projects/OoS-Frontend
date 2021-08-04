@@ -1,3 +1,4 @@
+import { Favorite } from './../models/favorite.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
@@ -172,4 +173,16 @@ export class OnCreateRatingFail {
 export class OnCreateRatingSuccess {
   static readonly type = '[user] create Rating success';
   constructor(public payload) { }
+}
+export class GetFavoriteWorkshops {
+  static readonly type = '[favorite] get favorite parents workshops';
+  constructor() { }
+}
+export class CreateFavoriteWorkshop {
+  static readonly type = '[favorite] create favorite workshop';
+  constructor(public payload: Favorite) { }
+}
+export class DeleteFavoriteWorkshop {
+  static readonly type = '[favorite] delete favorite workshop';
+  constructor(public payload: number) { }
 }

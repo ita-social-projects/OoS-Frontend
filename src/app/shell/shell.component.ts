@@ -2,7 +2,9 @@ import { Store } from '@ngxs/store';
 import { Component, OnInit } from '@angular/core';
 import { Coords } from '../shared/models/coords.model';
 import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
-import { SetCity } from '../shared/store/filter.actions';
+import { GetFilteredWorkshops, SetCity } from '../shared/store/filter.actions';
+import { RegistrationState } from '../shared/store/registration.state';
+import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 
 @Component({
   selector: 'app-shell',
@@ -28,6 +30,8 @@ export class ShellComponent implements OnInit {
         region: " "
       }))
     })
+    this.store.dispatch(new GetFilteredWorkshops());
+    this.store.selectSnapshot(RegistrationState.isAuthorized) && this.store.dispatch(new GetFavoriteWorkshops());
   }
 
 }

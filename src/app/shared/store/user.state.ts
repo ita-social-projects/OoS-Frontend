@@ -1,3 +1,4 @@
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -5,6 +6,7 @@ import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
+import { Favorite } from '../models/favorite.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -12,6 +14,7 @@ import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
+import { FavoriteWorkshopsService } from '../services/workshops/favorite-workshops/favorite-workshops.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { ClearCategories } from './meta-data.actions';
@@ -59,6 +62,9 @@ import {
   CreateRating,
   OnCreateRatingFail,
   OnCreateRatingSuccess,
+  GetFavoriteWorkshops,
+  CreateFavoriteWorkshop,
+  DeleteFavoriteWorkshop,
 } from './user.actions';
 
 export interface UserStateModel {
@@ -68,6 +74,7 @@ export interface UserStateModel {
   selectedProvider: Provider;
   applications: Application[];
   children: Child[];
+  favorite: Favorite[];
 }
 @State<UserStateModel>({
   name: 'user',
@@ -78,6 +85,7 @@ export interface UserStateModel {
     selectedProvider: null,
     applications: Application[''],
     children: Child[''],
+    favorite: [],
   }
 })
 @Injectable()
@@ -101,6 +109,9 @@ export class UserState {
   @Selector()
   static children(state: UserStateModel): Child[] { return state.children }
 
+  @Selector()
+  static favorite(state: UserStateModel): Favorite[] { return state.favorite }
+
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
@@ -108,7 +119,9 @@ export class UserState {
     private providerService: ProviderService,
     private router: Router,
     private userService: UserService,
-    private ratingService: RatingService
+    private ratingService: RatingService,
+    private favoriteWorkshopsService: FavoriteWorkshopsService,
+
   ) { }
 
   @Action(GetWorkshopById)
@@ -455,5 +468,27 @@ export class UserState {
   onCreateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingSuccess): void {
     console.log('Rate is created', payload);
     dispatch(new ShowMessageBar({ message: 'Оцінка успішно поставлена!', type: 'success' }));
+  }
+
+  //TODO: waiting for new Workshop model from back-end
+  @Action(GetFavoriteWorkshops)
+  getFavoriteWorkshops({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshops) {
+    return this.favoriteWorkshopsService
+    .getFavoriteWorkshops()
+    .subscribe((favoriteWorkshop: Favorite[])=> patchState({favorite: favoriteWorkshop}))
+  }
+  
+  @Action(CreateFavoriteWorkshop)
+  createFavoriteWorkshop({dispatch}:StateContext<UserStateModel>,{ payload }: CreateFavoriteWorkshop ) {
+    return this.favoriteWorkshopsService
+    .createFavoriteWorkshop(payload)
+    .pipe(tap(()=> dispatch(new GetFavoriteWorkshops())))
+  }
+
+  @Action(DeleteFavoriteWorkshop)
+  deleteFavoriteWorkshop({dispatch}:StateContext<UserStateModel>,{ payload }: DeleteFavoriteWorkshop ) {
+    return this.favoriteWorkshopsService
+    .deleteFavoriteWorkshop(payload)
+    .pipe(tap(()=> dispatch(new GetFavoriteWorkshops())))
   }
 }

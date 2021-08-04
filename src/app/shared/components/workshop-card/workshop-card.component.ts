@@ -1,14 +1,15 @@
+import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { ApplicationStatus, ApplicationStatusUkr } from '../../enum/applications';
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
-import { User } from '../../models/user.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
-import { AppState } from '../../store/app.state';
+import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { DeleteWorkshopById } from '../../store/user.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
+import { ShowMessageBar } from '../../store/app.actions';
+import { UserState } from '../../store/user.state';
+
 @Component({
   selector: 'app-workshop-card',
   templateUrl: './workshop-card.component.html',
@@ -32,10 +33,17 @@ export class WorkshopCardComponent implements OnInit {
 
 
   status: string = 'approved'; //temporary
+  favorite: Favorite[];
+  isFavorite: boolean;
+  favoriteWorkshopId: Favorite;
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.favorite = this.store.selectSnapshot(UserState.favorite);
+    this.favoriteWorkshopId = this.favorite?.find(item => item.workshopId === this.workshop.workshopId);
+    this.isFavorite = !!this.favorite?.find(item => item.workshopId === this.workshop.workshopId);
+  }
 
   onEdit(): void {
     console.log("I edit it")
@@ -46,7 +54,23 @@ export class WorkshopCardComponent implements OnInit {
   }
 
   onLike(): void {
-    console.log("I like it")
+    const param = new Favorite (
+      this.workshop.workshopId, 
+      this.store.selectSnapshot(RegistrationState.parent).userId.toString()
+      )
+    this.store.dispatch([
+      new CreateFavoriteWorkshop(param),
+      new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' })
+    ]);
+    this.isFavorite = !this.isFavorite;
+  }
+
+  onDisLike(id: number): void {
+    this.store.dispatch([
+      new DeleteFavoriteWorkshop(id),
+      new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' })
+    ]);
+    this.isFavorite = !this.isFavorite;
   }
 
   onWorkshopLeave(): void {
