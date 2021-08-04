@@ -1,13 +1,13 @@
 .footer {
   background-color: #EBEBEB;
   padding: 2.375rem 5rem;
-  position: absolute;
   bottom: 0;
-  transform: translate(0, 100%);
   width: 100%;
+
   .min-logo {
     height: 41px;
   }
+
   @media(max-width: 599px) {
     padding: 1rem;
     position: static;

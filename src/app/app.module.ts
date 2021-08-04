@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
-import { FooterComponent } from './footer/footer.component';
 import { RegistrationModule } from './shared/registration/registration.module';
 import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
@@ -28,7 +27,6 @@ import { NavigationState } from './shared/store/navigation.state';
     HeaderComponent,
     AppComponent,
     ShellComponent,
-    FooterComponent
   ],
   imports: [
     SharedModule,
@@ -58,4 +56,8 @@ import { NavigationState } from './shared/store/navigation.state';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    localStorage.setItem('ui-culture', 'uk');
+  }
+}

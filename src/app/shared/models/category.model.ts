@@ -10,7 +10,7 @@ export interface Department {
   description: string;
 }
 
-export interface Class {
+export interface IClass {
   id: number;
   title: string;
   description: string;

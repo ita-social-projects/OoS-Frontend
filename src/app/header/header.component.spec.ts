@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -26,7 +27,8 @@ describe('HeaderComponent', () => {
         HttpClientModule,
         RouterTestingModule,
         MatMenuModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatSelectModule
       ],
       declarations: [
         HeaderComponent,

@@ -17,13 +17,43 @@ button:focus {
 }
 
 ::placeholder {
-  color:#333333;
+  color: rgba(0,0,0,.42);
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
+}
+
+input:focus::placeholder {
+  color: transparent;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::ng-deep .step-input[_ngcontent-ywr-c273] {
+  margin-bottom: none !important;
+}
+
+::ng-deep .mat-input-element{
+  padding: 0.5rem 1rem !important;
+}
+
+::ng-deep .mat-option-ripple:hover{
+  background: lightgray;
+}
+
+::ng-deep .dropdown-option .mat-option-text{
+  padding-left: 1rem !important;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  
+}
+
+::ng-deep .mat-option{
+  padding: 0 !important;
+  min-width: 425px;
 }
 
 ::ng-deep .mat-form-field-underline,
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
+
