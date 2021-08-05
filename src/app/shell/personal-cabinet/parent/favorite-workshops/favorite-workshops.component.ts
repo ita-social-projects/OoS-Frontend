@@ -6,6 +6,7 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   public favoriteWorkshops: Favorite[];
   public workshops: WorkshopCard[];
   public favoriteWorkshop: WorkshopCard[] = [];
+  public parent: boolean;
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
@@ -24,6 +26,7 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { 
+    this.parent = this.store.selectSnapshot(RegistrationState.parent) !== undefined;
     //TODO: waiting for new Workshop model from back-end 
     this.favoriteWorkshops$
     .pipe(takeUntil(this.destroy$))

@@ -26,11 +26,15 @@ export class MainComponent implements OnInit {
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  public parent: boolean;
+
 
   constructor(
     private store: Store,
     private actions$: Actions,
-  ) { }
+  ) { 
+    this.parent = this.store.selectSnapshot(RegistrationState.parent) !== undefined;
+  }
 
 
   ngOnInit(): void {

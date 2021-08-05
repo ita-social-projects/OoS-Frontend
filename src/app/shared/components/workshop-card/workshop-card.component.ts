@@ -28,6 +28,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() userRole: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
+  @Input() parent: boolean;
 
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
@@ -38,7 +39,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
-
+ 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
 
@@ -49,9 +50,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.favoriteWorkshops$
     .pipe(takeUntil(this.destroy$))
-    .subscribe((favorites)=> this.favoriteWorkshops = favorites);
-
-    this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
+    .subscribe((favorites)=> {
+      this.favoriteWorkshops = favorites;
+      this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
+    });
     this.isFavorite = !!this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
   }
 

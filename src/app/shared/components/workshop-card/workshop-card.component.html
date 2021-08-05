@@ -77,13 +77,13 @@
 
     <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
     <ng-template #favorite>
-      <div (click)="onDisLike(this.favoriteWorkshopId?.id)" class="actions_btn action-icon favorite-icon">
+      <div (click)="parent && onDisLike(this.favoriteWorkshopId?.id)" class="actions_btn action-icon favorite-icon">
         <mat-icon>favorite</mat-icon>
       </div>
     </ng-template>
 
     <ng-template #notFavorite>
-      <div (click)="onLike()" class="actions_btn action-icon">
+      <div (click)="parent && onLike()" class="actions_btn action-icon">
         <mat-icon>favorite_border</mat-icon>
       </div>
     </ng-template> 
