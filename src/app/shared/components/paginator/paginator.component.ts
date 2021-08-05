@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Constants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
 @Component({
   selector: 'app-paginator',
@@ -17,6 +18,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
+  size: number = Constants.WORKSHOPS_PER_PAGE;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
 
@@ -83,8 +85,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   private getTotalPageAmount(): number {
-    console.log(Math.ceil(this.totalEntities / this.MAX_PAGE_PAGINATOR_DISPLAY))
-    return Math.ceil(this.totalEntities / this.MAX_PAGE_PAGINATOR_DISPLAY);
+    return Math.ceil(this.totalEntities / this.size);
   }
 
   private createDisplayedPageList(startPage: number): PaginationElement[] {
@@ -119,7 +120,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
         }
       ];
 
-
       if (pageList[0].element !== 2) {
         start.push(
           {
@@ -127,7 +127,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
             isActive: false
           })
       }
-
 
       this.carouselPageList = this.carouselPageList.concat(start);
     };

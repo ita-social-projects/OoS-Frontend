@@ -1,5 +1,5 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
-  <button mat-button *ngIf="!(currentPage.element < 6)" class="page arrow" (click)="onArroveClick(false)">
+  <button mat-button *ngIf="!(currentPage.element === 1)" class="page arrow" (click)="onArroveClick(false)">
     <mat-icon>arrow_back</mat-icon>
   </button>
 
@@ -8,9 +8,7 @@
     (click)="onPageChange(page)">{{page.element}}</button>
 
 
-  <button mat-button
-    *ngIf="!((currentPage.element > totalPageAmount + 5) || totalPageAmount === carouselPageList.length)"
-    class="page arrow" (click)="onArroveClick(true)">
+  <button mat-button *ngIf="currentPage.element !== totalPageAmount" class="page arrow" (click)="onArroveClick(true)">
     <mat-icon>arrow_forward</mat-icon>
   </button>
 

@@ -5,7 +5,8 @@
     <app-workshop-card *ngFor="let workshop of workshops.entities" [workshop]="workshop" [isMainPage]="true">
     </app-workshop-card>
   </div>
-  <app-paginator [totalEntities]="100" [currentPage]="currentPage" (pageChange)="this.currentPage = $event">
+  <app-paginator [totalEntities]="workshops.totalAmount" [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)">
   </app-paginator>
 </ng-template>
 

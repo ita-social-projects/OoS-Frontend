@@ -2,13 +2,12 @@
   <div class="workshop-list" *ngIf="selectedWorkshops.length">
     <div fxLayout="column" fxLayoutAlign="space-evenly">
       <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
-        <app-workshop-card class="workshop"
-          *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
-          [workshop]="workshop" [isMainPage]="true">
+        <app-workshop-card class="workshop" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop"
+          [isMainPage]="true">
         </app-workshop-card>
       </div>
       <app-paginator [totalEntities]="workshops.totalAmount" [currentPage]="currentPage"
-        (pageChange)="this.currentPage = $event">
+        (pageChange)="onPageChange($event)">
       </app-paginator>
     </div>
   </div>

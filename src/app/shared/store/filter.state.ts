@@ -22,8 +22,10 @@ import {
   FilterChange,
   SetMinAge,
   SetMaxAge,
+  PageChange,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+import { PaginationElement } from '../models/paginationElement.model';
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
@@ -42,6 +44,7 @@ export interface FilterStateModel {
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   isLoading: boolean;
+  currentPage: PaginationElement
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -62,7 +65,11 @@ export interface FilterStateModel {
     filteredWorkshops: undefined,
     topWorkshops: [],
     withDisabilityOption: false,
-    isLoading: false
+    isLoading: false,
+    currentPage: {
+      element: 1,
+      isActive: true
+    }
   }
 })
 @Injectable()
@@ -190,6 +197,12 @@ export class FilterState {
   @Action(SetMaxAge)
   setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
     patchState({ maxAge: payload });
+    dispatch(new FilterChange());
+  }
+
+  @Action(PageChange)
+  pageChange({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: PageChange) {
+    patchState({ currentPage: payload });
     dispatch(new FilterChange());
   }
 

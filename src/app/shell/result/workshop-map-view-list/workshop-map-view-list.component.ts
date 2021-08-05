@@ -1,8 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { PageChange } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -18,6 +20,8 @@ import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop
   ]
 })
 export class WorkshopMapViewListComponent implements OnInit {
+
+  constructor(private store: Store) { }
 
   @Input() public filteredWorkshops: WorkshopFilterCard;
   workshops: WorkshopCard[];
@@ -52,6 +56,11 @@ export class WorkshopMapViewListComponent implements OnInit {
 
   public fadeAnimationDone(): void {
     this.workshopDetailsAnimationState = false;
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new PageChange(page));
   }
 
 }

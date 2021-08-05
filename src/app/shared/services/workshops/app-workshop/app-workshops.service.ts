@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Constants } from 'src/app/shared/constants/constants';
 import { Direction } from 'src/app/shared/models/category.model';
 
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
@@ -55,6 +56,14 @@ export class AppWorkshopsService {
 
     if (filters.directions.length > 0) {
       filters.directions.forEach((direction: Direction) => params = params.set('DirectionIds', direction.id.toString()));
+    }
+
+    if (filters.currentPage) {
+      const size: number = Constants.WORKSHOPS_PER_PAGE;
+      const from: number = size * (+filters.currentPage.element - 1);
+
+      params = params.set('Size', size.toString());
+      params = params.set('From', from.toString());
     }
 
     return params;
