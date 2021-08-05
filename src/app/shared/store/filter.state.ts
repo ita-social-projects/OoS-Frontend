@@ -38,7 +38,7 @@ export interface FilterStateModel {
   city: City;
   searchQuery: string;
   order: string;
-  filteredWorkshops: WorkshopCard[];
+  filteredWorkshops: WorkshopFilterCard;
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   isLoading: boolean;
@@ -59,7 +59,7 @@ export interface FilterStateModel {
     city: undefined,
     searchQuery: '',
     order: '',
-    filteredWorkshops: [],
+    filteredWorkshops: undefined,
     topWorkshops: [],
     withDisabilityOption: false,
     isLoading: false
@@ -69,7 +69,7 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopCard[] { return state.filteredWorkshops }
+  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops }
 
   @Selector()
   static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops }
@@ -161,7 +161,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getFilteredWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult.entities, isLoading: false } : { filteredWorkshops: [], isLoading: false }),
+      .subscribe((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
         () => patchState({ isLoading: false }))
   }
 

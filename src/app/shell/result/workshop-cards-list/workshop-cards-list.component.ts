@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Workshop, WorkshopCard } from '../../../shared/models/workshop.model';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -8,8 +9,11 @@ import { Workshop, WorkshopCard } from '../../../shared/models/workshop.model';
 })
 export class WorkshopCardsListComponent implements OnInit {
 
-  @Input() workshops: WorkshopCard[];
-  currentPage: number = 1;
+  @Input() workshops: WorkshopFilterCard;
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
 
   constructor() { }
 

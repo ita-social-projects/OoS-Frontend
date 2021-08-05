@@ -5,8 +5,9 @@
   font-size: 13px;
   line-height: 15px;
   color: #444444;
-  margin: 1rem;
   pointer-events: none;
+  padding: 1rem;
+  min-width: 20px !important;
 
   &-selected{
     color: #3849F9;

@@ -1,7 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Address } from 'src/app/shared/models/address.model';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -16,14 +17,22 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
     ])
   ]
 })
-export class WorkshopMapViewListComponent {
+export class WorkshopMapViewListComponent implements OnInit {
 
-  @Input() public workshops: WorkshopCard[];
+  @Input() public filteredWorkshops: WorkshopFilterCard;
+  workshops: WorkshopCard[];
   public selectedWorkshops: WorkshopCard[] = [];
   public isSelectedMarker = false;
-  public currentPage = 1;
+  public currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
 
   public workshopDetailsAnimationState = false;
+
+  ngOnInit() {
+    this.workshops = this.filteredWorkshops.entities;
+  }
 
   onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);
