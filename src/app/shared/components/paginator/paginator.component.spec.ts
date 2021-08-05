@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 
 import { PaginatorComponent } from './paginator.component';
 
@@ -8,14 +9,21 @@ describe('PaginatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PaginatorComponent ]
+      imports: [
+        MatButtonModule
+      ],
+      declarations: [PaginatorComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
+    component.currentPage = {
+      element: 1,
+      isActive: true
+    }
     fixture.detectChanges();
   });
 

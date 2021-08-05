@@ -6,6 +6,8 @@ import { Component, Input } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from 'src/app/shared/models/user.model';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { NgxsModule } from '@ngxs/store';
 
 const MockUser = {
   role: '',
@@ -20,12 +22,13 @@ describe('WorkshopCardsListComponentt', () => {
       declarations: [
         WorkshopCardsListComponent,
         MockOrderingComponent,
-        MockListWorkshopCardComponent
+        MockListWorkshopCardComponent,
+        MockListWorkshopCardPaginatorComponent
       ],
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxPaginationModule
+        NgxsModule.forRoot([]),
       ],
     })
       .compileComponents();
@@ -57,4 +60,8 @@ class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+}
+class MockListWorkshopCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
 }
