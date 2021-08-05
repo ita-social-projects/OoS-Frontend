@@ -14,24 +14,24 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./favorite-workshops.component.scss']
 })
 export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
-  public favorite: Favorite[];
+  public favoriteWorkshops: Favorite[];
   public workshops: WorkshopCard[];
   public favoriteWorkshop: WorkshopCard[] = [];
 
-  @Select(UserState.favorite)
-  favorite$: Observable<Favorite[]>;
+  @Select(UserState.favoriteWorkshops)
+  favoriteWorkshops$: Observable<Favorite[]>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { 
     //TODO: waiting for new Workshop model from back-end 
-    this.favorite$
+    this.favoriteWorkshops$
     .pipe(takeUntil(this.destroy$))
-    .subscribe((favorites)=> this.favorite = favorites);
+    .subscribe((favorites)=> this.favoriteWorkshops = favorites);
 
     this.workshops = this.store.selectSnapshot(FilterState.filteredWorkshops); 
 
-    this.favorite?.forEach(elem => {
+    this.favoriteWorkshops?.forEach(elem => {
       if(this.workshops.find(item => item.workshopId === elem.workshopId) !== undefined) {
       this.favoriteWorkshop.push(this.workshops.find(item => item.workshopId === elem.workshopId));
       }

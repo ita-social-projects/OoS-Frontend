@@ -1,6 +1,6 @@
 import { Favorite } from './../../models/favorite.model';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 import { ApplicationStatus, ApplicationStatusUkr } from '../../enum/applications';
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
@@ -9,13 +9,15 @@ import { RegistrationState } from '../../store/registration.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-workshop-card',
   templateUrl: './workshop-card.component.html',
   styleUrls: ['./workshop-card.component.scss']
 })
-export class WorkshopCardComponent implements OnInit {
+export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
@@ -33,16 +35,24 @@ export class WorkshopCardComponent implements OnInit {
 
 
   status: string = 'approved'; //temporary
-  favorite: Favorite[];
+  favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
+
+  @Select(UserState.favoriteWorkshops)
+  favoriteWorkshops$: Observable<Favorite[]>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.favorite = this.store.selectSnapshot(UserState.favorite);
-    this.favoriteWorkshopId = this.favorite?.find(item => item.workshopId === this.workshop.workshopId);
-    this.isFavorite = !!this.favorite?.find(item => item.workshopId === this.workshop.workshopId);
+    this.favoriteWorkshops$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((favorites)=> this.favoriteWorkshops = favorites);
+
+    this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
+    this.isFavorite = !!this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
   }
 
   onEdit(): void {
@@ -75,5 +85,10 @@ export class WorkshopCardComponent implements OnInit {
 
   onWorkshopLeave(): void {
     this.leaveWorkshop.emit(this.application);
+  }
+
+  ngOnDestroy():void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

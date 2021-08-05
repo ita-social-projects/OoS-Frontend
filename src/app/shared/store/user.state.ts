@@ -73,7 +73,7 @@ export interface UserStateModel {
   selectedProvider: Provider;
   applications: Application[];
   children: Child[];
-  favorite: Favorite[];
+  favoriteWorkshops: Favorite[];
 }
 @State<UserStateModel>({
   name: 'user',
@@ -84,7 +84,7 @@ export interface UserStateModel {
     selectedProvider: null,
     applications: Application[''],
     children: Child[''],
-    favorite: [],
+    favoriteWorkshops: [],
   }
 })
 @Injectable()
@@ -109,7 +109,7 @@ export class UserState {
   static children(state: UserStateModel): Child[] { return state.children }
 
   @Selector()
-  static favorite(state: UserStateModel): Favorite[] { return state.favorite }
+  static favoriteWorkshops(state: UserStateModel): Favorite[] { return state.favoriteWorkshops }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -474,7 +474,7 @@ export class UserState {
   getFavoriteWorkshops({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshops) {
     return this.favoriteWorkshopsService
     .getFavoriteWorkshops()
-    .subscribe((favoriteWorkshop: Favorite[])=> patchState({favorite: favoriteWorkshop}))
+    .subscribe((favoriteWorkshop: Favorite[])=> patchState({favoriteWorkshops: favoriteWorkshop}))
   }
   
   @Action(CreateFavoriteWorkshop)
