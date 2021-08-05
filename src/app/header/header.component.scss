@@ -35,6 +35,17 @@
     color: white;
   }
 
+  &_about {
+    background: none;
+    color: white;
+    justify-content: flex-end;
+    font-size: medium;
+    font-weight: bold;
+    white-space: nowrap;
+    line-height: 40px;
+    cursor: pointer;
+  }
+
   &_secondary{
     background: #3849F9;
     max-height: 83px;
@@ -249,6 +260,9 @@
 
     &_lang {
       display: none;
+    }
+    &_about{
+      display: none;;
     }
 
     &_menu {

@@ -1,0 +1,42 @@
+.about{
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 0;
+  margin: 2% auto;
+  border-radius: 5px;
+  &_title{
+    font-family: Innerspace;
+    line-height: 37px;
+    font-size: 33px;
+    color: #000000;
+    text-align: center;
+    margin: 2% auto 0;
+  }
+  &_content{
+    padding: 2% 10%;
+    font: 'Open Sans';
+    line-height: 18px;
+    font-size: 13px;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+     p {
+       margin: 3%;
+    }
+    &_bold{
+      font-weight: bold;
+    }
+    &_link{
+      color: #3849F9;
+    }
+  }
+  &_pct{
+
+    width: -webkit-fill-available;
+  }
+}
