@@ -9,7 +9,11 @@
         <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля"></a>
       </ng-template>
     </div>
+
     <div class="header_btns">
+      <div class="header_about">
+        <a [routerLink]="'./about'">ПРО ПОРТАЛ</a>
+      </div>
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
         УКР
@@ -89,13 +93,14 @@
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
       <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
       <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>
-      <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button mat-menu-item>Улюблене</button></a>
+      <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
+          mat-menu-item>Улюблене</button></a>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
 </ng-template>
-  <div *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async)" class="progress-bar">
-    <mat-progress-bar  mode="indeterminate">
-    </mat-progress-bar>
-  </div>
-
+<div *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async)"
+  class="progress-bar">
+  <mat-progress-bar mode="indeterminate">
+  </mat-progress-bar>
+</div>
