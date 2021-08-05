@@ -61,7 +61,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     if (this.totalPageAmount < this.MAX_PAGE_PAGINATOR_DISPLAY) {
       this.carouselPageList = pageList;
     } else {
-      this.createCarouselPageList(pageList, pageList[0].element !== this.FIRST_PAGINATION_PAGE, true);
+      this.createCarouselPageList(pageList, pageList[0]?.element !== this.FIRST_PAGINATION_PAGE, true);
     }
 
   }
@@ -120,7 +120,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
         }
       ];
 
-      if (pageList[0].element !== 2) {
+      if (pageList[0]?.element !== 2) {
         start.push(
           {
             element: this.PAGINATION_DOTS,
@@ -131,11 +131,11 @@ export class PaginatorComponent implements OnInit, OnChanges {
       this.carouselPageList = this.carouselPageList.concat(start);
     };
 
-    if (pageList[0].element === 2) {
+    if (pageList[0]?.element === 2) {
       pageList.pop();
     }
 
-    if (pageList[pageList.length - 1].element === this.totalPageAmount - 1) {
+    if (pageList[pageList.length - 1]?.element === this.totalPageAmount - 1) {
       pageList.shift();
     }
 
@@ -149,7 +149,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
           isActive: true
         }
       ];
-      if (pageList[pageList.length - 1].element !== this.totalPageAmount - 1) {
+      if (pageList[pageList.length - 1]?.element !== this.totalPageAmount - 1) {
         end.unshift({
           element: this.PAGINATION_DOTS,
           isActive: false

@@ -61,6 +61,10 @@ class MockListWorkshopCardComponent {
   @Input() isMainPage: boolean;
   @Input() userRole: string;
 }
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;

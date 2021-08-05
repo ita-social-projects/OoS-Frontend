@@ -35,7 +35,7 @@ export class WorkshopMapViewListComponent implements OnInit {
   public workshopDetailsAnimationState = false;
 
   ngOnInit() {
-    this.workshops = this.filteredWorkshops.entities;
+    this.workshops = this.filteredWorkshops?.entities;
   }
 
   onSelectedAddress(address: Address): void {

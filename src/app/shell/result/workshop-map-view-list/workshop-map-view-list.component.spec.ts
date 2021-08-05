@@ -6,7 +6,6 @@ import { FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
@@ -62,6 +61,10 @@ class MockResultMapComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
 }
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
 class MockMapWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
