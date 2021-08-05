@@ -20,7 +20,8 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
   templateUrl: './create-provider.component.html',
   styleUrls: ['./create-provider.component.scss'],
   providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
   }]
 })
 export class CreateProviderComponent implements OnInit, AfterViewInit {

@@ -58,36 +58,34 @@ a {
 div.cdk-overlay-pane {
   width: auto !important; /** workaround for issue #101 **/
 }
-.mat-step-label{
-  font-family:Open Sans;
+.mat-step-label {
+  font-family: Open Sans;
   font-weight: 700;
-  color:#AAAAAA !important;
+  color: #AAAAAA !important;
 }
-.mat-step-icon{
+.mat-step-icon {
   border: 2px solid #AAAAAA;
   box-sizing: border-box;
-  color:#AAAAAA!important;
-  background-color:transparent!important;
+  color: #AAAAAA!important;
+  background-color: transparent!important;
 }
-
 
 .mat-step-icon-selected {
   border: 2px solid #3849F9;
   box-sizing: border-box;
-  color:#3849F9 !important;
-  background-color:transparent!important;
+  color: #3849F9 !important;
+  background-color: transparent!important;
 }
-.mat-step-label-active.mat-step-label-selected{
-  color:#3849F9 !important;
+.mat-step-label-active.mat-step-label-selected {
+  color: #3849F9 !important;
 }
-.mat-step-label-active{
-  color:black !important;
+.mat-step-label-active {
+  color: black !important;
 }
-.mat-step-icon-state-done{
-  color:black !important;
+.mat-step-icon-state-done {
+  color: black !important;
   border: 2px solid black;
 }
-
 
 .mat-badge-accent {
   .mat-badge-content {

@@ -19,7 +19,8 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
   templateUrl: './create-workshop.component.html',
   styleUrls: ['./create-workshop.component.scss'],
   providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
   }]
 })
 export class CreateWorkshopComponent implements OnInit {
