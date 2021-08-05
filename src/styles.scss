@@ -69,15 +69,25 @@ div.cdk-overlay-pane {
   color:#AAAAAA!important;
   background-color:transparent!important;
 }
+
+
 .mat-step-icon-selected {
   border: 2px solid #3849F9;
   box-sizing: border-box;
   color:#3849F9 !important;
   background-color:transparent!important;
 }
-.mat-step-label-selected{
+.mat-step-label-active.mat-step-label-selected{
   color:#3849F9 !important;
 }
+.mat-step-label-active{
+  color:black !important;
+}
+.mat-step-icon-state-done{
+  color:black !important;
+  border: 2px solid black;
+}
+
 
 .mat-badge-accent {
   .mat-badge-content {
