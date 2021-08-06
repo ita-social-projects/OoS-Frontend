@@ -32,7 +32,7 @@ input:focus::placeholder {
   margin-bottom: none !important;
 }
 
-::ng-deep .mat-input-element{
+::ng-deep .mat-input-element.direction-step{
   padding: 0.5rem 1rem !important;
 }
 
@@ -44,7 +44,7 @@ input:focus::placeholder {
   padding-left: 1rem !important;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
-  
+
 }
 
 ::ng-deep .mat-option{

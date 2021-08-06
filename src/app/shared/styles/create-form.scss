@@ -20,6 +20,7 @@
 
     &-date{
     width: 35%;
+    min-width: 182px;
     padding: 0.1rem 1rem;
     }
 
@@ -40,7 +41,7 @@
     border: 1px solid #E3E3E3;
     box-sizing: border-box;
     border-radius: 21px;
-    padding: 1.2rem;
+    padding: 1.1rem;
     &-short{
       height: 100px;
       margin-top: 1rem;
