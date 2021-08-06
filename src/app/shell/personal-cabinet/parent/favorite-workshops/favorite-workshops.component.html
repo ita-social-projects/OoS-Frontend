@@ -4,4 +4,6 @@
       [isMainPage]="true">
     </app-workshop-card>
   </div>
+  <app-paginator [totalEntities]="(favoriteWorkshopsCard$ | async)?.length" [currentPage]="currentPage" (pageChange)="onPageChange($event)">
+  </app-paginator>
 </div>

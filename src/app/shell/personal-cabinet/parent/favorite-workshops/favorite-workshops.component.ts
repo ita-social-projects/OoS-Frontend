@@ -5,6 +5,8 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable, Subject } from 'rxjs';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { takeUntil } from 'rxjs/operators';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { PageChange } from 'src/app/shared/store/filter.actions';
 
 
 @Component({
@@ -21,9 +23,13 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   isParent$: Observable<boolean>;
 
   parent: boolean;
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() { }
+  constructor(public store: Store) { }
 
   ngOnInit(): void {
     this.isParent$
@@ -34,5 +40,10 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new PageChange(page));
   }
 }
