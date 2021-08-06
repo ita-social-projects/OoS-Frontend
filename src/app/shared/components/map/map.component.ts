@@ -49,7 +49,6 @@ export class MapComponent implements AfterViewInit, OnDestroy{
     .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
     .subscribe(filteredWorkshops => {
       this.workshops = filteredWorkshops.entities;
-      console.log(this.workshops)
       filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
     })
   }
