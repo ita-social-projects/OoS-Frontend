@@ -1,5 +1,6 @@
 import { Direction } from "../models/category.model";
 import { City } from "../models/city.model";
+import { PaginationElement } from "../models/paginationElement.model";
 import { WorkingHours } from "../models/workingHours.model";
 export class SetCity {
   static readonly type = '[app] Set City';
@@ -70,4 +71,8 @@ export class SetMinAge {
 export class SetMaxAge {
   static readonly type = '[filter] Set Max Age';
   constructor(public payload: number) { }
+}
+export class PageChange {
+  static readonly type = '[filter] Change Page';
+  constructor(public payload: PaginationElement) { }
 }

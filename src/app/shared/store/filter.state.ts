@@ -22,8 +22,10 @@ import {
   FilterChange,
   SetMinAge,
   SetMaxAge,
+  PageChange,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+import { PaginationElement } from '../models/paginationElement.model';
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
@@ -38,10 +40,11 @@ export interface FilterStateModel {
   city: City;
   searchQuery: string;
   order: string;
-  filteredWorkshops: WorkshopCard[];
+  filteredWorkshops: WorkshopFilterCard;
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   isLoading: boolean;
+  currentPage: PaginationElement
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -59,17 +62,21 @@ export interface FilterStateModel {
     city: undefined,
     searchQuery: '',
     order: '',
-    filteredWorkshops: [],
+    filteredWorkshops: undefined,
     topWorkshops: [],
     withDisabilityOption: false,
-    isLoading: false
+    isLoading: false,
+    currentPage: {
+      element: 1,
+      isActive: true
+    }
   }
 })
 @Injectable()
 export class FilterState {
 
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopCard[] { return state.filteredWorkshops }
+  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops }
 
   @Selector()
   static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops }
@@ -161,7 +168,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getFilteredWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult.entities, isLoading: false } : { filteredWorkshops: [], isLoading: false }),
+      .subscribe((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
         () => patchState({ isLoading: false }))
   }
 
@@ -190,6 +197,12 @@ export class FilterState {
   @Action(SetMaxAge)
   setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
     patchState({ maxAge: payload });
+    dispatch(new FilterChange());
+  }
+
+  @Action(PageChange)
+  pageChange({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: PageChange) {
+    patchState({ currentPage: payload });
     dispatch(new FilterChange());
   }
 
