@@ -33,17 +33,24 @@ export class PaginatorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.currentPage.isFirstChange()) {
       const currentPage = this.carouselPageList.find((page: PaginationElement) => page.element === this.currentPage.element);
+      const isForward: boolean = this.checkIsForwardScrollDirection(changes);
+      const isRecreationAllowed: boolean = this.checkCarouseleRecreationIsAllowed(isForward, currentPage);
 
-      let isForward: boolean = changes.currentPage.previousValue.element < changes.currentPage.currentValue.element;
-      if (isForward) {
-        if (this.carouselPageList.indexOf(currentPage) >= this.PAGINATION_SHIFT_DELTA) {
-          this.createPageList();
-        }
-      } else {
-        if (this.carouselPageList.indexOf(currentPage) <= this.PAGINATION_SHIFT_DELTA) {
-          this.createPageList();
-        }
+      if (isRecreationAllowed) {
+        this.createPageList();
       }
+    }
+  }
+
+  private checkIsForwardScrollDirection(changes: SimpleChanges): boolean {
+    return changes.currentPage.previousValue.element < changes.currentPage.currentValue.element;
+  }
+
+  private checkCarouseleRecreationIsAllowed(isForward: boolean, currentPage: PaginationElement): boolean {
+    if (isForward) {
+      return this.carouselPageList.indexOf(currentPage) >= this.PAGINATION_SHIFT_DELTA
+    } else {
+      return this.carouselPageList.indexOf(currentPage) <= this.PAGINATION_SHIFT_DELTA
     }
   }
 
@@ -89,24 +96,24 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   private createDisplayedPageList(startPage: number): PaginationElement[] {
-    let i: number;
+    let start: number;
     let end: number;
     if (this.totalPageAmount > this.MAX_PAGE_PAGINATOR_DISPLAY) {
       const isMaxAmountFit = (startPage + this.MAX_PAGE_PAGINATOR_DISPLAY) < this.totalPageAmount;
-      i = (isMaxAmountFit) ? startPage : this.totalPageAmount - this.MAX_PAGE_PAGINATOR_DISPLAY;
+      start = (isMaxAmountFit) ? startPage : this.totalPageAmount - this.MAX_PAGE_PAGINATOR_DISPLAY;
       end = this.MAX_PAGE_PAGINATOR_DISPLAY;
     } else {
-      i = startPage;
+      start = startPage;
       end = this.totalPageAmount;
     }
 
     let pageList: PaginationElement[] = [];
     while (pageList.length < end) {
       pageList.push({
-        element: i,
+        element: start,
         isActive: true
       });
-      i++;
+      start++;
     }
     return pageList;
   }
