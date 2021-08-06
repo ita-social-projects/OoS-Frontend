@@ -4,9 +4,8 @@ import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { User } from 'src/app/shared/models/user.model';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { NgxsModule, Store } from '@ngxs/store';
 
 const MockUser = {
@@ -23,13 +22,13 @@ describe('WorkshopCardsListComponentt', () => {
       declarations: [
         WorkshopCardsListComponent,
         MockOrderingComponent,
-        MockListWorkshopCardComponent
+        MockListWorkshopCardComponent,
+        MockListWorkshopCardPaginatorComponent
       ],
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxPaginationModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
       ],
     })
       .compileComponents();
@@ -63,4 +62,12 @@ class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+}
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListWorkshopCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
 }

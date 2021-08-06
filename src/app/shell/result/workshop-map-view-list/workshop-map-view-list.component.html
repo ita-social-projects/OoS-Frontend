@@ -2,14 +2,13 @@
   <div class="workshop-list" *ngIf="selectedWorkshops.length">
     <div fxLayout="column" fxLayoutAlign="space-evenly">
       <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
-        <app-workshop-card class="workshop"
-          *ngFor="let workshop of selectedWorkshops | paginate: { itemsPerPage: 4, currentPage: currentPage }"
-          [workshop]="workshop" [isMainPage]="true">
+        <app-workshop-card class="workshop" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop"
+          [isMainPage]="true">
         </app-workshop-card>
       </div>
-      <pagination-controls fxLayoutAlign="end" class="pagination" (pageChange)="currentPage = $event" maxSize="8"
-        directionLinks="true" autoHide="false" responsive="true" previousLabel="" nextLabel="">
-      </pagination-controls>
+      <app-paginator [totalEntities]="workshops.totalAmount" [currentPage]="currentPage"
+        (pageChange)="onPageChange($event)">
+      </app-paginator>
     </div>
   </div>
 
@@ -18,10 +17,11 @@
       <app-map class="map" (selectedAddress)="onSelectedAddress($event)"></app-map>
     </div>
   </div>
-  
+
   <div class="workshop-details-cards" fxLayout="row nowrap" fxLayoutGap="10px">
     <div *ngFor="let selectedWorkshop of selectedWorkshops">
-      <mat-card [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()" class="workshop-details-card" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-card [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()" class="workshop-details-card"
+        fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
         <div class="workshop-details-card_image" fxLayout=row fxLayoutAlign="center">
           <img src="assets/icons/workshop.png">
         </div>
@@ -45,7 +45,8 @@
             <div class="info_item">
               <div class="icon">
                 <img src="assets/icons/address.png" alt="address">
-              </div>{{ selectedWorkshop.address.city }}, {{ selectedWorkshop.address.street }} {{ selectedWorkshop.address.buildingNumber }}
+              </div>{{ selectedWorkshop.address.city }}, {{ selectedWorkshop.address.street }} {{
+              selectedWorkshop.address.buildingNumber }}
             </div>
           </div>
           <div class="footer">

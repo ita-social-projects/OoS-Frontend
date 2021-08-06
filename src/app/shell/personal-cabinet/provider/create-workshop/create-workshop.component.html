@@ -5,7 +5,7 @@
       <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
     </div>
 
-    <mat-horizontal-stepper>
+    <mat-horizontal-stepper linear>
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel><p class="step-name">Про гурток</p></ng-template>
         <app-create-about-form (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop">

@@ -3,7 +3,8 @@
     <h3>Знайдено Х гуртків</h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
-  <div class="workshops-search" fxFlex fxLayout="row" fxLayout.lt-md="row wrap" fxLayoutAlign="space-between center" fxLayoutAlign.lt-md="center center">
+  <div class="workshops-search" fxFlex fxLayout="row" fxLayout.lt-md="row wrap" fxLayoutAlign="space-between center"
+    fxLayoutAlign.lt-md="center center">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
 </div>
@@ -18,7 +19,7 @@
     </div>
 
     <div *ngIf="currentView === viewType.map; else ShowData">
-      <app-workshop-map-view-list [workshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
+      <app-workshop-map-view-list [filteredWorkshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
     </div>
 
     <ng-template #ShowData>
@@ -29,7 +30,7 @@
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
-  (click)="isFiltersVisible = !isFiltersVisible">
+    (click)="isFiltersVisible = !isFiltersVisible">
     <span class="material-icons btn-icon">
       <img src="assets/icons/blue-filter-icon.svg" class="btn-icon" *ngIf="isFiltersVisible; else hidden">
       <ng-template #hidden>
@@ -44,12 +45,15 @@
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering></app-ordering>
-    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView" (change)="currentView = group.value">
-      <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row" fxLayoutAlign="center center">
+    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
+      (change)="currentView = group.value">
+      <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"
+        fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
         <span class="view-toggle_icon">Список</span>
       </mat-button-toggle>
-      <mat-button-toggle value="{{viewType.map}}" aria-label="{{viewType.map}}" fxLayout="row" fxLayoutAlign="center center">
+      <mat-button-toggle value="{{viewType.map}}" aria-label="{{viewType.map}}" fxLayout="row"
+        fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">map</mat-icon>
         <span class="view-toggle_icon">Карта</span>
       </mat-button-toggle>

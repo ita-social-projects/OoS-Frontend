@@ -21,6 +21,7 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
 import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
+import { AboutComponent } from './about/about.component';
 @NgModule({
   declarations: [
     MainComponent,
@@ -30,6 +31,7 @@ import { AllCategoriesComponent } from './all-categories/all-categories.componen
     PersonalCabinetComponent,
     WorkshopMapViewListComponent,
     AllCategoriesComponent,
+    AboutComponent,
   ],
   imports: [
     CommonModule,

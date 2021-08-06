@@ -9,7 +9,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
-import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from 'src/app/shared/store/user.actions';
+
 
 @Component({
   selector: 'app-main',
