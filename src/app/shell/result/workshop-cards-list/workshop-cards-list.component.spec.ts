@@ -62,6 +62,7 @@ class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() parent: boolean;
 }
 @Component({
   selector: 'app-paginator',

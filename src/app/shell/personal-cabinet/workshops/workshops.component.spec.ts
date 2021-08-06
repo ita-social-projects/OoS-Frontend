@@ -51,4 +51,5 @@ class MockWorkshopCardComponent {
   @Input() isMainPage: boolean;
   @Input() userRole: string;
   @Input() application: Application;
+  @Input() parent: boolean;
 }

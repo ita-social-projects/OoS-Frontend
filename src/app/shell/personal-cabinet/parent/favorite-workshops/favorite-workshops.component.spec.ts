@@ -46,6 +46,7 @@ class MockWorkshopCardComponent{
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() parent: boolean;
  }
 
  @Component({
@@ -55,4 +56,5 @@ class MockWorkshopCardComponent{
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+  @Input() parent: boolean;
 }
