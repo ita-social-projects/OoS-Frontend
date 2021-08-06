@@ -71,7 +71,7 @@ export interface WorkshopCard {
   isPerMonth: boolean;
   maxAge: number;
   minAge: number;
-  //photo:
+  photo?: string;
   price: number;
   providerId: number;
   providerTitle: string;

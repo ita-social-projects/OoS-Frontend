@@ -2,7 +2,7 @@
 
 <ng-template #WorkshopList>
   <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid">
-    <app-workshop-card *ngFor="let workshop of workshops.entities" [workshop]="workshop" [isMainPage]="true">
+    <app-workshop-card [parent]="parent" *ngFor="let workshop of workshops.entities" [workshop]="workshop" [isMainPage]="true">
     </app-workshop-card>
   </div>
   <app-paginator [totalEntities]="100" [currentPage]="currentPage" (pageChange)="onPageChange($event)">

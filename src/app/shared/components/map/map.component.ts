@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { WorkshopCard } from '../../models/workshop.model';
+import { WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
 import { Select, Store } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   city$ :Observable<City>;
 
   @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopCard[]>;
+  filteredWorkshops$: Observable<WorkshopFilterCard>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -48,8 +48,8 @@ export class MapComponent implements AfterViewInit, OnDestroy{
     this.filteredWorkshops$
     .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
     .subscribe(filteredWorkshops => {
-      this.workshops = filteredWorkshops;
-      filteredWorkshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+      this.workshops = filteredWorkshops.entities;
+      filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
     })
   }
 
