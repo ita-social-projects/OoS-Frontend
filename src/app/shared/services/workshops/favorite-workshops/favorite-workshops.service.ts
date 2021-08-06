@@ -1,4 +1,4 @@
-import { Favorite } from './../../../models/favorite.model';
+import { Favorite, WorkshopFavoriteCard } from './../../../models/favorite.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FavoriteWorkshopsService {
-
-  //TODO: waiting for new Workshop model from back-end
   
   constructor(private http: HttpClient) { }
 
@@ -24,6 +22,13 @@ export class FavoriteWorkshopsService {
   */
   getFavoriteWorkshops(): Observable<Favorite[]> {
     return this.http.get<Favorite[]>('/Favorite');
+  }
+
+   /**
+  * This method get favorite workshops by Userid 
+  */
+  getFavoriteWorkshopsByUserId(): Observable<WorkshopFavoriteCard> {
+    return this.http.get<WorkshopFavoriteCard>('/Favorite/workshops');
   }
 
   /**

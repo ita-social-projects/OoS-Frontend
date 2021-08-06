@@ -1,3 +1,4 @@
+import { Parent } from 'src/app/shared/models/parent.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -6,6 +7,7 @@ import { Component, Input } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { User } from 'src/app/shared/models/user.model';
+import { NgxsModule, Store } from '@ngxs/store';
 
 const MockUser = {
   role: '',
@@ -14,6 +16,7 @@ const MockUser = {
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
   let fixture: ComponentFixture<WorkshopCardsListComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,13 +28,16 @@ describe('WorkshopCardsListComponentt', () => {
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        NgxsModule.forRoot([])
       ],
     })
       .compileComponents();
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store,'selectSnapshot').and.returnValue({} as Parent);
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

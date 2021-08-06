@@ -178,6 +178,10 @@ export class GetFavoriteWorkshops {
   static readonly type = '[favorite] get favorite parents workshops';
   constructor() { }
 }
+export class GetFavoriteWorkshopsByUserId {
+  static readonly type = '[favorite] get favorite workshops by UserId';
+  constructor() { }
+}
 export class CreateFavoriteWorkshop {
   static readonly type = '[favorite] create favorite workshop';
   constructor(public payload: Favorite) { }

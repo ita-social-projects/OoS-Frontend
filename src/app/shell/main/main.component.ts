@@ -8,7 +8,8 @@ import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
+import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-main',
@@ -22,6 +23,8 @@ export class MainComponent implements OnInit {
   topWorkshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
+  @Select(RegistrationState.parent)
+  isParent$: Observable<boolean>;
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -32,9 +35,7 @@ export class MainComponent implements OnInit {
   constructor(
     private store: Store,
     private actions$: Actions,
-  ) { 
-    this.parent = this.store.selectSnapshot(RegistrationState.parent) !== undefined;
-  }
+  ) { }
 
 
   ngOnInit(): void {
@@ -49,7 +50,11 @@ export class MainComponent implements OnInit {
         distinctUntilChanged(),
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new GetTopWorkshops()));
-  }
+
+    this.isParent$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(parent => this.parent = parent);
+    }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
