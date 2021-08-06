@@ -17,7 +17,7 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="addressFG">
+      <mat-step [stepControl]="ContactsFormGroup">
         <ng-template matStepLabel>Контакти</ng-template>
         <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">

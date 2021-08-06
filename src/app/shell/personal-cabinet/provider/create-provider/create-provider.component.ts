@@ -36,7 +36,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   PhotoFormGroup: FormGroup;
-  addressFG: FormGroup = new FormGroup({});
+  ContactsFormGroup: FormGroup = new FormGroup({});
 
   isAgreed: boolean;
   isNotRobot: boolean;
@@ -97,13 +97,13 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
-    this.addressFG.addControl('actual', form);
+    this.ContactsFormGroup.addControl('actual', form);
   }
 
   onReceiveLegalAddressFormGrou(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
-    this.addressFG.addControl('legal', form);
+    this.ContactsFormGroup.addControl('legal', form);
   }
 
   /**
