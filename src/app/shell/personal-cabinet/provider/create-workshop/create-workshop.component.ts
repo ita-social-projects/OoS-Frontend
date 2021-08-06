@@ -1,3 +1,4 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +17,11 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
-  styleUrls: ['./create-workshop.component.scss']
+  styleUrls: ['./create-workshop.component.scss'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
+  }]
 })
 export class CreateWorkshopComponent implements OnInit {
 

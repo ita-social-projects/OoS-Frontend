@@ -15,11 +15,13 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
 import { UserConfigEditComponent } from './personal-cabinet/user-config/user-config-edit/user-config-edit.component';
 import { CreateGuard } from './personal-cabinet/create.guard';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'result', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
+  { path: 'about', component: AboutComponent },
   {
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
