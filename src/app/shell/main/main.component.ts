@@ -52,9 +52,10 @@ export class MainComponent implements OnInit {
       .subscribe(() => this.store.dispatch(new GetTopWorkshops()));
 
     this.isParent$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$))
       .subscribe(parent => this.parent = parent);
-    }
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

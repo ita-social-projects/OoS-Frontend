@@ -5,7 +5,7 @@ export class Favorite {
   workshopId: number;
   userId?: string;
 
-  constructor(workshopId, userId) {
+  constructor(workshopId: number, userId: string) {
     this.workshopId = workshopId;
     this.userId = userId;
   }
