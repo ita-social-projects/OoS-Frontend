@@ -50,7 +50,7 @@ export class CreateAboutFormComponent implements OnInit {
       price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
-      competitiveSelectionDescription: new FormControl(''),
+      competitiveSelectionDescription: new FormControl('', Validators.required),
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();

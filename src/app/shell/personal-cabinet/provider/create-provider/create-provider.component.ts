@@ -1,3 +1,4 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
@@ -17,7 +18,11 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
 @Component({
   selector: 'app-create-provider',
   templateUrl: './create-provider.component.html',
-  styleUrls: ['./create-provider.component.scss']
+  styleUrls: ['./create-provider.component.scss'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
+  }]
 })
 export class CreateProviderComponent implements OnInit, AfterViewInit {
 
@@ -31,6 +36,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   PhotoFormGroup: FormGroup;
+  ContactsFormGroup: FormGroup = new FormGroup({});
 
   isAgreed: boolean;
   isNotRobot: boolean;
@@ -40,8 +46,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   AgreementFormControl = new FormControl(false);
   @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(private store: Store, private route: ActivatedRoute) {
-  }
+  constructor(private store: Store, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
@@ -92,11 +97,13 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
+    this.ContactsFormGroup.addControl('actual', form);
   }
 
   onReceiveLegalAddressFormGrou(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
+    this.ContactsFormGroup.addControl('legal', form);
   }
 
   /**
