@@ -77,5 +77,5 @@ class MockWorkshopCardsListComponent {
   template: ''
 })
 class MockWorkshopMapViewListComponent {
-  @Input() workshops: Workshop[];
+  @Input() filteredWorkshops: Workshop[];
 }

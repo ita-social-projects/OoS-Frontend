@@ -1,7 +1,18 @@
-<div class="wrapper-card">
-  <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="10px grid">
-    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-      [isMainPage]="true">
-    </app-workshop-card>
+<ng-container *ngIf="(favoriteWorkshopsCard$ | async)?.length then WorkshopList; else isEmptyList;"></ng-container>
+
+<ng-template #WorkshopList>
+  <div class="wrapper-card">
+    <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="10px grid">
+      <app-workshop-card class="cards" [parent]="parent" *ngFor="let workshop of favoriteWorkshopsCard$ | async" [workshop]="workshop"
+        [isMainPage]="true">
+      </app-workshop-card>
+    </div>
+    <app-paginator [totalEntities]="100" [currentPage]="currentPage" (pageChange)="onPageChange($event)">
+    </app-paginator>
   </div>
-</div>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <p class="empty-list-wrapper">Улюблених поки немає</p>
+</ng-template>
+

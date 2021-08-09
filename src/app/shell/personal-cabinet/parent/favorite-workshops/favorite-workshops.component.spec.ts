@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;
@@ -18,7 +19,8 @@ describe('FavoriteWorkshopsComponent', () => {
       ],
       declarations: [ 
         FavoriteWorkshopsComponent,
-        MockWorkshopCardComponent
+        MockWorkshopCardComponent,
+        MockListWorkshopCardPaginatorComponent
       ]
     })
     .compileComponents();
@@ -44,4 +46,15 @@ class MockWorkshopCardComponent{
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() parent: boolean;
  }
+
+ @Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListWorkshopCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() parent: boolean;
+}

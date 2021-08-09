@@ -42,6 +42,7 @@ import { FullSearchBarComponent } from './components/full-search-bar/full-search
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 import { StarsComponent } from './components/stars/stars.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -84,6 +85,7 @@ import { FooterComponent } from '../footer/footer.component';
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
+    PaginatorComponent,
     StarsComponent,
     FooterComponent,
   ],
@@ -136,6 +138,7 @@ import { FooterComponent } from '../footer/footer.component';
     MessageBarComponent,
     MatProgressBarModule,
     ShowTooltipIfTruncatedDirective,
+    PaginatorComponent,
     ReactiveFormsModule,
     StarsComponent,
     FooterComponent,

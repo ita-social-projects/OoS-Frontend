@@ -1,11 +1,12 @@
+import { Parent } from 'src/app/shared/models/parent.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { Workshop } from '../../../shared/models/workshop.model';
-import { User } from 'src/app/shared/models/user.model';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { NgxsModule, Store } from '@ngxs/store';
 
 const MockUser = {
   role: '',
@@ -14,24 +15,28 @@ const MockUser = {
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
   let fixture: ComponentFixture<WorkshopCardsListComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
         WorkshopCardsListComponent,
         MockOrderingComponent,
-        MockListWorkshopCardComponent
+        MockListWorkshopCardComponent,
+        MockListWorkshopCardPaginatorComponent
       ],
       imports: [
         FlexLayoutModule,
         CommonModule,
-        NgxPaginationModule
+        NgxsModule.forRoot([]),
       ],
     })
       .compileComponents();
   });
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
+    spyOn(store,'selectSnapshot').and.returnValue({} as Parent);
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -57,4 +62,13 @@ class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() parent: boolean;
+}
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListWorkshopCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
 }
