@@ -32,7 +32,7 @@ input:focus::placeholder {
   margin-bottom: none !important;
 }
 
-::ng-deep .mat-input-element{
+::ng-deep .mat-input-element.direction-step {
   padding: 0.5rem 1rem !important;
 }
 
@@ -40,14 +40,14 @@ input:focus::placeholder {
   background: lightgray;
 }
 
-::ng-deep .dropdown-option .mat-option-text{
+::ng-deep .dropdown-option .mat-option-text {
   padding-left: 1rem !important;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
-  
+
 }
 
-::ng-deep .mat-option{
+::ng-deep .mat-option {
   padding: 0 !important;
   min-width: 425px;
 }
