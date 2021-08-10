@@ -137,6 +137,22 @@
       display: none;
     }
   }
+
+  &_support {
+    font-family: Innerspace;
+    color: white;
+    font-weight: bold;
+    white-space: nowrap;
+
+    &_title {
+      font-size: 13px;
+    }
+
+    &_icon {
+      vertical-align: middle;
+      padding-right: 6px;
+    }
+  }
 }
 
 ::ng-deep .header_menu {
@@ -265,6 +281,10 @@
       display: none;;
     }
 
+    &_support{
+      display: none;;
+    }
+
     &_menu {
       &_account-button {
         font-weight: bold !important;
@@ -380,4 +400,5 @@ and (max-device-width : 480px){
     font-size: 9px;
 }
 }
+
 

@@ -4,4 +4,5 @@ export enum NavBarName {
   TopDestination = 'Найпопулярніші напрямки',
   PersonalCabinet = 'Кабінет користувача',
   About = 'Про портал',
+  Support = 'Підтримка'
 }
