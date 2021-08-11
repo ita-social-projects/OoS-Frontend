@@ -20,7 +20,8 @@ import {
   FilteredDirectionsList,
   FilteredDepartmentsList,
   FilteredClassesList,
-  GetRateByEntityId
+  GetRateByEntityId,
+  GetTopDirections
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -105,6 +106,16 @@ export class MetaDataState {
         ))
   }
 
+  @Action(GetTopDirections)
+  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections) {
+    patchState({ isLoading: true })
+    return this.categoriesService
+      .getDirections()
+      .pipe(
+        tap((directions: Direction[]) => patchState({ directions: directions, isLoading: false })
+        ))
+  }
+
   @Action(GetDepartments)
   getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments) {
     return this.categoriesService
@@ -178,3 +189,5 @@ export class MetaDataState {
   }
 
 }
+
+
