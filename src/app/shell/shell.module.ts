@@ -22,6 +22,7 @@ import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/wo
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
 import { AboutComponent } from './about/about.component';
+import { SupportComponent } from './support/support.component';
 @NgModule({
   declarations: [
     MainComponent,
@@ -32,6 +33,7 @@ import { AboutComponent } from './about/about.component';
     WorkshopMapViewListComponent,
     AllCategoriesComponent,
     AboutComponent,
+    SupportComponent,
   ],
   imports: [
     CommonModule,
