@@ -30,11 +30,9 @@ export class CityAutocompleteComponent implements OnInit {
   city$: Observable<City>;
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
-  isConfirmCity: boolean;
 
   constructor(public store: Store) {
     this.city$.pipe(takeUntil(this.destroy$)).subscribe(city => this.cityControl.setValue(city));
-    this.isConfirmCity$.pipe(takeUntil(this.destroy$)).subscribe(isConfirm => this.isConfirmCity = isConfirm);
   }
 
   displayCityName(city: City): string {

@@ -7,6 +7,6 @@
         {{city.name}}
       </mat-option>
     </mat-autocomplete>
-    <app-city-confirmation *ngIf="isConfirmCity"></app-city-confirmation>
+    <app-city-confirmation *ngIf="isConfirmCity$ | async"></app-city-confirmation>
   </mat-form-field>
 </form>
