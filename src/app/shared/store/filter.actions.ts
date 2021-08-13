@@ -6,6 +6,17 @@ export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: City) { }
 }
+
+export class CleanCity {
+  static readonly type = '[app] Clean City';
+  constructor() { }
+}
+
+export class ConfirmCity {
+  static readonly type = '[app] Confirm Current City';
+  constructor(public payload: boolean) { }
+}
+
 export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) { }

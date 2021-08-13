@@ -5,6 +5,7 @@
   border: none;
 }
 .city-search{
+  position: relative;
   min-width: min-content;
 }
 input {
@@ -13,6 +14,4 @@ input {
   line-height: 22px;
   color: #161414;
   opacity: 0.4;
-  max-width: 100px;
-  min-width: 80px;
 }
