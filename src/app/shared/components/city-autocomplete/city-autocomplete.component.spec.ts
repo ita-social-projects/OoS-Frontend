@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 
 describe('CityAutocompleteComponent', () => {
   let component: CityAutocompleteComponent;
@@ -21,7 +22,10 @@ describe('CityAutocompleteComponent', () => {
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [CityAutocompleteComponent],
+      declarations: [
+        CityAutocompleteComponent,
+        MockCityConfirmationComponent
+      ],
       providers: []
     })
       .compileComponents();
@@ -37,3 +41,9 @@ describe('CityAutocompleteComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-city-confirmation',
+  template: ''
+})
+class MockCityConfirmationComponent{}

@@ -1,5 +1,5 @@
 import { City } from './../../models/city.model';
-import { SetCity } from './../../store/filter.actions';
+import { ConfirmCity, SetCity } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import Geocoder from 'leaflet-control-geocoder';
@@ -29,9 +29,24 @@ export class GeolocationService {
 
   constructor(public store: Store) { }
 
+  /**
+   * This method sets default city Kiev in localStorage if user deny geolocation 
+   */
+  confirmCity(): void {
+    !!localStorage.getItem('cityConfirmation') ?
+    this.store.dispatch([
+      new ConfirmCity(false),
+      new SetCity(JSON.parse(localStorage.getItem('cityConfirmation')))
+    ]) :
+    this.store.dispatch([
+      new ConfirmCity(true), 
+      new SetCity(kiev)
+    ]);
+  }
+
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.store.dispatch(new SetCity(kiev));
+    this.confirmCity();
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {

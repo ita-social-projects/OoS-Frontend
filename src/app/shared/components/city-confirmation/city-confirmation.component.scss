@@ -1,0 +1,54 @@
+.city-confirmation {
+  position: absolute;
+  width: 280px;
+  min-height: 100px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 1px rgb(50 50 50 / 30%);
+  background: hsla(0,0%,100%,.92);
+  padding: 10px;
+  left: -55px;
+  top: 49px;
+  z-index: 1000;
+  p {
+    text-align: center;
+    font-size: 19px;
+    span {
+      color: #3849F9;
+      font-weight: 700;
+    }
+  }
+  
+  &_button {
+  width: auto;
+  min-height: 30px;
+  .button {
+    width: 260px;
+    height: 35px;
+    border-radius: 20px;
+    }
+    .button:nth-child(1){
+      margin-bottom: 5px;
+    }
+  }
+}
+.city-confirmation::before {
+    content: "";
+    position: absolute;
+    left: 46%;
+    width: 32px;
+    height: 15px;
+    background: hsla(0,0%,100%,.92);
+    top: -14px;
+    clip-path: polygon(50% 0,0 100%, 100% 100%);
+}
+// TO DO mobile view ... 
+@media(max-width: 750px) {
+  .city-confirmation {
+    width: 340px;
+    border-radius: 0%;
+    left: -50px;
+  }
+  .city-confirmation::before {
+    display: none;
+  }
+}
