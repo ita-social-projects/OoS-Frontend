@@ -28,6 +28,8 @@ export class CityAutocompleteComponent implements OnInit {
   isCity$: Observable<boolean[]>;
   @Select(FilterState.city)
   city$: Observable<City>;
+  @Select(FilterState.isConfirmCity)
+  isConfirmCity$: Observable<boolean>;
 
   constructor(public store: Store) {
     this.city$.pipe(takeUntil(this.destroy$)).subscribe(city => this.cityControl.setValue(city));
@@ -50,10 +52,10 @@ export class CityAutocompleteComponent implements OnInit {
         distinctUntilChanged(),
         startWith(''),
         map((value: string) => {
-          !value.length && this.store.dispatch(new ClearCities());
+          !value?.length && this.store.dispatch(new ClearCities());
           return value;
         }),
-        filter(value => value.length > 2)
+        filter(value => value?.length > 2)
       ).subscribe(value => this.store.dispatch(new GetCities(value)));
 
   }

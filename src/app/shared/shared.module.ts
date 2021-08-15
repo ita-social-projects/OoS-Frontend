@@ -47,6 +47,7 @@ import { StarsComponent } from './components/stars/stars.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
+import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { FooterComponent } from '../footer/footer.component';
     PaginatorComponent,
     StarsComponent,
     FooterComponent,
+    CityConfirmationComponent,
   ],
   imports: [
     MaterialModule,
@@ -142,6 +144,7 @@ import { FooterComponent } from '../footer/footer.component';
     ReactiveFormsModule,
     StarsComponent,
     FooterComponent,
+    CityConfirmationComponent 
   ]
 })
 export class SharedModule { }
