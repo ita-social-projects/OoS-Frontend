@@ -19,6 +19,10 @@ export class ChildInfoBoxComponent implements OnInit {
   @Input() left: string;
 
   ngOnInit(): void {
-    this.childrenService.getSocialGroupById(this.child.socialGroupId).subscribe(socialGroup => this.socialGroup = socialGroup);
+    if (this.socialGroup) {
+      this.childrenService.getSocialGroupById(this.child.socialGroupId).subscribe(socialGroup => this.socialGroup = socialGroup);
+    } else {
+      this.socialGroup === null
+    }
   }
 }
