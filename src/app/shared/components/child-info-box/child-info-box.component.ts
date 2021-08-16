@@ -22,7 +22,7 @@ export class ChildInfoBoxComponent implements OnInit {
     if (this.socialGroup) {
       this.childrenService.getSocialGroupById(this.child.socialGroupId).subscribe(socialGroup => this.socialGroup = socialGroup);
     } else {
-      this.socialGroup === null
+      this.socialGroup === null;
     }
   }
 }
