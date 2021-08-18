@@ -4,7 +4,8 @@
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
       (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
       <mat-option [disabled]="isCity | async" *ngFor="let city of cities$ | async" [value]="city">
-        {{city.name}}
+        {{city.name}} <br> 
+        <span class="city-region">{{city.region}}</span> 
       </mat-option>
     </mat-autocomplete>
     <app-city-confirmation *ngIf="isConfirmCity$ | async"></app-city-confirmation>
