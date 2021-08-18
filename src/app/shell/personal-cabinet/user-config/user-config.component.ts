@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { environment } from 'src/environments/environment';
-import { EditModalComponent } from './edit-modal/edit-modal.component';
 
 @Component({
   selector: 'app-user-config',
@@ -16,21 +14,16 @@ export class UserConfigComponent implements OnInit {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  authServer: string;
+  authServer: string = environment.stsServer;
+  link: string;
 
-  constructor(private dialog: MatDialog) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.authServer = environment.stsServer;
+
   }
 
-  openDialogWindow(link: string): void {
-    const dialogRef = this.dialog.open(EditModalComponent, { data: link }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-
+  onRedirect(link: string): void {
+    window.open(this.authServer + link, "windowName", "height=500,width=500");
   }
 }
