@@ -123,7 +123,7 @@
   }
 
   ::ng-deep app-full-search-bar {
-    min-width: 300px;    
+    min-width: 300px;
 
     app-searchbar {
       input {
@@ -145,10 +145,10 @@
     z-index: 2;
     width: 90vw;
     margin-left: 5vw;
-    
+
     .search-block-wrapper {
       display: none;
-      
+
     }
   }
 
@@ -203,9 +203,8 @@
 
   .mat-drawer {
     margin-left: 15px;
-    
+
     &-container {
-      height: calc(100vh - 32px);
       width: 100%;
 
       .mat-drawer-content {
@@ -213,12 +212,11 @@
 
         app-workshop-cards-list {
           display: block;
-          height: calc(100% - 75px);
-          margin-top: 85px;
+          margin-top: 170px;
 
           ::ng-deep>div {
             overflow: scroll;
-            height: 100%;
+            height: 100%
           }
         }
 
