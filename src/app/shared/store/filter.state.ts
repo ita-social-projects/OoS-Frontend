@@ -199,7 +199,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState({ topWorkshops: filterResult?.entities, isLoading: false }), () => patchState({ isLoading: false }))
+      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }))
   }
 
   @Action(SetWithDisabilityOption)

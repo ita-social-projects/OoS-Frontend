@@ -7,7 +7,7 @@ import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
-import { GetDirections } from 'src/app/shared/store/meta-data.actions';
+import { GetDirections, GetTopDirections } from 'src/app/shared/store/meta-data.actions';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 
 
@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch([
-      new GetDirections(),
+      new GetTopDirections(),
       new GetTopWorkshops()
     ]);
 
