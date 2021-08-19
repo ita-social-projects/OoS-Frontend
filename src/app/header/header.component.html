@@ -107,7 +107,7 @@
     </mat-menu>
   </div>
 </ng-template>
-<div *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async)"
+<div *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async) || (isLoadingDirections | async)"
   class="progress-bar">
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>
