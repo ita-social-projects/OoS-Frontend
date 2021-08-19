@@ -21,6 +21,11 @@ import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
 import { UserState } from './shared/store/user.state';
 import { NavigationState } from './shared/store/navigation.state';
+import {  LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
+
+registerLocaleData(localeUk);
 
 @NgModule({
   declarations: [
@@ -52,7 +57,7 @@ import { NavigationState } from './shared/store/navigation.state';
     RegistrationModule,
   ],
   providers: [
-
+    { provide: LOCALE_ID, useValue: "uk" }
   ],
   bootstrap: [AppComponent]
 })

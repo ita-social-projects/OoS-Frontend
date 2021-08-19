@@ -4,6 +4,7 @@ import { ApplicationCardComponent } from './application-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { LOCALE_ID } from '@angular/core';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -12,9 +13,13 @@ describe('ApplicationCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        
         MatCardModule,
         RouterTestingModule,
         HttpClientModule
+      ],
+      providers: [
+        { provide: LOCALE_ID, useValue: "uk" }, 
       ],
       declarations: [ApplicationCardComponent]
     })

@@ -1,3 +1,7 @@
+
+// .first-column{
+//   flex: 3;
+// }
 .card{
   background:white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -5,6 +9,7 @@
   border-radius: 5px;
   padding: 1.8em;
   margin: 1rem 0;
+  align-content: baseline;
   &-block{
     flex: 1;
   }
@@ -13,6 +18,12 @@
   }
   &-text{
   margin: 0.5rem;
+  }
+  mat-icon{
+    color: #888888;
+  }
+  button{
+    height: 40px;
   }
 }
 
@@ -25,20 +36,30 @@
   }
 }
 .btn{
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
   border: 1px solid transparent;
   box-sizing: border-box;
   border-radius: 20px;
   &-approve{
-    background-color: #3849F9;
-    color:white;
+    background: #3849F9;
+    border: 1px solid #3849F9;
+    box-sizing: border-box;
+
   }
-  &-deny-provider{
-    background-color: #C72A21;
-    color:white;
+  &-deny-provider{  
+    box-shadow: none;
+    border: 1px solid #AAAAAA;
+    box-sizing: border-box;
+    background-color: white;
+    color: #444444;
   }
   &-deny-parent{
     background-color: white;
-    color:black;
+    color: #444444;
   }
   &-text{
     font-family: Innerspace;
@@ -58,4 +79,44 @@
   &-hidden{
     visibility: hidden;
   }
+}
+.person-text, .workshop-name-text{
+font-family: Innerspace;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+color: #000000;
+margin-top: 0;
+}
+.person-text{
+  margin-left: 7px;
+}
+
+.years-text, .direction-text{
+font-family: Open Sans;
+font-style: normal;
+font-weight: bold;
+font-size: 13px;
+line-height: 18px;
+color: #333333;
+}
+.creation-date-text, .available-places-text{
+font-family: Open Sans;
+font-style: normal;
+font-weight: normal;
+font-size: 13px;
+line-height: 18px;
+color: #333333;
+}
+ .places {
+display: flex;
+justify-content: center;
+align-items: center;
+  
+}
+#first-column{
+  flex:1.5;
+}
+.status{
+  padding-top: 25px;
 }
