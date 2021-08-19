@@ -24,6 +24,6 @@ export class UserConfigComponent implements OnInit {
   }
 
   onRedirect(link: string): void {
-    window.open(this.authServer + link, "windowName", "height=500,width=500");
+    window.open(this.authServer + link, link, 'height=500,width=500');
   }
 }
