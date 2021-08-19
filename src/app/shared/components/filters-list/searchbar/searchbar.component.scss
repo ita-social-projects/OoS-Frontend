@@ -6,6 +6,7 @@
 }
 :host ::ng-deep .mat-form-field-infix {
   border: none;
+  display: flex;
 }
 button {
   border: none;
@@ -18,4 +19,10 @@ input {
   opacity: 0.4;
   min-width: 230px;
   text-overflow: ellipsis;
+}
+.icon {
+  margin: 0 1rem;
+  color: #AAAAAA;
+  line-height: 26px;
+  cursor: pointer;
 }
