@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
@@ -12,6 +12,8 @@ import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ChangeVisible } from '../shared/store/navigation.actions';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -47,10 +49,17 @@ export class HeaderComponent implements OnInit {
   user: User;
   roles = RoleLinks;
 
+  @ViewChild('sidenava') sidenavs: MatSidenav;
+
+
   constructor(
     public store: Store,
     private router: Router) {
-    }
+  }
+
+  changeView() {
+    this.store.dispatch(new ChangeVisible());
+  }
 
   /**
    * @param event global variable window
@@ -86,6 +95,8 @@ export class HeaderComponent implements OnInit {
   setLanguage(): void {
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
+
+
 
 }
 
