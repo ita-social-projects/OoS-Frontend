@@ -1,8 +1,9 @@
 <div class="app-wrapper">
   <mat-drawer-container>
-    <mat-drawer mode="side" [(opened)]="visibleSideNav">
+    <mat-drawer mode="over" [(opened)]="visibleSideNav">
 
-      <div class="Si">
+      <div class="mobile-sidenav">
+
 
         <button class="header_menu_account-button">
           <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>

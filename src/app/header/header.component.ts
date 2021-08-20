@@ -12,7 +12,6 @@ import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
-import { MatSidenav } from '@angular/material/sidenav';
 import { ChangeVisible } from '../shared/store/navigation.actions';
 
 enum RoleLinks {
@@ -48,9 +47,6 @@ export class HeaderComponent implements OnInit {
   user$: Observable<User>;
   user: User;
   roles = RoleLinks;
-
-  @ViewChild('sidenava') sidenavs: MatSidenav;
-
 
   constructor(
     public store: Store,
@@ -95,8 +91,6 @@ export class HeaderComponent implements OnInit {
   setLanguage(): void {
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
-
-
 
 }
 
