@@ -11,17 +11,17 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start">
       <mat-tab label="Усі">
-        <!-- <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
-        </ng-container> -->
         <ng-container
-          *ngTemplateOutlet="Applications; context:{ }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}">
         <ng-container
           *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.pending | workshopFilter: workshopList }">
         </ng-container>
+        <!-- <ng-container
+        *ngTemplateOutlet="Applications; context:{$implicit: getApplicationsByStatus(1) | async }">
+      </ng-container> -->
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.acceptedForSelection]}}">
         <ng-container

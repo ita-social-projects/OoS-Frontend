@@ -1,3 +1,4 @@
+import { GetApplicationsByStatus } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
@@ -12,7 +13,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId} from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -41,6 +42,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   userRole: string;
+  status: number;
   provider: Provider;
   parent: Parent;
   workshops: Workshop[];
@@ -78,6 +80,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getProviderApplications(): void {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id));
+  }
+
+  getApplicationsByStatus(): void {
+    this.store.dispatch(new GetApplicationsByStatus(this.status));
   }
 
   getParenApplications(): void {
