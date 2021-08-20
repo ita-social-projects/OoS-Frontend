@@ -13,10 +13,11 @@ import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication, GetApplicationsByStatus } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -47,6 +48,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getParenApplications();
     }
   }
+
   /**
   * This method initialize functionality to open child-info-box
   */

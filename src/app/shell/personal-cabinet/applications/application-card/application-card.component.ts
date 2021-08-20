@@ -8,6 +8,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 
+
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
@@ -33,7 +34,7 @@ export class ApplicationCardComponent implements OnInit {
 
   ngOnInit(): void {
     // registerLocaleData(localeUa, 'ur');
-   }
+  }
 
   /**
   * This method emit on approve action

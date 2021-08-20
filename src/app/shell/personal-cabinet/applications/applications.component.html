@@ -11,8 +11,11 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start">
       <mat-tab label="Усі">
-        <ng-container
+        <!-- <ng-container
           *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
+        </ng-container> -->
+        <ng-container
+          *ngTemplateOutlet="Applications; context:{ }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}">

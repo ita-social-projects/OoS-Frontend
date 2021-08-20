@@ -66,6 +66,7 @@ import {
   CreateFavoriteWorkshop,
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
+  GetApplicationsByStatus,
 } from './user.actions';
 
 export interface UserStateModel {
@@ -177,6 +178,16 @@ export class UserState {
   getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByProviderId) {
     return this.applicationService
       .getApplicationsByProviderId(payload)
+      .pipe(
+        tap((applications: Application[]) => {
+          return patchState({ applications: applications });
+        }));
+  }
+
+  @Action(GetApplicationsByStatus)
+  getApplicationsByStatus({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByStatus) {
+    return this.applicationService
+      .getApplicationsByStatus(payload)
       .pipe(
         tap((applications: Application[]) => {
           return patchState({ applications: applications });
