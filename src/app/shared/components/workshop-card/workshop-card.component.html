@@ -10,10 +10,18 @@
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-      <a [routerLink]="['/workshop-details', workshop.workshopId]" class="card_link">
+    <div *ngIf="!id; else mainTopWorkshops">
+      <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
         Детальніше
         <span class="material-icons arrow">arrow_forward</span>
       </a>
+    </div>
+      <ng-template #mainTopWorkshops>
+        <a [routerLink]="['/workshop-details', id ]" class="card_link">
+          Детальніше
+          <span class="material-icons arrow">arrow_forward</span>
+        </a>
+      </ng-template>
     </mat-card-footer>
   </div>
 </mat-card>
@@ -37,7 +45,7 @@
       {{ workshop.isPerMonth
       ? 'місяць' : 'заняття' }}
     </p>
-    <p class="card_text">
+    <p class="card_text" *ngIf="workshop.address">
       <mat-icon class="card_icon"> place</mat-icon> {{ workshop.address.city }}, {{
       workshop.address.street }}, {{
       workshop.address.buildingNumber }}

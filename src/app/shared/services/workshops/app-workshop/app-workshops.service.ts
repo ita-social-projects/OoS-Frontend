@@ -90,10 +90,10 @@ export class AppWorkshopsService {
     let params = new HttpParams();
     params = params.set('Size', this.size.toString());
 
-    if (filters.city) {
-      params = params.set('City', filters.city.name);
-    }
+    // if (filters.city) {
+    //   params = params.set('City', filters.city.name);
+    // }
 
-    return this.http.get<WorkshopCard[]>('/Statistic/GetDirections', { params });
+    return this.http.get<WorkshopCard[]>('/Statistic/GetWorkshops', { params });
   }
 }

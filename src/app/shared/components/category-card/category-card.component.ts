@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Direction } from '../../models/category.model';
+import { Direction, topDirection } from '../../models/category.model';
 import { SetDirections } from '../../store/filter.actions';
 
 
@@ -11,14 +11,14 @@ import { SetDirections } from '../../store/filter.actions';
 })
 export class CategoryCardComponent implements OnInit {
 
+
+  @Input() workshopsCount: number;
   @Input() direction: Direction;
   @Input() icons: {};
-  workshopsAmount = Math.floor(Math.random() * 300);
-
+  
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.getWord();
   }
 
   selectDirection(direction: Direction): void {
@@ -29,15 +29,15 @@ export class CategoryCardComponent implements OnInit {
    * @returns correct form of the word
    *
    */
-  getWord(): string {
-    if (this.workshopsAmount % 100 >= 10 && this.workshopsAmount % 100 <= 20) {
+  getWord(workshopsAmount): string {
+    if (workshopsAmount % 100 >= 10 && workshopsAmount % 100 <= 20) {
       return "гуртків";
     } else {
-      if (this.workshopsAmount % 10 === 0 || this.workshopsAmount % 10 > 4) {
+      if (workshopsAmount % 10 === 0 || workshopsAmount % 10 > 4) {
         return "гуртків";
-      } else if (this.workshopsAmount % 10 === 1) {
+      } else if (workshopsAmount % 10 === 1) {
         return "гурток";
-      } else if (this.workshopsAmount % 10 > 1 && this.workshopsAmount % 10 < 5) {
+      } else if (workshopsAmount % 10 > 1 && workshopsAmount % 10 < 5) {
         return "гуртки";
       }
     }

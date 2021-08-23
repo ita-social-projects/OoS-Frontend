@@ -62,7 +62,7 @@ export class GetFilteredWorkshops {
   constructor() { }
 }
 export class GetTopWorkshops {
-  static readonly type = '[filter] Get 4 Most Popular Workshop Cards';
+  static readonly type = '[filter] Get Most Popular Workshop Cards';
   constructor() { }
 }
 export class SetWithDisabilityOption {
