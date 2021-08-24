@@ -1,3 +1,4 @@
+import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
@@ -43,7 +44,7 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     directions: [],
-    topDirections:[],
+    topDirections: [],
     departments: [],
     classes: [],
     cities: null,
@@ -112,7 +113,7 @@ export class MetaDataState {
   }
 
   @Action(GetTopDirections)
-  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections) {
+  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetTopDirections) {
     patchState({ isLoading: true })
     return this.categoriesService
       .getTopDirections()

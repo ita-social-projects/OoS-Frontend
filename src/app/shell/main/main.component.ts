@@ -1,3 +1,4 @@
+import { Constants } from './../../shared/constants/constants';
 import { Component, OnInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -42,7 +43,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch([
       new GetTopDirections(),
-      new GetTopWorkshops()
+      new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)
     ]);
 
     this.actions$.pipe(ofAction(SetCity))
@@ -50,7 +51,7 @@ export class MainComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops()));
+      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)));
 
     this.isParent$
       .pipe(
