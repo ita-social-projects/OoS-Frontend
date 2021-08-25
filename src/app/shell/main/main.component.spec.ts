@@ -53,6 +53,7 @@ describe('MainComponent', () => {
 })
 class MockMainCategoryCardComponent {
   @Input() direction: Direction;
+  @Input() workshopsCount: number;
   @Input() icons: {};
 }
 
@@ -62,7 +63,6 @@ class MockMainCategoryCardComponent {
 })
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() workshopsCount: number;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
   @Input() parent: boolean;
