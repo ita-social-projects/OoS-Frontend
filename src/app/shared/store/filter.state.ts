@@ -97,6 +97,9 @@ export class FilterState {
   @Selector()
   static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity }
 
+  @Selector()
+  static searchQuery(state: FilterStateModel): string { return state.searchQuery }
+
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
 
@@ -199,7 +202,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState({ topWorkshops: filterResult?.entities, isLoading: false }), () => patchState({ isLoading: false }))
+      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }))
   }
 
   @Action(SetWithDisabilityOption)

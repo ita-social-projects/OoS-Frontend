@@ -12,6 +12,7 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
 
   dataUrlMock = '/assets/mock-org-cards.json';
+  size: number = Constants.WORKSHOPS_PER_PAGE;
 
   constructor(private http: HttpClient) { }
 
@@ -85,15 +86,14 @@ export class AppWorkshopsService {
   /**
    * This method get top workshops
    */
-  getTopWorkshops(filters: FilterStateModel): Observable<WorkshopFilterCard> {
+  getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
     let params = new HttpParams();
-    params = params.set('OrderByField', '1');
-    params = params.set('Size', '4');
+    params = params.set('Size', this.size.toString());
 
     if (filters.city) {
       params = params.set('City', filters.city.name);
     }
 
-    return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', { params });
+    return this.http.get<WorkshopCard[]>('/Statistic/GetDirections', { params });
   }
 }

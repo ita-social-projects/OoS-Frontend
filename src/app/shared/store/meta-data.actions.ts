@@ -4,6 +4,9 @@ import { City } from "../models/city.model";
 export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
 }
+export class GetTopDirections {
+  static readonly type = '[meta-data] Get Top Directions';
+} 
 export class GetDepartments {
   static readonly type = '[meta-data] Get Departments by Direction Id';
   constructor(public payload: number) { }

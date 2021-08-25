@@ -13,7 +13,6 @@ import { WorkshopsComponent } from './workshops/workshops.component';
 import { UserConfigComponent } from './user-config/user-config.component';
 import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
-import { EditModalComponent } from './user-config/edit-modal/edit-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,6 @@ import { EditModalComponent } from './user-config/edit-modal/edit-modal.componen
     WorkshopsComponent,
     UserConfigComponent,
     UserConfigEditComponent,
-    EditModalComponent
   ],
   imports: [
     CommonModule,
