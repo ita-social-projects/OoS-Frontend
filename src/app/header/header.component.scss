@@ -275,7 +275,7 @@
     &_menu-button-mobile {
       color: white;
       display: block;
-
+      background-color: inherit;
 
 
       mat-icon {
@@ -325,9 +325,6 @@
         }
       }
     }
-  }
-  button .header_menu-button-mobile {
-    background-color: blue !important;
   }
 
   ::ng-deep .header_menu {
