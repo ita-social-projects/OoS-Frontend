@@ -41,14 +41,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
   @Select(NavigationState.isVisibleTrue)
   isVisibleTrue$: Observable<boolean>;
-  @Select(FilterState.isLoading)
-  isLoadingMainPage$: Observable<boolean>;
-  @Select(AppState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
-  @Select(UserState.isLoading)
-  isLoadingProviderCabinet$: Observable<boolean>
-  @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
@@ -78,7 +70,6 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
     this.isWindowMobile(window);
     this.isVisibleTrue$
@@ -90,16 +81,12 @@ export class AppComponent implements OnInit, OnDestroy{
     this.store.dispatch(new Logout());
   }
 
-  login(): void {
-    this.store.dispatch(new Login());
+  setLanguage(): void {
+    localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
   isRouter(route: string): boolean {
     return this.router.url === route;
-  }
-
-  setLanguage(): void {
-    localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
   ngOnDestroy() {
