@@ -7,13 +7,16 @@
 
 @media(max-width: 750px) {
 
+  // TODO use ::ngdeep to style it
   .header_login {
-    width: auto;
-    height: 1.8rem;
+    position: relative;
+    top: 5px;
+    // height: 1.6rem;
     border-radius: 20px;
     border-color: white;
     color: white;
-    font-size: xx-small;
+    font-size: 13px;
+    // padding: 0 20px 0 20px;
   }
 
   .mobile-sidenav {
@@ -26,45 +29,105 @@
       align-items: center;
       width: 100%;
       box-sizing: border-box;
-      padding: 40px 0 15px 15px;
+      padding: 40px 0 7px 8px;
       background-color: #3849F9;
       color: white;
     }
-
+    
     &-shell {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      padding: 0 auto 0 15px;
-      font-weight: bold;
       font-family: Innerspace;
-      font-size: 18px;
+      font-size: 13px;
+      font-weight: bold;
+      color: black;
     }
 
-    // &-menu {
-      // display: flex;
-      // flex-direction: column;
-      // align-items: flex-start;
-      // padding: 0 auto 0 15px;
-      // font-weight: bold;
-      // font-family: Innerspace;
-      // font-size: 18px;
-      // &>a, >button {
-      //   padding: 5px;
-      // }
-      // a {
+    &-icon {
+      color: gray;
+      font-size: 22px;
+      vertical-align: middle;
+    }
 
-        // button {
-        //   background-color: white !important;
-        //   border: none;
-        //   font-weight: bold;
-        //   font-family: Innerspace;
-        //   font-size: 16px;
-        // }
-      // }
-    // }
+    &-notification {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding: 7px 0 7px 15px;
+
+      &-badge {
+        background-color: orange;
+        border-radius: 45%;
+        padding: 1px 5px 0 5px;
+        color: white;
+        font-size: 10px;
+      }
+
+      &-item {
+        display: inline-block;
+        padding-right: 10px;
+      }
+    }
+
+    &-language {
+      padding: 7px 0;
+      ::ng-deep .mat-select-value-text {
+        color: black !important;
+      }
+    }
+
+    &-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-bottom: 12px;
+      &>a {
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 4px;
+      }
+      button {
+        background-color: white !important;
+        border: none;
+        font-family: Innerspace;
+        font-size: 13px;
+        font-weight: bold;
+        color: black;
+        padding: 12px 0 4px 15px
+      }
+    }
   }
 
+  .hr-grey {
+    color: grey;
+    height: 1px;
+    background-color: rgba(133, 133, 133, 0.521);
+    border-top: 2px;
+    opacity: 0.4;
+    width: 100%;
+    margin: 0
+  }
+
+  .mobile-sidenav-info{
+    &-about {
+      padding: 15px;
+      font-family: Innerspace;
+      font-size: 13px;
+      font-weight: bold;
+      color: black;
+    }
+
+    &-support {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding: 14px 0 14px 15px;
+      font-family: Innerspace;
+      font-size: 13px;
+      font-weight: bold;
+      color: black;
+    }
+  }
 
 
 

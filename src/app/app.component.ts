@@ -77,6 +77,10 @@ export class AppComponent implements OnInit, OnDestroy{
       .subscribe(visible => this.visibleSideNav = visible)
   }
 
+  login(): void {
+    this.store.dispatch(new Login());
+  }
+
   logout(): void {
     this.store.dispatch(new Logout());
   }
