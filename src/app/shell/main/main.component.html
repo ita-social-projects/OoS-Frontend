@@ -20,7 +20,7 @@
     </div>
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='space-between' fxLayoutGap="20px grid">
-        <app-workshop-card [parent]="parent" *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop" [id]="workshop.id" [isMainPage]="true"
+        <app-workshop-card [parent]="parent" *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop"  [isMainPage]="true"
           [userRole]="''">
         </app-workshop-card>
       </div>

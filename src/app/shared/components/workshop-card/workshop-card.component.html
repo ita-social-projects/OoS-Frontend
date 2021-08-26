@@ -10,18 +10,13 @@
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-    <div *ngIf="!id; else mainTopWorkshops">
+    <div>
       <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
         Детальніше
         <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-      <ng-template #mainTopWorkshops>
-        <a [routerLink]="['/workshop-details', id ]" class="card_link">
-          Детальніше
-          <span class="material-icons arrow">arrow_forward</span>
-        </a>
-      </ng-template>
+
     </mat-card-footer>
   </div>
 </mat-card>
