@@ -40,11 +40,7 @@
       {{ workshop.isPerMonth
       ? 'місяць' : 'заняття' }}
     </p>
-    <p class="card_text" *ngIf="workshop.address">
-      <mat-icon class="card_icon"> place</mat-icon> {{ workshop.address.city }}, {{
-      workshop.address.street }}, {{
-      workshop.address.buildingNumber }}
-    </p>
+
   </mat-card-content>
 </ng-template>
 
