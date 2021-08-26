@@ -1,14 +1,16 @@
+import { Constants } from './../../shared/constants/constants';
 import { Component, OnInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { GetTopWorkshops, SetCity } from 'src/app/shared/store/filter.actions';
+import { SetCity, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { WorkshopCard } from '../../shared/models/workshop.model';
+import { Workshop, WorkshopCard } from '../../shared/models/workshop.model';
 import { GetDirections, GetTopDirections } from 'src/app/shared/store/meta-data.actions';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
+import { GetFilteredWorkshops } from './../../shared/store/filter.actions';
 
 
 @Component({
@@ -25,8 +27,8 @@ export class MainComponent implements OnInit {
   isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
-  @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
+  @Select(MetaDataState.topDirections)
+  topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   public parent: boolean;
@@ -41,7 +43,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch([
       new GetTopDirections(),
-      new GetTopWorkshops()
+      new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)
     ]);
 
     this.actions$.pipe(ofAction(SetCity))
@@ -49,7 +51,7 @@ export class MainComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops()));
+      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)));
 
     this.isParent$
       .pipe(

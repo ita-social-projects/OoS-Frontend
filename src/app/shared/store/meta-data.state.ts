@@ -1,3 +1,4 @@
+import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
@@ -26,6 +27,7 @@ import {
 
 export interface MetaDataStateModel {
   directions: Direction[];
+  topDirections: Direction[];
   departments: Department[];
   classes: IClass[];
   cities: City[],
@@ -42,6 +44,7 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     directions: [],
+    topDirections: [],
     departments: [],
     classes: [],
     cities: null,
@@ -60,6 +63,9 @@ export class MetaDataState {
 
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] { return state.directions }
+
+  @Selector()
+  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections }
 
   @Selector()
   static departments(state: MetaDataStateModel): Department[] { return state.departments }
@@ -107,12 +113,12 @@ export class MetaDataState {
   }
 
   @Action(GetTopDirections)
-  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections) {
+  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetTopDirections) {
     patchState({ isLoading: true })
     return this.categoriesService
-      .getDirections()
+      .getTopDirections()
       .pipe(
-        tap((directions: Direction[]) => patchState({ directions: directions, isLoading: false })
+        tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoading: false })
         ))
   }
 
