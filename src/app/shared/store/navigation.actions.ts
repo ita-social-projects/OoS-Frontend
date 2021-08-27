@@ -15,7 +15,7 @@ export class DeleteNavPath {
   constructor(){ }
 }
 
-export class ChangeVisible {
-  static readonly type ='[navigation] isVisible'
+export class SidenavToggle {
+  static readonly type ='[navigation] sidenavOpen'
   constructor(){ }
 }

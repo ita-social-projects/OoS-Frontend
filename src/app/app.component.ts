@@ -8,7 +8,7 @@ import { Role } from './shared/enum/role';
 import { User } from './shared/models/user.model';
 import { AppState } from './shared/store/app.state';
 import { FilterState } from './shared/store/filter.state';
-import { ChangeVisible } from './shared/store/navigation.actions';
+import { SidenavToggle } from './shared/store/navigation.actions';
 import { NavigationState } from './shared/store/navigation.state';
 import { CheckAuth, Login, Logout } from './shared/store/registration.actions';
 import { RegistrationState } from './shared/store/registration.state';
@@ -37,10 +37,10 @@ export class AppComponent implements OnInit, OnDestroy{
   MobileView: boolean = false;
 
   title = 'out-of-school';
-  visibleSideNav: boolean;
+  visibleSidenav: boolean;
 
-  @Select(NavigationState.isVisibleTrue)
-  isVisibleTrue$: Observable<boolean>;
+  @Select(NavigationState.sidenavOpenTrue)
+  sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   changeView() {
-    this.store.dispatch(new ChangeVisible());
+    this.store.dispatch(new SidenavToggle());
   }
 
   isWindowMobile(event: any): void {
@@ -72,9 +72,9 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.user$.subscribe(user => this.user = user);
     this.isWindowMobile(window);
-    this.isVisibleTrue$
+    this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(visible => this.visibleSideNav = visible)
+      .subscribe(visible => this.visibleSidenav = visible)
   }
 
   login(): void {

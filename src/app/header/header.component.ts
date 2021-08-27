@@ -13,7 +13,7 @@ import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
-import { ChangeVisible } from '../shared/store/navigation.actions';
+import { SidenavToggle } from '../shared/store/navigation.actions';
 
 enum RoleLinks {
   provider = 'організацію',
@@ -57,7 +57,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeView() {
-    this.store.dispatch(new ChangeVisible());
+    this.store.dispatch(new SidenavToggle());
   }
 
   /**
