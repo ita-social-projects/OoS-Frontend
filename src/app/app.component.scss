@@ -9,14 +9,23 @@
 
   // TODO use ::ngdeep to style it
   .header_login {
+
+
     position: relative;
-    top: 5px;
+    bottom: 5px;
     // height: 1.6rem;
     border-radius: 20px;
     border-color: white;
     color: white;
     font-size: 13px;
-    // padding: 0 20px 0 20px;
+    margin-left: 10px;
+
+    ::ng-deep span.mat-button-wrapper {
+      position: relative ;
+      top: 3px ;
+      padding: 0 12px;
+
+    }
   }
 
   .mobile-sidenav {
@@ -32,8 +41,12 @@
       padding: 40px 0 7px 8px;
       background-color: #3849F9;
       color: white;
+
+      &-not-auth {
+        padding-left: 15px;
+      }
     }
-    
+
     &-shell {
       display: flex;
       flex-direction: column;
