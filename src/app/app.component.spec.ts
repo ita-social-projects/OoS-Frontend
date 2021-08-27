@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -23,7 +24,8 @@ describe('AppComponent', () => {
         HttpClientModule,
         MatMenuModule,
         MatProgressBarModule,
-        MatSelectModule
+        MatSelectModule,
+        MatSidenavModule,
       ],
       declarations: [
         AppComponent,
