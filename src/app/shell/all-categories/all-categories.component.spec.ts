@@ -46,5 +46,6 @@ class MockAllCategoriesSearchbarComponent {
 })
 class MockAllCategoriesCardComponent {
   @Input() direction: Direction;
+  @Input() workshopsCount: number;
   @Input() icons: {};
 }
