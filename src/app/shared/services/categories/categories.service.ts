@@ -14,6 +14,10 @@ export class CategoriesService {
     return this.http.get<Direction[]>('/Direction/Get');
   }
 
+  getTopDirections(): Observable<Direction[]> {
+    return this.http.get<Direction[]>(`/Statistic/GetDirections`);
+  }
+
   getDepartmentsBytDirectionId(id: number): Observable<Department[]> {
     return this.http.get<Department[]>(`/Department/GetByDirectionId/${id}`);
   }

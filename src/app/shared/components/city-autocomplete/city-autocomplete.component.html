@@ -1,11 +1,13 @@
 <form class="city-search">
   <mat-form-field appearance="none">
-    <input matInput type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto">
+    <input type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
       (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
       <mat-option [disabled]="isCity | async" *ngFor="let city of cities$ | async" [value]="city">
-        {{city.name}}
+        {{city.name}} <br> 
+        <span class="city-region">{{city.region}}</span> 
       </mat-option>
     </mat-autocomplete>
+    <app-city-confirmation *ngIf="isConfirmCity$ | async"></app-city-confirmation>
   </mat-form-field>
 </form>

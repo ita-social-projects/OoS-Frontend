@@ -1,3 +1,4 @@
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
@@ -38,6 +39,8 @@ export class HeaderComponent implements OnInit {
   isLoadingResultPage$: Observable<boolean>;
   @Select(UserState.isLoading)
   isLoadingProviderCabinet$: Observable<boolean>
+  @Select(MetaDataState.isLoading)
+  isLoadingDirections: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)

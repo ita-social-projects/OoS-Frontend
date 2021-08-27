@@ -1,3 +1,5 @@
+import { Constants } from './../constants/constants';
+import { GetTopDirections } from './meta-data.actions';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Direction } from '../models/category.model';
@@ -23,6 +25,8 @@ import {
   SetMinAge,
   SetMaxAge,
   PageChange,
+  ConfirmCity,
+  CleanCity,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -44,7 +48,8 @@ export interface FilterStateModel {
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   isLoading: boolean;
-  currentPage: PaginationElement
+  currentPage: PaginationElement;
+  isConfirmCity: boolean;
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -69,7 +74,8 @@ export interface FilterStateModel {
     currentPage: {
       element: 1,
       isActive: true
-    }
+    },
+    isConfirmCity: false,
   }
 })
 @Injectable()
@@ -90,14 +96,33 @@ export class FilterState {
   @Selector()
   static city(state: FilterStateModel): City { return state.city }
 
+  @Selector()
+  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity }
+
+  @Selector()
+  static searchQuery(state: FilterStateModel): string { return state.searchQuery }
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
 
   @Action(SetCity)
-  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
+  setCity({ patchState, getState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
+    const isConfirmCity = getState().isConfirmCity;
     patchState({ city: payload });
     dispatch(new FilterChange());
+    !isConfirmCity && localStorage.setItem('cityConfirmation', JSON.stringify(payload));
+  }
+
+  @Action(CleanCity)
+  cleanCity({ patchState }: StateContext<FilterStateModel> ): void {
+    patchState({ city: undefined});
+  }
+
+  @Action(ConfirmCity)
+  confirmCity({patchState}:StateContext<FilterStateModel> , { payload }: ConfirmCity ): void {
+    patchState({
+      isConfirmCity: payload
+    });
   }
 
   @Action(SetOrder)
@@ -179,7 +204,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState({ topWorkshops: filterResult?.entities, isLoading: false }), () => patchState({ isLoading: false }))
+      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }))
   }
 
   @Action(SetWithDisabilityOption)

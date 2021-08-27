@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Coords } from '../shared/models/coords.model';
 import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
-import { SetCity } from '../shared/store/filter.actions';
+import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
@@ -20,7 +20,6 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-
   constructor( 
     private geolocationService: GeolocationService,
     private store:Store
@@ -28,25 +27,26 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
+      
       //TODO: waiting for endpoint 
-      coords && this.store.dispatch(new SetCity({
+      coords && this.store.dispatch([new SetCity({
         district: " ",
         id: 34446,
         longitude: coords.lng,
         latitude: coords.lat,  
-        name: "ВАШЕ МІСТО",
+        name: "КИЇВ",
         region: " "
-      }))
-    })
+      }), new ConfirmCity(false)]);
+    });
     
-    this.isParent$.pipe(takeUntil(this.destroy$))
-    .subscribe((parent) => {
+    this.isParent$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((parent) => {
       !!parent && this.store.dispatch([
-      new GetFavoriteWorkshops(),
-      new GetFavoriteWorkshopsByUserId()
-    ]);
-  })
-    
+        new GetFavoriteWorkshops(),
+        new GetFavoriteWorkshopsByUserId()
+      ]);
+    })
   }
 
   ngOnDestroy(): void {

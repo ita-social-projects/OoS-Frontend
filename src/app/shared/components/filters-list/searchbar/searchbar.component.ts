@@ -3,10 +3,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Navigation } from 'src/app/shared/models/navigation.model';
 import { SetSearchQueryValue } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 @Component({
   selector: 'app-searchbar',
@@ -20,43 +21,38 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     private router: Router,
   ) { }
 
-  searchValue = new FormControl('', [Validators.maxLength(200), this.searchValidator]);
+  searchValue = new FormControl('', [Validators.maxLength(200)]);
   isResultPage: boolean = false;
+  searchedText: string;
 
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
+  @Select(FilterState.searchQuery)
+  searchQuery$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit(): void {
-    this.navigationPaths$.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((navigationPaths: Navigation[]) => this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.TopWorkshops));
-
+    this.navigationPaths$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((navigationPaths: Navigation[]) => this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.TopWorkshops));
+       
     this.searchValue.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith('')
-      ).subscribe(val => {
-        !this.isResultPage && this.store.dispatch(new SetSearchQueryValue(val || ''));
-      })
-  }
-
-  onSerch(value: string): void {
-    !this.isResultPage && this.router.navigate(['/result']);
-
-    this.store.dispatch(new SetSearchQueryValue(value || ''));
-  }
-
-  searchValidator(control: FormControl): object | null {
-    let value = control.value;
-    if (value && !/^[а-яА-ЯІі\- a-zA-Z\s ]*$/.test(value)) {
-      return {
-        isInvalid: true
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((val: string) => {
+      this.searchedText = val;
+      if (val.length === 0) {
+        this.store.dispatch(new SetSearchQueryValue(''))
       }
-    }
-    return null;
+    });
+    
+    this.searchQuery$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((text: string) => this.searchValue.setValue(text));
+  }
+
+  onSearch(): void {
+    !this.isResultPage && this.router.navigate(['/result']);
+    this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
 
   ngOnDestroy() {

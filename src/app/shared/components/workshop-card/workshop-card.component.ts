@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { ApplicationStatus, ApplicationStatusUkr } from '../../enum/applications';
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
-import { WorkshopCard } from '../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
@@ -25,6 +25,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public below: string = 'below';
 
   @Input() workshop: WorkshopCard;
+  // @Input() topWorkshop:Workshop;
+  @Input() id: number = 0;
   @Input() userRole: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
@@ -39,7 +41,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
- 
+
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
 
@@ -49,11 +51,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.favoriteWorkshops$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((favorites)=> {
-      this.favoriteWorkshops = favorites;
-      this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((favorites) => {
+        this.favoriteWorkshops = favorites;
+        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
+      });
     this.isFavorite = !!this.favoriteWorkshopId;
   }
 
@@ -66,10 +68,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onLike(): void {
-    const param = new Favorite (
-      this.workshop.workshopId, 
+    const param = new Favorite(
+      this.workshop.workshopId,
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
-      )
+    )
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' })
@@ -89,7 +91,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.leaveWorkshop.emit(this.application);
   }
 
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

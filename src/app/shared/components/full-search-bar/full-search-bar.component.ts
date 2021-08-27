@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-full-search-bar',
   templateUrl: './full-search-bar.component.html',

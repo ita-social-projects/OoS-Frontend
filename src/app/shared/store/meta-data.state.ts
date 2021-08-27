@@ -1,3 +1,4 @@
+import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
@@ -20,35 +21,40 @@ import {
   FilteredDirectionsList,
   FilteredDepartmentsList,
   FilteredClassesList,
-  GetRateByEntityId
+  GetRateByEntityId,
+  GetTopDirections
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
+  topDirections: Direction[];
   departments: Department[];
   classes: IClass[];
   cities: City[],
   socialGroups: SocialGroup[],
   isCity: boolean;
   filteredDirections: Direction[];
-  filteredDepartments : Department[];
-  filteredClasses : IClass[];
+  filteredDepartments: Department[];
+  filteredClasses: IClass[];
   rating: Rate[];
+  isLoading: boolean;
 }
 
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
     directions: [],
+    topDirections: [],
     departments: [],
     classes: [],
     cities: null,
     socialGroups: [],
     isCity: false,
     filteredDirections: [],
-    filteredDepartments:[],
-    filteredClasses:[],
-    rating: []
+    filteredDepartments: [],
+    filteredClasses: [],
+    rating: [],
+    isLoading: false
   }
 
 })
@@ -57,6 +63,9 @@ export class MetaDataState {
 
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] { return state.directions }
+
+  @Selector()
+  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections }
 
   @Selector()
   static departments(state: MetaDataStateModel): Department[] { return state.departments }
@@ -82,6 +91,9 @@ export class MetaDataState {
   @Selector()
   static filteredClasses(state: MetaDataStateModel): IClass[] { return state.filteredClasses }
 
+  @Selector()
+  static isLoading(state: MetaDataStateModel): boolean { return state.isLoading }
+
   static rating(state: MetaDataStateModel): Rate[] { return state.rating }
 
   constructor(
@@ -92,10 +104,21 @@ export class MetaDataState {
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections) {
+    patchState({ isLoading: true })
     return this.categoriesService
       .getDirections()
       .pipe(
-        tap((directions: Direction[]) => patchState({ directions: directions })
+        tap((directions: Direction[]) => patchState({ directions: directions, isLoading: false })
+        ))
+  }
+
+  @Action(GetTopDirections)
+  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetTopDirections) {
+    patchState({ isLoading: true })
+    return this.categoriesService
+      .getTopDirections()
+      .pipe(
+        tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoading: false })
         ))
   }
 
@@ -132,7 +155,7 @@ export class MetaDataState {
     patchState({ departments: undefined });
     patchState({ classes: undefined });
   }
-  
+
   @Action(GetCities)
   getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities) {
     return this.cityService
@@ -146,7 +169,7 @@ export class MetaDataState {
   clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities) {
     patchState({ cities: null });
   }
-  
+
   @Action(FilteredDirectionsList)
   filteredDirectionsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredDirectionsList): void {
     patchState({ filteredDirections: payload });
@@ -154,12 +177,12 @@ export class MetaDataState {
 
   @Action(FilteredDepartmentsList)
   filteredDepartmentsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredDepartmentsList): void {
-    patchState({ filteredDepartments : payload });
+    patchState({ filteredDepartments: payload });
   }
 
   @Action(FilteredClassesList)
   FilteredClassesList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredClassesList): void {
-    patchState({ filteredClasses : payload });
+    patchState({ filteredClasses: payload });
   }
 
   @Action(GetRateByEntityId)
@@ -172,3 +195,5 @@ export class MetaDataState {
   }
 
 }
+
+
