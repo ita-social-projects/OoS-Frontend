@@ -16,7 +16,7 @@
             <button mat-button (click)="changeView()"><mat-icon>close</mat-icon></button>
           </div>
           <div class="mobile-sidenav-language">
-            <button mat-flat-button class="header_lang">
+            <button mat-flat-button>
               <mat-icon class="mobile-sidenav-icon">language</mat-icon>
               <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option">
                 <mat-option value="uk"> {{Languages.uk}} </mat-option>
@@ -27,8 +27,8 @@
 
         <ng-template #isAuthorized>
           <div class="mobile-sidenav-header">
-            <div class="header_username">
-              <button mat-icon-button class="header_menu-button_account-circle">
+            <div>
+              <button mat-icon-button class="mobile-sidenav-account">
                 <mat-icon>account_circle</mat-icon>
               </button>
               <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
@@ -52,9 +52,9 @@
                 </button>
               </div>
               <!-- Todo, verify if needed or just make redirect-->
-              <mat-menu #menu="matMenu" class="mobile-sidenav-notification-popup">
-                <span>1 нова заявка очікує підтвердження <mat-icon class="circle-notification">brightness_1</mat-icon></span>
-                <button mat-menu-item [routerLink]="'url'" class="btn-notification">
+              <mat-menu #menu="matMenu">
+                <span>1 нова заявка очікує підтвердження <mat-icon>brightness_1</mat-icon></span>
+                <button mat-menu-item [routerLink]="'url'">
                   <span>Переглянути </span>
                 </button>
               </mat-menu>
@@ -62,7 +62,7 @@
             <hr class="hr-grey">
 
             <div class="mobile-sidenav-language">
-              <button mat-flat-button class="header_lang">
+              <button mat-flat-button >
                 <mat-icon class="mobile-sidenav-icon">language</mat-icon>
                 <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option">
                   <mat-option value="uk"> {{Languages.uk}} </mat-option>
@@ -92,7 +92,7 @@
         <hr class="hr-grey">
 
         <div class="mobile-sidenav-info-support">
-          <a class="header_support_title" [routerLink]="'./support'" (click)="changeView()">
+          <a [routerLink]="'./support'" (click)="changeView()">
               <mat-icon class="mobile-sidenav-icon">support</mat-icon>
             Підтримка
           </a>
