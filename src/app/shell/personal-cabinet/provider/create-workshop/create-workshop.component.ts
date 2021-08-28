@@ -36,6 +36,7 @@ export class CreateWorkshopComponent implements OnInit {
 
   editMode: boolean = false;
   workshop: Workshop;
+  isLiniar: boolean = false;
 
 
   constructor(
