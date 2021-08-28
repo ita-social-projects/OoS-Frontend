@@ -479,16 +479,17 @@ export class UserState {
   @Action(GetFavoriteWorkshops)
   getFavoriteWorkshops({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshops) {
     return this.favoriteWorkshopsService
+      .getFavoriteWorkshops()
       .subscribe((favoriteWorkshop: Favorite[]) => patchState({ favoriteWorkshops: favoriteWorkshop }))
   }
 
   @Action(GetFavoriteWorkshopsByUserId)
-  getFavoriteWorkshopsByUserId({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshopsByUserId) {
+  getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId) {
     return this.favoriteWorkshopsService
-    .getFavoriteWorkshopsByUserId()
-    .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard)=> patchState({favoriteWorkshopsCard: favoriteWorkshopCard.entities}))
+      .getFavoriteWorkshopsByUserId()
+      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard.entities }))
   }
-  
+
   @Action(CreateFavoriteWorkshop)
   createFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateFavoriteWorkshop) {
     return this.favoriteWorkshopsService

@@ -89,8 +89,6 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-
-
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     categoriesForm.get('directionId').valueChanges.subscribe((id: number) =>
       this.DescriptionFormGroup.get('directionId').setValue(id)
@@ -133,5 +131,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       this.keyWord = keyWord;
       this.onKeyWordsInput();
     });
+
+    this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions);
   }
 }
