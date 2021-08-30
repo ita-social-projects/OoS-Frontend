@@ -1,1 +1,1 @@
-<app-city-autocomplete (selectedCity)="onSelectedCity($event)"></app-city-autocomplete>
+<app-city-autocomplete (selectedCity)="onSelectedCity($event)" [initialCity]="initialCity" *ngIf="!!initialCity"></app-city-autocomplete>
