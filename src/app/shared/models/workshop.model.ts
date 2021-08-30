@@ -20,7 +20,7 @@ export class Workshop {
   head: string;
   headDateOfBirth?: Date;
   type?: number;
-  keyWords?: string[];
+  keywords?: string[];
   address: Address;
   teachers: Teacher[];
   rating?: number;
@@ -61,7 +61,7 @@ export class Workshop {
     this.directionId = description.directionId;
     this.departmentId = description.departmentId;
     this.classId = description.classId;
-    this.keyWords = description.keyWords;
+    this.keywords = description.keyWords;
   }
 }
 

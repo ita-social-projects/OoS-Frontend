@@ -17,6 +17,7 @@ import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByPa
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
@@ -47,6 +48,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getParenApplications();
     }
   }
+
   /**
   * This method initialize functionality to open child-info-box
   */
