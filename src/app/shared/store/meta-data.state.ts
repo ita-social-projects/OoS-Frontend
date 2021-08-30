@@ -12,7 +12,6 @@ import { CityService } from '../services/cities/city.service';
 import { RatingService } from '../services/rating/rating.service';
 import {
   GetSocialGroup,
-  ClearCategories,
   GetClasses,
   GetDepartments,
   GetDirections,
@@ -22,7 +21,9 @@ import {
   FilteredDepartmentsList,
   FilteredClassesList,
   GetRateByEntityId,
-  GetTopDirections
+  GetTopDirections,
+  ClearDepartments,
+  ClearClasses
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -113,7 +114,7 @@ export class MetaDataState {
   }
 
   @Action(GetTopDirections)
-  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetTopDirections) {
+  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections) {
     patchState({ isLoading: true })
     return this.categoriesService
       .getTopDirections()
@@ -148,12 +149,14 @@ export class MetaDataState {
         tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
         ))
   }
-
-  @Action(ClearCategories)
-  clearCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories) {
-    patchState({ directions: undefined });
-    patchState({ departments: undefined });
+  @Action(ClearClasses)
+  clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses) {
     patchState({ classes: undefined });
+  }
+
+  @Action(ClearDepartments)
+  clearDepartments({ patchState }: StateContext<MetaDataStateModel>, { }: ClearDepartments) {
+    patchState({ departments: undefined });
   }
 
   @Action(GetCities)
@@ -195,5 +198,3 @@ export class MetaDataState {
   }
 
 }
-
-
