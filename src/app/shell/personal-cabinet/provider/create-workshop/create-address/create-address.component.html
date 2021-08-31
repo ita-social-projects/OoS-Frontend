@@ -1,9 +1,7 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <p class="step-name__xs">Контакти</p>
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" maxlength="15">
-  </mat-form-field>
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" class="city-autocomplete"></app-city-autocomplete>
   <app-validation-hint-for-input 
     type = "requiredField" 
     [invalid] = "AddressFormGroup.get('city').invalid && AddressFormGroup.get('city').touched" 

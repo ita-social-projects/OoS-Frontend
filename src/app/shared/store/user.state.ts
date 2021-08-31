@@ -17,7 +17,6 @@ import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { ClearCategories } from './meta-data.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 import {
   CreateApplication,
@@ -67,6 +66,7 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
 } from './user.actions';
+import { ClearClasses, ClearDepartments } from './meta-data.actions';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -215,7 +215,10 @@ export class UserState {
     console.log('Workshop is created', payload);
     dispatch(new ShowMessageBar({ message: 'Гурток створено!', type: 'success' }));
     this.router.navigate(['/personal-cabinet/workshops']);
-    dispatch(new ClearCategories());
+    dispatch([
+      new ClearClasses(),
+      new ClearDepartments()
+    ]);
   }
 
   @Action(DeleteWorkshopById)
@@ -282,9 +285,9 @@ export class UserState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
+    dispatch(new GetProfile());
     dispatch(new MarkFormDirty(false));
     console.log('Provider is created', payload);
-    dispatch(new GetProfile());
     dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
     this.router.navigate(['']);
   }
@@ -477,30 +480,30 @@ export class UserState {
   }
 
   @Action(GetFavoriteWorkshops)
-  getFavoriteWorkshops({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshops) {
+  getFavoriteWorkshops({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshops) {
     return this.favoriteWorkshopsService
-    .getFavoriteWorkshops()
-    .subscribe((favoriteWorkshop: Favorite[])=> patchState({favoriteWorkshops: favoriteWorkshop}))
+      .getFavoriteWorkshops()
+      .subscribe((favoriteWorkshop: Favorite[]) => patchState({ favoriteWorkshops: favoriteWorkshop }))
   }
 
   @Action(GetFavoriteWorkshopsByUserId)
-  getFavoriteWorkshopsByUserId({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshopsByUserId) {
+  getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId) {
     return this.favoriteWorkshopsService
-    .getFavoriteWorkshopsByUserId()
-    .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard)=> patchState({favoriteWorkshopsCard: favoriteWorkshopCard.entities}))
+      .getFavoriteWorkshopsByUserId()
+      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard.entities }))
   }
-  
+
   @Action(CreateFavoriteWorkshop)
-  createFavoriteWorkshop({dispatch}:StateContext<UserStateModel>,{ payload }: CreateFavoriteWorkshop ) {
+  createFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateFavoriteWorkshop) {
     return this.favoriteWorkshopsService
-    .createFavoriteWorkshop(payload)
-    .pipe(tap(()=> dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
+      .createFavoriteWorkshop(payload)
+      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 
   @Action(DeleteFavoriteWorkshop)
-  deleteFavoriteWorkshop({dispatch}:StateContext<UserStateModel>,{ payload }: DeleteFavoriteWorkshop ) {
+  deleteFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteFavoriteWorkshop) {
     return this.favoriteWorkshopsService
-    .deleteFavoriteWorkshop(payload)
-    .pipe(tap(()=> dispatch([new GetFavoriteWorkshops(),new GetFavoriteWorkshopsByUserId()])))
+      .deleteFavoriteWorkshop(payload)
+      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 }

@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CityFilterComponent } from './city-filter.component';
 import { NgxsModule } from '@ngxs/store';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { City } from 'src/app/shared/models/city.model';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
@@ -43,4 +44,5 @@ describe('CityFilterComponent', () => {
   template: ''
 })
 class MockCityAutocompleteComponent {
+  @Input() initialCity: City; 
 }

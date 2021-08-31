@@ -5,9 +5,11 @@
       <p class="wrapper-text">Додайте новий заклад всього у 3 кроки</p>
     </div>
 
-    <mat-horizontal-stepper #stepper linear>
+    <mat-horizontal-stepper #stepper [linear]="isLinear">
       <mat-step [stepControl]="InfoFormGroup">
-        <ng-template matStepLabel>Інформація про заклад</ng-template>
+        <ng-template matStepLabel>
+          <p class="step-name">Інформація про заклад</p>
+        </ng-template>
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
         </app-create-info-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
@@ -18,7 +20,9 @@
       </mat-step>
 
       <mat-step [stepControl]="ContactsFormGroup">
-        <ng-template matStepLabel>Контакти</ng-template>
+        <ng-template matStepLabel>
+          <p class="step-name">Контакти</p>
+        </ng-template>
         <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">
         </app-create-contacts-form>
@@ -31,10 +35,13 @@
       </mat-step>
 
       <mat-step [stepControl]="PhotoFormGroup">
-        <ng-template matStepLabel>Фото</ng-template>
+        <ng-template matStepLabel>
+          <p class="step-name">Фото</p>
+        </ng-template>
         <app-create-photo-form (passPhotoFormGroup)="onReceivePhotoFormGroup($event)" [provider]="provider">
         </app-create-photo-form>
-        <div *ngIf="!editMode" fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box">
+
+        <div *ngIf="!editMode" fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю
             згоду на обробку
             персональних даних

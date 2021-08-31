@@ -28,8 +28,6 @@ export class CreateDescriptionFormComponent implements OnInit {
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @ViewChild('keyWordsInput') keyWordsInput: ElementRef<HTMLInputElement>;
-
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
 
   constructor(private formBuilder: FormBuilder) {
@@ -48,7 +46,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
-    this.workshop && this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+    this.workshop && this.activateEditMode();
 
   }
 
@@ -67,16 +65,21 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
   }
 
-  onKeyWordsInput(event: KeyboardEvent): void {
+  onKeyWordsInput(): void {
     let inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
-      this.keyWords.push(inputKeyWord);
+
+      if (this.keyWords.length < 5) {
+        this.keyWords.push(inputKeyWord);
+      } else {
+        this.keyWords.pop();
+        this.keyWords.unshift(inputKeyWord);
+      }
+
       this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
-      this.keyWordsInput.nativeElement.value = '';
       this.keyWordsCtrl.setValue(null);
-      this.keyWord='';
+      this.keyWord = '';
     } else {
-      this.keyWordsInput.nativeElement.value = '';
       this.keyWord = '';
     }
   }
@@ -85,8 +88,6 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
-
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     categoriesForm.get('directionId').valueChanges.subscribe((id: number) =>
@@ -118,5 +119,19 @@ export class CreateDescriptionFormComponent implements OnInit {
       ).subscribe((disabilityOptionsDesc: string) =>
         this.DescriptionFormGroup.get('disabilityOptionsDesc').setValue(disabilityOptionsDesc)
       );
+  }
+
+  /**
+  * This method fills inputs with information of edited workshop
+  */
+  private activateEditMode(): void {
+    this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
+
+    this.workshop.keywords.forEach((keyWord: string) => {
+      this.keyWord = keyWord;
+      this.onKeyWordsInput();
+    });
+
+    this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions);
   }
 }
