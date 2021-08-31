@@ -54,7 +54,6 @@ describe('ApplicationsComponent', () => {
 class MockApplicationCardComponent {
   @Input() application: Application;
   @Input() userRole: string;
-  @Input() status:number;
 }
 
 @Component({
