@@ -209,7 +209,7 @@ export class UserState {
       .getApplicationsByStatus(payload)
       .pipe(
         tap((applications: Application[]) => {
-          return patchState({ applications: applications });
+          return patchState({ applicationsByStatus: applications });
         }));
   }
 

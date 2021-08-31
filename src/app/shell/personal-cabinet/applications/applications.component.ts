@@ -105,7 +105,9 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   }
 
   onChangeTab(event: MatTabChangeEvent): void {
-    this.status = event.index - 1;
+    if (event.index - 1 >= 0) {
+      this.status = event.index - 1;
+    }
     this.store.dispatch(new OnUpdateStatus(this.status));
   }
 

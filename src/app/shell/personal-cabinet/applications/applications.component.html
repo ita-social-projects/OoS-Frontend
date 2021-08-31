@@ -17,12 +17,12 @@
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}" >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$  | workshopFilter: workshopList}">
+          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$  | workshopFilter: workshopList}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.acceptedForSelection]}}" >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.acceptedForSelection | workshopFilter: workshopList }" >
+          *ngTemplateOutlet="Applications; context:{$implicit:applicationsByStatus$ | async | workshopFilter: workshopList }" >
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.approved]}}" >
