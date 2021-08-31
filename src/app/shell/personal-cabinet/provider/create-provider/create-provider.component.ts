@@ -29,6 +29,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<Boolean>;
   isPristine = true;
+  isLinear = false;
 
   provider: Provider;
 

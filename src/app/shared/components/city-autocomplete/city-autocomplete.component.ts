@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -17,29 +17,28 @@ import { FilterState } from '../../store/filter.state';
 export class CityAutocompleteComponent implements OnInit {
 
   @Output() selectedCity = new EventEmitter();
+  @Input() initialCity: City;
 
   cityControl = new FormControl();
   cities: City[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+
   @Select(MetaDataState.cities)
   cities$: Observable<City[]>;
   @Select(MetaDataState.isCity)
   isCity$: Observable<boolean[]>;
-  @Select(FilterState.city)
-  city$: Observable<City>;
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
 
-  constructor(public store: Store) {
-    this.city$.pipe(takeUntil(this.destroy$)).subscribe(city => this.cityControl.setValue(city));
-  }
+  constructor(public store: Store) { }
 
   displayCityName(city: City): string {
     return city?.name;
   }
 
   ngOnInit(): void {
+    this.cityControl.setValue(this.initialCity)
     this.cities$
       .pipe(
         takeUntil(this.destroy$),

@@ -19,8 +19,7 @@ export class Workshop {
   image?: File[];
   head: string;
   headDateOfBirth?: Date;
-  type?: number;
-  keyWords?: string[];
+  keywords?: string[];
   address: Address;
   teachers: Teacher[];
   rating?: number;
@@ -55,13 +54,12 @@ export class Workshop {
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     this.providerId = provider.id;
-    this.type = about.type;
     this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
     this.directionId = description.directionId;
     this.departmentId = description.departmentId;
     this.classId = description.classId;
-    this.keyWords = description.keyWords;
+    this.keywords = description.keyWords;
   }
 }
 
