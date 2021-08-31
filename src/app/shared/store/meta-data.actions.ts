@@ -6,7 +6,7 @@ export class GetDirections {
 }
 export class GetTopDirections {
   static readonly type = '[meta-data] Get Top Directions';
-} 
+}
 export class GetDepartments {
   static readonly type = '[meta-data] Get Departments by Direction Id';
   constructor(public payload: number) { }
@@ -23,8 +23,11 @@ export class GetSocialGroup {
   static readonly type = '[meta-data] Get GetSocialGroup';
   constructor() { }
 }
-export class ClearCategories {
-  static readonly type = '[meta-data] clear categories state';
+export class ClearClasses {
+  static readonly type = '[meta-data] clear classes state';
+}
+export class ClearDepartments {
+  static readonly type = '[meta-data] clear departments state';
 }
 export class GetCities {
   static readonly type = '[meta-data] Get Cities';

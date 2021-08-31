@@ -7,21 +7,6 @@
 
   <app-image-form-control [imgMaxAmount]="1" [label]="'Логотип'" formControlName="image"></app-image-form-control>
 
-  <label class="step-label">Гурток/Секція/Клас<span class="step-required">*</span></label>
-  <mat-form-field>
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type"
-      name="type">
-      <ng-container *ngFor="let type of workshopType | keyvalue">
-        <mat-option *ngIf="workshopTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
-          {{ workshopTypeUkr[type.key] }}
-        </mat-option>
-      </ng-container>
-    </mat-select>
-  </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="AboutFormGroup.get('type').invalid && AboutFormGroup.get('type').touched">
-  </app-validation-hint-for-input>
-
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">

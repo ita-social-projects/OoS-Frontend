@@ -1,3 +1,4 @@
+import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
@@ -11,7 +12,6 @@ import { CityService } from '../services/cities/city.service';
 import { RatingService } from '../services/rating/rating.service';
 import {
   GetSocialGroup,
-  ClearCategories,
   GetClasses,
   GetDepartments,
   GetDirections,
@@ -21,11 +21,14 @@ import {
   FilteredDepartmentsList,
   FilteredClassesList,
   GetRateByEntityId,
-  GetTopDirections
+  GetTopDirections,
+  ClearDepartments,
+  ClearClasses
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
+  topDirections: Direction[];
   departments: Department[];
   classes: IClass[];
   cities: City[],
@@ -42,6 +45,7 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     directions: [],
+    topDirections: [],
     departments: [],
     classes: [],
     cities: null,
@@ -60,6 +64,9 @@ export class MetaDataState {
 
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] { return state.directions }
+
+  @Selector()
+  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections }
 
   @Selector()
   static departments(state: MetaDataStateModel): Department[] { return state.departments }
@@ -110,9 +117,9 @@ export class MetaDataState {
   getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections) {
     patchState({ isLoading: true })
     return this.categoriesService
-      .getDirections()
+      .getTopDirections()
       .pipe(
-        tap((directions: Direction[]) => patchState({ directions: directions, isLoading: false })
+        tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoading: false })
         ))
   }
 
@@ -142,12 +149,14 @@ export class MetaDataState {
         tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
         ))
   }
-
-  @Action(ClearCategories)
-  clearCategories({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCategories) {
-    patchState({ directions: undefined });
-    patchState({ departments: undefined });
+  @Action(ClearClasses)
+  clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses) {
     patchState({ classes: undefined });
+  }
+
+  @Action(ClearDepartments)
+  clearDepartments({ patchState }: StateContext<MetaDataStateModel>, { }: ClearDepartments) {
+    patchState({ departments: undefined });
   }
 
   @Action(GetCities)
@@ -189,5 +198,3 @@ export class MetaDataState {
   }
 
 }
-
-

@@ -1,54 +1,49 @@
-<form [formGroup]="LegalAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
-  <h4>Юридична адреса</h4>
+<form [formGroup]="LegalAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <h4 class="step-title">Юридична адреса</h4>
 
   <label class="step-label">Область<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="district" maxlength="15">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "LegalAddressFormGroup.get('district').invalid && LegalAddressFormGroup.get('district').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="LegalAddressFormGroup.get('district').invalid && LegalAddressFormGroup.get('district').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="city" maxlength="15">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "LegalAddressFormGroup.get('city').invalid && LegalAddressFormGroup.get('city').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="LegalAddressFormGroup.get('city').invalid && LegalAddressFormGroup.get('city').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="region">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "LegalAddressFormGroup.get('region').invalid && LegalAddressFormGroup.get('region').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="LegalAddressFormGroup.get('region').invalid && LegalAddressFormGroup.get('region').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="street">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "LegalAddressFormGroup.get('street').invalid && LegalAddressFormGroup.get('street').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="LegalAddressFormGroup.get('street').invalid && LegalAddressFormGroup.get('street').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="buildingNumber">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "LegalAddressFormGroup.get('buildingNumber').invalid && LegalAddressFormGroup.get('buildingNumber').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="LegalAddressFormGroup.get('buildingNumber').invalid && LegalAddressFormGroup.get('buildingNumber').touched">
+  </app-validation-hint-for-input>
 
 </form>
 <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3" />
-<form [formGroup]="ActualAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step-form">
+<form [formGroup]="ActualAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <h4>Фактична адреса</h4>
 
   <mat-checkbox class="step-check-box" color="primary" [formControl]="isSameAddressControl">Співпадає з юридичною
@@ -59,44 +54,39 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="district" maxlength="15">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ActualAddressFormGroup.get('district').invalid && ActualAddressFormGroup.get('district').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ActualAddressFormGroup.get('district').invalid && ActualAddressFormGroup.get('district').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="city" maxlength="15">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ActualAddressFormGroup.get('city').invalid && ActualAddressFormGroup.get('city').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ActualAddressFormGroup.get('city').invalid && ActualAddressFormGroup.get('city').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="region">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ActualAddressFormGroup.get('region').invalid && ActualAddressFormGroup.get('region').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ActualAddressFormGroup.get('region').invalid && ActualAddressFormGroup.get('region').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="street">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ActualAddressFormGroup.get('street').invalid && ActualAddressFormGroup.get('street').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ActualAddressFormGroup.get('street').invalid && ActualAddressFormGroup.get('street').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="buildingNumber">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ActualAddressFormGroup.get('buildingNumber').invalid && ActualAddressFormGroup.get('buildingNumber').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ActualAddressFormGroup.get('buildingNumber').invalid && ActualAddressFormGroup.get('buildingNumber').touched">
+  </app-validation-hint-for-input>
 </form>
