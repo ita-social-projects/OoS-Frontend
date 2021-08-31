@@ -20,7 +20,7 @@ describe('ApplicationCardComponent', () => {
         MatIconModule
       ],
       providers: [
-        { provide: LOCALE_ID, useValue: "uk" }, 
+        { provide: LOCALE_ID, useValue: 'uk' }, 
       ],
       declarations: [ApplicationCardComponent]
     })

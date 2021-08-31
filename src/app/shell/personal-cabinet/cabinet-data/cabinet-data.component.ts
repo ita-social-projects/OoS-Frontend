@@ -90,7 +90,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   }
 
   getApplicationsByStatus(): void {
-    console.log(this.status);
     this.store.dispatch(new GetApplicationsByStatus(this.status));
   }
 

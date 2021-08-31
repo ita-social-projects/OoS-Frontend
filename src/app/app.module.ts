@@ -57,7 +57,7 @@ registerLocaleData(localeUk);
     RegistrationModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: "uk" }
+    { provide: LOCALE_ID, useValue: 'uk' }
   ],
   bootstrap: [AppComponent]
 })
