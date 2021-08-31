@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { LOCALE_ID } from '@angular/core';
-
+import {MatIconModule} from '@angular/material/icon';
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
   let fixture: ComponentFixture<ApplicationCardComponent>;
@@ -16,7 +16,8 @@ describe('ApplicationCardComponent', () => {
         
         MatCardModule,
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        MatIconModule
       ],
       providers: [
         { provide: LOCALE_ID, useValue: "uk" }, 
