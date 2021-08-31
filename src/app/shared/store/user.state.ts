@@ -17,7 +17,6 @@ import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { ClearCategories } from './meta-data.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 import {
   CreateApplication,
@@ -67,6 +66,7 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
 } from './user.actions';
+import { ClearClasses, ClearDepartments } from './meta-data.actions';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -215,7 +215,10 @@ export class UserState {
     console.log('Workshop is created', payload);
     dispatch(new ShowMessageBar({ message: 'Гурток створено!', type: 'success' }));
     this.router.navigate(['/personal-cabinet/workshops']);
-    dispatch(new ClearCategories());
+    dispatch([
+      new ClearClasses(),
+      new ClearDepartments()
+    ]);
   }
 
   @Action(DeleteWorkshopById)

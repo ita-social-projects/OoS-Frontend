@@ -19,7 +19,6 @@ export class Workshop {
   image?: File[];
   head: string;
   headDateOfBirth?: Date;
-  type?: number;
   keywords?: string[];
   address: Address;
   teachers: Teacher[];
@@ -55,7 +54,6 @@ export class Workshop {
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     this.providerId = provider.id;
-    this.type = about.type;
     this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
     this.directionId = description.directionId;
