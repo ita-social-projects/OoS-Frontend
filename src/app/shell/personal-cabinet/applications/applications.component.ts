@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { OnUpdateStatus } from './../../../shared/store/user.actions';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, first, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
@@ -17,6 +18,8 @@ import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByPa
 import { UserState } from 'src/app/shared/store/user.state';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+
 
 @Component({
   selector: 'app-applications',
@@ -24,9 +27,14 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
-
+  @Select(UserState.applicationsByStatus)
+  applicationsByStatus$: Observable<Application[]>;
+  @Select(UserState.status)
+  status$: Observable<number>;
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
+  status: number;
+
 
   constructor(store: Store,
     private infoBoxService: InfoBoxService,
@@ -94,5 +102,15 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
+  }
+
+  onChangeTab(event: MatTabChangeEvent): void {
+    this.status = event.index - 1;
+    this.store.dispatch(new OnUpdateStatus(this.status));
+  }
+
+
+  getApplicationsByStatus(): void {
+    this.store.dispatch(new GetApplicationsByStatus(this.status));
   }
 }

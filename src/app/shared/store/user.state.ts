@@ -67,6 +67,7 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
   GetApplicationsByStatus,
+  OnUpdateStatus
 } from './user.actions';
 
 export interface UserStateModel {
@@ -75,9 +76,11 @@ export interface UserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
+  applicationsByStatus: Application[];
   children: Child[];
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
+  status: number;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -90,6 +93,8 @@ export interface UserStateModel {
     children: Child[''],
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
+    applicationsByStatus: [],
+    status: 1
   }
 })
 @Injectable()
@@ -118,6 +123,12 @@ export class UserState {
 
   @Selector()
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard }
+
+  @Selector()
+  static applicationsByStatus(state: UserStateModel): Application[] { return state.applicationsByStatus }
+
+  @Selector()
+  static status(state: UserStateModel): number { return state.status }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -161,6 +172,14 @@ export class UserState {
         tap((userWorkshops: Workshop[]) => {
           return patchState({ workshops: userWorkshops, isLoading: false });
         }));
+  }
+  @Action(OnUpdateStatus)
+  onUpdateStatus({ patchState }: StateContext<UserStateModel>, { payload }: OnUpdateStatus) {
+    return this.applicationService
+    .getApplicationsByStatus(payload)
+    .pipe (tap((applications: Application[]) => {
+      return patchState({ applicationsByStatus: applications, status: payload });
+    }));
   }
 
   @Action(GetApplicationsByParentId)
@@ -488,30 +507,30 @@ export class UserState {
   }
 
   @Action(GetFavoriteWorkshops)
-  getFavoriteWorkshops({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshops) {
+  getFavoriteWorkshops({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshops) {
     return this.favoriteWorkshopsService
-    .getFavoriteWorkshops()
-    .subscribe((favoriteWorkshop: Favorite[])=> patchState({favoriteWorkshops: favoriteWorkshop}))
+      .getFavoriteWorkshops()
+      .subscribe((favoriteWorkshop: Favorite[]) => patchState({ favoriteWorkshops: favoriteWorkshop }))
   }
 
   @Action(GetFavoriteWorkshopsByUserId)
-  getFavoriteWorkshopsByUserId({patchState}: StateContext<UserStateModel>,{ }: GetFavoriteWorkshopsByUserId) {
+  getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId) {
     return this.favoriteWorkshopsService
-    .getFavoriteWorkshopsByUserId()
-    .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard)=> patchState({favoriteWorkshopsCard: favoriteWorkshopCard.entities}))
+      .getFavoriteWorkshopsByUserId()
+      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard.entities }))
   }
-  
+
   @Action(CreateFavoriteWorkshop)
-  createFavoriteWorkshop({dispatch}:StateContext<UserStateModel>,{ payload }: CreateFavoriteWorkshop ) {
+  createFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateFavoriteWorkshop) {
     return this.favoriteWorkshopsService
-    .createFavoriteWorkshop(payload)
-    .pipe(tap(()=> dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
+      .createFavoriteWorkshop(payload)
+      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 
   @Action(DeleteFavoriteWorkshop)
-  deleteFavoriteWorkshop({dispatch}:StateContext<UserStateModel>,{ payload }: DeleteFavoriteWorkshop ) {
+  deleteFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteFavoriteWorkshop) {
     return this.favoriteWorkshopsService
-    .deleteFavoriteWorkshop(payload)
-    .pipe(tap(()=> dispatch([new GetFavoriteWorkshops(),new GetFavoriteWorkshopsByUserId()])))
+      .deleteFavoriteWorkshop(payload)
+      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 }

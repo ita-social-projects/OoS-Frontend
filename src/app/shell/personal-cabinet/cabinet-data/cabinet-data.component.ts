@@ -1,5 +1,5 @@
-import { GetApplicationsByStatus } from './../../../shared/store/user.actions';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { GetApplicationsByStatus, OnUpdateStatus } from './../../../shared/store/user.actions';
+import { Component, Input, OnDestroy, OnInit, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId} from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -31,6 +31,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
+  @Select(UserState.applicationsByStatus)
+  applicationsByStatus$: Observable<Application[]>;
+  @Select(UserState.status)
+  status$: Observable<number>;
   @Select(UserState.children)
   children$: Observable<Child[]>;
   @Select(RegistrationState.parent)
@@ -39,10 +43,11 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   provider$: Observable<Provider>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  userRole: string;
   status: number;
+  userRole: string;
   provider: Provider;
   parent: Parent;
   workshops: Workshop[];
@@ -52,7 +57,9 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   constructor(public store: Store, public matDialog: MatDialog) { }
 
   ngOnInit(): void { }
-
+  ngOnChanges(): void {
+    this.status$.subscribe((status: number) => this.status = status);
+  }
   abstract init(): void;
 
   getUserData(): void {
@@ -83,10 +90,12 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   }
 
   getApplicationsByStatus(): void {
+    console.log(this.status);
     this.store.dispatch(new GetApplicationsByStatus(this.status));
   }
 
   getParenApplications(): void {
+  
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
 

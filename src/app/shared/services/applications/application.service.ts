@@ -35,7 +35,7 @@ export class ApplicationService {
  * @param status
  */
      getApplicationsByStatus(status: number): Observable<Application[]> {
-      return this.http.get<Application[]>(`/Application/GetByStatus/${status}`);
+      return this.http.get<Application[]>(`/Application/GetByStatus?status=${status}`);
     }
 
   /**

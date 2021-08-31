@@ -25,8 +25,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public below: string = 'below';
 
   @Input() workshop: WorkshopCard;
-  // @Input() topWorkshop:Workshop;
-  @Input() id: number = 0;
   @Input() userRole: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
