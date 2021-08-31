@@ -11,14 +11,9 @@ import { FilterState } from '../shared/store/filter.state';
 import { NavigationState } from '../shared/store/navigation.state';
 import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
-import { Role } from '../shared/enum/role';
+import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
-
-enum RoleLinks {
-  provider = 'організацію',
-  parent = 'дитину'
-}
 
 @Component({
   selector: 'app-header',

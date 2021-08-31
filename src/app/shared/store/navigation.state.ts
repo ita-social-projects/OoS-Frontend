@@ -27,8 +27,8 @@ export class NavigationState {
 
   @Selector()
   static navigationPathsMobile(state: NavStateModel): Navigation[] {
-     const navigation = [...state.navigation]
-     return [navigation.pop()]
+    const navigation = [...state.navigation];
+    return [navigation.pop()];
   }
 
   @Action(AddNavPath)
@@ -57,10 +57,10 @@ export class NavigationState {
   @Action(SidenavToggle)
   SidenavToggle({patchState,getState}:StateContext<NavStateModel>): void {
     const sidenavOpenState = getState().sidenavOpen
-        patchState({
-          sidenavOpen: !sidenavOpenState
-        })
-      }
+      patchState({
+        sidenavOpen: !sidenavOpenState
+      })
+  }
 
 }
 
