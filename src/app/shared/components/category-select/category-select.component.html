@@ -4,7 +4,7 @@
     disableOptionCentering>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectDirection($event.option.value)"
     [displayWith]="optionDisplayDirection">
-    <mat-option *ngFor="let direction of filteredDirections$ | async" [value]="direction" class="dropdown-option">
+    <mat-option *ngFor="let direction of filteredDirections" [value]="direction" class="dropdown-option">
       {{ direction.title }}
     </mat-option>
   </mat-autocomplete>
@@ -19,7 +19,7 @@
       disableOptionCentering panelClass="dropdown-panel">
     <mat-autocomplete #autoDepartment="matAutocomplete" (optionSelected)="onSelectDepartment($event.option.value)"
       [displayWith]="optionDisplayDepartment">
-      <mat-option *ngFor="let department of filteredDepartments$ | async" [value]="department" class="dropdown-option">
+      <mat-option *ngFor="let department of filteredDepartments" [value]="department" class="dropdown-option">
         {{ department.title }}
       </mat-option>
     </mat-autocomplete>
@@ -35,7 +35,7 @@
       disableOptionCentering panelClass="dropdown-panel">
     <mat-autocomplete #autoClasses="matAutocomplete" (optionSelected)="onSelectClasses($event.option.value)"
       [displayWith]="optionDisplayClass">
-      <mat-option *ngFor="let classItem of filteredClasses$ | async" [value]="classItem" class="dropdown-option">
+      <mat-option *ngFor="let classItem of filteredClasses" [value]="classItem" class="dropdown-option">
         {{ classItem.title }}
       </mat-option>
     </mat-autocomplete>

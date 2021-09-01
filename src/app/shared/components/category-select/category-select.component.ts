@@ -21,17 +21,25 @@ export class CategorySelectComponent implements OnInit {
   directions: Direction[];
   @Select(MetaDataState.filteredDirections)
   filteredDirections$: Observable<Direction[]>;
+  filteredDirections: Direction[];
+
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
   departments: Department[];
   @Select(MetaDataState.filteredDepartments)
   filteredDepartments$: Observable<Department[]>;
+  filteredDepartments: Department[];
+
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
   classes: IClass[];
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Select(MetaDataState.filteredClasses)
   filteredClasses$: Observable<IClass[]>;
+  filteredClasses: IClass[];
+
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
 
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
@@ -59,50 +67,9 @@ export class CategorySelectComponent implements OnInit {
       new ClearClasses()
     ]);
 
-    this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
-    this.directionsFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value.length) {
-          this.store.dispatch(new FilteredDirectionsList(this.filter(value.trim())));
-        } else {
-          this.store.dispatch(new FilteredDirectionsList([]));
-        };
-      });
-
-    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
-    this.departmentsFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value.length) {
-          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.trim())));
-        } else {
-          this.store.dispatch(new FilteredDepartmentsList([]));
-        };
-      });
-
-    this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
-    this.classesFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value.length) {
-          this.store.dispatch(new FilteredClassesList(this.filterClasses(value.trim())));
-        } else {
-          this.store.dispatch(new FilteredClassesList([]));
-        };
-      });
+    this.setInitialDirestions();
+    this.setInitialDepartments();
+    this.setInitialClasses();
   }
 
   private filter(value: string): Direction[] {
@@ -147,19 +114,16 @@ export class CategorySelectComponent implements OnInit {
   }
 
   onSelectDirection(direction: Direction): void {
-    this.CategoryFormGroup.get('departmentId').reset();
-    this.CategoryFormGroup.get('classId').reset();
-    this.store.dispatch([
-      new ClearClasses(),
-      new ClearDepartments()
-    ]);
+    this.clearDepartments();
+    this.clearClasses();
+
     this.CategoryFormGroup.get('directionId').setValue(direction.id);
     this.store.dispatch(new GetDepartments(direction.id));
   }
 
   onSelectDepartment(department: Department): void {
-    this.CategoryFormGroup.get('classId').reset();
-    this.store.dispatch(new ClearClasses());
+    this.clearClasses();
+
     this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
@@ -167,6 +131,87 @@ export class CategorySelectComponent implements OnInit {
   onSelectClasses(classItem: IClass): void {
     this.CategoryFormGroup.get('classId').reset();
     this.CategoryFormGroup.get('classId').setValue(classItem.id);
+  }
+
+  private setInitialDirestions(): void {
+    this.filteredDirections$.subscribe((filteredDirections: Direction[]) => this.filteredDirections = filteredDirections);
+
+    this.directionsFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+        startWith(''),
+      ).subscribe(value => {
+        if (value.length) {
+          this.store.dispatch(new FilteredDirectionsList(this.filter(value.trim())));
+        } else {
+          this.filteredDirections = this.directions;
+        };
+      });
+
+    this.directions$.subscribe((directions: Direction[]) => {
+      this.directions = directions;
+      this.filteredDirections = this.directions;
+    });
+  }
+
+  private setInitialDepartments(): void {
+    this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);
+
+    this.departmentsFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+        startWith(''),
+      ).subscribe(value => {
+        if (value.length) {
+          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.trim())));
+        } else {
+          this.filteredDepartments = this.departments;
+        };
+      });
+
+    this.departments$.subscribe((departments: Department[]) => {
+      this.departments = departments;
+      this.filteredDepartments = this.departments;
+    });
+  }
+
+  private setInitialClasses(): void {
+    this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.classes = filteredClasses);
+
+    this.classesFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+        startWith(''),
+      ).subscribe(value => {
+        if (value.length) {
+          this.store.dispatch(new FilteredClassesList(this.filterClasses(value.trim())));
+        } else {
+          this.filteredClasses = this.classes;
+        };
+      });
+
+    this.classes$.subscribe((classes: IClass[]) => {
+      this.classes = classes;
+      this.filteredClasses = this.classes;
+    });
+  }
+
+  private clearDepartments(): void {
+    this.departmentsFormControl.reset();
+    this.CategoryFormGroup.get('departmentId').reset();
+    this.store.dispatch(new ClearDepartments());
+  }
+
+  private clearClasses(): void {
+    this.store.dispatch(new ClearClasses());
+    this.CategoryFormGroup.get('classId').reset();
+    this.classesFormControl.reset();
   }
 
   activateEditMode(): void {
