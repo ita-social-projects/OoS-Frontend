@@ -11,13 +11,9 @@ import { FilterState } from '../shared/store/filter.state';
 import { NavigationState } from '../shared/store/navigation.state';
 import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
-import { Role } from '../shared/enum/role';
+import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
-
-enum RoleLinks {
-  provider = 'організацію',
-  parent = 'дитину'
-}
+import { SidenavToggle } from '../shared/store/navigation.actions';
 
 @Component({
   selector: 'app-header',
@@ -53,7 +49,11 @@ export class HeaderComponent implements OnInit {
   constructor(
     public store: Store,
     private router: Router) {
-    }
+  }
+
+  changeView() {
+    this.store.dispatch(new SidenavToggle());
+  }
 
   /**
    * @param event global variable window

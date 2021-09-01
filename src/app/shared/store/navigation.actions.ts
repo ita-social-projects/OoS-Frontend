@@ -14,3 +14,8 @@ export class DeleteNavPath {
   static readonly type ='[navigation] Delete'
   constructor(){ }
 }
+
+export class SidenavToggle {
+  static readonly type ='[navigation] sidenavOpen'
+  constructor(){ }
+}

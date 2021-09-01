@@ -29,7 +29,7 @@
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
-  <div *ngIf="isRouter('/') then isMainPage;" class="header_wrapper"></div>
+    <div *ngIf="isRouter('/') then isMainPage;" class="header_wrapper"></div>
 </div>
 
 <ng-template #isMainPage>
@@ -45,6 +45,9 @@
 </ng-template>
 
 <ng-template #isUnauthorized>
+  <button mat-flat-button class="header_menu-button-mobile" (click)="changeView()">
+    <mat-icon>menu</mat-icon>
+  </button>
   <button mat-stroked-button class="header_login" (click)="login()">
     УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
   </button>
@@ -80,7 +83,7 @@
       </button>
     </span>
 
-    <button mat-flat-button class="header_menu-button-mobile" [matMenuTriggerFor]="log">
+    <button mat-flat-button class="header_menu-button-mobile" (click)="changeView()">
       <mat-icon>menu</mat-icon>
     </button>
 
@@ -96,8 +99,9 @@
       </button>
       <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста
           інформація</button></a>
+
       <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
-          {{roles[user.role]}}</button></a>
+        {{roles[user.role]}}</button></a>
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
       <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
       <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>
@@ -112,3 +116,4 @@
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>
 </div>
+
