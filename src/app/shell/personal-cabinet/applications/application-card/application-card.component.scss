@@ -1,19 +1,19 @@
 .card {
-  background:white;
+  background: white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   border-radius: 5px;
   padding: 1.8em;
   margin: 1rem 0;
   align-content: baseline;
-  &-block{
+  &-block {
     flex: 1;
   }
   &-new {
-    border-left: 5px solid #3849F9;
+    border-left: 5px solid #3849f9;
   }
   &-text {
-  margin: 0.5rem;
+    margin: 0.5rem;
   }
   mat-icon {
     color: #888888;
@@ -26,7 +26,7 @@
 .avatar {
   background-size: cover;
   padding: 1rem;
-  &:hover{
+  &:hover {
     opacity: 0.5;
     cursor: pointer;
   }
@@ -41,14 +41,13 @@
   box-sizing: border-box;
   border-radius: 20px;
   &-approve {
-    background: #3849F9;
-    border: 1px solid #3849F9;
+    background: #3849f9;
+    border: 1px solid #3849f9;
     box-sizing: border-box;
-
   }
-  &-deny-provider {  
+  &-deny-provider {
     box-shadow: none;
-    border: 1px solid #AAAAAA;
+    border: 1px solid #aaaaaa;
     box-sizing: border-box;
     background-color: white;
     color: #444444;
@@ -65,53 +64,55 @@
     line-height: 15px;
   }
   &-email {
-  background: none;
-  border:none;
-  cursor: pointer;
-  &:focus {
-    outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    &:focus {
+      outline: none;
     }
   }
   &-hidden {
     visibility: hidden;
   }
 }
-.person-text, .workshop-name-text {
- font-family: Innerspace;
- font-style: normal;
- font-weight: bold;
- font-size: 18px;
- color: #000000;
- margin-top: 0;
+.person-text,
+.workshop-name-text {
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  color: #000000;
+  margin-top: 0;
 }
 .person-text {
   margin-left: 7px;
 }
 
-.years-text, .direction-text {
-font-family: Open Sans;
-font-style: normal;
-font-weight: bold;
-font-size: 13px;
-line-height: 18px;
-color: #333333;
+.years-text,
+.direction-text {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
 }
-.creation-date-text, .available-places-text {
-font-family: Open Sans;
-font-style: normal;
-font-weight: normal;
-font-size: 13px;
-line-height: 18px;
-color: #333333;
+.creation-date-text,
+.available-places-text {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
 }
- .places {
-display: flex;
-justify-content: center;
-align-items: center;
-  
+.places {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #avatar-column {
-  flex:1.5;
+  flex: 1.5;
 }
 .status {
   padding-top: 25px;
