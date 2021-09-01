@@ -8,15 +8,15 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MatSidenavModule
       ],
       declarations: [
         AppComponent,
         MockHeaderComponent,
         MockShellComponent,
         MockFooterComponent,
-        MockSidenavComponent,
-        MatSidenavModule
+        MockSidenavComponent
       ],
     }).compileComponents();
   });
