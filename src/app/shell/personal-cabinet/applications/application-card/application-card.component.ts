@@ -2,13 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
-import { Child } from 'src/app/shared/models/child.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ChildrenService } from 'src/app/shared/services/children/children.service';
-import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
-
-
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',

@@ -3,59 +3,77 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   border-radius: 5px;
-  padding: 1.8em;
+  padding: 1rem;
   margin: 1rem 0;
+
   &-block{
     flex: 1;
   }
   &-new{
     border-left: 5px solid #3849F9;
   }
-  &-text{
-  margin: 0.5rem;
+}
+.title{
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  color: #444444;
+}
+.text{
+  font-family: Open Sans;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 18px;
+  &-bold{
+    font-weight: bold;
   }
 }
-
-.avatar {
-  background-size: cover;
-  padding: 1rem;
-  &:hover{
-    opacity: 0.5;
-    cursor: pointer;
-  }
+.icon{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+.approved{
+  color:#199953
+}
+.pending{
+  color: #FFBD00;
+}
+.acceptedForSelection{
+  color: #27A3FF;
+}
+.rejected, .left, .blocked{
+  color: #C72A21;
 }
 .btn{
-  border: 1px solid transparent;
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+
   box-sizing: border-box;
   border-radius: 20px;
-  &-approve{
-    background-color: #3849F9;
-    color:white;
+  margin: 0 1rem;
+  padding: 0 0.7rem;
+
+  &-blue{
+    background: #3849F9;
+    border: 1px solid #3849F9;
+    color: #FFFFFF;
   }
-  &-deny-provider{
-    background-color: #C72A21;
-    color:white;
+
+  &-gray{
+    background: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    color: #444444;
   }
-  &-deny-parent{
-    background-color: white;
-    color:black;
-  }
-  &-text{
-    font-family: Innerspace;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 15px;
-  }
-  &-email{
-  background: none;
-  border:none;
+}
+.btn:hover, .name:hover{
   cursor: pointer;
-  &:focus{
-    outline: none;
-    }
-  }
-  &-hidden{
-    visibility: hidden;
-  }
+  opacity: 0.5;
 }
