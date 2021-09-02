@@ -9,35 +9,35 @@
     (workshopCheck)="workshopList = $event">
   </app-workshop-checkbox-dropdown>
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onChangeTab($event)">
       <mat-tab label="Усі">
         <ng-container
           *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}">
+      <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}" >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.pending | workshopFilter: workshopList }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$  | workshopFilter: workshopList}">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.acceptedForSelection]}}">
+      <mat-tab label="{{applicationStatusUkr[applicationStatus.acceptedForSelection]}}" >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.acceptedForSelection | workshopFilter: workshopList}">
+          *ngTemplateOutlet="Applications; context:{$implicit:applicationsByStatus$ | async | workshopFilter: workshopList }" >
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.approved]}}">
+      <mat-tab label="{{applicationStatusUkr[applicationStatus.approved]}}" >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.approved | workshopFilter: workshopList }">
+          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$ | async  | workshopFilter: workshopList }" >
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.rejected]}}">
+      <mat-tab label="{{applicationStatusUkr[applicationStatus.rejected]}}"  >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.rejected | workshopFilter: workshopList}">
+          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$ | async  | workshopFilter: workshopList }"  >
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.left]}}">
+      <mat-tab label="{{applicationStatusUkr[applicationStatus.left]}}"  >
         <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationFilter : applicationStatus.left | workshopFilter: workshopList}">
+          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$ | async  | workshopFilter: workshopList }"  >
         </ng-container>
       </mat-tab>
     </mat-tab-group>
