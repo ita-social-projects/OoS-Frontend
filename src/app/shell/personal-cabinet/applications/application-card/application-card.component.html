@@ -1,44 +1,52 @@
 <mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
   [ngClass]="(application.status === applicationStatus.pending) ? 'card card-new' : 'card'">
-  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center'>
+  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='start center' id="avatar-column">
     <div class="avatar" *ngIf="userRole === Role.provider">
       <img mat-card-avatar #img src="assets/icons/child-{{application.child.gender}}.png" alt="child-photo"
         (mouseover)="onInfoShow(img) " (mouseleave)="onInfoHide(img)">
     </div>
-    <div fxLayout='column' fxLayoutAlign='start start'>
-      <h5>{{ application.child.firstName }} {{ application.child.lastName }} {{ application.child.middleName }}</h5>
-      <p class="card-text">Дата народження: {{ application.child.dateOfBirth | date: 'shortDate'}}</p>
-      <p class="card-text">Дата подання заявки: {{ application.creationTime | date: 'shortDate' }}</p>
+    <div class="first-column" fxLayout='column' fxLayoutAlign='start start' >
+      <p class="person-text">{{ application.child.firstName }} {{ application.child.lastName }} {{
+        application.child.middleName }}</p>
+      <p class="card-text years-text">{{ getCurrentAge(application.child.dateOfBirth )}}</p>
+      <p class="card-text creation-date-text">{{ application.creationTime | date: 'd MMMM y H:mm ': 'uk' }}</p>
+    </div>
+  </mat-card-content>
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
+    <p class="workshop-name-text">{{ application?.workshop.title}}</p>
+    <p class="direction-text"> {{application.workshop.direction}}</p>
+    <div class="places">
+      <p class="card-text available-places-text"> <img src="assets/icons/age.png" alt="people">  Доступних місць:
+      </p>
     </div>
   </mat-card-content>
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
-    <h4>{{ application?.workshop.providerTitle }}</h4>
-    <h4>{{ application?.workshop.title}}</h4>
-    <p class="card-tex"><img src="assets/icons/age.png" alt="people"> Доступних місць:
-    </p>
-  </mat-card-content>
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div fxLayout='row' fxLayoutAlign='center center'>
-      <div>
+    <div fxLayout='row' fxLayoutAlign='center center' class="status">
+      <div >
         <img src="assets/icons/{{applicationStatus[application.status]}}.png"
           alt="{{applicationStatus[application.status]}}-icon">
       </div>
       <p> {{ applicationStatusUkr[application.status] }}</p>
     </div>
+
   </mat-card-content>
   <mat-card-actions class="card-block" fxLayout='row' fxLayoutAlign='center center'>
-    <button class="btn-email">
-      <img src="assets/icons/email.png" alt="email">
-    </button>
+
     <button *ngIf="userRole === Role.provider" class="btn btn-approve" mat-raised-button color="primary"
       [ngClass]="(application.status === applicationStatus.pending)?  '' : 'btn-hidden'"
       (click)="onApprove(application)">
-      <p class="btn-text">Прийняти</p>
+      <p class="btn-text btn-accept">ПРИЙНЯТИ ДО ВІДБОРУ</p>
     </button>
     <button class="btn btn-deny-{{userRole}}" mat-raised-button color="warn"
       [ngClass]="(application.status === applicationStatus.rejected) ? 'btn-hidden' : ''"
       (click)="onReject(application)">
-      <p class="btn-text">Відхилити</p>
+      <p class="btn-text btn-deny">ВІДМОВИТИ</p>
+    </button>
+    <a>
+      <mat-icon>more_vert</mat-icon>
+    </a>
+    <button class="btn-email">
+      <img src="assets/icons/email.png" alt="email">
     </button>
   </mat-card-actions>
 </mat-card>

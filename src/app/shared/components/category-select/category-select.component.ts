@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { Department, Direction, IClass } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
 import { GetClasses, GetDirections, GetDepartments, FilteredDirectionsList, FilteredDepartmentsList, FilteredClassesList, ClearClasses, ClearDepartments } from '../../store/meta-data.actions';
@@ -21,17 +21,23 @@ export class CategorySelectComponent implements OnInit {
   directions: Direction[];
   @Select(MetaDataState.filteredDirections)
   filteredDirections$: Observable<Direction[]>;
+  filteredDirections: Direction[];
+
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
   departments: Department[];
   @Select(MetaDataState.filteredDepartments)
   filteredDepartments$: Observable<Department[]>;
+  filteredDepartments: Department[];
+
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
   classes: IClass[];
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Select(MetaDataState.filteredClasses)
   filteredClasses$: Observable<IClass[]>;
+  filteredClasses: IClass[];
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workshop: Workshop;
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
@@ -59,53 +65,16 @@ export class CategorySelectComponent implements OnInit {
       new ClearClasses()
     ]);
 
-    this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
-    this.directionsFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value.length) {
-          this.store.dispatch(new FilteredDirectionsList(this.filter(value.trim())));
-        } else {
-          this.store.dispatch(new FilteredDirectionsList([]));
-        };
-      });
-
-    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
-    this.departmentsFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value.length) {
-          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.trim())));
-        } else {
-          this.store.dispatch(new FilteredDepartmentsList([]));
-        };
-      });
-
-    this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
-    this.classesFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe(value => {
-        if (value.length) {
-          this.store.dispatch(new FilteredClassesList(this.filterClasses(value.trim())));
-        } else {
-          this.store.dispatch(new FilteredClassesList([]));
-        };
-      });
+    this.setInitialDirestions();
+    this.setInitialDepartments();
+    this.setInitialClasses();
   }
 
-  private filter(value: string): Direction[] {
+  /**
+  * This method filters list of directions according to the input value
+  * @param value string
+  */
+  private filterDirections(value: string): Direction[] {
     let filteredDirections = this.directions
       .filter((direction: Direction) => direction.title
         .toLowerCase()
@@ -114,6 +83,11 @@ export class CategorySelectComponent implements OnInit {
       .map((direction: Direction) => direction);
     return filteredDirections;
   }
+
+  /**
+  * This method filters list of departments according to the input value
+  * @param value string
+  */
   private filterDepartments(value: string): Department[] {
     let filteredDepartments = this.departments
       .filter((department: Department) => department.title
@@ -124,6 +98,10 @@ export class CategorySelectComponent implements OnInit {
     return filteredDepartments;
   }
 
+  /**
+  * This method filters list of classes according to the input value
+  * @param value string
+  */
   private filterClasses(value: string): IClass[] {
     let filteredClasses = this.classes
       .filter((classItem: IClass) => classItem.title
@@ -134,64 +112,199 @@ export class CategorySelectComponent implements OnInit {
     return filteredClasses;
   }
 
-  optionDisplayClass(classItem: IClass) {
-    return classItem.title;
+  /**
+  * This method returns class title
+  * @param classItem IClass
+  * @return string
+  */
+  optionDisplayClass(classItem: IClass): string {
+    return classItem && classItem.title;
   }
 
-  optionDisplayDepartment(department: Department) {
-    return department.title;
+  /**
+  * This method returns department title
+  * @param department Department
+  * @return string
+  */
+  optionDisplayDepartment(department: Department): string {
+    return department && department.title;
   }
 
-  optionDisplayDirection(direction: Direction) {
-    return direction.title;
+  /**
+  * This method returns class title
+  * @param direction Direction
+  * @return string
+  */
+  optionDisplayDirection(direction: Direction): string {
+    return direction && direction.title;
   }
 
+  /**
+  * This method clears previous selected departments, classes, set the selected direction to the form and gets list of departments.
+  * @param direction Direction
+  */
   onSelectDirection(direction: Direction): void {
-    this.CategoryFormGroup.get('departmentId').reset();
-    this.CategoryFormGroup.get('classId').reset();
-    this.store.dispatch([
-      new ClearClasses(),
-      new ClearDepartments()
-    ]);
+    this.clearDepartments();
+    this.clearClasses();
+
     this.CategoryFormGroup.get('directionId').setValue(direction.id);
     this.store.dispatch(new GetDepartments(direction.id));
   }
 
+  /**
+  * This method sets full list of directions.
+  */
+  getFullDirectionList(): void {
+    this.filteredDirections = this.directions;
+  }
+
+  /**
+  * This method clears previous selected classes, set the selected department to the form and gets list of classes.
+  * @param department: Department
+  */
   onSelectDepartment(department: Department): void {
-    this.CategoryFormGroup.get('classId').reset();
-    this.store.dispatch(new ClearClasses());
+    this.clearClasses();
+
     this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
 
+  /**
+  * This method sets full list of departments.
+  */
+  getFullDepartmentList(): void {
+    this.filteredDepartments = this.departments;
+  }
+
+  /**
+  * This method sets the selected class to the form.
+  * @param classItem: IClass
+  */
   onSelectClasses(classItem: IClass): void {
     this.CategoryFormGroup.get('classId').reset();
     this.CategoryFormGroup.get('classId').setValue(classItem.id);
   }
 
-  activateEditMode(): void {
-    this.store.dispatch(new GetDirections())
+  /**
+  * This method set full list of classes.
+  */
+  getFullClassList(): void {
+    this.filteredClasses = this.classes;
+  }
+
+  /**
+  * This method gets the initial of directions and set subscription.
+  */
+  private setInitialDirestions(): void {
+    this.filteredDirections$.subscribe((filteredDirections: Direction[]) => this.filteredDirections = filteredDirections);
+    this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
+
+    this.directionsFormControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-      )
+        debounceTime(300),
+        distinctUntilChanged(),
+        startWith(''),
+      ).subscribe(value => {
+        if (value) {
+          this.store.dispatch(new FilteredDirectionsList(this.filterDirections(value.title.trim())));
+        } else {
+          this.getFullDirectionList();
+          this.clearDepartments();
+          this.clearClasses();
+        };
+      });
+
+
+  }
+
+  /**
+  * This method gets the initial list of departments and set subscription.
+  */
+  private setInitialDepartments(): void {
+    this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);
+    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
+
+    this.departmentsFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+        startWith(''),
+      ).subscribe(value => {
+        if (value) {
+          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.title.trim())));
+        } else {
+          this.getFullDepartmentList();
+          this.clearClasses();
+        };
+      });
+
+
+  }
+
+  /**
+  * This method gets the initial list of classes and set subscription.
+  */
+  private setInitialClasses(): void {
+    this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.classes = filteredClasses);
+    this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
+
+    this.classesFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+        startWith(''),
+      ).subscribe(value => {
+        if (value) {
+          this.store.dispatch(new FilteredClassesList(this.filterClasses(value.title.trim())));
+        } else {
+          this.getFullClassList();
+        };
+      });
+
+
+  }
+
+  /**
+  * This method clears list of departments and reset selected value in teh form and input.
+  */
+  private clearDepartments(): void {
+    this.store.dispatch(new ClearDepartments());
+    this.CategoryFormGroup.get('departmentId').reset();
+    this.departmentsFormControl.reset();
+  }
+
+  /**
+  * This method clears list of classes and reset selected value in teh form and input.
+  */
+  private clearClasses(): void {
+    this.store.dispatch(new ClearClasses());
+    this.CategoryFormGroup.get('classId').reset();
+    this.classesFormControl.reset();
+  }
+
+  /**
+  * This method patches values to teh form from the workshop.
+  */
+  activateEditMode(): void {
+    this.store.dispatch(new GetDirections())
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDirection = this.directions.find((direction: Direction) => this.workshop.directionId === direction.id);
         this.directionsFormControl.setValue(selectedDirection);
       });
 
     this.store.dispatch(new GetDepartments(this.workshop.directionId))
-      .pipe(
-        takeUntil(this.destroy$),
-      )
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDepartment = this.departments.find((department: Department) => this.workshop.departmentId === department.id);
         this.departmentsFormControl.setValue(selectedDepartment);
       });
 
     this.store.dispatch(new GetClasses(this.workshop.departmentId))
-      .pipe(
-        takeUntil(this.destroy$),
-      )
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedClass = this.classes.find((classItem: IClass) => this.workshop.classId === classItem.id);
         this.classesFormControl.setValue(selectedClass);

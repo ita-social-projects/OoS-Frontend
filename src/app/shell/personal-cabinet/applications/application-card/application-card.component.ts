@@ -15,6 +15,7 @@ import { UserWorkshopService } from 'src/app/shared/services/workshops/user-work
   styleUrls: ['./application-card.component.scss']
 })
 
+
 export class ApplicationCardComponent implements OnInit {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
@@ -31,7 +32,9 @@ export class ApplicationCardComponent implements OnInit {
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+      
+  }
 
   /**
   * This method emit on approve action
@@ -63,5 +66,11 @@ export class ApplicationCardComponent implements OnInit {
   */
   onInfoHide(element: Element): void {
     this.infoHide.emit();
+  }
+
+  getCurrentAge(birthDay: Date): string {
+    let timeDiff = Math.abs(Date.now() - (new Date(birthDay)).getTime());
+    let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+    return age ? String(age) + ' років' : '';
   }
 }
