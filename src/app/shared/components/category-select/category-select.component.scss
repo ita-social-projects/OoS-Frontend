@@ -1,21 +1,12 @@
 @import "src/app/shared/styles/validation-form.scss";
+@import "src/app/shared/styles/create-form.scss";
 
-.step{
-  &-input{
-    border: 1px solid #E3E3E3;
-    box-sizing: border-box;
-    border-radius: 21px;
-    padding:0.5rem;
-    margin-bottom:1rem;
-  }
-}
 input:focus,
 textarea:focus,
 select:focus,
 button:focus {
   outline: none;
 }
-
 ::placeholder {
   color: rgba(0,0,0,.42);
   font-family: Open Sans;
@@ -28,14 +19,6 @@ input:focus::placeholder {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-::ng-deep .step-input[_ngcontent-ywr-c273] {
-  margin-bottom: none !important;
-}
-
-::ng-deep .mat-input-element.direction-step {
-  padding: 0.5rem 1rem !important;
-}
-
 ::ng-deep .mat-option-ripple:hover{
   background: lightgray;
 }
@@ -43,8 +26,6 @@ input:focus::placeholder {
 ::ng-deep .dropdown-option .mat-option-text {
   padding-left: 1rem !important;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-
-
 }
 
 ::ng-deep .mat-option {
@@ -56,4 +37,3 @@ input:focus::placeholder {
 ::ng-deep .mat-form-field-label-wrapper {
   display: none;
 }
-
