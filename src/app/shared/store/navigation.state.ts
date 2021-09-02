@@ -1,16 +1,18 @@
 import { Navigation } from './../models/navigation.model';
 import { State,Action,StateContext,Selector } from "@ngxs/store";
 import { Injectable } from '@angular/core';
-import { AddNavPath, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
+import { AddNavPath, SidenavToggle, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
 
 export interface NavStateModel {
   navigation: Navigation[];
+  sidenavOpen: boolean;
 }
 
 @State<NavStateModel>({
   name:'navigation',
   defaults: {
-    navigation:[]
+    navigation: [],
+    sidenavOpen: false
   }
 })
 
@@ -18,12 +20,15 @@ export interface NavStateModel {
 export class NavigationState {
 
   @Selector()
-  static navigationPaths(state: NavStateModel): Navigation[] {return state.navigation}
+  static navigationPaths(state: NavStateModel): Navigation[] { return state.navigation }
+
+  @Selector()
+  static sidenavOpenTrue(state: NavStateModel): boolean {return state.sidenavOpen}
 
   @Selector()
   static navigationPathsMobile(state: NavStateModel): Navigation[] {
-     const navigation = [...state.navigation]
-     return [navigation.pop()] 
+    const navigation = [...state.navigation];
+    return [navigation.pop()];
   }
 
   @Action(AddNavPath)
@@ -32,7 +37,7 @@ export class NavigationState {
         navigation: payload
       })
     }
-    
+
   @Action(RemoveLastNavPath)
   removeNavPath({getState,patchState}:StateContext<NavStateModel>): void {
     const state = getState().navigation
@@ -48,4 +53,15 @@ export class NavigationState {
       navigation: []
     })
   }
+
+  @Action(SidenavToggle)
+  SidenavToggle({patchState,getState}:StateContext<NavStateModel>): void {
+    const sidenavOpenState = getState().sidenavOpen
+      patchState({
+        sidenavOpen: !sidenavOpenState
+      })
+  }
+
 }
+
+

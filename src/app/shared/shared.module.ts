@@ -48,6 +48,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { CityConfirmationComponent } from './components/city-confirmation/city-c
     StarsComponent,
     FooterComponent,
     CityConfirmationComponent,
+    SidenavComponent,
   ],
   imports: [
     MaterialModule,
@@ -144,7 +146,8 @@ import { CityConfirmationComponent } from './components/city-confirmation/city-c
     ReactiveFormsModule,
     StarsComponent,
     FooterComponent,
-    CityConfirmationComponent 
+    CityConfirmationComponent,
+    SidenavComponent
   ]
 })
 export class SharedModule { }
