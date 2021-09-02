@@ -1,8 +1,9 @@
 @import "src/app/shared/styles/toggle-button.scss";
 
 .view-control-panel {
-  margin-top: 1.5rem;
-  margin-bottom: 1.0625rem;
+  // 439Bug
+  // margin-top: 1.5rem;
+  // margin-bottom: 1.0625rem;
 
   .search-block-wrapper {
     display: block;
@@ -114,13 +115,14 @@
 }
 
 @media(max-width: 1400px) {
-  .workshops-search {
-    display: none !important;
+  // 439Bug
+  // .workshops-search {
+  //   display: none !important;
 
-    &-mobile {
-      display: flex !important;
-    }
-  }
+  //   &-mobile {
+  //     display: flex !important;
+  //   }
+  // }
 
   ::ng-deep app-full-search-bar {
     min-width: 300px;

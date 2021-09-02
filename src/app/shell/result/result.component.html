@@ -3,9 +3,14 @@
     <h3>Знайдено Х гуртків</h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
-  <div class="workshops-search" fxFlex fxLayout="row" fxLayout.lt-md="row wrap" fxLayoutAlign="space-between center"
+  <!-- 439Bug -->
+  <!-- <div class="workshops-search" fxFlex fxLayout="row" fxLayout.lt-md="row wrap" fxLayoutAlign="space-between center"
     fxLayoutAlign.lt-md="center center">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
+  </div> -->
+  <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
+  fxLayoutAlign="space-between center">
+  <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
 </div>
 
@@ -14,9 +19,9 @@
     <app-filters-list></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
-    <div class="workshops-search-mobile" fxLayout="row wrap" fxLayoutAlign="center center">
+    <!-- <div class="workshops-search-mobile" fxLayout="row wrap" fxLayoutAlign="center center">
       <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
-    </div>
+    </div> -->
 
     <div *ngIf="currentView === viewType.map; else ShowData">
       <app-workshop-map-view-list [filteredWorkshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
