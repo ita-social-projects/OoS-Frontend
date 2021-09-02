@@ -1,19 +1,22 @@
-import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        MatSidenavModule
       ],
       declarations: [
         AppComponent,
         MockHeaderComponent,
         MockShellComponent,
-        MockFooterComponent
+        MockFooterComponent,
+        MockSidenavComponent
       ],
     }).compileComponents();
   });
@@ -23,7 +26,7 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-  
+
 });
 @Component({
   selector: 'app-header',
@@ -41,4 +44,10 @@ class MockShellComponent{}
   selector: 'app-footer',
   template: ''
 })
-class MockFooterComponent{} 
+class MockFooterComponent{}
+
+@Component({
+  selector: 'app-sidenav',
+  template: ''
+})
+class MockSidenavComponent{}
