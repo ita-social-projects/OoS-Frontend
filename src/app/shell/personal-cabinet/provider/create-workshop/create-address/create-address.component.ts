@@ -4,7 +4,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
-import { SetCity } from 'src/app/shared/store/filter.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
@@ -40,7 +39,6 @@ export class CreateAddressComponent implements OnInit {
 
   onSelectedCity(event: any): void {
     this.AddressFormGroup.get('city').setValue(event.name)
-    this.store.dispatch(new SetCity(event));
   }
   
   onReceiveAddressFromMap(address: Address): void {

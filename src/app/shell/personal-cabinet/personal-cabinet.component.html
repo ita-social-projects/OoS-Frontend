@@ -4,7 +4,7 @@
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА
       ІНФОРМАЦІЯ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole +'/' + 'info'">ІНФОРМАЦІЯ ПРО
-      {{ roles[userRole] }}</a>
+      {{ roles[userRole] | uppercase }}</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">ГУРТКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>

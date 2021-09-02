@@ -1,0 +1,92 @@
+<mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav"> 
+
+  <div class="mobile-sidenav-content" *ngIf="MobileView">
+
+    <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
+
+    <ng-template #isUnauthorized>
+      <div class="mobile-sidenav-header">
+        <button mat-stroked-button class="header_login" (click)="login()">
+          УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
+        </button>
+        <button mat-button (click)="changeView()"><mat-icon>close</mat-icon></button>
+      </div>
+      <div class="mobile-sidenav-language">
+        <button mat-flat-button>
+          <mat-icon class="mobile-sidenav-icon">language</mat-icon>
+          <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option">
+            <mat-option value="uk"> {{Languages.uk}} </mat-option>
+          </mat-select>
+        </button>
+      </div>
+    </ng-template>
+
+    <ng-template #isAuthorized>
+      <div class="mobile-sidenav-header">
+        <div>
+          <button mat-icon-button class="mobile-sidenav-account">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
+        </div>
+        <button mat-button (click)="changeView()"><mat-icon>close</mat-icon></button>
+      </div>
+
+      <div class="mobile-sidenav-shell">
+        <div class="mobile-sidenav-notification">
+          <div class="mobile-sidenav-notification-items">
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
+              <div class="mobile-sidenav-notification-item">
+                <mat-icon class="mobile-sidenav-icon">notifications_none</mat-icon>
+              </div>
+              <div class="mobile-sidenav-notification-item">
+                <span class="mobile-sidenav-notification-text">Сповіщення</span>
+              </div>
+              <div class="mobile-sidenav-notification-item">
+                <span class="mobile-sidenav-notification-badge">17</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <hr class="hr-grey">
+
+        <div class="mobile-sidenav-language">
+          <button mat-flat-button >
+            <mat-icon class="mobile-sidenav-icon">language</mat-icon>
+            <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option">
+              <mat-option value="uk"> {{Languages.uk}} </mat-option>
+            </mat-select>
+          </button>
+        </div>
+        <hr class="hr-grey">
+
+        <div class="mobile-sidenav-menu">
+          <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
+          <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація про
+            {{roles[user.role]}}</a>
+          <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
+          <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
+          <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a>
+          <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
+            (click)="changeView()">Улюблене</a>
+          <button (click)="logout()">Вийти</button>
+        </div>
+      </div>
+    </ng-template>
+    <hr class="hr-grey">
+
+    <div class="mobile-sidenav-info-about">
+      <a [routerLink]="'./about'" (click)="changeView()">Про Портал</a>
+    </div>
+    <hr class="hr-grey">
+
+    <div class="mobile-sidenav-info-support">
+      <a [routerLink]="'./support'" (click)="changeView()">
+          <mat-icon class="mobile-sidenav-icon">support</mat-icon>
+        Підтримка
+      </a>
+    </div>
+    <hr class="hr-grey">
+  </div>
+
+</mat-drawer>
