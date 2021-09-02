@@ -113,7 +113,7 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method return class title
+  * This method returns class title
   * @param classItem IClass
   * @return string
   */
@@ -122,7 +122,7 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method return department title
+  * This method returns department title
   * @param department Department
   * @return string
   */
@@ -131,7 +131,7 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method return class title
+  * This method returns class title
   * @param direction Direction
   * @return string
   */
@@ -152,7 +152,7 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method set full list of directions.
+  * This method sets full list of directions.
   */
   getFullDirectionList(): void {
     this.filteredDirections = this.directions;
@@ -170,14 +170,14 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method set full list of departments.
+  * This method sets full list of departments.
   */
   getFullDepartmentList(): void {
     this.filteredDepartments = this.departments;
   }
 
   /**
-  * This method set the selected class to the form.
+  * This method sets the selected class to the form.
   * @param classItem: IClass
   */
   onSelectClasses(classItem: IClass): void {
@@ -193,10 +193,11 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method get the initial of directions and set subscription.
+  * This method gets the initial of directions and set subscription.
   */
   private setInitialDirestions(): void {
     this.filteredDirections$.subscribe((filteredDirections: Direction[]) => this.filteredDirections = filteredDirections);
+    this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
 
     this.directionsFormControl.valueChanges
       .pipe(
@@ -214,17 +215,15 @@ export class CategorySelectComponent implements OnInit {
         };
       });
 
-    this.directions$.subscribe((directions: Direction[]) => {
-      this.directions = directions;
-      this.getFullDirectionList();
-    });
+
   }
 
   /**
-  * This method get the initial list of departments and set subscription.
+  * This method gets the initial list of departments and set subscription.
   */
   private setInitialDepartments(): void {
     this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);
+    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
 
     this.departmentsFormControl.valueChanges
       .pipe(
@@ -241,17 +240,15 @@ export class CategorySelectComponent implements OnInit {
         };
       });
 
-    this.departments$.subscribe((departments: Department[]) => {
-      this.departments = departments;
-      this.getFullDepartmentList();
-    });
+
   }
 
   /**
-  * This method get the initial list of classes and set subscription.
+  * This method gets the initial list of classes and set subscription.
   */
   private setInitialClasses(): void {
     this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.classes = filteredClasses);
+    this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
 
     this.classesFormControl.valueChanges
       .pipe(
@@ -267,14 +264,11 @@ export class CategorySelectComponent implements OnInit {
         };
       });
 
-    this.classes$.subscribe((classes: IClass[]) => {
-      this.classes = classes;
-      this.getFullClassList();
-    });
+
   }
 
   /**
-  * This method clear list of departments and reset selected value in teh form and input.
+  * This method clears list of departments and reset selected value in teh form and input.
   */
   private clearDepartments(): void {
     this.store.dispatch(new ClearDepartments());
@@ -283,7 +277,7 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method clear list of classes and reset selected value in teh form and input.
+  * This method clears list of classes and reset selected value in teh form and input.
   */
   private clearClasses(): void {
     this.store.dispatch(new ClearClasses());
