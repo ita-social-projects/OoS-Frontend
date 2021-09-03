@@ -30,6 +30,14 @@ export class ApplicationService {
     return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`);
   }
 
+    /**
+ * This method get applications by status
+ * @param status
+ */
+  getApplicationsByStatus(status: number): Observable<Application[]> {
+    return this.http.get<Application[]>(`/Application/GetByStatus?status=${status}`);
+    }
+
   /**
   * This method create Application
   * @param Workshop

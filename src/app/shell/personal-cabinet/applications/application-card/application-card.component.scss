@@ -1,5 +1,5 @@
-.card{
-  background:white;
+.card {
+  background: white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   width: 100%;
   border-radius: 5px;
@@ -9,8 +9,8 @@
   &-block{
     flex: 1;
   }
-  &-new{
-    border-left: 5px solid #3849F9;
+  &-new {
+    border-left: 5px solid #3849f9;
   }
 }
 .title{
