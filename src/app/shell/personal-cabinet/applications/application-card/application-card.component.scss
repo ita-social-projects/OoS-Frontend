@@ -59,7 +59,7 @@
   box-sizing: border-box;
   border-radius: 20px;
   margin: 0 1rem;
-  padding: 0 0.7rem;
+  padding: 0 0.5rem;
 
   &-blue{
     background: #3849F9;
@@ -76,4 +76,7 @@
 .btn:hover, .name:hover{
   cursor: pointer;
   opacity: 0.5;
+}
+.hidden{
+  visibility: hidden;
 }

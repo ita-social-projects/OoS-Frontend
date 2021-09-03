@@ -26,7 +26,7 @@ export class ApplicationCardComponent implements OnInit {
   @Output() infoHide = new EventEmitter();
 
   ngOnInit(): void {
-      
+
   }
 
   /**

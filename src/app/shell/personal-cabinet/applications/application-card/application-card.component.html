@@ -27,12 +27,14 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
+    <div fxLayout='column' fxLayoutAlign='start start'
+      [ngClass]="application.status === applicationStatus.approved && 'hidden'">
       <button class="btn btn-blue" (click)="onApprove(application)">
         <p>ПРИЙНЯТИ ДО ВІДБОРУ</p>
       </button>
     </div>
-    <div fxLayout='column' fxLayoutAlign='start start'>
+    <div fxLayout='column' fxLayoutAlign='start start'
+      [ngClass]="application.status === applicationStatus.rejected && 'hidden'">
       <button class="btn btn-gray" (click)="onReject(application)">
         <p>ВІДМОВИТИ</p>
       </button>
