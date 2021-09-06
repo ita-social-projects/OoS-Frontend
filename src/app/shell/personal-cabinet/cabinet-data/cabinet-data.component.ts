@@ -65,7 +65,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
         this.provider = provider;
         this.init();
       });
-
     } else {
       this.parent$.pipe(
         filter((parent: Parent) => !!parent),

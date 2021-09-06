@@ -82,11 +82,11 @@ export interface UserStateModel {
   name: 'user',
   defaults: {
     isLoading: false,
-    workshops: Workshop[''],
+    workshops: [],
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: Application[''],
-    children: Child[''],
+    applications: [],
+    children: [],
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
   }
@@ -179,7 +179,8 @@ export class UserState {
       .getApplicationsByProviderId(id, parameters)
       .pipe(
         tap((applications: Application[]) => {
-          return patchState({ applications: applications });
+          console.log(applications)
+          return patchState({ applications: applications, isLoading: false });
         }));
   }
 

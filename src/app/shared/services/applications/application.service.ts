@@ -59,8 +59,7 @@ export class ApplicationService {
   * @param id
   */
   deleteApplication(id: number): Observable<Object> {
-    const dataUrl = `Application/Delete/${id}`;
-    return this.http.delete(dataUrl);
+    return this.http.delete(`Application/Delete/${id}`);
   }
 
   /**

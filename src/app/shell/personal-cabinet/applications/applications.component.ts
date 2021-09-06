@@ -1,7 +1,7 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
+import { Actions, ofAction, Store } from '@ngxs/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
@@ -35,18 +35,29 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   constructor(store: Store,
     private infoBoxService: InfoBoxService,
-    matDialog: MatDialog) {
+    matDialog: MatDialog,
+    private actions$: Actions) {
     super(store, matDialog);
   }
 
   ngOnInit(): void {
     this.getUserData();
+
+    this.actions$.pipe(ofAction(UpdateApplication))
+      .pipe(
+        takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (this.userRole === Role.provider) {
+          this.getProviderApplications(this.providerApplicationParams);
+        } else {
+          this.getParenApplications();
+        }
+      });
   }
 
   init(): void {
     if (this.userRole === Role.provider) {
       this.getProviderWorkshops();
-      this.getProviderApplications(this.providerApplicationParams);
       this.activateChildInfoBox();
     } else {
       this.getParenChildren();
@@ -78,7 +89,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
-    this.getProviderApplications(this.providerApplicationParams);
   }
 
   /**
@@ -88,7 +98,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onReject(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
-    this.getProviderApplications(this.providerApplicationParams);
   }
 
   /**
