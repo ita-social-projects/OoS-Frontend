@@ -56,6 +56,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   init(): void {
     if (this.userRole === Role.provider) {
+      this.getProviderApplications(this.providerApplicationParams);
       this.getProviderWorkshops();
       this.activateChildInfoBox();
     } else {

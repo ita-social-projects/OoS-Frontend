@@ -48,7 +48,7 @@
 
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.parent">
     <div fxLayout='column' fxLayoutAlign='start start'
-      [ngClass]="application.status === applicationStatus.left && 'hidden'">
+      [ngClass]="(application.status === applicationStatus.left || application.status === applicationStatus.rejected) && 'hidden'">
       <button class="btn btn-gray" (click)="onLeave(application)">
         <p>ЗАЛИШИТИ ГУРТОК</p>
       </button>

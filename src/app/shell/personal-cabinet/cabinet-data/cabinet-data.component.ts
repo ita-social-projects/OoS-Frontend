@@ -55,25 +55,28 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   abstract init(): void;
 
   getUserData(): void {
-    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => this.userRole = user.role);
+    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
+      this.userRole = user.role;
 
-    if (this.userRole === Role.provider) {
-      this.provider$.pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => {
-        this.provider = provider;
-        this.init();
-      });
-    } else {
-      this.parent$.pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      ).subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.init();
-      });
-    }
+      if (this.userRole === Role.provider) {
+        this.provider$.pipe(
+          filter((provider: Provider) => !!provider),
+          takeUntil(this.destroy$)
+        ).subscribe((provider: Provider) => {
+          this.provider = provider;
+          this.init();
+        });
+      } else {
+        this.parent$.pipe(
+          filter((parent: Parent) => !!parent),
+          takeUntil(this.destroy$)
+        ).subscribe((parent: Parent) => {
+          this.parent = parent;
+          this.init();
+        });
+      }
+    });
+
   }
 
   getProviderApplications(providerApplicationParams): void {
