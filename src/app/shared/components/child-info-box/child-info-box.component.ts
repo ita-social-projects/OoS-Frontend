@@ -4,6 +4,7 @@ import { Gender } from '../../enum/gender';
 import { Child } from '../../models/child.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { ChildrenService } from '../../services/children/children.service';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-child-info-box',
@@ -20,6 +21,7 @@ export class ChildInfoBoxComponent implements OnInit {
   @Input() left: string;
 
   socialGroup: SocialGroup;
+  childAge: string;
   readonly gender = Gender;
   readonly constants: typeof Constants = Constants;
 
@@ -31,5 +33,7 @@ export class ChildInfoBoxComponent implements OnInit {
     } else {
       this.socialGroup === null;
     }
+
+    this.childAge = Util.getChildAge(this.child);
   }
 }

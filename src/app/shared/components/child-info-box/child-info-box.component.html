@@ -4,6 +4,7 @@
     <h4 class="margin">{{child.firstName}} {{child.lastName}} {{child.middleName}}</h4>
     <h5>Дата народження:</h5>
     <p>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}</p>
+    <p>{{ childAge }}</p>
     <h5>Стать:</h5>
     <p>{{ gender[child.gender] }}</p>
     <h5>Соціальна група:</h5>

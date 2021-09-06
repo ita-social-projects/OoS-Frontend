@@ -55,11 +55,12 @@
 </ng-template>
 
 <ng-template #Applications let-applications>
-  <div class="container" *ngIf="applications?.length then ApplicationList; else isEmptyList"></div>
+  <div class="container" *ngIf="applications?.length  then ApplicationList; else isEmptyList">
+  </div>
   <ng-template #ApplicationList>
-    <app-application-card *ngFor="let application of applications" [application]="application"
-      [childAge]="getChildAge(application.child)" [userRole]="userRole" (approved)="onApprove($event)"
-      (rejected)="onReject($event)" (leave)="onLeave($event)" (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+    <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="userRole"
+      (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
+      (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
     </app-application-card>
   </ng-template>
 </ng-template>

@@ -31,8 +31,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  @Select(UserState.status)
-  status$: Observable<number>;
   @Select(UserState.children)
   children$: Observable<Child[]>;
   @Select(RegistrationState.parent)
@@ -43,8 +41,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  status: number;
   userRole: string;
   provider: Provider;
   parent: Parent;
@@ -55,9 +51,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   constructor(public store: Store, public matDialog: MatDialog) { }
 
   ngOnInit(): void { }
-  ngOnChanges(): void {
-    this.status$.subscribe((status: number) => this.status = status);
-  }
+
   abstract init(): void;
 
   getUserData(): void {
@@ -87,10 +81,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
-  getApplicationsByStatus(): void {
-    this.store.dispatch(new GetApplicationsByStatus(this.status));
-  }
-
   getParenApplications(): void {
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
@@ -101,12 +91,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getProviderWorkshops(): void {
     this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
-  }
-
-  getChildAge(child: Child): string {
-    let timeDiff = Math.abs(Date.now() - (new Date(child.dateOfBirth)).getTime());
-    let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-    return age && age.toString() + ' ' + 'років';
   }
 
   ngOnDestroy() {

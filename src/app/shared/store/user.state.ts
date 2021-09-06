@@ -77,7 +77,6 @@ export interface UserStateModel {
   children: Child[];
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
-  status: number;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -90,7 +89,6 @@ export interface UserStateModel {
     children: Child[''],
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
-    status: 1
   }
 })
 @Injectable()
@@ -119,9 +117,6 @@ export class UserState {
 
   @Selector()
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard }
-
-  @Selector()
-  static status(state: UserStateModel): number { return state.status }
 
   constructor(
     private userWorkshopService: UserWorkshopService,

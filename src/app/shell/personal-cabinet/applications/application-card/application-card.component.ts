@@ -3,6 +3,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
+import { Child } from 'src/app/shared/models/child.model';
+import { Util } from 'src/app/shared/utils/utils';
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
@@ -17,11 +19,7 @@ export class ApplicationCardComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
 
-  constructor() { }
-
   @Input() application: Application;
-  @Input() childAge: string;
-
   @Input() userRole: string;
 
   @Output() approved = new EventEmitter();
@@ -31,7 +29,12 @@ export class ApplicationCardComponent implements OnInit {
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
-  ngOnInit(): void { }
+  constructor() { }
+  childAge: string;
+
+  ngOnInit(): void {
+    this.childAge = Util.getChildAge(this.application.child);
+  }
 
   /**
   * This method emit on approve action
