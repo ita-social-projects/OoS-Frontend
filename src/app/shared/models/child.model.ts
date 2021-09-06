@@ -28,4 +28,5 @@ export class Child {
     this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
     this.parentId = parentId;
   }
+
 }

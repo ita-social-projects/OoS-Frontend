@@ -1,24 +1,17 @@
-import { OnUpdateStatus } from './../../../shared/store/user.actions';
-import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, first, mergeMap, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
-import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId, UpdateApplication, GetApplicationsByStatus } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 
 @Component({
@@ -27,14 +20,20 @@ import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
-  @Select(UserState.applicationsByStatus)
-  applicationsByStatus$: Observable<Application[]>;
-  @Select(UserState.status)
-  status$: Observable<number>;
+
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
-  status: number;
+  tabApplicationStatus: number;
 
+  providerApplicationParams: {
+    status: number,
+    OrderByDate: boolean,
+    workshopsId: number[]
+  } = {
+      status: undefined,
+      OrderByDate: true,
+      workshopsId: []
+    };
 
   constructor(store: Store,
     private infoBoxService: InfoBoxService,
@@ -49,7 +48,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   init(): void {
     if (this.userRole === Role.provider) {
       this.getProviderWorkshops();
-      this.getProviderApplications();
+      this.getProviderApplications(this.providerApplicationParams);
       this.activateChildInfoBox();
     } else {
       this.getParenChildren();
@@ -81,6 +80,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
+    this.getProviderApplications(this.providerApplicationParams);
   }
 
   /**
@@ -90,6 +90,40 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onReject(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
+    this.getProviderApplications(this.providerApplicationParams);
+  }
+
+  /**
+  * This method changes status of emitted event to "left"
+  * @param Application event
+  */
+  onLeave(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.left);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
+  }
+
+  /**
+  * This gte the lost of application according to teh selected tab
+  * @param workshopsId: number[]
+  */
+  onTabChange(event: MatTabChangeEvent): void {
+    this.tabApplicationStatus = this.applicationStatusUkr[event.tab.textLabel];
+    this.providerApplicationParams.status = this.tabApplicationStatus;
+    console.log(this.providerApplicationParams.status)
+    this.getProviderApplications(this.providerApplicationParams);
+
+  }
+
+  /**
+  * This applies selected workshops as filtering parameter to get list of applications
+  * @param workshopsId: number[]
+  */
+  onWorkshopsSelect(workshopsId: number[]): void {
+    this.providerApplicationParams.workshopsId = workshopsId;
+
+    console.log(this.providerApplicationParams)
+
+    this.getProviderApplications(this.providerApplicationParams);
   }
 
   /**
@@ -102,17 +136,5 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
-  }
-
-  onChangeTab(event: MatTabChangeEvent): void {
-    if (event.index - 1 >= 0) {
-      this.status = event.index - 1;
-    }
-    this.store.dispatch(new OnUpdateStatus(this.status));
-  }
-
-
-  getApplicationsByStatus(): void {
-    this.store.dispatch(new GetApplicationsByStatus(this.status));
   }
 }

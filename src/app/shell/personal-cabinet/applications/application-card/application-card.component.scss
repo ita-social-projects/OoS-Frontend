@@ -26,8 +26,18 @@
   font-style: normal;
   font-size: 13px;
   line-height: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &-bold{
     font-weight: bold;
+  }
+  &-link{
+    color: #3849F9;
+  }
+  &-icon{
+    color:#AAAAAA;
   }
 }
 .icon{
@@ -65,12 +75,14 @@
     background: #3849F9;
     border: 1px solid #3849F9;
     color: #FFFFFF;
+    min-width: 10rem;
   }
 
   &-gray{
     background: #FFFFFF;
     border: 1px solid #AAAAAA;
     color: #444444;
+    min-width: 10rem;
   }
 }
 .btn:hover, .name:hover{

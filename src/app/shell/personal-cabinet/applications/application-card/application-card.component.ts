@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
@@ -13,21 +14,25 @@ export class ApplicationCardComponent implements OnInit {
 
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
-  readonly Role = Role;
+  readonly constants: typeof Constants = Constants;
+
+  readonly role = Role;
 
   constructor() { }
 
   @Input() application: Application;
+  @Input() childAge: string;
+
   @Input() userRole: string;
 
   @Output() approved = new EventEmitter();
   @Output() rejected = new EventEmitter();
+  @Output() leave = new EventEmitter();
+
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   /**
   * This method emit on approve action
@@ -46,6 +51,14 @@ export class ApplicationCardComponent implements OnInit {
   }
 
   /**
+  * This method emit on deny action
+  * @param Application application
+  */
+  onLeave(application: Application): void {
+    this.leave.emit(application);
+  }
+
+  /**
   * This method emit on mouseover action on child avatar
   * @param Application application
   */
@@ -57,13 +70,8 @@ export class ApplicationCardComponent implements OnInit {
   * This method emit on mouseleave action on child avatar
   * @param Application application
   */
-  onInfoHide(element: Element): void {
+  onInfoHide(): void {
     this.infoHide.emit();
   }
 
-  getCurrentAge(birthDay: Date): string {
-    let timeDiff = Math.abs(Date.now() - (new Date(birthDay)).getTime());
-    let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-    return age ? String(age) + ' років' : '';
-  }
 }

@@ -1,5 +1,5 @@
-import { GetApplicationsByStatus, OnUpdateStatus } from './../../../shared/store/user.actions';
-import { Component, Input, OnDestroy, OnInit, OnChanges } from '@angular/core';
+import { GetApplicationsByStatus } from './../../../shared/store/user.actions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -31,8 +31,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  @Select(UserState.applicationsByStatus)
-  applicationsByStatus$: Observable<Application[]>;
   @Select(UserState.status)
   status$: Observable<number>;
   @Select(UserState.children)
@@ -85,8 +83,8 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     }
   }
 
-  getProviderApplications(): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id));
+  getProviderApplications(providerApplicationParams): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
   getApplicationsByStatus(): void {
@@ -94,7 +92,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   }
 
   getParenApplications(): void {
-  
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
 
@@ -104,6 +101,12 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getProviderWorkshops(): void {
     this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
+  }
+
+  getChildAge(child: Child): string {
+    let timeDiff = Math.abs(Date.now() - (new Date(child.dateOfBirth)).getTime());
+    let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+    return age && age.toString() + ' ' + 'років';
   }
 
   ngOnDestroy() {

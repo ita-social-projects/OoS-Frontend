@@ -1,18 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Application, ApplicationUpdate } from '../../models/application.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApplicationService {
 
-
-  dataUrlmock = '/assets/mock-applications.json';
-
   constructor(private http: HttpClient) {
   }
+
+  private setParams(parameters): HttpParams {
+    let params = new HttpParams();
+
+    if (parameters.status !== undefined) {
+      params = params.set('Status', parameters.status.toString());
+    }
+
+    if (parameters.OrderByDate !== undefined) {
+      params = params.set('OrderByDateAscending', parameters.OrderByDate.toString());
+    }
+
+    if (parameters.workshopsId.length) {
+      console.log(parameters.workshopsId)
+      parameters.workshopsId.forEach((workshopId: number) => params = params.set('Workshops', workshopId.toString()));
+    }
+
+    return params;
+  }
+
+
 
   /**
  * This method get applications by Parent id
@@ -26,17 +44,11 @@ export class ApplicationService {
  * This method get applications by Provider id
  * @param id
  */
-  getApplicationsByProviderId(id: number): Observable<Application[]> {
-    return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`);
-  }
+  getApplicationsByProviderId(id: number, parameters): Observable<Application[]> {
+    const options = { params: this.setParams(parameters) };
 
-    /**
- * This method get applications by status
- * @param status
- */
-  getApplicationsByStatus(status: number): Observable<Application[]> {
-    return this.http.get<Application[]>(`/Application/GetByStatus?status=${status}`);
-    }
+    return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`, options);
+  }
 
   /**
   * This method create Application
