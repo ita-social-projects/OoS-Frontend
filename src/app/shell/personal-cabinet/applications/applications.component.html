@@ -1,5 +1,6 @@
 <div class="container" *ngIf="(userRole === role.provider) then isProvider; else isParent"></div>
 
+
 <ng-template #isProvider>
   <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
     (workshopCheck)="onWorkshopsSelect($event)">
@@ -64,5 +65,8 @@
     </app-application-card>
   </ng-template>
 </ng-template>
+
+
+
 
 <ng-template appInfoBoxHost></ng-template>

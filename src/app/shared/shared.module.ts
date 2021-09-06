@@ -15,6 +15,8 @@ import { CategorySelectComponent } from './components/category-select/category-s
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
+import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
+import { ApplicationSortPipe } from './pipes/application-sort.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
 import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
@@ -34,6 +36,7 @@ import { ValidationMessageStyling } from './directives/validation-message-stylin
 import { ValidationHintForInputComponent } from './components/validation-hint-for-input/validation-hint-for-input.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
+import { WorkshopFilterPipe } from './pipes/workshop-filter.pipe';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -61,6 +64,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
+    ApplicationFilterPipe,
+    ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     WorkingHoursComponent,
@@ -77,6 +82,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     ValidationHintForInputComponent,
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
+    WorkshopFilterPipe,
     NavigationMobileBarComponent,
     FullSearchBarComponent,
     MessageBarComponent,
@@ -113,6 +119,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
+    ApplicationFilterPipe,
+    ApplicationSortPipe,
     ChildInfoBoxComponent,
     InfoBoxHostDirective,
     FormsModule,
@@ -129,6 +137,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     NavigationBarComponent,
     NavigationMobileBarComponent,
     WorkshopCheckboxDropdownComponent,
+    WorkshopFilterPipe,
     FullSearchBarComponent,
     MessageBarComponent,
     MatProgressBarModule,
