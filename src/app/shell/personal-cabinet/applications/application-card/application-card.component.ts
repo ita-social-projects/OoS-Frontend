@@ -15,7 +15,6 @@ export class ApplicationCardComponent implements OnInit {
   readonly applicationStatusUkr = ApplicationStatusUkr;
   readonly applicationStatus = ApplicationStatus;
   readonly constants: typeof Constants = Constants;
-
   readonly role = Role;
 
   constructor() { }

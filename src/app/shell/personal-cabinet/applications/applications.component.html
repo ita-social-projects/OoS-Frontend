@@ -7,14 +7,14 @@
   </app-workshop-checkbox-dropdown>
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-      <mat-tab label="Усі">
+      <mat-tab label="{{applicationStatusUkr[applicationStatus.all]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$| async }">
         </ng-container>
-      </mat-tab>
+      </mat-tab>s
       <mat-tab label="{{applicationStatusUkr[applicationStatus.approved]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>

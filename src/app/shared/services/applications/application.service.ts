@@ -18,13 +18,9 @@ export class ApplicationService {
       params = params.set('Status', parameters.status.toString());
     }
 
-    if (parameters.OrderByDate !== undefined) {
-      params = params.set('OrderByDateAscending', parameters.OrderByDate.toString());
-    }
-
     if (parameters.workshopsId.length) {
       console.log(parameters.workshopsId)
-      parameters.workshopsId.forEach((workshopId: number) => params = params.set('Workshops', workshopId.toString()));
+      parameters.workshopsId.forEach((workshopId: number) => params = params.append('Workshops', workshopId.toString()));
     }
 
     return params;

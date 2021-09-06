@@ -27,11 +27,9 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   providerApplicationParams: {
     status: number,
-    OrderByDate: boolean,
     workshopsId: number[]
   } = {
       status: undefined,
-      OrderByDate: true,
       workshopsId: []
     };
 
