@@ -34,7 +34,12 @@
     font-weight: bold;
   }
   &-link{
-    color: #3849F9;
+    &:hover{
+      color: #3849F9;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+
   }
   &-icon{
     color:#AAAAAA;

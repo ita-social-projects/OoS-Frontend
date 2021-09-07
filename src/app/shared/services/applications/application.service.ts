@@ -23,6 +23,10 @@ export class ApplicationService {
       parameters.workshopsId.forEach((workshopId: number) => params = params.append('Workshops', workshopId.toString()));
     }
 
+    params = params.set('OrderByDateAscending', 'true'); //TODO: change parameters setting according to the backend updtaes
+    params = params.set('OrderByAlphabetically', 'false'); //TODO: change parameters setting according to the backend updtaes
+    params = params.set('OrderByStatus', 'true'); //TODO: change parameters setting according to the backend updtaes
+
     return params;
   }
 

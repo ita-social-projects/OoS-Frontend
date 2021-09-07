@@ -2,9 +2,11 @@
   [ngClass]="application.status === applicationStatus.pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div fxLayout='column' fxLayoutAlign='start start'>
-      <h4 class="name title" #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">{{
-        application.child.firstName }} {{
-        application.child.lastName }} {{ application.child.middleName }}</h4>
+      <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
+        <h4 class="name title">{{
+          application.child.firstName }} {{
+          application.child.lastName }} {{ application.child.middleName }}</h4>
+      </div>
       <p class="text text-bold">{{ childAge }}</p>
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>
     </div>
@@ -12,9 +14,10 @@
 
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
     <div fxLayout='column' fxLayoutAlign='start start'>
-      <h4 class="title">{{ application?.workshop.title }}</h4>
+      <h4 class="title text-link" [routerLink]="['/workshop-details', application?.workshopId ]">{{
+        application?.workshop.title }}</h4>
 
-      <p class="text text-link" *ngIf="userRole === role.parent">
+      <p class="text" *ngIf="userRole === role.parent">
         <mat-icon class="text_icon">home</mat-icon>
         {{application?.workshop.providerTitle}}
       </p>

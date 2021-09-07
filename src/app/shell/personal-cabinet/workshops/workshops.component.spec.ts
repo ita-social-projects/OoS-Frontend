@@ -9,7 +9,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { Application } from 'src/app/shared/models/application.model';
 import { ApplicationFilterPipe } from 'src/app/shared/pipes/application-filter.pipe';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
-import { WorkshopFilterPipe } from 'src/app/shared/pipes/workshop-filter.pipe';
 
 describe('WorkshopsComponent', () => {
   let component: WorkshopsComponent;
@@ -28,7 +27,6 @@ describe('WorkshopsComponent', () => {
         MockWorkshopCardComponent,
         ApplicationFilterPipe,
         ApplicationChildFilterPipe,
-        WorkshopFilterPipe
       ],
     })
       .compileComponents();
