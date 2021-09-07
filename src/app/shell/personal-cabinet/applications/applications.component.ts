@@ -115,7 +115,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param workshopsId: number[]
   */
   onTabChange(event: MatTabChangeEvent): void {
-    this.tabApplicationStatus = this.applicationStatusUkr[event.tab.textLabel];
+    this.tabApplicationStatus = this.applicationTitles[event.tab.textLabel];
     this.providerApplicationParams.status = this.tabApplicationStatus;
     this.getProviderApplications(this.providerApplicationParams);
   }

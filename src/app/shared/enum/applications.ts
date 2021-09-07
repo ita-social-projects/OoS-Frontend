@@ -6,7 +6,7 @@ export enum ApplicationStatus {
   rejected,
   left
 }
-export enum ApplicationStatusUkr {
+export enum ApplicationTitles {
   'Усі',
   'Очікує підтвердження',
   'Прийнято до конкурсного відбору',

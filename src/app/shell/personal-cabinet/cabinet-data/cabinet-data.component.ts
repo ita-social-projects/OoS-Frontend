@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
+import { ApplicationStatus, ApplicationTitles } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
@@ -23,7 +23,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
-  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
 
