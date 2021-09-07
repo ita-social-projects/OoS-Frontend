@@ -1,34 +1,40 @@
 .city-confirmation {
   position: absolute;
-  width: 280px;
-  min-height: 100px;
+  color: #444444;
+  width: 300px;
+  min-height: 130px;
   border-radius: 10px;
   box-shadow: 0 0 10px 1px rgb(50 50 50 / 30%);
-  background: hsla(0,0%,100%,.92);
+  background: rgb(255,255,255);
   padding: 10px;
+  z-index: 1000;
   left: -55px;
   top: 49px;
-  z-index: 1000;
   p {
     text-align: center;
     font-size: 19px;
     span {
-      color: #3849F9;
       font-weight: 700;
     }
   }
   
   &_button {
   width: auto;
-  min-height: 30px;
+  margin-top: 25px;
   .button {
-    width: 260px;
-    height: 35px;
+    color: white;
+    background-color: #3849F9;
+    border: 1px solid #3849F9;
+    box-sizing: border-box;
     border-radius: 20px;
+    padding: 0 30px;
+    margin: 0 auto;
+    &-change{
+      color: #444444!important;
+      background-color: transparent !important;
+      border-color: #444444!important;
     }
-    .button:nth-child(1){
-      margin-bottom: 5px;
-    }
+  }
   }
 }
 .city-confirmation::before {
@@ -37,7 +43,7 @@
     left: 46%;
     width: 32px;
     height: 15px;
-    background: hsla(0,0%,100%,.92);
+    background: rgb(255,255,255);
     top: -14px;
     clip-path: polygon(50% 0,0 100%, 100% 100%);
 }
