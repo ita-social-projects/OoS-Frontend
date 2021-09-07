@@ -30,12 +30,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() application: Application;
   @Input() parent: boolean;
 
-
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
 
-
-  status: string = 'approved'; //temporary
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
@@ -55,10 +52,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
-  }
-
-  onEdit(): void {
-    console.log("I edit it")
   }
 
   onDelete(): void {

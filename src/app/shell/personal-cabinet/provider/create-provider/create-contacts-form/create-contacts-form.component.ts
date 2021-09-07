@@ -13,8 +13,9 @@ export class CreateContactsFormComponent implements OnInit {
   isSameAddressControl: FormControl = new FormControl(false);
 
   @Input() provider: Provider;
-  @Output() passActualAddressFormGroup = new EventEmitter();
-  @Output() passLegalAddressFormGroup = new EventEmitter();
+  @Output() passActualAddressFormGroup: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() passLegalAddressFormGroup: EventEmitter<FormGroup> = new EventEmitter();
+  @Output() isSameAddress: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
@@ -37,10 +38,11 @@ export class CreateContactsFormComponent implements OnInit {
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
-    this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
-      (isSame) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
-    })
 
+    this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
+      isSame ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
+      this.isSameAddress.emit(isSame);
+    });
     if (this.provider) {
       this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
       this.ActualAddressFormGroup.patchValue(this.provider.actualAddress, { emitEvent: false });

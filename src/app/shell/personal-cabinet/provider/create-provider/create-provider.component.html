@@ -24,7 +24,8 @@
           <p class="step-name">Контакти</p>
         </ng-template>
         <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
-          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">
+          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider"
+          (isSameAddress)="isSameAddress = $event">
         </app-create-contacts-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>

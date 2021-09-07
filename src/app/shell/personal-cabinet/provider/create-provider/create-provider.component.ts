@@ -38,6 +38,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   LegalAddressFormGroup: FormGroup;
   PhotoFormGroup: FormGroup;
   ContactsFormGroup: FormGroup = new FormGroup({});
+  isSameAddress: boolean;
 
   isAgreed: boolean;
   isNotRobot: boolean;
@@ -69,7 +70,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
    */
   onSubmit() {
     const legalAddress: Address = new Address(this.ActualAddressFormGroup.value);
-    const actulaAdress: Address = new Address(this.LegalAddressFormGroup.value);
+    const actulaAdress: Address = this.isSameAddress ? null : new Address(this.LegalAddressFormGroup.value);
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
     let provider: Provider;
 
