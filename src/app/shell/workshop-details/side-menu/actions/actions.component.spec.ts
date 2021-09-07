@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActionsComponent } from './actions.component';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('ActionsComponent', () => {
   let component: ActionsComponent;
@@ -14,6 +15,7 @@ describe('ActionsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        MatIconModule,
         NgxsModule.forRoot([])
       ],
       declarations: [ActionsComponent]

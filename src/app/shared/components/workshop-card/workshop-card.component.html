@@ -8,7 +8,38 @@
         {{workshop.title}}</mat-card-title>
       <img class="card_category" src="assets/icons/lang.png" alt="workshop-category">
     </mat-card-header>
-    <div *ngIf="isMainPage then MainView; else UserView"></div>
+
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+
+      <div *ngIf="userRole === role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
+        <p class="{{applicationStatus[application.status]}} icon">
+          <mat-icon>how_to_reg</mat-icon>{{
+          applicationTitles[application.status] }}
+        </p>
+        <p class="card_link status_action" *ngIf="applicationStatus[application.status] === applicationStatus.approved"
+          (click)="onWorkshopLeave()">Залишити гурток
+        </p>
+      </div>
+
+      <p class="card_text">
+        <mat-icon class="card_icon">star</mat-icon> {{ workshop.rating }}
+      </p>
+      <p class="card_text">
+        <mat-icon class="card_icon">home</mat-icon>{{ workshop.providerTitle }}
+      </p>
+      <p class="card_text">
+        <mat-icon class="card_icon">person</mat-icon>{{ workshop.minAge }} - {{ workshop.maxAge }} років
+      </p>
+      <p class="card_text" *ngIf="!workshop.price">
+        <mat-icon class="card_icon"> attach_money</mat-icon> Безкоштовно
+      </p>
+      <p class="card_text" *ngIf="workshop.price">
+        <mat-icon class="card_icon"> attach_money</mat-icon> {{ workshop.price }} грн/
+        {{ workshop.isPerMonth
+        ? 'місяць' : 'заняття' }}
+      </p>
+    </mat-card-content>
+
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
       <div>
         <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
@@ -20,45 +51,6 @@
     </mat-card-footer>
   </div>
 </mat-card>
-
-<ng-template #MainView>
-  <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
-    <p class="card_text">
-      <mat-icon class="card_icon">star</mat-icon> {{ workshop.rating }}
-    </p>
-    <p class="card_text">
-      <mat-icon class="card_icon">home</mat-icon>{{ workshop.providerTitle }}
-    </p>
-    <p class="card_text">
-      <mat-icon class="card_icon">person</mat-icon>{{ workshop.minAge }} - {{ workshop.maxAge }} років
-    </p>
-    <p class="card_text" *ngIf="!workshop.price">
-      <mat-icon class="card_icon"> attach_money</mat-icon> Безкоштовно
-    </p>
-    <p class="card_text" *ngIf="workshop.price">
-      <mat-icon class="card_icon"> attach_money</mat-icon> {{ workshop.price }} грн/
-      {{ workshop.isPerMonth
-      ? 'місяць' : 'заняття' }}
-    </p>
-
-  </mat-card-content>
-</ng-template>
-
-<ng-template #UserView>
-  <mat-card-content class="user" fxLayout="column" fxLayoutAlign="space-between">
-    <div *ngIf="userRole === role.provider then ProviderChangeStatus; else ParentChangeStatus"></div>
-    <p class="card_text">
-      <mat-icon class="card_icon" class="card_icon">person</mat-icon>
-      {{ userRole !== role.provider ? "Всього учасників" : "Доступних місць" }}
-    </p>
-    <p class="card_text">
-      <mat-icon class="card_icon">access_time</mat-icon> Очікує підтвердження
-    </p>
-    <p class="card_text">
-      <mat-icon class="card_icon"> email</mat-icon> Повідомлення
-    </p>
-  </mat-card-content>
-</ng-template>
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start" class="actions">
@@ -86,28 +78,5 @@
         <mat-icon>favorite_border</mat-icon>
       </div>
     </ng-template>
-  </div>
-</ng-template>
-
-<ng-template #ProviderChangeStatus>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <mat-chip class="status chip_{{status}}" fxLayout="row" fxLayoutAlign="center center">
-      <p class="status_text">{{ status === 'approved'
-        ? "Набір відкрито" : "Набір завершено" }}</p>
-    </mat-chip>
-    <p class="card_link status_action" *ngIf="status === 'approved'"> Призупинити
-      набір </p>
-  </div>
-</ng-template>
-
-<ng-template #ParentChangeStatus>
-  <div fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
-    <p class="{{applicationStatus[application.status]}} icon">
-      <mat-icon>how_to_reg</mat-icon>{{
-      applicationTitles[application.status] }}
-    </p>
-    <p class="card_link status_action" *ngIf="applicationStatus[application.status] === applicationStatus.approved"
-      (click)="onWorkshopLeave()">Залишити гурток
-    </p>
   </div>
 </ng-template>

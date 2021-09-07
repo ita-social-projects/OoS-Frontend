@@ -20,7 +20,8 @@ enum ViewType {
 })
 export class ResultComponent implements OnInit, OnDestroy {
 
-  @Select(FilterState.filteredWorkshops) filteredWorkshops$: Observable<WorkshopCard[]>;
+  @Select(FilterState.filteredWorkshops)
+  filteredWorkshops$: Observable<WorkshopCard[]>;
 
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
