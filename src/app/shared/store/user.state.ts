@@ -179,7 +179,6 @@ export class UserState {
       .getApplicationsByProviderId(id, parameters)
       .pipe(
         tap((applications: Application[]) => {
-          console.log(applications)
           return patchState({ applications: applications, isLoading: false });
         }));
   }
