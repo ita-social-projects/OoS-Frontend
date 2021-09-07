@@ -10,12 +10,12 @@
     </mat-card-header>
     <div *ngIf="isMainPage then MainView; else UserView"></div>
     <mat-card-footer fxLayout="row" fxLayoutAlign="end">
-    <div>
-      <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
-        Детальніше
-        <span class="material-icons arrow">arrow_forward</span>
-      </a>
-    </div>
+      <div>
+        <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
+          Детальніше
+          <span class="material-icons arrow">arrow_forward</span>
+        </a>
+      </div>
 
     </mat-card-footer>
   </div>
@@ -85,7 +85,7 @@
       <div (click)="parent && onLike()" class="actions_btn action-icon">
         <mat-icon>favorite_border</mat-icon>
       </div>
-    </ng-template> 
+    </ng-template>
   </div>
 </ng-template>
 
@@ -104,7 +104,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
     <p class="{{applicationStatus[application.status]}} icon">
       <mat-icon>how_to_reg</mat-icon>{{
-      applicationStatusUkr[application.status] }}
+      applicationTitles[application.status] }}
     </p>
     <p class="card_link status_action" *ngIf="applicationStatus[application.status] === applicationStatus.approved"
       (click)="onWorkshopLeave()">Залишити гурток

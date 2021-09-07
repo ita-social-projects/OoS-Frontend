@@ -24,7 +24,7 @@ export class GetApplicationsByParentId {
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
-  constructor(public payload: number) { }
+  constructor(public id: number, public parameters) { }
 }
 
 export class GetApplicationsByStatus {
@@ -163,10 +163,6 @@ export class UpdateApplication {
 export class OnUpdateApplicationFail {
   static readonly type = '[user] update Application fail';
   constructor(public payload: Error) { }
-}
-export class OnUpdateStatus {
-  static readonly type = '[user] update Status ';
-  constructor(public payload: number) { }
 }
 export class OnUpdateApplicationSuccess {
   static readonly type = '[user] update Application success';

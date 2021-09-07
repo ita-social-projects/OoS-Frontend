@@ -1,16 +1,16 @@
 export enum ApplicationStatus {
+  all,
   pending,
+  acceptedForSelection,
   approved,
   rejected,
-  acceptedForSelection,
-  left,
-  blocked
+  left
 }
-export enum ApplicationStatusUkr {
+export enum ApplicationTitles {
+  'Усі',
   'Очікує підтвердження',
+  'Прийнято до конкурсного відбору',
   'Зараховано',
   'Відмовлено',
-  'Прийнято до конкурсного відбору',
   'Гурток залишено',
-  'Заблоковано'
 }

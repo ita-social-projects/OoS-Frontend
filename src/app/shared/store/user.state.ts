@@ -65,8 +65,6 @@ import {
   CreateFavoriteWorkshop,
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
-  GetApplicationsByStatus,
-  OnUpdateStatus
 } from './user.actions';
 import { ClearClasses, ClearDepartments } from './meta-data.actions';
 
@@ -76,25 +74,21 @@ export interface UserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
-  applicationsByStatus: Application[];
   children: Child[];
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
-  status: number;
 }
 @State<UserStateModel>({
   name: 'user',
   defaults: {
     isLoading: false,
-    workshops: Workshop[''],
+    workshops: [],
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: Application[''],
-    children: Child[''],
+    applications: [],
+    children: [],
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
-    applicationsByStatus: [],
-    status: 1
   }
 })
 @Injectable()
@@ -123,12 +117,6 @@ export class UserState {
 
   @Selector()
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard }
-
-  @Selector()
-  static applicationsByStatus(state: UserStateModel): Application[] { return state.applicationsByStatus }
-
-  @Selector()
-  static status(state: UserStateModel): number { return state.status }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -173,14 +161,6 @@ export class UserState {
           return patchState({ workshops: userWorkshops, isLoading: false });
         }));
   }
-  @Action(OnUpdateStatus)
-  onUpdateStatus({ patchState }: StateContext<UserStateModel>, { payload }: OnUpdateStatus) {
-    return this.applicationService
-    .getApplicationsByStatus(payload)
-    .pipe (tap((applications: Application[]) => {
-      return patchState({ applicationsByStatus: applications, status: payload });
-    }));
-  }
 
   @Action(GetApplicationsByParentId)
   getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId) {
@@ -194,22 +174,12 @@ export class UserState {
   }
 
   @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByProviderId) {
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId) {
     return this.applicationService
-      .getApplicationsByProviderId(payload)
+      .getApplicationsByProviderId(id, parameters)
       .pipe(
         tap((applications: Application[]) => {
-          return patchState({ applications: applications });
-        }));
-  }
-
-  @Action(GetApplicationsByStatus)
-  getApplicationsByStatus({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByStatus) {
-    return this.applicationService
-      .getApplicationsByStatus(payload)
-      .pipe(
-        tap((applications: Application[]) => {
-          return patchState({ applicationsByStatus: applications });
+          return patchState({ applications: applications, isLoading: false });
         }));
   }
 

@@ -56,7 +56,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.directions.length > 0) {
-      filters.directions.forEach((direction: Direction) => params = params.set('DirectionIds', direction.id.toString()));
+      filters.directions.forEach((direction: Direction) => params = params.append('DirectionIds', direction.id.toString()));
     }
 
     if (filters.currentPage) {

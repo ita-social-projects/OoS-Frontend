@@ -11,8 +11,8 @@ export class ApplicationFilterPipe implements PipeTransform {
 
   readonly applicationStatus = ApplicationStatus;
 
-  transform(array: Application[], status: string): Application[] {
-    return array.filter(card => this.applicationStatus[card.status] === this.applicationStatus[status]);
+  transform(array: Application[], statuses: string[]): Application[] {
+    return array.filter(card => statuses.find((status: string) => this.applicationStatus[card.status] === this.applicationStatus[status]));
   }
 
 }

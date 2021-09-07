@@ -1,10 +1,10 @@
-import { GetApplicationsByStatus, OnUpdateStatus } from './../../../shared/store/user.actions';
-import { Component, Input, OnDestroy, OnInit, OnChanges } from '@angular/core';
+import { GetApplicationsByStatus } from './../../../shared/store/user.actions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
+import { ApplicationStatus, ApplicationTitles } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
@@ -23,7 +23,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
-  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
 
@@ -31,10 +31,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   workshops$: Observable<Workshop[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  @Select(UserState.applicationsByStatus)
-  applicationsByStatus$: Observable<Application[]>;
-  @Select(UserState.status)
-  status$: Observable<number>;
   @Select(UserState.children)
   children$: Observable<Child[]>;
   @Select(RegistrationState.parent)
@@ -45,8 +41,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  status: number;
   userRole: string;
   provider: Provider;
   parent: Parent;
@@ -57,44 +51,39 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   constructor(public store: Store, public matDialog: MatDialog) { }
 
   ngOnInit(): void { }
-  ngOnChanges(): void {
-    this.status$.subscribe((status: number) => this.status = status);
-  }
+
   abstract init(): void;
 
   getUserData(): void {
-    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => this.userRole = user.role);
+    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
+      this.userRole = user.role;
 
-    if (this.userRole === Role.provider) {
-      this.provider$.pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => {
-        this.provider = provider;
-        this.init();
-      });
+      if (this.userRole === Role.provider) {
+        this.provider$.pipe(
+          filter((provider: Provider) => !!provider),
+          takeUntil(this.destroy$)
+        ).subscribe((provider: Provider) => {
+          this.provider = provider;
+          this.init();
+        });
+      } else {
+        this.parent$.pipe(
+          filter((parent: Parent) => !!parent),
+          takeUntil(this.destroy$)
+        ).subscribe((parent: Parent) => {
+          this.parent = parent;
+          this.init();
+        });
+      }
+    });
 
-    } else {
-      this.parent$.pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      ).subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.init();
-      });
-    }
   }
 
-  getProviderApplications(): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id));
-  }
-
-  getApplicationsByStatus(): void {
-    this.store.dispatch(new GetApplicationsByStatus(this.status));
+  getProviderApplications(providerApplicationParams): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
   getParenApplications(): void {
-  
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
 
