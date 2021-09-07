@@ -22,14 +22,14 @@
       </div>
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
-        <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option">
+        <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option">
           <mat-option value="uk"> {{Languages.uk}} </mat-option>
         </mat-select>
       </button>
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
-    <div *ngIf="isRouter('/') then isMainPage;" class="header_wrapper"></div>
+  <div *ngIf="isRouter('/') then isMainPage;" class="header_wrapper"></div>
 </div>
 
 <ng-template #isMainPage>
@@ -57,19 +57,18 @@
   <div class="authorization">
     <span class="header_menu-button">
 
-      <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
+      <!-- <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
         <mat-icon>notifications_none</mat-icon>
-      </button>
-      <span class="header_menu-button_account-circle">
+      </button> -->
+      <!-- <span class="header_menu-button_account-circle">
         <mat-icon matBadge="1" matBadgePosition="before"></mat-icon>
-      </span>
-
-      <mat-menu #menu="matMenu" class="notification">
+      </span> -->
+      <!-- <mat-menu #menu="matMenu" class="notification">
         <span>1 нова заявка очікує підтвердження <mat-icon class="circle-notification">brightness_1</mat-icon></span>
         <button mat-menu-item [routerLink]="'url'" class="btn-notification">
           <span>Переглянути </span>
         </button>
-      </mat-menu>
+      </mat-menu> -->
 
       <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon>account_circle</mat-icon>
@@ -101,19 +100,19 @@
           інформація</button></a>
 
       <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
-        {{roles[user.role]}}</button></a>
+          {{roles[user.role]}}</button></a>
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
       <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
-      <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a>
+      <!-- <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a> -->
       <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
           mat-menu-item>Улюблене</button></a>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>
   </div>
 </ng-template>
-<div *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async) || (isLoadingDirections | async)"
+<div
+  *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async) || (isLoadingDirections | async)"
   class="progress-bar">
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>
 </div>
-

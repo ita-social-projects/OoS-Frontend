@@ -1,7 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Constants } from '../../constants/constants';
+import { Gender } from '../../enum/gender';
 import { Child } from '../../models/child.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { ChildrenService } from '../../services/children/children.service';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-child-info-box',
@@ -13,10 +16,16 @@ export class ChildInfoBoxComponent implements OnInit {
   constructor(private childrenService: ChildrenService) { }
 
   @Input() child: Child;
-  socialGroup: SocialGroup;
   @ViewChild('childInfoBox') childInfoBox: ElementRef<HTMLInputElement>;
   @Input() top: string;
   @Input() left: string;
+
+  socialGroup: SocialGroup;
+  childAge: string;
+  readonly gender = Gender;
+  readonly constants: typeof Constants = Constants;
+
+
 
   ngOnInit(): void {
     if (this.socialGroup) {
@@ -24,5 +33,7 @@ export class ChildInfoBoxComponent implements OnInit {
     } else {
       this.socialGroup === null;
     }
+
+    this.childAge = Util.getChildAge(this.child);
   }
 }

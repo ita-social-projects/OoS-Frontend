@@ -1,10 +1,10 @@
 import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { ApplicationStatus, ApplicationStatusUkr } from '../../enum/applications';
+import { ApplicationStatus, ApplicationTitles } from '../../enum/applications';
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
+import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
 
-  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
   public below: string = 'below';

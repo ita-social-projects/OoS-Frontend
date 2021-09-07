@@ -121,7 +121,7 @@
     [invalid]="AboutFormGroup.get('isPerMonth').invalid && AboutFormGroup.get('isPerMonth').touched">
   </app-validation-hint-for-input>
 
-  <label class="step-label"> Конкурсний відбір </label>
+  <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
     fxLayoutAlign='center space-between'>
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Без конкурсного відбору</mat-radio-button>
@@ -134,6 +134,6 @@
     <textarea matInput class="step-textarea step-textarea-short"
       placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
       formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
-  </mat-radio-group>
+  </mat-radio-group> -->
 
 </form>

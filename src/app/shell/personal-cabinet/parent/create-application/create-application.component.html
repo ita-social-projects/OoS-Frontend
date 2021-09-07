@@ -16,37 +16,42 @@
           workshop?.address.buildingNumber }} </p>
       </div>
     </div>
-    <div class="card-border"></div>
+    <div class="card-border" fxLayout='column' fxLayoutAlign='center center'>
+      <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
+
+        <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
+        <mat-form-field appearance="none">
+          <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
+            <mat-option *ngFor="let child of children$ | async" [value]="child" class="dropdown-option">
+              {{child.firstName}} {{child.middleName}} {{child.lastName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-validation-hint-for-input type="requiredField"
+          [invalid]="ChildFormControl.invalid && ChildFormControl.touched">
+        </app-validation-hint-for-input>
+
+        <a [routerLink]="['/create-child', '']" class="btn-add-child">
+          <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
+        </a>
+
+        <div *ngIf="selectedChild">
+          <p class="step-label">Дані про дитину</p>
+          <app-person-card [card]="selectedChild" [cardType]="CardType.child"></app-person-card>
+        </div>
+
+        <p class="step-label">Дані про батьків</p>
+        <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
+        </app-person-card>
+
+      </form>
+    </div>
+
+    <!--
     <mat-tab-group class="nav">
       <mat-tab label="Подати дані про дитину">
-        <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
-          <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
-          <mat-form-field appearance="none">
-            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-              [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
-              <mat-option *ngFor="let child of (children$ | async)" [value]="child" class="dropdown-option">
-                {{child.firstName}} {{child.middleName}} {{child.lastName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <app-validation-hint-for-input type="requiredField"
-            [invalid]="ChildFormControl.invalid && ChildFormControl.touched"></app-validation-hint-for-input>
-
-          <a [routerLink]="['/create-child', '']" class="btn-add-child">
-            <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
-          </a>
-
-          <div *ngIf="selectedChild">
-            <p class="step-label">Дані про дитину</p>
-            <app-person-card [card]="selectedChild" [cardType]="CardType.child"></app-person-card>
-          </div>
-
-          <p class="step-label">Дані про батьків</p>
-          <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
-          </app-person-card>
-
-        </form>
       </mat-tab>
       <mat-tab label="Подати дані про себе">
         <div class="step">
@@ -56,8 +61,9 @@
         </div>
 
       </mat-tab>
-    </mat-tab-group>
-    <div *ngIf="!editMode" fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box ">
+    </mat-tab-group> -->
+
+    <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box ">
       <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
         Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас
       </mat-checkbox>
@@ -72,8 +78,7 @@
 
     <div fxLayout='row' fxLayoutAlign='center center' class="footer">
       <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
-      <button class="btn" mat-button type="submit"
-        [disabled]="(!isAgreed || !isParentAgreed ||!selectedChild) && !editMode "
+      <button class="btn" mat-button type="submit" [disabled]="!isAgreed || !isParentAgreed || !selectedChild "
         (click)="onSubmit()">Відправити</button>
     </div>
   </div>

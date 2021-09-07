@@ -3,11 +3,12 @@
 <ng-template #WorkshopList>
   <div class="wrapper-card">
     <div fxLayout='row wrap' fxLayoutAlign='start space-evenly' fxLayoutGap="10px grid">
-      <app-workshop-card class="cards" [parent]="parent" *ngFor="let workshop of favoriteWorkshopsCard$ | async" [workshop]="workshop"
-        [isMainPage]="true">
+      <app-workshop-card class="cards" [parent]="parent" *ngFor="let workshop of favoriteWorkshopsCard$ | async"
+        [workshop]="workshop" [isMainPage]="true">
       </app-workshop-card>
     </div>
-    <app-paginator [totalEntities]="100" [currentPage]="currentPage" (pageChange)="onPageChange($event)">
+    <app-paginator [totalEntities]="(favoriteWorkshopsCard$ | async).length" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
     </app-paginator>
   </div>
 </ng-template>
@@ -15,4 +16,3 @@
 <ng-template #isEmptyList>
   <p class="empty-list-wrapper">Улюблених поки немає</p>
 </ng-template>
-

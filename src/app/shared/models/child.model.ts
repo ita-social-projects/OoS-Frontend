@@ -1,4 +1,3 @@
-import { Parent } from "./parent.model";
 export class Child {
   id: number;
   firstName: string;
