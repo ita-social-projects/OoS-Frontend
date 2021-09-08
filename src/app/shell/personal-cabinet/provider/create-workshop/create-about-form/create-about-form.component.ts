@@ -32,7 +32,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   priceRadioBtn: FormControl = new FormControl(false);
   useProviderInfoCtrl: FormControl = new FormControl(false);
-  competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
@@ -49,7 +49,7 @@ export class CreateAboutFormComponent implements OnInit {
       price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
       workingHours: new FormControl(''),
       isPerMonth: new FormControl(false),
-      competitiveSelectionDescription: new FormControl('', Validators.required),
+      // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to teh second release
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
@@ -57,7 +57,7 @@ export class CreateAboutFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.onCompetitiveSelectionCtrlInit();
+    // this.onCompetitiveSelectionCtrlInit();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.workshop && this.activateEditMode();
@@ -139,24 +139,24 @@ export class CreateAboutFormComponent implements OnInit {
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
+   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup TODO: add to teh second release
    */
-  private onCompetitiveSelectionCtrlInit(): void {
-    this.competitiveSelectionRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((iscompetitiveSelectionDesc: boolean) => {
-        iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
-      });
+  // private onCompetitiveSelectionCtrlInit(): void {
+  //   this.competitiveSelectionRadioBtn.valueChanges
+  //     .pipe(
+  //       takeUntil(this.destroy$),
+  //     ).subscribe((iscompetitiveSelectionDesc: boolean) => {
+  //       iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
+  //     });
 
-    this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) =>
-        this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-      );
-  }
+  //   this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
+  //     .pipe(
+  //       takeUntil(this.destroy$),
+  //       debounceTime(100),
+  //     ).subscribe((disabilityOptionsDesc: string) =>
+  //       this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
+  //     );
+  // }
 
   ngOnDestroy() {
     this.destroy$.next(true);

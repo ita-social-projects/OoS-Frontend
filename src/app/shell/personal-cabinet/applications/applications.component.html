@@ -1,43 +1,30 @@
-<div class="container" *ngIf="(applications$ | async)?.length then isApplications; else isEmptyList"></div>
+<div class="container" *ngIf="(userRole === role.provider) then isProvider; else isParent"></div>
 
-<ng-template #isApplications>
-  <div class="container" *ngIf="(userRole === role.provider) then isProvider; else isParent"></div>
-</ng-template>
 
 <ng-template #isProvider>
-  <app-workshop-checkbox-dropdown fxLayout='row' fxLayoutAlign='end' [workshops]="workshops$ | async"
-    (workshopCheck)="workshopList = $event">
+  <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
+    (workshopCheck)="onWorkshopsSelect($event)">
   </app-workshop-checkbox-dropdown>
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onChangeTab($event)">
-      <mat-tab label="Усі">
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationSort : applicationStatus.pending : 'date' | workshopFilter: workshopList }">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+      <mat-tab label="{{applicationTitles[applicationStatus.all]}}">
+        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.pending]}}" >
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$  | workshopFilter: workshopList}">
+      <mat-tab label="{{applicationTitles[applicationStatus.pending]}}">
+        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$| async }">
+        </ng-container>
+      </mat-tab>s
+      <mat-tab label="{{applicationTitles[applicationStatus.approved]}}">
+        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.acceptedForSelection]}}" >
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit:applicationsByStatus$ | async | workshopFilter: workshopList }" >
+      <mat-tab label="{{applicationTitles[applicationStatus.rejected]}}">
+        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.approved]}}" >
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$ | async  | workshopFilter: workshopList }" >
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.rejected]}}"  >
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$ | async  | workshopFilter: workshopList }"  >
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{applicationStatusUkr[applicationStatus.left]}}"  >
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applicationsByStatus$ | async  | workshopFilter: workshopList }"  >
+      <mat-tab label="{{applicationTitles[applicationStatus.left]}}">
+        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -68,14 +55,18 @@
 </ng-template>
 
 <ng-template #Applications let-applications>
-  <div class="container" *ngIf="applications.length then ApplicationList; else isEmptyList"></div>
+  <div class="container" *ngIf="(applications$ | async)?.length  then ApplicationList; else isEmptyList">
+  </div>
+
   <ng-template #ApplicationList>
     <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="userRole"
-      (approved)="onApprove($event)" (rejected)="onReject($event)" (infoShow)="onInfoShow($event)"
-      (infoHide)="onInfoHide()">
+      (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
+      (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
     </app-application-card>
   </ng-template>
 </ng-template>
+
+
 
 
 <ng-template appInfoBoxHost></ng-template>

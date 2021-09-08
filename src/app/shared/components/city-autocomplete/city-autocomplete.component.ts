@@ -17,7 +17,7 @@ import { FilterState } from '../../store/filter.state';
 export class CityAutocompleteComponent implements OnInit {
 
   @Output() selectedCity = new EventEmitter();
-  @Input() initialCity: City;
+  @Input() isInitialCity: boolean;
 
   cityControl = new FormControl();
   cities: City[] = [];
@@ -30,6 +30,8 @@ export class CityAutocompleteComponent implements OnInit {
   isCity$: Observable<boolean[]>;
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
+  @Select(FilterState.city)
+  city$: Observable<City>;
 
   constructor(public store: Store) { }
 
@@ -38,7 +40,11 @@ export class CityAutocompleteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cityControl.setValue(this.initialCity)
+    this.city$
+    .pipe(
+      takeUntil(this.destroy$)
+      ).subscribe(city => this.cityControl.setValue(this.isInitialCity && city));
+
     this.cities$
       .pipe(
         takeUntil(this.destroy$),
