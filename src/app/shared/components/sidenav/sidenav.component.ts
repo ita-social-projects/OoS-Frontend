@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -23,7 +23,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
 
   Role = Role;
   showModalReg = false;
-  MobileView: boolean = false;
+  @Input() MobileView: boolean;
 
   title = 'out-of-school';
   visibleSidenav: boolean;

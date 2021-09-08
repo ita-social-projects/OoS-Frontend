@@ -1,5 +1,5 @@
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   Role = Role;
   showModalReg = false;
-  MobileView: boolean = false;
+  @Input() MobileView: boolean;
 
   @Select(FilterState.isLoading)
   isLoadingMainPage$: Observable<boolean>;
@@ -45,6 +45,7 @@ export class HeaderComponent implements OnInit {
   user$: Observable<User>;
   user: User;
   roles = RoleLinks;
+
 
   constructor(
     public store: Store,
