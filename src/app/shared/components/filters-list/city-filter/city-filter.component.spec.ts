@@ -44,5 +44,5 @@ describe('CityFilterComponent', () => {
   template: ''
 })
 class MockCityAutocompleteComponent {
-  @Input() initialCity: City; 
+  @Input() isInitialCity: boolean; 
 }
