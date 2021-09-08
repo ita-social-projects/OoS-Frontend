@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, HostListener, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +6,24 @@ import { Component} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
-  title = 'out-of-school';
-  constructor () {}
+export class AppComponent implements OnInit{
+  constructor() { }
+
+  MobileView: boolean = false;
+
+  isWindowMobile(event: any): void {
+    this.MobileView = event.innerWidth <= 750;
+  }
+
+  @HostListener("window: resize", ["$event.target"])
+  onResize(event: any): void {
+    this.isWindowMobile(event);
+  }
+
+  ngOnInit(): void {
+    this.isWindowMobile(window);
+  }
 }
+
 
 

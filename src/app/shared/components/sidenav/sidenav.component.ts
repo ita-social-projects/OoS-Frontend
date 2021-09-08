@@ -19,7 +19,7 @@ import { RegistrationState } from '../../store/registration.state';
 export class SidenavComponent implements OnInit, OnDestroy{
 
   readonly Languages: typeof Languages = Languages;
-  selectedLanguage: string = 'uk'
+  selectedLanguage: string;
 
   Role = Role;
   showModalReg = false;
@@ -59,6 +59,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+    this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
     this.user$.subscribe(user => this.user = user);
     this.isWindowMobile(window);
     this.sidenavOpenTrue$

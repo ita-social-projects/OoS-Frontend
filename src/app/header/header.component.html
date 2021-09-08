@@ -22,8 +22,8 @@
       </div>
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
-        <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option">
-          <mat-option value="uk"> {{Languages.uk}} </mat-option>
+        <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option" disableOptionCentering panelClass="dropdownOption">
+          <mat-option [ngClass]="'lang-option-text'" value="uk"> {{Languages.uk}} </mat-option>
         </mat-select>
       </button>
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
