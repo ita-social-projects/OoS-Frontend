@@ -61,7 +61,6 @@ export class SidenavComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
     this.user$.subscribe(user => this.user = user);
-    this.isWindowMobile(window);
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible)
