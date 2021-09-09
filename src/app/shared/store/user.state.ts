@@ -82,11 +82,11 @@ export interface UserStateModel {
   name: 'user',
   defaults: {
     isLoading: false,
-    workshops: Workshop[''],
+    workshops: [],
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: Application[''],
-    children: Child[''],
+    applications: [],
+    children: [],
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
   }
@@ -174,12 +174,12 @@ export class UserState {
   }
 
   @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByProviderId) {
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId) {
     return this.applicationService
-      .getApplicationsByProviderId(payload)
+      .getApplicationsByProviderId(id, parameters)
       .pipe(
         tap((applications: Application[]) => {
-          return patchState({ applications: applications });
+          return patchState({ applications: applications, isLoading: false });
         }));
   }
 

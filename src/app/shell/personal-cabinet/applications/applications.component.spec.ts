@@ -1,5 +1,3 @@
-import { ApplicationSortPipe } from './../../../shared/pipes/application-sort.pipe';
-import { ApplicationFilterPipe } from './../../../shared/pipes/application-filter.pipe';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
@@ -9,7 +7,6 @@ import { Component, Input } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { WorkshopFilterPipe } from 'src/app/shared/pipes/workshop-filter.pipe';
 import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ApplicationsComponent', () => {
@@ -27,11 +24,8 @@ describe('ApplicationsComponent', () => {
         ApplicationsComponent,
         InfoBoxHostDirective,
         MockApplicationCardComponent,
-        ApplicationFilterPipe,
-        ApplicationSortPipe,
         ApplicationChildFilterPipe,
         MockWorkshopChekcboxDropdownComponent,
-        WorkshopFilterPipe
       ],
     })
       .compileComponents();

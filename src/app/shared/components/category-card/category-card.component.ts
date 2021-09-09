@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Direction, topDirection } from '../../models/category.model';
+import { Direction} from '../../models/category.model';
 import { SetDirections } from '../../store/filter.actions';
 
 

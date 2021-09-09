@@ -74,5 +74,5 @@ class MockValidationHintForInputComponent{
   template: ''
 })
 class MockCityAutocompleteComponent {
-  @Input() initialCity: City; 
+  @Input() isInitialCity: boolean; 
 }

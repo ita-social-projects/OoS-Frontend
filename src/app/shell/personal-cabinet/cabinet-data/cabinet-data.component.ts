@@ -1,9 +1,10 @@
+import { GetApplicationsByStatus } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus, ApplicationStatusUkr } from 'src/app/shared/enum/applications';
+import { ApplicationStatus, ApplicationTitles } from 'src/app/shared/enum/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
@@ -22,7 +23,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
-  readonly applicationStatusUkr = ApplicationStatusUkr;
+  readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
 
@@ -38,8 +39,8 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   provider$: Observable<Provider>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
   userRole: string;
   provider: Provider;
   parent: Parent;
@@ -54,30 +55,32 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   abstract init(): void;
 
   getUserData(): void {
-    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => this.userRole = user.role);
+    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
+      this.userRole = user.role;
 
-    if (this.userRole === Role.provider) {
-      this.provider$.pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => {
-        this.provider = provider;
-        this.init();
-      });
+      if (this.userRole === Role.provider) {
+        this.provider$.pipe(
+          filter((provider: Provider) => !!provider),
+          takeUntil(this.destroy$)
+        ).subscribe((provider: Provider) => {
+          this.provider = provider;
+          this.init();
+        });
+      } else {
+        this.parent$.pipe(
+          filter((parent: Parent) => !!parent),
+          takeUntil(this.destroy$)
+        ).subscribe((parent: Parent) => {
+          this.parent = parent;
+          this.init();
+        });
+      }
+    });
 
-    } else {
-      this.parent$.pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      ).subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.init();
-      });
-    }
   }
 
-  getProviderApplications(): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id));
+  getProviderApplications(providerApplicationParams): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
   getParenApplications(): void {

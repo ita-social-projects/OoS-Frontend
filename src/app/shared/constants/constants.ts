@@ -20,4 +20,8 @@ export class Constants {
   static readonly RATE_THREE_STAR = 3;
   static readonly RATE_FOUR_STAR = 4;
   static readonly RATE_FIVE_STAR = 5;
+
+  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
+  static readonly SHORT_DATE_FORMAT = 'dd MMMM yyyy';
+
 };

@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { cardType } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
@@ -19,6 +19,7 @@ import { CreateApplication, GetChildrenByParentId, GetWorkshopById } from 'src/a
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -32,18 +33,19 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   @Select(UserState.children) children$: Observable<Child[]>;
   @Select(RegistrationState.user) user$: Observable<User>;
+  @Select(RegistrationState.parent) parent$: Observable<Parent>;
+  parent: Parent;
 
-  children: Child[] = [];
   AgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
+
   selectedChild: Child;
-  parent: Parent;
   isAgreed: boolean;
-  editMode: boolean;
   isParentAgreed: boolean;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
 
@@ -55,27 +57,32 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
     this.ParentAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isParentAgreed = val);
-    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
 
-    if (this.editMode) {
-      this.parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    }
+    this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
 
-    this.parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    this.store.dispatch(new GetChildrenByParentId(this.parent.id));
+    this.parent$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((parent: Parent) => {
+        this.parent = parent;
+        this.store.dispatch(new GetChildrenByParentId(this.parent.id))
+      });
 
     const workshopId = +this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(workshopId));
-    this.workshop$.subscribe(workshop => this.workshop = workshop);
+
+    this.workshop$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((workshop: Workshop) => this.workshop = workshop);
 
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
       { name: NavBarName.TopWorkshops, isActive: false, disable: true })))
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.store.dispatch(new DeleteNavPath());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   /**

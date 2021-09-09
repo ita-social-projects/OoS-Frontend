@@ -4,12 +4,16 @@
   z-index: 2;
   background:white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  min-width:400px;
+  min-width: 400px;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 2rem;
   margin: 1rem 0;
-
-  &-content{
-    margin: 1rem;
-  }
+  color: #000000;
+}
+.title{
+  color: #444444;
+  margin: 2rem  0;
+}
+.text{
+  margin-top: 1rem;
 }

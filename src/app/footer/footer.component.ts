@@ -27,6 +27,8 @@ export class FooterComponent implements OnInit {
   showSnackBar({ message, type }): void {
     this.snackBar.openFromComponent(MessageBarComponent, {
       duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
       panelClass: type,
       data: { message, type },
     });

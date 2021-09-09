@@ -3,6 +3,7 @@ import { CategoryCardComponent } from './category-card.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
 import { Direction } from '../../models/category.model';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
@@ -13,6 +14,7 @@ describe('CategoryCardComponent', () => {
       imports: [
         MatCardModule,
         NgxsModule.forRoot([]),
+        RouterTestingModule
       ],
       declarations: [CategoryCardComponent],
     })
