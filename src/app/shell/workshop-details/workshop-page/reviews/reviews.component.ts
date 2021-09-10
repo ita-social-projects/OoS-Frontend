@@ -68,7 +68,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         filter((applications: Application[]) => applications?.length > 0),
         takeUntil(this.destroy$)
       ).subscribe((applications: Application[]) =>
-        this.approvedApplications = applications.filter((application: Application) => application.status = ApplicationStatus.approved))
+        this.approvedApplications = applications.filter((application: Application) => application.status = ApplicationStatus.Approved))
     });
   }
 

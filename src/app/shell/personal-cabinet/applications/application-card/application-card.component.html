@@ -26,23 +26,31 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
-      <p class="{{applicationStatus[application.status]}} icon">
-        <mat-icon>how_to_reg</mat-icon>{{
-        applicationTitles[application.status] }}
-      </p>
+    <div [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()" (mouseleave)="trigger.closeMenu()">
+        <p> <img src="assets/icons/{{application.status}}.png"
+          alt="{{application.status}}">
+         {{applicationTitles[applicationStatus[application.status]] }}</p>
+         <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"   (mouseleave)="closeMyMenu()" class="mat-application-menu">
+          <div class="application-popup-status">
+            <img src="assets/icons/{{application.status}}.png"
+              alt="{{application.status}}-icon">
+          <span class="{{application.status}}"> {{applicationTitles[applicationStatus[application.status]]}}</span>
+        </div>
+          <div class="application-info-menu application-info-description">({{ applicationStatusDescription[applicationStatus[application.status]] }})</div> 
+
+          </mat-menu>
     </div>
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.provider">
     <div fxLayout='column' fxLayoutAlign='start start'
-      [ngClass]="(application.status === applicationStatus.approved || application.status === applicationStatus.rejected) && 'hidden'">
+      [ngClass]="(application.status === applicationStatus.Approved || application.status === applicationStatus.Rejected) && 'hidden'">
       <button class="btn btn-blue" (click)="onApprove(application)">
         <p>ПРИЙНЯТИ</p>
       </button>
     </div>
     <div fxLayout='column' fxLayoutAlign='start start'
-      [ngClass]="application.status === applicationStatus.rejected && 'hidden'">
+      [ngClass]="application.status === applicationStatus.Rejected && 'hidden'">
       <button class="btn btn-gray" (click)="onReject(application)">
         <p>ВІДМОВИТИ</p>
       </button>
@@ -51,7 +59,7 @@
 
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.parent">
     <div fxLayout='column' fxLayoutAlign='start start'
-      [ngClass]="(application.status === applicationStatus.left || application.status === applicationStatus.rejected) && 'hidden'">
+      [ngClass]="(application.status === applicationStatus.Left || application.status === applicationStatus.Rejected) && 'hidden'">
       <button class="btn btn-gray" (click)="onLeave(application)">
         <p>ЗАЛИШИТИ ГУРТОК</p>
       </button>

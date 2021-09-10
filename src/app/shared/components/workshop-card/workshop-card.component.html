@@ -12,11 +12,11 @@
     <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
 
       <div *ngIf="userRole === role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
-        <p class="{{applicationStatus[application.status]}} icon">
+        <p class="{{application.status}} icon">
           <mat-icon>how_to_reg</mat-icon>{{
           applicationTitles[application.status] }}
         </p>
-        <p class="card_link status_action" *ngIf="applicationStatus[application.status] === applicationStatus.approved"
+        <p class="card_link status_action" *ngIf="application.status === applicationStatus.Approved"
           (click)="onWorkshopLeave()">Залишити гурток
         </p>
       </div>

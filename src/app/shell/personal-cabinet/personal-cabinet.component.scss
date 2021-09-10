@@ -1,26 +1,83 @@
 .container {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
   padding: 0.5rem;
 
-  @media(max-width: 750px){
+  @media (max-width: 750px) {
     margin-top: 40px;
   }
 }
-.title, .nav {
-  margin:10px;
+.title,
+.nav {
+  margin: 10px;
   font-weight: 700;
   opacity: 1;
 }
 .nav {
   border-bottom: none;
 }
-.active  {
-  color: #3849F9;
+.active {
+  color: #3849f9;
   opacity: 1;
-  border-bottom: 2px solid #3849F9;
+  border-bottom: 2px solid #3849f9;
 }
 ::ng-deep .mat-tab-link {
-  min-width:0px !important;
+  min-width: 0px !important;
+}
+.application-info-span {
+  background-color: #ffffff !important;
+}
+.application-info-menu,
+::ng-deep .mat-application-menu {
+  width: 60vw;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+.application-info-menu {
+  display: flex;
+  flex-direction: row;
+  max-width: max-content;
+  font-size: 13px;
+  line-height: 17px;
+ 
+}
+
+
+.application-info-description, .application-info-title {
+  display: flex;
+  flex-direction: column;
+  max-width: max-content;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 17px;
+  font: Open Sans;
+  font-style: normal;
+  color: black;
+  img{
+    padding-right: 4px;
+  }
+  span{
+    padding: 8px;
+  }
+}
+.application-info-menu-title{
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px;
+}
+.application{
+  &-pending{
+    color: #FFBD00;
+  }
+  &-accepted{
+    color:#27A3FF
+  }
+  &-approved{
+    color: #199953;
+  }
+  &-rejected, &-left{
+    color: #C72A21;
+  }
 }

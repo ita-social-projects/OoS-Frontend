@@ -1,10 +1,10 @@
 export enum ApplicationStatus {
   all,
-  pending,
-  acceptedForSelection,
-  approved,
-  rejected,
-  left
+  Pending,
+  AcceptedForSelection,
+  Approved,
+  Rejected,
+  Left
 }
 export enum ApplicationTitles {
   'Усі',
@@ -13,4 +13,13 @@ export enum ApplicationTitles {
   'Зараховано',
   'Відмовлено',
   'Гурток залишено',
+  'Заблоковано'
+}
+export enum ApplicationStatusDescription {
+  'Усі',
+  'Нова створена заява, яка очікує підтвердження від надавача послуг',
+  'Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір',
+  'Заява підтверджена/користувача зараховано до гуртка/секції/школи',
+  'Користувачеві відмовлено у зарахуванні з причиною',
+  'Користувач покинув гурток самостійно'
 }

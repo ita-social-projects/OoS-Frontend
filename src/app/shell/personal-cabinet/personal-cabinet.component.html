@@ -7,9 +7,35 @@
       {{ roles[userRole] | uppercase }}</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">ГУРТКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВКИ</a>
-    <!-- <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a> -->
     <a *ngIf="userRole === Role.parent" mat-tab-link [routerLinkActive]="['active']"
       [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>
+    <a *ngIf="userRole === Role.parent" mat-tab-link [routerLinkActive]="['active']"
+      [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
+    <img src="assets/icons/application_info.png" alt="application-info" [matMenuTriggerFor]="menu"
+      #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()" (mouseleave)="trigger.closeMenu()">
+    <mat-menu [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false" (mouseleave)="closeMyMenu()"
+      class="mat-application-menu">
+      <div class="application-info-menu-title"> Статуси заявок</div>
+      <div class="application-info-menu">
+        <div class="application-info-title">
+          <span class="application-pending"><img src="assets/icons/Pending.png">Очікує підтвердження</span>
+          <span class="application-accepted"><img src="assets/icons/AcceptedForSelection.png">Прийнято до конкурсного відбору</span>
+          <span class="application-approved"><img src="assets/icons/Approved.png">Зарахован</span>
+          <span class="application-rejected"><img src="assets/icons/Rejected.png">Відмовлено</span>
+          <span class="application-left"><img src="assets/icons/Left.png">Гурток залишено</span>
+        </div>
+        <div class="application-info-description">
+          <span> Нова створена заява, яка очікує підтвердження від надавача послуг</span>
+          <span> Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір)</span>
+          <span>Заява підтверджена/користувача зараховано до гуртка/секції/школи</span>
+          <span>Користувачеві відмовлено у зарахуванні з причиною</span>
+          <span>Користувач покинув гурток самостійно</span>
+        </div>
+      </div>
+    </mat-menu>
+
   </nav>
+
 </div>
 <router-outlet></router-outlet>
