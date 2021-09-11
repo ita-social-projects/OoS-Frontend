@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   Role = Role;
   showModalReg = false;
-  @Input() MobileView: boolean;
+  @Input() MobileScreen: boolean; 
 
   @Select(FilterState.isLoading)
   isLoadingMainPage$: Observable<boolean>;
@@ -54,19 +54,6 @@ export class HeaderComponent implements OnInit {
 
   changeView() {
     this.store.dispatch(new SidenavToggle());
-  }
-
-  /**
-   * @param event global variable window
-   * method defined window.width and assign MobileView: boolean
-   */
-  isWindowMobile(event: any): void {
-    this.MobileView = event.innerWidth <= 750;
-  }
-
-  @HostListener("window: resize", ["$event.target"])
-  onResize(event: any): void {
-    this.isWindowMobile(event);
   }
 
   ngOnInit(): void {

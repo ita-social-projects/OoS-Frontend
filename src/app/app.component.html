@@ -2,7 +2,7 @@
 <div class="app-wrapper">
 
   <mat-drawer-container>
-    <app-sidenav *ngIf="MobileView"></app-sidenav>
+    <app-sidenav [MobileScreen] = "MobileView" ></app-sidenav>
     <app-header></app-header>
     <app-shell></app-shell>
     <app-footer></app-footer>

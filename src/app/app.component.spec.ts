@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
@@ -50,4 +50,6 @@ class MockFooterComponent{}
   selector: 'app-sidenav',
   template: ''
 })
-class MockSidenavComponent{}
+class MockSidenavComponent{
+  @Input() MobileScreen: boolean;
+}

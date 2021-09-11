@@ -23,7 +23,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
 
   Role = Role;
   showModalReg = false;
-  @Input() MobileView: boolean;
+  @Input() MobileScreen: boolean;
 
   title = 'out-of-school';
   visibleSidenav: boolean;
@@ -47,15 +47,6 @@ export class SidenavComponent implements OnInit, OnDestroy{
 
   changeView() {
     this.store.dispatch(new SidenavToggle());
-  }
-
-  isWindowMobile(event: any): void {
-    this.MobileView = event.innerWidth <= 750;
-  }
-
-  @HostListener("window: resize", ["$event.target"])
-  onResize(event: any): void {
-    this.isWindowMobile(event);
   }
 
   ngOnInit(): void {

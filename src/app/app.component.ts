@@ -11,6 +11,11 @@ export class AppComponent implements OnInit{
 
   MobileView: boolean = false;
 
+  /**
+  * @param event global variable window
+  * method defined window.width and assign MobileView: boolean
+  */
+
   isWindowMobile(event: any): void {
     this.MobileView = event.innerWidth <= 750;
   }
