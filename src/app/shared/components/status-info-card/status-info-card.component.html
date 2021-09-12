@@ -1,0 +1,14 @@
+<div [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="openStatusMenu()" (mouseleave)="closeStatusMenu()">
+  <p> <img src="assets/icons/{{application.status}}.png"
+    alt="{{application.status}}">
+   {{applicationTitles[applicationStatus[application.status]] }}</p>
+   <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"   (mouseleave)="closeStatusMenu()" class="mat-application-menu">
+    <div class="application-popup-status">
+      <img src="assets/icons/{{application.status}}.png"
+        alt="{{application.status}}-icon">
+    <span class="{{application.status}}"> {{applicationTitles[applicationStatus[application.status]]}}</span>
+  </div>
+    <div class="application-info-menu application-info-description">({{ applicationStatusDescription[applicationStatus[application.status]] }})</div> 
+
+    </mat-menu>
+</div>

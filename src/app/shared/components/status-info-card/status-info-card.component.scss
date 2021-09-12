@@ -1,0 +1,22 @@
+.status-menu, .application-popup-status, .mat-application-menu, .application-info-menu{
+  width: max-content;
+  max-width: max-content;
+  font-size: 13px;
+  font: Open Sans;
+  font-weight: normal;
+}
+.application-info-description{
+color: #AAAAAA;
+}
+.Approved{
+  color:#199953
+}
+.Pending{
+  color: #FFBD00;
+}
+.AcceptedForSelection{
+  color: #27A3FF;
+}
+.Rejected, .Left, .Blocked{
+  color: #C72A21;
+}
