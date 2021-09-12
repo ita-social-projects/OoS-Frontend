@@ -26,7 +26,8 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()" (mouseleave)="trigger.closeMenu()">
+    <app-status-info-card [application]="application"></app-status-info-card>
+    <!-- <div [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()" (mouseleave)="trigger.closeMenu()">
         <p> <img src="assets/icons/{{application.status}}.png"
           alt="{{application.status}}">
          {{applicationTitles[applicationStatus[application.status]] }}</p>
@@ -39,7 +40,7 @@
           <div class="application-info-menu application-info-description">({{ applicationStatusDescription[applicationStatus[application.status]] }})</div> 
 
           </mat-menu>
-    </div>
+    </div> -->
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.provider">

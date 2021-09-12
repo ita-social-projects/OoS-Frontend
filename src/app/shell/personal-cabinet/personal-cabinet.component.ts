@@ -20,7 +20,6 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   roles = RoleLinks;
   userRole: string;
   Role = Role;
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
   constructor(
     private store: Store,
@@ -37,11 +36,4 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
-  openMyMenu() {
-    this.trigger.openMenu();
-  } 
-  closeMyMenu() {
-    this.trigger.closeMenu();
-  } 
-
 }

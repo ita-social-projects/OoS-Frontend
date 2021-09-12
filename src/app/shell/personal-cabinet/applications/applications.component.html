@@ -2,35 +2,36 @@
 
 
 <ng-template #isProvider>
+ <app-status-info></app-status-info>
   <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
     (workshopCheck)="onWorkshopsSelect($event)">
   </app-workshop-checkbox-dropdown>
-  <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+
+    <mat-tab-group  mat-align-tabs="srart" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="{{applicationTitles[applicationStatus.all]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.pending]}}">
+      <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$| async }">
         </ng-container>
-      </mat-tab>s
-      <mat-tab label="{{applicationTitles[applicationStatus.approved]}}">
+      </mat-tab>
+      <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.rejected]}}">
+      <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.left]}}">
+      <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
         <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
     </mat-tab-group>    
-  </div>
 
 </ng-template>
+
 
 <ng-template #isEmptyList>
   <p class="no-application-wrapper">Заявок поки немає</p>
@@ -67,6 +68,7 @@
 </ng-template>
 
 
+<div>
 
 
 <ng-template appInfoBoxHost></ng-template>
