@@ -3,7 +3,7 @@
 
 <ng-template #isProvider>
   <div fxLayout="row" fxLayoutAlign="end center">
- <app-status-info></app-status-info>
+ <app-status-info ></app-status-info>
   <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
     (workshopCheck)="onWorkshopsSelect($event)">
   </app-workshop-checkbox-dropdown>

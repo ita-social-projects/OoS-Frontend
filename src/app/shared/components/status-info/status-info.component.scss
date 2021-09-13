@@ -28,9 +28,7 @@
   font: Open Sans;
   font-style: normal;
   color: black;
-  img {
-    padding-right: 4px;
-  }
+
   span {
     padding: 8px;
   }
@@ -60,8 +58,11 @@
 }
 .activeInfoBtn{
   color: #3849F9;
-  font-size: 25px;
+  font-size: 30px;
 }
 .inactiveInfoBtn{
-  font-size: 25px;
+  font-size: 30px;
+}
+.status-info-icon{
+  margin: auto 1rem;
 }
