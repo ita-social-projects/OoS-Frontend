@@ -1,4 +1,7 @@
 .status-menu, .application-popup-status, .mat-application-menu, .application-info-menu{
+  i {
+    padding-right: 5px;
+  }
   width: max-content;
   max-width: max-content;
   font-size: 13px;

@@ -1,14 +1,26 @@
-<div [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="openStatusMenu()" (mouseleave)="closeStatusMenu()">
-  <p> <img src="assets/icons/{{application.status}}.png"
-    alt="{{application.status}}">
-   {{applicationTitles[applicationStatus[application.status]] }}</p>
-   <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"   (mouseleave)="closeStatusMenu()" class="mat-application-menu">
-    <div class="application-popup-status">
-      <img src="assets/icons/{{application.status}}.png"
-        alt="{{application.status}}-icon">
-    <span class="{{application.status}}"> {{applicationTitles[applicationStatus[application.status]]}}</span>
+<div [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="openStatusMenu()"
+  (mouseleave)="closeStatusMenu()">
+  <div class="application-popup-status {{application.status}}">
+    <span *ngIf="application.status==='Pending'"> <i class="fas fa-user-clock"></i></span>
+    <span *ngIf="application.status==='AcceptedForSelection'"><i class="fas fa-user-plus"></i></span>
+    <span *ngIf="application.status==='Approved'"> <i class="fas fa-user-check"></i></span>
+    <span *ngIf="application.status==='Reject'"> <i class="fas fa-user-times"></i></span>
+    <span *ngIf="application.status==='Left'"><i class="fas fa-user-times"></i></span>
+    <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
   </div>
-    <div class="application-info-menu application-info-description">({{ applicationStatusDescription[applicationStatus[application.status]] }})</div> 
+ 
+  <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"
+    (mouseleave)="closeStatusMenu()" class="mat-application-menu">
+    <div class="application-popup-status {{application.status}}">
+      <span *ngIf="application.status==='Pending'"> <i class="fas fa-user-clock"></i></span>
+      <span *ngIf="application.status==='AcceptedForSelection'"><i class="fas fa-user-plus"></i></span>
+      <span *ngIf="application.status==='Approved'"> <i class="fas fa-user-check"></i></span>
+      <span *ngIf="application.status==='Reject'"> <i class="fas fa-user-times"></i></span>
+      <span *ngIf="application.status==='Left'"><i class="fas fa-user-times"></i></span>
+      <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
+    </div>
+    <div class="application-info-menu application-info-description">({{
+      applicationStatusDescription[applicationStatus[application.status]] }})</div>
 
-    </mat-menu>
+  </mat-menu>
 </div>

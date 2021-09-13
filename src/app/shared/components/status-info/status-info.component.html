@@ -1,24 +1,23 @@
-<p>SMTH</p>
 <img src="assets/icons/application_info.png" alt="application-info" [matMenuTriggerFor]="menu"
-#trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()" (mouseleave)="trigger.closeMenu()" >
+#trigger="matMenuTrigger"  >
 
-  <mat-menu [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false" (mouseleave)="closeMyMenu()"
-  class="mat-application-menu">
+  <mat-menu [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false" 
+  class="mat-application-menu" >
   <div class="application-info-menu-title"> Статуси заявок</div>
   <div class="application-info-menu">
     <div class="application-info-title">
-      <span class="application-pending"><img src="assets/icons/Pending.png">Очікує підтвердження</span>
-      <span class="application-accepted"><img src="assets/icons/AcceptedForSelection.png">Прийнято до конкурсного відбору</span>
-      <span class="application-approved"><img src="assets/icons/Approved.png">Зарахован</span>
-      <span class="application-rejected"><img src="assets/icons/Rejected.png">Відмовлено</span>
-      <span class="application-left"><img src="assets/icons/Left.png">Гурток залишено</span>
+      <span class="application-pending"><i class="fas fa-user-clock"></i>{{ applicationTitles[applicationStatus.Pending] }}</span>
+      <span class="application-accepted"><i class="fas fa-user-plus"></i>{{ applicationTitles[applicationStatus.AcceptedForSelection] }}</span>
+      <span class="application-approved"><i class="fas fa-user-check"></i>{{ applicationTitles[applicationStatus.Approved] }}</span>
+      <span class="application-rejected"><i class="fas fa-user-times"></i>{{ applicationTitles[applicationStatus.Rejected] }}</span>
+      <span class="application-left"><i class="fas fa-user-times"></i>{{ applicationTitles[applicationStatus.Left] }}</span>
     </div>
     <div class="application-info-description">
-      <span> Нова створена заява, яка очікує підтвердження від надавача послуг</span>
-      <span> Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір)</span>
-      <span>Заява підтверджена/користувача зараховано до гуртка/секції/школи</span>
-      <span>Користувачеві відмовлено у зарахуванні з причиною</span>
-      <span>Користувач покинув гурток самостійно</span>
+      <span>{{ applicationStatusDescription[applicationStatus.Pending] }}</span>
+      <span>{{ applicationStatusDescription[applicationStatus.AcceptedForSelection] }}</span>
+      <span>{{ applicationStatusDescription[applicationStatus.Approved] }}</span>
+      <span>{{ applicationStatusDescription[applicationStatus.Rejected] }}</span>
+      <span>{{ applicationStatusDescription[applicationStatus.Left] }}</span>
     </div>
   </div>
   </mat-menu>

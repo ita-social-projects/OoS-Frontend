@@ -7,6 +7,7 @@
   max-width: fit-content;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .application-info-menu {
   display: flex;
@@ -14,11 +15,10 @@
   max-width: max-content;
   font-size: 13px;
   line-height: 17px;
- 
 }
 
-
-.application-info-description, .application-info-title {
+.application-info-description,
+.application-info-title {
   display: flex;
   flex-direction: column;
   max-width: max-content;
@@ -28,29 +28,33 @@
   font: Open Sans;
   font-style: normal;
   color: black;
-  img{
+  img {
     padding-right: 4px;
   }
-  span{
+  span {
     padding: 8px;
   }
+  i {
+    padding-right: 5px;
+  }
 }
-.application-info-menu-title{
+.application-info-menu-title {
   font-size: 18px;
   font-weight: bold;
   padding: 8px;
 }
-.application{
-  &-pending{
-    color: #FFBD00;
+.application {
+  &-pending {
+    color: #ffbd00;
   }
-  &-accepted{
-    color:#27A3FF
+  &-accepted {
+    color: #27a3ff;
   }
-  &-approved{
+  &-approved {
     color: #199953;
   }
-  &-rejected, &-left{
-    color: #C72A21;
+  &-rejected,
+  &-left {
+    color: #c72a21;
   }
 }

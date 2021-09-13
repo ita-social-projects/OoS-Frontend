@@ -1,6 +1,8 @@
 import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { ApplicationStatus, ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/applications';
+import { Application } from '../../../shared/models/application.model';
 
 @Component({
   selector: 'app-status-info',
@@ -8,18 +10,12 @@ import { MatMenuTrigger } from '@angular/material/menu';
   styleUrls: ['./status-info.component.scss']
 })
 export class StatusInfoComponent implements OnInit {
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-
+  readonly applicationTitles = ApplicationTitles;
+  readonly applicationStatus = ApplicationStatus;
+  readonly applicationStatusDescription = ApplicationStatusDescription;
   constructor() { }
 
   ngOnInit(): void {
   }
 
-
-  openMyMenu() {
-    this.trigger.openMenu();
-  }
-  closeMyMenu() {
-    this.trigger.closeMenu();
-  }
 }
