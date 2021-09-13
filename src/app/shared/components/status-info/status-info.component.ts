@@ -13,9 +13,11 @@ export class StatusInfoComponent implements OnInit {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly applicationStatusDescription = ApplicationStatusDescription;
+  isActiveInfoButton: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
   }
+
 
 }

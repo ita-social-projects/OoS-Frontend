@@ -1,6 +1,9 @@
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {  MatIconModule } from '@angular/material/icon';
 
 import { StatusInfoCardComponent } from './status-info-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('StatusInfoCardComponent', () => {
   let component: StatusInfoCardComponent;
@@ -8,6 +11,7 @@ describe('StatusInfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports:[  MatIconModule,MatMenuTrigger, MatMenuModule, MatDialogModule],
       declarations: [ StatusInfoCardComponent ]
     })
     .compileComponents();
