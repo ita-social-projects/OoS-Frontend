@@ -32,7 +32,9 @@ describe('AppComponent', () => {
   selector: 'app-header',
   template: ''
 })
-class MockHeaderComponent{}
+class MockHeaderComponent{
+  @Input() MobileScreen: boolean;
+}
 
 @Component({
   selector: 'app-shell',
