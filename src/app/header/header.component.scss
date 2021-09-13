@@ -39,7 +39,7 @@
     background: none;
     color: white;
     justify-content: flex-end;
-    font-size: medium;
+    font-size: 0.7rem;
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
@@ -83,11 +83,15 @@
     border-radius: 20px;
     border-color: white;
     color: white;
+    &.mat-stroked-button {
+      font-size: 0.7rem;
+    }
   }
 
   &_lang, &_menu {
     background: none;
     color: white;
+    font-size: 0.7rem !important;
   }
 
   &_title {
@@ -147,7 +151,7 @@
     white-space: nowrap;
 
     &_title {
-      font-size: 13px;
+      font-size: 0.7rem;
     }
 
     &_icon {
@@ -182,10 +186,23 @@
 ::ng-deep .lang-option .mat-select-value {
   color:white !important;
   padding-right: 25px;
+  overflow: visible;
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
   display: none;
+}
+
+::ng-deep .lang-option-text .mat-option-text{
+  width: 0;
+}
+
+.lang-option-text{
+  padding: 0;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  background-color: white !important;
 }
 
 ::ng-deep .mat-form-field-infix {

@@ -5,6 +5,14 @@
   box-sizing: border-box;
 }
 
+.lang-option-text{
+  padding: 0;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  background-color: white !important;
+}
+
 @media(max-width: 750px) {
 
 
@@ -29,7 +37,7 @@
     width: 100%;
     position: fixed;
     z-index: 999;
-    
+
     &-header {
       display: flex;
       justify-content: space-between;

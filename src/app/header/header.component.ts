@@ -1,5 +1,5 @@
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   Role = Role;
   showModalReg = false;
-  MobileView: boolean = false;
+  @Input() MobileScreen: boolean; 
 
   @Select(FilterState.isLoading)
   isLoadingMainPage$: Observable<boolean>;
@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit {
   user: User;
   roles = RoleLinks;
 
+
   constructor(
     public store: Store,
     private router: Router) {
@@ -55,23 +56,9 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new SidenavToggle());
   }
 
-  /**
-   * @param event global variable window
-   * method defined window.width and assign MobileView: boolean
-   */
-  isWindowMobile(event: any): void {
-    this.MobileView = event.innerWidth <= 750;
-  }
-
-  @HostListener("window: resize", ["$event.target"])
-  onResize(event: any): void {
-    this.isWindowMobile(event);
-  }
-
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
     this.user$.subscribe(user => this.user = user);
-    this.isWindowMobile(window);
   }
 
   logout(): void {
