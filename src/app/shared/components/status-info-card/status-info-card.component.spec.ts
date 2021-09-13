@@ -1,4 +1,4 @@
-import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger, _MatMenuDirectivesModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StatusInfoCardComponent } from './status-info-card.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -13,8 +13,9 @@ describe('StatusInfoCardComponent', () => {
       imports:[  
       NgxsModule.forRoot([]),
       MatMenuModule, 
-      MatDialogModule],
-      declarations: [ StatusInfoCardComponent, MatMenuTrigger ],
+      MatDialogModule,
+      _MatMenuDirectivesModule],
+      declarations: [ StatusInfoCardComponent ],
       providers: [ MatDialogRef ]
     })
     .compileComponents();

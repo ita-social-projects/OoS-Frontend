@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuModule, MatMenuTrigger, _MatMenuDirectivesModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 
 import { StatusInfoComponent } from './status-info.component';
@@ -14,8 +14,9 @@ describe('StatusInfoComponent', () => {
       imports: [ NgxsModule.forRoot([]),
        MatMenuModule, 
        MatDialogModule,
+       _MatMenuDirectivesModule,
       ],
-      declarations: [StatusInfoComponent,  MatMenuTrigger],
+      declarations: [StatusInfoComponent],
       providers: [ MatDialogRef ]
     })
       .compileComponents();
