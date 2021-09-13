@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {  MatIconModule } from '@angular/material/icon';
 
 import { StatusInfoCardComponent } from './status-info-card.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
 
 describe('StatusInfoCardComponent', () => {
@@ -17,7 +17,8 @@ describe('StatusInfoCardComponent', () => {
       MatIconModule,
       MatMenuTrigger, 
       MatMenuModule, 
-      MatDialogModule],
+      MatDialogModule,
+      MatDialogRef],
       declarations: [ StatusInfoCardComponent ]
     })
     .compileComponents();
