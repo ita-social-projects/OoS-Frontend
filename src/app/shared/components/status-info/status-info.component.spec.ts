@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon/icon-module';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { NgxsModule } from '@ngxs/store';
 
 import { StatusInfoComponent } from './status-info.component';
 
@@ -11,7 +12,11 @@ describe('StatusInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, MatMenuTrigger, MatMenuModule, MatDialogModule],
+      imports: [ NgxsModule.forRoot([]),
+      MatIconModule, 
+      MatMenuTrigger,
+       MatMenuModule, 
+       MatDialogModule],
       declarations: [StatusInfoComponent]
     })
       .compileComponents();
