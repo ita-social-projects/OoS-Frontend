@@ -10,6 +10,7 @@ import { Application } from 'src/app/shared/models/application.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -20,7 +21,9 @@ describe('ApplicationsComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
         MatTabsModule,
-        MatDialogModule
+        MatDialogModule,
+        MatMenuModule
+
       ],
       declarations: [
         ApplicationsComponent,
