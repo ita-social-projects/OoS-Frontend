@@ -14,7 +14,6 @@ describe('StatusInfoComponent', () => {
       imports: [ NgxsModule.forRoot([]),
        MatMenuModule, 
        MatDialogModule,
-       MatDialogRef
       ],
       declarations: [StatusInfoComponent,  MatMenuTrigger],
       providers: [ MatDialogRef ]
