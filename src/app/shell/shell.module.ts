@@ -19,10 +19,11 @@ import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
 import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
 import { AboutComponent } from './about/about.component';
 import { SupportComponent } from './support/support.component';
+import { MomentDateAdapter, MOMENT_DATE_FORMATS } from '../shared/utils/moment-date-adapter';
 @NgModule({
   declarations: [
     MainComponent,
@@ -52,7 +53,9 @@ import { SupportComponent } from './support/support.component';
     ParentGuard,
     CreateProviderGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter },
   ]
 })
 export class ShellModule { }
