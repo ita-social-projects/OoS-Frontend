@@ -47,7 +47,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { StatusInfoComponent } from './components/status-info/status-info.component';
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 
 @NgModule({
@@ -90,7 +89,6 @@ import { StatusInfoCardComponent } from './components/status-info-card/status-in
     FooterComponent,
     CityConfirmationComponent,
     SidenavComponent,
-    StatusInfoComponent,
     StatusInfoCardComponent,
   ],
   imports: [
@@ -146,7 +144,6 @@ import { StatusInfoCardComponent } from './components/status-info-card/status-in
     FooterComponent,
     CityConfirmationComponent,
     SidenavComponent,
-    StatusInfoComponent,
     StatusInfoCardComponent,
   ]
 })

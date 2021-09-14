@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus,  ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/applications';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import {ApplicationTitles, ApplicationStatusDescription} from 'src/app/shared/enum/enumUA/applications'
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';

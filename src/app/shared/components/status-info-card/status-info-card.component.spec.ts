@@ -25,7 +25,6 @@ describe('StatusInfoCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StatusInfoCardComponent);
     component = fixture.componentInstance;
-    component.status = '';
     component.application = { status: null } as Application;
     fixture.detectChanges();
   });

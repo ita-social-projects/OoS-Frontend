@@ -1,6 +1,4 @@
-import { StatusInfoComponent } from './../../../../shared/components/status-info/status-info.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ApplicationCardComponent } from './application-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,7 +27,6 @@ describe('ApplicationCardComponent', () => {
       ],
       declarations: [
         ApplicationCardComponent,
-        StatusInfoComponent,
         StatusInfoCardComponent]
     })
       .compileComponents();

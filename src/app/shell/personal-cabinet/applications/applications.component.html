@@ -3,33 +3,33 @@
 
 <ng-template #isProvider>
   <div fxLayout="row" fxLayoutAlign="end center">
- <app-status-info ></app-status-info>
-  <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
-    (workshopCheck)="onWorkshopsSelect($event)">
-  </app-workshop-checkbox-dropdown>
-</div>
-    <mat-tab-group  mat-align-tabs="srart" (selectedTabChange)="onTabChange($event)">
-      <mat-tab label="{{applicationTitles[applicationStatus.all]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$| async }">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
-        </ng-container>
-      </mat-tab>
-    </mat-tab-group>    
+    <app-status-info-card></app-status-info-card>
+    <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
+      (workshopCheck)="onWorkshopsSelect($event)">
+    </app-workshop-checkbox-dropdown>
+  </div>
+  <mat-tab-group mat-align-tabs="srart" (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="{{applicationTitles[applicationStatus.all]}}">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$| async }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
 
 </ng-template>
 
@@ -39,6 +39,9 @@
 </ng-template>
 
 <ng-template #isParent>
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <app-status-info-card></app-status-info-card>
+  </div>
   <div *ngIf="(children$| async)">
     <div *ngFor="let child of (children$| async)">
 
@@ -72,4 +75,4 @@
 <div>
 
 
-<ng-template appInfoBoxHost></ng-template>
+  <ng-template appInfoBoxHost></ng-template>

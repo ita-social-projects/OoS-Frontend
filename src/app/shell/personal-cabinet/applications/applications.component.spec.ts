@@ -1,5 +1,4 @@
 import { StatusInfoCardComponent } from 'src/app/shared/components/status-info-card/status-info-card.component';
-import { StatusInfoComponent } from './../../../shared/components/status-info/status-info.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
@@ -31,7 +30,6 @@ describe('ApplicationsComponent', () => {
         MockApplicationCardComponent,
         ApplicationChildFilterPipe,
         MockWorkshopChekcboxDropdownComponent,
-        StatusInfoComponent,
         StatusInfoCardComponent
       ],
     })
