@@ -53,7 +53,7 @@ import { MomentDateAdapter, MOMENT_DATE_FORMATS } from '../shared/utils/moment-d
     ParentGuard,
     CreateProviderGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+    { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter },
   ]
