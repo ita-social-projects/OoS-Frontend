@@ -2,22 +2,14 @@
   <div *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="openStatusMenu()"
     (mouseleave)="closeStatusMenu()">
     <div class="application-popup-status {{application.status}}">
-      <span *ngIf="application.status==='Pending'"> <i class="fas fa-user-clock"></i></span>
-      <span *ngIf="application.status==='AcceptedForSelection'"><i class="fas fa-user-plus"></i></span>
-      <span *ngIf="application.status==='Approved'"> <i class="fas fa-user-check"></i></span>
-      <span *ngIf="application.status==='Reject'"> <i class="fas fa-user-times"></i></span>
-      <span *ngIf="application.status==='Left'"><i class="fas fa-user-times"></i></span>
+      <span > <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
       <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
     </div>
 
     <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"
       (mouseleave)="closeStatusMenu()" class="mat-application-menu">
       <div class="application-popup-status {{application.status}}">
-        <span *ngIf="application.status==='Pending'"> <i class="fas fa-user-clock"></i></span>
-        <span *ngIf="application.status==='AcceptedForSelection'"><i class="fas fa-user-plus"></i></span>
-        <span *ngIf="application.status==='Approved'"> <i class="fas fa-user-check"></i></span>
-        <span *ngIf="application.status==='Reject'"> <i class="fas fa-user-times"></i></span>
-        <span *ngIf="application.status==='Left'"><i class="fas fa-user-times"></i></span>
+        <span > <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
         <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
       </div>
       <div class="application-info-menu application-info-description-card">({{
@@ -34,24 +26,11 @@
     <div class="application-info-menu-title"> Статуси заявок</div>
     <div class="application-info-menu">
       <div class="application-info-title">
-        <span class="Pending"><i class="fas fa-user-clock"></i>{{
-          applicationTitles[applicationStatus.Pending]
-          }}</span>
-        <span class="AcceptedForSelection"><i class="fas fa-user-plus"></i>{{
-          applicationTitles[applicationStatus.AcceptedForSelection] }}</span>
-        <span class="Approved"><i class="fas fa-user-check"></i>{{
-          applicationTitles[applicationStatus.Approved] }}</span>
-        <span class="Rejected"><i class="fas fa-user-times"></i>{{
-          applicationTitles[applicationStatus.Rejected] }}</span>
-        <span class="Left"><i class="fas fa-user-times"></i>{{ applicationTitles[applicationStatus.Left]
-          }}</span>
+        <span *ngFor="let status of getValuesFromEnum(applicationStatus)" class="{{status}}"> <i
+            class={{applicationIcons[applicationStatus[status]]}}></i>{{applicationTitles[applicationStatus[status]]}}</span>
       </div>
       <div class="application-info-description">
-        <span>{{ applicationStatusDescription[applicationStatus.Pending] }}</span>
-        <span>{{ applicationStatusDescription[applicationStatus.AcceptedForSelection] }}</span>
-        <span>{{ applicationStatusDescription[applicationStatus.Approved] }}</span>
-        <span>{{ applicationStatusDescription[applicationStatus.Rejected] }}</span>
-        <span>{{ applicationStatusDescription[applicationStatus.Left] }}</span>
+        <span *ngFor="let description of getValuesFromEnum(applicationStatusDescription)">{{description}}</span>
       </div>
     </div>
   </mat-menu>
