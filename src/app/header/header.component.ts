@@ -1,10 +1,9 @@
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
 import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
-import { AppState } from '../shared/store/app.state';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
 import { FilterState } from '../shared/store/filter.state';
@@ -23,7 +22,7 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 export class HeaderComponent implements OnInit {
 
   readonly Languages: typeof Languages = Languages;
-  selectedLanguage: string = 'uk'
+  selectedLanguage: string = 'uk';
 
   Role = Role;
   showModalReg = false;
@@ -31,8 +30,8 @@ export class HeaderComponent implements OnInit {
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-  @Select(AppState.isLoading)
-  isLoadingCabinet$: Observable<boolean>
+  @Select(UserState.isLoading)
+  isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
   isLoadingDirections: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
