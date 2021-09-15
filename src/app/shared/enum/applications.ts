@@ -1,5 +1,5 @@
 export enum ApplicationStatus {
-  all,
+
   Pending,
   AcceptedForSelection,
   Approved,
@@ -7,7 +7,7 @@ export enum ApplicationStatus {
   Left
 }
 export enum ApplicationIcons {
- "fas fa-user-alt",
+
   "fas fa-user-clock",
   "fas fa-user-plus",
   "fas fa-user-check",

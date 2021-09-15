@@ -9,7 +9,7 @@
     </app-workshop-checkbox-dropdown>
   </div>
   <mat-tab-group mat-align-tabs="srart" (selectedTabChange)="onTabChange($event)">
-    <mat-tab label="{{applicationTitles[applicationStatus.all]}}">
+    <mat-tab label="Усі">
       <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
       </ng-container>
     </mat-tab>
