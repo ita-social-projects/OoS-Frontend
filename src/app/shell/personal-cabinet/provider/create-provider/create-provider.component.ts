@@ -75,9 +75,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     let provider: Provider;
 
     if (this.editMode) {
+      legalAddress = new Address(this.ActualAddressFormGroup.value, this.provider.legalAddress);
+      actulaAdress = new Address(this.LegalAddressFormGroup.value, this.provider.actualAddress);
       provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
-      legalAddress = new Address(this.ActualAddressFormGroup.value, this.provider.legalAddress.id);
-      actulaAdress = new Address(this.LegalAddressFormGroup.value, this.provider?.actualAddress.id);
       this.store.dispatch(new UpdateProvider(provider));
     } else {
       legalAddress = new Address(this.ActualAddressFormGroup.value);
