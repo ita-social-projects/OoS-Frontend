@@ -38,29 +38,10 @@
 
             <div class="border">
               <h3>Юридична адреса</h3>
-              <h5>Область</h5>
-              <p>{{provider.legalAddress.district}}</p>
-              <h5>Місто</h5>
-              <p>{{provider.legalAddress.city}}</p>
-              <h5>Район</h5>
-              <p>{{provider.legalAddress.region}}</p>
-              <h5>Вулиця</h5>
-              <p>{{provider.legalAddress.street}}</p>
-              <h5>Будинок</h5>
-              <p>{{provider.legalAddress.buildingNumber}}</p>
+              <ng-container ActualAddress></ng-container>
             </div>
-
             <h3>Фактична адреса</h3>
-            <h5>Область</h5>
-            <p>{{provider.actualAddress.district}}</p>
-            <h5>Місто</h5>
-            <p>{{provider.actualAddress.city}}</p>
-            <h5>Район</h5>
-            <p>{{provider.actualAddress.region}}</p>
-            <h5>Вулиця</h5>
-            <p>{{provider.actualAddress.street}}</p>
-            <h5>Будинок</h5>
-            <p>{{provider.actualAddress.buildingNumber}}</p>
+            <ng-container *ngIf="provider?.actualAddress then ActualAddress ; else LegalAddress;"></ng-container>
           </mat-tab>
 
           <mat-tab label="Фото">
@@ -74,3 +55,29 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #ActualAddress>
+  <h5>Область</h5>
+  <p>{{provider.actualAddress.district}}</p>
+  <h5>Місто</h5>
+  <p>{{provider.actualAddress.city}}</p>
+  <h5>Район</h5>
+  <p>{{provider.actualAddress.region}}</p>
+  <h5>Вулиця</h5>
+  <p>{{provider.actualAddress.street}}</p>
+  <h5>Будинок</h5>
+  <p>{{provider.actualAddress.buildingNumber}}</p>
+</ng-template>
+
+<ng-template #LegalAddress>
+  <h5>Область</h5>
+  <p>{{provider.legalAddress.district}}</p>
+  <h5>Місто</h5>
+  <p>{{provider.legalAddress.city}}</p>
+  <h5>Район</h5>
+  <p>{{provider.legalAddress.region}}</p>
+  <h5>Вулиця</h5>
+  <p>{{provider.legalAddress.street}}</p>
+  <h5>Будинок</h5>
+  <p>{{provider.legalAddress.buildingNumber}}</p>
+</ng-template>
