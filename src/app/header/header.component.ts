@@ -21,12 +21,14 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 })
 export class HeaderComponent implements OnInit {
 
-  readonly Languages: typeof Languages = Languages;
-  selectedLanguage: string = 'uk';
-
-  Role = Role;
-  showModalReg = false;
   @Input() MobileScreen: boolean;
+
+  readonly Languages: typeof Languages = Languages;
+  readonly Role: typeof Role = Role;
+  readonly roles: typeof RoleLinks = RoleLinks;
+
+  selectedLanguage: string = 'uk';
+  showModalReg = false;
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
@@ -41,8 +43,6 @@ export class HeaderComponent implements OnInit {
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
-  roles = RoleLinks;
-
 
   constructor(
     public store: Store,

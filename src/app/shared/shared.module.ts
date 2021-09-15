@@ -5,7 +5,6 @@ import { AgeFilterComponent } from './components/filters-list/age-filter/age-fil
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { MaterialModule } from './material/material.module';
 import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
@@ -48,6 +47,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
+import { MaterialModule } from './modules/material.module';
 
 @NgModule({
   declarations: [
