@@ -1,38 +1,20 @@
 <div *ngIf="application; else cardFormat;">
-  <div *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="openStatusMenu()"
-    (mouseleave)="closeStatusMenu()">
-    <div class="application-popup-status {{application.status}}">
-      <span > <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
-      <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
-    </div>
-
-    <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"
-      (mouseleave)="closeStatusMenu()" class="mat-application-menu">
-      <div class="application-popup-status {{application.status}}">
-        <span > <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
-        <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
-      </div>
-      <div class="application-info-menu application-info-description-card">({{
-        applicationStatusDescription[applicationStatus[application.status]] }})</div>
-    </mat-menu>
+  <div class="application-popup-status {{application.status}}">
+    <span> <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
+    <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
   </div>
+  <div class="application-info-menu application-info-description-card">({{
+    applicationStatusDescription[applicationStatus[application.status]] }})</div>
 </div>
 <ng-template #cardFormat>
-  <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-    (click)=" isActiveInfoButton=!isActiveInfoButton"
-    [ngClass]="isActiveInfoButton?'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-
-  <mat-menu [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
-    <div class="application-info-menu-title"> Статуси заявок</div>
-    <div class="application-info-menu">
-      <div class="application-info-title">
-        <span *ngFor="let status of getValuesFromEnum(applicationStatus)" class="{{status}}"> <i
-            class={{applicationIcons[applicationStatus[status]]}}></i>{{applicationTitles[applicationStatus[status]]}}</span>
-      </div>
-      <div class="application-info-description">
-        <span *ngFor="let description of getValuesFromEnum(applicationStatusDescription)">{{description}}</span>
-      </div>
+  <div class="application-info-menu-title"> Статуси заявок</div>
+  <div class="application-info-menu">
+    <div class="application-info-title">
+      <span *ngFor="let status of getValuesFromEnum(applicationStatus)" class="{{status}}"> <i
+          class={{applicationIcons[applicationStatus[status]]}}></i>{{applicationTitles[applicationStatus[status]]}}</span>
     </div>
-  </mat-menu>
-
+    <div class="application-info-description">
+      <span *ngFor="let description of getValuesFromEnum(applicationStatusDescription)">{{description}}</span>
+    </div>
+  </div>
 </ng-template>

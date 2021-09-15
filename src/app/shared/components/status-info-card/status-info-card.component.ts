@@ -13,22 +13,13 @@ export class StatusInfoCardComponent implements OnInit {
   readonly applicationStatus = ApplicationStatus;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
-  keys = Object.keys(this.applicationStatus);
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
-  isActiveInfoButton: boolean = false;
   @Input() application: Application = null;
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  openStatusMenu(): void {
-    this.trigger.openMenu();
-  }
-  closeStatusMenu(): void {
-    this.trigger.closeMenu();
-  }
   getValuesFromEnum(Enum: Object) : Array<any> {
     let keys = Object.keys(Enum);
     return keys.slice(keys.length / 2);

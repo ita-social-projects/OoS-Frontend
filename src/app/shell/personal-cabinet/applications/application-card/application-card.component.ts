@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { ApplicationStatus, ApplicationIcons} from 'src/app/shared/enum/applications';
 import {ApplicationTitles, ApplicationStatusDescription} from 'src/app/shared/enum/enumUA/applications'
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
@@ -17,9 +17,11 @@ export class ApplicationCardComponent implements OnInit {
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
+  readonly applicationIcons = ApplicationIcons;
+  readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
-  readonly applicationStatusDescription = ApplicationStatusDescription;
+  
 
   @Input() application: Application;
   @Input() userRole: string;

@@ -40,7 +40,11 @@
 
 <ng-template #isParent>
   <div fxLayout="row" fxLayoutAlign="end center">
-    <app-status-info-card></app-status-info-card>
+    <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
+      (click)=" isActiveInfoButton=!isActiveInfoButton" [ngClass]="isActiveInfoButton?'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+    <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
+      <app-status-info-card></app-status-info-card>
+      </mat-menu>
   </div>
   <div *ngIf="(children$| async)">
     <div *ngFor="let child of (children$| async)">
