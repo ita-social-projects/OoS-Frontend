@@ -6,6 +6,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -13,12 +14,13 @@ import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
   styleUrls: ['./workshop-cards-list.component.scss']
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
-
   @Input() workshops: WorkshopFilterCard;
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
+  readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
+
 
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;

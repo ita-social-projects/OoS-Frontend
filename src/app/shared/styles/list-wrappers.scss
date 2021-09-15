@@ -1,16 +1,21 @@
 .empty-list-wrapper{
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  font-weight: 600;
-  font-size: 20px;
-  min-height: 66px;
-  background: #ececec;
+  background: #e5e6f1;
   border-radius: 5px;
-  padding: 20px 24px;
-  margin-top: 20px;
+  min-height: 66px;
+  margin: 2rem 0 ;
 }
-
+.text{
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 25px;
+  color: #272425;
+  opacity: 1;
+  margin: 0 2rem;
+}
 .add-wrapper{
   min-height: 66px;
   background: #e5e6f1;

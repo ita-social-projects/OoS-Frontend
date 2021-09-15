@@ -5,7 +5,7 @@
     <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
     <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
   </div>
-  <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops; else isEmptyList;"></ng-container>
+  <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops;"></ng-container>
 </ng-template>
 
 <ng-template #isParent>
@@ -20,22 +20,24 @@
 </ng-template>
 
 <ng-template #ParentWorkshops>
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Активні">
-      <ng-container
-        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.pending, applicationStatus.approved, applicationStatus.acceptedForSelection] }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="Неактивні">
-      <ng-container
-        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.rejected, applicationStatus.left] }">
-      </ng-container>
-    </mat-tab>
-  </mat-tab-group>
+  <div *ngIf="!applications?.length then isEmptyList;">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Активні">
+        <ng-container
+          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.pending, applicationStatus.approved, applicationStatus.acceptedForSelection] }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Неактивні">
+        <ng-container
+          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.rejected, applicationStatus.left] }">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </ng-template>
 
 <ng-template #isEmptyList>
-  <p class="empty-list-wrapper">Гуртків поки немає</p>
+  <app-no-result-card [title]="noParentWorkshops"></app-no-result-card>
 </ng-template>
 
 <ng-template #ParentApplications let-applications>
@@ -51,4 +53,8 @@
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noParentWorkshops"></app-no-result-card>
 </ng-template>

@@ -47,6 +47,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     FooterComponent,
     CityConfirmationComponent,
     SidenavComponent,
+    NoResultCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -141,7 +143,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     StarsComponent,
     FooterComponent,
     CityConfirmationComponent,
-    SidenavComponent
+    SidenavComponent,
+    NoResultCardComponent
   ]
 })
 export class SharedModule { }
