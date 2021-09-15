@@ -7,6 +7,7 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -24,6 +25,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
+  @Select(FilterState.isLoading)
+  isLoadingResultPage$: Observable<boolean>;
 
   parent: boolean;
 

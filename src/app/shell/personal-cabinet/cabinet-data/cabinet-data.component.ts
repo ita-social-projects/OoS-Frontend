@@ -40,7 +40,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.user)
   user$: Observable<User>;
   @Select(UserState.isLoading)
-  isLoadingProviderCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   userRole: string;

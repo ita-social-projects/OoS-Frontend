@@ -9,7 +9,9 @@
 </ng-template>
 
 <ng-template #isParent>
-  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #ProviderWorkshops>
@@ -20,20 +22,18 @@
 </ng-template>
 
 <ng-template #ParentWorkshops>
-  <div *ngIf="!applications?.length then isEmptyList;">
-    <mat-tab-group mat-align-tabs="start">
-      <mat-tab label="Активні">
-        <ng-container
-          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.pending, applicationStatus.approved, applicationStatus.acceptedForSelection] }">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="Неактивні">
-        <ng-container
-          *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.rejected, applicationStatus.left] }">
-        </ng-container>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Активні">
+      <ng-container
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.pending, applicationStatus.approved, applicationStatus.acceptedForSelection] }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Неактивні">
+      <ng-container
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.rejected, applicationStatus.left] }">
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
 </ng-template>
 
 <ng-template #isEmptyList>
@@ -41,20 +41,19 @@
 </ng-template>
 
 <ng-template #ParentApplications let-applications>
-  <div *ngFor="let child of children$ | async">
-    <div *ngIf="isApplications(applications, child)">
-      <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
-        :'shortDate'}})</h3>
-      <div fxLayout='row' fxLayoutAlign='start center'>
-        <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
-          [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application"
-          (leaveWorkshop)="onLeaveWorkshops($event)">
-        </app-workshop-card>
+  <ng-container *ngIf="applications?.length else isEmptyList;">
+    <div *ngFor="let child of children$ | async">
+      <div *ngIf="isApplications(applications, child)">
+        <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
+          :'shortDate'}})</h3>
+        <div fxLayout='row' fxLayoutAlign='start center'>
+          <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
+            [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application"
+            (leaveWorkshop)="onLeaveWorkshops($event)">
+          </app-workshop-card>
+        </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-container>
 
-<ng-template #isEmptyList>
-  <app-no-result-card [title]="noParentWorkshops"></app-no-result-card>
 </ng-template>

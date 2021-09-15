@@ -27,14 +27,12 @@ export class HeaderComponent implements OnInit {
 
   Role = Role;
   showModalReg = false;
-  @Input() MobileScreen: boolean; 
+  @Input() MobileScreen: boolean;
 
   @Select(FilterState.isLoading)
-  isLoadingMainPage$: Observable<boolean>;
-  @Select(AppState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-  @Select(UserState.isLoading)
-  isLoadingProviderCabinet$: Observable<boolean>
+  @Select(AppState.isLoading)
+  isLoadingCabinet$: Observable<boolean>
   @Select(MetaDataState.isLoading)
   isLoadingDirections: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
@@ -78,4 +76,3 @@ export class HeaderComponent implements OnInit {
   }
 
 }
-
