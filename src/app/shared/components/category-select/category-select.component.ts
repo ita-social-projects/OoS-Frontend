@@ -285,7 +285,7 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
-  * This method patches values to teh form from the workshop.
+  * This method patches values to the form from the workshop.
   */
   activateEditMode(): void {
 

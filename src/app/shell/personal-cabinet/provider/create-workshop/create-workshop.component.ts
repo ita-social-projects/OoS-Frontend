@@ -128,11 +128,7 @@ export class CreateWorkshopComponent implements OnInit {
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine))
-      .subscribe((value) => {
-        console.log(form)
-        console.log(value)
-        debugger;
-
+      .subscribe(() => {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true))
       });
