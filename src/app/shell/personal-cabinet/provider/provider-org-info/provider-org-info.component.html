@@ -38,29 +38,21 @@
 
             <div class="border">
               <h3>Юридична адреса</h3>
-              <h5>Область</h5>
-              <p>{{provider.legalAddress.district}}</p>
-              <h5>Місто</h5>
-              <p>{{provider.legalAddress.city}}</p>
-              <h5>Район</h5>
-              <p>{{provider.legalAddress.region}}</p>
-              <h5>Вулиця</h5>
-              <p>{{provider.legalAddress.street}}</p>
-              <h5>Будинок</h5>
-              <p>{{provider.legalAddress.buildingNumber}}</p>
+              <ng-container *ngIf="provider.legalAddress then LegalAddress"></ng-container>
             </div>
-
             <h3>Фактична адреса</h3>
-            <h5>Область</h5>
-            <p>{{provider.actualAddress.district}}</p>
-            <h5>Місто</h5>
-            <p>{{provider.actualAddress.city}}</p>
-            <h5>Район</h5>
-            <p>{{provider.actualAddress.region}}</p>
-            <h5>Вулиця</h5>
-            <p>{{provider.actualAddress.street}}</p>
-            <h5>Будинок</h5>
-            <p>{{provider.actualAddress.buildingNumber}}</p>
+            <ng-container *ngIf="provider.actualAddress else LegalAddress;">
+              <h5>Область</h5>
+              <p>{{provider.actualAddress.district}}</p>
+              <h5>Місто</h5>
+              <p>{{provider.actualAddress.city}}</p>
+              <h5>Район</h5>
+              <p>{{provider.actualAddress.region}}</p>
+              <h5>Вулиця</h5>
+              <p>{{provider.actualAddress.street}}</p>
+              <h5>Будинок</h5>
+              <p>{{provider.actualAddress.buildingNumber}}</p>
+            </ng-container>
           </mat-tab>
 
           <mat-tab label="Фото">
@@ -70,6 +62,19 @@
 
         </mat-tab-group>
       </div>
+
+      <ng-template #LegalAddress>
+        <h5>Область</h5>
+        <p>{{provider.legalAddress.district}}</p>
+        <h5>Місто</h5>
+        <p>{{provider.legalAddress.city}}</p>
+        <h5>Район</h5>
+        <p>{{provider.legalAddress.region}}</p>
+        <h5>Вулиця</h5>
+        <p>{{provider.legalAddress.street}}</p>
+        <h5>Будинок</h5>
+        <p>{{provider.legalAddress.buildingNumber}}</p>
+      </ng-template>
 
     </div>
   </div>

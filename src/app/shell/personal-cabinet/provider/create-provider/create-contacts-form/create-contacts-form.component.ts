@@ -41,9 +41,17 @@ export class CreateContactsFormComponent implements OnInit {
       (isSame) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
     })
 
-    if (this.provider) {
-      this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
+    this.provider && this.activateEditMode();
+  }
+
+  activateEditMode(): void {
+    this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
+
+    if (this.provider?.actualAddress) {
       this.ActualAddressFormGroup.patchValue(this.provider.actualAddress, { emitEvent: false });
+    } else {
+      this.ActualAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
     }
+
   }
 }
