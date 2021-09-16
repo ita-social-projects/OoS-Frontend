@@ -2,8 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-no-result-card',
-  templateUrl: './no-result-card.component.html',
-  styleUrls: ['./no-result-card.component.scss']
+  template: `
+    <div class="empty-list-wrapper">
+      <p class="text">{{title}}</p>
+    </div>
+  `,
+  styleUrls: ['/src/app/shared/styles/list-wrappers.scss']
 })
 export class NoResultCardComponent implements OnInit {
 
