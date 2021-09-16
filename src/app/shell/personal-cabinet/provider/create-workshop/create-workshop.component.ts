@@ -124,10 +124,15 @@ export class CreateWorkshopComponent implements OnInit {
   }
 
   private subscribeOnDirtyForm(form: FormGroup | FormArray): void {
+
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine))
-      .subscribe(() => {
+      .subscribe((value) => {
+        console.log(form)
+        console.log(value)
+        debugger;
+
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true))
       });
