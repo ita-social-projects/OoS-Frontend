@@ -8,23 +8,23 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="{{applicationTitles[applicationStatus.all]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles[applicationStatus.pending]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$| async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
         </ng-container>
       </mat-tab>s
       <mat-tab label="{{applicationTitles[applicationStatus.approved]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles[applicationStatus.rejected]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles[applicationStatus.left]}}">
-        <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -33,40 +33,44 @@
 </ng-template>
 
 <ng-template #isEmptyList>
-  <p class="no-application-wrapper">Заявок поки немає</p>
+  <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
 </ng-template>
 
 <ng-template #isParent>
-  <div *ngIf="(children$| async)">
-    <div *ngFor="let child of (children$| async)">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
 
-      <div *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication"></div>
+    <div class="container" *ngIf="(children$| async)?.length else isEmptyList">
+      <div *ngFor="let child of (children$| async)">
+        <div
+          *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication; else isEmptyList">
+        </div>
 
-      <ng-template #ChildApplication>
-        <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
-        <ng-container
-          *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
-        </ng-container>
-      </ng-template>
+        <ng-template #ChildApplication>
+          <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
+          <ng-container
+            *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
+          </ng-container>
+        </ng-template>
+
+      </div>
 
     </div>
-  </div>
-
+  </ng-container>
 </ng-template>
 
 <ng-template #Applications let-applications>
-  <div class="container" *ngIf="(applications$ | async)?.length  then ApplicationList; else isEmptyList">
-  </div>
-
-  <ng-template #ApplicationList>
-    <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="userRole"
-      (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
-      (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
-    </app-application-card>
-  </ng-template>
+  <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="userRole"
+    (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
+    (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+  </app-application-card>
 </ng-template>
 
-
+<ng-template #ProviderApplication let-applications>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && applications?.length else isEmptyList">
+    <ng-container *ngTemplateOutlet="Applications; context: applications">
+    </ng-container>
+  </ng-container>
+</ng-template>
 
 
 <ng-template appInfoBoxHost></ng-template>

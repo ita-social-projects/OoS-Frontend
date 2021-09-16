@@ -13,15 +13,14 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { environment } from './../environments/environment';
 import { FormsModule } from '@angular/forms';
-
 import { ShellComponent } from './shell/shell.component';
 import { MetaDataState } from './shared/store/meta-data.state';
-import { RegistrationModule } from './shared/registration/registration.module';
+import { RegistrationModule } from './shared/modules/registration.module';
 import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
 import { UserState } from './shared/store/user.state';
 import { NavigationState } from './shared/store/navigation.state';
-import {  LOCALE_ID } from '@angular/core';
+import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 
