@@ -28,7 +28,8 @@ describe('ResultComponent', () => {
         MockOrderingComponent,
         MockFiltersListComponent,
         MockWorkshopCardsListComponent,
-        MockWorkshopMapViewListComponent
+        MockWorkshopMapViewListComponent,
+        MockScrollToTopComponent
       ]
     })
       .compileComponents();
@@ -79,3 +80,8 @@ class MockWorkshopCardsListComponent {
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops: Workshop[];
 }
+@Component({
+  selector: 'app-scroll-to-top',
+  template: ''
+})
+class MockScrollToTopComponent { }
