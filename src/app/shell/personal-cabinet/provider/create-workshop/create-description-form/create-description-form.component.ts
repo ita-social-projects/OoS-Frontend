@@ -65,7 +65,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
   }
 
-  onKeyWordsInput(): void {
+  onKeyWordsInput(isEditMode: boolean = true): void {
     let inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
 
@@ -76,7 +76,7 @@ export class CreateDescriptionFormComponent implements OnInit {
         this.keyWords.unshift(inputKeyWord);
       }
 
-      this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
+      this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
       this.keyWordsCtrl.setValue(null);
       this.keyWord = '';
     } else {
@@ -129,9 +129,9 @@ export class CreateDescriptionFormComponent implements OnInit {
 
     this.workshop.keywords.forEach((keyWord: string) => {
       this.keyWord = keyWord;
-      this.onKeyWordsInput();
+      this.onKeyWordsInput(false);
     });
 
-    this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions);
+    this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
   }
 }
