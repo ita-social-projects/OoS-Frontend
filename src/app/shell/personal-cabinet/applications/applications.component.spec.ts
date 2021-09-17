@@ -10,6 +10,8 @@ import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-chi
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -30,7 +32,8 @@ describe('ApplicationsComponent', () => {
         MockApplicationCardComponent,
         ApplicationChildFilterPipe,
         MockWorkshopChekcboxDropdownComponent,
-        StatusInfoCardComponent
+        StatusInfoCardComponent,
+        NoResultCardComponent
       ],
     })
       .compileComponents();

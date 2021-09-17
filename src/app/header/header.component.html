@@ -1,7 +1,7 @@
 <div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
-      <div *ngIf="MobileView && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
+      <div *ngIf="MobileScreen && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
       <ng-template #mobileNav>
         <app-navigation-mobile-bar></app-navigation-mobile-bar>
       </ng-template>
@@ -22,8 +22,9 @@
       </div>
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
-        <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option">
-          <mat-option value="uk"> {{Languages.uk}} </mat-option>
+        <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option"
+          disableOptionCentering panelClass="dropdownOption">
+          <mat-option [ngClass]="'lang-option-text'" value="uk"> {{Languages.uk}} </mat-option>
         </mat-select>
       </button>
       <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
@@ -110,8 +111,7 @@
     </mat-menu>
   </div>
 </ng-template>
-<div
-  *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async) || (isLoadingDirections | async)"
+<div *ngIf="(isLoadingResultPage$ | async) || (isLoadingCabinet$ | async) || (isLoadingDirections | async)"
   class="progress-bar">
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>

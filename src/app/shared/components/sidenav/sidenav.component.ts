@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -19,11 +19,11 @@ import { RegistrationState } from '../../store/registration.state';
 export class SidenavComponent implements OnInit, OnDestroy{
 
   readonly Languages: typeof Languages = Languages;
-  selectedLanguage: string = 'uk'
+  selectedLanguage: string;
 
   Role = Role;
   showModalReg = false;
-  MobileView: boolean = false;
+  @Input() MobileScreen: boolean;
 
   title = 'out-of-school';
   visibleSidenav: boolean;
@@ -49,18 +49,9 @@ export class SidenavComponent implements OnInit, OnDestroy{
     this.store.dispatch(new SidenavToggle());
   }
 
-  isWindowMobile(event: any): void {
-    this.MobileView = event.innerWidth <= 750;
-  }
-
-  @HostListener("window: resize", ["$event.target"])
-  onResize(event: any): void {
-    this.isWindowMobile(event);
-  }
-
   ngOnInit(): void {
+    this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
     this.user$.subscribe(user => this.user = user);
-    this.isWindowMobile(window);
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible)

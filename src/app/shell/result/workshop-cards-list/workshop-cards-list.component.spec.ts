@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { NgxsModule, Store } from '@ngxs/store';
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 const MockUser = {
   role: '',
@@ -23,7 +24,8 @@ describe('WorkshopCardsListComponentt', () => {
         WorkshopCardsListComponent,
         MockOrderingComponent,
         MockListWorkshopCardComponent,
-        MockListWorkshopCardPaginatorComponent
+        MockListWorkshopCardPaginatorComponent,
+        NoResultCardComponent
       ],
       imports: [
         FlexLayoutModule,
@@ -36,7 +38,7 @@ describe('WorkshopCardsListComponentt', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store,'selectSnapshot').and.returnValue({} as Parent);
+    spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -126,3 +126,13 @@ $config: mat-typography-config(
   background-color: #E0E0E0;
   border-radius: 5px;
 }
+
+.dropdownOption {
+  margin-top: 35px;
+  background-color: white !important;
+  border-radius: 15px !important;
+}
+
+.dropdownOptionMobile {
+  display: none;
+}
