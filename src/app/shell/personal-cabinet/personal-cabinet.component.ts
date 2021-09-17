@@ -7,7 +7,6 @@ import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { MatMenuTrigger } from '@angular/material/menu';
-// import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-personal-cabinet',
