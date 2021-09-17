@@ -20,25 +20,25 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor( 
+  constructor(
     private geolocationService: GeolocationService,
     private store:Store
     ) { }
 
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
-      
-      //TODO: waiting for endpoint 
+
+      //TODO: waiting for endpoint
       coords && this.store.dispatch([new SetCity({
         district: " ",
         id: 34446,
         longitude: coords.lng,
-        latitude: coords.lat,  
+        latitude: coords.lat,
         name: "КИЇВ",
         region: " "
       }), new ConfirmCity(false)]);
     });
-    
+
     this.isParent$
       .pipe(takeUntil(this.destroy$))
       .subscribe((parent) => {

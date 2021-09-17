@@ -47,6 +47,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     FooterComponent,
     CityConfirmationComponent,
     SidenavComponent,
+    ScrollToTopComponent,
   ],
   imports: [
     MaterialModule,
@@ -141,7 +143,8 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     StarsComponent,
     FooterComponent,
     CityConfirmationComponent,
-    SidenavComponent
+    SidenavComponent,
+    ScrollToTopComponent,
   ]
 })
 export class SharedModule { }

@@ -27,10 +27,11 @@ export class HeaderComponent implements OnInit {
 
   Role = Role;
   showModalReg = false;
-  @Input() MobileScreen: boolean; 
 
   @Select(FilterState.isLoading)
   isLoadingMainPage$: Observable<boolean>;
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
   @Select(AppState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   @Select(UserState.isLoading)

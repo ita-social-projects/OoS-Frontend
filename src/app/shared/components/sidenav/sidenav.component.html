@@ -1,6 +1,6 @@
 <mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
 
-  <div class="mobile-sidenav-content" *ngIf="MobileScreen">
+  <div class="mobile-sidenav-content" *ngIf="(isMobileScreen$ | async)">
 
     <div *ngIf="((isAuthorized$ | async) && (user$ | async)) then isAuthorized; else isUnauthorized"></div>
 

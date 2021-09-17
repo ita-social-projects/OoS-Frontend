@@ -32,9 +32,7 @@ describe('AppComponent', () => {
   selector: 'app-header',
   template: ''
 })
-class MockHeaderComponent{
-  @Input() MobileScreen: boolean;
-}
+class MockHeaderComponent{}
 
 @Component({
   selector: 'app-shell',
@@ -52,6 +50,4 @@ class MockFooterComponent{}
   selector: 'app-sidenav',
   template: ''
 })
-class MockSidenavComponent{
-  @Input() MobileScreen: boolean;
-}
+class MockSidenavComponent{}

@@ -5,7 +5,7 @@ import { Teacher } from '../models/teacher.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { TeacherService } from '../services/teachers/teacher.service';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { ActivateEditMode, GetTeachersById, MarkFormDirty, SetLocation, ShowMessageBar, ToggleLoading } from './app.actions';
+import { ActivateEditMode, GetTeachersById, MarkFormDirty, SetLocation, ShowMessageBar, ToggleLoading, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
   isLoading: boolean;
@@ -15,7 +15,8 @@ export interface AppStateModel {
   allWorkshops: WorkshopCard[];
   teachers: Teacher[],
   isDirtyForm: boolean,
-  isEditMode: boolean
+  isEditMode: boolean,
+  isMobileScreen: undefined | boolean
 }
 
 @State<AppStateModel>({
@@ -28,7 +29,8 @@ export interface AppStateModel {
     allWorkshops: [],
     teachers: [],
     isDirtyForm: false,
-    isEditMode: false
+    isEditMode: false,
+    isMobileScreen: undefined
   }
 })
 @Injectable()
@@ -36,6 +38,9 @@ export class AppState {
 
   @Selector()
   static isLoading(state: AppStateModel): boolean { return state.isLoading }
+
+  @Selector()
+  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen }
 
   @Selector()
   static allWorkshops(state: AppStateModel): WorkshopCard[] { return state.allWorkshops }
@@ -80,5 +85,10 @@ export class AppState {
 
   @Action(ShowMessageBar)
   showMessageBar({ }: StateContext<AppStateModel>, { payload }: ShowMessageBar): void {
+  }
+
+  @Action(ToggleMobileScreen)
+  ToggleMobileScreen({patchState}:StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
+      patchState({ isMobileScreen: payload })
   }
 }

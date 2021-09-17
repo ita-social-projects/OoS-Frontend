@@ -22,3 +22,8 @@ export class ShowMessageBar {
   static readonly type = '[app] show message bar';
   constructor(public payload: { message: string, type: string }) { }
 }
+
+export class ToggleMobileScreen {
+  static readonly type ='[app] isMobileScreen'
+  constructor(public payload: boolean){ }
+}

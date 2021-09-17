@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { User } from '../../models/user.model';
+import { AppState } from '../../store/app.state';
 import { SidenavToggle } from '../../store/navigation.actions';
 import { NavigationState } from '../../store/navigation.state';
 import { Login, Logout } from '../../store/registration.actions';
@@ -23,11 +24,12 @@ export class SidenavComponent implements OnInit, OnDestroy{
 
   Role = Role;
   showModalReg = false;
-  @Input() MobileScreen: boolean;
 
   title = 'out-of-school';
   visibleSidenav: boolean;
 
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
   @Select(NavigationState.sidenavOpenTrue)
   sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)

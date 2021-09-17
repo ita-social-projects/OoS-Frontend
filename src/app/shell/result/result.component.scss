@@ -2,9 +2,6 @@
 
 .view-control-panel {
   flex-direction: row !important;
-  // 439Bug
-  // margin-top: 1.5rem;
-  // margin-bottom: 1.0625rem;
 
   .search-block-wrapper {
     display: block;
@@ -93,8 +90,6 @@
   cursor: pointer;
   border: none;
   padding: 0;
-  // 439Bug
-  // display: none;
 
   &.visible {
     background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
@@ -117,14 +112,6 @@
 }
 
 @media(max-width: 1400px) {
-  // 439Bug
-  // .workshops-search {
-  //   display: none !important;
-
-  //   &-mobile {
-  //     display: flex !important;
-  //   }
-  // }
 
   ::ng-deep app-full-search-bar {
     min-width: 300px;
@@ -140,6 +127,12 @@
 // Todo: add same breakpoint for workshop count wrap
 @media(max-width: 1250px) {
   .workshops-count .filters-toggle-btn {
+    display: none;
+  }
+}
+
+@media(min-width: 1251px) {
+  .workshops-search .filters-toggle-btn {
     display: none;
   }
 }
@@ -259,3 +252,4 @@
     display: none;
   }
 }
+
