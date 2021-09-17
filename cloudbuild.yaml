@@ -18,6 +18,8 @@ steps:
   # Build the container image
   - name: 'gcr.io/k8s-skaffold/pack'
     entrypoint: 'pack'
+    env:
+      - "TMPDIR=/builder/home/.pack"
     args:
       - build
       - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
