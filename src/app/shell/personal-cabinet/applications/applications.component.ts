@@ -25,8 +25,10 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
   tabApplicationStatus: number;
+
   isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
+
 
 
   providerApplicationParams: {
