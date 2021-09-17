@@ -1,8 +1,10 @@
-<mat-card class="position">
-  <div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
-  </div>
-  <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
-    <img mat-card-image src="assets/icons/workshop.png" alt="workshop-photo">
+<mat-card >
+  <ng-container *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;"></ng-container>
+
+  <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
+      <div class="card-img"><img mat-card-image src="assets/icons/workshopCard.png" alt="workshop-photo"></div>
+    <div>
+
     <mat-card-header>
       <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated [matTooltipPosition]="below">
         {{workshop.title}}</mat-card-title>
@@ -27,7 +29,7 @@
       <p class="card_text">
         <mat-icon class="card_icon">home</mat-icon>{{ workshop.providerTitle }}
       </p>
-      <p class="card_text">
+      <p class="card_text" [ngClass]="isCreateApplicationView ? 'hide': ''">
         <mat-icon class="card_icon">person</mat-icon>{{ workshop.minAge }} - {{ workshop.maxAge }} років
       </p>
       <p class="card_text" *ngIf="!workshop.price">
@@ -40,15 +42,17 @@
       </p>
     </mat-card-content>
 
-    <mat-card-footer fxLayout="row" fxLayoutAlign="end">
+    <mat-card-footer *ngIf="isCreateApplicationView" fxLayout="row" fxLayoutAlign="end">
       <div>
         <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
           Детальніше
           <span class="material-icons arrow">arrow_forward</span>
         </a>
       </div>
-
     </mat-card-footer>
+  
+  </div>
+
   </div>
 </mat-card>
 
@@ -64,7 +68,7 @@
 </ng-template>
 
 <ng-template #UserActions>
-  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions" >
 
     <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
     <ng-template #favorite>

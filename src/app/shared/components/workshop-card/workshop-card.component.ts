@@ -29,6 +29,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isMainPage: boolean;
   @Input() application: Application;
   @Input() parent: boolean;
+  @Input() isHorizontalView: boolean = false;
+  @Input() isCreateApplicationView: boolean = true;
 
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();

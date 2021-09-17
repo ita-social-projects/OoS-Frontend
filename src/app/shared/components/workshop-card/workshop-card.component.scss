@@ -26,3 +26,38 @@
     color: #C72A21;
   }
 }
+
+.horizontal-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .card-img {
+    display: flex;
+  }
+  
+  .mat-card-image{
+    width: auto;
+    margin: 0;
+    margin-bottom: 0 !important;
+  }
+  .hide {
+    display: block;
+    @media (max-width: 750px) {
+      display: none;
+    }
+  }
+}
+.mat-card {
+  max-width: 100% !important;
+}
+.mat-card-image {
+  width: auto;
+  margin: 0;
+  margin-bottom: 20px !important;
+  &:first-child {
+    margin-top: 0;
+  }
+}

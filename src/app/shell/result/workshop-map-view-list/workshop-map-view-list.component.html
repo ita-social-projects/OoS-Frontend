@@ -19,44 +19,8 @@
   </div>
 
   <div class="workshop-details-cards" fxLayout="row nowrap" fxLayoutGap="10px">
-    <div *ngFor="let selectedWorkshop of selectedWorkshops">
-      <mat-card [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()" class="workshop-details-card"
-        fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-        <div class="workshop-details-card_image" fxLayout=row fxLayoutAlign="center">
-          <img src="assets/icons/workshop.png">
-        </div>
-        <div class="workshop-details-card_content">
-          <div class="header">
-            <h4>{{ selectedWorkshop.title }}</h4>
-            <img class="workshop-details-card_category" src="assets/icons/lang.png" alt="workshop-category">
-          </div>
-          <div class="info">
-            <div class="info_item">
-              <div class="icon">
-                <img src="assets/icons/name.png" alt="name">
-              </div>
-              <a href="#">{{ selectedWorkshop.providerTitle }}</a>
-            </div>
-            <div class="info_item">
-              <div class="icon">
-                <img src="assets/icons/price.png" alt="price">
-              </div>{{ selectedWorkshop.price }}
-            </div>
-            <div class="info_item">
-              <div class="icon">
-                <img src="assets/icons/address.png" alt="address">
-              </div>{{ selectedWorkshop.address.city }}, {{ selectedWorkshop.address.street }} {{
-              selectedWorkshop.address.buildingNumber }}
-            </div>
-          </div>
-          <div class="footer">
-            <a [routerLink]="['/workshop-details', selectedWorkshop.workshopId]">
-              Детальніше
-              <span class="material-icons arrow">arrow_forward</span>
-            </a>
-          </div>
-        </div>
-      </mat-card>
-    </div>
-  </div>
+    <app-workshop-card class="workshop-details-card" *ngFor="let selectedWorkshop of selectedWorkshops" [workshop]="selectedWorkshop"
+          [isMainPage]="true" [isHorizontalView]="true"
+          [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+    </app-workshop-card>
 </div>
