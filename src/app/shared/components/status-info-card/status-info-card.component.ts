@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { ApplicationStatus, ApplicationIcons } from 'src/app/shared/enum/applications';
 import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications'
 import { Application } from '../../../shared/models/application.model';
