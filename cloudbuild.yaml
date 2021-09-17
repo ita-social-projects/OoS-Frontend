@@ -9,11 +9,52 @@ steps:
         cat <<EOF > src/environments/environment.prod.ts
         export const environment = {
           production: true,
-          stsServer: 'http://auth.oos.dmytrominochkin.cloud',
-          serverUrl: 'http://api.oos.dmytrominochkin.cloud',
+          stsServer: 'https://auth.oos.dmytrominochkin.cloud',
+          serverUrl: 'https://api.oos.dmytrominochkin.cloud',
         };
         EOF
-  - name: 'gcr.io/cloud-builders/npm'
-    args: [ 'run', 'build:prod' ]
-  - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['-m', 'rsync', '-d', '-r', 'dist/out-of-school/', 'gs://oos.dmytrominochkin.cloud']
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: [ 'build:prod' ]
+  # Build the container image
+  - name: 'gcr.io/k8s-skaffold/pack'
+    entrypoint: 'pack'
+    env:
+      - "TMPDIR=/builder/home/.pack"
+    args:
+      - build
+      - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
+      - --builder=paketobuildpacks/builder:base
+      - --buildpack=paketo-buildpacks/nginx
+      - --buildpack=paketo-community/staticfile
+      - --path=dist/
+      - --publish
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - beta
+      - run
+      - deploy
+      - frontend
+      - --image
+      - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
+      - --region
+      - europe-west1
+      - --platform
+      - managed
+      - --allow-unauthenticated
+      - --service-account
+      - $_SERVICE_ACCOUNT
+      - --cpu=1
+      - --memory=128Mi
+      - --max-instances=4
+      - --concurrency=40
+      # Disable http2 because prod will be http1.1 for now
+      - --no-use-http2
+      - --vpc-connector
+      - central-serverless
+  # Clean old versions except previous Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - $(yes | gcloud run revisions delete --platform managed --region europe-west1 `gcloud run revisions list --service frontend --platform managed --region europe-west1 --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`) || exit 0

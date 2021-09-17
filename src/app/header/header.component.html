@@ -22,7 +22,8 @@
       </div>
       <button mat-flat-button class="header_lang">
         <mat-icon>language</mat-icon>
-        <mat-select (selectionChange)="setLanguage()" [(value)] = "selectedLanguage" class="lang-option" disableOptionCentering panelClass="dropdownOption">
+        <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option"
+          disableOptionCentering panelClass="dropdownOption">
           <mat-option [ngClass]="'lang-option-text'" value="uk"> {{Languages.uk}} </mat-option>
         </mat-select>
       </button>
@@ -110,8 +111,7 @@
     </mat-menu>
   </div>
 </ng-template>
-<div
-  *ngIf="(isLoadingMainPage$ | async) || (isLoadingResultPage$ | async) || (isLoadingProviderCabinet$ | async) || (isLoadingDirections | async)"
+<div *ngIf="(isLoadingResultPage$ | async) || (isLoadingCabinet$ | async) || (isLoadingDirections | async)"
   class="progress-bar">
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>

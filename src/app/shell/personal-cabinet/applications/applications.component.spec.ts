@@ -8,6 +8,7 @@ import { Application } from 'src/app/shared/models/application.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -26,6 +27,7 @@ describe('ApplicationsComponent', () => {
         MockApplicationCardComponent,
         ApplicationChildFilterPipe,
         MockWorkshopChekcboxDropdownComponent,
+        NoResultCardComponent
       ],
     })
       .compileComponents();
