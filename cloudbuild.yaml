@@ -22,8 +22,8 @@ steps:
       - build
       - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
       - --builder=paketobuildpacks/builder:base
-      - --buildpack paketo-buildpacks/nginx
-      - --buildpack paketo-community/staticfile
+      - --buildpack=paketo-buildpacks/nginx
+      - --buildpack=paketo-community/staticfile
       - -p dist/
       - --publish
   # Deploy container image to Cloud Run
