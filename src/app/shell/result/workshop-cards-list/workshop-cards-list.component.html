@@ -1,4 +1,7 @@
-<ng-container *ngIf="workshops then WorkshopList; else isEmptyList;"></ng-container>
+<ng-container *ngIf="!(isLoadingResultPage$ | async)">
+  <ng-container *ngIf="workshops then WorkshopList; else isEmptyList;"></ng-container>
+</ng-container>
+
 
 <ng-template #WorkshopList>
   <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid">
@@ -14,5 +17,5 @@
 
 
 <ng-template #isEmptyList>
-  <p class="empty-list-wrapper">За результатами пошуку нічого не знайдено</p>
+  <app-no-result-card [title]="noResultWorkshops"></app-no-result-card>
 </ng-template>

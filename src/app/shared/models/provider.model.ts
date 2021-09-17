@@ -22,9 +22,7 @@ export class Provider {
   ownership?: number;
   type?: number;
   status?: boolean;
-  legalAddressId?: number;
   legalAddress?: Address;
-  actualAddressId?: number;
   actualAddress?: Address;
   workshop?: Workshop;
   image?: File[];
@@ -43,12 +41,6 @@ export class Provider {
     this.director = info.director;
     this.directorDateOfBirth = info.directorDateOfBirth;
     this.founder = info.founder;
-    if (provider?.legalAddressId) {
-      this.legalAddressId = provider.legalAddressId;
-    };
-    if (provider?.actualAddressId) {
-      this.actualAddressId = provider.actualAddressId;
-    };
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = photo.description;

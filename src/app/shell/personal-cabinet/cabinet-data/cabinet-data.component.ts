@@ -19,8 +19,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-cabinet-data',
-  templateUrl: './cabinet-data.component.html',
-  styleUrls: ['./cabinet-data.component.scss']
+  template: '',
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
@@ -40,6 +39,8 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   provider$: Observable<Provider>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  @Select(UserState.isLoading)
+  isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   userRole: string;

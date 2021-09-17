@@ -8,11 +8,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PersonalCabinetRoutingModule } from './personal-cabinet-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { WorkshopsComponent } from './workshops/workshops.component';
 import { UserConfigComponent } from './user-config/user-config.component';
 import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [

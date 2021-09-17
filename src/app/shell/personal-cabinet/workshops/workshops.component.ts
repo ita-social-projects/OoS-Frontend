@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
@@ -17,6 +18,8 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
   styleUrls: ['./workshops.component.scss']
 })
 export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
+
+  readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
 
   constructor(store: Store, matDialog: MatDialog) {
     super(store, matDialog);

@@ -3,7 +3,7 @@
   <a [routerLink]="['/create-child', '']"><button class="btn" mat-raised-button>Додати дитину</button></a>
 </div>
 
-<div *ngIf="(children$ | async)?.length then ChildList; else isEmptyList"></div>
+<div *ngIf="(children$ | async)?.length then ChildList;"></div>
 
 <ng-template #ChildList>
   <div class="wrapper-card">
@@ -15,8 +15,4 @@
       </div>
     </ng-container>
   </div>
-</ng-template>
-
-<ng-template #isEmptyList>
-  <p class="empty-list-wrapper">Дітей поки не додано до списку</p>
 </ng-template>

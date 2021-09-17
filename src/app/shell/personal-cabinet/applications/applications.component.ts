@@ -11,6 +11,9 @@ import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { Workshop } from 'src/app/shared/models/workshop.model';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+
 
 @Component({
   selector: 'app-applications',
@@ -23,6 +26,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   infoBoxHost: InfoBoxHostDirective;
   tabApplicationStatus: number;
   isActiveInfoButton: boolean = false;
+  readonly noApplicationTitle = NoResultsTitle.noApplication;
 
 
   providerApplicationParams: {

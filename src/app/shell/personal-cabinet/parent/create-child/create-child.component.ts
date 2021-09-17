@@ -52,7 +52,7 @@ export class CreateChildComponent implements OnInit {
         }
       });
     const childId = +this.route.snapshot.paramMap.get('id');
-   
+
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
 
     this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
@@ -63,7 +63,7 @@ export class CreateChildComponent implements OnInit {
         this.child = child;
         this.ChildrenFormArray.push(this.newForm(this.child));
       })
-     
+
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }

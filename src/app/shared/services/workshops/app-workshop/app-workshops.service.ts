@@ -69,12 +69,7 @@ export class AppWorkshopsService {
 
     return params;
   }
-  /**
-  * This method get all workshops
-  */
-  getAllWorkshops(): Observable<WorkshopCard[]> {
-    return this.http.get<WorkshopCard[]>('/Workshop/GetAll');
-  }
+
   /**
   * This method get workshops with applied filter options
   */

@@ -1,3 +1,5 @@
+import { MatDateFormats } from "@angular/material/core";
+
 /**
  * Constants for OutOfSchool
  */
@@ -24,4 +26,16 @@ export class Constants {
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd MMMM yyyy';
 
+};
+
+export const MOMENT_DATE_FORMATS: MatDateFormats = {
+  parse: {
+    dateInput: 'D/MM/YYYY'
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM Y',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM Y'
+  }
 };
