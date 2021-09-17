@@ -24,7 +24,7 @@ steps:
       - --builder=paketobuildpacks/builder:base
       - --buildpack=paketo-buildpacks/nginx
       - --buildpack=paketo-community/staticfile
-      - -p dist/
+      - --path=dist/
       - --publish
   # Deploy container image to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
