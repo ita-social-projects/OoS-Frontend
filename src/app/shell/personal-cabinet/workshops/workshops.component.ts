@@ -73,7 +73,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.left);
+        const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.Left);
         this.store.dispatch(new UpdateApplication(applicationUpdate));
       }
     });
