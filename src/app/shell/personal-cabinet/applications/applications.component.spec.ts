@@ -11,10 +11,6 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-<<<<<<< HEAD
-=======
-
->>>>>>> 52fbe2fe79b63fe7257621850d8ef9f15f5990a9
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
