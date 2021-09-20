@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  stsServer: 'http://auth.oos.dmytrominochkin.cloud',
-  serverUrl: 'http://api.oos.dmytrominochkin.cloud',
+  stsServer: 'https://auth.oos.dmytrominochkin.cloud',
+  serverUrl: 'https://api.oos.dmytrominochkin.cloud',
 }
