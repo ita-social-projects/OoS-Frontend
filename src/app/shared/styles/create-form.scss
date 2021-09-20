@@ -2,11 +2,17 @@
   max-width: 28.5vw;
   min-width: 410px;
   margin: 0 50px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
   &-radio{
     margin: 1rem;
   }
   &-label{
     font-weight: 600;
+    margin: 5px 0;
   }
   &-required{
     color:red;
@@ -17,7 +23,6 @@
     border-radius: 21px;
     padding: 0.5rem 1rem;
 
-
     &-date{
     width: 35%;
     min-width: 182px;
@@ -27,6 +32,7 @@
     &-age{
       max-width: 80px;
       max-height: 40px;
+      margin-right: 1rem;
     }
   }
 
@@ -60,15 +66,6 @@
   &-border{
     border-bottom: 2px solid gray;
     margin-bottom: 1rem;
-  }
-  &-line-age{
-    max-height: 0;
-    border: 1px solid #E3E3E3;
-    margin: 1rem 0 2rem 0;
-    min-width: 10px;
-    position: relative;
-    top: 5px;
-    margin: 10px;
   }
 }
 input:focus,
