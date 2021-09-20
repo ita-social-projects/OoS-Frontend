@@ -2,11 +2,18 @@
   max-width: 28.5vw;
   min-width: 410px;
   margin: 0 50px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
   &-radio{
     margin: 1rem;
   }
   &-label{
+
     font-weight: 600;
+    margin: 5px 0;
   }
   &-required{
     color:red;
@@ -16,7 +23,6 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding: 0.5rem 1rem;
-
 
     &-date{
     width: 35%;
