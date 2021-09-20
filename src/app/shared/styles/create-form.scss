@@ -11,7 +11,6 @@
     margin: 1rem;
   }
   &-label{
-
     font-weight: 600;
     margin: 5px 0;
   }
@@ -33,7 +32,16 @@
     &-age{
       max-width: 80px;
       max-height: 40px;
+      margin-right: 1rem;
+      &:before {
+         content: "";
+         position: absolute;
+         width: 100%;
+         border-bottom: 1px solid blue;
+      }
     }
+
+
   }
 
   &-text{
@@ -67,15 +75,12 @@
     border-bottom: 2px solid gray;
     margin-bottom: 1rem;
   }
-  &-line-age{
-    max-height: 0;
-    border: 1px solid #E3E3E3;
-    margin: 1rem 0 2rem 0;
-    min-width: 10px;
-    position: relative;
-    top: 5px;
-    margin: 10px;
-  }
+}
+.step-input-age ::before{
+content: '';
+      display: block;
+      height: 1px;
+      background: green;
 }
 input:focus,
 textarea:focus,

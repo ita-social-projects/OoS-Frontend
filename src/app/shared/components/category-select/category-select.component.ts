@@ -47,8 +47,6 @@ export class CategorySelectComponent implements OnInit {
   departmentsFormControl = new FormControl('');
   classesFormControl = new FormControl('');
 
-  isFormDirty: boolean = false;
-
   constructor(
     private formBuilder: FormBuilder,
     private store: Store) {
@@ -140,7 +138,7 @@ export class CategorySelectComponent implements OnInit {
     this.clearDepartments();
     this.clearClasses();
 
-    this.CategoryFormGroup.get('directionId').setValue(direction.id, { emitEvent: this.isFormDirty });
+    this.CategoryFormGroup.get('directionId').setValue(direction.id);
     this.store.dispatch(new GetDepartments(direction.id));
   }
 
@@ -158,7 +156,7 @@ export class CategorySelectComponent implements OnInit {
   onSelectDepartment(department: Department): void {
     this.clearClasses();
 
-    this.CategoryFormGroup.get('departmentId').setValue(department.id, { emitEvent: this.isFormDirty });
+    this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
 
@@ -175,7 +173,7 @@ export class CategorySelectComponent implements OnInit {
   */
   onSelectClasses(classItem: IClass): void {
     this.CategoryFormGroup.get('classId').reset();
-    this.CategoryFormGroup.get('classId').setValue(classItem.id, { emitEvent: this.isFormDirty });
+    this.CategoryFormGroup.get('classId').setValue(classItem.id);
   }
 
   /**
@@ -288,11 +286,6 @@ export class CategorySelectComponent implements OnInit {
   * This method patches values to the form from the workshop.
   */
   activateEditMode(): void {
-
-    this.CategoryFormGroup.valueChanges
-      .pipe(
-        takeWhile(() => this.isFormDirty))
-      .subscribe(() => this.isFormDirty = true);
 
     this.store.dispatch(new GetDirections())
       .pipe(takeUntil(this.destroy$))
