@@ -22,7 +22,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
   readonly Languages: typeof Languages = Languages;
   selectedLanguage: string;
 
-  @Input() changeToMobileView: boolean;
+  @Input() isMobileView: boolean;
 
   Role = Role;
   showModalReg = false;
@@ -30,8 +30,6 @@ export class SidenavComponent implements OnInit, OnDestroy{
   title = 'out-of-school';
   visibleSidenav: boolean;
 
-  // @Select(AppState.isMobileScreen)
-  // isMobileScreen$: Observable<boolean>;
   @Select(NavigationState.sidenavOpenTrue)
   sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.isAuthorized)
@@ -47,7 +45,6 @@ export class SidenavComponent implements OnInit, OnDestroy{
   constructor(
     public store: Store,
     private router: Router) {
-      // console.log(this.changeToMobileView)
   }
 
   changeView() {
@@ -60,8 +57,6 @@ export class SidenavComponent implements OnInit, OnDestroy{
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible)
-    debugger
-      console.log(this.changeToMobileView)
   }
 
   login(): void {

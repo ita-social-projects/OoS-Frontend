@@ -34,7 +34,9 @@ describe('AppComponent', () => {
   selector: 'app-header',
   template: ''
 })
-class MockHeaderComponent{}
+class MockHeaderComponent{
+  @Input() isMobileView: boolean;
+}
 
 @Component({
   selector: 'app-shell',
@@ -52,4 +54,6 @@ class MockFooterComponent{}
   selector: 'app-sidenav',
   template: ''
 })
-class MockSidenavComponent{}
+class MockSidenavComponent{
+  @Input() isMobileView: boolean;
+}

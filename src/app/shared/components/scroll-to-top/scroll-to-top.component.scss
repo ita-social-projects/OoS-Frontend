@@ -8,9 +8,11 @@
   padding: 0 !important;
   background-color: #3849F9;
   color: white;
+
   &.mat-button {
     min-width: 44px;
     min-height: 44px;
+
     ::ng-deep .material-icons {
       font-size: 18px;
       padding-top: 10px

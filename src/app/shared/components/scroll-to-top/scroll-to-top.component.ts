@@ -1,7 +1,7 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { AppState } from '../../store/app.state';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { Constants } from 'src/app/shared/constants/constants';
+
 
 @Component({
   selector: 'app-scroll-to-top',
@@ -11,12 +11,12 @@ import { AppState } from '../../store/app.state';
 export class ScrollToTopComponent implements OnInit {
 
   showScrollButton: boolean;
-  topPosToShowButton = 100;
+  readonly constants: typeof Constants = Constants;
 
   @HostListener('window:scroll')
   checkScroll() {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    this.showScrollButton = (scrollPosition >= this.topPosToShowButton) ? true : false;
+    this.showScrollButton = (scrollPosition >= this.constants.SCROLL_TO_TOP_BUTTON_POS) ? true : false;
   }
 
   scrolltoTop() {
