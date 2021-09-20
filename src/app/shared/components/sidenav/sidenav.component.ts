@@ -47,7 +47,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
   constructor(
     public store: Store,
     private router: Router) {
-      console.log(this.changeToMobileView)
+      // console.log(this.changeToMobileView)
   }
 
   changeView() {
@@ -60,6 +60,8 @@ export class SidenavComponent implements OnInit, OnDestroy{
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible)
+    debugger
+      console.log(this.changeToMobileView)
   }
 
   login(): void {
