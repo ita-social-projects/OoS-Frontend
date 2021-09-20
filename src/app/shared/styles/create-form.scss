@@ -33,15 +33,7 @@
       max-width: 80px;
       max-height: 40px;
       margin-right: 1rem;
-      &:before {
-         content: "";
-         position: absolute;
-         width: 100%;
-         border-bottom: 1px solid blue;
-      }
     }
-
-
   }
 
   &-text{
