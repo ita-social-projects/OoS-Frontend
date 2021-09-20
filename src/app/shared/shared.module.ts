@@ -47,6 +47,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
+import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
 
@@ -91,6 +92,7 @@ import { MaterialModule } from './modules/material.module';
     CityConfirmationComponent,
     SidenavComponent,
     ScrollToTopComponent,
+    StatusInfoCardComponent,
     NoResultCardComponent,
   ],
   imports: [
@@ -147,6 +149,7 @@ import { MaterialModule } from './modules/material.module';
     CityConfirmationComponent,
     SidenavComponent,
     ScrollToTopComponent,
+    StatusInfoCardComponent,
     NoResultCardComponent
   ]
 })

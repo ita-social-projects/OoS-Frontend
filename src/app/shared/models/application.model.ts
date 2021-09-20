@@ -4,7 +4,7 @@ import { Workshop } from "./workshop.model";
 
 export class Application {
   id: number;
-  status: number;
+  status: string;
   creationTime: Date;
   workshopId: number;
   childId: number;

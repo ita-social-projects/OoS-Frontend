@@ -1,3 +1,4 @@
+import { StatusInfoCardComponent } from 'src/app/shared/components/status-info-card/status-info-card.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
@@ -8,6 +9,7 @@ import { Application } from 'src/app/shared/models/application.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 describe('ApplicationsComponent', () => {
@@ -19,7 +21,9 @@ describe('ApplicationsComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
         MatTabsModule,
-        MatDialogModule
+        MatDialogModule,
+        MatMenuModule
+
       ],
       declarations: [
         ApplicationsComponent,
@@ -27,6 +31,7 @@ describe('ApplicationsComponent', () => {
         MockApplicationCardComponent,
         ApplicationChildFilterPipe,
         MockWorkshopChekcboxDropdownComponent,
+        StatusInfoCardComponent,
         NoResultCardComponent
       ],
     })

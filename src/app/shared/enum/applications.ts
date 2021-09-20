@@ -1,16 +1,16 @@
 export enum ApplicationStatus {
-  all,
-  pending,
-  acceptedForSelection,
-  approved,
-  rejected,
-  left
+
+  Pending,
+  AcceptedForSelection,
+  Approved,
+  Rejected,
+  Left
 }
-export enum ApplicationTitles {
-  'Усі',
-  'Очікує підтвердження',
-  'Прийнято до конкурсного відбору',
-  'Зараховано',
-  'Відмовлено',
-  'Гурток залишено',
+export enum ApplicationIcons {
+
+  "fas fa-user-clock",
+  "fas fa-user-plus",
+  "fas fa-user-check",
+  "fas fa-user-times",
+  "fas fa-user-times "
 }
