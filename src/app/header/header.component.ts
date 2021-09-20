@@ -22,7 +22,7 @@ import { AppState } from '../shared/store/app.state';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() MobileScreen: boolean;
+  @Input() changeToMobileView: boolean;
 
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
@@ -31,8 +31,8 @@ export class HeaderComponent implements OnInit {
   selectedLanguage: string = 'uk';
   showModalReg = false;
 
-  @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+  // @Select(AppState.isMobileScreen)=
+  // isMobileScreen$: Observable<boolean>;
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   @Select(UserState.isLoading)

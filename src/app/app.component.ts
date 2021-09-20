@@ -11,16 +11,16 @@ import { ToggleMobileScreen } from './shared/store/app.actions';
 export class AppComponent implements OnInit{
   constructor(public store: Store) { }
 
-  MobileView: boolean;
+  isMobileView: boolean;
 
   /**
   * @param event global variable window
-  * method defined window.width and assign MobileView: boolean
+  * method defined window.width and assign isMobileView: boolean
   */
 
   isWindowMobile(event: any): void {
-    this.MobileView = event.innerWidth <= 750;
-    this.store.dispatch(new ToggleMobileScreen(this.MobileView))
+    this.isMobileView = event.innerWidth <= 750;
+    this.store.dispatch(new ToggleMobileScreen(this.isMobileView))
   }
 
   @HostListener("window: resize", ["$event.target"])
