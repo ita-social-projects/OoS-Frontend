@@ -38,7 +38,7 @@ steps:
       - --image
       - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
       - --region
-      - europe-west1
+      - $_REGION
       - --platform
       - managed
       - --allow-unauthenticated
@@ -57,4 +57,4 @@ steps:
     entrypoint: bash
     args:
       - -c
-      - $(yes | gcloud run revisions delete --platform managed --region europe-west1 `gcloud run revisions list --service frontend --platform managed --region europe-west1 --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`) || exit 0
+      - $(yes | gcloud run revisions delete --platform managed --region $_REGION `gcloud run revisions list --service frontend --platform managed --region $_REGION --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`) || exit 0
