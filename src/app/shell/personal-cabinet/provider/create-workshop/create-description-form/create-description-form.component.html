@@ -1,5 +1,4 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <p class="step-name__xs">Опис гуртка</p>
   <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
   </app-image-form-control>
 
@@ -37,20 +36,19 @@
   </app-category-select>
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
-    щоб додати тегу
-    <div class="step-input" style="min-height:100px"
-      [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
-      <mat-chip-list #chipList>
-        <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-          {{keyWord}}
-          <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
-        </mat-chip>
-        <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()"
-          [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
-          [(ngModel)]="keyWord">
-      </mat-chip-list>
-    </div>
-  </label>
+    щоб додати тегу</label>
+  <div class="step-input" style="min-height:100px"
+    [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
+        {{keyWord}}
+        <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
+      </mat-chip>
+      <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()"
+        [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
+        [(ngModel)]="keyWord">
+    </mat-chip-list>
+  </div>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
   </app-validation-hint-for-input>

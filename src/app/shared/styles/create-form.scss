@@ -1,14 +1,14 @@
 .step{
-  max-width: 28.5vw;
   min-width: 410px;
-  margin: 0 50px;
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
   font-size: 13px;
   line-height: 18px;
+  padding: 0 50px;
+
   &-radio{
-    margin: 1rem;
+    margin: 0 1rem;
   }
   &-label{
     font-weight: 600;
@@ -19,7 +19,6 @@
   }
   &-input{
     border: 1px solid #E3E3E3;
-    box-sizing: border-box;
     border-radius: 21px;
     padding: 0.5rem 1rem;
 
@@ -34,6 +33,7 @@
       max-height: 40px;
       margin-right: 1rem;
     }
+
   }
 
   &-text{
@@ -45,7 +45,6 @@
   &-textarea{
     height: 200px;
     border: 1px solid #E3E3E3;
-    box-sizing: border-box;
     border-radius: 21px;
     padding: 1.1rem;
     &-short{
@@ -85,7 +84,6 @@ button:focus {
   height: 58px;
   background: rgba(56, 73, 249, 0.1);
   border: 1px dashed #3849F9;
-  box-sizing: border-box;
   border-radius: 5px;
   margin: 1rem;
 
@@ -118,10 +116,17 @@ button:focus {
   color:white;
   background-color:#3849F9;
   border: 1px solid #3849F9;
+  min-width: 150px;
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
   margin: 0 1rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   &-reset, &-add{
     color: #3849F9;
   }
@@ -180,4 +185,8 @@ button:focus {
     min-width: 80vw;
     margin:0;
   }
+}
+.border-bottom{
+  border-bottom: 2px solid #E3E3E3;
+  margin: 1rem 0;
 }

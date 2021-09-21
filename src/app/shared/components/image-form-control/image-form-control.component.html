@@ -1,9 +1,10 @@
 <form>
   <div class="form-wrapper">
-    <div class="photo-header">{{label}}</div>
+    <div class="step-label">{{label}}</div>
     <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{imgMaxAmount}} фото</div>
-    <mat-grid-list [cols]="gridCols"  rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">
-      <mat-grid-tile  class="logo_button" *ngIf="selectedImages.length < imgMaxAmount || selectedImages.length === 0">
+    <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px"
+      (window:resize)="onResize($event.target)">
+      <mat-grid-tile class="logo_button" *ngIf="selectedImages.length < imgMaxAmount || selectedImages.length === 0">
         <label>
           <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">
           <img src="assets/icons/plus.png" alt="logo_img">
