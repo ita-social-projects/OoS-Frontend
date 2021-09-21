@@ -117,10 +117,9 @@
 .chip_denied {
   background: red;
 }
-.mat-card{
-  max-width: 300px !important;
-  padding:0 !important;
+.mat-card {
   margin: 1rem;
+  padding: 0;
 }
 .mat-card-content,
 .mat-card-footer{
@@ -142,8 +141,13 @@
     margin-block-end: auto;
   }
 }
-.mat-card-image{
-  margin-bottom:0 !important;
+.mat-card-image {
+  width: 100%;
+  margin: 0;
+  margin-bottom: 20px;
+  &:first-child {
+    margin-top: 0;
+  }
 }
 .actions {
   position: absolute;

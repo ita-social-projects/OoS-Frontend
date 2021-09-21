@@ -33,6 +33,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
   .card-img {
     display: flex;
     width: 100%;
@@ -40,27 +41,16 @@
     object-fit: cover;
     object-position: bottom;
   }
-  .mat-card-image{
+  .mat-card-image {
     width: 100%;
     margin: 0;
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
   }
   .hide {
     display: block;
     @media (max-width: 750px) {
       display: none;
     }
-  }
-}
-.mat-card {
-  max-width: 100% !important;
-}
-.mat-card-image {
-  width: 100%;
-  margin: 0;
-  margin-bottom: 20px !important;
-  &:first-child {
-    margin-top: 0;
   }
 }
 
