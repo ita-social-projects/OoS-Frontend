@@ -1,4 +1,4 @@
-<form [formGroup]="CategoryFormGroup">
+<form [formGroup]="CategoryFormGroup" class="wrapper" fxLayout='column' fxLayoutAlign='center space-between'>
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
   <input matInput type="text" placeholder="Почніть вводити напрямок або виберіть зі списку" class="step-input"
     [formControl]="directionsFormControl" [matAutocomplete]="auto" disableOptionCentering

@@ -407,7 +407,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/parent/info']);
+    this.router.navigate(['/personal-cabinet/provider/info']);
   }
 
   @Action(UpdateUser)
