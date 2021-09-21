@@ -20,7 +20,7 @@ export class ProviderOrgInfoComponent implements OnInit {
   readonly providerTypeUkr = ProviderTypeUkr;
   readonly createProviderSteps = createProviderSteps;
 
-  editLink: string = createProviderSteps[1];
+  editLink: string = createProviderSteps[0];
 
   @Select(RegistrationState.provider) provider$: Observable<Provider>;
 
@@ -33,7 +33,7 @@ export class ProviderOrgInfoComponent implements OnInit {
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.editLink= createProviderSteps[tabChangeEvent.index];
+    this.editLink = createProviderSteps[tabChangeEvent.index];
   }
 
 }

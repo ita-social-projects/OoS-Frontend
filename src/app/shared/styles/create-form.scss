@@ -21,6 +21,7 @@
     border: 1px solid #E3E3E3;
     border-radius: 21px;
     padding: 0.5rem 1rem;
+    line-height: initial;
 
     &-date{
     width: 35%;
@@ -29,9 +30,11 @@
     }
 
     &-age{
-      max-width: 80px;
+      max-width: 40px;
       max-height: 40px;
       margin-right: 1rem;
+      text-align: center;
+
     }
 
   }
