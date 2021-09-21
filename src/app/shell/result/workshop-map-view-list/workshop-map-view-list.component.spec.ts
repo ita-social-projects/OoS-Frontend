@@ -52,6 +52,8 @@ class MockMapListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() isHorizontalView: boolean;
+  @Input() isCreateApplicationView: boolean;
 }
 @Component({
   selector: 'app-map',

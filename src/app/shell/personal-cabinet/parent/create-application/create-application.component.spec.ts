@@ -16,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -43,7 +44,8 @@ describe('CreateApplicationComponent', () => {
       declarations: [
         CreateApplicationComponent,
         MockPersonCardComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        MockMainWorkshopCardComponent
       ],
     })
       .compileComponents();
@@ -82,4 +84,17 @@ class MockValidationHintForInputComponent{
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
   @Input() minCharachters: number; 
+}
+
+@Component({
+  selector: 'app-workshop-card',
+  template: ''
+})
+class MockMainWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() isMainPage: boolean;
+  @Input() userRole: string;
+  @Input() parent: boolean;
+  @Input() isHorizontalView: boolean;
+  @Input() isCreateApplicationView: boolean;
 }

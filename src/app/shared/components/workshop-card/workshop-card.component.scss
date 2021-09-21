@@ -61,3 +61,29 @@
     margin-top: 0;
   }
 }
+
+@media (max-width: 750px) {
+  .horizontal-card {
+    min-height: 150px;
+    .card_text {
+      margin: 0;
+    }
+    .mat-card-image {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      object-position: bottom;
+    }
+    ::ng-deep .mat-card-header-text {
+      margin: 0;
+    }
+    .card-footer {
+      flex-direction: row;
+    }
+    .mat-card-title {
+      width: 150px;
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+  }
+}
