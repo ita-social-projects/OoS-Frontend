@@ -1,7 +1,8 @@
 import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { ApplicationStatus, ApplicationTitles } from '../../enum/applications';
+import { ApplicationStatus } from '../../enum/applications';
+import {ApplicationTitles} from 'src/app/shared/enum/enumUA/applications'
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';

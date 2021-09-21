@@ -25,7 +25,10 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
   tabApplicationStatus: number;
+
+  isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
+
 
 
   providerApplicationParams: {
@@ -91,7 +94,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param Application event
   */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.approved);
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -100,7 +103,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param Application event
   */
   onReject(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.rejected);
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -109,7 +112,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param Application event
   */
   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.left);
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Left);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -143,4 +146,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
   }
+ 
+
 }

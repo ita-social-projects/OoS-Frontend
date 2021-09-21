@@ -25,6 +25,7 @@ import { AboutComponent } from './about/about.component';
 import { SupportComponent } from './support/support.component';
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
 @NgModule({
   declarations: [
     MainComponent,

@@ -1,0 +1,78 @@
+.status-menu,
+.application-popup-status,
+.mat-application-menu,
+.application-info-menu {
+  i {
+    padding-right: 5px;
+  }
+  width: max-content;
+  max-width: max-content;
+  font-size: 13px;
+  font: Open Sans;
+  font-weight: normal;
+}
+.application-popup-status {
+  cursor: pointer;
+}
+.application-info-description-card {
+  color: #aaaaaa;
+}
+.Approved {
+  color: #199953;
+}
+.Pending {
+  color: #ffbd00;
+}
+.AcceptedForSelection {
+  color: #27a3ff;
+}
+.Rejected,
+.Left,
+.Blocked {
+  color: #c72a21;
+}
+
+.application-info-span {
+  background-color: #ffffff !important;
+}
+.application-info-menu,
+::ng-deep .mat-application-menu {
+  width: 60vw;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.application-info-menu {
+  display: flex;
+  flex-direction: row;
+  max-width: max-content;
+  font-size: 13px;
+  line-height: 17px;
+}
+
+.application-info-description,
+.application-info-title {
+  display: flex;
+  flex-direction: column;
+  max-width: max-content;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 17px;
+  font: Open Sans;
+  font-style: normal;
+  color: black;
+
+  span {
+    padding: 8px;
+  }
+  i {
+    padding-right: 5px;
+  }
+}
+.application-info-menu-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px;
+}
+
