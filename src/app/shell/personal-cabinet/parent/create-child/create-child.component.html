@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="center center" *ngIf="(editMode && child) || !editMode">
   <div class="wrapper">
-    <div fxLayout='column' fxLayoutAlign='center center'>
+    <div fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
       <p class="wrapper-text">Щоб відслідковувати заяки і активності вашої дитини.</p>
       <p class="wrapper-text"> Ви завжди можете додати цю інформацію
@@ -20,7 +20,7 @@
     </div>
 
     <div class="footer">
-      <div [ngClass]="editMode && 'hidden'" class="step" fxLayout='row' fxLayoutAlign='start center'>
+      <div [ngClass]="{'hidden': editMode}" class="step" fxLayout="row" fxLayoutAlign="start center">
         <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
         </mat-checkbox>
         <p class="agreement">Додаючи дані про
