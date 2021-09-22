@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { MatGridListModule } from "@angular/material/grid-list";
 import { Component, Input } from '@angular/core';
+import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -44,7 +45,8 @@ describe('CreateAboutFormComponent', () => {
         CreateAboutFormComponent,
         ImageFormControlComponent,
         WorkingHoursFormControlComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        MinMaxDirective
       ]
     })
       .compileComponents();
@@ -67,11 +69,11 @@ describe('CreateAboutFormComponent', () => {
   template: ''
 })
 
-class MockValidationHintForInputComponent{
+class MockValidationHintForInputComponent {
   @Input() type: string;
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
-  @Input() minCharachters: number; 
+  @Input() minCharachters: number;
 }

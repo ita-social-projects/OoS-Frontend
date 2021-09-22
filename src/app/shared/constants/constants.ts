@@ -30,6 +30,13 @@ export class Constants {
 
 };
 
+export class PaginationConstants {
+  static readonly FIRST_PAGINATION_PAGE = 1;
+  static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
+  static readonly PAGINATION_DOTS = '...';
+  static readonly PAGINATION_SHIFT_DELTA = 3;
+}
+
 export const MOMENT_DATE_FORMATS: MatDateFormats = {
   parse: {
     dateInput: 'D/MM/YYYY'

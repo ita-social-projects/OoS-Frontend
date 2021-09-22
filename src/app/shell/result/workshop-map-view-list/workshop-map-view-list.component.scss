@@ -23,6 +23,7 @@ $links-color: #3849F9;
 }
 .workshop-list{
   width: 30%;
+  min-width: max-content;
   max-height: 650px;
   overflow: auto;
   display: inline-block;

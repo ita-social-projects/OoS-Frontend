@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;
@@ -19,7 +20,9 @@ describe('AgeFilterComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
       ],
-      declarations: [AgeFilterComponent],
+      declarations: [
+        AgeFilterComponent,
+        MinMaxDirective],
     })
       .compileComponents();
   });
