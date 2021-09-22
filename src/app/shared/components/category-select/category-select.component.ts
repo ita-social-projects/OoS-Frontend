@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
+import { isObject } from '@ngxs/store/src/internal/internals';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, takeWhile } from 'rxjs/operators';
 import { Department, Direction, IClass } from '../../models/category.model';
@@ -69,7 +70,7 @@ export class CategorySelectComponent implements OnInit {
     let filteredDirections = this.directions
       .filter((direction: Direction) => direction.title
         .toLowerCase()
-        .startsWith(value.toLowerCase())
+        .startsWith(value.trim().toLowerCase())
       )
       .map((direction: Direction) => direction);
     return filteredDirections;
@@ -83,7 +84,7 @@ export class CategorySelectComponent implements OnInit {
     let filteredDepartments = this.departments
       .filter((department: Department) => department.title
         .toLowerCase()
-        .startsWith(value.toLowerCase())
+        .startsWith(value.trim().toLowerCase())
       )
       .map((department: Department) => department);
     return filteredDepartments;
@@ -97,7 +98,7 @@ export class CategorySelectComponent implements OnInit {
     let filteredClasses = this.classes
       .filter((classItem: IClass) => classItem.title
         .toLowerCase()
-        .startsWith(value.toLowerCase())
+        .startsWith(value.trim().toLowerCase())
       )
       .map((classItem: IClass) => classItem);
     return filteredClasses;
@@ -196,14 +197,17 @@ export class CategorySelectComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         startWith(''),
-      ).subscribe(value => {
+      ).subscribe((value) => {
+
         if (value) {
-          this.store.dispatch(new FilteredDirectionsList(this.filterDirections(value.title.trim())));
+          let input = (value?.title) ? value.title : value;
+          this.store.dispatch(new FilteredDirectionsList(this.filterDirections(input)));
         } else {
           this.getFullDirectionList();
           this.clearDepartments();
           this.clearClasses();
-        };
+
+        }
       });
 
     this.setInitialDepartments();
@@ -222,9 +226,10 @@ export class CategorySelectComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         startWith(''),
-      ).subscribe(value => {
+      ).subscribe((value) => {
         if (value) {
-          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(value.title.trim())));
+          let input = (value?.title) ? value.title : value;
+          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(input)));
         } else {
           this.getFullDepartmentList();
           this.clearClasses();
@@ -247,9 +252,10 @@ export class CategorySelectComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         startWith(''),
-      ).subscribe(value => {
+      ).subscribe((value) => {
         if (value) {
-          this.store.dispatch(new FilteredClassesList(this.filterClasses(value.title.trim())));
+          let input = (value?.title) ? value.title : value;
+          this.store.dispatch(new FilteredClassesList(this.filterClasses(input)));
         } else {
           this.getFullClassList();
         };
