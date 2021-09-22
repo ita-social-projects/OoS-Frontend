@@ -68,7 +68,9 @@ export class MainComponent implements OnInit {
     let workshops = [];
     let amountWorkshops = 0;
     this.topWorkshops$.pipe(map(x => workshops.push(x))).subscribe();
-    amountWorkshops = workshops[0].length;
+    if (workshops[0]) {
+      amountWorkshops = workshops[0].length;
+    }
     if (this.WorkshopsWrap) {
       amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 350));
     }
