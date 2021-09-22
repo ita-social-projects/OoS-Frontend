@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Directive({
   selector: '[appMinMax]'
@@ -7,6 +8,8 @@ export class MinMaxDirective {
 
   @Input() public min: number;
   @Input() public max: number;
+  @Input() public directiveFormControl: FormControl;
+
 
   constructor(private ref: ElementRef) { }
 
@@ -21,9 +24,9 @@ export class MinMaxDirective {
   private MaxMinValidation(): void {
     let val = parseInt(this.ref.nativeElement.value);
     if (this.max !== null && this.max !== undefined && val >= this.max)
-      this.ref.nativeElement.value = this.max.toString();
+      this.directiveFormControl.setValue(this.max);
     else if (this.min !== null && this.min !== undefined && val <= this.min)
-      this.ref.nativeElement.value = this.min.toString();
+      this.directiveFormControl.setValue(this.min);
   }
 
 }
