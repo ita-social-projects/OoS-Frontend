@@ -133,5 +133,9 @@ export class CreateDescriptionFormComponent implements OnInit {
     });
 
     this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
+
+    if (this.workshop.withDisabilityOptions) {
+      this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
+    }
   }
 }

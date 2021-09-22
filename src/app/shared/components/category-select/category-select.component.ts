@@ -238,7 +238,7 @@ export class CategorySelectComponent implements OnInit {
   * This method gets the initial list of classes and set subscription.
   */
   private setInitialClasses(): void {
-    this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.classes = filteredClasses);
+    this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.filteredClasses = filteredClasses);
     this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
 
     this.classesFormControl.valueChanges
