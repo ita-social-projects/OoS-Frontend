@@ -7,7 +7,8 @@
       </a>
     </div>
     <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
-      <app-category-card *ngFor="let direction of topDirections$ | async " [direction]="direction.direction" [workshopsCount]="direction.workshopsCount">
+      <app-category-card *ngFor="let direction of topDirections$ | async " [direction]="direction.direction"
+        [workshopsCount]="direction.workshopsCount">
       </app-category-card>
     </div>
   </div>
@@ -19,9 +20,13 @@
       </a>
     </div>
     <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='space-between' fxLayoutGap="20px grid">
-        <app-workshop-card [parent]="parent" *ngFor="let workshop of topWorkshops$ | async " [workshop]="workshop"  [isMainPage]="true"
-          [userRole]="''">
+      <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
+        <app-workshop-card [parent]="parent" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"
+          [isMainPage]="true" [userRole]="''">
+        </app-workshop-card>
+        <app-workshop-card *ngFor="let workshop of emptyWorkshops()" [parent]="parent" [workshop]="workshop" class="empty-card"
+          [isMainPage]="true" [userRole]="''">
+
         </app-workshop-card>
       </div>
     </ng-container>
