@@ -55,26 +55,33 @@
   <div class="border-bottom"></div>
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
-    <div fxLayout='row' fxLayoutAlign='start center'>
-      <p class="step-text">Від</p>
-      <mat-form-field>
-        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
-          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-      </mat-form-field>
+    <div fxLayout='column' fxLayoutAlign='start start'>
+      <div fxLayout='row' fxLayoutAlign='start center'>
+        <p class="step-text">Від</p>
+        <mat-form-field>
+          <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="minAge"
+            appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+        </mat-form-field>
+      </div>
       <app-validation-hint-for-input type="requiredField"
         [invalid]="AboutFormGroup.get('minAge').invalid && AboutFormGroup.get('minAge').touched">
       </app-validation-hint-for-input>
     </div>
-    <div fxLayout='row' fxLayoutAlign='start center'>
-      <p class="step-text">До</p>
-      <mat-form-field>
-        <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
-          appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
-      </mat-form-field>
+
+    <div fxLayout='column' fxLayoutAlign='start start'>
+      <div fxLayout='row' fxLayoutAlign='start center'>
+        <p class="step-text">До</p>
+        <mat-form-field>
+          <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="maxAge"
+            appDigitOnly maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+        </mat-form-field>
+
+      </div>
       <app-validation-hint-for-input type="requiredField"
         [invalid]="AboutFormGroup.get('maxAge').invalid && AboutFormGroup.get('maxAge').touched">
       </app-validation-hint-for-input>
     </div>
+
   </div>
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field>
