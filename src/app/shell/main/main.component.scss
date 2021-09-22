@@ -1,14 +1,14 @@
-.main{
+.main {
   padding-bottom: 48px;
-  &_registration{
+  &_registration {
     padding: 32px 40px;
-    background: #3849F9;
+    background: #3849f9;
     border-radius: 5px;
     position: relative;
     height: 125px;
     margin-top: 4rem;
-    &::before{
-      content: '';
+    &::before {
+      content: "";
       display: block;
       position: absolute;
       background-image: url(../../../assets/images/half_circle.png);
@@ -18,7 +18,7 @@
       top: 0;
     }
   }
-  &_button{
+  &_button {
     border-radius: 20px;
     padding: 10px 30px;
     font-size: 13px;
@@ -26,51 +26,51 @@
     border-color: white;
     color: white;
   }
-  &_question{
-    color: #FFFFFF;
+  &_question {
+    color: #ffffff;
   }
-  &_hint{
+  &_hint {
     margin-top: 16px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
-  &_link{
+  &_link {
     display: flex;
     font-weight: bold;
-    color: #3849F9;
+    color: #3849f9;
     align-items: center;
-    .arrow{
+    .arrow {
       margin-left: 8px;
       font-size: 15px;
       line-height: 24px;
     }
   }
-  &_header{
+  &_header {
     margin-top: 48px;
     margin-bottom: 24px;
   }
-  &_categories{
+  &_categories {
     margin-bottom: 48px;
-    .categories-wrapper{
-       flex-wrap: wrap;
-       gap: 10px;
+    .categories-wrapper {
+      flex-wrap: wrap;
+      gap: 10px;
     }
   }
 }
+
 .empty-card {
   width: 300px;
   height: 440px;
-  max-width: 300px !important;
-  padding:0 20px!important;
-  margin: 0 7px;
+  margin: 0 16px;
   visibility: hidden;
   border: none;
 }
+
 app-footer {
   visibility: hidden;
   position: absolute;
 }
 
-@media(max-width: 675px) {
+@media (max-width: 675px) {
   .main_registration {
     padding: 20px;
     height: inherit;
@@ -84,14 +84,14 @@ app-footer {
   }
 }
 
-@media(max-width:750px) {
+@media (max-width: 750px) {
   app-footer {
     visibility: visible;
     position: static;
   }
 }
 
-@media(max-width: 645px) {
+@media (max-width: 645px) {
   .main {
     padding: 1rem 0;
 
@@ -106,7 +106,7 @@ app-footer {
       }
     }
 
-    &_header{
+    &_header {
       display: block;
       margin-top: 0;
       margin-bottom: 0;
@@ -114,13 +114,13 @@ app-footer {
   }
 }
 
-@media(max-width: 415px) {
+@media (max-width: 415px) {
   .main_title {
     font-size: 16px !important;
   }
 }
 
-@media(max-width: 415px) {
+@media (max-width: 415px) {
   .cards {
     display: contents !important;
   }
@@ -140,18 +140,14 @@ app-footer {
   }
 }
 
-@media  only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px)  {
-   .main {
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .main {
     padding: 1rem;
   }
 }
 
-@media  only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px)  {
-  h3{
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  h3 {
     font-size: inherit;
   }
 }

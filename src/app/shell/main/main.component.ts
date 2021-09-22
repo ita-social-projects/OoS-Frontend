@@ -63,6 +63,7 @@ export class MainComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
   emptyWorkshops(): Array<Workshop> {
     let amountCardsInRow = 0;
     let workshops = [];
@@ -72,7 +73,7 @@ export class MainComponent implements OnInit {
       amountWorkshops = workshops[0].length;
     }
     if (this.WorkshopsWrap) {
-      amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 353));
+      amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 352));
     }
     let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
     return new Array(emptyWorkshops | 0);
