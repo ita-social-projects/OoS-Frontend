@@ -1,6 +1,8 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" class="city-autocomplete"></app-city-autocomplete>
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="address?.city"
+    class="city-autocomplete">
+  </app-city-autocomplete>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="AddressFormGroup.get('city').invalid && AddressFormGroup.get('city').touched">
   </app-validation-hint-for-input>

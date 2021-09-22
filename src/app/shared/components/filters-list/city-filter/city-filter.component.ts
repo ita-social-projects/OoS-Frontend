@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { City } from 'src/app/shared/models/city.model';
+import { FilterState } from 'src/app/shared/store/filter.state';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { SetCity } from '../../../store/filter.actions';
 
 @Component({
@@ -8,6 +12,11 @@ import { SetCity } from '../../../store/filter.actions';
   styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent {
+
+  @Select(FilterState.isConfirmCity)
+  isConfirmCity$: Observable<boolean>;
+  @Select(FilterState.city)
+  city$: Observable<City>;
 
   constructor(private store: Store) { }
 
