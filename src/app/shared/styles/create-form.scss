@@ -21,6 +21,8 @@
     border: 1px solid #E3E3E3;
     border-radius: 21px;
     padding: 0.5rem 1rem;
+    line-height: initial;
+    box-sizing: border-box;
 
     &-date{
     width: 35%;
@@ -32,6 +34,8 @@
       max-width: 80px;
       max-height: 40px;
       margin-right: 1rem;
+      text-align: center;
+      box-sizing: border-box;
     }
 
   }
@@ -47,6 +51,7 @@
     border: 1px solid #E3E3E3;
     border-radius: 21px;
     padding: 1.1rem;
+    box-sizing: border-box;
     &-short{
       height: 100px;
       margin-top: 1rem;
