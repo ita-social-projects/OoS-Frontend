@@ -1,4 +1,5 @@
 <mat-card class="position">
+  <div *ngIf="workshop; else EmptyWorkshop">
   <div *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
   </div>
   <div class="card" fxLayout="column" fxLayoutAlign="space-between space-between">
@@ -50,6 +51,7 @@
 
     </mat-card-footer>
   </div>
+  </div>
 </mat-card>
 
 <ng-template #ProviderActions>
@@ -80,3 +82,7 @@
     </ng-template>
   </div>
 </ng-template>
+<ng-template #EmptyWorkshop>
+  <div class="empty-card" fxLayout="column" fxLayoutAlign="space-between space-between" display="none">
+    </div>
+  </ng-template>
