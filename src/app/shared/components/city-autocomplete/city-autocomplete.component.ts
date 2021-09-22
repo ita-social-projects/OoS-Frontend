@@ -72,6 +72,9 @@ export class CityAutocompleteComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
+  /**
+  * This method selects set initial city to autocomplete
+  */
   setInitialAcity(): void {
     this.cityFormControl.setValue(this.InitialCity);
     this.actions$.pipe(ofActionSuccessful(GetCities))
