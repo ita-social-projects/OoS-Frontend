@@ -1,8 +1,7 @@
 @import "src/app/shared/styles/toggle-button.scss";
 
 .view-control-panel {
-  margin-top: 1.5rem;
-  margin-bottom: 1.0625rem;
+  flex-direction: row !important;
 
   .search-block-wrapper {
     display: block;
@@ -91,7 +90,6 @@
   cursor: pointer;
   border: none;
   padding: 0;
-  display: none;
 
   &.visible {
     background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
@@ -114,13 +112,6 @@
 }
 
 @media(max-width: 1400px) {
-  .workshops-search {
-    display: none !important;
-
-    &-mobile {
-      display: flex !important;
-    }
-  }
 
   ::ng-deep app-full-search-bar {
     min-width: 300px;
@@ -133,18 +124,35 @@
   }
 }
 
+// Todo: add same breakpoint for workshop count wrap
+@media(max-width: 1250px) {
+  .workshops-count .filters-toggle-btn {
+    display: none;
+  }
+}
+
+@media(min-width: 1251px) {
+  .workshops-search .filters-toggle-btn {
+    display: none;
+  }
+}
+
 @media(max-width: 1000px) {
+  .view-control-panel {
+    flex-wrap: wrap-reverse;
+  }
   .workshops-count {
-    display: none !important;
+    margin-top: 10px;
   }
 }
 
 @media(max-width: 750px) {
   .view-control-panel {
-    position: fixed;
+    position: absolute;
     z-index: 2;
     width: 90vw;
     margin-left: 5vw;
+    top: 90px;
 
     .search-block-wrapper {
       display: none;
@@ -212,7 +220,7 @@
 
         app-workshop-cards-list {
           display: block;
-          margin-top: 170px;
+          margin-top: 260px;
 
           ::ng-deep>div {
             overflow: scroll;
@@ -244,3 +252,4 @@
     display: none;
   }
 }
+
