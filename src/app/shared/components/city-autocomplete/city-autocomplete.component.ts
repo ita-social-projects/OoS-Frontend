@@ -73,7 +73,7 @@ export class CityAutocompleteComponent implements OnInit {
   }
 
   /**
-  * This method selects set initial city to autocomplete
+  * This method set initial city to autocomplete
   */
   setInitialAcity(): void {
     this.cityFormControl.setValue(this.InitialCity);
