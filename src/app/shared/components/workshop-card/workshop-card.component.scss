@@ -32,6 +32,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
   .card-img {
     display: flex;
     width: 100%;
@@ -51,6 +52,7 @@
 @media (max-width: 750px) {
 .horizontal-card {
   min-height: 150px;
+  
   .card_text {
     margin: 0;
   }
