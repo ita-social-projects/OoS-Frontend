@@ -1,22 +1,28 @@
 .step{
-  max-width: 28.5vw;
   min-width: 410px;
-  margin: 0 50px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 0 50px;
+
   &-radio{
-    margin: 1rem;
+    margin: 0 1rem;
   }
   &-label{
     font-weight: 600;
+    margin: 5px 0;
   }
   &-required{
     color:red;
   }
   &-input{
     border: 1px solid #E3E3E3;
-    box-sizing: border-box;
     border-radius: 21px;
     padding: 0.5rem 1rem;
-
+    line-height: initial;
+    box-sizing: border-box;
 
     &-date{
     width: 35%;
@@ -27,7 +33,11 @@
     &-age{
       max-width: 80px;
       max-height: 40px;
+      margin-right: 1rem;
+      text-align: center;
+      box-sizing: border-box;
     }
+
   }
 
   &-text{
@@ -39,9 +49,9 @@
   &-textarea{
     height: 200px;
     border: 1px solid #E3E3E3;
-    box-sizing: border-box;
     border-radius: 21px;
     padding: 1.1rem;
+    box-sizing: border-box;
     &-short{
       height: 100px;
       margin-top: 1rem;
@@ -61,15 +71,6 @@
     border-bottom: 2px solid gray;
     margin-bottom: 1rem;
   }
-  &-line-age{
-    max-height: 0;
-    border: 1px solid #E3E3E3;
-    margin: 1rem 0 2rem 0;
-    min-width: 10px;
-    position: relative;
-    top: 5px;
-    margin: 10px;
-  }
 }
 input:focus,
 textarea:focus,
@@ -88,7 +89,6 @@ button:focus {
   height: 58px;
   background: rgba(56, 73, 249, 0.1);
   border: 1px dashed #3849F9;
-  box-sizing: border-box;
   border-radius: 5px;
   margin: 1rem;
 
@@ -121,10 +121,17 @@ button:focus {
   color:white;
   background-color:#3849F9;
   border: 1px solid #3849F9;
+  min-width: 150px;
   box-sizing: border-box;
   border-radius: 20px;
   padding: 2px 30px;
   margin: 0 1rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   &-reset, &-add{
     color: #3849F9;
   }
@@ -183,4 +190,8 @@ button:focus {
     min-width: 80vw;
     margin:0;
   }
+}
+.border-bottom{
+  border-bottom: 2px solid #E3E3E3;
+  margin: 1rem 0;
 }

@@ -1,34 +1,31 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <p class="step-name__xs">Контакти</p>
   <label class="step-label">Місто<span class="step-required">*</span></label>
   <app-city-autocomplete (selectedCity)="onSelectedCity($event)" class="city-autocomplete"></app-city-autocomplete>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AddressFormGroup.get('city').invalid && AddressFormGroup.get('city').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AddressFormGroup.get('city').invalid && AddressFormGroup.get('city').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="street">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="buildingNumber">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "AddressFormGroup.get('buildingNumber').invalid && AddressFormGroup.get('buildingNumber').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AddressFormGroup.get('buildingNumber').invalid && AddressFormGroup.get('buildingNumber').touched">
+  </app-validation-hint-for-input>
+
+  <div class="border-bottom"></div>
+  <div fxLayout='column' fxLayoutAlign='center center'>
+    <p>Або позначти на карті</p>
+  </div>
+  <div class="map">
+    <app-map [addressFormGroup]="AddressFormGroup" (setAddressEvent)="onReceiveAddressFromMap($event)"></app-map>
+  </div>
 </form>
-<hr fxLayout='row' fxLayoutAlign='center center' width="100%" size="2" color="#E3E3E3" />
-<div fxLayout='column' fxLayoutAlign='center center'>
-  <p>Або позначти на карті</p>
-</div>
-<div class="map">
-  <app-map [addressFormGroup]="AddressFormGroup" (setAddressEvent)="onReceiveAddressFromMap($event)"></app-map>
-</div>

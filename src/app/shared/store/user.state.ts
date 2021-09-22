@@ -285,11 +285,10 @@ export class UserState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
-    dispatch(new GetProfile());
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
     dispatch(new MarkFormDirty(false));
     console.log('Provider is created', payload);
     dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
-    this.router.navigate(['']);
   }
 
   @Action(CreateApplication)
@@ -408,7 +407,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/parent/info']);
+    this.router.navigate(['/personal-cabinet/provider/info']);
   }
 
   @Action(UpdateUser)

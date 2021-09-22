@@ -9,19 +9,17 @@
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="lastName">
       </mat-form-field>
-      <app-validation-hint-for-input 
-        type = "requiredField" 
-        [invalid] = "userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched" 
-      ></app-validation-hint-for-input>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched">
+      </app-validation-hint-for-input>
 
       <label class="step-label"> Ім'я <span class="step-required">*</span></label>
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="firstName">
       </mat-form-field>
-      <app-validation-hint-for-input 
-        type = "requiredField" 
-        [invalid] = "userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched" 
-      ></app-validation-hint-for-input>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched">
+      </app-validation-hint-for-input>
 
       <label class="step-label"> По-батькові </label>
       <mat-form-field>
@@ -29,25 +27,22 @@
       </mat-form-field>
 
       <label class="step-label"> Телефон <span class="step-required">*</span></label>
-      <div class="phone" fxLayout='row'>
-        <mat-form-field class="phone_code">
-          <input matInput class="step-input" type="text" value="+38" disabled>
-        </mat-form-field>
-        <mat-form-field class="phone_number">
-          <input matInput class="step-input"  type="text" formControlName="phoneNumber" appDigitOnly maxlength="{{constants.PHONE_LENGTH}}">
-        </mat-form-field>
-      </div>
-      <app-validation-hint-for-input 
-        type = "requiredEmptyField"
-        [isEmptyCheck] = "userEditFormGroup.get('phoneNumber').errors?.required"
-        [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched" 
-      ></app-validation-hint-for-input>
-      <app-validation-hint-for-input
-        type = "minDigitsLength"
-        [minLength] = "userEditFormGroup.get('phoneNumber').errors?.minlength"
-        [invalid] = "userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
-        [minCharachters] = "userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength"
-      ></app-validation-hint-for-input>
+      <mat-form-field>
+        <div fxLayout='row' fxLayoutAlign='start center'>
+          <span class="step-text">+38</span>
+          <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
+            ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+        </div>
+      </mat-form-field>
+      <app-validation-hint-for-input type="requiredEmptyField"
+        [isEmptyCheck]="userEditFormGroup.get('phoneNumber').errors?.required"
+        [invalid]="userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched">
+      </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="minDigitsLength"
+        [minLength]="userEditFormGroup.get('phoneNumber').errors?.minlength"
+        [invalid]="userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
+        [minCharachters]="userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
+      </app-validation-hint-for-input>
 
     </form>
     <div fxLayout='column' fxLayoutAlign='center center'>
