@@ -3,13 +3,15 @@ import { AppComponent } from './app.component';
 import { Component, Input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { NgxsModule } from '@ngxs/store';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        MatSidenavModule
+        MatSidenavModule,
+        NgxsModule.forRoot([])
       ],
       declarations: [
         AppComponent,
@@ -33,7 +35,7 @@ describe('AppComponent', () => {
   template: ''
 })
 class MockHeaderComponent{
-  @Input() MobileScreen: boolean;
+  @Input() isMobileView: boolean;
 }
 
 @Component({
@@ -53,5 +55,5 @@ class MockFooterComponent{}
   template: ''
 })
 class MockSidenavComponent{
-  @Input() MobileScreen: boolean;
+  @Input() isMobileView: boolean;
 }

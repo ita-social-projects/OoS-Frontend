@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { ActivateEditMode, MarkFormDirty, SetLocation, ShowMessageBar } from './app.actions';
+import { ActivateEditMode, MarkFormDirty, SetLocation, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
   city: String;
   lng: Number | null;
   lat: Number | null;
   isDirtyForm: boolean,
-  isEditMode: boolean
+  isEditMode: boolean,
+  isMobileScreen: undefined | boolean
 }
 
 @State<AppStateModel>({
@@ -17,11 +18,15 @@ export interface AppStateModel {
     lng: null,
     lat: null,
     isDirtyForm: false,
-    isEditMode: false
+    isEditMode: false,
+    isMobileScreen: undefined
   }
 })
 @Injectable()
 export class AppState {
+
+  @Selector()
+  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen }
 
   @Selector()
   static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm }
@@ -48,4 +53,10 @@ export class AppState {
 
   @Action(ShowMessageBar)
   showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void { }
+
+  @Action(ToggleMobileScreen)
+  ToggleMobileScreen({patchState}:StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
+      patchState({ isMobileScreen: payload })
+  }
+
 }

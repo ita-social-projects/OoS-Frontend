@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit} from '@angular/core';
+import { Store } from '@ngxs/store';
+import { ToggleMobileScreen } from './shared/store/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,17 +9,18 @@ import { Component, HostListener, OnInit} from '@angular/core';
 })
 
 export class AppComponent implements OnInit{
-  constructor() { }
+  constructor(public store: Store) { }
 
-  MobileView: boolean = false;
+  isMobileView: boolean;
 
   /**
   * @param event global variable window
-  * method defined window.width and assign MobileView: boolean
+  * method defined window.width and assign isMobileView: boolean
   */
 
   isWindowMobile(event: any): void {
-    this.MobileView = event.innerWidth <= 750;
+    this.isMobileView = event.innerWidth <= 750;
+    this.store.dispatch(new ToggleMobileScreen(this.isMobileView))
   }
 
   @HostListener("window: resize", ["$event.target"])

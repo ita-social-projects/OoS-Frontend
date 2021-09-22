@@ -8,6 +8,7 @@ import { FilterChange, GetFilteredWorkshops } from 'src/app/shared/store/filter.
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { AppState } from 'src/app/shared/store/app.state';
 
 enum ViewType {
   map = 'map',
@@ -20,6 +21,9 @@ enum ViewType {
 })
 export class ResultComponent implements OnInit, OnDestroy {
 
+
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopCard[]>;
 
@@ -62,4 +66,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
+
 }
