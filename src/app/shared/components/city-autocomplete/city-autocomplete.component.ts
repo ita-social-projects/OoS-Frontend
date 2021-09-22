@@ -18,6 +18,8 @@ export class CityAutocompleteComponent implements OnInit {
 
   @Output() selectedCity = new EventEmitter();
   @Input() InitialCity: string;
+  @Input() className: string;
+
 
   cityFormControl = new FormControl();
   cities: City[] = [];

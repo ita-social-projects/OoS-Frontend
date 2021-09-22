@@ -3,7 +3,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { City } from 'src/app/shared/models/city.model';
 import { FilterState } from 'src/app/shared/store/filter.state';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { SetCity } from '../../../store/filter.actions';
 
 @Component({

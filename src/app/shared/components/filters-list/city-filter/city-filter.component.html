@@ -1,4 +1,6 @@
 <div *ngIf="city$ | async">
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city$ | async"></app-city-autocomplete>
-  <app-city-confirmation *ngIf="isConfirmCity$ | async"></app-city-confirmation>
+  <app-city-autocomplete class="input" (selectedCity)="onSelectedCity($event)" [className]="'city-filter'"
+    [InitialCity]="city$ | async">
+  </app-city-autocomplete>
+  <app-city-confirmation class="confirmation" *ngIf="isConfirmCity$ | async"></app-city-confirmation>
 </div>
