@@ -1,4 +1,3 @@
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
@@ -32,6 +31,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   priceRadioBtn: FormControl = new FormControl(false);
   useProviderInfoCtrl: FormControl = new FormControl(false);
+
   // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
 
   constructor(private formBuilder: FormBuilder, private store: Store) {

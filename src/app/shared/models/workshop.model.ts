@@ -79,5 +79,5 @@ export interface WorkshopCard {
 }
 export interface WorkshopFilterCard {
   totalAmount: number,
-  entities: WorkshopCard[]
+  entities: WorkshopCard[]      
 }

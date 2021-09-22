@@ -13,6 +13,7 @@ import { Navigation } from '../shared/models/navigation.model';
 import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
+import { AppState } from '../shared/store/app.state';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,7 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() MobileScreen: boolean;
+  @Input() isMobileView: boolean;
 
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;

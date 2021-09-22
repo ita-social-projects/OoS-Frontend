@@ -26,6 +26,8 @@ export class Constants {
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd MMMM yyyy';
 
+  static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
+
 };
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {
