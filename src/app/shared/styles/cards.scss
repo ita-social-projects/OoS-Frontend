@@ -22,7 +22,7 @@
   }
 
   &_link {
-    color: #3849f9;
+    color: #3849F9;
     font-weight: 700;
     margin-right: -20px;
 
@@ -34,7 +34,7 @@
   }
 
   &-list {
-    color: #3849f9;
+    color: #3849F9;
     font-weight: 700;
   }
 
@@ -48,8 +48,8 @@
     margin: 0.3rem;
     padding: 0;
   }
-  &_icon {
-    color: #aaaaaa;
+  &_icon{
+    color: #AAAAAA;
     margin-right: 0.2rem;
   }
 }
@@ -62,7 +62,7 @@
   cursor: pointer;
   z-index: 2;
   display: flex;
-  &:hover {
+  &:hover{
     opacity: 0.5;
   }
 }
@@ -87,7 +87,7 @@
     font-weight: bold;
     font-size: 11px;
     line-height: 12px;
-    color: #ffffff;
+    color: #FFFFFF;
     margin: 0;
     padding: 0;
   }
@@ -102,23 +102,24 @@
 }
 
 .chip_approved {
-  background: #99cd56;
+  background: #99CD56;
+
 }
 
 .chip_denied {
   background: red;
 }
-.mat-card {
+.mat-card{
   max-width: 300px !important;
-  padding: 0 !important;
+  padding:0 !important;
   margin: 1rem;
 }
 .mat-card-content,
-.mat-card-footer {
+.mat-card-footer{
   margin: 0 1rem !important;
 }
-.mat-card-header {
-  margin: 0 1rem !important;
+.mat-card-header{
+  margin:0 1rem !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -133,8 +134,8 @@
     margin-block-end: auto;
   }
 }
-.mat-card-image {
-  margin-bottom: 0 !important;
+.mat-card-image{
+  margin-bottom:0 !important;
 }
 
 .position {

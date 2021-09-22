@@ -71,12 +71,8 @@ export class MainComponent implements OnInit {
     amountWorkshops = workshops[0].length;
     if (this.WorkshopsWrap) {
       amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 350));
-      console.log("WorkshopsWrap", amountCardsInRow);
-      console.log("Amount", amountWorkshops)
     }
-    // console.log("RESULT", amountCardsInRow-amountWorkshops%amountCardsInRow)
     let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
-    console.log("RESULT", emptyWorkshops | 0);
     return new Array(emptyWorkshops | 0);
   }
 }
