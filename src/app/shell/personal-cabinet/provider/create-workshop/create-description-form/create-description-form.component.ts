@@ -47,7 +47,6 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.onDisabilityOptionCtrlInit();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.activateEditMode();
-
   }
 
   /**

@@ -198,7 +198,6 @@ export class CategorySelectComponent implements OnInit {
         distinctUntilChanged(),
         startWith(''),
       ).subscribe((value) => {
-
         if (value) {
           let input = (value?.title) ? value.title : value;
           this.store.dispatch(new FilteredDirectionsList(this.filterDirections(input)));
