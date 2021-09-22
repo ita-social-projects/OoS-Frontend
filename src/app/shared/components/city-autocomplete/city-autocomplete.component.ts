@@ -80,7 +80,7 @@ export class CityAutocompleteComponent implements OnInit {
     this.actions$.pipe(ofActionSuccessful(GetCities))
       .pipe(first())
       .subscribe(() => {
-        this.cityFormControl.setValue(this.cities[0])
+        this.cities && this.cityFormControl.setValue(this.cities[0])
       });
   }
 
