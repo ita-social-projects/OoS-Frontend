@@ -23,9 +23,7 @@ describe('CityAutocompleteComponent', () => {
         NgxsModule.forRoot([]),
       ],
       declarations: [
-        CityAutocompleteComponent,
-        MockCityConfirmationComponent
-      ],
+        CityAutocompleteComponent,],
       providers: []
     })
       .compileComponents();
@@ -41,9 +39,3 @@ describe('CityAutocompleteComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-@Component({
-  selector: 'app-city-confirmation',
-  template: ''
-})
-class MockCityConfirmationComponent{}
