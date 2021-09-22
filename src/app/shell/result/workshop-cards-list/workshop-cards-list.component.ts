@@ -15,21 +15,20 @@ import { FilterState } from 'src/app/shared/store/filter.state';
   styleUrls: ['./workshop-cards-list.component.scss']
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
+
+  readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
+
   @Input() workshops: WorkshopFilterCard;
+  parent: boolean;
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
-  readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
-
 
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-
-  parent: boolean;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public store: Store) { }

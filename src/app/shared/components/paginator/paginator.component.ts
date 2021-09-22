@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Constants } from '../../constants/constants';
+import { Constants, PaginationConstants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
 @Component({
   selector: 'app-paginator',
@@ -8,10 +8,7 @@ import { PaginationElement } from '../../models/paginationElement.model';
 })
 export class PaginatorComponent implements OnInit, OnChanges {
 
-  private readonly FIRST_PAGINATION_PAGE = 1;
-  private readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
-  private readonly PAGINATION_DOTS = '...';
-  private readonly PAGINATION_SHIFT_DELTA = 3;
+  readonly constants: typeof PaginationConstants = PaginationConstants;
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
@@ -48,27 +45,27 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   private checkCarouseleRecreationIsAllowed(isForward: boolean, currentPage: PaginationElement): boolean {
     if (isForward) {
-      return this.carouselPageList.indexOf(currentPage) >= this.PAGINATION_SHIFT_DELTA
+      return this.carouselPageList.indexOf(currentPage) >= this.constants.PAGINATION_SHIFT_DELTA
     } else {
-      return this.carouselPageList.indexOf(currentPage) <= this.PAGINATION_SHIFT_DELTA
+      return this.carouselPageList.indexOf(currentPage) <= this.constants.PAGINATION_SHIFT_DELTA
     }
   }
 
   private createPageList(): void {
     this.carouselPageList = [];
 
-    let firstPage = +this.currentPage.element - this.PAGINATION_SHIFT_DELTA;
-    firstPage = firstPage < this.FIRST_PAGINATION_PAGE ? this.FIRST_PAGINATION_PAGE : firstPage;
+    let firstPage = +this.currentPage.element - this.constants.PAGINATION_SHIFT_DELTA;
+    firstPage = firstPage < this.constants.FIRST_PAGINATION_PAGE ? this.constants.FIRST_PAGINATION_PAGE : firstPage;
 
-    let lastPage = +this.currentPage.element + this.PAGINATION_SHIFT_DELTA;
+    let lastPage = +this.currentPage.element + this.constants.PAGINATION_SHIFT_DELTA;
     lastPage = lastPage > this.totalPageAmount ? this.totalPageAmount : lastPage;
 
     let pageList = this.createDisplayedPageList(firstPage);
 
-    if (this.totalPageAmount < this.MAX_PAGE_PAGINATOR_DISPLAY) {
+    if (this.totalPageAmount < this.constants.MAX_PAGE_PAGINATOR_DISPLAY) {
       this.carouselPageList = pageList;
     } else {
-      this.createCarouselPageList(pageList, pageList[0]?.element !== this.FIRST_PAGINATION_PAGE, true);
+      this.createCarouselPageList(pageList, pageList[0]?.element !== this.constants.FIRST_PAGINATION_PAGE, true);
     }
 
   }
@@ -98,10 +95,10 @@ export class PaginatorComponent implements OnInit, OnChanges {
   private createDisplayedPageList(startPage: number): PaginationElement[] {
     let start: number;
     let end: number;
-    if (this.totalPageAmount > this.MAX_PAGE_PAGINATOR_DISPLAY) {
-      const isMaxAmountFit = (startPage + this.MAX_PAGE_PAGINATOR_DISPLAY) < this.totalPageAmount;
-      start = (isMaxAmountFit) ? startPage : this.totalPageAmount - this.MAX_PAGE_PAGINATOR_DISPLAY;
-      end = this.MAX_PAGE_PAGINATOR_DISPLAY;
+    if (this.totalPageAmount > this.constants.MAX_PAGE_PAGINATOR_DISPLAY) {
+      const isMaxAmountFit = (startPage + this.constants.MAX_PAGE_PAGINATOR_DISPLAY) < this.totalPageAmount;
+      start = (isMaxAmountFit) ? startPage : this.totalPageAmount - this.constants.MAX_PAGE_PAGINATOR_DISPLAY;
+      end = this.constants.MAX_PAGE_PAGINATOR_DISPLAY;
     } else {
       start = startPage;
       end = this.totalPageAmount;
@@ -122,7 +119,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     if (isOnStart) {
       let start: PaginationElement[] = [
         {
-          element: this.FIRST_PAGINATION_PAGE,
+          element: this.constants.FIRST_PAGINATION_PAGE,
           isActive: true
         }
       ];
@@ -130,7 +127,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
       if (pageList[0]?.element !== 2) {
         start.push(
           {
-            element: this.PAGINATION_DOTS,
+            element: this.constants.PAGINATION_DOTS,
             isActive: false
           })
       }
@@ -158,7 +155,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
       ];
       if (pageList[pageList.length - 1]?.element !== this.totalPageAmount - 1) {
         end.unshift({
-          element: this.PAGINATION_DOTS,
+          element: this.constants.PAGINATION_DOTS,
           isActive: false
         })
       }

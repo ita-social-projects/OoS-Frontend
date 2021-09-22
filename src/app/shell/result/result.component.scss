@@ -2,14 +2,11 @@
 
 .view-control-panel {
   flex-direction: row !important;
-
-  .search-block-wrapper {
-    display: block;
-  }
 }
 
 .workshops-count {
   max-width: 300px;
+  margin-right: 2rem;
 }
 
 .workshops-search {
@@ -123,7 +120,6 @@
     }
   }
 }
-
 // Todo: add same breakpoint for workshop count wrap
 @media(max-width: 1250px) {
   .workshops-count .filters-toggle-btn {
@@ -252,4 +248,3 @@
     display: none;
   }
 }
-
