@@ -2,7 +2,7 @@
   <div class="workshop-list" *ngIf="selectedWorkshops.length">
     <div fxLayout="column" fxLayoutAlign="space-evenly">
       <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
-        <app-workshop-card class="workshop" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop"
+        <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop"
           [isMainPage]="true">
         </app-workshop-card>
       </div>
