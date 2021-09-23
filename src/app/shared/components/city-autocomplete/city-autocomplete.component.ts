@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -14,7 +14,7 @@ import { FilterState } from '../../store/filter.state';
   templateUrl: './city-autocomplete.component.html',
   styleUrls: ['./city-autocomplete.component.scss']
 })
-export class CityAutocompleteComponent implements OnInit {
+export class CityAutocompleteComponent implements OnInit, OnChanges {
 
   @Output() selectedCity = new EventEmitter();
   @Input() InitialCity: string;
@@ -55,8 +55,26 @@ export class CityAutocompleteComponent implements OnInit {
         filter(value => value?.length > 2)
       ).subscribe(value => this.store.dispatch(new GetCities(value)));
 
-    this.InitialCity && this.setInitialAcity();
+    this.InitialCity && this.ngOnChanges();
   }
+
+  /**
+    * This method set initial city to autocomplete
+    */
+  ngOnChanges(): void {
+    if (this.InitialCity) {
+      this.cityFormControl.setValue(this.InitialCity);
+      this.actions$.pipe(ofActionSuccessful(GetCities))
+        .pipe(
+          first(),
+          filter((cities: City[]) => cities.length > 0))
+        .subscribe((cities: City[]) => {
+          const initialCity = cities.find((city: City) => city.name === this.InitialCity);
+          this.cityFormControl.setValue(initialCity)
+        });
+    }
+  }
+
   /**
    * This method selects an option from the list of filtered cities as a chosen city
    * and pass this value to teh parent component
@@ -72,16 +90,5 @@ export class CityAutocompleteComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  /**
-  * This method set initial city to autocomplete
-  */
-  setInitialAcity(): void {
-    this.cityFormControl.setValue(this.InitialCity);
-    this.actions$.pipe(ofActionSuccessful(GetCities))
-      .pipe(first())
-      .subscribe(() => {
-        this.cities && this.cityFormControl.setValue(this.cities[0])
-      });
-  }
 
 }
