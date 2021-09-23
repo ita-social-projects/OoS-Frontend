@@ -5,14 +5,16 @@
     <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
       <p class="filter-text">Від</p>
       <input matInput class="age-input" type="number" ng-model="number" [formControl]="minAgeFormControl" appDigitOnly
-        maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+        maxlength="2" [min]="constants.MIN_PRICE" [max]="constants.MAX_PRICE" [directiveFormControl]="minAgeFormControl"
+        appMinMax>
     </div>
   </mat-form-field>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
       <p class="filter-text">До</p>
       <input matInput class="age-input" type="number" ng-model="number" [formControl]="maxAgeFormControl" appDigitOnly
-        maxlength="2" appMinMax min={{constants.AGE_MIN}} max={{constants.AGE_MAX}}>
+        [directiveFormControl]="maxAgeFormControl" maxlength="2" appMinMax [min]="constants.MIN_PRICE"
+        [max]="constants.MAX_PRICE">
     </div>
   </mat-form-field>
 </div>

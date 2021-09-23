@@ -8,15 +8,17 @@
     <mat-form-field>
       <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
         <p class="filter-text">Від</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" min={{constants.MIN_PRICE}}
-          max={{constants.MAX_PRICE}} [formControl]="minPriceControl" appMinMax>
+        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
+          [max]="constants.MAX_PRICE" [directiveFormControl]="minPriceControl" [formControl]="minPriceControl"
+          appMinMax>
       </div>
     </mat-form-field>
     <mat-form-field>
       <div class="input-wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
         <p class="filter-text">До</p>
-        <input matInput class="price-input" type="number" ng-model="number" appDigitOnly maxlength="4"
-          min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}} [formControl]="maxPriceControl" appMinMax>
+        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
+          [max]="constants.MAX_PRICE" [directiveFormControl]="maxPriceControl" [formControl]="maxPriceControl"
+          appMinMax>
       </div>
     </mat-form-field>
   </div>
