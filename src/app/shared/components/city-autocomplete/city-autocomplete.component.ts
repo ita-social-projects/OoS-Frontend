@@ -54,25 +54,13 @@ export class CityAutocompleteComponent implements OnInit, OnChanges {
         }),
         filter(value => value?.length > 2)
       ).subscribe(value => this.store.dispatch(new GetCities(value)));
+    this.InitialCity && this.setInitialCity();
 
-    this.InitialCity && this.ngOnChanges();
   }
 
-  /**
-    * This method set initial city to autocomplete
-    */
+
   ngOnChanges(): void {
-    if (this.InitialCity) {
-      this.cityFormControl.setValue(this.InitialCity);
-      this.actions$.pipe(ofActionSuccessful(GetCities))
-        .pipe(
-          first(),
-          filter((cities: City[]) => cities.length > 0))
-        .subscribe((cities: City[]) => {
-          const initialCity = cities.find((city: City) => city.name === this.InitialCity);
-          this.cityFormControl.setValue(initialCity)
-        });
-    }
+    this.InitialCity && this.setInitialCity();
   }
 
   /**
@@ -88,6 +76,21 @@ export class CityAutocompleteComponent implements OnInit, OnChanges {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  /**
+  * This method set initial city to autocomplete
+  */
+  setInitialCity(): void {
+    this.cityFormControl.setValue(this.InitialCity);
+    this.actions$.pipe(ofActionSuccessful(GetCities))
+      .pipe(
+        filter(() => this.cities?.length > 0)
+      )
+      .subscribe(() => {
+        const initialCity = this.cities.find((city: City) => city.name === this.InitialCity);
+        this.cityFormControl.setValue(initialCity)
+      });
   }
 
 
