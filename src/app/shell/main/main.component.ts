@@ -1,5 +1,5 @@
 import { Constants } from './../../shared/constants/constants';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { SetCity, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
@@ -9,7 +9,7 @@ import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../shared/models/workshop.model';
 import { GetDirections, GetTopDirections } from 'src/app/shared/store/meta-data.actions';
-import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
+import { count, debounceTime, distinctUntilChanged, reduce, scan, takeUntil, tap, map } from 'rxjs/operators';
 import { GetFilteredWorkshops } from './../../shared/store/filter.actions';
 
 
@@ -30,7 +30,7 @@ export class MainComponent implements OnInit {
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  @ViewChild('WorkshopsWrap') WorkshopsWrap: ElementRef;
   public parent: boolean;
 
 
@@ -62,5 +62,20 @@ export class MainComponent implements OnInit {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  emptyWorkshops(): Array<Workshop> {
+    let amountCardsInRow = 0;
+    let workshops = [];
+    let amountWorkshops = 0;
+    this.topWorkshops$.pipe(map(x => workshops.push(x))).subscribe();
+    if (workshops[0]) {
+      amountWorkshops = workshops[0].length;
+    }
+    if (this.WorkshopsWrap) {
+      amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 352));
+    }
+    let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
+    return new Array(emptyWorkshops | 0);
   }
 }

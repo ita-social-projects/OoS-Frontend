@@ -8,8 +8,7 @@
   background: #FFF;
   padding: 10px;
   z-index: 1000;
-  left: -55px;
-  top: 49px;
+  top: 20px;
   p {
     text-align: center;
     font-size: 19px;
@@ -17,7 +16,7 @@
       font-weight: 700;
     }
   }
-  
+
   &_button {
   width: auto;
   margin-top: 25px;
@@ -47,7 +46,7 @@
     top: -14px;
     clip-path: polygon(50% 0,0 100%, 100% 100%);
 }
-// TO DO mobile view ... 
+// TO DO mobile view ...
 @media(max-width: 750px) {
   .city-confirmation {
     width: 340px;

@@ -1,4 +1,5 @@
-<mat-card >
+<mat-card>
+<div *ngIf="workshop; else EmptyWorkshop">
   <ng-container *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;"></ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
@@ -51,9 +52,9 @@
       </div>
     </mat-card-footer>
   
+    </div>
   </div>
-
-  </div>
+</div>
 </mat-card>
 
 <ng-template #ProviderActions>
@@ -84,3 +85,7 @@
     </ng-template>
   </div>
 </ng-template>
+<ng-template #EmptyWorkshop>
+  <div class="empty-card" fxLayout="column" fxLayoutAlign="space-between space-between" display="none">
+    </div>
+  </ng-template>

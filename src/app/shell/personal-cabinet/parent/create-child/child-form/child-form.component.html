@@ -1,23 +1,21 @@
-<form [formGroup]="ChildFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
+<form [formGroup]="ChildFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step form"
   [ngClass]="(childrenAmount>1) ? 'step-border' : ''">
-  
+
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="lastName">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="firstName">
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched">
+  </app-validation-hint-for-input>
 
   <label class="step-label">По-батькові</label>
   <mat-form-field>
@@ -30,10 +28,9 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').touched" 
-  ></app-validation-hint-for-input>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').touched">
+  </app-validation-hint-for-input>
 
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
@@ -44,18 +41,17 @@
 
   <label class="step-label">Соціальна група<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" 
-        placeholder="Соціальна група" formControlName="socialGroupId">
-        <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
-        <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
-          {{group.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  <app-validation-hint-for-input 
-    type = "requiredField" 
-    [invalid] = "ChildFormGroup.get('socialGroupId').invalid && ChildFormGroup.get('socialGroupId').touched" 
-  ></app-validation-hint-for-input>
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" placeholder="Соціальна група"
+      formControlName="socialGroupId">
+      <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
+      <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
+        {{group.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="ChildFormGroup.get('socialGroupId').invalid && ChildFormGroup.get('socialGroupId').touched">
+  </app-validation-hint-for-input>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1">
     <button class="btn-reset" type="reset" mat-button (click)="delete()">

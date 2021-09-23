@@ -1,1 +1,13 @@
 @import "src/app/shared/styles/create-form-wrapper.scss";
+@import "src/app/shared/styles/create-form.scss";
+.agreement {
+  margin: 1rem;
+  display: inline-block;
+}
+.hidden {
+  visibility: hidden;
+  height: 0;
+}
+.wrapper-text {
+  margin: 0;
+}

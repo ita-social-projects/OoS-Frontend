@@ -55,7 +55,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites) => {
         this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
+        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
   }
