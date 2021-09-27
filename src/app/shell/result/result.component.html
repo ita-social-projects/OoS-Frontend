@@ -15,12 +15,19 @@
     <app-filters-list></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
-    <div *ngIf="currentView === viewType.map; else ShowData">
+    <div *ngIf="currentView === viewType.map; else ShowData" fxLayout='row wrap' fxLayoutAlign='space-evenly'
+      fxLayoutGap="20px grid" #WorkshopsWrap>
       <app-workshop-map-view-list [filteredWorkshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
-    </div>
-
+      <!-- <app-workshop-map-view-list
+        [filteredWorkshops]="emptyItems(workshopsWrap, 352,filteredWorkshops$)"></app-workshop-map-view-list>
+    </div> -->
+</div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [workshops]="filteredWorkshops$ | async"></app-workshop-cards-list>
+      <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
+        <app-workshop-cards-list class="cards" [workshops]="filteredWorkshops$ | async"></app-workshop-cards-list>
+        <!-- <app-workshop-cards-list 
+        [filteredWorkshops]="emptyItems(workshopsWrap, 352,filteredWorkshops$)"  class="cards"></app-workshop-cards-list> -->
+      </div>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>

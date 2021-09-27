@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -9,6 +9,7 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
+import { Util } from 'src/app/shared/utils/utils';
 
 enum ViewType {
   map = 'map',
@@ -26,6 +27,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopCard[]>;
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  emptyItems = Util.emptyItems;
 
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
