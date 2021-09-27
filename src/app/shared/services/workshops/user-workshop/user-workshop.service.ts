@@ -21,14 +21,6 @@ export class UserWorkshopService {
   }
 
   /**
- * This method get workshops by Parent id
- * @param id
- */
-  getWorkshopsByParentId(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/Workshop/Get`); //TODO: change to get Workshop By parent ID
-  }
-
-  /**
   * This method get workshops by Workshop id
   * @param id
   */
