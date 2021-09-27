@@ -27,14 +27,6 @@ export class ProviderService {
   }
 
   /**
-  * This method delete Provider by id
-  * @param id
-  */
-  deleteProvider(id: number): Observable<Object> {
-    return this.http.delete(`Provider/Delete/${id}`);
-  }
-
-  /**
   * This method get Provider by User id
   */
   getProfile(): Observable<Provider> {
