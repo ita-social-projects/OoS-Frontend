@@ -5,8 +5,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { Parent } from 'src/app/shared/models/parent.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
 import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
@@ -52,6 +53,9 @@ class MockMapListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
+  @Input() isHorizontalView: boolean;
+  @Input() isCreateApplicationView: boolean;
+  @Input() parent: boolean;
 }
 @Component({
   selector: 'app-map',
