@@ -2,12 +2,13 @@ import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { FilterState } from 'src/app/shared/store/filter.state';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -30,6 +31,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  emptyItems = Util.emptyItems;
 
   constructor(public store: Store) { }
 
