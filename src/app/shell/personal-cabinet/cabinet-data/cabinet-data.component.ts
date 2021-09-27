@@ -4,15 +4,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus} from 'src/app/shared/enum/applications';
-import {ApplicationTitles} from 'src/app/shared/enum/enumUA/applications'
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications'
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -28,7 +28,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   readonly role: typeof Role = Role;
 
   @Select(UserState.workshops)
-  workshops$: Observable<Workshop[]>;
+  workshops$: Observable<WorkshopCard[]>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   @Select(UserState.children)
@@ -46,7 +46,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   userRole: string;
   provider: Provider;
   parent: Parent;
-  workshops: Workshop[];
+  workshops: WorkshopCard[];
   applications: Application[];
   children: Child[];
 
