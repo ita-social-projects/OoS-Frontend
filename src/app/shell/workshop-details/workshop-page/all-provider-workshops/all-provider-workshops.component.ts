@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 
 @Component({
   selector: 'app-all-provider-workshops',
@@ -8,7 +8,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 })
 export class AllProviderWorkshopsComponent implements OnInit {
 
-  @Input() providerWorkshops: Workshop[];
+  @Input() providerWorkshops: WorkshopCard[];
 
   constructor() { }
 

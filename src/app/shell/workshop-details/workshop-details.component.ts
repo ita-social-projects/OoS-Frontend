@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
@@ -23,7 +23,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(UserState.selectedProvider) provider$: Observable<Provider>;
-  @Select(UserState.workshops) workshops$: Observable<Workshop[]>;
+  @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.user) user$: Observable<User>;
   user: User;
   isRegistered: boolean = false;
