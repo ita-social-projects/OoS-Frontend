@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, first, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, map, startWith, take, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -85,6 +85,7 @@ export class CityAutocompleteComponent implements OnInit, OnChanges {
     this.cityFormControl.setValue(this.InitialCity);
     this.actions$.pipe(ofActionSuccessful(GetCities))
       .pipe(
+        take(1),
         filter(() => this.cities?.length > 0)
       )
       .subscribe(() => {
