@@ -70,7 +70,7 @@ import { ClearClasses, ClearDepartments } from './meta-data.actions';
 
 export interface UserStateModel {
   isLoading: boolean;
-  workshops: Workshop[];
+  workshops: WorkshopCard[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
@@ -98,7 +98,7 @@ export class UserState {
   static isLoading(state: UserStateModel): boolean { return state.isLoading }
 
   @Selector()
-  static workshops(state: UserStateModel): Workshop[] { return state.workshops }
+  static workshops(state: UserStateModel): WorkshopCard[] { return state.workshops }
 
   @Selector()
   static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider }
@@ -157,7 +157,7 @@ export class UserState {
     return this.userWorkshopService
       .getWorkshopsByProviderId(payload)
       .pipe(
-        tap((userWorkshops: Workshop[]) => {
+        tap((userWorkshops: WorkshopCard[]) => {
           return patchState({ workshops: userWorkshops, isLoading: false });
         }));
   }
