@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -9,6 +9,7 @@ import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { Util } from 'src/app/shared/utils/utils';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 
@@ -20,6 +21,8 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  emptyItems = Util.emptyItems;
 
   constructor(store: Store, matDialog: MatDialog) {
     super(store, matDialog);
