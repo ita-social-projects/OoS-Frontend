@@ -15,7 +15,7 @@ export class ProviderService {
   * @param id
   */
   getProviderById(id: number): Observable<Provider> {
-    return this.http.get<Provider>(`/Provider/GetById/${id}`);
+    return this.http.get<Provider>(`/Provider/GetById/${id}?providerId=${id}`);
   }
 
   /**
@@ -24,14 +24,6 @@ export class ProviderService {
   */
   createProvider(provider: Provider): Observable<Object> {
     return this.http.post('/Provider/Create', provider);
-  }
-
-  /**
-  * This method delete Provider by id
-  * @param id
-  */
-  deleteProvider(id: number): Observable<Object> {
-    return this.http.delete(`Provider/Delete/${id}`);
   }
 
   /**

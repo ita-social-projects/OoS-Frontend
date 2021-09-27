@@ -76,10 +76,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
     this.rating$
       .pipe(
-        filter((rating: Rate[]) => rating.length > 0),
+        filter((rating: Rate[]) => rating?.length > 0),
         takeUntil(this.destroy$)
       ).subscribe((rating: Rate[]) => {
-        rating.some((rate: Rate) => {
+        rating?.some((rate: Rate) => {
           if (this.parent) {
             this.isRated = (rate.parentId === this.parent.id);
             this.hasApprovedApplication = this.approvedApplications?.some((application: Application) => {

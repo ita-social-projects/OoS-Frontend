@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workshop } from '../../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +16,8 @@ export class UserWorkshopService {
   * This method get workshops by Provider id
   * @param id
   */
-  getWorkshopsByProviderId(id: number): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/Workshop/GetByProviderId/${id}`);
-  }
-
-  /**
- * This method get workshops by Parent id
- * @param id
- */
-  getWorkshopsByParentId(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/Workshop/Get`); //TODO: change to get Workshop By parent ID
+  getWorkshopsByProviderId(id: number): Observable<WorkshopCard[]> {
+    return this.http.get<WorkshopCard[]>(`/Workshop/GetByProviderId/${id}`);
   }
 
   /**

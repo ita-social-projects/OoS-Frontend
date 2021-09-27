@@ -30,6 +30,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isMainPage: boolean;
   @Input() application: Application;
   @Input() parent: boolean;
+  @Input() isHorizontalView: boolean = false;
+  @Input() isCreateApplicationView: boolean = true;
 
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
@@ -53,7 +55,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites) => {
         this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop.workshopId);
+        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
   }

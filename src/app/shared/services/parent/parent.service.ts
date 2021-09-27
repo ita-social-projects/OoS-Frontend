@@ -12,38 +12,6 @@ export class ParentService {
   constructor(private http: HttpClient) { }
 
   /**
-    * This method get Parent by id
-    * @param id
-    */
-  getParentById(id: number): Observable<Parent> {
-    return this.http.get<Parent>(`/Parent/Get`);
-  }
-
-  /**
-  * This method create Parent
-  * @param Parent
-  */
-  createParent(parent: User): Observable<Object> {
-    return this.http.post('/Parent/Create', parent);
-  }
-
-  /**
-  * This method update Parent
-  * @param Parent
-  */
-  updateParent(parent: Parent): Observable<Object> {
-    return this.http.put('/Parent/Update', parent);
-  }
-
-  /**
-  * This method delete Parent by id
-  * @param id
-  */
-  deleteParent(id: number): Observable<Object> {
-    return this.http.delete(`Parent/Delete/${id}`);
-  }
-
-  /**
   * This method get Parent by User id
   */
   getProfile(): Observable<Parent> {

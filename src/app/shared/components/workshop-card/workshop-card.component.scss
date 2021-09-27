@@ -26,3 +26,54 @@
     color: #C72A21;
   }
 }
+.horizontal-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .card-img {
+    display: flex;
+    width: 100%;
+    min-width: 150px;
+    object-fit: cover;
+    object-position: bottom;
+  }
+  .mat-card-image {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 0;
+  }
+  .hide {
+    display: block;
+  }
+}
+@media (max-width: 750px) {
+.horizontal-card {
+  min-height: 150px;
+  
+  .card_text {
+    margin: 0;
+  }
+  .mat-card-image {
+    height: 150px;
+    object-fit: cover;
+    object-position: bottom;
+  }
+  .hide {
+    display: none;
+  }
+  ::ng-deep .mat-card-header-text {
+    margin: 0;
+  }
+  .card-footer {
+    flex-direction: row;
+  }
+  .mat-card-title {
+    width: 150px;
+    font-size: 15px;
+    margin-bottom: 0;
+    }
+  }
+}
