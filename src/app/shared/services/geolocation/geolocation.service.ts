@@ -12,7 +12,7 @@ const kiev: City = {
   id: 14446,
   longitude: 30.5595,
   latitude: 50.44029,
-  name: "КИЇВ",
+  name: "Київ",
   region: "м.Київ"
 }
 
@@ -69,6 +69,29 @@ export class GeolocationService {
       }
     );
   }
+  /**
+   * method gets user city name frog geolocation and setting to state  
+   * @param coords 
+   */
+  async locationDetection(coords: Coords): Promise<any> {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lng}&format=json`;
+    const result = await fetch(url, {
+      headers: {
+        'Accept-Language': 'uk-UA, uk'
+      },
+    });
+    const userCityInfo = await result.json();
+
+    this.store.dispatch([new ConfirmCity(false), new SetCity({
+      district: " ",
+      id: Math.floor(Math.random() * 1000),
+      longitude: coords.lng,
+      latitude: coords.lat,
+      name: userCityInfo.address.city,
+      region: " "
+    })]);
+    console.log(userCityInfo) // <---DO NOT FORGET TO REMOVE !!!
+  }
 
   /**
    * translates coords into address
@@ -98,14 +121,18 @@ export class GeolocationService {
   }
 
   /**
-   * translates address into coords
+   * translates address into coords  
    *
    * @param address - Address
    */
   async locationGeocode(address: Address): Promise<[number, number] | null> {
     const query = `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`;
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&limit=5&format=json&addressdetails=1`;
-    const result = await fetch(url);
+    const result = await fetch(url, {
+      headers: {
+        'Accept-Language': 'uk-UA, uk'
+      },
+    });
     const json = await result.json();
     const coords: [number, number] | null = json.length > 0 ? [Number(json[0].lat), Number(json[0].lon)] : null;
     return coords;
