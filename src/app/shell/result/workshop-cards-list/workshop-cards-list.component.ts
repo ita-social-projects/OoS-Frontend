@@ -19,6 +19,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   @Input() workshops: WorkshopFilterCard;
+
+  isVisible = false;
   parent: boolean;
   currentPage: PaginationElement = {
     element: 1,
@@ -30,10 +32,10 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  workshopsCopy: any;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems; 
-  
+  emptyItems = Util.emptyItems;
+
   constructor(public store: Store) { }
 
   ngOnInit(): void {
@@ -44,9 +46,10 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: PaginationElement): void {
+    console.log("WORKSHOPS", this.workshops)
     this.currentPage = page;
     this.store.dispatch(new PageChange(page));
-    console.log("Workshops",this.workshops)
+    console.log("Workshops", this.workshops)
   }
 
   ngOnDestroy(): void {

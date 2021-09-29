@@ -27,6 +27,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopCard[]>;
+  @Select(FilterState.isLoading)
+  isLoading$:Observable <boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   emptyItems = Util.emptyItems;
 
