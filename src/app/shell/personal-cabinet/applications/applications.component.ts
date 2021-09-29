@@ -144,9 +144,4 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
   }
-
-  show(app): void {
-    console.log(app)
-  }
-
 }
