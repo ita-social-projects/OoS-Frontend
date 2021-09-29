@@ -4,7 +4,7 @@
 
 
 <div fxLayout='row wrap' fxLayoutAlign='space-evenly'
-  fxLayoutGap="20px grid" #WorkshopsWrap>
+  fxLayoutGap="20px grid" #WorkshopsWrap *ngIf="workshops">
   <app-workshop-card [parent]="parent" *ngFor="let workshop of workshops.entities" [workshop]="workshop"
     [isMainPage]="true">
   </app-workshop-card>

@@ -33,14 +33,14 @@ export class Util {
   * @param items Observable or Array
   * @returns Array
   */
-  public static emptyItems(wrap: any, itemWidth: number, items: Observable<any> | Array<any>, itemsLength?): Array<any> {
+  public static emptyItems(wrap: any, itemWidth: number, items, itemsLength?): Array<any> {
     let amountCardsInRow = 0;
     let itemsArray = [];
     let amountWorkshops = 0;
     if (itemsLength) {
       amountWorkshops = itemsLength;
     } else {
-      if (!Array.isArray(items)) {
+      if (!Array.isArray(items) && items) {
         items.pipe(map(x => itemsArray.push(x))).subscribe();
         if (itemsArray[0]) {
           amountWorkshops = itemsArray[0].length;
