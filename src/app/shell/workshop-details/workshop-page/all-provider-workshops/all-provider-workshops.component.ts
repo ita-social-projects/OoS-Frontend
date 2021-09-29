@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-all-provider-workshops',

@@ -1,10 +1,9 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
   <div class="workshop-list" *ngIf="selectedWorkshops.length">
     <div fxLayout="column" fxLayoutAlign="space-evenly">
-      <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid"
-      #WorkshopsWrap>>
+      <div fxLayout='column wrap' fxLayoutAlign='space-evenly' #WorkshopsWrap>
         <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops"
-          [workshop]="workshop" [isMainPage]="true">
+          [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
         </app-workshop-card>
         <app-workshop-card *ngFor="let workshop of emptyItems(workshopsWrap, 352, selectedWorkshops)" [workshop]="workshop"
         class="empty-card" [isMainPage]="true" >
@@ -22,8 +21,7 @@
     </div>
   </div>
 
-  <div class="workshop-details-cards" fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid"
-    #WorkshopsWrap>
+  <div class="workshop-details-cards" fxLayout='column wrap' fxLayoutAlign='space-evenly' >
     <app-workshop-card class="workshop-details-card" *ngFor="let selectedWorkshop of selectedWorkshops"
       [workshop]="selectedWorkshop" [isMainPage]="true" [isHorizontalView]="true"
       [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">

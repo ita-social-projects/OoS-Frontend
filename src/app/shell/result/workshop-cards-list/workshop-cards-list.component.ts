@@ -18,7 +18,6 @@ import { Util } from 'src/app/shared/utils/utils';
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
-
   @Input() workshops: WorkshopFilterCard;
   parent: boolean;
   currentPage: PaginationElement = {
@@ -31,12 +30,14 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems;
 
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  emptyItems = Util.emptyItems; 
+  
   constructor(public store: Store) { }
 
   ngOnInit(): void {
+
     this.isParent$
       .pipe(takeUntil(this.destroy$))
       .subscribe(parent => this.parent = parent);
@@ -45,7 +46,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new PageChange(page));
-    console.log(this.workshops)
+    console.log("Workshops",this.workshops)
   }
 
   ngOnDestroy(): void {

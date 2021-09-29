@@ -33,19 +33,23 @@ export class Util {
   * @param items Observable or Array
   * @returns Array
   */
-  public static emptyItems(wrap: any, itemWidth: number, items: Observable<any> | Array<any>): Array<any> {
+  public static emptyItems(wrap: any, itemWidth: number, items: Observable<any> | Array<any>, itemsLength?): Array<any> {
     let amountCardsInRow = 0;
     let itemsArray = [];
     let amountWorkshops = 0;
-    if (!Array.isArray(items)) {
-      items.pipe(map(x => itemsArray.push(x))).subscribe();
-      if (itemsArray[0]) {
-        amountWorkshops = itemsArray[0].length;
+    if (itemsLength) {
+      amountWorkshops = itemsLength;
+    } else {
+      if (!Array.isArray(items)) {
+        items.pipe(map(x => itemsArray.push(x))).subscribe();
+        if (itemsArray[0]) {
+          amountWorkshops = itemsArray[0].length;
+        }
       }
-    }
-    else {
-      itemsArray = items.slice();
-      amountWorkshops = itemsArray.length;
+      else {
+        itemsArray = items.slice();
+        amountWorkshops = itemsArray.length;
+      }
     }
     if (wrap) {
       amountCardsInRow = Math.floor(Number((wrap.nativeElement.clientWidth) / itemWidth));

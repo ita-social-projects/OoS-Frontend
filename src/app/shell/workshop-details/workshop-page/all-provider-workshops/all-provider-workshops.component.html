@@ -1,4 +1,4 @@
-<div fxLayout='row wrap' fxLayoutAlign='start center'>
+<div fxLayout='row wrap' fxLayoutAlign='start' fxLayoutGap="grid" #WorkshopsWrap class="all-provider-worshops-wrapper">
   <app-workshop-card class="cards" *ngFor="let workshop of providerWorkshops " [workshop]="workshop"
     [isMainPage]="true"></app-workshop-card>
 </div>
