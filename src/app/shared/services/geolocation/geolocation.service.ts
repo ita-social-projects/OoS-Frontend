@@ -70,7 +70,7 @@ export class GeolocationService {
     );
   }
   /**
-   * method gets user city name frog geolocation and setting to state  
+   * method gets user city name from geolocation and setting to state  
    * @param coords 
    */
   async locationDetection(coords: Coords): Promise<any> {
@@ -84,7 +84,6 @@ export class GeolocationService {
 
     this.store.dispatch([new ConfirmCity(false), new SetCity({
       district: " ",
-      id: Math.floor(Math.random() * 1000),
       longitude: coords.lng,
       latitude: coords.lat,
       name: userCityInfo.address.city,
