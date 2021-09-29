@@ -29,8 +29,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
 
-
-
   providerApplicationParams: {
     status: number,
     workshopsId: number[]
@@ -146,6 +144,4 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
   }
- 
-
 }
