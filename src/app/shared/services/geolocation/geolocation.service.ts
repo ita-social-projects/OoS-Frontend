@@ -90,7 +90,6 @@ export class GeolocationService {
       name: userCityInfo.address.city,
       region: " "
     })]);
-    console.log(userCityInfo) // <---DO NOT FORGET TO REMOVE !!!
   }
 
   /**
