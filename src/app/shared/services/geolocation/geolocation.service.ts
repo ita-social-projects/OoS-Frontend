@@ -2,10 +2,11 @@ import { City } from './../../models/city.model';
 import { ConfirmCity, SetCity } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import Geocoder from 'leaflet-control-geocoder';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
+import { GeocoderService } from './geocoder.service'
+import { HttpClient } from '@angular/common/http';
 
 const kiev: City = {
   district: "м.Київ",
@@ -27,7 +28,7 @@ export class GeolocationService {
     city: ''
   };
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, private http: HttpClient) { }
 
   /**
    * This method sets default city Kiev in localStorage if user deny geolocation 
@@ -77,24 +78,20 @@ export class GeolocationService {
    * @param callback - Function, which recieves 1 argument of type Address
    */
   locationDecode(coords: Coords, callback: (Address) => void): void {
-    new Geocoder().options.geocoder.reverse(
-      { lat: coords.lat, lng: coords.lng },
-      18,
-      (result) => {
-        if (result.length > 0) {
-          const city = result[0].properties.address.city;
-          const street = result[0].properties.address.road;
-          const buildingNumber = result[0].properties.address.house_number;
-          callback({ city, street, buildingNumber });
-        } else {
-          callback({
-            city: '',
-            street: '',
-            buildingNumber: '',
-          });
-        }
+    GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result) => {
+      if (result.length > 0) {
+        const city = result[0].properties.address.city;
+        const street = result[0].properties.address.road;
+        const buildingNumber = result[0].properties.address.house_number;
+        callback({ city, street, buildingNumber });
+      } else {
+        callback({
+          city: '',
+          street: '',
+          buildingNumber: '',
+        });
       }
-    );
+    });
   }
 
   /**
@@ -105,7 +102,11 @@ export class GeolocationService {
   async locationGeocode(address: Address): Promise<[number, number] | null> {
     const query = `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`;
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&limit=5&format=json&addressdetails=1`;
-    const result = await fetch(url);
+    const result = await fetch(url, {
+      headers: {
+        'Accept-Language': 'uk-UA, uk'
+      },
+    });
     const json = await result.json();
     const coords: [number, number] | null = json.length > 0 ? [Number(json[0].lat), Number(json[0].lon)] : null;
     return coords;
