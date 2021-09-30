@@ -1,16 +1,15 @@
 export enum ApplicationStatus {
-
-  Pending,
-  AcceptedForSelection,
-  Approved,
-  Rejected,
-  Left
+  Pending = 'Pending',
+  AcceptedForSelection = 'AcceptedForSelection',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
+  Left = 'Left',
+  Block = "fooBar"
 }
 export enum ApplicationIcons {
-
-  "fas fa-user-clock",
-  "fas fa-user-plus",
-  "fas fa-user-check",
-  "fas fa-user-times",
-  "fas fa-user-times "
+  Pending = 'fas fa-user-clock',
+  AcceptedForSelection = 'fas fa-user-plus',
+  Approved = 'fas fa-user-check',
+  Rejected = 'fas fa-user-times',
+  Left = 'fas fa-user-times',
 }

@@ -1,20 +1,21 @@
 <div *ngIf="application; else cardFormat;">
   <div class="application-popup-status {{application.status}}">
-    <span> <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
-    <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
+    <span> <i class={{applicationIcons[application.status]}}></i></span>
+    <span> {{applicationTitles[application.status]}}</span>
   </div>
   <div class="application-info-menu application-info-description-card">({{
-    applicationStatusDescription[applicationStatus[application.status]] }})</div>
+    applicationStatusDescription[application.status] }})</div>
 </div>
 <ng-template #cardFormat>
   <div class="application-info-menu-title"> Статуси заявок</div>
   <div class="application-info-menu">
     <div class="application-info-title">
-      <span *ngFor="let status of getValuesFromEnum(applicationStatus)" class="{{status}}"> <i
-          class={{applicationIcons[applicationStatus[status]]}}></i>{{applicationTitles[applicationStatus[status]]}}</span>
+      <span *ngFor="let status of getValuesFromEnum()" class="{{status}}"> <i
+          class={{applicationIcons[status]}}></i>{{applicationTitles[status]}}</span>
     </div>
-    <div class="application-info-description">
-      <span *ngFor="let description of getValuesFromEnum(applicationStatusDescription)">{{description}}</span>
+    <div class="application-info-title">
+      <span *ngFor="let status of getValuesFromEnum()"
+        class=" {{status}}">{{applicationStatusDescription[status]}}</span>
     </div>
   </div>
 </ng-template>

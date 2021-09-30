@@ -1,5 +1,5 @@
 <mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
-  [ngClass]="application.status === applicationStatus.pending ? 'card card-new' : 'card'">
+  [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div fxLayout='column' fxLayoutAlign='start start'>
       <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
@@ -29,8 +29,8 @@
     <div *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
       (mouseleave)="trigger.closeMenu()">
       <div class="application-popup-status {{application.status}}">
-        <span> <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
-        <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
+        <span> <i class={{applicationIcons[application.status]}}></i></span>
+        <span> {{applicationTitles[application.status]}}</span>
       </div>
     </div>
     <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"
