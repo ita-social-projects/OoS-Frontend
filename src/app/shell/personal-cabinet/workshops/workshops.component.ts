@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -23,7 +24,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
-
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   constructor(store: Store, matDialog: MatDialog) {
     super(store, matDialog);
   }

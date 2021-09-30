@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from 'src/app/shared/constants/constants';
 
 enum ViewType {
   map = 'map',
@@ -31,7 +32,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   isLoading$:Observable <boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
-
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
   public viewType = ViewType;
