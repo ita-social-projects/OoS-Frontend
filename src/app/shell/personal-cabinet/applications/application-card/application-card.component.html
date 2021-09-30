@@ -1,5 +1,5 @@
 <mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
-  [ngClass]="application.status === applicationStatus.pending ? 'card card-new' : 'card'">
+  [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div fxLayout='column' fxLayoutAlign='start start'>
       <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">

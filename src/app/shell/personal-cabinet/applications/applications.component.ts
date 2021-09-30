@@ -13,6 +13,7 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+import { ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 
 
 @Component({
@@ -24,13 +25,13 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
-  tabApplicationStatus: number;
+  tabApplicationStatus: string;
 
   isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
 
   providerApplicationParams: {
-    status: number,
+    status: string,
     workshopsId: number[]
   } = {
       status: undefined,
@@ -119,7 +120,10 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param workshopsId: number[]
   */
   onTabChange(event: MatTabChangeEvent): void {
-    this.tabApplicationStatus = this.applicationTitles[event.tab.textLabel];
+
+    this.tabApplicationStatus = ApplicationTitlesReverse[event.tab.textLabel];
+    console.log(this.tabApplicationStatus);
+
     this.providerApplicationParams.status = this.tabApplicationStatus;
     this.getProviderApplications(this.providerApplicationParams);
   }

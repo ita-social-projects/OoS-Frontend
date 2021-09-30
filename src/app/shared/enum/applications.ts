@@ -1,9 +1,10 @@
 export enum ApplicationStatus {
   Pending = 'Pending',
-  AcceptedForSelection = 'Pending',
+  AcceptedForSelection = 'AcceptedForSelection',
   Approved = 'Approved',
   Rejected = 'Rejected',
-  Left = 'Left'
+  Left = 'Left',
+  Block = "fooBar"
 }
 export enum ApplicationIcons {
   Pending = 'fas fa-user-clock',
