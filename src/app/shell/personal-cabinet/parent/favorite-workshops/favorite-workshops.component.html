@@ -1,6 +1,6 @@
 <ng-container *ngIf="(favoriteWorkshopsCard$ | async)?.length;  else isEmptyList"></ng-container>
 
-  <div class="wrapper-card">
+  <div class="wrapper-card" *ngIf="(favoriteWorkshopsCard$ | async)?.length">
     <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
       <app-workshop-card class="cards" [parent]="parent" *ngFor="let workshop of (favoriteWorkshopsCard$ |async)"
         [workshop]="workshop" [isMainPage]="true">
