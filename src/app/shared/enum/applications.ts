@@ -6,8 +6,9 @@ export enum ApplicationStatus {
   Left = 'Left'
 }
 export enum ApplicationIcons {
-  'fas fa-user-clock',
-  'fas fa-user-plus',
-  'fas fa-user-check',
-  'fas fa-user-times',
+  Pending = 'fas fa-user-clock',
+  AcceptedForSelection = 'fas fa-user-plus',
+  Approved = 'fas fa-user-check',
+  Rejected = 'fas fa-user-times',
+  Left = 'fas fa-user-times',
 }

@@ -29,8 +29,8 @@
     <div *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
       (mouseleave)="trigger.closeMenu()">
       <div class="application-popup-status {{application.status}}">
-        <span> <i class={{applicationIcons[applicationStatus[application.status]]}}></i></span>
-        <span> {{applicationTitles[applicationStatus[application.status]]}}</span>
+        <span> <i class={{applicationIcons[application.status]}}></i></span>
+        <span> {{applicationTitles[application.status]}}</span>
       </div>
     </div>
     <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"
