@@ -22,7 +22,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems;
+  getEmptyCards = Util.getEmptyCards;
 
   constructor(store: Store, matDialog: MatDialog) {
     super(store, matDialog);

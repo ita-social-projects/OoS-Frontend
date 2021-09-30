@@ -18,7 +18,7 @@
   <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
       [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
-      <app-workshop-card *ngFor="let workshop of emptyItems(workshopsWrap, 352, workshops$)"
+      <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$)"
       [workshop]="workshop" class="empty-card" [isMainPage]="true">
     </app-workshop-card>
   </div>

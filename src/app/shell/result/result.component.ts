@@ -30,7 +30,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoading$:Observable <boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems;
+  getEmptyCards = Util.getEmptyCards;
 
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;

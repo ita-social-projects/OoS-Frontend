@@ -1,11 +1,10 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
-  <!-- <div class="workshop-list" *ngIf="selectedWorkshops.length"> -->
     <div fxLayout="column" fxLayoutAlign="space-evenly">
       <div fxLayout='column wrap' fxLayoutAlign='space-evenly' #WorkshopsWrap>
         <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops"
           [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
         </app-workshop-card>
-        <app-workshop-card *ngFor="let workshop of emptyItems(workshopsWrap, 352, selectedWorkshops)" [workshop]="workshop"
+        <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard, selectedWorkshops)" [workshop]="workshop"
         class="empty-card" [isMainPage]="true" >
       </app-workshop-card>
       </div>
@@ -13,7 +12,6 @@
         (pageChange)="onPageChange($event)">
       </app-paginator>
     </div>
-  <!-- </div> -->
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout="row" fxLayoutAlign="center">

@@ -24,7 +24,7 @@
         <app-workshop-card [parent]="parent" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"
           [isMainPage]="true" [userRole]="''">
         </app-workshop-card>
-        <app-workshop-card *ngFor="let workshop of emptyItems(workshopsWrap, 352,topWorkshops$)"
+        <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap, widthOfWorkshopCard,topWorkshops$)"
           [workshop]="workshop" class="empty-card" [isMainPage]="true">
         </app-workshop-card>
       </div>

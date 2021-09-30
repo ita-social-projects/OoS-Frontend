@@ -14,6 +14,7 @@ import { count, debounceTime, distinctUntilChanged, reduce, scan, takeUntil, tap
 import { GetFilteredWorkshops } from './../../shared/store/filter.actions';
 
 
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -33,8 +34,8 @@ export class MainComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   public parent: boolean;
-  emptyItems = Util.emptyItems;
-  
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   constructor(
     private store: Store,
     private actions$: Actions,

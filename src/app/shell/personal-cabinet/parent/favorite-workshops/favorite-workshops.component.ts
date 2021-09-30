@@ -8,6 +8,7 @@ import { map, scan, takeUntil, count } from 'rxjs/operators';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from 'src/app/shared/constants/constants';
 
 
 @Component({
@@ -23,8 +24,8 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems;
-
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   parent: boolean;
   currentPage: PaginationElement = {
     element: 1,

@@ -9,6 +9,7 @@ import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -34,8 +35,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   workshopsCopy: any;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems;
-
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   constructor(public store: Store) { }
 
   ngOnInit(): void {
@@ -46,10 +47,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: PaginationElement): void {
-    console.log("WORKSHOPS", this.workshops)
     this.currentPage = page;
     this.store.dispatch(new PageChange(page));
-    console.log("Workshops", this.workshops)
   }
 
   ngOnDestroy(): void {

@@ -28,6 +28,8 @@ export class Constants {
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
 
+  static readonly WIDTH_OF_WORKSHOP_CARD = 352;
+
 };
 
 export class PaginationConstants {

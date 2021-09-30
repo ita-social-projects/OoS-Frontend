@@ -2,6 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Constants } from 'src/app/shared/constants/constants';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
@@ -39,8 +40,8 @@ export class WorkshopMapViewListComponent implements OnInit {
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  emptyItems = Util.emptyItems;
-  
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   ngOnInit() {
     this.workshops = this.filteredWorkshops?.entities;

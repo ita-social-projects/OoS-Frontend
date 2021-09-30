@@ -33,7 +33,7 @@ export class Util {
   * @param items Observable or Array
   * @returns Array
   */
-  public static emptyItems(wrap: any, itemWidth: number, items, itemsLength?): Array<any> {
+  public static getEmptyCards(wrap: any, itemWidth: number, items, itemsLength?): Array<any> {
     let amountCardsInRow = 0;
     let itemsArray = [];
     let amountWorkshops = 0;
