@@ -46,7 +46,7 @@ export class Util {
           amountWorkshops = itemsArray[0].length;
         }
       }
-      else {
+      else if (items) {
         itemsArray = items.slice();
         amountWorkshops = itemsArray.length;
       }
