@@ -25,7 +25,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
-  tabApplicationStatus: string;
 
   isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
@@ -120,11 +119,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param workshopsId: number[]
   */
   onTabChange(event: MatTabChangeEvent): void {
-
-    this.tabApplicationStatus = ApplicationTitlesReverse[event.tab.textLabel];
-    console.log(this.tabApplicationStatus);
-
-    this.providerApplicationParams.status = this.tabApplicationStatus;
+    this.providerApplicationParams.status = ApplicationTitlesReverse[event.tab.textLabel];
     this.getProviderApplications(this.providerApplicationParams);
   }
 
