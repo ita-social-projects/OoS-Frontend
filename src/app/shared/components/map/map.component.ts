@@ -124,11 +124,12 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * uses GoelocationService to translate address into coords and sets marker on efault
    * @param address - type Address
    */
-  async setAddressLocation(address: Address): Promise<void> {
-    const coords = await this.geolocationService.locationGeocode(address);
-    if (coords) {
-      this.workshops ? this.setWorkshopMarkers(coords, address) : this.setNewSingleMarker(coords);
-    }
+  setAddressLocation(address: Address): void {
+    this.geolocationService.locationGeocode(address, (result) => {
+      if (result) {
+        this.workshops ? this.setWorkshopMarkers(result, address) : this.setNewSingleMarker(result);
+      }
+    });
   }
 
   /**
@@ -136,8 +137,20 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * @param coords - type Coords
    */
   setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (address: Address) => {
-      this.setAddressEvent.emit(address);
+    this.geolocationService.locationDecode(coords, (result: any) => { // TODO: add model for geocoder response
+      if (result.length > 0) {
+        const city = result[0].properties.address.city;
+        const street = result[0].properties.address.road;
+        const buildingNumber = result[0].properties.address.house_number;
+        this.setAddressEvent.emit({ city, street, buildingNumber });
+      } else {
+        this.setAddressEvent.emit({
+          city: '',
+          street: '',
+          buildingNumber: '',
+        });
+      }
+      
     });
   }
 
