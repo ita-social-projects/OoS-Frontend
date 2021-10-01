@@ -1,8 +1,4 @@
 @import "src/app/shared/styles/navigation-tabs.scss";
-
-.container{
-  width: 100%;
-}
 .tab-wrapper{
   bottom: 4rem;
   position: relative;
@@ -10,6 +6,7 @@
 .dropdown{
   display: flex;
   justify-content: end;
+  z-index: 1000;
 }
 @media (max-width: 1024px) {
   .tab-wrapper{
@@ -30,4 +27,5 @@
 .status-info-icon {
   cursor: pointer;
   margin: auto 1rem;
+  z-index: 100;
 }

@@ -28,15 +28,19 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.currentPage.isFirstChange()) {
-      const currentPage = this.carouselPageList.find((page: PaginationElement) => page.element === this.currentPage.element);
-      const isForward: boolean = this.checkIsForwardScrollDirection(changes);
-      const isRecreationAllowed: boolean = this.checkCarouseleRecreationIsAllowed(isForward, currentPage);
+    if (changes?.currentPage) {
+      if (!changes.currentPage.isFirstChange()) {
+        const currentPage = this.carouselPageList.find((page: PaginationElement) => page.element === this.currentPage.element);
+        const isForward: boolean = this.checkIsForwardScrollDirection(changes);
+        const isRecreationAllowed: boolean = this.checkCarouseleRecreationIsAllowed(isForward, currentPage);
 
-      if (isRecreationAllowed) {
-        this.createPageList();
+        if (isRecreationAllowed) {
+          this.createPageList();
+        }
       }
+
     }
+
   }
 
   private checkIsForwardScrollDirection(changes: SimpleChanges): boolean {

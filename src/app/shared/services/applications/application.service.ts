@@ -15,7 +15,7 @@ export class ApplicationService {
     let params = new HttpParams();
 
     if (parameters.status !== undefined) {
-      params = params.set('Status', parameters.status.toString());
+      params = params.set('Status', parameters.status);
     }
 
     if (parameters.workshopsId.length) {

@@ -13,7 +13,7 @@ const kiev: City = {
   id: 14446,
   longitude: 30.5595,
   latitude: 50.44029,
-  name: "КИЇВ",
+  name: "Київ",
   region: "м.Київ"
 }
 
@@ -70,6 +70,27 @@ export class GeolocationService {
       }
     );
   }
+  /**
+   * method gets user city name from geolocation and setting to state  
+   * @param coords 
+   */
+  async locationDetection(coords: Coords): Promise<any> {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lng}&format=json`;
+    const result = await fetch(url, {
+      headers: {
+        'Accept-Language': 'uk-UA, uk'
+      },
+    });
+    const userCityInfo = await result.json();
+
+    this.store.dispatch([new ConfirmCity(false), new SetCity({
+      district: " ",
+      longitude: coords.lng,
+      latitude: coords.lat,
+      name: userCityInfo.address.city,
+      region: " "
+    })]);
+  }
 
   /**
    * translates coords into address
@@ -95,7 +116,7 @@ export class GeolocationService {
   }
 
   /**
-   * translates address into coords
+   * translates address into coords  
    *
    * @param address - Address
    */
