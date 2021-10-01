@@ -70,27 +70,6 @@ export class GeolocationService {
       }
     );
   }
-  /**
-   * method gets user city name from geolocation and setting to state  
-   * @param coords 
-   */
-  async locationDetection(coords: Coords): Promise<any> {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lng}&format=json`;
-    const result = await fetch(url, {
-      headers: {
-        'Accept-Language': 'uk-UA, uk'
-      },
-    });
-    const userCityInfo = await result.json();
-
-    this.store.dispatch([new ConfirmCity(false), new SetCity({
-      district: " ",
-      longitude: coords.lng,
-      latitude: coords.lat,
-      name: userCityInfo.address.city,
-      region: " "
-    })]);
-  }
 
   /**
    * translates coords into address
@@ -98,20 +77,9 @@ export class GeolocationService {
    * @param coords - Coords
    * @param callback - Function, which recieves 1 argument of type Address
    */
-  locationDecode(coords: Coords, callback: (Address) => void): void {
-    GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result) => {
-      if (result.length > 0) {
-        const city = result[0].properties.address.city;
-        const street = result[0].properties.address.road;
-        const buildingNumber = result[0].properties.address.house_number;
-        callback({ city, street, buildingNumber });
-      } else {
-        callback({
-          city: '',
-          street: '',
-          buildingNumber: '',
-        });
-      }
+  locationDecode(coords: Coords, callback: (any) => void): void {
+    GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result) => { // TODO: create enum for accept language param
+      callback(result);
     });
   }
 
@@ -120,16 +88,14 @@ export class GeolocationService {
    *
    * @param address - Address
    */
-  async locationGeocode(address: Address): Promise<[number, number] | null> {
-    const query = `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`;
-    const url = `https://nominatim.openstreetmap.org/search?q=${query}&limit=5&format=json&addressdetails=1`;
-    const result = await fetch(url, {
-      headers: {
-        'Accept-Language': 'uk-UA, uk'
-      },
+  locationGeocode(address: Address, callback: (any) => void): void {
+    GeocoderService.geocode(
+      this.http,
+      `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`,
+      'uk-UA, uk'
+    ).subscribe((result) => {
+      const coords: [number, number] | null = result.length > 0 ? [Number(result[0].lat), Number(result[0].lon)] : null;
+      callback(coords);
     });
-    const json = await result.json();
-    const coords: [number, number] | null = json.length > 0 ? [Number(json[0].lat), Number(json[0].lon)] : null;
-    return coords;
   }
 }
