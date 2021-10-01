@@ -29,6 +29,8 @@ export class Constants {
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
 
   static readonly WIDTH_OF_WORKSHOP_CARD = 352;
+  static readonly WIDTH_OF_WORKSHOP_CARD_WITH_MARGINE = 370;
+  static readonly WIDTH_OF_WORKSHOP_CARD_IN_WORKSHOP_DETAILS = 332;
 
 };
 

@@ -24,7 +24,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD_WITH_MARGINE;
   constructor(store: Store, matDialog: MatDialog) {
     super(store, matDialog);
   }
