@@ -102,7 +102,7 @@
   <ng-container>
     <app-working-hours-form-control *ngFor="let workHour of workingHours" [workHour]="workHour"
       [workingHoursAmount]="workingHours.length" [index]="workingHours.indexOf(workHour)"
-      (deleteWorkHour)="deleteWorkHour(workHour)" formControlName="workingHours">
+      (deleteWorkHour)="deleteWorkHour(workHour)">
     </app-working-hours-form-control>
   </ng-container>
 
@@ -130,9 +130,6 @@
   <app-validation-hint-for-input type="requiredField"
     [invalid]="AboutFormGroup.get('isPerMonth').invalid && AboutFormGroup.get('isPerMonth').touched">
   </app-validation-hint-for-input>
-
-
-
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'

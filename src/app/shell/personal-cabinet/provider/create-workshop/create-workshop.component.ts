@@ -38,7 +38,6 @@ export class CreateWorkshopComponent implements OnInit {
   workshop: Workshop;
   isLinear: boolean = false;
 
-
   constructor(
     private store: Store,
     private route: ActivatedRoute,

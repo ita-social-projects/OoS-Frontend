@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Constants } from '../../constants/constants';
-import { WorkingDays } from '../../enum/working-hours';
-import { SelectedWorkingHours, WorkingHours } from '../../models/workingHours.model';
+import { WorkingDays, WorkingDaysReverse } from '../../enum/enumUA/working-hours';
+import { DateTimeRanges, WorkingHours } from '../../models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form-control',
@@ -19,8 +19,10 @@ import { SelectedWorkingHours, WorkingHours } from '../../models/workingHours.mo
 export class WorkingHoursFormControlComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
+  readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
 
-  @Input() workHour: SelectedWorkingHours;
+
+  @Input() workHour: DateTimeRanges;
 
   @Input() index: number;
   @Input() workingHoursAmount: number;
@@ -75,9 +77,9 @@ export class WorkingHoursFormControlComponent implements OnInit {
     if (!this.disabled) {
       day.selected = !day.selected;
       if (day.selected) {
-        this.workHour.day.push(day.value)
+        this.workHour.workdays.push(this.workingDaysReverse[day.value])
       } else {
-        this.workHour.day.splice(this.workHour.day.indexOf(day.value), 1);
+        this.workHour.workdays.splice(this.workHour.workdays.indexOf(day.value), 1);
       }
       this.onChange(this.workHour);
     }
@@ -91,10 +93,10 @@ export class WorkingHoursFormControlComponent implements OnInit {
     this.onChange(this.workHour);
   }
 
-  onChange = (selectedTime: SelectedWorkingHours) => { };
+  onChange = (selectedTime: DateTimeRanges) => { };
   onTouched = () => { };
 
-  writeValue(selectedTime: SelectedWorkingHours) { }
+  writeValue(selectedTime: DateTimeRanges) { }
   registerOnChange(onChange: any) {
     this.onChange = onChange;
   }
