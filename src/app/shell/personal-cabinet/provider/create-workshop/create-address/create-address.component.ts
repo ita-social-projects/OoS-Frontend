@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
@@ -18,12 +18,12 @@ export class CreateAddressComponent implements OnInit {
 
   AddressFormGroup: FormGroup;
   cityValue: FormControl;
+  city: string;
 
   @Select(MetaDataState.cities)
   cities$: Observable<City[]>;
 
   constructor(
-    private store: Store,
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
@@ -42,6 +42,7 @@ export class CreateAddressComponent implements OnInit {
   }
   
   onReceiveAddressFromMap(address: Address): void {
+    this.city = address.city;
     this.AddressFormGroup.patchValue(address)
   }
 }

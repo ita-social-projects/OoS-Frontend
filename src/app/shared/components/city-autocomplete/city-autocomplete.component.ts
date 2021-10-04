@@ -16,8 +16,13 @@ import { FilterState } from '../../store/filter.state';
 })
 export class CityAutocompleteComponent implements OnInit {
 
+  _InitialCity: string;
+
   @Output() selectedCity = new EventEmitter();
-  @Input() InitialCity: string;
+  @Input() set InitialCity(value: string) {
+    this._InitialCity = value;
+    this._InitialCity && this.setInitialCity();
+  }
   @Input() className: string;
 
 
@@ -55,7 +60,7 @@ export class CityAutocompleteComponent implements OnInit {
         filter(value => value?.length > 2)
       ).subscribe(value => this.store.dispatch(new GetCities(value)));
 
-    this.InitialCity && this.setInitialAcity();
+    this._InitialCity && this.setInitialCity();
   }
   /**
    * This method selects an option from the list of filtered cities as a chosen city
@@ -75,10 +80,9 @@ export class CityAutocompleteComponent implements OnInit {
   /**
   * This method set initial city to autocomplete
   */
-  setInitialAcity(): void {
-    console.log("CITY", this.InitialCity);
-    if (this.InitialCity !== "Такого міста немаєї") {
-      this.cityFormControl.setValue(this.InitialCity);
+   setInitialCity(): void {
+    if (this._InitialCity !== "Такого міста немаєї") {
+      this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
         .pipe(first())
         .subscribe(() => {
