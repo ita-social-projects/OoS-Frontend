@@ -88,9 +88,10 @@
   <label class="step-label">Кількість занять<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start center'>
-      <input matInput class="step-input step-input-age" type="number" ng-model="number" formControlName="daysPerWeek"
-        #maxAgeInput appDigitOnly maxlength="2" appMinMax min={{constants.CLASS_AMOUNT_MIN}}
-        max={{constants.CLASS_AMOUNT_MAX}}>
+
+      <input matInput class="step-input step-input-age" type="number" formControlName="daysPerWeek" appDigitOnly
+        maxlength="2" [directiveFormControl]="AboutFormGroup.get('daysPerWeek')" appMinMax
+        [min]="constants.CLASS_AMOUNT_MIN" [max]="constants.CLASS_AMOUNT_MAX">
       <p class="step-text">в тиждень</p>
     </div>
   </mat-form-field>
@@ -102,7 +103,7 @@
   <ng-container>
     <app-working-hours-form-control *ngFor="let workHour of workingHours" [workHour]="workHour"
       [workingHoursAmount]="workingHours.length" [index]="workingHours.indexOf(workHour)"
-      (deleteWorkHour)="deleteWorkHour(workHour)">
+      (deleteWorkHour)="deleteWorkHour(workHour)" (inputChange)="OnChangeWorkHour()">
     </app-working-hours-form-control>
   </ng-container>
 
@@ -118,7 +119,8 @@
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign='start center' fxLayout.xs='column' fxLayoutAlign.xs="center start">
       <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
-          appDigitOnly formControlName="price" type="number" min={{constants.MIN_PRICE}} max={{constants.MAX_PRICE}}>
+          appDigitOnly appMinMax formControlName="price" type="number"
+          [directiveFormControl]="AboutFormGroup.get('price')" [min]="constants.MIN_PRICE" [max]="constants.MAX_PRICE">
       </mat-radio-button>
       <p class="step-text">грн за</p>
       <mat-button-toggle-group color="primary" formControlName="isPerMonth">

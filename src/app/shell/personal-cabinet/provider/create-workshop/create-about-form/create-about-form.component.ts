@@ -8,6 +8,7 @@ import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 @Component({
   selector: 'app-create-about-form',
@@ -106,6 +107,14 @@ export class CreateAboutFormComponent implements OnInit {
   deleteWorkHour(workHour: DateTimeRanges): void {
     this.workingHours.splice(this.workingHours.indexOf(workHour), 1);
     this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
+  }
+
+  OnChangeWorkHour(): void {
+    if (this.AboutFormGroup.pristine) {
+      this.AboutFormGroup.markAsDirty();
+
+      this.store.dispatch(new MarkFormDirty(true));
+    }
   }
 
   /**

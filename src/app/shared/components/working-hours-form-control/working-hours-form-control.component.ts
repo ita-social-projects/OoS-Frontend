@@ -27,6 +27,8 @@ export class WorkingHoursFormControlComponent implements OnInit {
   @Input() index: number;
   @Input() workingHoursAmount: number;
   @Output() deleteWorkHour = new EventEmitter();
+  @Output() inputChange = new EventEmitter();
+
 
   touched = false;
   disabled = false;
@@ -66,7 +68,9 @@ export class WorkingHoursFormControlComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.workHour && this.activateEditMode();
+  }
 
   /**
   * This method check value, add it to the list of selected working days and distpatch filter action
@@ -93,7 +97,9 @@ export class WorkingHoursFormControlComponent implements OnInit {
     this.onChange(this.workHour);
   }
 
-  onChange = (selectedTime: DateTimeRanges) => { };
+  onChange = (selectedTime: DateTimeRanges) => {
+    this.inputChange.emit();
+  };
   onTouched = () => { };
 
   writeValue(selectedTime: DateTimeRanges) { }
@@ -111,5 +117,15 @@ export class WorkingHoursFormControlComponent implements OnInit {
   }
   setDisabledState(disabled: boolean) {
     this.disabled = disabled;
+  }
+
+  private activateEditMode(): void {
+    this.days.forEach((day: WorkingHours) => {
+      this.workHour.workdays.forEach((workDay: string) => {
+        if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
+          day.selected = true;
+        }
+      })
+    });
   }
 }
