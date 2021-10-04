@@ -40,11 +40,11 @@ export class WorkshopMapViewListComponent implements OnInit {
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   ngOnInit() {
     this.workshops = this.filteredWorkshops?.entities;
+  
   }
 
   onSelectedAddress(address: Address): void {

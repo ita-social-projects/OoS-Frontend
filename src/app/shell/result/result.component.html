@@ -22,7 +22,7 @@
     <ng-template #ShowData>
     <ng-container >
       <div fxLayout='row wrap' fxLayoutAlign='start'>
-        <app-workshop-cards-list class="cards" [workshops]="filteredWorkshops$ | async"></app-workshop-cards-list>
+        <app-workshop-cards-list class="cards"  [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
       </div>
     </ng-container>
     </ng-template>

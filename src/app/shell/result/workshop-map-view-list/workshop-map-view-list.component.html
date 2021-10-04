@@ -4,9 +4,6 @@
         <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops"
           [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
         </app-workshop-card>
-        <app-workshop-card  *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard, selectedWorkshops)" [workshop]="workshop"
-        class="empty-card" [isMainPage]="true" >
-      </app-workshop-card>
       </div>
       <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage"
         (pageChange)="onPageChange($event)">

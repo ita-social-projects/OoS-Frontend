@@ -19,8 +19,9 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
-  @Input() workshops: WorkshopFilterCard;
-
+  @Input() workshops$: Observable<WorkshopFilterCard>;
+ 
+  
   isVisible = false;
   parent: boolean;
   currentPage: PaginationElement = {
