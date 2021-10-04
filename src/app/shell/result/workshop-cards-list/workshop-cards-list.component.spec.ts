@@ -62,7 +62,7 @@ class MockOrderingComponent {
   template: ''
 })
 class MockListWorkshopCardComponent {
-  @Input() workshop$: Observable<WorkshopFilterCard>;
+  @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
   @Input() parent: boolean;
