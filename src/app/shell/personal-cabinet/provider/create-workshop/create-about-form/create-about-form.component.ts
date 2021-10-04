@@ -109,10 +109,12 @@ export class CreateAboutFormComponent implements OnInit {
     this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
   }
 
+  /**
+  * This method marks AboutForm disrty if the changes happened
+  */
   OnChangeWorkHour(): void {
     if (this.AboutFormGroup.pristine) {
-      this.AboutFormGroup.markAsDirty();
-
+      this.AboutFormGroup.markAsDirty();// TODO: set isPristine false in create-workshop-component
       this.store.dispatch(new MarkFormDirty(true));
     }
   }

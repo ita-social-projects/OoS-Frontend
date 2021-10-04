@@ -128,7 +128,6 @@ export class CreateWorkshopComponent implements OnInit {
       .pipe(
         takeWhile(() => this.isPristine && form.pristine))
       .subscribe(() => {
-
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
       });
