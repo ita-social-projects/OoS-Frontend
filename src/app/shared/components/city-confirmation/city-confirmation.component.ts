@@ -9,7 +9,7 @@ const kiev: City = {
   id: 14446,
   longitude: 30.5595,
   latitude: 50.44029,
-  name: "КИЇВ",
+  name: "Київ",
   region: "м.Київ"
 }
 

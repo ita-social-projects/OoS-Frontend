@@ -4,10 +4,10 @@ import { Select, Store } from '@ngxs/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Coords } from '../shared/models/coords.model';
 import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
-import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
+import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 
 @Component({
   selector: 'app-shell',
@@ -27,16 +27,15 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
-
-      //TODO: waiting for endpoint
-      coords && this.store.dispatch([new SetCity({
-        district: " ",
-        id: 34446,
-        longitude: coords.lng,
-        latitude: coords.lat,
-        name: "КИЇВ",
-        region: " "
-      }), new ConfirmCity(false)]);
+      coords && this.geolocationService.locationDecode(coords, (result) => {
+        this.store.dispatch([new ConfirmCity(false), new SetCity({
+          district: " ",
+          longitude: coords.lng,
+          latitude: coords.lat,
+          name: result.address.city,
+          region: " "
+        })]);
+      });
     });
 
     this.isParent$

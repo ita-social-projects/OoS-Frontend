@@ -2,92 +2,97 @@
 
 
 <ng-template #isProvider>
+  <div class="dropdown">
+    <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
+      (click)=" isActiveInfoButton=!isActiveInfoButton"
+      [ngClass]="isActiveInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+    <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
+      <app-status-info-card></app-status-info-card>
+    </mat-menu>
 
-  <div fxLayout="row" fxLayoutAlign="end center">
-    <app-status-info-card></app-status-info-card>
-
-    <app-workshop-checkbox-dropdown class="dropdown" [workshops]="workshops$ | async"
-      (workshopCheck)="onWorkshopsSelect($event)">
+    <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)">
     </app-workshop-checkbox-dropdown>
-    <div class="tab-wrapper">
-      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-        <mat-tab label="Усі">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
-          </ng-container>
-        </mat-tab>
-        <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
-          </ng-container>
-        </mat-tab>
-        <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
-          </ng-container>
-        </mat-tab>
-        <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
-          </ng-container>
-        </mat-tab>
-        <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
-          </ng-container>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
+  </div>
+
+  <div class="tab-wrapper">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+      <mat-tab label="Усі">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </ng-template>
-
-
-
 
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
 </ng-template>
 
 <ng-template #isParent>
-  <div fxLayout="row" fxLayoutAlign="end center">
-    <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-      (click)=" isActiveInfoButton=!isActiveInfoButton"
-      [ngClass]="isActiveInfoButton?'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-    <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
-      <app-status-info-card></app-status-info-card>
-    </mat-menu>
-  </div>
-  <div *ngIf="(children$| async)">
-    <div *ngFor="let child of (children$| async)">
-      <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <div *ngIf="(children$| async)?.length && (applications$ | async)?.length; else isEmptyList">
 
-        <div class="container" *ngIf="(children$| async)?.length else isEmptyList">
-          <div *ngFor="let child of (children$| async)">
-            <div
-              *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication; else isEmptyList">
-            </div>
-
-            <ng-template #ChildApplication>
-              <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
-              <ng-container
-                *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
-              </ng-container>
-            </ng-template>
-
-          </div>
-
-        </div>
-      </ng-container>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
+          (click)=" isActiveInfoButton=!isActiveInfoButton"
+          [ngClass]="isActiveInfoButton?'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+        <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
+          <app-status-info-card></app-status-info-card>
+        </mat-menu>
+      </div>
 
 
-      <ng-template #Applications let-applications>
-        <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="userRole"
-          (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
-          (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
-        </app-application-card>
-      </ng-template>
+      <div *ngFor="let child of (children$| async)">
 
-      <ng-template #ProviderApplication let-applications>
-        <ng-container *ngIf="!(isLoadingCabinet$ | async) && applications?.length else isEmptyList">
-          <ng-container *ngTemplateOutlet="Applications; context: applications">
-          </ng-container>
+        <ng-container *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication;">
         </ng-container>
-      </ng-template>
 
 
-      <ng-template appInfoBoxHost></ng-template>
+        <ng-template #ChildApplication>
+          <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }}</h3>
+          <ng-container
+            *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
+          </ng-container>
+        </ng-template>
+
+      </div>
+    </div>
+
+  </ng-container>
+
+</ng-template>
+
+<ng-template #Applications let-applications>
+  <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="userRole"
+    (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
+    (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+  </app-application-card>
+</ng-template>
+
+<ng-template #ProviderApplication let-applications>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="applications?.length else isEmptyList;">
+      <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications}">
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+
+<ng-template appInfoBoxHost></ng-template>
