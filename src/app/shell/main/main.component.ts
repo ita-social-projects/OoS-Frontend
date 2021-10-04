@@ -1,3 +1,4 @@
+import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
@@ -11,6 +12,7 @@ import { Workshop, WorkshopCard } from '../../shared/models/workshop.model';
 import { GetDirections, GetTopDirections } from 'src/app/shared/store/meta-data.actions';
 import { count, debounceTime, distinctUntilChanged, reduce, scan, takeUntil, tap, map } from 'rxjs/operators';
 import { GetFilteredWorkshops } from './../../shared/store/filter.actions';
+
 
 
 @Component({
@@ -30,10 +32,10 @@ export class MainComponent implements OnInit {
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @ViewChild('WorkshopsWrap') WorkshopsWrap: ElementRef;
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   public parent: boolean;
-
-
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   constructor(
     private store: Store,
     private actions$: Actions,
@@ -64,18 +66,5 @@ export class MainComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  emptyWorkshops(): Array<Workshop> {
-    let amountCardsInRow = 0;
-    let workshops = [];
-    let amountWorkshops = 0;
-    this.topWorkshops$.pipe(map(x => workshops.push(x))).subscribe();
-    if (workshops[0]) {
-      amountWorkshops = workshops[0].length;
-    }
-    if (this.WorkshopsWrap) {
-      amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 352));
-    }
-    let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
-    return new Array(emptyWorkshops | 0);
-  }
+
 }

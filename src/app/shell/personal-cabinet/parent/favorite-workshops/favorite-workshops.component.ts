@@ -1,12 +1,14 @@
 import { UserState } from 'src/app/shared/store/user.state';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, Pipe } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable, Subject } from 'rxjs';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { takeUntil } from 'rxjs/operators';
+import { map, scan, takeUntil, count } from 'rxjs/operators';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
+import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from 'src/app/shared/constants/constants';
 
 
 @Component({
@@ -21,7 +23,9 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
-
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   parent: boolean;
   currentPage: PaginationElement = {
     element: 1,
