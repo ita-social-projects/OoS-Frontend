@@ -2,12 +2,14 @@ import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { FilterState } from 'src/app/shared/store/filter.state';
+import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -17,8 +19,10 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
-
-  @Input() workshops: WorkshopFilterCard;
+  @Input() workshops$: Observable<WorkshopFilterCard>;
+ 
+  
+  isVisible = false;
   parent: boolean;
   currentPage: PaginationElement = {
     element: 1,
@@ -30,10 +34,14 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  workshopsCopy: any;
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   constructor(public store: Store) { }
 
   ngOnInit(): void {
+
     this.isParent$
       .pipe(takeUntil(this.destroy$))
       .subscribe(parent => this.parent = parent);
@@ -42,7 +50,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new PageChange(page));
-    console.log(this.workshops)
   }
 
   ngOnDestroy(): void {
