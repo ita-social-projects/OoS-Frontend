@@ -34,7 +34,12 @@ export class GetApplicationsByStatus {
 }
 
 export class GetUsersChildren {
-  static readonly type = '[user] getusers Children';
+  static readonly type = '[user] get users Children';
+  constructor() { }
+}
+
+export class GetAllUsersChildren {
+  static readonly type = '[user] get all users Children';
   constructor() { }
 }
 export class CreateWorkshop {

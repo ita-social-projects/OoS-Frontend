@@ -20,8 +20,8 @@ export class ChildrenService {
       const size: number = Constants.ITEMS_PER_PAGE;
       const from: number = size * (+state.currentPage.element - 1);
 
-      params = params.set('Size', size.toString());
-      params = params.set('From', from.toString());
+      params = params.set('Size', (size).toString());
+      params = params.set('From', (from).toString());
     }
 
     return params;
@@ -35,6 +35,18 @@ export class ChildrenService {
     const options = { params: this.setParams(state) };
 
     return this.http.get<ChildCards>(`/Child/GetUsersChildren`, options);
+  }
+
+  /**
+  * This method get children by Parent Child id
+  * @param id
+  */
+  getAllUsersChildren(): Observable<ChildCards> {
+    let params = new HttpParams();
+    params = params.set('Size', (0).toString());
+    params = params.set('From', (0).toString());
+
+    return this.http.get<ChildCards>(`/Child/GetUsersChildren`, { params });
   }
 
 

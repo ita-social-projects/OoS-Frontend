@@ -1,4 +1,4 @@
-import { GetUsersChildren } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
@@ -85,12 +85,17 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
-  getParenApplications(): void {
+  getParentApplications(): void {
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
 
+
   getUsersChildren(): void {
     this.store.dispatch(new GetUsersChildren());
+  }
+
+  getAllUsersChildren(): void {
+    this.store.dispatch(new GetAllUsersChildren());
   }
 
   getProviderWorkshops(): void {

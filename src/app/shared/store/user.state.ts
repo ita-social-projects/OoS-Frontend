@@ -66,6 +66,7 @@ import {
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
   CabinetPageChange,
+  GetAllUsersChildren,
 } from './user.actions';
 import { ClearClasses, ClearDepartments } from './meta-data.actions';
 import { FilterStateModel } from './filter.state';
@@ -194,9 +195,18 @@ export class UserState {
   @Action(GetUsersChildren)
   getUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetUsersChildren) {
     const state: UserStateModel = getState();
-
     return this.childrenService
       .getUsersChildren(state)
+      .pipe(
+        tap(
+          (children: ChildCards) => patchState({ children: children })
+        ))
+  }
+
+  @Action(GetAllUsersChildren)
+  getAllUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetAllUsersChildren) {
+    return this.childrenService
+      .getAllUsersChildren()
       .pipe(
         tap(
           (children: ChildCards) => patchState({ children: children })
@@ -500,7 +510,7 @@ export class UserState {
   getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId) {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshopsByUserId()
-      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard.entities }))
+      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities }))
   }
 
   @Action(CreateFavoriteWorkshop)

@@ -54,7 +54,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         if (this.userRole === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
         } else {
-          this.getParenApplications();
+          this.getParentApplications();
         }
       });
   }
@@ -65,8 +65,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getProviderWorkshops();
       this.activateChildInfoBox();
     } else {
-      this.getUsersChildren();
-      this.getParenApplications();
+      this.getAllUsersChildren();
+      this.getParentApplications();
     }
   }
 
