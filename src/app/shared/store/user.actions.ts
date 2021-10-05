@@ -32,9 +32,9 @@ export class GetApplicationsByStatus {
   constructor(public payload: number) { }
 }
 
-export class GetChildrenByParentId {
-  static readonly type = '[user] get Children by Parent Id';
-  constructor(public payload: number) { }
+export class GetUsersChildren {
+  static readonly type = '[user] getusers Children';
+  constructor() { }
 }
 export class CreateWorkshop {
   static readonly type = '[user] create Workshop';

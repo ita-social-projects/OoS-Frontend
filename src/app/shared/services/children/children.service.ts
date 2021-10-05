@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Child } from '../../models/child.model';
+import { Child, ChildCards } from '../../models/child.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 @Injectable({
   providedIn: 'root'
@@ -12,20 +12,15 @@ export class ChildrenService {
   constructor(private http: HttpClient) { }
 
   /**
-  * This method get children by Child id
-  * @param id
-  */
-  getChildById(id: number): Observable<Child> {
-    const dataUrl = `/Child/GetById/${id}`;
-    return this.http.get<Child>(dataUrl);
-  }
-
-  /**
   * This method get children by Parent Child id
   * @param id
   */
-  getChildrenByParentId(id: number): Observable<Child[]> {
-    return this.http.get<Child[]>(`/Child/GetByParentId/${id}`);
+  getUsersChildren(): Observable<ChildCards> {
+    let params = new HttpParams();
+
+    params = params.set('Size', (11).toString());
+    params = params.set('From', (0).toString());
+    return this.http.get<ChildCards>(`/Child/GetUsersChildren`, { params });
   }
 
 

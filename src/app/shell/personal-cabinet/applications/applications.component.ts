@@ -65,7 +65,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getProviderWorkshops();
       this.activateChildInfoBox();
     } else {
-      this.getParenChildren();
+      this.getUsersChildren();
       this.getParenApplications();
     }
   }
