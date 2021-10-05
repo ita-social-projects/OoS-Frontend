@@ -21,10 +21,11 @@ import { CreateProviderGuard } from './personal-cabinet/provider/create-provider
 import { WorkshopMapViewListComponent } from './result/workshop-map-view-list/workshop-map-view-list.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
-import { AboutComponent } from './about/about.component';
-import { SupportComponent } from './support/support.component';
+import { AboutComponent } from './info/about/about.component';
+import { SupportComponent } from './info/support/support.component';
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { InfoComponent } from './info/info.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     AllCategoriesComponent,
     AboutComponent,
     SupportComponent,
+    InfoComponent,
   ],
   imports: [
     CommonModule,
