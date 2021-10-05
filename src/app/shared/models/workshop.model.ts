@@ -1,6 +1,7 @@
 import { Address } from "./address.model";
 import { Provider } from "./provider.model";
 import { Teacher } from "./teacher.model";
+import { DateTimeRanges } from "./workingHours.model";
 export class Workshop {
   id?: number;
   title: string;
@@ -34,6 +35,7 @@ export class Workshop {
   isCompetitiveSelection: boolean;
   competitiveSelectionDescription: string;
   logo: string;
+  dateTimeRanges: DateTimeRanges[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
     this.id = id;
@@ -60,6 +62,7 @@ export class Workshop {
     this.departmentId = description.departmentId;
     this.classId = description.classId;
     this.keywords = description.keyWords;
+    this.dateTimeRanges = about.workingHours;
   }
 }
 
@@ -79,5 +82,5 @@ export interface WorkshopCard {
 }
 export interface WorkshopFilterCard {
   totalAmount: number,
-  entities: WorkshopCard[]      
+  entities: WorkshopCard[]
 }

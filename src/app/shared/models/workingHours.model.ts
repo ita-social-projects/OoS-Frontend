@@ -2,8 +2,18 @@ export interface WorkingHours {
   value: string;
   selected: boolean;
 }
-export interface SelectedWorkingHours {
-  day: string[];
-  timeFrom: string;
-  timeTo: string;
+export class DateTimeRanges {
+  id?: number;
+  workdays: string[];
+  startTime: string;
+  endTime: string;
+
+  constructor(workHour) {
+    this.workdays = workHour.workdays;
+    this.startTime = workHour.startTime;
+    this.endTime = workHour.endTime;
+    if (workHour.id) {
+      this.id = workHour.id;
+    }
+  }
 }
