@@ -6,8 +6,9 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { SelectedWorkingHours } from 'src/app/shared/models/workingHours.model';
+import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 @Component({
   selector: 'app-create-about-form',
@@ -26,7 +27,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   provider: Provider;
   AboutFormGroup: FormGroup;
-  workingHours: SelectedWorkingHours[] = [];
+  workingHours: DateTimeRanges[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   priceRadioBtn: FormControl = new FormControl(false);
@@ -53,14 +54,12 @@ export class CreateAboutFormComponent implements OnInit {
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
-    this.addWorkHour();
   }
 
   ngOnInit(): void {
-    // this.onCompetitiveSelectionCtrlInit();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.workshop && this.activateEditMode();
+    this.workshop ? this.activateEditMode() : this.addWorkHour(false);
   }
 
   /**
@@ -90,22 +89,34 @@ export class CreateAboutFormComponent implements OnInit {
   /**
   * This method add new working hours form to the array of working hours
   */
-  addWorkHour(): void {
-    const workHour: SelectedWorkingHours = {
-      day: [],
-      timeFrom: '',
-      timeTo: ''
-    }
+  addWorkHour(hasEventEmitter = true, range: DateTimeRanges = {
+    workdays: [],
+    startTime: '',
+    endTime: '',
+  }): void {
+
+    const workHour: DateTimeRanges = new DateTimeRanges(range);
+
     this.workingHours.push(workHour);
-    this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
+    this.AboutFormGroup.get('workingHours').setValue(this.workingHours, { emitEvent: hasEventEmitter });
   }
 
   /**
   * This method delete selected working hours form to the array of working hours
   */
-  deleteWorkHour(workHour: SelectedWorkingHours): void {
+  deleteWorkHour(workHour: DateTimeRanges): void {
     this.workingHours.splice(this.workingHours.indexOf(workHour), 1);
     this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
+  }
+
+  /**
+  * This method marks AboutForm disrty if the changes happened
+  */
+  OnChangeWorkHour(): void {
+    if (this.AboutFormGroup.pristine) {
+      this.AboutFormGroup.markAsDirty();// TODO: set isPristine false in create-workshop-component
+      this.store.dispatch(new MarkFormDirty(true));
+    }
   }
 
   /**
@@ -136,6 +147,7 @@ export class CreateAboutFormComponent implements OnInit {
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
+    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkHour(false, range))
   }
 
   /**
