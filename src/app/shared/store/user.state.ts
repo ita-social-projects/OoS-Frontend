@@ -67,6 +67,7 @@ import {
   GetUsersChildren,
 } from './user.actions';
 import { ClearClasses, ClearDepartments } from './meta-data.actions';
+import { FilterStateModel } from './filter.state';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -184,9 +185,11 @@ export class UserState {
   }
 
   @Action(GetUsersChildren)
-  getUsersChildren({ patchState }: StateContext<UserStateModel>, { }: GetUsersChildren) {
+  getUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetUsersChildren) {
+    const state: FilterStateModel = getState();
+
     return this.childrenService
-      .getUsersChildren()
+      .getUsersChildren(state)
       .pipe(
         tap(
           (children: ChildCards) => patchState({ children: children })

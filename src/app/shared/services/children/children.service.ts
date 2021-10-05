@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Constants } from '../../constants/constants';
 import { Child, ChildCards } from '../../models/child.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { FilterStateModel } from '../../store/filter.state';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,16 +13,28 @@ export class ChildrenService {
 
   constructor(private http: HttpClient) { }
 
+  private setParams(filters: FilterStateModel): HttpParams {
+    let params = new HttpParams();
+
+    if (filters.currentPage) {
+      const size: number = Constants.WORKSHOPS_PER_PAGE;
+      const from: number = size * (+filters.currentPage.element - 1);
+
+      params = params.set('Size', size.toString());
+      params = params.set('From', from.toString());
+    }
+
+    return params;
+  }
+
   /**
   * This method get children by Parent Child id
   * @param id
   */
-  getUsersChildren(): Observable<ChildCards> {
-    let params = new HttpParams();
+  getUsersChildren(filters: FilterStateModel): Observable<ChildCards> {
+    const options = { params: this.setParams(filters) };
 
-    params = params.set('Size', (11).toString());
-    params = params.set('From', (0).toString());
-    return this.http.get<ChildCards>(`/Child/GetUsersChildren`, { params });
+    return this.http.get<ChildCards>(`/Child/GetUsersChildren`, options);
   }
 
 
