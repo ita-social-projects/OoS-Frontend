@@ -5,6 +5,7 @@ import { Provider } from '../models/provider.model';
 import { Rate } from '../models/rating';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
+import { PaginationElement } from '../models/paginationElement.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -195,4 +196,8 @@ export class CreateFavoriteWorkshop {
 export class DeleteFavoriteWorkshop {
   static readonly type = '[favorite] delete favorite workshop';
   constructor(public payload: number) { }
+}
+export class CabinetPageChange {
+  static readonly type = '[filter] Change Page';
+  constructor(public payload: PaginationElement) { }
 }

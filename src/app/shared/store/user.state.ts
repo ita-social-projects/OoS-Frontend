@@ -65,9 +65,11 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
+  CabinetPageChange,
 } from './user.actions';
 import { ClearClasses, ClearDepartments } from './meta-data.actions';
 import { FilterStateModel } from './filter.state';
+import { PaginationElement } from '../models/paginationElement.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -78,6 +80,7 @@ export interface UserStateModel {
   children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
+  currentPage: PaginationElement;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -90,6 +93,10 @@ export interface UserStateModel {
     children: undefined,
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
+    currentPage: {
+      element: 1,
+      isActive: true
+    },
   }
 })
 @Injectable()
@@ -186,7 +193,7 @@ export class UserState {
 
   @Action(GetUsersChildren)
   getUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetUsersChildren) {
-    const state: FilterStateModel = getState();
+    const state: UserStateModel = getState();
 
     return this.childrenService
       .getUsersChildren(state)
@@ -338,6 +345,7 @@ export class UserState {
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
     dispatch(new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }));
+    dispatch(new GetUsersChildren());
   }
 
   @Action(UpdateWorkshop)
@@ -507,5 +515,10 @@ export class UserState {
     return this.favoriteWorkshopsService
       .deleteFavoriteWorkshop(payload)
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
+  }
+
+  @Action(CabinetPageChange)
+  pageChange({ patchState }: StateContext<FilterStateModel>, { payload }: CabinetPageChange) {
+    patchState({ currentPage: payload });
   }
 }

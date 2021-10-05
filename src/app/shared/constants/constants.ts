@@ -16,8 +16,7 @@ export class Constants {
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
 
-  static readonly WORKSHOPS_PER_PAGE = 8;
-  static readonly CHILD_PER_PAGE = 8;
+  static readonly ITEMS_PER_PAGE = 8;
 
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;

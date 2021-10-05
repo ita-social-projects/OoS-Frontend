@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
+import { Actions, ofAction, Store } from '@ngxs/store';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
-import { DeleteChildById } from 'src/app/shared/store/user.actions';
+import { CabinetPageChange, DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 
 @Component({
@@ -22,7 +23,8 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
   };
 
   constructor(store: Store,
-    matDialog: MatDialog) {
+    matDialog: MatDialog,
+    private actions$: Actions) {
     super(store, matDialog);
   }
 
@@ -32,6 +34,13 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
 
   init(): void {
     this.getUsersChildren();
+
+    this.actions$.pipe(ofAction(CabinetPageChange))
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$))
+      .subscribe(() => this.store.dispatch(new GetUsersChildren()));
   }
 
   onDelete(child: Child): void {
@@ -50,7 +59,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
+    this.store.dispatch(new CabinetPageChange(page));
   }
 
 }
