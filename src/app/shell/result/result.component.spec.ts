@@ -7,7 +7,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Observable } from 'rxjs';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -71,7 +72,7 @@ class MockFiltersListComponent {
   template: ''
 })
 class MockWorkshopCardsListComponent {
-  @Input() workshops: Workshop[];
+  @Input() workshops$: Observable<Workshop[]>;
 }
 @Component({
   selector: 'app-workshop-map-view-list',

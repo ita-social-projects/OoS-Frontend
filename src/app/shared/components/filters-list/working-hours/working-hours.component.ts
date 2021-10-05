@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { WorkingDays, WorkingTime } from 'src/app/shared/enum/working-hours';
+import { WorkingDays } from 'src/app/shared/enum/enumUA/working-hours';
+import { WorkingTime } from 'src/app/shared/enum/working-hours';
 import { WorkingHours } from 'src/app/shared/models/workingHours.model';
+
 import { SetWorkingDays, SetWorkingHours } from 'src/app/shared/store/filter.actions';
 
 @Component({

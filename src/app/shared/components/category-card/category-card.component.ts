@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Direction} from '../../models/category.model';
+import { Direction } from '../../models/category.model';
 import { SetDirections } from '../../store/filter.actions';
 
 
@@ -15,7 +15,7 @@ export class CategoryCardComponent implements OnInit {
   @Input() workshopsCount: number;
   @Input() direction: Direction;
   @Input() icons: {};
-  
+
   constructor(private store: Store) { }
 
   ngOnInit(): void {
@@ -30,10 +30,10 @@ export class CategoryCardComponent implements OnInit {
    *
    */
   getWord(workshopsAmount): string {
-    if ((workshopsAmount % 100 >= 10 && workshopsAmount % 100 <= 20) || (workshopsAmount % 10 === 0 || workshopsAmount % 10 > 4) ) {
+    if ((workshopsAmount % 100 >= 10 && workshopsAmount % 100 <= 20) || (workshopsAmount % 10 === 0 || workshopsAmount % 10 > 4)) {
       return "гуртків";
     } else {
-       if (workshopsAmount % 10 === 1) {
+      if (workshopsAmount % 10 === 1) {
         return "гурток";
       } else if (workshopsAmount % 10 > 1 && workshopsAmount % 10 < 5) {
         return "гуртки";

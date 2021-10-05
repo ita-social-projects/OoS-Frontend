@@ -29,9 +29,10 @@
     box-sizing: border-box;
     border-radius: 21px;
     padding:0.5rem;
-    max-width: 80px;
+    max-width: max-content;
     max-height: 40px;
     align-items: center;
+    text-align: center;
 }
 .text{
   font-family:Open Sans;

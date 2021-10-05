@@ -22,7 +22,7 @@ export class Application {
 
 export class ApplicationUpdate {
   id: number;
-  status: number;
+  status: string;
 
   constructor(id, status) {
     this.id = id;
