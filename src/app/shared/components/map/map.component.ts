@@ -10,7 +10,7 @@ import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, debounce, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
@@ -116,7 +116,9 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    */
   ngAfterViewInit(): void {
     this.initMap();
-    this.addressFormGroup && this.addressFormGroup.valueChanges.subscribe((address: Address) => address && this.setAddressLocation(address));
+    this.addressFormGroup?.valueChanges.pipe(
+      debounceTime(500)
+    ).subscribe((address: Address) => address && this.setAddressLocation(address));
     this.workshops && this.workshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
   }
 
@@ -138,10 +140,11 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    */
   setMapLocation(coords: Coords): void {
     this.geolocationService.locationDecode(coords, (result: any) => { // TODO: add model for geocoder response
-      if (result.length > 0) {
-        const city = result[0].properties.address.city;
-        const street = result[0].properties.address.road;
-        const buildingNumber = result[0].properties.address.house_number;
+      if (result.address || (Array.isArray(result) && result.length)) {
+        const location = result.address || result[0].properties.address;
+        const city = location.city || location.village || location.town;
+        const street = location.road;
+        const buildingNumber = location.house_number;
         this.setAddressEvent.emit({ city, street, buildingNumber });
       } else {
         this.setAddressEvent.emit({
@@ -162,6 +165,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
     this.map.addLayer(this.singleMarker);
+    this.map.flyTo(coords);
   }
 
   /**
