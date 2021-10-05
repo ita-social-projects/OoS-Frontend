@@ -30,6 +30,7 @@ import {
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
+import { tap } from 'rxjs/operators';
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
@@ -187,14 +188,14 @@ export class FilterState {
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { }: GetFilteredWorkshops) {
+  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
     return this.appWorkshopsService
-      .getFilteredWorkshops(state)
-      .subscribe((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
-        () => patchState({ isLoading: false }))
+      .getFilteredWorkshops(state, payload)
+      .pipe(tap((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
+        () => patchState({ isLoading: false })))
   }
 
   @Action(GetTopWorkshops)
