@@ -7,6 +7,7 @@ export class Child {
   gender: number;
   parentId?: number;
   socialGroupId: number;
+  placeOfStudy: string;
   birthCertificate?: {
     id: number;
     svidSer: string,
@@ -26,5 +27,6 @@ export class Child {
     this.gender = info.gender;
     this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
     this.parentId = parentId;
+    this.placeOfStudy = info.placeOfStudy;
   }
 }
