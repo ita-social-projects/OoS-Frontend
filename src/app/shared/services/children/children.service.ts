@@ -43,8 +43,8 @@ export class ChildrenService {
   */
   getAllUsersChildren(): Observable<ChildCards> {
     let params = new HttpParams();
-    params = params.set('Size', (0).toString());
-    params = params.set('From', (0).toString());
+    params = params.set('Size', '0');
+    params = params.set('From', '0');
 
     return this.http.get<ChildCards>(`/Child/GetUsersChildren`, { params });
   }
