@@ -62,9 +62,15 @@ export class ResultComponent implements OnInit, OnDestroy {
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetFilteredWorkshops()));
+      .subscribe(() => this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map)));
 
     this.isFiltersVisible = window.innerWidth > 750;
+  }
+
+  viewHandler(value: ViewType): void {
+    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => {
+      this.currentView = value;
+    });
   }
 
   ngOnDestroy(): void {

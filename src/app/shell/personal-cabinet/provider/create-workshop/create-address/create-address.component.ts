@@ -28,7 +28,9 @@ export class CreateAddressComponent implements OnInit {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', Validators.required),
       buildingNumber: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required)
+      city: new FormControl('', Validators.required),
+      latitude: new FormControl(''),
+      longitude: new FormControl(''),
     });
   }
 

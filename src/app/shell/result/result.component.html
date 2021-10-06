@@ -47,7 +47,7 @@
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering></app-ordering>
     <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
-      (change)="currentView = group.value">
+      (change)="viewHandler(group.value)">
       <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
