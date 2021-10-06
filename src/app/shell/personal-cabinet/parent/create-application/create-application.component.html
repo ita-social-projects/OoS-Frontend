@@ -1,9 +1,9 @@
 <div fxLayout='row' fxLayoutAlign='center center'>
-  <div class="wrapper application">
+  <div class="wrapper">
     <h3 class="wrapper-title" fxLayout='row' fxLayoutAlign='center center'>ЗАЯВА НА ГУРТОК</h3>
     <app-workshop-card [workshop]="workshop" [isMainPage]="true" [isHorizontalView]="true"
       [isCreateApplicationView]="false"></app-workshop-card>
-    <div class="card-border" fxLayout='column' fxLayoutAlign='center center'>
+    <div class="card-border">
       <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
         <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
@@ -19,7 +19,7 @@
           [invalid]="ChildFormControl.invalid && ChildFormControl.touched">
         </app-validation-hint-for-input>
 
-        <a [routerLink]="['/create-child', '']" class="btn-add-child">
+        <a [routerLink]="['/create-child', '']" class="btn-add-child" fxLayout='row' fxLayoutAlign='center center'>
           <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
         </a>
 
