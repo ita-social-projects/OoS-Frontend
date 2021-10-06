@@ -45,7 +45,7 @@
 
 <ng-template #ParentApplications let-applications>
   <ng-container *ngIf="applications?.length else isEmptyList;">
-    <div *ngFor="let child of children$ | async">
+    <div *ngFor="let child of (childrenCards$ | async)?.entities">
       <div *ngIf="isApplications(applications, child)">
         <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
           :'shortDate'}})</h3>

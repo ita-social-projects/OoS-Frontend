@@ -3,16 +3,19 @@
   <a [routerLink]="['/create-child', '']"><button class="btn" mat-raised-button>Додати дитину</button></a>
 </div>
 
-<div *ngIf="(children$ | async)?.length then ChildList;"></div>
+<div *ngIf="(childrenCards$ | async)?.totalAmount then ChildList;"></div>
 
 <ng-template #ChildList>
   <div class="wrapper-card">
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='start start' fxLayoutGap="20px grid">
-        <app-child-card class="cards" *ngFor="let child of children$ | async  " [child]="child"
+        <app-child-card class="cards" *ngFor="let child of (childrenCards$ | async)?.entities  " [child]="child"
           (deleteChild)="onDelete($event)">
         </app-child-card>
       </div>
+      <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage"
+        (pageChange)="onPageChange($event)">
+      </app-paginator>
     </ng-container>
   </div>
 </ng-template>

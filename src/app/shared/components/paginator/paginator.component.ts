@@ -15,7 +15,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
-  size: number = Constants.WORKSHOPS_PER_PAGE;
+  size: number = Constants.ITEMS_PER_PAGE;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
 

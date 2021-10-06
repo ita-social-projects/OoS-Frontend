@@ -1,3 +1,4 @@
+import { Parent } from "./parent.model";
 export class Child {
   id: number;
   firstName: string;
@@ -8,14 +9,9 @@ export class Child {
   parentId?: number;
   socialGroupId: number;
   placeOfStudy: string;
-  birthCertificate?: {
-    id: number;
-    svidSer: string,
-    svidNum: string,
-    svidNumMD5: string,
-    svidWho: string,
-    svidDate: string,
-    childId: number;
+  parent: {
+    id: 0,
+    userId: Parent;
   }
 
   constructor(info, parentId, id?) {
@@ -29,4 +25,8 @@ export class Child {
     this.parentId = parentId;
     this.placeOfStudy = info.placeOfStudy;
   }
+}
+export interface ChildCards {
+  totalAmount: number,
+  entities: Child[]
 }

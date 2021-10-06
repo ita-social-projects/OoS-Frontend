@@ -59,11 +59,6 @@ export class CreateChildComponent implements OnInit {
 
     if (childId) {
       this.editMode = true;
-      this.childrenService.getChildById(childId).subscribe((child: Child) => {
-        this.child = child;
-        this.ChildrenFormArray.push(this.newForm(this.child));
-      })
-
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }

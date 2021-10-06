@@ -45,7 +45,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch([
       new GetTopDirections(),
-      new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)
+      new GetTopWorkshops(Constants.ITEMS_PER_PAGE)
     ]);
 
     this.actions$.pipe(ofAction(SetCity))
@@ -53,7 +53,7 @@ export class MainComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)));
+      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
 
     this.isParent$
       .pipe(
@@ -65,6 +65,5 @@ export class MainComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 
 }
