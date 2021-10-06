@@ -23,6 +23,7 @@ export class Child {
     this.gender = info.gender;
     this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
     this.parentId = parentId;
+    this.placeOfStudy = info.placeOfStudy;
   }
 }
 export interface ChildCards {

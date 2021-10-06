@@ -76,6 +76,7 @@ export class CreateChildComponent implements OnInit {
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
       socialGroupId: new FormControl('', Validators.required),
+      placeOfStudy: new FormControl('')
     });
 
     childFormGroup.valueChanges
