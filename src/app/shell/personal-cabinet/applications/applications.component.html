@@ -46,7 +46,8 @@
 
 <ng-template #isParent>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <div *ngIf="(children$| async)?.entities.length && (applications$ | async)?.length; else isEmptyList">
+
+    <div *ngIf="(childrenCards$| async)?.entities.length && (applications$ | async)?.length; else isEmptyList">
 
       <div fxLayout="row" fxLayoutAlign="end center">
         <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
@@ -58,7 +59,7 @@
       </div>
 
 
-      <div *ngFor="let child of (children$| async)?.entities">
+      <div *ngFor="let child of (childrenCards$| async)?.entities">
 
         <ng-container *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication;">
         </ng-container>
