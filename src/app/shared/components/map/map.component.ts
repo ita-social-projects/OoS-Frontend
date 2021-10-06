@@ -36,22 +36,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
-  constructor(private geolocationService: GeolocationService) { 
-
-    this.city$
-    .pipe(takeUntil(this.destroy$), filter((city)=> !!city))
-    .subscribe((city)=> {
-        this.defaultCoords = {lat: city.latitude, lng: city.longitude};
-        this.flyTo(this.defaultCoords);
-    });
-
-    this.filteredWorkshops$
-    .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
-    .subscribe(filteredWorkshops => {
-      this.workshops = filteredWorkshops.entities;
-      filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-    })
-  }
+  constructor(private geolocationService: GeolocationService) { }
 
   map: Layer.Map;
   singleMarker: Layer.Marker;
@@ -115,10 +100,28 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.initMap();
+    this.city$
+    .pipe(takeUntil(this.destroy$), filter((city)=> !!city))
+    .subscribe((city)=> {
+        this.defaultCoords = {lat: city.latitude, lng: city.longitude};
+        this.map || this.initMap();
+        this.flyTo(this.defaultCoords);
+    });
+    this.filteredWorkshops$
+    .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
+    .subscribe(filteredWorkshops => {
+      this.workshops = filteredWorkshops.entities;
+      filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+    });
     this.addressFormGroup?.valueChanges.pipe(
       debounceTime(500)
-    ).subscribe((address: Address) => address && this.setAddressLocation(address));
+    ).subscribe((address: Address) => {
+      this.geolocationService.locationGeocode(address, (result) => {
+        address.longitude = result ? result[1] : 0;
+        address.latitude = result ? result[0] : 0;
+        this.setAddressLocation(address);
+      });
+    });
     this.workshops && this.workshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
   }
 
@@ -127,11 +130,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * @param address - type Address
    */
   setAddressLocation(address: Address): void {
-    this.geolocationService.locationGeocode(address, (result) => {
-      if (result) {
-        this.workshops ? this.setWorkshopMarkers(result, address) : this.setNewSingleMarker(result);
-      }
-    });
+    this.workshops ? (this.workshopMarkers.map((m) => this.map.removeLayer(m.marker)) && this.setWorkshopMarkers(address)) : this.setNewSingleMarker(address);
   }
 
   /**
@@ -142,10 +141,12 @@ export class MapComponent implements AfterViewInit, OnDestroy{
     this.geolocationService.locationDecode(coords, (result: any) => { // TODO: add model for geocoder response
       if (result.address || (Array.isArray(result) && result.length)) {
         const location = result.address || result[0].properties.address;
-        const city = location.city || location.village || location.town;
+        const city = location.city || location.village || location.town || location.hamlet;
         const street = location.road;
         const buildingNumber = location.house_number;
-        this.setAddressEvent.emit({ city, street, buildingNumber });
+        const longitude = result.lon || result[0].lon;
+        const latitude = result.lat || result[0].lat;
+        this.setAddressEvent.emit({ city, street, buildingNumber, longitude, latitude });
       } else {
         this.setAddressEvent.emit({
           city: '',
@@ -161,7 +162,8 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * This method remove existed marker and set the new marke to the map
    * @param coords - type [number, number]
    */
-  setNewSingleMarker(coords: [number, number]): void {
+  setNewSingleMarker(address: Address): void {
+    const coords: [number, number] = [address.latitude, address.longitude];
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
     this.map.addLayer(this.singleMarker);
@@ -172,7 +174,8 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * This method remove existed marker and set the new marke to the map
    * @param coords - type [number, number]
    */
-  setWorkshopMarkers(coords: [number, number], address: Address): void {
+  setWorkshopMarkers(address: Address): void {
+    const coords: [number, number] = [address.latitude, address.longitude];
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
     this.workshopMarkers.push({ marker, isSelected: false });

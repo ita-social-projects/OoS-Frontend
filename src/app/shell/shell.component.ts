@@ -32,7 +32,7 @@ export class ShellComponent implements OnInit, OnDestroy {
           district: " ",
           longitude: coords.lng,
           latitude: coords.lat,
-          name: result.address.city,
+          name: result.address.city || result.address.town || result.address.village || result.address.hamlet,
           region: " "
         })]);
       });
