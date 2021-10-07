@@ -139,7 +139,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * @param coords - type Coords
    */
   setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => { // TODO: add model for geocoder response
+    this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
         const location = result.address || result[0].properties.address;
         const city = location.city || location.village || location.town || location.hamlet;
