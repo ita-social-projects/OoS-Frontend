@@ -13,16 +13,16 @@
   color: #ffbd00;
 }
 .parent-status{
-  .approved{
+  .Approved{
     color:#199953
   }
-  .pending{
+  .Pending{
     color: #FFBD00;
   }
-  .acceptedForSelection{
+  .AcceptedForSelection{
     color: #27A3FF;
   }
-  .rejected, .left, .blocked{
+  .Rejected, .Left, .Blocked{
     color: #C72A21;
   }
 }
@@ -54,7 +54,7 @@
 @media (max-width: 750px) {
 .horizontal-card {
   min-height: 150px;
-  
+
   .card_text {
     margin: 0;
   }
