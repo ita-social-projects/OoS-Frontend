@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounce, debounceTime } from 'rxjs/operators';
+import {GeolocationAddress} from '../../models/geolocationAddress.model'
 
 @Component({
   selector: 'app-map',
@@ -116,7 +117,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
     this.addressFormGroup?.valueChanges.pipe(
       debounceTime(500)
     ).subscribe((address: Address) => {
-      this.geolocationService.locationGeocode(address, (result) => {
+      this.geolocationService.locationGeocode(address, (result: GeolocationAddress) => {
         address.longitude = result ? result[1] : 0;
         address.latitude = result ? result[0] : 0;
         this.setAddressLocation(address);
@@ -138,7 +139,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * @param coords - type Coords
    */
   setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (result: any) => { // TODO: add model for geocoder response
+    this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => { // TODO: add model for geocoder response
       if (result.address || (Array.isArray(result) && result.length)) {
         const location = result.address || result[0].properties.address;
         const city = location.city || location.village || location.town || location.hamlet;
