@@ -43,6 +43,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   }
 
   isApplications(applications: Application[], child: Child): boolean {
+    console.log(applications.some((application: Application) => application.child.id === child.id))
     return applications.some((application: Application) => application.child.id === child.id);
   }
   /**
