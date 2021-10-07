@@ -66,6 +66,14 @@ export class ChildrenService {
     return this.http.put('/Child/Update', child);
   }
 
+  /**
+  * This method get Users Child By Id
+  * @param id
+  */
+  getUsersChildById(id: number): Observable<Child> {
+    return this.http.get<Child>(`/Child/GetUsersChildById/${id}`);
+  }
+
 
   /**
   * This method delete child by Child id
