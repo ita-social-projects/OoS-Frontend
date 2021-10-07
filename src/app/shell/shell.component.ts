@@ -6,7 +6,7 @@ import { Coords } from '../shared/models/coords.model';
 import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
 import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shell',
@@ -30,9 +30,10 @@ export class ShellComponent implements OnInit, OnDestroy {
     });
 
     this.isParent$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((parent) => {
-      !!parent && this.store.dispatch([
+      .pipe(takeUntil(this.destroy$),
+        filter(parent => !!parent))
+      .subscribe(() => {
+       this.store.dispatch([
         new GetFavoriteWorkshops(),
         new GetFavoriteWorkshopsByUserId()
       ]);

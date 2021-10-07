@@ -32,21 +32,21 @@ export class GeolocationService {
   /**
    * This method sets default city Kiev in localStorage if user deny geolocation 
    */
-  confirmCity(): void {
+  confirmCity(city: City, confirm: boolean): void {
     !!localStorage.getItem('cityConfirmation') ?
     this.store.dispatch([
       new ConfirmCity(false),
       new SetCity(JSON.parse(localStorage.getItem('cityConfirmation')))
     ]) :
     this.store.dispatch([
-      new ConfirmCity(true), 
-      new SetCity(kiev)
+      new ConfirmCity(confirm), 
+      new SetCity(city)
     ]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity();
+    this.confirmCity(kiev, true);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
@@ -81,14 +81,14 @@ export class GeolocationService {
       },
     });
     const userCityInfo = await result.json();
-
-    this.store.dispatch([new ConfirmCity(false), new SetCity({
+    const userCity: City = {
       district: " ",
       longitude: coords.lng,
       latitude: coords.lat,
       name: userCityInfo.address.city,
       region: " "
-    })]);
+    }
+    this.confirmCity(userCity, false);
   }
 
   /**

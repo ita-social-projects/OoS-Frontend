@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardComponent } from './workshop-card.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,7 +27,8 @@ describe('WorkshopCardComponent', () => {
         FlexLayoutModule,
         RouterTestingModule,
         MatChipsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDialogModule
       ],
       declarations: [WorkshopCardComponent],
     })

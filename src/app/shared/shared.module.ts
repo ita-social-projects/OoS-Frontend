@@ -5,7 +5,7 @@ import { AgeFilterComponent } from './components/filters-list/age-filter/age-fil
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
+import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
@@ -94,6 +94,7 @@ import { MaterialModule } from './modules/material.module';
     ScrollToTopComponent,
     StatusInfoCardComponent,
     NoResultCardComponent,
+    WorkshopCardDialog
   ],
   imports: [
     MaterialModule,
@@ -150,7 +151,8 @@ import { MaterialModule } from './modules/material.module';
     SidenavComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
-    NoResultCardComponent
+    NoResultCardComponent,
+    WorkshopCardDialog
   ]
 })
 export class SharedModule { }

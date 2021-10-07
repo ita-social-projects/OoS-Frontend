@@ -46,12 +46,12 @@
         </mat-card-content>
 
         <mat-card-footer *ngIf="isCreateApplicationView" class="card-footer">
-          <div>
-            <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
+          <a class="more-details" [routerLink]="['/workshop-details',workshop.workshopId ]" >
+            <span class="card_link">
               Детальніше
-              <span class="material-icons arrow">arrow_forward</span>
-            </a>
-          </div>
+            </span>
+            <mat-icon>arrow_forward</mat-icon> 
+          </a>
         </mat-card-footer>
 
       </div>
@@ -71,6 +71,7 @@
 </ng-template>
 
 <ng-template #UserActions>
+<div *ngIf="!isProvider">
   <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
 
     <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
@@ -81,11 +82,12 @@
     </ng-template>
 
     <ng-template #notFavorite>
-      <div (click)="parent && onLike()" class="actions_btn action-icon">
+      <div (click)="parent ? onLike() : onOpenDialog()" class="actions_btn action-icon">
         <mat-icon>favorite_border</mat-icon>
       </div>
     </ng-template>
   </div>
+</div>
 </ng-template>
 <ng-template #EmptyWorkshop>
   <div class="empty-card" fxLayout="column" fxLayoutAlign="space-between space-between" display="none">

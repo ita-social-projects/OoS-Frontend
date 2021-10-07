@@ -489,7 +489,7 @@ export class UserState {
   getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId) {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshopsByUserId()
-      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard.entities }))
+      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities }))
   }
 
   @Action(CreateFavoriteWorkshop)
