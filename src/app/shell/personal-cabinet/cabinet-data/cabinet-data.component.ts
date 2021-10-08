@@ -1,4 +1,4 @@
-import { GetApplicationsByStatus } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
@@ -8,13 +8,13 @@ import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications'
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
-import { Child } from 'src/app/shared/models/child.model';
+import { ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetChildrenByParentId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -32,7 +32,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
   @Select(UserState.children)
-  children$: Observable<Child[]>;
+  childrenCards$: Observable<ChildCards>;
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   @Select(RegistrationState.provider)
@@ -48,7 +48,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   parent: Parent;
   workshops: WorkshopCard[];
   applications: Application[];
-  children: Child[];
+  childrenCards: ChildCards;
 
   constructor(public store: Store, public matDialog: MatDialog) { }
 
@@ -85,12 +85,17 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
-  getParenApplications(): void {
+  getParentApplications(): void {
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
 
-  getParenChildren(): void {
-    this.store.dispatch(new GetChildrenByParentId(this.parent.id));
+
+  getUsersChildren(): void {
+    this.store.dispatch(new GetUsersChildren());
+  }
+
+  getAllUsersChildren(): void {
+    this.store.dispatch(new GetAllUsersChildren());
   }
 
   getProviderWorkshops(): void {

@@ -2,6 +2,7 @@ import { City } from './../../shared/models/city.model';
 import { Favorite } from './../../shared/models/favorite.model';
 import { UserState } from './../../shared/store/user.state';
 import { Role } from 'src/app/shared/enum/role';
+import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -11,9 +12,9 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Workshop, WorkshopCard } from '../../shared/models/workshop.model';
+import { WorkshopCard } from '../../shared/models/workshop.model';
 import { GetTopDirections } from 'src/app/shared/store/meta-data.actions';
-import { takeUntil, map, filter } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 
 @Component({
@@ -38,9 +39,11 @@ export class MainComponent implements OnInit {
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @ViewChild('WorkshopsWrap') WorkshopsWrap: ElementRef;
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   public parent: boolean;
 
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   constructor(private store: Store) { }
   
@@ -48,16 +51,23 @@ export class MainComponent implements OnInit {
     if(role === Role.parent) {
       combineLatest([this.city$, this.favoriteWorkshops$])
       .pipe(
-        filter(result => !!result[0] && !!result[1].length),
+        filter((result) => {
+          if(!!result[0] && !!result[1]?.length) {
+            return true;
+          }
+          else if(result[1] === null) {
+            return true;
+          }
+        }),
         takeUntil(this.destroy$))
-      .subscribe(()=> this.store.dispatch(new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)));
+      .subscribe(()=> this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
     else {
       this.city$
       .pipe(
-        filter(city=> !!city),
+        filter(city => !!city),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.WORKSHOPS_PER_PAGE)));
+      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));          
     }
   }
 
@@ -81,18 +91,4 @@ export class MainComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  emptyWorkshops(): Array<Workshop> {
-    let amountCardsInRow = 0;
-    let workshops = [];
-    let amountWorkshops = 0;
-    this.topWorkshops$.pipe(map(x => workshops.push(x))).subscribe();
-    if (workshops[0]) {
-      amountWorkshops = workshops[0].length;
-    }
-    if (this.WorkshopsWrap) {
-      amountCardsInRow = Math.floor(Number((this.WorkshopsWrap.nativeElement.clientWidth) / 352));
-    }
-    let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
-    return new Array(emptyWorkshops | 0);
-  }
 }

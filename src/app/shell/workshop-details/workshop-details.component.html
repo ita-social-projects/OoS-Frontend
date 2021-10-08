@@ -1,6 +1,6 @@
 <div *ngIf="workshop$ && provider$ | async" class="wrapper" fxLayout="row" fxLayout.lt-lg="row wrap"
   fxLayoutAlign="center space-between">
-  <app-workshop-page 
+  <app-workshop-page class="workshop-page-wrap"
     [workshop]="workshop$ | async" 
     [provider]="provider$ | async"
     [providerWorkshops]="workshops$ | async" 

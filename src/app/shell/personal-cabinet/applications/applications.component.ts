@@ -13,6 +13,7 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+import { ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 
 
 @Component({
@@ -24,13 +25,12 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
-  tabApplicationStatus: number;
 
   isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
 
   providerApplicationParams: {
-    status: number,
+    status: string,
     workshopsId: number[]
   } = {
       status: undefined,
@@ -54,7 +54,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         if (this.userRole === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
         } else {
-          this.getParenApplications();
+          this.getParentApplications();
         }
       });
   }
@@ -65,8 +65,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getProviderWorkshops();
       this.activateChildInfoBox();
     } else {
-      this.getParenChildren();
-      this.getParenApplications();
+      this.getAllUsersChildren();
+      this.getParentApplications();
     }
   }
 
@@ -119,8 +119,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   * @param workshopsId: number[]
   */
   onTabChange(event: MatTabChangeEvent): void {
-    this.tabApplicationStatus = this.applicationTitles[event.tab.textLabel];
-    this.providerApplicationParams.status = this.tabApplicationStatus;
+    this.providerApplicationParams.status = ApplicationTitlesReverse[event.tab.textLabel];
     this.getProviderApplications(this.providerApplicationParams);
   }
 

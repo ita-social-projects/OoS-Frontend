@@ -7,7 +7,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
-import { Child } from '../models/child.model';
+import { Child, ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -25,7 +25,6 @@ import {
   CreateWorkshop,
   DeleteChildById,
   DeleteWorkshopById,
-  GetChildrenByParentId,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
@@ -65,8 +64,13 @@ import {
   CreateFavoriteWorkshop,
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
+  GetUsersChildren,
+  CabinetPageChange,
+  GetAllUsersChildren,
 } from './user.actions';
 import { ClearClasses, ClearDepartments } from './meta-data.actions';
+import { FilterStateModel } from './filter.state';
+import { PaginationElement } from '../models/paginationElement.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -74,9 +78,10 @@ export interface UserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
-  children: Child[];
+  children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
+  currentPage: PaginationElement;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -86,9 +91,13 @@ export interface UserStateModel {
     selectedWorkshop: null,
     selectedProvider: null,
     applications: [],
-    children: [],
+    children: undefined,
     favoriteWorkshops: [],
     favoriteWorkshopsCard: [],
+    currentPage: {
+      element: 1,
+      isActive: true
+    },
   }
 })
 @Injectable()
@@ -110,7 +119,7 @@ export class UserState {
   static applications(state: UserStateModel): Application[] { return state.applications }
 
   @Selector()
-  static children(state: UserStateModel): Child[] { return state.children }
+  static children(state: UserStateModel): ChildCards { return state.children }
 
   @Selector()
   static favoriteWorkshops(state: UserStateModel): Favorite[] { return state.favoriteWorkshops }
@@ -183,13 +192,24 @@ export class UserState {
         }));
   }
 
-  @Action(GetChildrenByParentId)
-  getChildrenByParentId({ patchState }: StateContext<UserStateModel>, { payload }: GetChildrenByParentId) {
+  @Action(GetUsersChildren)
+  getUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetUsersChildren) {
+    const state: UserStateModel = getState();
     return this.childrenService
-      .getChildrenByParentId(payload)
+      .getUsersChildren(state)
       .pipe(
         tap(
-          (children: Child[]) => patchState({ children: children })
+          (children: ChildCards) => patchState({ children: children })
+        ))
+  }
+
+  @Action(GetAllUsersChildren)
+  getAllUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetAllUsersChildren) {
+    return this.childrenService
+      .getAllUsersChildren()
+      .pipe(
+        tap(
+          (children: ChildCards) => patchState({ children: children })
         ))
   }
 
@@ -335,6 +355,7 @@ export class UserState {
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
     dispatch(new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }));
+    dispatch(new GetUsersChildren());
   }
 
   @Action(UpdateWorkshop)
@@ -504,5 +525,10 @@ export class UserState {
     return this.favoriteWorkshopsService
       .deleteFavoriteWorkshop(payload)
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
+  }
+
+  @Action(CabinetPageChange)
+  pageChange({ patchState }: StateContext<FilterStateModel>, { payload }: CabinetPageChange) {
+    patchState({ currentPage: payload });
   }
 }

@@ -1,6 +1,7 @@
-<mat-card class="category" fxLayout="column" fxLayoutAlign="center center">
+<mat-card class="category" fxLayout="column" fxLayoutAlign="center center" [routerLink]="'./result'"
+  (click)="selectDirection(direction)">
   <img class="icon" src="assets/icons/lang.png" alt="{{direction.title}}">
-  <div class="details" [routerLink]="'./result'" (click)="selectDirection(direction)">
+  <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
     <!-- <div class="link">
       <a >

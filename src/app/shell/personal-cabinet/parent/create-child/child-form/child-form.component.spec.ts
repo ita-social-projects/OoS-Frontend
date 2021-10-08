@@ -47,7 +47,8 @@ describe('ChildFormComponent', () => {
       middleName: new FormControl(''),
       dateOfBirth: new FormControl(''),
       gender: new FormControl(''),
-      socialGroupId: new FormControl('')
+      socialGroupId: new FormControl(''),
+      placeOfStudy: new FormControl('')
     });
 
     fixture.detectChanges();

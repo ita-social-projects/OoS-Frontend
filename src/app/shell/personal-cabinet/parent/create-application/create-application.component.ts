@@ -9,13 +9,13 @@ import { Observable, Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { cardType } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
-import { Child } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetChildrenByParentId, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -31,7 +31,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   readonly CardType = cardType;
 
-  @Select(UserState.children) children$: Observable<Child[]>;
+  @Select(UserState.children) children$: Observable<ChildCards>;
   @Select(RegistrationState.user) user$: Observable<User>;
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
@@ -65,7 +65,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((parent: Parent) => {
         this.parent = parent;
-        this.store.dispatch(new GetChildrenByParentId(this.parent.id))
+        this.store.dispatch(new GetUsersChildren())
       });
 
     const workshopId = +this.route.snapshot.paramMap.get('id');

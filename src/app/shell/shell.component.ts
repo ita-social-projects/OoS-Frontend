@@ -8,6 +8,7 @@ import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
@@ -26,7 +27,15 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
-      coords && this.geolocationService.locationDetection(coords);
+      coords && this.geolocationService.locationDecode(coords, (result) => {
+        this.geolocationService.confirmCity({
+          district: " ",
+          longitude: coords.lng,
+          latitude: coords.lat,
+          name: result.address.city || result.address.town || result.address.village || result.address.hamlet,
+          region: " "
+        }, false)
+      });
     });
 
     this.isParent$

@@ -2,8 +2,8 @@
   <mat-form-field appearance="none">
     <input ngClass="{{className}}" type="text" matInput [formControl]="cityFormControl" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
-      (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
-      <mat-option [disabled]="isCity | async" *ngFor="let city of cities$ | async" [value]="city">
+      (optionSelected)="onSelect($event)" [displayWith]="displayCityName ">
+      <mat-option [disabled]="!(isCity$ | async)" *ngFor="let city of cities$ | async" [value]="city">
         {{city.name}} <br>
         <span class="city-region">{{city.region}}</span>
       </mat-option>

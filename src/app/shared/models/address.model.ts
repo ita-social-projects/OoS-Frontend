@@ -1,5 +1,5 @@
 export class Address {
-  id: number;
+  id?: number;
   city: string;
   street: string;
   buildingNumber: string;
@@ -15,6 +15,8 @@ export class Address {
     this.region = info.region;
     this.district = info.district;
     this.buildingNumber = info.buildingNumber;
+    this.longitude = info.longitude;
+    this.latitude = info.latitude;
     if (address) {
       this.id = address.id;
     }

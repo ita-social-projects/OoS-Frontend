@@ -43,6 +43,19 @@ export class CreateChildComponent implements OnInit {
     private childrenService: ChildrenService) { }
 
   ngOnInit(): void {
+    const childId = +this.route.snapshot.paramMap.get('id');
+    if (childId) {
+      this.editMode = true;
+      this.childrenService.getUsersChildById(childId).pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((child: Child) => {
+        this.child = child;
+        this.ChildrenFormArray.push(this.newForm(child));
+      });
+    } else {
+      this.ChildrenFormArray.push(this.newForm());
+    }
+
     this.socialGroups$
       .pipe(
         takeUntil(this.destroy$),
@@ -51,22 +64,10 @@ export class CreateChildComponent implements OnInit {
           this.store.dispatch(new GetSocialGroup())
         }
       });
-    const childId = +this.route.snapshot.paramMap.get('id');
 
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
-
-    this.AgreementFormControl.valueChanges.subscribe(val => this.isAgreed = val);
-
-    if (childId) {
-      this.editMode = true;
-      this.childrenService.getChildById(childId).subscribe((child: Child) => {
-        this.child = child;
-        this.ChildrenFormArray.push(this.newForm(this.child));
-      })
-
-    } else {
-      this.ChildrenFormArray.push(this.newForm());
-    }
+    this.AgreementFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe(val => this.isAgreed = val);
   }
 
   /**
@@ -81,6 +82,7 @@ export class CreateChildComponent implements OnInit {
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
       socialGroupId: new FormControl('', Validators.required),
+      placeOfStudy: new FormControl('')
     });
 
     childFormGroup.valueChanges

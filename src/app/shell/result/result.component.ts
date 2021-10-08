@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -9,6 +9,8 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
+import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from 'src/app/shared/constants/constants';
 
 enum ViewType {
   map = 'map',
@@ -26,7 +28,11 @@ export class ResultComponent implements OnInit, OnDestroy {
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopCard[]>;
-
+  @Select(FilterState.isLoading)
+  isLoading$:Observable <boolean>;
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  getEmptyCards = Util.getEmptyCards;
+  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
   public viewType = ViewType;
@@ -56,9 +62,15 @@ export class ResultComponent implements OnInit, OnDestroy {
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetFilteredWorkshops()));
+      .subscribe(() => this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map)));
 
     this.isFiltersVisible = window.innerWidth > 750;
+  }
+
+  viewHandler(value: ViewType): void {
+    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => {
+      this.currentView = value;
+    });
   }
 
   ngOnDestroy(): void {
