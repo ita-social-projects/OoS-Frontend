@@ -28,12 +28,12 @@
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Активні">
       <ng-container
-        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.pending, applicationStatus.approved, applicationStatus.acceptedForSelection] }">
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.Pending , applicationStatus.Approved, applicationStatus.AcceptedForSelection] }">
       </ng-container>
     </mat-tab>
     <mat-tab label="Неактивні">
       <ng-container
-        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.rejected, applicationStatus.left] }">
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.Rejected, applicationStatus.Left] }">
       </ng-container>
     </mat-tab>
   </mat-tab-group>

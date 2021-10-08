@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, first, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, last, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -84,7 +84,7 @@ export class CityAutocompleteComponent implements OnInit {
     if (this._InitialCity !== "Такого міста немаєї") {
       this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
-        .pipe(first())
+        .pipe(last())
         .subscribe(() => {
           this.cities && this.cityFormControl.setValue(this.cities[0])
         });
