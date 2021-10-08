@@ -7,6 +7,7 @@ import { Address } from '../../models/address.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
 import { GeocoderService } from './geocoder.service'
 import { HttpClient } from '@angular/common/http';
+import { GeolocationAddress } from '../../models/geolocationAddress.model';
 
 const kiev: City = {
   district: "м.Київ",
@@ -77,8 +78,8 @@ export class GeolocationService {
    * @param coords - Coords
    * @param callback - Function, which recieves 1 argument of type Address
    */
-  locationDecode(coords: Coords, callback: (any) => void): void {
-    GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result) => { // TODO: create enum for accept language param
+  locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
+    GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
       callback(result);
     });
   }
@@ -93,8 +94,8 @@ export class GeolocationService {
       this.http,
       `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`,
       'uk-UA, uk'
-    ).subscribe((result) => {
-      const coords: [number, number] | null = result.length > 0 ? [Number(result[0].lat), Number(result[0].lon)] : null;
+    ).subscribe((result: GeolocationAddress | GeolocationAddress[]) => {
+      const coords: [number, number] | null = (<GeolocationAddress[]>result).length > 0 ? [Number(result[0].lat), Number(result[0].lon)] : null;
       callback(coords);
     });
   }
