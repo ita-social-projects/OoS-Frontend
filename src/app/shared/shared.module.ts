@@ -50,6 +50,7 @@ import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.c
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { MaterialModule } from './modules/material.module';
     NgxSliderModule,
     MatProgressBarModule,
     MatButtonToggleModule,
-    MatIconModule
+    MatIconModule,
+    NgxMatTimepickerModule
   ],
   exports: [
     FiltersListComponent,
