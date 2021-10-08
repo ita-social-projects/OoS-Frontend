@@ -33,7 +33,8 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   public workshops: WorkshopCard[];
 
   @Input() addressFormGroup: FormGroup;
-  
+  @Input() isCreateWorkShops: boolean ;
+
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
@@ -65,15 +66,15 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   });
 
 /**
- * changing position on map 
- * @param coords:Coords 
+ * changing position on map
+ * @param coords:Coords
  */
   flyTo(coords: Coords): void {
     this.map?.flyTo(coords, this.zoom);
   }
 
 /**
- * method init start position on map 
+ * method init start position on map
  */
   initMap():void {
     this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
@@ -101,6 +102,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
+
     this.city$
     .pipe(takeUntil(this.destroy$), filter((city)=> !!city))
     .subscribe((city)=> {
@@ -108,22 +110,34 @@ export class MapComponent implements AfterViewInit, OnDestroy{
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
     });
-    this.filteredWorkshops$
-    .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
-    .subscribe(filteredWorkshops => {
-      this.workshops = filteredWorkshops.entities;
-      filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-    });
-    this.addressFormGroup?.valueChanges.pipe(
-      debounceTime(500)
-    ).subscribe((address: Address) => {
-      this.geolocationService.locationGeocode(address, (result: GeolocationAddress) => {
-        address.longitude = result ? result[1] : 0;
-        address.latitude = result ? result[0] : 0;
-        this.setAddressLocation(address);
+
+    if (!this.isCreateWorkShops) {
+
+      this.filteredWorkshops$
+      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
+      .subscribe(filteredWorkshops => {
+        this.workshopMarkers.map((m) => this.map.removeLayer(m.marker));
+        this.workshopMarkers = [];
+        this.workshops = filteredWorkshops.entities;
+        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
       });
-    });
-    this.workshops && this.workshops.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+    } else {
+      //cheking if user edit workshop information
+      if (this.addressFormGroup.value.latitude) this.setAddressLocation(this.addressFormGroup.value);
+
+      this.addressFormGroup.valueChanges.pipe(
+        debounceTime(500)
+      ).subscribe((address: Address) => {
+        this.geolocationService.locationGeocode(address, (result) => {
+          address.longitude = result ? result[1] : 0;
+          address.latitude = result ? result[0] : 0;
+          this.setAddressLocation(address);
+        });
+      });
+
+    }
+
+
   }
 
   /**
@@ -131,7 +145,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
    * @param address - type Address
    */
   setAddressLocation(address: Address): void {
-    this.workshops ? (this.workshopMarkers.map((m) => this.map.removeLayer(m.marker)) && this.setWorkshopMarkers(address)) : this.setNewSingleMarker(address);
+    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker(address);
   }
 
   /**
@@ -155,7 +169,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
           buildingNumber: '',
         });
       }
-      
+
     });
   }
 

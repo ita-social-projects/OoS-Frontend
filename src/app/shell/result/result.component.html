@@ -20,11 +20,11 @@
 
     </div>
     <ng-template #ShowData>
-    <ng-container >
-      <div fxLayout='row wrap' fxLayoutAlign='start'>
-        <app-workshop-cards-list class="cards"  [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
-      </div>
-    </ng-container>
+      <ng-container >
+        <div fxLayout='row wrap' fxLayoutAlign='start'>
+          <app-workshop-cards-list class="cards"  [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
+        </div>
+      </ng-container>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
