@@ -5,28 +5,21 @@
       (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
       {{day.value}}</div>
   </div>
-  <div fxLayout='row' fxLayoutAlign='center center'>
-    <p class="text">Від</p>
-    <!-- <input matInput class="input" type="time" [disabled]="!workHour.workdays.length" [(ngModel)]="workHour.startTime"
-      (change)="onInputChange($event.target.value)" required> -->
-    <input class="input" type="text" matInput [ngxMatTimepicker]="timepicker" format="24" required
-      [max]="workHour.endTime ? workHour.endTime : '23:59'"
-      (timeChanged)="onInputChange($event.target.value); workHour.startTime = $event">
-  </div>
-  <div fxLayout='row' fxLayoutAlign='center center'>
-    <p class="text">До</p>
-    <!-- <input matInput class="input" type="time" [disabled]="!workHour.workdays.length"
-      (change)="onInputChange($event.target.value)" required> -->
 
-    <input class="input" type="text" matInput [ngxMatTimepicker]="timepicker2" format="24" required
-      [min]="workHour.startTime ? workHour.startTime : '00:01'"
-      (timeChanged)="onInputChange($event.target.value); workHour.endTime = $event">
-  </div>
+  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='center center'>
+    <p class="text">Від</p>
+    <input class="input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24" required
+      formControlName="startTime" [max]="getMaxTime()">
+
+    <p class="text">До</p>
+    <input class="input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24" required
+      formControlName="endTime" [min]="getMinTime()">
+  </form>
 
   <div fxLayout='row' fxLayoutAlign='center center' *ngIf="workingHoursAmount > 1">
     <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
   </div>
 </div>
 
-<ngx-mat-timepicker #timepicker></ngx-mat-timepicker>
-<ngx-mat-timepicker #timepicker2></ngx-mat-timepicker>
+<ngx-mat-timepicker #timepickerStart></ngx-mat-timepicker>
+<ngx-mat-timepicker #timepickerEnd></ngx-mat-timepicker>
