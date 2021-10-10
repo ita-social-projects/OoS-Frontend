@@ -120,7 +120,6 @@
     }
   }
 }
-// Todo: add same breakpoint for workshop count wrap
 @media(max-width: 1250px) {
   .workshops-count .filters-toggle-btn {
     display: none;
@@ -144,11 +143,10 @@
 
 @media(max-width: 750px) {
   .view-control-panel {
-    position: absolute;
+    position: relative;
     z-index: 2;
     width: 90vw;
     margin-left: 5vw;
-    top: 90px;
 
     .search-block-wrapper {
       display: none;
@@ -216,7 +214,6 @@
 
         app-workshop-cards-list {
           display: block;
-          margin-top: 260px;
 
           ::ng-deep>div {
             overflow: scroll;
@@ -234,7 +231,6 @@
       }
 
       ::ng-deep app-filters-list {
-        margin-top: 60px;
         display: block;
       }
     }
