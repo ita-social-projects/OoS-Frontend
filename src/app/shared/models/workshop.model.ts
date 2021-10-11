@@ -12,7 +12,6 @@ export class Workshop {
   instagram?: string;
   minAge: number;
   maxAge: number;
-  daysPerWeek: number;
   price: number;
   description: string;
   withDisabilityOptions?: boolean;
@@ -46,7 +45,6 @@ export class Workshop {
     this.maxAge = about.maxAge;
     this.price = about.price;
     this.head = description.head;
-    this.daysPerWeek = about.daysPerWeek;
     this.description = description.description;
     this.address = address;
     this.teachers = teachers;
