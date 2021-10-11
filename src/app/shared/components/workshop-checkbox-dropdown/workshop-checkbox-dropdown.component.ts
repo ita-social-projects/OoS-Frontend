@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Workshop } from '../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
@@ -14,7 +14,7 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
   workshopsId: number[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() workshops: Workshop[];
+  @Input() workshops: WorkshopCard[];
   @Output() workshopCheck = new EventEmitter<number[]>();
 
   constructor() { }
@@ -25,8 +25,8 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),
-      ).subscribe((workshops: Workshop[]) => {
-        this.workshopsId = workshops.map((workshop: Workshop) => workshop.id);
+      ).subscribe((workshops: WorkshopCard[]) => {
+        this.workshopsId = workshops.map((workshop: WorkshopCard) => workshop.workshopId);
         this.workshopCheck.emit(this.workshopsId);
       })
   }
