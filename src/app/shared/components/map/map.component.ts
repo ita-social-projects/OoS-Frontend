@@ -123,18 +123,19 @@ export class MapComponent implements AfterViewInit, OnDestroy{
 
 
     // cheking if user edit workshop information
-    this.addressFormGroup.value.latitude && this.setAddressLocation(this.addressFormGroup.value);
-    
-    this.addressFormGroup.valueChanges.pipe(
-      debounceTime(500)
-    ).subscribe((address: Address) => {
-      this.geolocationService.locationGeocode(address, (result) => {
-        address.longitude = result ? result[1] : 0;
-        address.latitude = result ? result[0] : 0;
-        this.setAddressLocation(address);
-      });
-    });
+    if (this.addressFormGroup) {
+      this.addressFormGroup.value.latitude && this.setAddressLocation(this.addressFormGroup.value);
 
+      this.addressFormGroup.valueChanges.pipe(
+        debounceTime(500)
+      ).subscribe((address: Address) => {
+        this.geolocationService.locationGeocode(address, (result) => {
+          address.longitude = result ? result[1] : 0;
+          address.latitude = result ? result[0] : 0;
+          this.setAddressLocation(address);
+        });
+      });
+    }
 
   }
 
