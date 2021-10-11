@@ -23,8 +23,8 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   @Select(FilterState.city)
   city$ :Observable<City>;
 
-  @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopFilterCard>;
+  // @Select(FilterState.filteredWorkshops)
+  // filteredWorkshops$: Observable<WorkshopFilterCard>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -34,6 +34,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
 
   @Input() addressFormGroup: FormGroup;
   @Input() isCreateWorkShops: boolean ;
+  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
@@ -111,9 +112,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
         this.flyTo(this.defaultCoords);
     });
 
-    if (!this.isCreateWorkShops) {
-
-      this.filteredWorkshops$
+    this.filteredWorkshops$ && this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
       .subscribe(filteredWorkshops => {
         this.workshopMarkers.map((m) => this.map.removeLayer(m.marker));
@@ -121,21 +120,20 @@ export class MapComponent implements AfterViewInit, OnDestroy{
         this.workshops = filteredWorkshops.entities;
         filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
       });
-    } else {
-      //cheking if user edit workshop information
-      if (this.addressFormGroup.value.latitude) this.setAddressLocation(this.addressFormGroup.value);
 
-      this.addressFormGroup.valueChanges.pipe(
-        debounceTime(500)
-      ).subscribe((address: Address) => {
-        this.geolocationService.locationGeocode(address, (result) => {
-          address.longitude = result ? result[1] : 0;
-          address.latitude = result ? result[0] : 0;
-          this.setAddressLocation(address);
-        });
+
+    // cheking if user edit workshop information
+    this.addressFormGroup.value.latitude && this.setAddressLocation(this.addressFormGroup.value);
+    
+    this.addressFormGroup.valueChanges.pipe(
+      debounceTime(500)
+    ).subscribe((address: Address) => {
+      this.geolocationService.locationGeocode(address, (result) => {
+        address.longitude = result ? result[1] : 0;
+        address.latitude = result ? result[0] : 0;
+        this.setAddressLocation(address);
       });
-
-    }
+    });
 
 
   }

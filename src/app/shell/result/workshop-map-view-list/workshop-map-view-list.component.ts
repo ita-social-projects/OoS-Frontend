@@ -27,7 +27,7 @@ export class WorkshopMapViewListComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  @Input() public filteredWorkshops: WorkshopFilterCard;
+  @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
   workshops: WorkshopCard[];
   public selectedWorkshops: WorkshopCard[] = [];
   public isSelectedMarker = false;
@@ -43,8 +43,10 @@ export class WorkshopMapViewListComponent implements OnInit {
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   ngOnInit() {
-    this.workshops = this.filteredWorkshops?.entities;
-  
+    this.filteredWorkshops$.subscribe(filteredWorkshops => {
+      this.workshops = filteredWorkshops.entities
+    });
+
   }
 
   onSelectedAddress(address: Address): void {
