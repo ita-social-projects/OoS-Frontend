@@ -1,7 +1,6 @@
 <div class="wrapper">
   <h5>Опис</h5>
   <p>{{workshop.description}}</p>
-  <p> Кількість занять у тиждень: {{workshop.dateTimeRanges.length}} </p>
   <h5> Вартість </h5>
   <p *ngIf="!workshop.price"> Безкоштовно </p>
   <p *ngIf="workshop.price"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття' }} </p>
