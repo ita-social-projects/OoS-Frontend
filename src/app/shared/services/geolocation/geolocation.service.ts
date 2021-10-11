@@ -76,27 +76,11 @@ export class GeolocationService {
    * translates coords into address
    *
    * @param coords - Coords
-   * @param callback - Function, which recieves 1 argument of type Address
+   * @param callback - Function, which receives 1 argument of type Address
    */
   locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
     GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
       callback(result);
-    });
-  }
-
-  /**
-   * translates address into coords  
-   *
-   * @param address - Address
-   */
-  locationGeocode(address: Address, callback: (any) => void): void {
-    GeocoderService.geocode(
-      this.http,
-      `${address.buildingNumber ? address.buildingNumber + '+' : ''}${address.street && (address.street.split(' ').join('+') + ',+')}${address.city && address.city.split(' ').join('+')}`,
-      'uk-UA, uk'
-    ).subscribe((result: GeolocationAddress | GeolocationAddress[]) => {
-      const coords: [number, number] | null = (<GeolocationAddress[]>result).length > 0 ? [Number(result[0].lat), Number(result[0].lon)] : null;
-      callback(coords);
     });
   }
 }
