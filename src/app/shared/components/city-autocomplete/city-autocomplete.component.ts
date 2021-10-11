@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, first, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, first, last, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -16,8 +16,13 @@ import { FilterState } from '../../store/filter.state';
 })
 export class CityAutocompleteComponent implements OnInit {
 
+  _InitialCity: string;
+
   @Output() selectedCity = new EventEmitter();
-  @Input() InitialCity: string;
+  @Input() set InitialCity(value: string) {
+    this._InitialCity = value;
+    this._InitialCity && this.setInitialCity();
+  }
   @Input() className: string;
 
 
@@ -33,7 +38,7 @@ export class CityAutocompleteComponent implements OnInit {
   constructor(public store: Store, private actions$: Actions) { }
 
   displayCityName(city: City): string {
-    return city?.name;
+    return typeof city === 'string'? city: city?.name;
   }
 
   ngOnInit(): void {
@@ -55,7 +60,7 @@ export class CityAutocompleteComponent implements OnInit {
         filter(value => value?.length > 2)
       ).subscribe(value => this.store.dispatch(new GetCities(value)));
 
-    this.InitialCity && this.setInitialAcity();
+    this._InitialCity && this.setInitialCity();
   }
   /**
    * This method selects an option from the list of filtered cities as a chosen city
@@ -63,8 +68,8 @@ export class CityAutocompleteComponent implements OnInit {
    * @param MatAutocompleteSelectedEvent value
    */
   onSelect(event: MatAutocompleteSelectedEvent): void {
-    this.selectedCity.emit(event.option.value);
-    this.store.dispatch(new ClearCities());
+      this.selectedCity.emit(event.option.value);
+      this.store.dispatch(new ClearCities());
   }
 
   ngOnDestroy() {
@@ -75,13 +80,15 @@ export class CityAutocompleteComponent implements OnInit {
   /**
   * This method set initial city to autocomplete
   */
-  setInitialAcity(): void {
-    this.cityFormControl.setValue(this.InitialCity);
-    this.actions$.pipe(ofActionSuccessful(GetCities))
-      .pipe(first())
-      .subscribe(() => {
-        this.cities && this.cityFormControl.setValue(this.cities[0])
-      });
+   setInitialCity(): void {
+    if (this._InitialCity !== "Такого міста немаєї") {
+      this.cityFormControl.setValue(this._InitialCity);
+      this.actions$.pipe(ofActionSuccessful(GetCities))
+        .pipe(last())
+        .subscribe(() => {
+          this.cities && this.cityFormControl.setValue(this.cities[0])
+        });
+    }
   }
 
 }

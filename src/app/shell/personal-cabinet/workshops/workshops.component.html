@@ -15,9 +15,12 @@
 </ng-template>
 
 <ng-template #ProviderWorkshops>
-  <div fxLayout='row wrap' fxLayoutAlign='start center'>
+  <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
       [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
+    <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
+      [workshop]="workshop" class="empty-card" [isMainPage]="true">
+    </app-workshop-card>
   </div>
 </ng-template>
 
@@ -25,12 +28,12 @@
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Активні">
       <ng-container
-        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.pending, applicationStatus.approved, applicationStatus.acceptedForSelection] }">
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.Pending , applicationStatus.Approved, applicationStatus.AcceptedForSelection] }">
       </ng-container>
     </mat-tab>
     <mat-tab label="Неактивні">
       <ng-container
-        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.rejected, applicationStatus.left] }">
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.Rejected, applicationStatus.Left] }">
       </ng-container>
     </mat-tab>
   </mat-tab-group>
@@ -42,7 +45,7 @@
 
 <ng-template #ParentApplications let-applications>
   <ng-container *ngIf="applications?.length else isEmptyList;">
-    <div *ngFor="let child of children$ | async">
+    <div *ngFor="let child of (childrenCards$ | async)?.entities">
       <div *ngIf="isApplications(applications, child)">
         <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
           :'shortDate'}})</h3>

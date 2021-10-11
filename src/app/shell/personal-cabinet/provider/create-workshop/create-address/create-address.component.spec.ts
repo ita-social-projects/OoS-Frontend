@@ -52,6 +52,7 @@ describe('CreateAddressComponent', () => {
 })
 class MockMapComponent {
   @Input() addressFormGroup: FormGroup;
+  @Input() isCreateWorkShops: boolean;
   @Input() workshops: Workshop[];
 }
 

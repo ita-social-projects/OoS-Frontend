@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Constants } from 'src/app/shared/constants/constants';
+import { Ordering } from 'src/app/shared/enum/ordering';
 import { Direction } from 'src/app/shared/models/category.model';
 
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
@@ -12,11 +13,11 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
 
   dataUrlMock = '/assets/mock-org-cards.json';
-  size: number = Constants.WORKSHOPS_PER_PAGE;
+  size: number = Constants.ITEMS_PER_PAGE;
 
   constructor(private http: HttpClient) { }
 
-  private setParams(filters: FilterStateModel): HttpParams {
+  private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
     if (filters.city) {
@@ -60,7 +61,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.currentPage) {
-      const size: number = Constants.WORKSHOPS_PER_PAGE;
+      const size: number = Constants.ITEMS_PER_PAGE;
       const from: number = size * (+filters.currentPage.element - 1);
 
       params = params.set('Size', size.toString());
@@ -73,8 +74,8 @@ export class AppWorkshopsService {
   /**
   * This method get workshops with applied filter options
   */
-  getFilteredWorkshops(filters: FilterStateModel): Observable<WorkshopFilterCard> {
-    const options = { params: this.setParams(filters) };
+  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
+    const options = { params: this.setParams(filters, isMapView) };
     return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', options);
   }
 

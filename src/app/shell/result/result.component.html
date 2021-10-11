@@ -15,12 +15,16 @@
     <app-filters-list></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
-    <div *ngIf="currentView === viewType.map; else ShowData">
+    <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
       <app-workshop-map-view-list [filteredWorkshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
-    </div>
 
+    </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [workshops]="filteredWorkshops$ | async"></app-workshop-cards-list>
+      <ng-container >
+        <div fxLayout='row wrap' fxLayoutAlign='start'>
+          <app-workshop-cards-list class="cards"  [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
+        </div>
+      </ng-container>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -43,7 +47,7 @@
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering></app-ordering>
     <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
-      (change)="currentView = group.value">
+      (change)="viewHandler(group.value)">
       <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>

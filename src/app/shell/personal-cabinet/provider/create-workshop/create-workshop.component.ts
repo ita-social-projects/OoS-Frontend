@@ -38,7 +38,6 @@ export class CreateWorkshopComponent implements OnInit {
   workshop: Workshop;
   isLinear: boolean = false;
 
-
   constructor(
     private store: Store,
     private route: ActivatedRoute,
@@ -127,10 +126,10 @@ export class CreateWorkshopComponent implements OnInit {
 
     form.valueChanges
       .pipe(
-        takeWhile(() => this.isPristine))
+        takeWhile(() => this.isPristine && form.pristine))
       .subscribe(() => {
         this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
+        this.store.dispatch(new MarkFormDirty(true));
       });
   }
 }
