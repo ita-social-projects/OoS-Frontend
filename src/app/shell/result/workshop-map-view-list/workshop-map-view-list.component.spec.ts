@@ -9,8 +9,8 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-
 import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
+import { of } from 'rxjs';
 
 describe('WorkshopMapViewListComponent', () => {
   let component: WorkshopMapViewListComponent;
@@ -38,6 +38,7 @@ describe('WorkshopMapViewListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopMapViewListComponent);
     component = fixture.componentInstance;
+    component.filteredWorkshops$ = of(null);
     fixture.detectChanges();
   });
 
