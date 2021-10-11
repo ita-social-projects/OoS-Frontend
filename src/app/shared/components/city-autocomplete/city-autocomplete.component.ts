@@ -38,7 +38,7 @@ export class CityAutocompleteComponent implements OnInit {
   constructor(public store: Store, private actions$: Actions) { }
 
   displayCityName(city: City): string {
-    return city?.name;
+    return typeof city === 'string'? city: city?.name;
   }
 
   ngOnInit(): void {
