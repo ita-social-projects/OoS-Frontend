@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
@@ -17,9 +17,20 @@ export class CreateDescriptionFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
+  isDirectionIdMarked: boolean = false;
+
   @Input() workshop: Workshop;
+
+  @Input() directionIdControlVal: Observable<void>;
+  @Input() departmentIdControlVal: Observable<void>;
+  @Input() classIdControlVal: Observable<void>;
+  directionIdSubscription: Subscription;
+  departmentIdSubscription: Subscription;
+  classIdSubscription: Subscription;
+
   @Output() passDescriptionFormGroup = new EventEmitter();
 
+  CategoriesFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
 
   keyWordsCtrl: FormControl = new FormControl('', Validators.required);
@@ -37,9 +48,9 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl('', Validators.required),
-      directionId: new FormControl(''),
-      departmentId: new FormControl(''),
-      classId: new FormControl(''),
+      directionId: new FormControl('', Validators.required),
+      departmentId: new FormControl('', Validators.required),
+      classId: new FormControl('', Validators.required),
     });
   }
 
@@ -47,6 +58,15 @@ export class CreateDescriptionFormComponent implements OnInit {
     this.onDisabilityOptionCtrlInit();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.activateEditMode();
+    this.directionIdSubscription = this.directionIdControlVal.subscribe(() => {
+      this.CategoriesFormGroup && this.CategoriesFormGroup.get('directionId').markAsTouched();
+    });
+    this.departmentIdSubscription = this.departmentIdControlVal.subscribe(() => {
+      this.CategoriesFormGroup && this.CategoriesFormGroup.get('departmentId').markAsTouched();
+    });
+    this.classIdSubscription = this.classIdControlVal.subscribe(() => {
+      this.CategoriesFormGroup && this.CategoriesFormGroup.get('classId').markAsTouched();
+    });
   }
 
   /**
@@ -86,9 +106,13 @@ export class CreateDescriptionFormComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.directionIdSubscription.unsubscribe();
+    this.departmentIdSubscription.unsubscribe();
+    this.classIdSubscription.unsubscribe();
   }
 
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
+    this.CategoriesFormGroup = categoriesForm;
     categoriesForm.get('directionId').valueChanges.subscribe((id: number) =>
       this.DescriptionFormGroup.get('directionId').setValue(id)
     )

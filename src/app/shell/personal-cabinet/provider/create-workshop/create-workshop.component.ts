@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -25,6 +25,10 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
 })
 export class CreateWorkshopComponent implements OnInit {
 
+  @Output() passDirectionIdControlVal = new EventEmitter();
+  @Output() passDepartmentIdControlVal = new EventEmitter();
+  @Output() passClassIdControlVal = new EventEmitter();
+
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<Boolean>;
   isPristine = true;
@@ -36,7 +40,7 @@ export class CreateWorkshopComponent implements OnInit {
 
   editMode: boolean = false;
   workshop: Workshop;
-  isLinear: boolean = false;
+  isLinear: boolean = true;
 
   constructor(
     private store: Store,
@@ -55,21 +59,27 @@ export class CreateWorkshopComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    const address: Address = new Address(this.AddressFormGroup.value);
-    const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
-    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
-    const aboutInfo = this.AboutFormGroup.getRawValue();
-    const descInfo = this.DescriptionFormGroup.getRawValue();
-
-    let workshop: Workshop;
-
-    if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
-      this.store.dispatch(new UpdateWorkshop(workshop));
+    if(this.TeacherFormArray.invalid) {
+      Object.keys(this.TeacherFormArray.controls).forEach(key => {
+        this.checkValidation(<FormGroup>this.TeacherFormArray.get(key));
+      });
     } else {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
-      this.store.dispatch(new CreateWorkshop(workshop));
+      const address: Address = new Address(this.AddressFormGroup.value);
+      const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
+      const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+  
+      const aboutInfo = this.AboutFormGroup.getRawValue();
+      const descInfo = this.DescriptionFormGroup.getRawValue();
+  
+      let workshop: Workshop;
+  
+      if (this.editMode) {
+        workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
+        this.store.dispatch(new UpdateWorkshop(workshop));
+      } else {
+        workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
+        this.store.dispatch(new CreateWorkshop(workshop));
+      }
     }
   }
 
@@ -131,5 +141,34 @@ export class CreateWorkshopComponent implements OnInit {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
       });
+  }
+
+  /**
+   * This method receives a form and marks each control of this form as touched
+   * @param FormGroup form
+   */
+  checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
+  }
+
+  /**
+   * This method receives a description form and emits events to mark each control of this form as touched
+   * @param FormGroup form
+   */
+  checkValDescription(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
+    if(!form.get("directionId").value){
+      this.passDirectionIdControlVal.emit();
+    }
+    if(form.get("directionId").value && !form.get("departmentId").value){
+      this.passDepartmentIdControlVal.emit();
+    }
+    if(form.get("directionId").value && form.get("departmentId").value && !form.get("classId").value){
+      this.passClassIdControlVal.emit();
+    }
   }
 }

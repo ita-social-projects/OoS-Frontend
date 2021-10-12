@@ -16,7 +16,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AboutFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -24,14 +24,16 @@
         <ng-template matStepLabel>
           <p class="step-name">Опис</p>
         </ng-template>
-        <app-create-description-form fxLayout="row" fxLayoutAlign="center center"
+        <app-create-description-form [directionIdControlVal]="passDirectionIdControlVal.asObservable()"
+          [departmentIdControlVal]="passDepartmentIdControlVal.asObservable()"
+          [classIdControlVal]="passClassIdControlVal.asObservable()" fxLayout="row" fxLayoutAlign="center center"
           (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop">
         </app-create-description-form>
         <div fxLayout='row' fxLayoutAlign='center center' class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValDescription(DescriptionFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -45,7 +47,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AddressFormGroup)">Далі</button>
         </div>
       </mat-step>
 
