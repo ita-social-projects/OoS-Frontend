@@ -85,19 +85,7 @@
     </div>
 
   </div>
-  <label class="step-label">Кількість занять<span class="step-required">*</span></label>
-  <mat-form-field>
-    <div fxLayout='row' fxLayoutAlign='start center'>
 
-      <input matInput class="step-input step-input-age" type="number" formControlName="daysPerWeek" appDigitOnly
-        maxlength="2" [directiveFormControl]="AboutFormGroup.get('daysPerWeek')" appMinMax
-        [min]="constants.CLASS_AMOUNT_MIN" [max]="constants.CLASS_AMOUNT_MAX">
-      <p class="step-text">в тиждень</p>
-    </div>
-  </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="AboutFormGroup.get('daysPerWeek').invalid && AboutFormGroup.get('daysPerWeek').touched">
-  </app-validation-hint-for-input>
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
   <ng-container>

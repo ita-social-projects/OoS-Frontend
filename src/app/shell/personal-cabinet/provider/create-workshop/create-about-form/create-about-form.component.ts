@@ -46,7 +46,6 @@ export class CreateAboutFormComponent implements OnInit {
       website: new FormControl(''),
       facebook: new FormControl(''),
       instagram: new FormControl(''),
-      daysPerWeek: new FormControl('', [Validators.required]),
       price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       isPerMonth: new FormControl(false),
