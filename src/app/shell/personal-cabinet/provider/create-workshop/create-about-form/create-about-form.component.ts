@@ -85,10 +85,6 @@ export class CreateAboutFormComponent implements OnInit {
       ).subscribe((price: number) => this.AboutFormGroup.get('price').setValue(price)
       );
   }
-
-  check(form): void {
-    console.log(form)
-  }
   /**
   * This method create new FormGroup add new FormGroup to the FormArray
   */
