@@ -23,9 +23,6 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   @Select(FilterState.city)
   city$ :Observable<City>;
 
-  // @Select(FilterState.filteredWorkshops)
-  // filteredWorkshops$: Observable<WorkshopFilterCard>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   public defaultCoords: Coords;
