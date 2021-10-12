@@ -27,7 +27,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   provider: Provider;
   AboutFormGroup: FormGroup;
-  workingHoursFormArray: FormArray = new FormArray([]);
+  workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   priceRadioBtn: FormControl = new FormControl(false);
@@ -86,20 +86,21 @@ export class CreateAboutFormComponent implements OnInit {
       );
   }
 
-
-
+  check(form): void {
+    console.log(form)
+  }
   /**
   * This method create new FormGroup add new FormGroup to the FormArray
   */
-  addWorkingHours() {
-    this.workingHoursFormArray.push(this.newWorkingHoursForm());
+  addWorkingHours(range?: DateTimeRanges) {
+    this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
   }
 
   /**
   * This method delete FormGroup from the FormArray by index
   * @param index
   */
-  onDeleteForm(index: number): void {
+  deleteWorkingHour(index: number): void {
     this.workingHoursFormArray.removeAt(index)
   }
 
@@ -131,7 +132,7 @@ export class CreateAboutFormComponent implements OnInit {
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
-    // this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkHour(range))
+    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
   }
 
   /**
@@ -140,10 +141,12 @@ export class CreateAboutFormComponent implements OnInit {
   */
   private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
     const workingHoursFormGroup = this.formBuilder.group({
-      workingDays: new FormControl('', Validators.required),
+      workdays: new FormControl('', Validators.required),
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
+      id: new FormControl(''),
     });
+    range && workingHoursFormGroup.setValue(range);
 
     return workingHoursFormGroup;
   }

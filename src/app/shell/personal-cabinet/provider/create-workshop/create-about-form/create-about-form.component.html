@@ -101,10 +101,15 @@
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
   <ng-container>
-    <app-working-hours-form-control *ngFor="let form of workingHoursFormArray.controls" [workingHoursForm]="form"
-      [workingHoursAmount]="workingHoursFormArray.controls.length"
-      [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkHour)="deleteWorkHour(form)">
-    </app-working-hours-form-control>
+    <div *ngFor="let form of workingHoursFormArray.controls">
+      <app-working-hours-form [workingHoursForm]="form" [workingHoursAmount]="workingHoursFormArray.controls.length"
+        [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkingHour)="deleteWorkingHour(form)">
+      </app-working-hours-form>
+      <app-validation-hint-for-input type="requiredField" [invalid]="form.invalid && form.touched">
+      </app-validation-hint-for-input>
+    </div>
+
+
   </ng-container>
 
   <div fxLayout='row' fxLayoutAlign='start center'>

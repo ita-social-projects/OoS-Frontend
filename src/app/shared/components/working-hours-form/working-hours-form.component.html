@@ -6,14 +6,14 @@
       {{day.value}}</div>
   </div>
 
-  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='center center'>
+  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='center center' class="step">
     <p class="text">Від</p>
-    <input class="input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24" required
-      formControlName="startTime" [max]="getMaxTime()">
+    <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
+      [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime" [max]="getMaxTime()">
 
     <p class="text">До</p>
-    <input class="input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24" required
-      formControlName="endTime" [min]="getMinTime()">
+    <input class="input  step-input" type="text" [disabled]="!workingDays.length" matInput
+      [ngxMatTimepicker]="timepickerEnd" format="24" required formControlName="endTime" [min]="getMinTime()">
   </form>
 
   <div fxLayout='row' fxLayoutAlign='center center' *ngIf="workingHoursAmount > 1">

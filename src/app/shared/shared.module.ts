@@ -24,7 +24,6 @@ import { PersonCardComponent } from './components/person-card/person-card.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
-import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from './components/map/map.component';
@@ -51,6 +50,7 @@ import { StatusInfoCardComponent } from './components/status-info-card/status-in
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +73,6 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
     PriceFilterComponent,
     CategoryCheckBoxComponent,
     PersonCardComponent,
-    WorkingHoursFormControlComponent,
     ChildCardComponent,
     ApplicationChildFilterPipe,
     MapComponent,
@@ -95,6 +94,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
     ScrollToTopComponent,
     StatusInfoCardComponent,
     NoResultCardComponent,
+    WorkingHoursFormComponent,
   ],
   imports: [
     MaterialModule,
@@ -129,7 +129,6 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
     FormsModule,
     CategoryCheckBoxComponent,
     PersonCardComponent,
-    WorkingHoursFormControlComponent,
     ChildCardComponent,
     MapComponent,
     ApplicationChildFilterPipe,
@@ -152,7 +151,8 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
     SidenavComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
-    NoResultCardComponent
+    NoResultCardComponent,
+    WorkingHoursFormComponent
   ]
 })
 export class SharedModule { }
