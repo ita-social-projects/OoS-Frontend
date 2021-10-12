@@ -126,11 +126,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
       this.addressFormGroup.valueChanges.pipe(
         debounceTime(500)
       ).subscribe((address: Address) => {
-        this.geolocationService.locationGeocode(address, (result) => {
-          address.longitude = result ? result[1] : 0;
-          address.latitude = result ? result[0] : 0;
-          this.setAddressLocation(address);
-        });
+        this.setAddressLocation(address);
       });
     }
 
