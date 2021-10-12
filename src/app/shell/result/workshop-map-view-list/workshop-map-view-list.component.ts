@@ -1,7 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild,OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
@@ -23,11 +24,11 @@ import { Util } from 'src/app/shared/utils/utils';
     ])
   ]
 })
-export class WorkshopMapViewListComponent implements OnInit {
+export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store) { }
-
-  @Input() public filteredWorkshops: WorkshopFilterCard;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
   workshops: WorkshopCard[];
   public selectedWorkshops: WorkshopCard[] = [];
   public isSelectedMarker = false;
@@ -43,8 +44,12 @@ export class WorkshopMapViewListComponent implements OnInit {
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   ngOnInit() {
-    this.workshops = this.filteredWorkshops?.entities;
-  
+    this.filteredWorkshops$
+      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
+      .subscribe(filteredWorkshops => {
+        this.workshops = filteredWorkshops.entities
+      });
+
   }
 
   onSelectedAddress(address: Address): void {
@@ -70,6 +75,11 @@ export class WorkshopMapViewListComponent implements OnInit {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new PageChange(page));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }

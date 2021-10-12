@@ -16,7 +16,7 @@
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
-      <app-workshop-map-view-list [filteredWorkshops]="filteredWorkshops$ | async"></app-workshop-map-view-list>
+      <app-workshop-map-view-list [filteredWorkshops$]="filteredWorkshops$"></app-workshop-map-view-list>
 
     </div>
     <ng-template #ShowData>
