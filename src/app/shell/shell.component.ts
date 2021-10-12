@@ -28,13 +28,13 @@ export class ShellComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords)=> {
       coords && this.geolocationService.locationDecode(coords, (result) => {
-        this.store.dispatch([new ConfirmCity(false), new SetCity({
+        this.geolocationService.confirmCity({
           district: " ",
           longitude: coords.lng,
           latitude: coords.lat,
           name: result.address.city || result.address.town || result.address.village || result.address.hamlet,
           region: " "
-        })]);
+        }, false)
       });
     });
 
