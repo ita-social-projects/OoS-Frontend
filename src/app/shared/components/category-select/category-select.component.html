@@ -25,11 +25,10 @@
         {{ department.title }}
       </mat-option>
     </mat-autocomplete>
+    <app-validation-hint-for-input type="requiredField"
+      [invalid]="CategoryFormGroup.get('departmentId').invalid && CategoryFormGroup.get('departmentId').touched">
+    </app-validation-hint-for-input>
   </ng-container>
-
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="CategoryFormGroup.get('departmentId').invalid && CategoryFormGroup.get('departmentId').touched">
-  </app-validation-hint-for-input>
 
   <ng-container *ngIf="(classes$ | async)?.length">
     <label class="step-label"> Клас <span class="step-required">*</span></label>
@@ -42,10 +41,9 @@
         {{ classItem.title }}
       </mat-option>
     </mat-autocomplete>
+    <app-validation-hint-for-input type="requiredField"
+      [invalid]="CategoryFormGroup.get('classId').invalid && CategoryFormGroup.get('classId').touched">
+    </app-validation-hint-for-input>
   </ng-container>
-
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="CategoryFormGroup.get('classId').invalid && CategoryFormGroup.get('classId').touched">
-  </app-validation-hint-for-input>
 
 </form>

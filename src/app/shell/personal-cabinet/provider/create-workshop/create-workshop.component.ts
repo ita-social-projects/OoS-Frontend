@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -24,10 +24,6 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
   }]
 })
 export class CreateWorkshopComponent implements OnInit {
-
-  @Output() passDirectionIdControlVal = new EventEmitter();
-  @Output() passDepartmentIdControlVal = new EventEmitter();
-  @Output() passClassIdControlVal = new EventEmitter();
 
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<Boolean>;
@@ -59,7 +55,7 @@ export class CreateWorkshopComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    if(this.TeacherFormArray.invalid) {
+    if (this.TeacherFormArray.invalid) {
       Object.keys(this.TeacherFormArray.controls).forEach(key => {
         this.checkValidation(<FormGroup>this.TeacherFormArray.get(key));
       });
@@ -151,24 +147,10 @@ export class CreateWorkshopComponent implements OnInit {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
-  }
-
-  /**
-   * This method receives a description form and emits events to mark each control of this form as touched
-   * @param FormGroup form
-   */
-  checkValDescription(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).markAsTouched();
-    });
-    if(!form.get("directionId").value){
-      this.passDirectionIdControlVal.emit();
-    }
-    if(form.get("directionId").value && !form.get("departmentId").value){
-      this.passDepartmentIdControlVal.emit();
-    }
-    if(form.get("directionId").value && form.get("departmentId").value && !form.get("classId").value){
-      this.passClassIdControlVal.emit();
+    if (form.get('categories')) {
+      Object.keys(this.DescriptionFormGroup.get('categories').value.controls).forEach(key => {
+        this.DescriptionFormGroup.get('categories').value.get(key).markAsTouched();
+      });
     }
   }
 }

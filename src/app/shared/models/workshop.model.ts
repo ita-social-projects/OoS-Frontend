@@ -58,9 +58,9 @@ export class Workshop {
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
-    this.directionId = description.directionId;
-    this.departmentId = description.departmentId;
-    this.classId = description.classId;
+    this.directionId = description.categories.value.directionId;
+    this.departmentId = description.categories.value.departmentId;
+    this.classId = description.categories.value.classId;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
   }

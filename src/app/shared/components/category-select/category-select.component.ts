@@ -44,9 +44,9 @@ export class CategorySelectComponent implements OnInit {
   @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 
   CategoryFormGroup: FormGroup;
-  directionsFormControl = new FormControl('');
-  departmentsFormControl = new FormControl('');
-  classesFormControl = new FormControl('');
+  directionsFormControl = new FormControl('', Validators.required);
+  departmentsFormControl = new FormControl('', Validators.required);
+  classesFormControl = new FormControl('', Validators.required);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -136,8 +136,8 @@ export class CategorySelectComponent implements OnInit {
   * @param direction Direction
   */
   onSelectDirection(direction: Direction): void {
-    this.clearDepartments();
-    this.clearClasses();
+    this.clearDepartments(true);
+    this.clearClasses(true);
 
     this.CategoryFormGroup.get('directionId').setValue(direction.id);
     this.store.dispatch(new GetDepartments(direction.id));
@@ -155,7 +155,7 @@ export class CategorySelectComponent implements OnInit {
   * @param department: Department
   */
   onSelectDepartment(department: Department): void {
-    this.clearClasses();
+    this.clearClasses(true);
 
     this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
@@ -203,9 +203,9 @@ export class CategorySelectComponent implements OnInit {
           this.store.dispatch(new FilteredDirectionsList(this.filterDirections(input)));
         } else {
           this.getFullDirectionList();
-          this.clearDepartments();
-          this.clearClasses();
-
+          this.clearDirections();
+          this.clearDepartments(true);
+          this.clearClasses(true);
         }
       });
 
@@ -231,7 +231,8 @@ export class CategorySelectComponent implements OnInit {
           this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(input)));
         } else {
           this.getFullDepartmentList();
-          this.clearClasses();
+          this.clearDepartments();
+          this.clearClasses(true);
         };
       });
     this.setInitialClasses();
@@ -257,6 +258,7 @@ export class CategorySelectComponent implements OnInit {
           this.store.dispatch(new FilteredClassesList(this.filterClasses(input)));
         } else {
           this.getFullClassList();
+          this.clearClasses();
         };
       });
 
@@ -270,10 +272,18 @@ export class CategorySelectComponent implements OnInit {
   }
 
   /**
+  * This method resets selected value of direction in teh form and input.
+  */
+   private clearDirections(): void {
+    this.CategoryFormGroup.get('directionId').reset();
+    this.directionsFormControl.reset();
+  }
+
+  /**
   * This method clears list of departments and reset selected value in teh form and input.
   */
-  private clearDepartments(): void {
-    this.store.dispatch(new ClearDepartments());
+  private clearDepartments(clearState: boolean = false): void {
+    clearState && this.store.dispatch(new ClearDepartments());
     this.CategoryFormGroup.get('departmentId').reset();
     this.departmentsFormControl.reset();
   }
@@ -281,8 +291,8 @@ export class CategorySelectComponent implements OnInit {
   /**
   * This method clears list of classes and reset selected value in teh form and input.
   */
-  private clearClasses(): void {
-    this.store.dispatch(new ClearClasses());
+  private clearClasses(clearState: boolean = false): void {
+    clearState && this.store.dispatch(new ClearClasses());
     this.CategoryFormGroup.get('classId').reset();
     this.classesFormControl.reset();
   }
