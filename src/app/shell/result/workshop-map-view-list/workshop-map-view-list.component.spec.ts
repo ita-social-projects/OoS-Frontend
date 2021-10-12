@@ -8,9 +8,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Parent } from 'src/app/shared/models/parent.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 describe('WorkshopMapViewListComponent', () => {
   let component: WorkshopMapViewListComponent;
@@ -65,6 +65,7 @@ class MockMapListWorkshopCardComponent {
 class MockResultMapComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
+  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 }
 @Component({
   selector: 'app-paginator',
