@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [13.x]
     steps:
       - name: Pull the source code to GitHub workspace
         uses: actions/checkout@v2
