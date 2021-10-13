@@ -1,6 +1,6 @@
 import { Child } from "./child.model";
 import { Parent } from "./parent.model";
-import { Workshop } from "./workshop.model";
+import { Workshop, WorkshopCard } from "./workshop.model";
 
 export class Application {
   id: number;
@@ -9,7 +9,7 @@ export class Application {
   workshopId: number;
   childId: number;
   parentId: number;
-  workshop: Workshop;
+  workshop: WorkshopCard;
   child: Child;
   parent: Parent;
 
