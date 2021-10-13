@@ -35,6 +35,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserData();
   }
 
   init(): void {
