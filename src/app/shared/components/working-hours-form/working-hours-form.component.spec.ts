@@ -5,8 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMatDatetimePickerModule } from 'ngx-mat-datetime-picker';
-
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
 
 describe('WorkingHoursFormComponent', () => {
@@ -20,10 +19,10 @@ describe('WorkingHoursFormComponent', () => {
         BrowserAnimationsModule,
         MatDatepickerModule,
         MatInputModule,
+        NgxMatTimepickerModule,
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
-        NgxMatDatetimePickerModule.forRoot()
       ],
       declarations: [WorkingHoursFormComponent]
     })
