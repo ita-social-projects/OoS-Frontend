@@ -1,13 +1,17 @@
+import { Application } from 'src/app/shared/models/application.model';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { CabinetPageChange, DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 
 @Component({
@@ -16,6 +20,8 @@ import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component'
   styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends CabinetDataComponent implements OnInit {
+  
+  
 
   currentPage: PaginationElement = {
     element: 1,
@@ -29,18 +35,21 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserData();
   }
 
   init(): void {
     this.getUsersChildren();
-
+    this.getParentApplications();
     this.actions$.pipe(ofAction(CabinetPageChange))
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new GetUsersChildren()));
+  }
+
+  childApplications(applications: Application[], child: Child): Array<Application> {
+    return applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
   }
 
   onDelete(child: Child): void {
