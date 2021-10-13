@@ -9,7 +9,7 @@
   <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='center center' class="step">
     <p class="text">Від</p>
     <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
-      [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime" [max]="getMaxTime()">
+      [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime">
 
     <p class="text">До</p>
     <input class="input  step-input" type="text" [disabled]="!workingDays.length" matInput

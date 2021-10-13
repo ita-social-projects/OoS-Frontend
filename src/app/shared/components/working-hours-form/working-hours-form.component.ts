@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { time } from 'console';
 import { Constants } from '../../constants/constants';
 import { WorkingDays, WorkingDaysReverse } from '../../enum/enumUA/working-hours';
-import { WorkingHours } from '../../models/workingHours.model';
+import { DateTimeRanges, WorkingHours } from '../../models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -55,6 +56,12 @@ export class WorkingHoursFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.workingHoursForm.value?.workdays.length && this.activateEditMode();
+
+    this.workingHoursForm.valueChanges.subscribe((timeRange: DateTimeRanges) => {
+      if (timeRange.startTime > timeRange.endTime && timeRange.endTime) {
+        this.workingHoursForm.get('endTime').reset();
+      }
+    })
   }
 
   /**
@@ -72,10 +79,7 @@ export class WorkingHoursFormComponent implements OnInit {
   }
 
   getMinTime(): string {
-    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : '00:01';
-  }
-  getMaxTime(): string {
-    return this.workingHoursForm.get('endTime').value ? this.workingHoursForm.get('endTime').value : '23:59';
+    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : '23:59';
   }
 
   delete(): void {
