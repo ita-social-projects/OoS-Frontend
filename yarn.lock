@@ -6816,8 +6816,8 @@ next-tick@~1.0.0:
 
 ngx-mat-timepicker@^12.1.0:
   version "12.1.0"
-  resolved "https://artifactory.davita.com/artifactory/api/npm/npm-davita/ngx-mat-timepicker/-/ngx-mat-timepicker-12.1.0.tgz#62fb58a5eac9c393c08286c7db110bea4ae98364"
-  integrity sha1-YvtYperJw5PAgobH2xEL6krpg2Q=
+  resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-12.1.0.tgz#62fb58a5eac9c393c08286c7db110bea4ae98364"
+  integrity sha512-qPOKjYbXb4LoOKc9/5ZL2bHsjGGzyz9/4PBIm9cQH1S1k/9cszH8as0zFjgXWBphSCNfsZkSQQvYqwJHK+M/Yw==
   dependencies:
     smp-core-utils "^12.0.0"
     ts-luxon "^2.2.0"
@@ -8869,8 +8869,8 @@ smart-buffer@^4.1.0:
 
 smp-core-utils@^12.0.0:
   version "12.0.0"
-  resolved "https://artifactory.davita.com/artifactory/api/npm/npm-davita/smp-core-utils/-/smp-core-utils-12.0.0.tgz#3a2bfd1838985f528c54be7b8059723e62c18b31"
-  integrity sha1-Oiv9GDiYX1KMVL57gFlyPmLBizE=
+  resolved "https://registry.yarnpkg.com/smp-core-utils/-/smp-core-utils-12.0.0.tgz#3a2bfd1838985f528c54be7b8059723e62c18b31"
+  integrity sha512-MAg2CkP3arJL1UmWEivbICYX3PtsBWHGAPMRAxgdUwdVaQOlkvb62HEd8qB9RDI80fIPqjelh6wIO3JmQBoXuQ==
   dependencies:
     tslib "~2.3.0"
 
@@ -9645,8 +9645,8 @@ ts-jest@26.x:
 
 ts-luxon@^2.2.0:
   version "2.2.0"
-  resolved "https://artifactory.davita.com/artifactory/api/npm/npm-davita/ts-luxon/-/ts-luxon-2.2.0.tgz#2903bd60fa7711383a6fb244c94306d3d04cc64c"
-  integrity sha1-KQO9YPp3ETg6b7JEyUMG09BMxkw=
+  resolved "https://registry.yarnpkg.com/ts-luxon/-/ts-luxon-2.2.0.tgz#2903bd60fa7711383a6fb244c94306d3d04cc64c"
+  integrity sha512-r+a1xiuy9VQAcwpiDwY2yP6aMlEPlvywUMt3MbOmoy9Y74z/QYAAuEs+Iy3dxVFzrXi8UT7qf7sQO0OeeUK75g==
 
 ts-node@~8.3.0:
   version "8.3.0"
