@@ -11,7 +11,7 @@
   </mat-autocomplete>
 
   <app-validation-hint-for-input type="requiredField"
-    [invalid]="CategoryFormGroup.get('directionId').invalid && CategoryFormGroup.get('directionId').touched">
+    [invalid]="directionsFormControl.invalid && directionsFormControl.touched">
   </app-validation-hint-for-input>
 
   <ng-container *ngIf="(departments$ | async)?.length">
@@ -26,7 +26,7 @@
       </mat-option>
     </mat-autocomplete>
     <app-validation-hint-for-input type="requiredField"
-      [invalid]="CategoryFormGroup.get('departmentId').invalid && CategoryFormGroup.get('departmentId').touched">
+      [invalid]="departmentsFormControl.invalid && departmentsFormControl.touched">
     </app-validation-hint-for-input>
   </ng-container>
 
@@ -42,7 +42,7 @@
       </mat-option>
     </mat-autocomplete>
     <app-validation-hint-for-input type="requiredField"
-      [invalid]="CategoryFormGroup.get('classId').invalid && CategoryFormGroup.get('classId').touched">
+      [invalid]="classesFormControl.invalid && classesFormControl.touched">
     </app-validation-hint-for-input>
   </ng-container>
 
