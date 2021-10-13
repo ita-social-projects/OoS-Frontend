@@ -93,6 +93,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
     this.CategoriesFormGroup = categoriesForm;
     this.DescriptionFormGroup.get('categories').setValue(this.CategoriesFormGroup);
+    this.workshop && this.CategoriesFormGroup.patchValue(this.workshop, { emitEvent: false });
   }
 
   /**
