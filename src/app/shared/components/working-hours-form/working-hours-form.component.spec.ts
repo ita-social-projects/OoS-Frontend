@@ -1,4 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxMatDatetimePickerModule } from 'ngx-mat-datetime-picker';
 
 import { WorkingHoursFormComponent } from './working-hours-form.component';
 
@@ -8,9 +15,19 @@ describe('WorkingHoursFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkingHoursFormComponent ]
+      imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        NgxMatDatetimePickerModule.forRoot()
+      ],
+      declarations: [WorkingHoursFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
