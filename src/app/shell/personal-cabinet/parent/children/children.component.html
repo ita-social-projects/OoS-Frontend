@@ -10,7 +10,7 @@
     <ng-container>
       <div fxLayout='row wrap' fxLayoutAlign='start start' fxLayoutGap="20px grid">
         <app-child-card class="cards" *ngFor="let child of (childrenCards$ | async)?.entities" [child]="child"
-          (deleteChild)="onDelete($event)" [workshops]="workshops$ | async" [applications]="childApplications(applications$ |async, child)">
+          (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
         </app-child-card>
       </div>
       <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage"
