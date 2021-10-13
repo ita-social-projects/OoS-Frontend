@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -32,6 +32,7 @@ describe('WorkingHoursFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkingHoursFormComponent);
     component = fixture.componentInstance;
+    component.workingHoursForm = new FormGroup({})
     fixture.detectChanges();
   });
 
