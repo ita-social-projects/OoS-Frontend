@@ -148,9 +148,9 @@ export class CreateWorkshopComponent implements OnInit {
       form.get(key).markAsTouched();
     });
     if (form.get('categories')) {
-      this.DescriptionFormGroup.get('categories').get('directionId').markAsTouched();
-      this.DescriptionFormGroup.get('categories').get('departmentId').markAsTouched();
-      this.DescriptionFormGroup.get('categories').get('classId').markAsTouched();
+      Object.keys((<FormGroup>this.DescriptionFormGroup.get('categories')).controls).forEach(key => {
+        this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
+      });
     }
   }
 }
