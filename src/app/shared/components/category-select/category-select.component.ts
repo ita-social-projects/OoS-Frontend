@@ -41,22 +41,19 @@ export class CategorySelectComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workshop: Workshop;
-  @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 
   CategoryFormGroup: FormGroup;
-  directionsFormControl = new FormControl('', Validators.required);
-  departmentsFormControl = new FormControl('', Validators.required);
-  classesFormControl = new FormControl('', Validators.required);
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private store: Store) {
-    this.CategoryFormGroup = this.formBuilder.group({
-      directionId: new FormControl('', Validators.required),
-      departmentId: new FormControl('', Validators.required),
-      classId: new FormControl('', Validators.required),
-    });
+  @Input() set CategorySelectGroup(form: FormGroup) {
+    this.CategoryFormGroup = form;
   }
+
+  constructor(private store: Store) { }
+
+  get directionIdControl() { return this.CategoryFormGroup && this.CategoryFormGroup.get('directionId'); }
+
+  get departmentIdControl() { return this.CategoryFormGroup && this.CategoryFormGroup.get('departmentId'); }
+
+  get classIdControl() { return this.CategoryFormGroup && this.CategoryFormGroup.get('classId'); }
 
   ngOnInit(): void {
     this.setInitialDirestions();
@@ -139,7 +136,6 @@ export class CategorySelectComponent implements OnInit {
     this.clearDepartments(true);
     this.clearClasses(true);
 
-    this.CategoryFormGroup.get('directionId').setValue(direction.id);
     this.store.dispatch(new GetDepartments(direction.id));
   }
 
@@ -157,7 +153,6 @@ export class CategorySelectComponent implements OnInit {
   onSelectDepartment(department: Department): void {
     this.clearClasses(true);
 
-    this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
 
@@ -166,15 +161,6 @@ export class CategorySelectComponent implements OnInit {
   */
   getFullDepartmentList(): void {
     this.filteredDepartments = this.departments;
-  }
-
-  /**
-  * This method sets the selected class to the form.
-  * @param classItem: IClass
-  */
-  onSelectClasses(classItem: IClass): void {
-    this.CategoryFormGroup.get('classId').reset();
-    this.CategoryFormGroup.get('classId').setValue(classItem.id);
   }
 
   /**
@@ -191,7 +177,7 @@ export class CategorySelectComponent implements OnInit {
     this.filteredDirections$.subscribe((filteredDirections: Direction[]) => this.filteredDirections = filteredDirections);
     this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
 
-    this.directionsFormControl.valueChanges
+    this.directionIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -219,7 +205,7 @@ export class CategorySelectComponent implements OnInit {
     this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);
     this.departments$.subscribe((departments: Department[]) => this.departments = departments);
 
-    this.departmentsFormControl.valueChanges
+    this.departmentIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -246,7 +232,7 @@ export class CategorySelectComponent implements OnInit {
     this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.filteredClasses = filteredClasses);
     this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
 
-    this.classesFormControl.valueChanges
+    this.classIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -262,8 +248,6 @@ export class CategorySelectComponent implements OnInit {
         };
       });
 
-    this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
-
     this.workshop ? this.activateEditMode() : this.store.dispatch([
       new GetDirections(),
       new ClearDepartments(),
@@ -275,8 +259,7 @@ export class CategorySelectComponent implements OnInit {
   * This method resets selected value of direction in teh form and input.
   */
    private clearDirections(): void {
-    this.CategoryFormGroup.get('directionId').reset();
-    this.directionsFormControl.reset();
+    this.directionIdControl.reset();
   }
 
   /**
@@ -284,8 +267,7 @@ export class CategorySelectComponent implements OnInit {
   */
   private clearDepartments(clearState: boolean = false): void {
     clearState && this.store.dispatch(new ClearDepartments());
-    this.CategoryFormGroup.get('departmentId').reset();
-    this.departmentsFormControl.reset();
+    this.departmentIdControl.reset();
   }
 
   /**
@@ -293,8 +275,7 @@ export class CategorySelectComponent implements OnInit {
   */
   private clearClasses(clearState: boolean = false): void {
     clearState && this.store.dispatch(new ClearClasses());
-    this.CategoryFormGroup.get('classId').reset();
-    this.classesFormControl.reset();
+    this.classIdControl.reset();
   }
 
   /**
@@ -306,21 +287,21 @@ export class CategorySelectComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDirection = this.directions.find((direction: Direction) => this.workshop.directionId === direction.id);
-        this.directionsFormControl.setValue(selectedDirection);
+        this.directionIdControl.setValue(selectedDirection);
       });
 
     this.store.dispatch(new GetDepartments(this.workshop.directionId))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDepartment = this.departments.find((department: Department) => this.workshop.departmentId === department.id);
-        this.departmentsFormControl.setValue(selectedDepartment);
+        this.departmentIdControl.setValue(selectedDepartment);
       });
 
     this.store.dispatch(new GetClasses(this.workshop.departmentId))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedClass = this.classes.find((classItem: IClass) => this.workshop.classId === classItem.id);
-        this.classesFormControl.setValue(selectedClass);
+        this.classIdControl.setValue(selectedClass);
       });
   }
 

@@ -41,7 +41,11 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', Validators.required),
       keyWords: new FormControl('', Validators.required),
-      categories: this.CategoriesFormGroup
+      categories: this.formBuilder.group({
+          directionId: new FormControl('', Validators.required),
+          departmentId: new FormControl('', Validators.required),
+          classId: new FormControl('', Validators.required),
+        })
     });
   }
 
@@ -88,12 +92,6 @@ export class CreateDescriptionFormComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }
-
-  onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
-    this.CategoriesFormGroup = categoriesForm;
-    this.DescriptionFormGroup.get('categories').setValue(this.CategoriesFormGroup);
-    this.workshop && this.CategoriesFormGroup.patchValue(this.workshop, { emitEvent: false });
   }
 
   /**
