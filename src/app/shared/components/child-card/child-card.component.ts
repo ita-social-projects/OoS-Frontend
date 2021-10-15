@@ -1,4 +1,3 @@
-// import { Application } from 'src/app/shared/models/application.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Application } from '../../models/application.model';
 import { Child } from '../../models/child.model';
