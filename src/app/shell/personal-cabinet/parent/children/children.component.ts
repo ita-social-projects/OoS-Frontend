@@ -2,16 +2,12 @@ import { Application } from 'src/app/shared/models/application.model';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { PageChange } from 'src/app/shared/store/filter.actions';
 import { CabinetPageChange, DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 
 @Component({
