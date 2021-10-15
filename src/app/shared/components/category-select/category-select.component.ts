@@ -1,9 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { isObject } from '@ngxs/store/src/internal/internals';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil, takeWhile } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { Department, Direction, IClass } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
 import { GetClasses, GetDirections, GetDepartments, FilteredDirectionsList, FilteredDepartmentsList, FilteredClassesList, ClearClasses, ClearDepartments } from '../../store/meta-data.actions';
@@ -42,10 +41,7 @@ export class CategorySelectComponent implements OnInit {
 
   @Input() workshop: Workshop;
 
-  CategoryFormGroup: FormGroup;
-  @Input() set CategorySelectGroup(form: FormGroup) {
-    this.CategoryFormGroup = form;
-  }
+  @Input() CategoryFormGroup: FormGroup;
 
   constructor(private store: Store) { }
 
