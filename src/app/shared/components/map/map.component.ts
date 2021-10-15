@@ -23,9 +23,6 @@ export class MapComponent implements AfterViewInit, OnDestroy{
   @Select(FilterState.city)
   city$ :Observable<City>;
 
-  @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopFilterCard>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   public defaultCoords: Coords;
@@ -34,6 +31,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
 
   @Input() addressFormGroup: FormGroup;
   @Input() isCreateWorkShops: boolean ;
+  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
@@ -111,9 +109,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
         this.flyTo(this.defaultCoords);
     });
 
-    if (!this.isCreateWorkShops) {
-
-      this.filteredWorkshops$
+    this.filteredWorkshops$ && this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
       .subscribe(filteredWorkshops => {
         this.workshopMarkers.map((m) => this.map.removeLayer(m.marker));
@@ -121,18 +117,18 @@ export class MapComponent implements AfterViewInit, OnDestroy{
         this.workshops = filteredWorkshops.entities;
         filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
       });
-    } else {
-      //cheking if user edit workshop information
-      if (this.addressFormGroup.value.latitude) this.setAddressLocation(this.addressFormGroup.value);
+
+
+    // cheking if user edit workshop information
+    if (this.addressFormGroup) {
+      this.addressFormGroup.value.latitude && this.setAddressLocation(this.addressFormGroup.value);
 
       this.addressFormGroup.valueChanges.pipe(
         debounceTime(500)
       ).subscribe((address: Address) => {
         this.setAddressLocation(address);
       });
-
     }
-
 
   }
 

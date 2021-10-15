@@ -7,7 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 
 describe('ResultComponent', () => {
@@ -79,7 +79,7 @@ class MockWorkshopCardsListComponent {
   template: ''
 })
 class MockWorkshopMapViewListComponent {
-  @Input() filteredWorkshops: Workshop[];
+  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 }
 @Component({
   selector: 'app-scroll-to-top',
