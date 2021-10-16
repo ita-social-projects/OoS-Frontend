@@ -6,6 +6,7 @@ import { WorkingHours } from 'src/app/shared/models/workingHours.model';
 
 import { SetWorkingDays, SetWorkingHours } from 'src/app/shared/store/filter.actions';
 
+
 @Component({
   selector: 'app-working-hours',
   templateUrl: './working-hours.component.html',
@@ -15,7 +16,8 @@ export class WorkingHoursComponent implements OnInit {
 
   selectedWorkingHours: WorkingHours[] = [];
   selectedWorkingDays: WorkingHours[] = [];
-
+  minHour:number = 0;
+  maxHour:number = 24;
   days: WorkingHours[] = [
     {
       value: WorkingDays.monday,
@@ -47,28 +49,10 @@ export class WorkingHoursComponent implements OnInit {
     }
   ];
 
-  hours: WorkingHours[] = [
-    {
-      value: WorkingTime.morning,
-      selected: false,
-    },
-    {
-      value: WorkingTime.midday,
-      selected: false,
-    },
-    {
-      value: WorkingTime.afternoon,
-      selected: false,
-    },
-    {
-      value: WorkingTime.evening,
-      selected: false,
-    }
-  ];
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   /**
   * This method check value, add it to the list of selected working days and distpatch filter action
@@ -88,13 +72,21 @@ export class WorkingHoursComponent implements OnInit {
   * This method check value, add it to the list of selected working hours and distpatch filter action
   * @param time
   */
-  onToggleHours(hour: WorkingHours): void {
-    hour.selected = !hour.selected;
-    if (hour.selected) {
-      this.selectedWorkingHours.push(hour)
-    } else {
-      this.selectedWorkingHours.splice(this.selectedWorkingHours.indexOf(hour), 1);
+
+  onToggleHours(): void {
+    let hoursInStringFormat = '';
+    if (this.maxHour > this.minHour) {
+      if ((this.minHour && this.maxHour)) {
+        hoursInStringFormat = this.minHour + '-' + this.maxHour;
+      } else if (this.minHour) {
+        hoursInStringFormat = this.minHour + '-' + 24;
+      }
+      else if (this.maxHour) {
+        hoursInStringFormat = 0 + '-' + this.maxHour;
+      }
     }
+    this.selectedWorkingHours = new Array();
+    this.selectedWorkingHours.push({ value: hoursInStringFormat, selected: true });
     this.store.dispatch(new SetWorkingHours(this.selectedWorkingHours));
   }
 }
