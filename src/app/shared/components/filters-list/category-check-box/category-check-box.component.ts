@@ -46,7 +46,7 @@ export class CategoryCheckBoxComponent implements OnInit {
           this.filteredDirections = [];
           this.showAll = true;
         }
-      })
+      });
   }
 
   /**
@@ -87,7 +87,7 @@ export class CategoryCheckBoxComponent implements OnInit {
     this.showAll = true;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -46,8 +46,8 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     return applications.some((application: Application) => application.child.id === child.id);
   }
   /**
- * This method delete workshop By Workshop Id
- */
+  * This method delete workshop By Workshop Id
+  */
   onDelete(workshop: WorkshopCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',

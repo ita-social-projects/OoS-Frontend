@@ -54,6 +54,6 @@ export class CreateTeacherComponent implements OnInit {
   * @param index
   */
   onDeleteForm(index: number): void {
-    this.TeacherFormArray.removeAt(index)
+    this.TeacherFormArray.removeAt(index);
   }
 }

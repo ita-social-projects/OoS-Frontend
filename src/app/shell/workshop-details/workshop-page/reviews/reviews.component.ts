@@ -38,13 +38,14 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   parent: Parent;
   approvedApplications: Application[];
-  isRated: boolean = false;
-  hasApprovedApplication: boolean = false;
+  isRated = false;
+  hasApprovedApplication = false;
 
   constructor(
     private store: Store,
     private matDialog: MatDialog,
-    private actions$: Actions,) { }
+    private actions$: Actions,
+  ) { }
 
   ngOnInit(): void {
     this.getParentData();
@@ -68,7 +69,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         filter((applications: Application[]) => applications?.length > 0),
         takeUntil(this.destroy$)
       ).subscribe((applications: Application[]) =>
-        this.approvedApplications = applications.filter((application: Application) => application.status = "Approved"))
+        this.approvedApplications = applications.filter((application: Application) => application.status = ApplicationStatus.Approved));
     });
   }
 
@@ -84,7 +85,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
             this.isRated = (rate.parentId === this.parent.id);
             this.hasApprovedApplication = this.approvedApplications?.some((application: Application) => {
               (+rate.entityId === application.workshopId);
-            })
+            });
           }
         });
       });
@@ -107,10 +108,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           parentId: this.parent.id,
         }));
       }
-    })
+    });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { Constants } from 'src/app/shared/constants/constants';
   templateUrl: './create-description-form.component.html',
   styleUrls: ['./create-description-form.component.scss']
 })
-export class CreateDescriptionFormComponent implements OnInit {
+export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
 
@@ -65,7 +65,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   onKeyWordsInput(isEditMode: boolean = true): void {
-    let inputKeyWord = this.keyWord.trim().toLowerCase();
+    const inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
 
       if (this.keyWords.length < 5) {
@@ -83,7 +83,7 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

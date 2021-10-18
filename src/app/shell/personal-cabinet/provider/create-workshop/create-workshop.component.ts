@@ -26,7 +26,7 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
 export class CreateWorkshopComponent implements OnInit {
 
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<Boolean>;
+  isDirtyForm$: Observable<boolean>;
   isPristine = true;
 
   AboutFormGroup: FormGroup;
@@ -43,7 +43,7 @@ export class CreateWorkshopComponent implements OnInit {
     private route: ActivatedRoute,
     private userWorkshopService: UserWorkshopService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const workshopId = +this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
@@ -54,7 +54,7 @@ export class CreateWorkshopComponent implements OnInit {
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
    */
-  onSubmit() {
+  onSubmit(): void {
     const address: Address = new Address(this.AddressFormGroup.value);
     const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
@@ -116,9 +116,9 @@ export class CreateWorkshopComponent implements OnInit {
   private createTeachers(formArray: FormArray): Teacher[] {
     const teachers: Teacher[] = [];
     formArray.controls.forEach((form: FormGroup) => {
-      let teacher: Teacher = new Teacher(form.value);
+      const teacher: Teacher = new Teacher(form.value);
       teachers.push(teacher);
-    })
+    });
     return teachers;
   }
 

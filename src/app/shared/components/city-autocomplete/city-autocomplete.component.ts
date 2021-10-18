@@ -38,7 +38,7 @@ export class CityAutocompleteComponent implements OnInit {
   constructor(public store: Store, private actions$: Actions) { }
 
   displayCityName(city: City): string {
-    return typeof city === 'string'? city: city?.name;
+    return typeof city === 'string' ? city : city?.name;
   }
 
   ngOnInit(): void {
@@ -68,8 +68,8 @@ export class CityAutocompleteComponent implements OnInit {
    * @param MatAutocompleteSelectedEvent value
    */
   onSelect(event: MatAutocompleteSelectedEvent): void {
-      this.selectedCity.emit(event.option.value);
-      this.store.dispatch(new ClearCities());
+    this.selectedCity.emit(event.option.value);
+    this.store.dispatch(new ClearCities());
   }
 
   ngOnDestroy() {
@@ -80,13 +80,13 @@ export class CityAutocompleteComponent implements OnInit {
   /**
   * This method set initial city to autocomplete
   */
-   setInitialCity(): void {
+  setInitialCity(): void {
     if (this._InitialCity !== "Такого міста немаєї") {
       this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
         .pipe(last())
         .subscribe(() => {
-          this.cities && this.cityFormControl.setValue(this.cities[0])
+          this.cities && this.cityFormControl.setValue(this.cities[0]);
         });
     }
   }

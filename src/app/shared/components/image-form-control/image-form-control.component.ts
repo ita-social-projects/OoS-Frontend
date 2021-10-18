@@ -74,15 +74,13 @@ export class ImageFormControlComponent implements OnInit {
         this.decodedImages.splice(this.decodedImages.indexOf(img), 1);
         this.selectedImages.splice(this.selectedImages.indexOf(img), 1);
         this.onChange(this.selectedImages);
-      }
-    }
+      };
+    };
   }
 
-  onChange = (array: File[]): void => { };
-  onTouched = (): void => { };
-  S
-  writeValue(array: File[]): void {
-  }
+  onChange = (array: File[]): void => { }
+  onTouched = (): void => { }
+  writeValue(array: File[]): void { }
   registerOnChange(onChange: any): void {
     this.onChange = onChange;
   }
@@ -106,6 +104,6 @@ export class ImageFormControlComponent implements OnInit {
       this.gridCols = 3;
     } else {
       this.gridCols = 2;
-    }
+    };
   }
 }

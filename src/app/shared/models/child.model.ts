@@ -24,7 +24,7 @@ export class Child {
     this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
     this.parentId = parentId;
     this.placeOfStudy = info.placeOfStudy;
-  };
+  }
 }
 export interface ChildCards {
   totalAmount: number;

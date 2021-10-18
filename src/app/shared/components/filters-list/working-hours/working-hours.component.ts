@@ -54,14 +54,14 @@ export class WorkingHoursComponent implements OnInit {
   onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
-      this.selectedWorkingDays.push(this.workingDaysReverse[day.value])
+      this.selectedWorkingDays.push(this.workingDaysReverse[day.value]);
     } else {
       this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(this.workingDaysReverse[day.value]), 1);
     }
     this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

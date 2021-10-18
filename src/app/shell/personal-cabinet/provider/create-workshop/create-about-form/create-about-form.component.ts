@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -8,7 +8,6 @@ import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 @Component({
   selector: 'app-create-about-form',
@@ -16,7 +15,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
   styleUrls: ['./create-about-form.component.scss'],
 
 })
-export class CreateAboutFormComponent implements OnInit {
+export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
@@ -70,7 +69,7 @@ export class CreateAboutFormComponent implements OnInit {
         takeUntil(this.destroy$),
       ).subscribe((isPrice: boolean) => {
         if (isPrice) {
-          this.AboutFormGroup.get('price').enable()
+          this.AboutFormGroup.get('price').enable();
         } else {
           this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
           this.AboutFormGroup.get('price').disable();
@@ -87,7 +86,7 @@ export class CreateAboutFormComponent implements OnInit {
   /**
   * This method create new FormGroup add new FormGroup to the FormArray
   */
-  addWorkingHours(range?: DateTimeRanges) {
+  addWorkingHours(range?: DateTimeRanges): void {
     this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
   }
 
@@ -96,7 +95,7 @@ export class CreateAboutFormComponent implements OnInit {
   * @param index
   */
   deleteWorkingHour(index: number): void {
-    this.workingHoursFormArray.removeAt(index)
+    this.workingHoursFormArray.removeAt(index);
   }
 
   /**
@@ -118,7 +117,7 @@ export class CreateAboutFormComponent implements OnInit {
         this.AboutFormGroup.get('facebook').reset();
         this.AboutFormGroup.get('instagram').reset();
       }
-    })
+    });
   }
 
   /**
@@ -166,7 +165,7 @@ export class CreateAboutFormComponent implements OnInit {
   //     );
   // }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

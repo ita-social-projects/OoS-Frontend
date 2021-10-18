@@ -27,7 +27,7 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
 export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<Boolean>;
+  isDirtyForm$: Observable<boolean>;
   isPristine = true;
   isLinear = false;
 
