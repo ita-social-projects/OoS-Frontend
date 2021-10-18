@@ -56,9 +56,7 @@ export class CreateWorkshopComponent implements OnInit {
    */
   onSubmit() {
     if (this.TeacherFormArray.invalid) {
-      Object.keys(this.TeacherFormArray.controls).forEach(key => {
-        this.checkValidation(<FormGroup>this.TeacherFormArray.get(key));
-      });
+      this.checkTeacherFormArrayValidation();
     } else {
       const address: Address = new Address(this.AddressFormGroup.value);
       const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
@@ -152,5 +150,14 @@ export class CreateWorkshopComponent implements OnInit {
         this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
       });
     }
+  }
+
+  /**
+   * This method marks each control of form in the array of teachers' forms as touched 
+   */
+  private checkTeacherFormArrayValidation(): void {
+    Object.keys(this.TeacherFormArray.controls).forEach(key => {
+      this.checkValidation(<FormGroup>this.TeacherFormArray.get(key));
+    });
   }
 }
