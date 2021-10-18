@@ -31,12 +31,12 @@ export class CategoryCardComponent implements OnInit {
    */
   getWord(workshopsAmount): string {
     if ((workshopsAmount % 100 >= 10 && workshopsAmount % 100 <= 20) || (workshopsAmount % 10 === 0 || workshopsAmount % 10 > 4)) {
-      return "гуртків";
+      return 'гуртків';
     } else {
       if (workshopsAmount % 10 === 1) {
-        return "гурток";
+        return 'гурток';
       } else if (workshopsAmount % 10 > 1 && workshopsAmount % 10 < 5) {
-        return "гуртки";
+        return 'гуртки';
       }
     }
   }

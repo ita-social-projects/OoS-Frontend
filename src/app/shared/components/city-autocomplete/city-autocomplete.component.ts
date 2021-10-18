@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -14,7 +14,7 @@ import { FilterState } from '../../store/filter.state';
   templateUrl: './city-autocomplete.component.html',
   styleUrls: ['./city-autocomplete.component.scss']
 })
-export class CityAutocompleteComponent implements OnInit {
+export class CityAutocompleteComponent implements OnInit, OnDestroy {
 
   _InitialCity: string;
 
@@ -72,7 +72,7 @@ export class CityAutocompleteComponent implements OnInit {
     this.store.dispatch(new ClearCities());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
@@ -81,7 +81,7 @@ export class CityAutocompleteComponent implements OnInit {
   * This method set initial city to autocomplete
   */
   setInitialCity(): void {
-    if (this._InitialCity !== "Такого міста немаєї") {
+    if (this._InitialCity !== 'Такого міста немає') {
       this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
         .pipe(last())

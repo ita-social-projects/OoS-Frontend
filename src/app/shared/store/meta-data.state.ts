@@ -31,8 +31,8 @@ export interface MetaDataStateModel {
   topDirections: Direction[];
   departments: Department[];
   classes: IClass[];
-  cities: City[],
-  socialGroups: SocialGroup[],
+  cities: City[];
+  socialGroups: SocialGroup[];
   isCity: boolean;
   filteredDirections: Direction[];
   filteredDepartments: Department[];
@@ -40,7 +40,6 @@ export interface MetaDataStateModel {
   rating: Rate[];
   isLoading: boolean;
 }
-
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
@@ -63,39 +62,39 @@ export interface MetaDataStateModel {
 export class MetaDataState {
 
   @Selector()
-  static directions(state: MetaDataStateModel): Direction[] { return state.directions }
+  static directions(state: MetaDataStateModel): Direction[] { return state.directions };
 
   @Selector()
-  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections }
+  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections };
 
   @Selector()
-  static departments(state: MetaDataStateModel): Department[] { return state.departments }
+  static departments(state: MetaDataStateModel): Department[] { return state.departments };
 
   @Selector()
-  static classes(state: MetaDataStateModel): IClass[] { return state.classes }
+  static classes(state: MetaDataStateModel): IClass[] { return state.classes };
 
   @Selector()
-  static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
+  static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups };
 
   @Selector()
-  static cities(state: MetaDataStateModel): City[] { return state.cities }
+  static cities(state: MetaDataStateModel): City[] { return state.cities };
 
   @Selector()
-  static isCity(state: MetaDataStateModel): boolean { return state.isCity }
+  static isCity(state: MetaDataStateModel): boolean { return state.isCity };
 
   @Selector()
-  static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections }
+  static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections };
 
   @Selector()
-  static filteredDepartments(state: MetaDataStateModel): Department[] { return state.filteredDepartments }
+  static filteredDepartments(state: MetaDataStateModel): Department[] { return state.filteredDepartments };
 
   @Selector()
-  static filteredClasses(state: MetaDataStateModel): IClass[] { return state.filteredClasses }
+  static filteredClasses(state: MetaDataStateModel): IClass[] { return state.filteredClasses };
 
   @Selector()
-  static isLoading(state: MetaDataStateModel): boolean { return state.isLoading }
+  static isLoading(state: MetaDataStateModel): boolean { return state.isLoading };
 
-  static rating(state: MetaDataStateModel): Rate[] { return state.rating }
+  static rating(state: MetaDataStateModel): Rate[] { return state.rating };
 
   constructor(
     private categoriesService: CategoriesService,

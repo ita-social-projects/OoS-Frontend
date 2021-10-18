@@ -16,7 +16,7 @@ export class InfoBoxService {
 
   constructor(private cfr: ComponentFactoryResolver) { }
 
-  onMouseOver({ element, child }: { element: Element, child: Child }) {
+  onMouseOver({ element, child }: { element: Element, child: Child }): void {
     this.isMouseOver.next(true);
     this.child = child;
     this.getPosition(element);

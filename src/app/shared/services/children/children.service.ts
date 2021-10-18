@@ -54,7 +54,7 @@ export class ChildrenService {
   * This method create Child
   * @param Child
   */
-  createChild(child: Child): Observable<Object> {
+  createChild(child: Child): Observable<object> {
     return this.http.post('/Child/Create', child);
   }
 
@@ -62,7 +62,7 @@ export class ChildrenService {
   * This method update Child
   * @param Child
   */
-  updateChild(child: Child): Observable<Object> {
+  updateChild(child: Child): Observable<object> {
     return this.http.put('/Child/Update', child);
   }
 
@@ -79,7 +79,7 @@ export class ChildrenService {
   * This method delete child by Child id
   * @param id
   */
-  deleteChild(id: number): Observable<Object> {
+  deleteChild(id: number): Observable<object> {
     return this.http.delete(`/Child/Delete/${id}`);
   }
 

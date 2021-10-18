@@ -32,7 +32,7 @@ export class UserWorkshopService {
   * This method create workshop
   * @param Workshop
   */
-  createWorkshop(workshop: Workshop): Observable<Object> {
+  createWorkshop(workshop: Workshop): Observable<object> {
     return this.http.post('/Workshop/Create', workshop);
   }
 
@@ -40,7 +40,7 @@ export class UserWorkshopService {
   * This method delete workshop by Workshop id
   * @param id
   */
-  deleteWorkshop(id: number): Observable<Object> {
+  deleteWorkshop(id: number): Observable<object> {
     return this.http.delete(`/Workshop/Delete/${id}`);
   }
 
@@ -48,7 +48,7 @@ export class UserWorkshopService {
   * This method update workshop
   * @param Workshop
   */
-  updateWorkshop(workshop: Workshop): Observable<Object> {
+  updateWorkshop(workshop: Workshop): Observable<object> {
     return this.http.put('/Workshop/Update', workshop);
   }
 

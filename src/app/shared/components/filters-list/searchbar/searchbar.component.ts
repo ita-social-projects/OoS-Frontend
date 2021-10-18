@@ -22,7 +22,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   ) { }
 
   searchValue = new FormControl('', [Validators.maxLength(200)]);
-  isResultPage: boolean = false;
+  isResultPage = false;
   searchedText: string;
 
   @Select(NavigationState.navigationPaths)

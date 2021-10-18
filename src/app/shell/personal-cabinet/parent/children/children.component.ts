@@ -16,9 +16,6 @@ import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component'
   styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends CabinetDataComponent implements OnInit {
-  
-  
-
   currentPage: PaginationElement = {
     element: 1,
     isActive: true

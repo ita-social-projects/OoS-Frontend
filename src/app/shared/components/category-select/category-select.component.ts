@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { isObject } from '@ngxs/store/src/internal/internals';
@@ -15,7 +15,7 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./category-select.component.scss']
 })
 
-export class CategorySelectComponent implements OnInit {
+export class CategorySelectComponent implements OnInit, OnDestroy {
 
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
@@ -67,7 +67,7 @@ export class CategorySelectComponent implements OnInit {
   * @param value string
   */
   private filterDirections(value: string): Direction[] {
-    let filteredDirections = this.directions
+    const filteredDirections = this.directions
       .filter((direction: Direction) => direction.title
         .toLowerCase()
         .startsWith(value.trim().toLowerCase())
@@ -81,7 +81,7 @@ export class CategorySelectComponent implements OnInit {
   * @param value string
   */
   private filterDepartments(value: string): Department[] {
-    let filteredDepartments = this.departments
+    const filteredDepartments = this.departments
       .filter((department: Department) => department.title
         .toLowerCase()
         .startsWith(value.trim().toLowerCase())
@@ -199,7 +199,7 @@ export class CategorySelectComponent implements OnInit {
         startWith(''),
       ).subscribe((value) => {
         if (value) {
-          let input = (value?.title) ? value.title : value;
+          const input = (value?.title) ? value.title : value;
           this.store.dispatch(new FilteredDirectionsList(this.filterDirections(input)));
         } else {
           this.getFullDirectionList();
@@ -227,12 +227,12 @@ export class CategorySelectComponent implements OnInit {
         startWith(''),
       ).subscribe((value) => {
         if (value) {
-          let input = (value?.title) ? value.title : value;
+          const input = (value?.title) ? value.title : value;
           this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(input)));
         } else {
           this.getFullDepartmentList();
           this.clearClasses();
-        };
+        }
       });
     this.setInitialClasses();
 
@@ -253,11 +253,11 @@ export class CategorySelectComponent implements OnInit {
         startWith(''),
       ).subscribe((value) => {
         if (value) {
-          let input = (value?.title) ? value.title : value;
+          const input = (value?.title) ? value.title : value;
           this.store.dispatch(new FilteredClassesList(this.filterClasses(input)));
         } else {
           this.getFullClassList();
-        };
+        }
       });
 
     this.passCategoriesFormGroup.emit(this.CategoryFormGroup);

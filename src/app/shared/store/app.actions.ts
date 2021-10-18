@@ -4,7 +4,7 @@ export class ToggleLoading {
 }
 export class SetLocation {
   static readonly type = '[app] set geolocation';
-  constructor(public payload: { city: String, lng: Number, lat: Number }) { }
+  constructor(public payload: { city: string, lng: number, lat: number }) { }
 }
 export class MarkFormDirty {
   static readonly type = '[app] mark the form dirty';

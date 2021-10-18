@@ -10,7 +10,7 @@ export class LocalSessionManagerService implements AbstractSecurityStorage {
   }
 
   read(key: string): JSON | null {
-    let item = localStorage.getItem(key);
+    const item = localStorage.getItem(key);
     return !!item ? JSON.parse(item) : null;
   }
 

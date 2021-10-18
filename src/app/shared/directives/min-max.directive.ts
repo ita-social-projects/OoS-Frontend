@@ -23,7 +23,7 @@ export class MinMaxDirective {
   }
 
   private MaxMinValidation(): void {
-    let val = Number(this.ref.nativeElement.value);
+    const val = Number(this.ref.nativeElement.value);
     if (this.max !== null && this.max !== undefined && val >= this.max) {
       this.directiveFormControl.setValue(this.max);
     }

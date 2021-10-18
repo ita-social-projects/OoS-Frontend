@@ -132,7 +132,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
             element: this.constants.PAGINATION_DOTS,
             isActive: false
           });
-      };
+      }
 
       this.carouselPageList = this.carouselPageList.concat(start);
     }
@@ -160,7 +160,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
           element: this.constants.PAGINATION_DOTS,
           isActive: false
         });
-      };
+      }
       this.carouselPageList = this.carouselPageList.concat(end);
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   templateUrl: './working-hours.component.html',
   styleUrls: ['./working-hours.component.scss']
 })
-export class WorkingHoursComponent implements OnInit {
+export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;

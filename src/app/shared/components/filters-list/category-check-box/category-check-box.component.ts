@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
@@ -14,7 +14,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   templateUrl: './category-check-box.component.html',
   styleUrls: ['./category-check-box.component.scss']
 })
-export class CategoryCheckBoxComponent implements OnInit {
+export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();

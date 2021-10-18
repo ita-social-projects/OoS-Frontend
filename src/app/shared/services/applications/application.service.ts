@@ -16,11 +16,11 @@ export class ApplicationService {
 
     if (parameters.status !== undefined) {
       params = params.set('Status', parameters.status);
-    };
+    }
 
     if (parameters.workshopsId.length) {
       parameters.workshopsId.forEach((workshopId: number) => params = params.append('Workshops', workshopId.toString()));
-    };
+    }
 
     params = params.set('OrderByDateAscending', 'true'); //TODO: change parameters setting according to the backend updtaes
     params = params.set('OrderByAlphabetically', 'false'); //TODO: change parameters setting according to the backend updtaes
@@ -61,7 +61,7 @@ export class ApplicationService {
   * This method delete Application by Application id
   * @param id
   */
-  deleteApplication(id: number): Observable<Object> {
+  deleteApplication(id: number): Observable<object> {
     return this.http.delete(`Application/Delete/${id}`);
   }
 
@@ -69,7 +69,7 @@ export class ApplicationService {
   * This method update Application
   * @param ApplicationUpdate
   */
-  updateApplication(application: ApplicationUpdate): Observable<Object> {
+  updateApplication(application: ApplicationUpdate): Observable<object> {
     return this.http.put('/Application/Update', application);
   }
 }

@@ -1,6 +1,5 @@
-import { Observable } from "rxjs";
-import { map } from "rxjs/internal/operators/map";
-import { Child } from "../models/child.model";
+import { map } from 'rxjs/internal/operators/map';
+import { Child } from '../models/child.model';
 
 /**
  *Utility class that providers methods for shared data manipulations
@@ -29,7 +28,7 @@ export class Util {
   /**
   * This method returns array of empty element for aligning items in wrap
   * @param wrap Reference to wrapper
-  * @param itemWidth width in pixels of item 
+  * @param itemWidth width in pixels of item
   * @param items Observable or Array
   * @returns Array
   */
@@ -54,7 +53,7 @@ export class Util {
     if (wrap) {
       amountCardsInRow = Math.floor(Number((wrap.nativeElement.clientWidth) / itemWidth));
     }
-    let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
+    const emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
     return new Array(emptyWorkshops | 0);
   }
 }

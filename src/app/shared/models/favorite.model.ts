@@ -7,7 +7,7 @@ export class Favorite {
   constructor(workshopId: number, userId: string) {
     this.workshopId = workshopId;
     this.userId = userId;
-  };
+  }
 }
 
 export interface WorkshopFavoriteCard {

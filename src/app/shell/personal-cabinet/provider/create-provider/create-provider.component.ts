@@ -127,7 +127,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
         takeWhile(() => this.isPristine))
       .subscribe(() => {
         this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
+        this.store.dispatch(new MarkFormDirty(true));
       });
   }
 }

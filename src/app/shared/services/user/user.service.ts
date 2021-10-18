@@ -20,7 +20,7 @@ export class UserService {
   * This method update Provider
   * @param Provider
   */
-  updateUser(user: User): Observable<Object> {
+  updateUser(user: User): Observable<object> {
     return this.http.put('/User/Update', user);
   }
 }

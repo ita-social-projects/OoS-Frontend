@@ -24,7 +24,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
-  editMode: boolean = false;
+  editMode = false;
   child: Child;
   isAgreed = false;
 
@@ -116,7 +116,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   /**
   * This method create or edit Child and distpatch CreateChild action
   */
-  onSubmit() {
+  onSubmit(): void {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
       const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);

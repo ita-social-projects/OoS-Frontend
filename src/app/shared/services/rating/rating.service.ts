@@ -23,7 +23,7 @@ export class RatingService {
   * This method create Rate
   * @param Rate
   */
-  createRate(rate: Rate): Observable<Object> {
+  createRate(rate: Rate): Observable<object> {
     return this.http.post('/Rating/Create', rate);
   }
 
@@ -31,7 +31,7 @@ export class RatingService {
   * This method update Rate
   * @param Rate
   */
-  updateRate(rate: Rate): Observable<Object> {
+  updateRate(rate: Rate): Observable<object> {
     return this.http.put('/Rating/Update', rate);
   }
 }

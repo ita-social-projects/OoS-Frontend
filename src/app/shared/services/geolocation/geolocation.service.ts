@@ -15,7 +15,7 @@ const kiev: City = {
   latitude: 50.44029,
   name: 'м.Київ',
   region: 'м.Київ',
-}
+};
 
 @Injectable({
   providedIn: 'root'

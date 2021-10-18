@@ -104,28 +104,28 @@ export interface UserStateModel {
 export class UserState {
   postUrl = '/Workshop/Create';
   @Selector()
-  static isLoading(state: UserStateModel): boolean { return state.isLoading }
+  static isLoading(state: UserStateModel): boolean { return state.isLoading };
 
   @Selector()
-  static workshops(state: UserStateModel): WorkshopCard[] { return state.workshops }
+  static workshops(state: UserStateModel): WorkshopCard[] { return state.workshops };
 
   @Selector()
-  static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider }
+  static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider };
 
   @Selector()
-  static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop }
+  static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop };
 
   @Selector()
-  static applications(state: UserStateModel): Application[] { return state.applications }
+  static applications(state: UserStateModel): Application[] { return state.applications };
 
   @Selector()
-  static children(state: UserStateModel): ChildCards { return state.children }
+  static children(state: UserStateModel): ChildCards { return state.children };
 
   @Selector()
-  static favoriteWorkshops(state: UserStateModel): Favorite[] { return state.favoriteWorkshops }
+  static favoriteWorkshops(state: UserStateModel): Favorite[] { return state.favoriteWorkshops };
 
   @Selector()
-  static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard }
+  static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard };
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -136,12 +136,11 @@ export class UserState {
     private userService: UserService,
     private ratingService: RatingService,
     private favoriteWorkshopsService: FavoriteWorkshopsService,
-
   ) { }
 
   @Action(GetWorkshopById)
   getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById) {
-    patchState({ isLoading: true })
+    patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(

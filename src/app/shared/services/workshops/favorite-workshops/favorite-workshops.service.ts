@@ -28,7 +28,7 @@ export class FavoriteWorkshopsService {
   * This method create favorite workshop
   * @param favorite
   */
-  createFavoriteWorkshop(favorite: Favorite): Observable<Object> {
+  createFavoriteWorkshop(favorite: Favorite): Observable<object> {
     return this.http.post('/Favorite', favorite);
   }
 
@@ -36,7 +36,7 @@ export class FavoriteWorkshopsService {
   * This method delete favorite workshop
   * @param id
   */
-  deleteFavoriteWorkshop(id: number): Observable<Object> {
+  deleteFavoriteWorkshop(id: number): Observable<object> {
     return this.http.delete(`/Favorite/${id}`);
   }
 }
