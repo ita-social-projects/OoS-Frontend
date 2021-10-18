@@ -53,7 +53,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.workingDays.length > 0) {
-      params = params.append('Workdays', filters.workingDays.toString())
+      filters.workingDays.forEach((day: string) => params = params.append('Workdays', day));
     }
 
     if (filters.isFree || !filters.minAge) {
