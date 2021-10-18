@@ -9,14 +9,12 @@ import { PaginationElement } from '../../models/paginationElement.model';
 export class PaginatorComponent implements OnInit, OnChanges {
 
   readonly constants: typeof PaginationConstants = PaginationConstants;
-
-  @Input() currentPage: PaginationElement;
-  @Input() totalEntities: number;
-
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
   size: number = Constants.ITEMS_PER_PAGE;
 
+  @Input() currentPage: PaginationElement;
+  @Input() totalEntities: number;
   @Output() pageChange = new EventEmitter<PaginationElement>();
 
   constructor() { }
@@ -49,9 +47,9 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   private checkCarouseleRecreationIsAllowed(isForward: boolean, currentPage: PaginationElement): boolean {
     if (isForward) {
-      return this.carouselPageList.indexOf(currentPage) >= this.constants.PAGINATION_SHIFT_DELTA
+      return this.carouselPageList.indexOf(currentPage) >= this.constants.PAGINATION_SHIFT_DELTA;
     } else {
-      return this.carouselPageList.indexOf(currentPage) <= this.constants.PAGINATION_SHIFT_DELTA
+      return this.carouselPageList.indexOf(currentPage) <= this.constants.PAGINATION_SHIFT_DELTA;
     }
   }
 
@@ -64,7 +62,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     let lastPage = +this.currentPage.element + this.constants.PAGINATION_SHIFT_DELTA;
     lastPage = lastPage > this.totalPageAmount ? this.totalPageAmount : lastPage;
 
-    let pageList = this.createDisplayedPageList(firstPage);
+    const pageList = this.createDisplayedPageList(firstPage);
 
     if (this.totalPageAmount < this.constants.MAX_PAGE_PAGINATOR_DISPLAY) {
       this.carouselPageList = pageList;
@@ -79,10 +77,10 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   onArroveClick(isForward: boolean): void {
-    let page: PaginationElement = {
+    const page: PaginationElement = {
       element: '',
       isActive: true,
-    }
+    };
     if (isForward) {
       page.element = +this.currentPage.element + 1;
     } else {
@@ -108,7 +106,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
       end = this.totalPageAmount;
     }
 
-    let pageList: PaginationElement[] = [];
+    const pageList: PaginationElement[] = [];
     while (pageList.length < end) {
       pageList.push({
         element: start,
@@ -119,7 +117,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     return pageList;
   }
 
-  private createCarouselPageList(pageList: PaginationElement[], isOnStart?: boolean, isOnEnd?: boolean) {
+  private createCarouselPageList(pageList: PaginationElement[], isOnStart?: boolean, isOnEnd?: boolean): void {
     if (isOnStart) {
       let start: PaginationElement[] = [
         {
@@ -151,7 +149,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
 
     if (isOnEnd) {
-      let end: PaginationElement[] = [
+      const end: PaginationElement[] = [
         {
           element: this.totalPageAmount,
           isActive: true
@@ -161,7 +159,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
         end.unshift({
           element: this.constants.PAGINATION_DOTS,
           isActive: false
-        })
+        });
       }
       this.carouselPageList = this.carouselPageList.concat(end);
     }
