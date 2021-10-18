@@ -23,20 +23,21 @@
             'shortDate'}}
           </p>
           <h5 class="card_text">
-            <mat-icon class="card_icon">apps</mat-icon>Гуртки
+            <mat-icon class="card_icon">apps</mat-icon>Гуртки 
           </h5>
-          <div *ngIf="workshops?.length then WorkshopsList; else NoWorkshops "></div>
+          <div *ngIf="applications?.length; else NoWorkshops ">
+            <div fxLayout="row" fxLayoutAlign="end start">
+              <div  [routerLink]="['/workshop-details', application.workshop.workshopId]" class="card-list card-list-workshop" *ngFor="let application of applications">
+                 {{application.workshop.title}}
+              </div>
+            </div>
+          </div>
         </mat-card-content>
       </div>
     </div>
   </mat-card>
 </div>
 
-<ng-template #WorkshopsList>
-  <div fxLayout="row" fxLayoutAlign="end start">
-    <p class="card-list" *ngFor="let workshop of workshops"> {{workshop.title}} </p>
-  </div>
-</ng-template>
 <ng-template #NoWorkshops>
   <p class="card-list"> Гуртків поки немає! </p>
 </ng-template>

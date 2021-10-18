@@ -41,6 +41,13 @@
   &-list {
     color: #3849F9;
     font-weight: 700;
+    margin-left: 2rem;
+    padding: 0;
+  }
+  &-list-workshop{
+    &:hover {
+      cursor: pointer;
+      }
   }
 
   &_text {

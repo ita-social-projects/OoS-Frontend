@@ -1,3 +1,4 @@
+import { Application } from 'src/app/shared/models/application.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChildrenComponent } from './children.component';
 import { NgxsModule } from '@ngxs/store';
@@ -44,6 +45,7 @@ describe('ParentInfoComponent', () => {
 })
 class MockParentChildCardComponent {
   @Input() child: Child;
+  @Input() applications: Application;
 }
 
 
