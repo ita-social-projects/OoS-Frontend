@@ -1,5 +1,4 @@
-import { WorkshopCard } from "./workshop.model";
-
+import { WorkshopCard } from './workshop.model';
 export class Favorite {
   id?: number;
   workshopId: number;
@@ -8,10 +7,10 @@ export class Favorite {
   constructor(workshopId: number, userId: string) {
     this.workshopId = workshopId;
     this.userId = userId;
-  }
+  };
 }
 
 export interface WorkshopFavoriteCard {
-  totalAmount: number,
-  entities: WorkshopCard[]
+  totalAmount: number;
+  entities: WorkshopCard[];
 }

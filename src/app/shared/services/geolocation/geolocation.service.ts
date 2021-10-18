@@ -3,19 +3,18 @@ import { ConfirmCity, SetCity } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { Coords } from '../../models/coords.model';
-import { Address } from '../../models/address.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
-import { GeocoderService } from './geocoder.service'
+import { GeocoderService } from './geocoder.service';
 import { HttpClient } from '@angular/common/http';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
 
 const kiev: City = {
-  district: "м.Київ",
+  district: 'м.Київ',
   id: 14446,
   longitude: 30.5595,
   latitude: 50.44029,
-  name: "Київ",
-  region: "м.Київ"
+  name: 'м.Київ',
+  region: 'м.Київ',
 }
 
 @Injectable({
@@ -32,18 +31,18 @@ export class GeolocationService {
   constructor(public store: Store, private http: HttpClient) { }
 
   /**
-   * This method sets default city Kiev in localStorage if user deny geolocation 
+   * This method sets default city Kiev in localStorage if user deny geolocation
    */
   confirmCity(city: City, isConfirm: boolean): void {
     !!localStorage.getItem('cityConfirmation') ?
-    this.store.dispatch([
-      new ConfirmCity(false),
-      new SetCity(JSON.parse(localStorage.getItem('cityConfirmation')))
-    ]) :
-    this.store.dispatch([
-      new ConfirmCity(isConfirm), 
-      new SetCity(city)
-    ]);
+      this.store.dispatch([
+        new ConfirmCity(false),
+        new SetCity(JSON.parse(localStorage.getItem('cityConfirmation')))
+      ]) :
+      this.store.dispatch([
+        new ConfirmCity(isConfirm),
+        new SetCity(city)
+      ]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {

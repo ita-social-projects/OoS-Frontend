@@ -119,7 +119,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   private createCarouselPageList(pageList: PaginationElement[], isOnStart?: boolean, isOnEnd?: boolean): void {
     if (isOnStart) {
-      let start: PaginationElement[] = [
+      const start: PaginationElement[] = [
         {
           element: this.constants.FIRST_PAGINATION_PAGE,
           isActive: true
@@ -131,7 +131,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
           {
             element: this.constants.PAGINATION_DOTS,
             isActive: false
-          })
+          });
       }
 
       this.carouselPageList = this.carouselPageList.concat(start);
@@ -139,11 +139,11 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
     if (pageList[0]?.element === 2) {
       pageList.pop();
-    }
+    };
 
     if (pageList[pageList.length - 1]?.element === this.totalPageAmount - 1) {
       pageList.shift();
-    }
+    };
 
     this.carouselPageList = this.carouselPageList.concat(pageList);
 
@@ -160,9 +160,9 @@ export class PaginatorComponent implements OnInit, OnChanges {
           element: this.constants.PAGINATION_DOTS,
           isActive: false
         });
-      }
+      };
       this.carouselPageList = this.carouselPageList.concat(end);
-    }
-  }
+    };
+  };
 
 }

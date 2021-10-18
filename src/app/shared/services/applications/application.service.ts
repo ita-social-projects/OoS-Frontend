@@ -16,12 +16,11 @@ export class ApplicationService {
 
     if (parameters.status !== undefined) {
       params = params.set('Status', parameters.status);
-    }
+    };
 
     if (parameters.workshopsId.length) {
-      console.log(parameters.workshopsId)
       parameters.workshopsId.forEach((workshopId: number) => params = params.append('Workshops', workshopId.toString()));
-    }
+    };
 
     params = params.set('OrderByDateAscending', 'true'); //TODO: change parameters setting according to the backend updtaes
     params = params.set('OrderByAlphabetically', 'false'); //TODO: change parameters setting according to the backend updtaes

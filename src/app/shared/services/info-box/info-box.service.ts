@@ -22,7 +22,7 @@ export class InfoBoxService {
     this.getPosition(element);
   }
 
-  onMouseLeave() {
+  onMouseLeave(): void {
     this.isMouseOver.next(false);
   }
 

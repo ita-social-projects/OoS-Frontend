@@ -20,6 +20,6 @@ export class ShowMessageBar {
 }
 
 export class ToggleMobileScreen {
-  static readonly type ='[app] isMobileScreen'
-  constructor(public payload: boolean){ }
+  static readonly type = '[app] isMobileScreen';
+  constructor(public payload: boolean) { }
 }

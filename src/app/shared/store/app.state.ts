@@ -6,15 +6,15 @@ export interface AppStateModel {
   city: String;
   lng: Number | null;
   lat: Number | null;
-  isDirtyForm: boolean,
-  isEditMode: boolean,
-  isMobileScreen: undefined | boolean
+  isDirtyForm: boolean;
+  isEditMode: boolean;
+  isMobileScreen: undefined | boolean;
 }
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    city: "",
+    city: null,
     lng: null,
     lat: null,
     isDirtyForm: false,
@@ -55,8 +55,8 @@ export class AppState {
   showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void { }
 
   @Action(ToggleMobileScreen)
-  ToggleMobileScreen({patchState}:StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
-      patchState({ isMobileScreen: payload })
+  ToggleMobileScreen({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
+    patchState({ isMobileScreen: payload });
   }
 
 }
