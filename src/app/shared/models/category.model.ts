@@ -16,13 +16,3 @@ export interface IClass {
   description: string;
   departmentId: number;
 }
-export interface topDirection{
-  direction:{
-    id: number;
-    directionId: number;
-    title: string;
-    description: string;
-  };
-  workshopsCount: number,
-  applicationsCount: number
-}

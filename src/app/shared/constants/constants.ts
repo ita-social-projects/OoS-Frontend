@@ -1,6 +1,6 @@
-import { MatDateFormats } from "@angular/material/core";
-import { WorkingDays } from "../enum/enumUA/working-hours";
-import { WorkingDaysToggleValue } from "../models/workingHours.model";
+import { MatDateFormats } from '@angular/material/core';
+import { WorkingDays } from '../enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from '../models/workingHours.model';
 
 /**
  * Constants for OutOfSchool

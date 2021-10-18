@@ -62,7 +62,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     const param = new Favorite(
       this.workshop.workshopId,
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
-    )
+    );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' })
