@@ -8,6 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
+import { MaterialModule } from '../../modules/material.module';
 
 describe('WorkingHoursFormComponent', () => {
   let component: WorkingHoursFormComponent;
@@ -24,7 +25,9 @@ describe('WorkingHoursFormComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
-        MatIconModule,],
+        MatIconModule,
+        MaterialModule
+      ],
       declarations: [
         WorkingHoursFormComponent]
     })

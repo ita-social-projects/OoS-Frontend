@@ -18,6 +18,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { WorkingHoursFormComponent } from 'src/app/shared/components/working-hours-form/working-hours-form.component';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -39,7 +40,8 @@ describe('CreateAboutFormComponent', () => {
         MatButtonToggleModule,
         MatIconModule,
         MatSelectModule,
-        MatGridListModule
+        MatGridListModule,
+        NgxMatTimepickerModule
       ],
       declarations: [
         CreateAboutFormComponent,
