@@ -4,6 +4,11 @@ import { NgxsModule } from '@ngxs/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;
@@ -12,14 +17,18 @@ describe('WorkingHoursComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([]),
-        FormsModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatDatepickerModule,
         MatInputModule,
+        NgxMatTimepickerModule,
         FormsModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule,
+        MatButtonModule,
+        MaterialModule
       ],
-      declarations: [WorkingHoursComponent],
+      declarations: [
+        WorkingHoursComponent]
     })
       .compileComponents();
   });
