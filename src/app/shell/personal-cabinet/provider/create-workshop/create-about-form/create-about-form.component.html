@@ -89,14 +89,19 @@
 
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
   <ng-container>
-    <app-working-hours-form-control *ngFor="let workHour of workingHours" [workHour]="workHour"
-      [workingHoursAmount]="workingHours.length" [index]="workingHours.indexOf(workHour)"
-      (deleteWorkHour)="deleteWorkHour(workHour)" (inputChange)="OnChangeWorkHour()">
-    </app-working-hours-form-control>
+    <div *ngFor="let form of workingHoursFormArray.controls">
+      <app-working-hours-form [workingHoursForm]="form" [workingHoursAmount]="workingHoursFormArray.controls.length"
+        [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkingHour)="deleteWorkingHour(form)">
+      </app-working-hours-form>
+      <app-validation-hint-for-input type="requiredField" [invalid]="form.invalid && form.touched">
+      </app-validation-hint-for-input>
+    </div>
+
+
   </ng-container>
 
   <div fxLayout='row' fxLayoutAlign='start center'>
-    <button class="btn-add" mat-button (click)="addWorkHour()">
+    <button class="btn-add" mat-button (click)="addWorkingHours()">
       <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
     </button>
   </div>
