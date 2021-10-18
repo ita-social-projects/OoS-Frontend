@@ -36,7 +36,7 @@ export class CreateWorkshopComponent implements OnInit {
 
   editMode: boolean = false;
   workshop: Workshop;
-  isLinear: boolean = false;
+  isLinear: boolean = true;
 
   constructor(
     private store: Store,
@@ -55,21 +55,25 @@ export class CreateWorkshopComponent implements OnInit {
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit() {
-    const address: Address = new Address(this.AddressFormGroup.value);
-    const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
-    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
-    const aboutInfo = this.AboutFormGroup.getRawValue();
-    const descInfo = this.DescriptionFormGroup.getRawValue();
-
-    let workshop: Workshop;
-
-    if (this.editMode) {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
-      this.store.dispatch(new UpdateWorkshop(workshop));
+    if (this.TeacherFormArray.invalid) {
+      this.checkTeacherFormArrayValidation();
     } else {
-      workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
-      this.store.dispatch(new CreateWorkshop(workshop));
+      const address: Address = new Address(this.AddressFormGroup.value);
+      const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
+      const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+  
+      const aboutInfo = this.AboutFormGroup.getRawValue();
+      const descInfo = this.DescriptionFormGroup.getRawValue();
+  
+      let workshop: Workshop;
+  
+      if (this.editMode) {
+        workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
+        this.store.dispatch(new UpdateWorkshop(workshop));
+      } else {
+        workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
+        this.store.dispatch(new CreateWorkshop(workshop));
+      }
     }
   }
 
@@ -131,5 +135,29 @@ export class CreateWorkshopComponent implements OnInit {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
       });
+  }
+
+  /**
+   * This method receives a form and marks each control of this form as touched
+   * @param FormGroup form
+   */
+  checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
+    if (form.get('categories')) {
+      Object.keys((<FormGroup>this.DescriptionFormGroup.get('categories')).controls).forEach(key => {
+        this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
+      });
+    }
+  }
+
+  /**
+   * This method marks each control of form in the array of teachers' forms as touched 
+   */
+  private checkTeacherFormArrayValidation(): void {
+    Object.keys(this.TeacherFormArray.controls).forEach(key => {
+      this.checkValidation(<FormGroup>this.TeacherFormArray.get(key));
+    });
   }
 }
