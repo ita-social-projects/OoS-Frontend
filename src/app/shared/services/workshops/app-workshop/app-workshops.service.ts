@@ -45,15 +45,15 @@ export class AppWorkshopsService {
     }
 
     if (filters.startTime) {
-      params = params.set('StartTime', filters.startTime);
+      params = params.set('StartHour', filters.startTime);
     }
 
     if (filters.endTime) {
-      params = params.set('EndTime', filters.endTime);
+      params = params.set('EndHour', filters.endTime);
     }
 
     if (filters.workingDays.length > 0) {
-      filters.workingDays.forEach((day: string) => params = params.append('WorkingDays', day));
+      params = params.append('Workdays', filters.workingDays.toString())
     }
 
     if (filters.isFree || !filters.minAge) {
