@@ -1,4 +1,4 @@
-export interface WorkingHours {
+export interface WorkingDaysToggleValue {
   value: string;
   selected: boolean;
 }
