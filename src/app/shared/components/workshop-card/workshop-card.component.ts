@@ -2,7 +2,7 @@ import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ApplicationStatus } from '../../enum/applications';
-import {ApplicationTitles} from 'src/app/shared/enum/enumUA/applications'
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -23,29 +23,23 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
-  public below: string = 'below';
+  public below = 'below';
+  favoriteWorkshops: Favorite[];
+  isFavorite: boolean;
+  favoriteWorkshopId: Favorite;
 
   @Input() workshop: WorkshopCard;
   @Input() userRole: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
   @Input() parent: boolean;
-  @Input() isHorizontalView: boolean = false;
-  @Input() isCreateApplicationView: boolean = true;
-
-
+  @Input() isHorizontalView = false;
+  @Input() isCreateApplicationView = true;
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
 
-
-  status: string = 'approved'; //temporary
-  favoriteWorkshops: Favorite[];
-  isFavorite: boolean;
-  favoriteWorkshopId: Favorite;
-
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
@@ -58,10 +52,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
-  }
-
-  onEdit(): void {
-    console.log("I edit it")
   }
 
   onDelete(): void {

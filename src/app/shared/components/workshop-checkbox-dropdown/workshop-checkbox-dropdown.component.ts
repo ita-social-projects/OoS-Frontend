@@ -28,10 +28,10 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
       ).subscribe((workshops: WorkshopCard[]) => {
         this.workshopsId = workshops.map((workshop: WorkshopCard) => workshop.workshopId);
         this.workshopCheck.emit(this.workshopsId);
-      })
+      });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
