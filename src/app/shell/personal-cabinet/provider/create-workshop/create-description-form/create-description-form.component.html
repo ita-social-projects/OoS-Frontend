@@ -32,7 +32,7 @@
     <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
   </mat-radio-group>
 
-  <app-category-select [workshop]="workshop" (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)">
+  <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
   </app-category-select>
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
@@ -52,4 +52,5 @@
   <app-validation-hint-for-input type="requiredField"
     [invalid]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
   </app-validation-hint-for-input>
+  
 </form>
