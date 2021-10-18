@@ -30,11 +30,11 @@ export class SetWorkingDays {
 }
 export class SetStartTime {
   static readonly type = '[filter] Set Start Time';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class SetEndTime {
   static readonly type = '[filter] Set End Time';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class SetIsFree {
   static readonly type = '[filter] Set Is Free type of payment';

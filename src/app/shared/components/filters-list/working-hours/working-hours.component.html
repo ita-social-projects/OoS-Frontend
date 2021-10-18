@@ -6,21 +6,25 @@
       {{day.value}}</div>
   </div>
   <p class="filter-text">Години роботи</p>
-  <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
-    <mat-form-field>
-      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
-        <p class="filter-text">Від</p>
-        <input matInput class="time-input" type="number" ng-model="number" [formControl]="startTimeFormControl"
-          appDigitOnly maxlength="2" [min]="constants.MIN_TIME" [max]="constants.MAX_TIME"
-          [directiveFormControl]="startTimeFormControl" appMinMax>
-      </div>
-    </mat-form-field>
-    <mat-form-field>
-      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
-        <p class="filter-text">До</p>
-        <input matInput class="time-input" type="number" ng-model="number" [formControl]="endTimeFormControl"
-          appDigitOnly [directiveFormControl]="endTimeFormControl" maxlength="2" appMinMax [min]="constants.MIN_TIME"
-          [max]="constants.MAX_TIME">
-      </div>
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+      <p class="filter-text">Від</p>
+      <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24"
+        [formControl]="startTimeFormControl">
+      <p class="filter-text">До</p>
+      <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24"
+        [formControl]="endTimeFormControl" [min]="getMinTime()">
+    </div>
+  </mat-form-field>
+
+  <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
+  </ngx-mat-timepicker>
+  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
+  </ngx-mat-timepicker>
+
+  <ng-template #btnCancel>
+    <button mat-raised-button class="btn btn-cancel">Скасувати</button>
+  </ng-template>
+  <ng-template #btnConfirm>
+    <button class="btn" mat-raised-button>Додати</button>
+  </ng-template>

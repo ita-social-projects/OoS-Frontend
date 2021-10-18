@@ -27,21 +27,24 @@ export class WorkingHoursComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    console.log('days', this.constants.WorkingDaysValues)
     this.startTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-      filter((time: number) => !!time)
-    ).subscribe((time: number) => this.store.dispatch(new SetEndTime(time)));
+      filter((time: string) => !!time)
+    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time)));
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-      filter((time: number) => !!time)
-    ).subscribe((time: number) => this.store.dispatch(new SetStartTime(time)));
+      filter((time: string) => !!time)
+    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time)));
 
+  }
+
+  getMinTime(): string {
+    return this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MAX_TIME;
   }
 
   /**

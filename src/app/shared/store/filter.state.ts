@@ -35,8 +35,8 @@ export interface FilterStateModel {
   maxAge: number;
   minAge: number;
   workingDays: string[];
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
   isFree: boolean;
   maxPrice: number;
   minPrice: number;

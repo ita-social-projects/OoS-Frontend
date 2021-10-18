@@ -12,8 +12,8 @@ export class Constants {
   static readonly AGE_MAX = 18;
   static readonly MIN_PRICE = 0;
   static readonly MAX_PRICE = 10000;
-  static readonly MIN_TIME = 0;
-  static readonly MAX_TIME = 24;
+  static readonly MIN_TIME = '00:00';
+  static readonly MAX_TIME = '23:59';
   static readonly MAX_DESCRIPTION_LENGTH = 500;
   static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
   static readonly PHONE_LENGTH = 10;
