@@ -6,22 +6,21 @@
       {{day.value}}</div>
   </div>
   <p class="filter-text">Години роботи</p>
-  <div fxLayout='row' fxLayoutAlign='space-between'>
-      <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
-        <mat-form-field>
-          <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
-            <p class="filter-text">Від</p>
-            <input matInput class="hour-input" type="number" ng-model="number" appDigitOnly
-              maxlength="2" min="0" max="24"  (click)="onToggleHours()" [(ngModel)]="minHour">
-          </div>
-        </mat-form-field>
-        <mat-form-field>
-          <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
-            <p class="filter-text">До</p>
-            <input matInput class="hour-input" type="number" ng-model="number" appDigitOnly
-            (click)="onToggleHours()" maxlength="2" min="0"  [(ngModel)]="maxHour" max="24">
-          </div>
-        </mat-form-field>
+  <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+        <p class="filter-text">Від</p>
+        <input matInput class="time-input" type="number" ng-model="number" [formControl]="startTimeFormControl"
+          appDigitOnly maxlength="2" [min]="constants.MIN_TIME" [max]="constants.MAX_TIME"
+          [directiveFormControl]="startTimeFormControl" appMinMax>
       </div>
+    </mat-form-field>
+    <mat-form-field>
+      <div fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+        <p class="filter-text">До</p>
+        <input matInput class="time-input" type="number" ng-model="number" [formControl]="endTimeFormControl"
+          appDigitOnly [directiveFormControl]="endTimeFormControl" maxlength="2" appMinMax [min]="constants.MIN_TIME"
+          [max]="constants.MAX_TIME">
+      </div>
+    </mat-form-field>
   </div>
-</div>

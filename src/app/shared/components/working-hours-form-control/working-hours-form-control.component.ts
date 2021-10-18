@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Constants } from '../../constants/constants';
-import { WorkingDays, WorkingDaysReverse } from '../../enum/enumUA/working-hours';
-import { DateTimeRanges, WorkingHours } from '../../models/workingHours.model';
+import { Constants, WorkingDaysValues } from '../../constants/constants';
+import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
+import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form-control',
@@ -20,51 +20,18 @@ export class WorkingHoursFormControlComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-
+  days: WorkingDaysToggleValue[] = WorkingDaysValues;
 
   @Input() workHour: DateTimeRanges;
-
   @Input() index: number;
   @Input() workingHoursAmount: number;
   @Output() deleteWorkHour = new EventEmitter();
   @Output() inputChange = new EventEmitter();
 
-
   touched = false;
   disabled = false;
 
   TimeFormGroup: FormGroup;
-
-  days: WorkingHours[] = [
-    {
-      value: WorkingDays.monday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.tuesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.wednesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.thursday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.friday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.saturday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.sunday,
-      selected: false,
-    }
-  ];
 
   constructor() { }
 
@@ -76,7 +43,7 @@ export class WorkingHoursFormControlComponent implements OnInit {
   * This method check value, add it to the list of selected working days and distpatch filter action
   * @param day
   */
-  onToggleDays(day: WorkingHours): void {
+  onToggleDays(day: WorkingDaysToggleValue): void {
     this.markAsTouched();
     if (!this.disabled) {
       day.selected = !day.selected;
@@ -120,7 +87,7 @@ export class WorkingHoursFormControlComponent implements OnInit {
   }
 
   private activateEditMode(): void {
-    this.days.forEach((day: WorkingHours) => {
+    this.days.forEach((day: WorkingDaysToggleValue) => {
       this.workHour.workdays.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
           day.selected = true;

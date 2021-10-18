@@ -12,12 +12,20 @@
 .title{
   margin-bottom: 0;
 }
-.hour-input{
+
+.time-input{
   border: 1px solid #E3E3E3;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
   max-width: 80px;
+}
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+  padding: 0;
+  margin: 0;
 }
 
 .toggle{
