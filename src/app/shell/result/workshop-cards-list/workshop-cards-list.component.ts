@@ -33,7 +33,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   isParent$: Observable<boolean>;
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
   workshopsCopy: any;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
