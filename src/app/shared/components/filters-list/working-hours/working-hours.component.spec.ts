@@ -25,7 +25,8 @@ describe('WorkingHoursComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
-        MaterialModule
+        MaterialModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         WorkingHoursComponent]
