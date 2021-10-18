@@ -46,12 +46,10 @@
         </mat-card-content>
 
         <mat-card-footer *ngIf="isCreateApplicationView" class="card-footer">
-          <div>
-            <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
-              Детальніше
-              <span class="material-icons arrow">arrow_forward</span>
-            </a>
-          </div>
+          <a class="more-details" [routerLink]="['/workshop-details',workshop.workshopId ]">
+            <span class="card_link">Детальніше</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </a>
         </mat-card-footer>
 
       </div>

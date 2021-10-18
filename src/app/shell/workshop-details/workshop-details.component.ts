@@ -37,9 +37,16 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     private actions$: Actions,
   ) { }
 
-  ngOnInit(): void {
-    this.workshopId = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
+  ngOnInit(): void { 
+    this.route.params.pipe(
+      takeUntil(this.destroy$))
+      .subscribe(params => {
+      this.store.dispatch(new GetWorkshopById(+params.id));
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    })
 
     this.workshop$.pipe(
       filter((workshop: Workshop) => !!workshop),
