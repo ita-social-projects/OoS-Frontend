@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Constants } from '../../constants/constants';
-import { WorkingDays, WorkingDaysReverse } from '../../enum/enumUA/working-hours';
-import { DateTimeRanges, WorkingHours } from '../../models/workingHours.model';
+import { Constants, WorkingDaysValues } from '../../constants/constants';
+import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
+import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -13,6 +13,7 @@ export class WorkingHoursFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+  days: WorkingDaysToggleValue[] = WorkingDaysValues;
 
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
@@ -20,36 +21,6 @@ export class WorkingHoursFormComponent implements OnInit {
   @Output() deleteWorkingHour = new EventEmitter();
 
   workingDays: string[] = [];
-  days: WorkingHours[] = [
-    {
-      value: WorkingDays.monday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.tuesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.wednesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.thursday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.friday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.saturday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.sunday,
-      selected: false,
-    }
-  ];
 
   constructor() { }
 
@@ -67,7 +38,7 @@ export class WorkingHoursFormComponent implements OnInit {
  * This method check value, add it to the list of selected working days and distpatch filter action
  * @param day
  */
-  onToggleDays(day: WorkingHours): void {
+  onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
       this.workingDays.push(this.workingDaysReverse[day.value])
@@ -78,7 +49,7 @@ export class WorkingHoursFormComponent implements OnInit {
   }
 
   getMinTime(): string {
-    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : '23:59';
+    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : this.constants.MAX_TIME;
   }
 
   delete(): void {
@@ -86,7 +57,7 @@ export class WorkingHoursFormComponent implements OnInit {
   }
 
   activateEditMode(): void {
-    this.days.forEach((day: WorkingHours) => {
+    this.days.forEach((day: WorkingDaysToggleValue) => {
       this.workingHoursForm.value.workdays.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
           day.selected = true;
