@@ -15,12 +15,11 @@
       <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24"
         [formControl]="endTimeFormControl" [min]="getMinTime()">
     </div>
+    <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
+    </ngx-mat-timepicker>
+    <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
+    </ngx-mat-timepicker>
   </mat-form-field>
-
-  <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
-  </ngx-mat-timepicker>
-  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
-  </ngx-mat-timepicker>
 
   <ng-template #btnCancel>
     <button mat-raised-button class="btn btn-cancel">Скасувати</button>
