@@ -1,22 +1,19 @@
 <ng-container *ngIf="!(isLoadingResultPage$ | async)">
-  <ng-container *ngIf="workshops$|async; else isEmptyList;"></ng-container>
+  <ng-container *ngIf="(workshops$ | async); else isEmptyList;">
+    <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
+      <app-workshop-card [parent]="parent" *ngFor="let workshop of (workshops$ | async)?.entities" [workshop]="workshop"
+        [isMainPage]="true">
+      </app-workshop-card>
+      <app-workshop-card
+        *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , (workshops$ | async)?.entities)"
+        [workshop]="workshop" class="empty-card">
+      </app-workshop-card>
+    </div>
+    <app-paginator [totalEntities]="(workshops$ | async)?.totalAmount" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
+    </app-paginator>
+  </ng-container>
 </ng-container>
-
-<ng-container *ngIf="workshops$">
-  <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
-    <app-workshop-card [parent]="parent" *ngFor="let workshop of (workshops$ | async)?.entities" [workshop]="workshop"
-      [isMainPage]="true">
-    </app-workshop-card>
-    <app-workshop-card
-      *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , (workshops$ | async)?.entities)"
-      [workshop]="workshop" class="empty-card">
-    </app-workshop-card>
-  </div>
-  <app-paginator [totalEntities]="(workshops$ | async)?.totalAmount" [currentPage]="currentPage"
-    (pageChange)="onPageChange($event)">
-  </app-paginator>
-</ng-container>
-
 
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noResultWorkshops"></app-no-result-card>
