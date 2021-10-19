@@ -1,25 +1,26 @@
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { SetCity, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
+import { Select, Store } from '@ngxs/store';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { GetTopWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Workshop, WorkshopCard } from '../../shared/models/workshop.model';
-import { GetDirections, GetTopDirections } from 'src/app/shared/store/meta-data.actions';
-import { count, debounceTime, distinctUntilChanged, reduce, scan, takeUntil, tap, map } from 'rxjs/operators';
-import { GetFilteredWorkshops } from './../../shared/store/filter.actions';
-
+import { WorkshopCard } from '../../shared/models/workshop.model';
+import { GetTopDirections } from 'src/app/shared/store/meta-data.actions';
+import { filter, takeUntil } from 'rxjs/operators';
+import { UserState } from 'src/app/shared/store/user.state';
+import { Favorite } from 'src/app/shared/models/favorite.model';
+import { City } from 'src/app/shared/models/city.model';
+import { Role } from 'src/app/shared/enum/role';
 
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-
 })
 
 export class MainComponent implements OnInit {
@@ -27,6 +28,12 @@ export class MainComponent implements OnInit {
   topWorkshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<boolean>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
+  @Select(UserState.favoriteWorkshops)
+  favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(FilterState.city)
+  city$: Observable<City>;
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
   @Select(MetaDataState.topDirections)
@@ -36,24 +43,34 @@ export class MainComponent implements OnInit {
   public parent: boolean;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
-  constructor(
-    private store: Store,
-    private actions$: Actions,
-  ) { }
 
+  constructor(private store: Store) { }
+
+  getTopWorkshops(role: string): void {
+    if(role === Role.parent) {
+      combineLatest([this.city$, this.favoriteWorkshops$])
+      .pipe(
+        filter(([city, favorit]) => (!!city && !!favorit?.length) || (favorit === null)),
+        takeUntil(this.destroy$))
+      .subscribe(()=> this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+    }
+    else {
+      this.city$
+      .pipe(
+        filter(city => !!city),
+        takeUntil(this.destroy$))
+      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));          
+    }
+  }
 
   ngOnInit(): void {
-    this.store.dispatch([
-      new GetTopDirections(),
-      new GetTopWorkshops(Constants.ITEMS_PER_PAGE)
-    ]);
+    this.store.dispatch(new GetTopDirections());
 
-    this.actions$.pipe(ofAction(SetCity))
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+    this.role$
+    .pipe(
+      filter(role => !!role),
+      takeUntil(this.destroy$))
+    .subscribe(role => this.getTopWorkshops(role))  
 
     this.isParent$
       .pipe(
@@ -65,5 +82,4 @@ export class MainComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }
