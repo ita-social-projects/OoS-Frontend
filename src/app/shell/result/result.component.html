@@ -17,14 +17,9 @@
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
       <app-workshop-map-view-list [filteredWorkshops$]="filteredWorkshops$"></app-workshop-map-view-list>
-
     </div>
     <ng-template #ShowData>
-      <ng-container >
-        <div fxLayout='row wrap' fxLayoutAlign='start'>
-          <app-workshop-cards-list class="cards"  [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
-        </div>
-      </ng-container>
+      <app-workshop-cards-list class="cards" [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>

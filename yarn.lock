@@ -6814,6 +6814,15 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+ngx-mat-timepicker@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-12.1.0.tgz#62fb58a5eac9c393c08286c7db110bea4ae98364"
+  integrity sha512-qPOKjYbXb4LoOKc9/5ZL2bHsjGGzyz9/4PBIm9cQH1S1k/9cszH8as0zFjgXWBphSCNfsZkSQQvYqwJHK+M/Yw==
+  dependencies:
+    smp-core-utils "^12.0.0"
+    ts-luxon "^2.2.0"
+    tslib "^2.1.0"
+
 ngx-pagination@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-5.0.0.tgz#a4b4c150a70aef17ccd825e4543e174a974bbd14"
@@ -8858,6 +8867,13 @@ smart-buffer@^4.1.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.1.0.tgz#91605c25d91652f4661ea69ccf45f1b331ca21ba"
   integrity sha512-iVICrxOzCynf/SNaBQCw34eM9jROU/s5rzIhpOvzhzuYHfJR/DhZfDkXiZSgKXfgv26HT3Yni3AV/DGw0cGnnw==
 
+smp-core-utils@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/smp-core-utils/-/smp-core-utils-12.0.0.tgz#3a2bfd1838985f528c54be7b8059723e62c18b31"
+  integrity sha512-MAg2CkP3arJL1UmWEivbICYX3PtsBWHGAPMRAxgdUwdVaQOlkvb62HEd8qB9RDI80fIPqjelh6wIO3JmQBoXuQ==
+  dependencies:
+    tslib "~2.3.0"
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
@@ -9627,6 +9643,11 @@ ts-jest@26.x:
     semver "7.x"
     yargs-parser "20.x"
 
+ts-luxon@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ts-luxon/-/ts-luxon-2.2.0.tgz#2903bd60fa7711383a6fb244c94306d3d04cc64c"
+  integrity sha512-r+a1xiuy9VQAcwpiDwY2yP6aMlEPlvywUMt3MbOmoy9Y74z/QYAAuEs+Iy3dxVFzrXi8UT7qf7sQO0OeeUK75g==
+
 ts-node@~8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.3.0.tgz#e4059618411371924a1fb5f3b125915f324efb57"
@@ -9658,7 +9679,7 @@ tslib@^2.0.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
-tslib@^2.2.0:
+tslib@^2.1.0, tslib@^2.2.0, tslib@~2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==

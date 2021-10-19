@@ -1,7 +1,6 @@
 import { Direction } from "../models/category.model";
 import { City } from "../models/city.model";
 import { PaginationElement } from "../models/paginationElement.model";
-import { WorkingHours } from "../models/workingHours.model";
 export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: City) { }
@@ -27,11 +26,15 @@ export class SetDirections {
 }
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';
-  constructor(public payload: WorkingHours[]) { }
+  constructor(public payload: string[]) { }
 }
-export class SetWorkingHours {
-  static readonly type = '[filter] Set Working Hours';
-  constructor(public payload: WorkingHours[]) { }
+export class SetStartTime {
+  static readonly type = '[filter] Set Start Time';
+  constructor(public payload: string) { }
+}
+export class SetEndTime {
+  static readonly type = '[filter] Set End Time';
+  constructor(public payload: string) { }
 }
 export class SetIsFree {
   static readonly type = '[filter] Set Is Free type of payment';

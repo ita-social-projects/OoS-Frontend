@@ -41,7 +41,19 @@ export class AppWorkshopsService {
     }
 
     if (filters.maxAge) {
-      params = params.set('MAxAge', filters.maxAge.toString());
+      params = params.set('MaxAge', filters.maxAge.toString());
+    }
+
+    if (filters.startTime) {
+      params = params.set('StartHour', filters.startTime);
+    }
+
+    if (filters.endTime) {
+      params = params.set('EndHour', filters.endTime);
+    }
+
+    if (filters.workingDays.length > 0) {
+      filters.workingDays.forEach((day: string) => params = params.append('Workdays', day));
     }
 
     if (filters.isFree || !filters.minAge) {
@@ -60,7 +72,11 @@ export class AppWorkshopsService {
       filters.directions.forEach((direction: Direction) => params = params.append('DirectionIds', direction.id.toString()));
     }
 
-    if (filters.currentPage) {
+    if (isMapView) {
+      params = params.set('OrderByField', Ordering.nearest);
+      params = params.set('Size', '100');
+      params = params.set('From', '0');
+    } else if (filters.currentPage) {
       const size: number = Constants.ITEMS_PER_PAGE;
       const from: number = size * (+filters.currentPage.element - 1);
 

@@ -24,7 +24,6 @@ import { PersonCardComponent } from './components/person-card/person-card.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
-import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from './components/map/map.component';
@@ -50,6 +49,8 @@ import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.c
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,6 @@ import { MaterialModule } from './modules/material.module';
     PriceFilterComponent,
     CategoryCheckBoxComponent,
     PersonCardComponent,
-    WorkingHoursFormControlComponent,
     ChildCardComponent,
     ApplicationChildFilterPipe,
     MapComponent,
@@ -94,6 +94,7 @@ import { MaterialModule } from './modules/material.module';
     ScrollToTopComponent,
     StatusInfoCardComponent,
     NoResultCardComponent,
+    WorkingHoursFormComponent,
   ],
   imports: [
     MaterialModule,
@@ -105,7 +106,8 @@ import { MaterialModule } from './modules/material.module';
     NgxSliderModule,
     MatProgressBarModule,
     MatButtonToggleModule,
-    MatIconModule
+    MatIconModule,
+    NgxMatTimepickerModule
   ],
   exports: [
     FiltersListComponent,
@@ -127,7 +129,6 @@ import { MaterialModule } from './modules/material.module';
     FormsModule,
     CategoryCheckBoxComponent,
     PersonCardComponent,
-    WorkingHoursFormControlComponent,
     ChildCardComponent,
     MapComponent,
     ApplicationChildFilterPipe,
@@ -150,7 +151,8 @@ import { MaterialModule } from './modules/material.module';
     SidenavComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
-    NoResultCardComponent
+    NoResultCardComponent,
+    WorkingHoursFormComponent
   ]
 })
 export class SharedModule { }

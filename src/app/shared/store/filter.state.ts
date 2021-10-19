@@ -1,11 +1,8 @@
-import { Constants } from './../constants/constants';
-import { GetTopDirections } from './meta-data.actions';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
-import { WorkingHours } from '../models/workingHours.model';
 import {
   SetOrder,
   SetCity,
@@ -13,7 +10,8 @@ import {
   GetTopWorkshops,
   SetDirections,
   SetWorkingDays,
-  SetWorkingHours,
+  SetStartTime,
+  SetEndTime,
   SetIsFree,
   SetMinPrice,
   SetMaxPrice,
@@ -32,12 +30,14 @@ import {
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
 import { tap } from 'rxjs/operators';
+import { Constants } from '../constants/constants';
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
   minAge: number;
-  workingHours: WorkingHours[];
-  workingDays: WorkingHours[];
+  workingDays: string[];
+  startTime: string;
+  endTime: string;
   isFree: boolean;
   maxPrice: number;
   minPrice: number;
@@ -80,8 +80,37 @@ const defaultFilterState: any = {
 }
 
 @State<FilterStateModel>({
+<<<<<<< HEAD
     name: 'filter',
     defaults: {...defaultFilterState}
+=======
+  name: 'filter',
+  defaults: {
+    directions: [],
+    maxAge: null,
+    minAge: null,
+    startTime: null,
+    endTime: null,
+    workingDays: [],
+    isFree: false,
+    maxPrice: 0,
+    minPrice: 0,
+    isOpenRecruitment: false,
+    isClosedRecruitment: false,
+    city: undefined,
+    searchQuery: '',
+    order: '',
+    filteredWorkshops: undefined,
+    topWorkshops: [],
+    withDisabilityOption: false,
+    isLoading: false,
+    currentPage: {
+      element: 1,
+      isActive: true
+    },
+    isConfirmCity: false,
+  }
+>>>>>>> develop
 })
 
 @Injectable()
@@ -129,12 +158,12 @@ export class FilterState {
   }
 
   @Action(CleanCity)
-  cleanCity({ patchState }: StateContext<FilterStateModel> ): void {
-    patchState({ city: undefined});
+  cleanCity({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ city: undefined });
   }
 
   @Action(ConfirmCity)
-  confirmCity({patchState}:StateContext<FilterStateModel> , { payload }: ConfirmCity ): void {
+  confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
     patchState({
       isConfirmCity: payload
     });
@@ -158,9 +187,14 @@ export class FilterState {
     dispatch(new FilterChange());
   }
 
-  @Action(SetWorkingHours)
-  setWorkingHours({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWorkingHours) {
-    patchState({ workingHours: payload });
+  @Action(SetStartTime)
+  setStartTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetStartTime) {
+    patchState({ startTime: payload });
+    dispatch(new FilterChange());
+  }
+  @Action(SetEndTime)
+  setEndTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetEndTime) {
+    patchState({ endTime: payload });
     dispatch(new FilterChange());
   }
 

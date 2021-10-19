@@ -5,18 +5,14 @@ on: [push, pull_request]
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
       - name: Pull the source code to GitHub workspace
         uses: actions/checkout@v2
       - name: Set up Node environment
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: c-hive/gha-yarn-cache@v1
+          node-version: '14'
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn install
       - name: Run build

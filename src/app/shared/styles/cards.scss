@@ -1,6 +1,6 @@
 .card {
   width: 300px;
-  min-height: 440px;
+  min-height: 410px;
 
   &-title {
     font-family: Innerspace;
@@ -41,6 +41,13 @@
   &-list {
     color: #3849F9;
     font-weight: 700;
+    margin-left: 2rem;
+    padding: 0;
+  }
+  &-list-workshop{
+    &:hover {
+      cursor: pointer;
+      }
   }
 
   &_text {
@@ -62,6 +69,22 @@
   display: flex;
   flex-direction: row-reverse;
 }
+
+.more-details {
+  display: flex;
+  width: 110px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  .mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #3849F9;
+    font-weight: 700;
+  }
+}
+
 .actions_btn {
   border-radius: 50%;
   background-color: #494545b9;
