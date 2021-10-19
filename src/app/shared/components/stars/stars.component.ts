@@ -30,6 +30,7 @@ export class StarsComponent implements OnInit {
   ngOnInit(): void {
     this.ratingSelect.emit(this.ratingFormControl);
   }
+
   onClick(stars: number): void {
     this.selectedStars = stars;
   }
