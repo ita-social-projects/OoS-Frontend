@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactsComponent } from './contacts.component';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from '../../../../shared/modules/material.module';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
@@ -29,4 +30,5 @@ describe('ContactsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
 });

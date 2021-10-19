@@ -3,10 +3,6 @@
     <ng-container *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
     </ng-container>
 
-
-
-
-
     <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'" fxLayout="column"
       fxLayoutAlign="space-evenly space-between">
       <div class="card-img" fxLayout="row" fxLayoutAlign="center">
