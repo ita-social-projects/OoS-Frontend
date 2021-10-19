@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // Based on: https://github.com/microsoft/vscode-recipes/tree/master/Angular-CLI
+    {
+      "name": "Launch ng serve & Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:4200/#",
+
+      // Note: The ./client directory
+      "webRoot": "${workspaceFolder}",
+
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "*",
+        "/./~/*": "${webRoot}/node_modules/*"
+      }
+    },
+  ]
+}

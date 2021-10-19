@@ -1,5 +1,8 @@
 <div class="wrapper">
-  <p class="filter-text">Напрямки</p>
+  <div class="header" fxLayout='row' fxLayoutAlign='space-between'>
+    <p class="filter-text">Напрямки</p>
+    <button mat-raised-button class="clearFilter" (click)="onClearFilter()">Очисти фільтр</button>
+  </div>
   <div class="search-bar" fxLayout='row' fxLayoutAlign='space-evenly'>
     <button mat-stroked-button>
       <mat-icon class="search-icon" style="transform: rotate(90deg)" (click)="onSearch()">

@@ -27,6 +27,7 @@ import {
   PageChange,
   ConfirmCity,
   CleanCity,
+  ClearFilter
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -52,33 +53,37 @@ export interface FilterStateModel {
   currentPage: PaginationElement;
   isConfirmCity: boolean;
 }
+
+const defaultFilterState: any = {
+  directions: [],
+  maxAge: null,
+  minAge: null,
+  workingDays: [],
+  workingHours: [],
+  isFree: false,
+  maxPrice: 0,
+  minPrice: 0,
+  isOpenRecruitment: false,
+  isClosedRecruitment: false,
+  searchQuery: '',
+  order: '',
+  filteredWorkshops: undefined,
+  topWorkshops: [],
+  withDisabilityOption: false,
+  isLoading: false,
+  currentPage: {
+    element: 1,
+    isActive: true
+  },
+  isConfirmCity: false,
+  city: undefined
+}
+
 @State<FilterStateModel>({
-  name: 'filter',
-  defaults: {
-    directions: [],
-    maxAge: null,
-    minAge: null,
-    workingDays: [],
-    workingHours: [],
-    isFree: false,
-    maxPrice: 0,
-    minPrice: 0,
-    isOpenRecruitment: false,
-    isClosedRecruitment: false,
-    city: undefined,
-    searchQuery: '',
-    order: '',
-    filteredWorkshops: undefined,
-    topWorkshops: [],
-    withDisabilityOption: false,
-    isLoading: false,
-    currentPage: {
-      element: 1,
-      isActive: true
-    },
-    isConfirmCity: false,
-  }
+    name: 'filter',
+    defaults: {...defaultFilterState}
 })
+
 @Injectable()
 export class FilterState {
 
@@ -102,6 +107,15 @@ export class FilterState {
 
   @Selector()
   static searchQuery(state: FilterStateModel): string { return state.searchQuery }
+
+  @Selector()
+  static minAge(state: FilterStateModel): number { return state.minAge }
+
+  @Selector()
+  static maxAge(state: FilterStateModel): number { return state.maxAge }
+
+  @Selector()
+  static workingHours(state: FilterStateModel): WorkingHours[] { return state.workingHours }
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -234,4 +248,34 @@ export class FilterState {
 
   @Action(FilterChange)
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+
+  @Action(ClearFilter)
+  ClearFilter({ patchState, getState }: StateContext<FilterStateModel> ): void {
+    const state: FilterStateModel = getState();
+
+    patchState({
+      directions: [],
+      maxAge: null,
+      minAge: null,
+      workingDays: [],
+      workingHours: [],
+      isFree: false,
+      maxPrice: 0,
+      minPrice: 0,
+      isOpenRecruitment: false,
+      isClosedRecruitment: false,
+      searchQuery: '',
+      order: 'Rating',
+      filteredWorkshops: undefined,
+      topWorkshops: [],
+      withDisabilityOption: false,
+      isLoading: false,
+      currentPage: {
+        element: 1,
+        isActive: true
+      },
+      isConfirmCity: false,
+      // ...defaultFilterState,
+      city: state.city});
+  }
 }

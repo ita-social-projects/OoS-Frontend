@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { ResultComponent } from './result/result.component';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, RouteReuseStrategy } from '@angular/router';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
@@ -74,6 +74,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ShellRoutingModule { }

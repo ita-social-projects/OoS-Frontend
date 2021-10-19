@@ -3,7 +3,7 @@ import { Constants } from './../../shared/constants/constants';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { SetCity, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
+import { SetCity, GetTopWorkshops, ClearFilter } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
@@ -45,7 +45,8 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch([
       new GetTopDirections(),
-      new GetTopWorkshops(Constants.ITEMS_PER_PAGE)
+      new GetTopWorkshops(Constants.ITEMS_PER_PAGE),
+      new ClearFilter()
     ]);
 
     this.actions$.pipe(ofAction(SetCity))

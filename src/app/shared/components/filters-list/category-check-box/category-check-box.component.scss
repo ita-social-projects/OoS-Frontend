@@ -1,6 +1,20 @@
 .wrapper{
   width: 70%;
 }
+
+.header > .clearFilter {
+  box-sizing: border-box;
+  box-shadow: none;
+  border: 1px solid #EBEBEB;
+  border-radius: 25px;
+  background: #FFFFFF;
+  font-family: "Open Sans", sans-serif;
+  font-weight: normal;
+  &:hover{
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
 .search-bar {
 background: #FFFFFF;
 border: 1px solid #FFFFFF;

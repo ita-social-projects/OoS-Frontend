@@ -87,3 +87,7 @@ export class PageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
 }
+export class ClearFilter {
+  static readonly type = '[filter] Clear Filter';
+  constructor() { }
+}

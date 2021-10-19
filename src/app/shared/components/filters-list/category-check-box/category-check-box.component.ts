@@ -5,9 +5,10 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Direction } from 'src/app/shared/models/category.model';
-import { SetDirections } from 'src/app/shared/store/filter.actions';
+import { SetDirections, ClearFilter, FilterChange } from 'src/app/shared/store/filter.actions';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-category-check-box',
@@ -17,6 +18,8 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 export class CategoryCheckBoxComponent implements OnInit {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+  @Select(FilterState.directions)
+  filterDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   allDirections: Direction[] = [];
@@ -29,9 +32,15 @@ export class CategoryCheckBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
+
     this.directions$.pipe(
       takeUntil(this.destroy$),
     ).subscribe(directions => this.allDirections = directions);
+
+    this.filterDirections$.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe(directions => {
+      this.selectedDirections = directions});
 
     this.directionSearch.valueChanges
       .pipe(
@@ -56,7 +65,7 @@ export class CategoryCheckBoxComponent implements OnInit {
   */
   onDirectionCheck(direction: Direction, event: MatCheckbox,): void {
     (event.checked) ? this.selectedDirections.push(direction) : this.selectedDirections.splice(this.selectedDirections.indexOf(direction), 1);
-    this.store.dispatch(new SetDirections(this.selectedDirections));
+    this.store.dispatch(new SetDirections([...this.selectedDirections]));
   }
 
   /**
@@ -85,6 +94,10 @@ export class CategoryCheckBoxComponent implements OnInit {
 
   onSearch(): void {
     this.showAll = true;
+  }
+
+  onClearFilter() {
+    this.store.dispatch([new ClearFilter(),new FilterChange()]);
   }
 
   ngOnDestroy() {

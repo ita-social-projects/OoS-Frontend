@@ -51,6 +51,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
     this.store.dispatch(
       new AddNavPath(this.navigationBarService.creatOneNavPath(
         { name: NavBarName.TopWorkshops, isActive: false, disable: true }
