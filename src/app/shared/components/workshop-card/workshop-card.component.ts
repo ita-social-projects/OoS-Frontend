@@ -2,7 +2,7 @@ import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ApplicationStatus } from '../../enum/applications';
-import {ApplicationTitles} from 'src/app/shared/enum/enumUA/applications'
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications'
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -12,6 +12,7 @@ import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CategoryIcons } from '../../enum/category-icons';
 
 @Component({
   selector: 'app-workshop-card',
@@ -24,6 +25,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
   public below: string = 'below';
+  public categoryIcons = CategoryIcons;
 
   @Input() workshop: WorkshopCard;
   @Input() userRole: string;
@@ -31,9 +33,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() application: Application;
   @Input() parent: boolean;
   @Input() isHorizontalView: boolean = false;
-  @Input() isCreateApplicationView: boolean = true;
-
-
+  @Input() isCreateApplicationView: boolean = true;    
+  @Input() icons: {};
+  
+  
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
 
@@ -96,4 +99,5 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+  
 }

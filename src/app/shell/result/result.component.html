@@ -32,10 +32,10 @@
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
     (click)="isFiltersVisible = !isFiltersVisible">
-    <span class="material-icons btn-icon">
-      <img src="assets/icons/blue-filter-icon.svg" class="btn-icon" *ngIf="isFiltersVisible; else hidden">
+    <span class="material-icons btn-icon">      
+     <mat-icon *ngIf="isFiltersVisible; else hidden">filter_alt</mat-icon>
       <ng-template #hidden>
-        <img src="assets/icons/filter-icon.svg" class="btn-icon">
+        <mat-icon>filter_alt</mat-icon>
       </ng-template>
     </span>
   </button>

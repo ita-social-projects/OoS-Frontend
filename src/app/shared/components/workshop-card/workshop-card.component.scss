@@ -1,4 +1,5 @@
 @import "src/app/shared/styles/cards.scss";
+
 .icon{
   display: flex;
   flex-direction: row;
@@ -53,7 +54,7 @@
 }
 @media (max-width: 750px) {
 .horizontal-card {
-  min-height: 150px;
+  min-height: 150px;  
 
   .card_text {
     margin: 0;

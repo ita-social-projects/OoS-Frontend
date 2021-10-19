@@ -1,7 +1,7 @@
 <div>
-  <mat-card>
+  <mat-card fxLayout="column" fxLayoutAlign="start center">
     <img mat-card-image src="assets/icons/teacher.png" alt="teacher-photo">
-    <mat-card-title>{{ teacher.firstName }} {{ teacher.lastName }} </mat-card-title>
-    <mat-card-content>{{ teacher.description }}</mat-card-content>
+    <mat-card-title fxFlexAlign="start">{{ teacher.firstName }} {{ teacher.lastName }} </mat-card-title>
+    <mat-card-content fxFlexAlign="start">{{ teacher.description }}</mat-card-content>
   </mat-card>
 </div>
