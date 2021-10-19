@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { WorkingDays } from 'src/app/shared/enum/enumUA/working-hours';
-import { WorkingTime } from 'src/app/shared/enum/working-hours';
-import { WorkingHours } from 'src/app/shared/models/workingHours.model';
-
-import { SetWorkingDays, SetWorkingHours } from 'src/app/shared/store/filter.actions';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
+import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
+import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-working-hours',
@@ -13,88 +15,54 @@ import { SetWorkingDays, SetWorkingHours } from 'src/app/shared/store/filter.act
 })
 export class WorkingHoursComponent implements OnInit {
 
-  selectedWorkingHours: WorkingHours[] = [];
-  selectedWorkingDays: WorkingHours[] = [];
+  readonly constants: typeof Constants = Constants;
+  readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+  days: WorkingDaysToggleValue[] = WorkingDaysValues;
 
-  days: WorkingHours[] = [
-    {
-      value: WorkingDays.monday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.tuesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.wednesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.thursday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.friday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.saturday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.sunday,
-      selected: false,
-    }
-  ];
-
-  hours: WorkingHours[] = [
-    {
-      value: WorkingTime.morning,
-      selected: false,
-    },
-    {
-      value: WorkingTime.midday,
-      selected: false,
-    },
-    {
-      value: WorkingTime.afternoon,
-      selected: false,
-    },
-    {
-      value: WorkingTime.evening,
-      selected: false,
-    }
-  ];
+  startTimeFormControl = new FormControl('');
+  endTimeFormControl = new FormControl('');
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  selectedWorkingDays: string[] = [];
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.startTimeFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((time: string) => !!time),
+    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+
+    this.endTimeFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((time: string) => !!time),
+    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
+
+  }
+
+  getMinTime(): string {
+    return this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MAX_TIME;
+  }
 
   /**
   * This method check value, add it to the list of selected working days and distpatch filter action
   * @param day
   */
-  onToggleDays(day: WorkingHours): void {
+  onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
-      this.selectedWorkingDays.push(day)
+      this.selectedWorkingDays.push(this.workingDaysReverse[day.value])
     } else {
-      this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(day), 1);
+      this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(this.workingDaysReverse[day.value]), 1);
     }
     this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays));
   }
 
-  /**
-  * This method check value, add it to the list of selected working hours and distpatch filter action
-  * @param time
-  */
-  onToggleHours(hour: WorkingHours): void {
-    hour.selected = !hour.selected;
-    if (hour.selected) {
-      this.selectedWorkingHours.push(hour)
-    } else {
-      this.selectedWorkingHours.splice(this.selectedWorkingHours.indexOf(hour), 1);
-    }
-    this.store.dispatch(new SetWorkingHours(this.selectedWorkingHours));
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

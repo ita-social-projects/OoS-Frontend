@@ -7,7 +7,6 @@ import { GeolocationService } from '../shared/services/geolocation/geolocation.s
 import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
-import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 
 @Component({
   selector: 'app-shell',

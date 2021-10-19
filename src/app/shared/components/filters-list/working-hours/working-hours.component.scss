@@ -8,6 +8,27 @@
   min-width: 200px;
   min-height: 50px;
 }
+
+.title{
+  margin-bottom: 0;
+}
+
+.time-input{
+  border: 1px solid #E3E3E3;
+  box-sizing: border-box;
+  border-radius: 21px;
+  padding: 0.5rem;
+  max-width: 80px;
+  text-align: center;
+}
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+  padding: 0;
+  margin: 0;
+}
+
 .toggle{
   height: 40px;
   flex-grow: 1;
@@ -30,4 +51,27 @@
     cursor: pointer;
     opacity: 0.8;
   }
+}
+
+.btn{
+  color:white;
+  background-color:#3849F9;
+  border: 1px solid #3849F9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  min-width: 150px;
+  &-cancel{
+    color: #444444!important;
+    background-color:transparent !important;
+    border-color: #444444!important;
+  }
+}
+::ng-deep .mat-toolbar.mat-primary{
+  background-color: #3849F9 !important;
+}
+::ng-deep .timepicker__main-content{
+  display: flex;
+  justify-content: center;
 }

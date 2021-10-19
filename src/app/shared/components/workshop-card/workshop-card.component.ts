@@ -13,6 +13,7 @@ import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from '../../enum/category-icons';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-workshop-card',
@@ -45,13 +46,18 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
+  roleUser: string;
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) { }
+  constructor(
+    private store: Store,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.favoriteWorkshops$
@@ -61,6 +67,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
+
+    this.role$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(role => this.roleUser = role)
   }
 
   onEdit(): void {
@@ -95,9 +105,26 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.leaveWorkshop.emit(this.application);
   }
 
+  onOpenDialog(): void {
+    this.dialog.open(WorkshopCardDialog);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
   
 }
+
+@Component({
+  selector: 'app-workshop-dialog',
+  template: `
+    <div mat-dialog-content fxLayoutAlign="center" class="dialog-title">
+      <p>Для того щоб додати в улюблені будь ласка зареєструйтесь на порталі. Дякуемо</p>
+    </div>
+    <div mat-dialog-actions fxLayoutAlign="center">
+      <button mat-raised-button mat-dialog-close class="dialog-action-button">Повернутись</button>
+    </div>`,
+    styleUrls: ['./workshop-card.component.scss']
+  })
+  export class WorkshopCardDialog { }
