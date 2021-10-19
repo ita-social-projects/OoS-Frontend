@@ -11,6 +11,7 @@ import { Teacher } from '../../models/teacher.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Application } from '../../models/application.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -25,7 +26,8 @@ describe('WorkshopCardComponent', () => {
         FlexLayoutModule,
         RouterTestingModule,
         MatChipsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDialogModule
       ],
       declarations: [WorkshopCardComponent],
     })
