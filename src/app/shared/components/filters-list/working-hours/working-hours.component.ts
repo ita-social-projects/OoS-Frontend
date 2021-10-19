@@ -1,25 +1,13 @@
-<<<<<<< HEAD
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { WorkingDays } from 'src/app/shared/enum/enumUA/working-hours';
-import { WorkingTime } from 'src/app/shared/enum/working-hours';
-import { WorkingHours } from 'src/app/shared/models/workingHours.model';
-
-import { SetWorkingDays, SetWorkingHours, ClearFilter } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
-=======
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, takeUntil, startWith } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
-import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
->>>>>>> develop
+import { ClearFilter, SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-working-hours',
@@ -28,49 +16,19 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
 
-<<<<<<< HEAD
-  @Select(FilterState.workingHours)
-  workingHours$: Observable<WorkingHours[]>;
+  @Select(FilterState.startTime)
+  startTime$: Observable<string>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  selectedWorkingHours: WorkingHours[] = [];
-  selectedWorkingDays: WorkingHours[] = [];
+  @Select(FilterState.endtTime)
+  endTime$: Observable<string>;
 
-  days: WorkingHours[] = [
-    {
-      value: WorkingDays.monday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.tuesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.wednesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.thursday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.friday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.saturday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.sunday,
-      selected: false,
-    }
-  ];
-=======
+  @Select(FilterState.workingDays)
+  workingDays$: Observable<string[]>;
+
+
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues;
->>>>>>> develop
 
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
@@ -79,89 +37,49 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store,private actions$: Actions,) { }
 
-  ngOnInit(): void {
-    this.actions$.pipe(ofAction(ClearFilter))
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.days = [
-          {
-            value: WorkingDays.monday,
-            selected: false,
-          },
-          {
-            value: WorkingDays.tuesday,
-            selected: false,
-          },
-          {
-            value: WorkingDays.wednesday,
-            selected: false,
-          },
-          {
-            value: WorkingDays.thursday,
-            selected: false,
-          },
-          {
-            value: WorkingDays.friday,
-            selected: false,
-          },
-          {
-            value: WorkingDays.saturday,
-            selected: false,
-          },
-          {
-            value: WorkingDays.sunday,
-            selected: false,
-          }
-        ];
-        this.hours = [
-          {
-            value: WorkingTime.morning,
-            selected: false,
-          },
-          {
-            value: WorkingTime.midday,
-            selected: false,
-          },
-          {
-            value: WorkingTime.afternoon,
-            selected: false,
-          },
-          {
-            value: WorkingTime.evening,
-            selected: false,
-          }
-        ];
-      });
 
-<<<<<<< HEAD
-  }
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-=======
+
   ngOnInit(): void {
-    this.startTimeFormControl.valueChanges.pipe(
+
+    this.startTime$.pipe(
       takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged(),
-      filter((time: string) => !!time),
-    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+      distinctUntilChanged()
+    ).subscribe(time => this.startTimeFormControl.setValue(time))
 
-    this.endTimeFormControl.valueChanges.pipe(
+    this.endTime$.pipe(
+      takeUntil(this.destroy$),
+      distinctUntilChanged()
+    ).subscribe(time => this.endTimeFormControl.setValue(time))
+
+    this.workingDays$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(workingDays => {
+      this.selectedWorkingDays = workingDays
+      this.days = this.days.map( day => {
+        this.selectedWorkingDays.indexOf(this.workingDaysReverse[day.value]) === -1 ? day.selected = false : day.selected = true
+        return day
+      })
+    })
+
+
+    this.startTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
       filter((time: string) => !!time),
     ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
 
+    this.endTimeFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((time: string) => !!time),
+    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+
   }
 
   getMinTime(): string {
     return this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MAX_TIME;
->>>>>>> develop
   }
 
   /**
@@ -177,6 +95,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays));
   }
+
+
 
   ngOnDestroy() {
     this.destroy$.next(true);

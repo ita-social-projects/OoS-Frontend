@@ -1,15 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
+import { FilterState } from '../../store/filter.state';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
   styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
+
+  @Select(FilterState.withDisabilityOption)
+  withDisabilityOption$: Observable<boolean>;
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
@@ -20,6 +24,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.withDisabilityOption$.pipe(takeUntil(this.destroy$)).subscribe(boolen => {
+      this.WithDisabilityOptionControl.setValue(boolen)
+    });
     this.OpenRecruitmentControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),

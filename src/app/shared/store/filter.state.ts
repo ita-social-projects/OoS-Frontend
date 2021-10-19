@@ -1,3 +1,4 @@
+import { Options } from '@angular-slider/ngx-slider';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Direction } from '../models/category.model';
@@ -54,36 +55,7 @@ export interface FilterStateModel {
   isConfirmCity: boolean;
 }
 
-const defaultFilterState: any = {
-  directions: [],
-  maxAge: null,
-  minAge: null,
-  workingDays: [],
-  workingHours: [],
-  isFree: false,
-  maxPrice: 0,
-  minPrice: 0,
-  isOpenRecruitment: false,
-  isClosedRecruitment: false,
-  searchQuery: '',
-  order: '',
-  filteredWorkshops: undefined,
-  topWorkshops: [],
-  withDisabilityOption: false,
-  isLoading: false,
-  currentPage: {
-    element: 1,
-    isActive: true
-  },
-  isConfirmCity: false,
-  city: undefined
-}
-
 @State<FilterStateModel>({
-<<<<<<< HEAD
-    name: 'filter',
-    defaults: {...defaultFilterState}
-=======
   name: 'filter',
   defaults: {
     directions: [],
@@ -110,7 +82,6 @@ const defaultFilterState: any = {
     },
     isConfirmCity: false,
   }
->>>>>>> develop
 })
 
 @Injectable()
@@ -144,7 +115,28 @@ export class FilterState {
   static maxAge(state: FilterStateModel): number { return state.maxAge }
 
   @Selector()
-  static workingHours(state: FilterStateModel): WorkingHours[] { return state.workingHours }
+  static minPrice(state: FilterStateModel): number { return state.minPrice }
+
+  @Selector()
+  static maxPrice(state: FilterStateModel): number { return state.maxPrice }
+
+  @Selector()
+  static isFree(state: FilterStateModel): boolean { return state.isFree }
+
+  @Selector()
+  static withDisabilityOption(state: FilterStateModel): boolean { return state.withDisabilityOption }
+
+  @Selector()
+  static order(state: FilterStateModel): string { return state.order }
+
+  @Selector()
+  static workingDays(state: FilterStateModel): string[] { return state.workingDays }
+
+  @Selector()
+  static startTime(state: FilterStateModel): string { return state.startTime }
+
+  @Selector()
+  static endtTime(state: FilterStateModel): string { return state.endTime }
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -291,8 +283,9 @@ export class FilterState {
       directions: [],
       maxAge: null,
       minAge: null,
+      startTime: null,
+      endTime: null,
       workingDays: [],
-      workingHours: [],
       isFree: false,
       maxPrice: 0,
       minPrice: 0,
@@ -309,7 +302,6 @@ export class FilterState {
         isActive: true
       },
       isConfirmCity: false,
-      // ...defaultFilterState,
       city: state.city});
   }
 }
