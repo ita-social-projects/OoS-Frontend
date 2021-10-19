@@ -65,4 +65,3 @@ class MockSearchBarComponent {
   template: ''
 })
 class MockNavigationMobileBarComponent { }
-s
