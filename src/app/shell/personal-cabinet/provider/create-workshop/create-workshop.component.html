@@ -16,7 +16,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AboutFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -31,7 +31,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(DescriptionFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -45,7 +45,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AddressFormGroup)">Далі</button>
         </div>
       </mat-step>
 

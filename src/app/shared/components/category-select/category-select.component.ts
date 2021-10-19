@@ -1,9 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { isObject } from '@ngxs/store/src/internal/internals';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil, takeWhile } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { Department, Direction, IClass } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
 import { GetClasses, GetDirections, GetDepartments, FilteredDirectionsList, FilteredDepartmentsList, FilteredClassesList, ClearClasses, ClearDepartments } from '../../store/meta-data.actions';
@@ -41,22 +40,16 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workshop: Workshop;
-  @Output() passCategoriesFormGroup = new EventEmitter<FormGroup>();
 
-  CategoryFormGroup: FormGroup;
-  directionsFormControl = new FormControl('');
-  departmentsFormControl = new FormControl('');
-  classesFormControl = new FormControl('');
+  @Input() CategoryFormGroup: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private store: Store) {
-    this.CategoryFormGroup = this.formBuilder.group({
-      directionId: new FormControl(''),
-      departmentId: new FormControl(''),
-      classId: new FormControl(''),
-    });
-  }
+  constructor(private store: Store) { }
+
+  get directionIdControl() { return this.CategoryFormGroup && this.CategoryFormGroup.get('directionId'); }
+
+  get departmentIdControl() { return this.CategoryFormGroup && this.CategoryFormGroup.get('departmentId'); }
+
+  get classIdControl() { return this.CategoryFormGroup && this.CategoryFormGroup.get('classId'); }
 
   ngOnInit(): void {
     this.setInitialDirestions();
@@ -136,10 +129,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   * @param direction Direction
   */
   onSelectDirection(direction: Direction): void {
-    this.clearDepartments();
-    this.clearClasses();
+    this.clearDepartments(true);
+    this.clearClasses(true);
 
-    this.CategoryFormGroup.get('directionId').setValue(direction.id);
     this.store.dispatch(new GetDepartments(direction.id));
   }
 
@@ -155,9 +147,8 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   * @param department: Department
   */
   onSelectDepartment(department: Department): void {
-    this.clearClasses();
+    this.clearClasses(true);
 
-    this.CategoryFormGroup.get('departmentId').setValue(department.id);
     this.store.dispatch(new GetClasses(department.id));
   }
 
@@ -166,15 +157,6 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   */
   getFullDepartmentList(): void {
     this.filteredDepartments = this.departments;
-  }
-
-  /**
-  * This method sets the selected class to the form.
-  * @param classItem: IClass
-  */
-  onSelectClasses(classItem: IClass): void {
-    this.CategoryFormGroup.get('classId').reset();
-    this.CategoryFormGroup.get('classId').setValue(classItem.id);
   }
 
   /**
@@ -191,7 +173,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
     this.filteredDirections$.subscribe((filteredDirections: Direction[]) => this.filteredDirections = filteredDirections);
     this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
 
-    this.directionsFormControl.valueChanges
+    this.directionIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -203,9 +185,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
           this.store.dispatch(new FilteredDirectionsList(this.filterDirections(input)));
         } else {
           this.getFullDirectionList();
-          this.clearDepartments();
-          this.clearClasses();
-
+          this.clearDirections();
+          this.clearDepartments(true);
+          this.clearClasses(true);
         }
       });
 
@@ -219,7 +201,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
     this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);
     this.departments$.subscribe((departments: Department[]) => this.departments = departments);
 
-    this.departmentsFormControl.valueChanges
+    this.departmentIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -231,8 +213,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
           this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(input)));
         } else {
           this.getFullDepartmentList();
-          this.clearClasses();
-        }
+          this.clearDepartments();
+          this.clearClasses(true);
+        };
       });
     this.setInitialClasses();
 
@@ -245,7 +228,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
     this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.filteredClasses = filteredClasses);
     this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
 
-    this.classesFormControl.valueChanges
+    this.classIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
@@ -257,10 +240,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
           this.store.dispatch(new FilteredClassesList(this.filterClasses(input)));
         } else {
           this.getFullClassList();
-        }
+          this.clearClasses();
+        };
       });
-
-    this.passCategoriesFormGroup.emit(this.CategoryFormGroup);
 
     this.workshop ? this.activateEditMode() : this.store.dispatch([
       new GetDirections(),
@@ -270,21 +252,26 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
+  * This method resets selected value of direction in teh form and input.
+  */
+  private clearDirections(): void {
+    this.directionIdControl.reset();
+  }
+
+  /**
   * This method clears list of departments and reset selected value in teh form and input.
   */
-  private clearDepartments(): void {
-    this.store.dispatch(new ClearDepartments());
-    this.CategoryFormGroup.get('departmentId').reset();
-    this.departmentsFormControl.reset();
+  private clearDepartments(clearState: boolean = false): void {
+    clearState && this.store.dispatch(new ClearDepartments());
+    this.departmentIdControl.reset();
   }
 
   /**
   * This method clears list of classes and reset selected value in teh form and input.
   */
-  private clearClasses(): void {
-    this.store.dispatch(new ClearClasses());
-    this.CategoryFormGroup.get('classId').reset();
-    this.classesFormControl.reset();
+  private clearClasses(clearState: boolean = false): void {
+    clearState && this.store.dispatch(new ClearClasses());
+    this.classIdControl.reset();
   }
 
   /**
@@ -296,25 +283,25 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDirection = this.directions.find((direction: Direction) => this.workshop.directionId === direction.id);
-        this.directionsFormControl.setValue(selectedDirection);
+        this.directionIdControl.setValue(selectedDirection);
       });
 
     this.store.dispatch(new GetDepartments(this.workshop.directionId))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDepartment = this.departments.find((department: Department) => this.workshop.departmentId === department.id);
-        this.departmentsFormControl.setValue(selectedDepartment);
+        this.departmentIdControl.setValue(selectedDepartment);
       });
 
     this.store.dispatch(new GetClasses(this.workshop.departmentId))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedClass = this.classes.find((classItem: IClass) => this.workshop.classId === classItem.id);
-        this.classesFormControl.setValue(selectedClass);
+        this.classIdControl.setValue(selectedClass);
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

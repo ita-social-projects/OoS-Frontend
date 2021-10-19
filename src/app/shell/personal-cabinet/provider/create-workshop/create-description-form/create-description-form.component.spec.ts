@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -60,6 +60,7 @@ describe('CreateDescriptionFormComponent', () => {
 })
 class MockCategorySelectComponent {
   @Input() workshop: Workshop;
+  @Input() CategoryFormGroup: FormGroup;
 }
 
 @Component({
