@@ -1,7 +1,7 @@
 <mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
 
   <div class="mobile-sidenav-content" *ngIf="isMobileView">
-    <div *ngIf="(role$ | async) !== Role.unauthorized then isAuthorized; else isUnauthorized"></div>
+    <div *ngIf="(isAuthorized$ | async) && (user$ | async) then isAuthorized; else isUnauthorized"></div>
 
     <ng-template #isUnauthorized>
       <div class="mobile-sidenav-header">
@@ -67,12 +67,12 @@
 
         <div class="mobile-sidenav-menu">
           <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
-          <a [routerLink]="'./personal-cabinet/' + (role$ | async) + '/info'" (click)="changeView()">Інформація про
-            {{roles[role$ | async]}}</a>
+          <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'" (click)="changeView()">Інформація про
+            {{roles[(user$ | async).role]}}</a>
           <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
           <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
           <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a>
-          <a *ngIf="(role$ | async) === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
+          <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
             (click)="changeView()">Улюблене</a>
           <button (click)="logout()">Вийти</button>
         </div>

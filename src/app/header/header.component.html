@@ -27,7 +27,7 @@
           <mat-option [ngClass]="'lang-option-text'" value="uk"> {{Languages.uk}} </mat-option>
         </mat-select>
       </button>
-      <div *ngIf="(role$ | async) !== Role.unauthorized then isAuthorized; else isUnauthorized"></div>
+      <div *ngIf="(isAuthorized$ | async) && (user$ | async) then isAuthorized; else isUnauthorized"></div>
     </div>
   </div>
   <div *ngIf="isRouter('/') then isMainPage;" class="header_wrapper"></div>
@@ -100,12 +100,12 @@
       <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста
           інформація</button></a>
 
-      <a [routerLink]="'./personal-cabinet/' + (role$ | async) + '/info'"> <button mat-menu-item>Інформація про
-          {{roles[role$ | async]}}</button></a>
+      <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'"> <button mat-menu-item>Інформація про
+          {{roles[(user$ | async).role]}}</button></a>
       <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
       <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
       <!-- <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a> -->
-      <a *ngIf="(role$ | async) === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
+      <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
           mat-menu-item>Улюблене</button></a>
       <button mat-menu-item (click)="logout()">Вийти</button>
     </mat-menu>

@@ -39,8 +39,8 @@ export class HeaderComponent implements OnInit {
   isLoadingDirections: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
-  @Select(RegistrationState.role)
-  role$: Observable<string>;
+  @Select(RegistrationState.isAuthorized)
+  isAuthorized$: Observable<string>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
