@@ -7,7 +7,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
-import { Child, ChildCards } from '../models/child.model';
+import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -18,6 +18,9 @@ import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
+import { ClearClasses, ClearDepartments } from './meta-data.actions';
+import { FilterStateModel } from './filter.state';
+import { PaginationElement } from '../models/paginationElement.model';
 import {
   CreateApplication,
   CreateChildren,
@@ -68,9 +71,7 @@ import {
   CabinetPageChange,
   GetAllUsersChildren,
 } from './user.actions';
-import { ClearClasses, ClearDepartments } from './meta-data.actions';
-import { FilterStateModel } from './filter.state';
-import { PaginationElement } from '../models/paginationElement.model';
+
 
 export interface UserStateModel {
   isLoading: boolean;

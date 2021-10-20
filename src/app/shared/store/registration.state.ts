@@ -120,9 +120,9 @@ export class RegistrationState {
   @Action(GetProfile)
   getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile) {
     const state = getState();
-    patchState({ role: state.user.role});
-    
-    if (state.user.role === Role.parent) {
+    patchState({ role: state.user.role });
+
+    if (state.role === Role.parent) {
       return this.parentService
         .getProfile()
         .pipe(

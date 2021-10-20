@@ -39,8 +39,8 @@ export class HeaderComponent implements OnInit {
   isLoadingDirections: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
-    this.user$.subscribe(user => this.user = user);
   }
 
   logout(): void {
