@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Constants, WorkingDaysValues } from '../../constants/constants';
-import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
+import { WorkingDays, WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
 
 @Component({
@@ -13,14 +13,42 @@ export class WorkingHoursFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-  days: WorkingDaysToggleValue[] = WorkingDaysValues;
+  days: WorkingDaysToggleValue[] = [
+    {
+      value: WorkingDays.monday,
+      selected: false,
+    },
+    {
+      value: WorkingDays.tuesday,
+      selected: false,
+    },
+    {
+      value: WorkingDays.wednesday,
+      selected: false,
+    },
+    {
+      value: WorkingDays.thursday,
+      selected: false,
+    },
+    {
+      value: WorkingDays.friday,
+      selected: false,
+    },
+    {
+      value: WorkingDays.saturday,
+      selected: false,
+    },
+    {
+      value: WorkingDays.sunday,
+      selected: false,
+    }
+  ];
+  workingDays: string[] = [];
 
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;
   @Output() deleteWorkingHour = new EventEmitter();
-
-  workingDays: string[] = [];
 
   constructor() { }
 

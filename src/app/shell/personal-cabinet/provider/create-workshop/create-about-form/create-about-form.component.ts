@@ -139,9 +139,11 @@ export class CreateAboutFormComponent implements OnInit {
       workdays: new FormControl('', Validators.required),
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
-      id: new FormControl(''),
     });
-    range && workingHoursFormGroup.setValue(range);
+    if (range) {
+      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
+      workingHoursFormGroup.setValue(range);
+    }
 
     return workingHoursFormGroup;
   }

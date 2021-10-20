@@ -32,15 +32,15 @@ export class WorkingHoursComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       filter((time: string) => !!time),
-    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
+
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
       filter((time: string) => !!time),
-    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
-
+    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
   }
 
   getMinTime(): string {
