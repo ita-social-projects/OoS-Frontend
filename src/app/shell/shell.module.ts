@@ -24,7 +24,7 @@ import { AllCategoriesComponent } from './all-categories/all-categories.componen
 import { AboutComponent } from './info/about/about.component';
 import { SupportComponent } from './info/support/support.component';
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { InfoComponent } from './info/info.component';
 
 @NgModule({
@@ -60,6 +60,7 @@ import { InfoComponent } from './info/info.component';
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true} }
   ]
 })
 export class ShellModule { }
