@@ -11,7 +11,7 @@ describe('ContactsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule, MaterialModule
       ],
       declarations: [ContactsComponent]
     })
