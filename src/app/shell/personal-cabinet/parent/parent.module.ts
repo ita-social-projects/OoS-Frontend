@@ -24,7 +24,6 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
     FlexLayoutModule,
     SharedModule,
     MaterialModule
-
   ],
   providers: [
   ]
