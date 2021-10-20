@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Constants, WorkingDaysValues } from '../../constants/constants';
-import { WorkingDays, WorkingDaysReverse } from '../../enum/enumUA/working-hours';
+import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
 
 @Component({
