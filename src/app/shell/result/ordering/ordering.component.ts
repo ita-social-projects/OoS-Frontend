@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Actions, ofAction, Store } from '@ngxs/store';
@@ -14,6 +14,7 @@ import { FilterReset, SetOrder } from 'src/app/shared/store/filter.actions';
 })
 
 export class OrderingComponent {
+  @Input() resetFilter$
 
   readonly ordering: typeof Ordering = Ordering;
 
@@ -23,14 +24,13 @@ export class OrderingComponent {
   constructor(private store: Store,private actions$: Actions) { }
 
   ngOnInit(): void {
-    this.actions$.pipe(ofAction(FilterReset))
+    this.resetFilter$
       .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.orderFormControl.setValue(this.ordering.rating)
-      });
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.orderFormControl.setValue(this.ordering.rating)
+    })
+
 
     this.orderFormControl.valueChanges.subscribe(() => this.store.dispatch(new SetOrder(this.selectedOption)))
   }

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, skip, takeUntil } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
@@ -14,7 +14,7 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit {
-  @Input() reset$
+  @Input() resetFilter$
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues;
@@ -28,14 +28,14 @@ export class WorkingHoursComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.reset$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      if (value) {
+    this.resetFilter$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
         this.startTimeFormControl.setValue("");
         this.endTimeFormControl.setValue("");
         this.selectedWorkingDays = []
         this.days.forEach(day => day.selected = false)
-        new SetWorkingDays(this.selectedWorkingDays)
-      }
+        this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays))
     })
 
     this.startTimeFormControl.valueChanges.pipe(

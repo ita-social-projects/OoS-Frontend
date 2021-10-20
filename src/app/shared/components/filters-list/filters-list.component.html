@@ -1,9 +1,9 @@
 <div class="filters-wrapper">
   <button (click)="onFilterReset()">RESET</button>
-  <app-category-check-box [reset$]="resetFilter$"></app-category-check-box>
-  <app-age-filter [reset$]="resetFilter$"></app-age-filter>
-  <app-working-hours [reset$]="resetFilter$"></app-working-hours>
-  <app-price-filter [reset$]="resetFilter$"></app-price-filter>
+  <app-category-check-box [resetFilter$]="resetFilter$"></app-category-check-box>
+  <app-age-filter [resetFilter$]="resetFilter$"></app-age-filter>
+  <app-working-hours [resetFilter$]="resetFilter$"></app-working-hours>
+  <app-price-filter [resetFilter$]="resetFilter$"></app-price-filter>
   <!-- <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
     <p class=" filter-text">Набір</p>
     <mat-checkbox color="primary" [formControl]="OpenRecruitmentControl">

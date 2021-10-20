@@ -12,14 +12,14 @@
 
 <mat-drawer-container>
   <mat-drawer mode="side" [(opened)]="isFiltersVisible">
-    <app-filters-list></app-filters-list>
+    <app-filters-list [resetFilter$]="resetFilter$"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
-      <app-workshop-map-view-list [filteredWorkshops$]="filteredWorkshops$"></app-workshop-map-view-list>
+      <app-workshop-map-view-list [filteredWorkshops$]="filteredWorkshops$" [resetFilter$]="resetFilter$"></app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [workshops$]="filteredWorkshops$"></app-workshop-cards-list>
+      <app-workshop-cards-list class="cards" [workshops$]="filteredWorkshops$" [resetFilter$]="resetFilter$"></app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -40,7 +40,7 @@
   <app-full-search-bar></app-full-search-bar>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
-    <app-ordering></app-ordering>
+    <app-ordering [resetFilter$]="resetFilter$"></app-ordering>
     <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
       (change)="viewHandler(group.value)">
       <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"

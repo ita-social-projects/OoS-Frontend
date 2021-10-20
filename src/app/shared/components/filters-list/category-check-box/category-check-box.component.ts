@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
 import { Direction } from 'src/app/shared/models/category.model';
 import { SetDirections } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
@@ -22,7 +22,7 @@ export class CategoryCheckBoxComponent implements OnInit {
   @Select(FilterState.directions)
   filterDirections$: Observable<Direction[]>;
 
-  @Input() reset$;
+  @Input() resetFilter$;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -46,11 +46,11 @@ export class CategoryCheckBoxComponent implements OnInit {
     ).subscribe(directions => {
       this.selectedDirections = directions});
 
-    this.reset$.pipe(takeUntil(this.destroy$)).subscribe(() => {
-
+    this.resetFilter$.pipe(
+      takeUntil(this.destroy$)
+      ).subscribe(() => {
           this.selectedDirections = [];
           this.store.dispatch(new SetDirections(this.selectedDirections));
-
     })
 
     this.directionSearch.valueChanges

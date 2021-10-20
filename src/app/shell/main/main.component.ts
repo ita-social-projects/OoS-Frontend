@@ -1,3 +1,4 @@
+import { FilterReset } from './../../shared/store/filter.actions';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -59,7 +60,7 @@ export class MainComponent implements OnInit {
       .pipe(
         filter(city => !!city),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));          
+      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
   }
 
@@ -70,7 +71,7 @@ export class MainComponent implements OnInit {
     .pipe(
       filter(role => !!role),
       takeUntil(this.destroy$))
-    .subscribe(role => this.getTopWorkshops(role))  
+    .subscribe(role => this.getTopWorkshops(role))
 
     this.isParent$
       .pipe(

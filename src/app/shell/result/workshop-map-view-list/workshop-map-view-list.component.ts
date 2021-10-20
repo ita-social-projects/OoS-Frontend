@@ -29,6 +29,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() resetFilter$;
   workshops: WorkshopCard[];
   public selectedWorkshops: WorkshopCard[] = [];
   public isSelectedMarker = false;
@@ -49,6 +50,17 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       .subscribe(filteredWorkshops => {
         this.workshops = filteredWorkshops.entities
       });
+
+    this.resetFilter$
+      .pipe(
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.currentPage = {
+        element: 1,
+        isActive: true
+      }
+      this.store.dispatch(new PageChange(this.currentPage))
+    })
 
   }
 
