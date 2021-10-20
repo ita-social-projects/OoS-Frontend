@@ -1,5 +1,5 @@
 import { Options } from '@angular-slider/ngx-slider';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { SetIsFree, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter
   styleUrls: ['./price-filter.component.scss']
 })
 export class PriceFilterComponent implements OnInit, OnDestroy {
-
+  @Input() reset$
   readonly constants: typeof Constants = Constants;
 
   isFreeControl = new FormControl(false);
@@ -32,6 +32,17 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
    * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
   ngOnInit(): void {
+
+    this.reset$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      if (value) {
+        this.maxPriceControl.setValue(0);
+        this.minPriceControl.setValue(0);
+        this.isFreeControl.reset();
+        this.minValue = 0;
+        this.maxValue= 0;
+      }
+    })
+
     this.isFreeControl.valueChanges.subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
     this.minPriceControl.valueChanges
       .pipe(

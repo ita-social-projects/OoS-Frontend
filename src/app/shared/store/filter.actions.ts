@@ -78,6 +78,11 @@ export class FilterChange {
   constructor() { }
 }
 
+export class FilterReset {
+  static readonly type = '[filter] Filter Reset';
+  constructor() { }
+}
+
 export class SetMinAge {
   static readonly type = '[filter] Set Min Age';
   constructor(public payload: number) { }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -14,7 +14,7 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit {
-
+  @Input() reset$
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues;
@@ -27,19 +27,32 @@ export class WorkingHoursComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+
+    this.reset$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      if (value) {
+        this.startTimeFormControl.setValue("");
+        this.endTimeFormControl.setValue("");
+        this.selectedWorkingDays = []
+        this.days.forEach(day => day.selected = false)
+        new SetWorkingDays(this.selectedWorkingDays)
+      }
+    })
+
     this.startTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-      filter((time: string) => !!time),
+      // filter((time: string) => !!time),
     ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-      filter((time: string) => !!time),
+      // filter((time: string) => !!time),
     ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
+
+
 
   }
 
