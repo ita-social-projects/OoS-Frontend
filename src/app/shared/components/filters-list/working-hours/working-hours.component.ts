@@ -17,7 +17,7 @@ export class WorkingHoursComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-  days: WorkingDaysToggleValue[] = WorkingDaysValues;
+  days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
 
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
