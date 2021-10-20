@@ -132,7 +132,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   /**
   * This method create new FormGroup
-  * @param FormArray array
+  * @param DateTimeRanges range
   */
   private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
     const workingHoursFormGroup = this.formBuilder.group({
