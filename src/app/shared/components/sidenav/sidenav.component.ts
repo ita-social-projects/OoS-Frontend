@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -17,7 +17,7 @@ import { RegistrationState } from '../../store/registration.state';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy{
+export class SidenavComponent implements OnInit, OnDestroy {
 
   readonly Languages: typeof Languages = Languages;
   selectedLanguage: string;
@@ -25,6 +25,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
   @Input() isMobileView: boolean;
 
   Role = Role;
+  roles = RoleLinks;
   showModalReg = false;
 
   title = 'out-of-school';
@@ -32,12 +33,8 @@ export class SidenavComponent implements OnInit, OnDestroy{
 
   @Select(NavigationState.sidenavOpenTrue)
   sidenavOpenTrue$: Observable<boolean>;
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  user: User;
-  roles = RoleLinks;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -53,7 +50,6 @@ export class SidenavComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
-    this.user$.subscribe(user => this.user = user);
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible)

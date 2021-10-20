@@ -4,7 +4,6 @@ import { ApplicationStatus, ApplicationIcons } from 'src/app/shared/enum/applica
 import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications'
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
-import { Child } from 'src/app/shared/models/child.model';
 import { Util } from 'src/app/shared/utils/utils';
 @Component({
   selector: 'app-application-card',

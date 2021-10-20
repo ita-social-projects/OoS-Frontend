@@ -26,40 +26,36 @@ import { Role } from 'src/app/shared/enum/role';
 export class MainComponent implements OnInit {
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.city)
   city$: Observable<City>;
-  @Select(RegistrationState.parent)
-  isParent$: Observable<boolean>;
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  public parent: boolean;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
+  Role = Role;
 
   constructor(private store: Store) { }
 
   getTopWorkshops(role: string): void {
-    if(role === Role.parent) {
+    if (role === Role.parent) {
       combineLatest([this.city$, this.favoriteWorkshops$])
-      .pipe(
-        filter(([city, favorit]) => (!!city && !!favorit?.length) || (favorit === null)),
-        takeUntil(this.destroy$))
-      .subscribe(()=> this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+        .pipe(
+          filter(([city, favorit]) => (!!city && !!favorit?.length) || (favorit === null)),
+          takeUntil(this.destroy$))
+        .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
     else {
       this.city$
-      .pipe(
-        filter(city => !!city),
-        takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));          
+        .pipe(
+          filter(city => !!city),
+          takeUntil(this.destroy$))
+        .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
   }
 
@@ -67,15 +63,10 @@ export class MainComponent implements OnInit {
     this.store.dispatch(new GetTopDirections());
 
     this.role$
-    .pipe(
-      filter(role => !!role),
-      takeUntil(this.destroy$))
-    .subscribe(role => this.getTopWorkshops(role))  
-
-    this.isParent$
       .pipe(
+        filter(role => !!role),
         takeUntil(this.destroy$))
-      .subscribe(parent => this.parent = parent);
+      .subscribe(role => this.getTopWorkshops(role))
   }
 
   ngOnDestroy(): void {

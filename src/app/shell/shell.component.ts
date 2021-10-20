@@ -7,6 +7,7 @@ import { GeolocationService } from '../shared/services/geolocation/geolocation.s
 import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
+import { Role } from '../shared/enum/role';
 
 @Component({
   selector: 'app-shell',
@@ -14,18 +15,17 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.parent)
-  isParent$: Observable<boolean>;
-
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private geolocationService: GeolocationService,
-    private store:Store
-    ) { }
+    private store: Store
+  ) { }
 
   ngOnInit(): void {
-    this.geolocationService.handleUserLocation((coords: Coords)=> {
+    this.geolocationService.handleUserLocation((coords: Coords) => {
       coords && this.geolocationService.locationDecode(coords, (result) => {
         this.geolocationService.confirmCity({
           district: " ",
@@ -37,14 +37,14 @@ export class ShellComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.isParent$
+    this.role$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((parent) => {
-      !!parent && this.store.dispatch([
-        new GetFavoriteWorkshops(),
-        new GetFavoriteWorkshopsByUserId()
-      ]);
-    })
+      .subscribe((role: string) => {
+        (role == Role.parent) && this.store.dispatch([
+          new GetFavoriteWorkshops(),
+          new GetFavoriteWorkshopsByUserId()
+        ]);
+      })
   }
 
   ngOnDestroy(): void {

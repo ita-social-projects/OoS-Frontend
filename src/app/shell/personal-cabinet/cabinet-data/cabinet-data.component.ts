@@ -25,7 +25,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
-  readonly role: typeof Role = Role;
+  readonly Role: typeof Role = Role;
 
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
@@ -37,15 +37,16 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   parent$: Observable<Parent>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
   @Select(UserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  userRole: string;
   provider: Provider;
   parent: Parent;
+  role: string;
+
   workshops: WorkshopCard[];
   applications: Application[];
   childrenCards: ChildCards;
@@ -57,10 +58,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   abstract init(): void;
 
   getUserData(): void {
-    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
-      this.userRole = user.role;
+    this.role$.pipe(filter((role: string) => !!role)).subscribe((role: string) => {
+      this.role = role;
 
-      if (this.userRole === Role.provider) {
+      if (this.role === Role.provider) {
         this.provider$.pipe(
           filter((provider: Provider) => !!provider),
           takeUntil(this.destroy$)
