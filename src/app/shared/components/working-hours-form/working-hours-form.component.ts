@@ -13,36 +13,7 @@ export class WorkingHoursFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-  days: WorkingDaysToggleValue[] = [
-    {
-      value: WorkingDays.monday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.tuesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.wednesday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.thursday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.friday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.saturday,
-      selected: false,
-    },
-    {
-      value: WorkingDays.sunday,
-      selected: false,
-    }
-  ];
+  days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
 
   @Input() workingHoursForm: FormGroup;
