@@ -12,7 +12,6 @@ export class GetPreviuseUrlService {
   constructor(private router: Router) {
     this.currentUrl = this.router.url;
     router.events.subscribe(event => {
-      console.log("EVENT",event)
       if (event instanceof NavigationEnd) {
         this.previousUrl = this.currentUrl;
         this.currentUrl = event.url;

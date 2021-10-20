@@ -1,3 +1,4 @@
+import { Direction } from './../../shared/models/category.model';
 import { GetPreviuseUrlService } from './../../shared/services/getPreviousUrl/get-previuse-url.service';
 import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
@@ -5,7 +6,7 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, FilterReset, GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
+import { FilterChange, FilterReset, GetFilteredWorkshops, SetDirections } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -82,11 +83,16 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    debugger;
     if (this.previuseUrlService.getPreviousUrl() === "/") {
-
       this.store.dispatch(new FilterReset())
     };
+    let str = decodeURI(this.previuseUrlService.getPreviousUrl())
+    if (str.match("param")) {
+      let arr = str.slice(8).split("-")
+      this.store.dispatch(new FilterReset());
+      setTimeout(() => this.store.dispatch(new SetDirections([{id: +arr[0], description: arr[1], title: arr[2] }])),300)
+
+    }
   }
 
   viewHandler(value: ViewType): void {
