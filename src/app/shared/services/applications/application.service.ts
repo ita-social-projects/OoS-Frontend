@@ -53,7 +53,7 @@ export class ApplicationService {
    * This method create Application
    * @param Workshop Workshop
    */
-  createApplication(application: Application): Observable<Object> {
+  createApplication(application: Application): Observable<object> {
     return this.http.post('/Application/Create', application);
   }
 

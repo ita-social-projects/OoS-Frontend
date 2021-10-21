@@ -17,9 +17,9 @@ export class UserService {
   }
 
   /**
-  * This method update Provider
-  * @param Provider
-  */
+   * This method update Provider
+   * @param user: User
+   */
   updateUser(user: User): Observable<object> {
     return this.http.put('/User/Update', user);
   }

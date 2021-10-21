@@ -14,7 +14,7 @@ export class UserWorkshopService {
 
   /**
    * This method get workshops by Provider id
-   * @param id
+   * @param id: number
    */
   getWorkshopsByProviderId(id: number): Observable<WorkshopCard[]> {
     return this.http.get<WorkshopCard[]>(`/Workshop/GetByProviderId/${id}`);
@@ -22,7 +22,7 @@ export class UserWorkshopService {
 
   /**
    * This method get workshops by Workshop id
-   * @param id
+   * @param id: number
    */
   getWorkshopById(id: number): Observable<Workshop> {
     return this.http.get<Workshop>(`/Workshop/GetById/${id}`);
@@ -30,7 +30,7 @@ export class UserWorkshopService {
 
   /**
    * This method create workshop
-   * @param Workshop
+   * @param workshop: Workshop
    */
   createWorkshop(workshop: Workshop): Observable<object> {
     return this.http.post('/Workshop/Create', workshop);
@@ -38,7 +38,7 @@ export class UserWorkshopService {
 
   /**
    * This method delete workshop by Workshop id
-   * @param id
+   * @param id: number
    */
   deleteWorkshop(id: number): Observable<object> {
     return this.http.delete(`/Workshop/Delete/${id}`);
@@ -46,7 +46,7 @@ export class UserWorkshopService {
 
   /**
    * This method update workshop
-   * @param Workshop
+   * @param workshop: Workshop
    */
   updateWorkshop(workshop: Workshop): Observable<object> {
     return this.http.put('/Workshop/Update', workshop);

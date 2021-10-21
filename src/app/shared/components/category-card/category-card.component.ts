@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { CategoryIcons } from '../../enum/category-icons';
 import { Direction } from '../../models/category.model';
 import { SetDirections } from '../../store/filter.actions';
-import { CategoryIcons } from '../../enum/category-icons';
 
 @Component({
   selector: 'app-category-card',

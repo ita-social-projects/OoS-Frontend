@@ -34,8 +34,8 @@ export class WorkingHoursFormComponent implements OnInit {
   }
 
   /**
-   *This method check value, add it to the list of selected working days and distpatch filter action
-   *@param day WorkingDaysToggleValue
+   * This method check value, add it to the list of selected working days and distpatch filter action
+   * @param day WorkingDaysToggleValue
    */
   onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;

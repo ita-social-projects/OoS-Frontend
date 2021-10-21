@@ -61,9 +61,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method filters list of directions according to the input value
-  * @param value string
-  */
+   * This method filters list of directions according to the input value
+   * @param value string
+   */
   private filterDirections(value: string): Direction[] {
     const filteredDirections = this.directions
       .filter((direction: Direction) => direction.title
@@ -75,9 +75,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method filters list of departments according to the input value
-  * @param value string
-  */
+   * This method filters list of departments according to the input value
+   * @param value string
+   */
   private filterDepartments(value: string): Department[] {
     const filteredDepartments = this.departments
       .filter((department: Department) => department.title
@@ -89,9 +89,9 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method filters list of classes according to the input value
-  * @param value string
-  */
+   * This method filters list of classes according to the input value
+   * @param value string
+   */
   private filterClasses(value: string): IClass[] {
     const filteredClasses = this.classes
       .filter((classItem: IClass) => classItem.title
@@ -103,10 +103,10 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method returns class title
-  * @param classItem IClass
-  * @return string
-  */
+   * This method returns class title
+   * @param classItem IClass
+   * @return string
+   */
   optionDisplayClass(classItem: IClass): string {
     return classItem && classItem.title;
   }
