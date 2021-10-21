@@ -1,4 +1,4 @@
-import { Parent } from "./parent.model";
+import { Parent } from './parent.model';
 export class Child {
   id: number;
   firstName: string;
@@ -12,7 +12,7 @@ export class Child {
   parent: {
     id: 0,
     userId: Parent;
-  }
+  };
 
   constructor(info, parentId, id?) {
     this.id = id;
@@ -27,6 +27,6 @@ export class Child {
   }
 }
 export interface ChildCards {
-  totalAmount: number,
-  entities: Child[]
+  totalAmount: number;
+  entities: Child[];
 }

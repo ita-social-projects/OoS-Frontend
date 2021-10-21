@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Store } from '@ngxs/store';
@@ -11,7 +11,7 @@ import { SetOrder } from 'src/app/shared/store/filter.actions';
   styleUrls: ['./ordering.component.scss']
 })
 
-export class OrderingComponent {
+export class OrderingComponent implements OnInit {
 
   readonly ordering: typeof Ordering = Ordering;
 
@@ -21,7 +21,7 @@ export class OrderingComponent {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.orderFormControl.valueChanges.subscribe(() => this.store.dispatch(new SetOrder(this.selectedOption)))
+    this.orderFormControl.valueChanges.subscribe(() => this.store.dispatch(new SetOrder(this.selectedOption)));
   }
 
   OnSelectOption(event: MatSelectChange): void {

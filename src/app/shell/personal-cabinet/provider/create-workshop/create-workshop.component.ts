@@ -26,7 +26,7 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
 export class CreateWorkshopComponent implements OnInit {
 
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<Boolean>;
+  isDirtyForm$: Observable<boolean>;
   isPristine = true;
 
   AboutFormGroup: FormGroup;
@@ -34,16 +34,16 @@ export class CreateWorkshopComponent implements OnInit {
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  editMode: boolean = false;
+  editMode = false;
   workshop: Workshop;
-  isLinear: boolean = true;
+  isLinear = true;
 
   constructor(
     private store: Store,
     private route: ActivatedRoute,
     private userWorkshopService: UserWorkshopService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const workshopId = +this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
@@ -54,7 +54,7 @@ export class CreateWorkshopComponent implements OnInit {
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
    */
-  onSubmit() {
+  onSubmit(): void {
     if (this.TeacherFormArray.invalid) {
       this.checkTeacherFormArrayValidation();
     } else {
@@ -120,9 +120,9 @@ export class CreateWorkshopComponent implements OnInit {
   private createTeachers(formArray: FormArray): Teacher[] {
     const teachers: Teacher[] = [];
     formArray.controls.forEach((form: FormGroup) => {
-      let teacher: Teacher = new Teacher(form.value);
+      const teacher: Teacher = new Teacher(form.value);
       teachers.push(teacher);
-    })
+    });
     return teachers;
   }
 
@@ -145,7 +145,7 @@ export class CreateWorkshopComponent implements OnInit {
       form.get(key).markAsTouched();
     });
     if (form.get('categories')) {
-      Object.keys((<FormGroup>this.DescriptionFormGroup.get('categories')).controls).forEach(key => {
+      Object.keys((this.DescriptionFormGroup.get('categories') as FormGroup).controls).forEach(key => {
         this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
       });
     }
@@ -155,8 +155,6 @@ export class CreateWorkshopComponent implements OnInit {
    * This method marks each control of form in the array of teachers' forms as touched
    */
   private checkTeacherFormArrayValidation(): void {
-    Object.keys(this.TeacherFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.TeacherFormArray.get(key));
-    });
+    Object.keys(this.TeacherFormArray.controls).forEach(key => this.checkValidation(this.TeacherFormArray.get(key) as FormGroup));
   }
 }

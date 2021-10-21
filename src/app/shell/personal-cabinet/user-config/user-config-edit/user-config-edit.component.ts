@@ -29,7 +29,6 @@ export class UserConfigEditComponent implements OnInit {
       middleName: new FormControl(''),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
     });
-
   }
 
   ngOnInit(): void {
@@ -38,7 +37,7 @@ export class UserConfigEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const user = new User(this.userEditFormGroup.value, this.user.id)
+    const user = new User(this.userEditFormGroup.value, this.user.id);
     this.store.dispatch(new UpdateUser(user));
   }
 }

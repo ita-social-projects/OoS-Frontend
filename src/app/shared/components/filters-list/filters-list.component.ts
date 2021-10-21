@@ -34,7 +34,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       ).subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
