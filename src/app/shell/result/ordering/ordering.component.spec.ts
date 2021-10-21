@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 
 describe('OrderingComponent', () => {
   let component: OrderingComponent;
@@ -33,6 +34,7 @@ describe('OrderingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderingComponent);
     component = fixture.componentInstance;
+    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

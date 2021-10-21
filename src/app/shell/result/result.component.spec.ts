@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -21,7 +22,8 @@ describe('ResultComponent', () => {
         MatButtonToggleModule,
         MatSidenavModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        RouterTestingModule
       ],
       declarations: [
         ResultComponent,
@@ -80,6 +82,7 @@ class MockWorkshopCardsListComponent {
 })
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+
 }
 @Component({
   selector: 'app-scroll-to-top',

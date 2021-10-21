@@ -1,5 +1,5 @@
 <div class="filters-wrapper">
-  <button (click)="onFilterReset()">RESET</button>
+  <button mat-raised-button class="resetFilter" (click)="onFilterReset()">Очистити Фільтри</button>
   <app-category-check-box [resetFilter$]="resetFilter$"></app-category-check-box>
   <app-age-filter [resetFilter$]="resetFilter$"></app-age-filter>
   <app-working-hours [resetFilter$]="resetFilter$"></app-working-hours>

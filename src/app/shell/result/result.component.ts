@@ -83,15 +83,15 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.previuseUrlService.getPreviousUrl() === "/") {
+    let str = decodeURI(this.previuseUrlService.getPreviousUrl())
+    if (str === "/") {
       this.store.dispatch(new FilterReset())
     };
-    let str = decodeURI(this.previuseUrlService.getPreviousUrl())
-    if (str.match("param")) {
-      let arr = str.slice(8).split("-")
-      this.store.dispatch(new FilterReset());
-      setTimeout(() => this.store.dispatch(new SetDirections([{id: +arr[0], description: arr[1], title: arr[2] }])),300)
 
+    if (str.match("param")) {
+      let [id, description, title] = str.slice(8).split("-")
+      this.store.dispatch(new FilterReset());
+      setTimeout(() => this.store.dispatch(new SetDirections([{id: +id, description: description, title: title }])),300)
     }
   }
 
