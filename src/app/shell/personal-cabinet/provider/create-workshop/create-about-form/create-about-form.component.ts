@@ -130,17 +130,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method create new FormGroup
-   * @param FormArray array
-   */
+  * This method create new FormGroup
+  * @param DateTimeRanges range
+  */
   private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
     const workingHoursFormGroup = this.formBuilder.group({
       workdays: new FormControl('', Validators.required),
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
-      id: new FormControl(''),
     });
-    range && workingHoursFormGroup.setValue(range);
+    if (range) {
+      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
+      workingHoursFormGroup.setValue(range);
+    }
 
     return workingHoursFormGroup;
   }

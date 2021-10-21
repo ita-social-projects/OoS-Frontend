@@ -127,7 +127,6 @@ export class CreateWorkshopComponent implements OnInit {
   }
 
   private subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine && form.pristine))
