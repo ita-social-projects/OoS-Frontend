@@ -24,7 +24,6 @@ import { SupportComponent } from './info/support/support.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { InfoComponent } from './info/info.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
 @NgModule({
   declarations: [
@@ -58,7 +57,7 @@ import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
     { provide: DateAdapter, useClass: MomentDateAdapter },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true} }
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ]
 })
 export class ShellModule { }
