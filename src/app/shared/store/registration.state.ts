@@ -13,7 +13,6 @@ import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
-import { Observable } from 'rxjs';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
@@ -119,10 +118,10 @@ export class RegistrationState {
   }
 
   @Action(GetProfile)
-  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile): Observable<Parent> | Observable<Provider> {
+  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile) {
     const state = getState();
-    patchState({ role: state.user.role });
-
+    patchState({ role: state.user.role});
+    
     if (state.user.role === Role.parent) {
       return this.parentService
         .getProfile()

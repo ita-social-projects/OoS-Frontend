@@ -17,10 +17,10 @@ export class UserService {
   }
 
   /**
-   * This method update Provider
-   * @param user: User
-   */
-  updateUser(user: User): Observable<object> {
+  * This method update Provider
+  * @param Provider
+  */
+  updateUser(user: User): Observable<Object> {
     return this.http.put('/User/Update', user);
   }
 }

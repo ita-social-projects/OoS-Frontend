@@ -64,4 +64,4 @@ class MockSearchBarComponent {
   selector: 'app-navigation-mobile-bar',
   template: ''
 })
-class MockNavigationMobileBarComponent { }
+class MockNavigationMobileBarComponent{}

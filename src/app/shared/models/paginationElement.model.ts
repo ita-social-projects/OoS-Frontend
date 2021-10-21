@@ -1,4 +1,4 @@
 export interface PaginationElement {
-  element: number | string;
-  isActive: boolean;
+  element: number | string,
+  isActive: boolean
 }

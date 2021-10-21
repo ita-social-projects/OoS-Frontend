@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   readonly Role: typeof Role = Role;
   readonly roles: typeof RoleLinks = RoleLinks;
 
-  selectedLanguage = 'uk';
+  selectedLanguage: string = 'uk';
   showModalReg = false;
 
   @Select(FilterState.isLoading)
@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
     private router: Router) {
   }
 
-  changeView(): void {
+  changeView() {
     this.store.dispatch(new SidenavToggle());
   }
 

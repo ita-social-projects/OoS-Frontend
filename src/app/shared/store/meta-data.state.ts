@@ -25,15 +25,14 @@ import {
   ClearDepartments,
   ClearClasses
 } from './meta-data.actions';
-import { Observable } from 'rxjs';
 
 export interface MetaDataStateModel {
   directions: Direction[];
   topDirections: Direction[];
   departments: Department[];
   classes: IClass[];
-  cities: City[];
-  socialGroups: SocialGroup[];
+  cities: City[],
+  socialGroups: SocialGroup[],
   isCity: boolean;
   filteredDirections: Direction[];
   filteredDepartments: Department[];
@@ -41,6 +40,7 @@ export interface MetaDataStateModel {
   rating: Rate[];
   isLoading: boolean;
 }
+
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
@@ -63,39 +63,39 @@ export interface MetaDataStateModel {
 export class MetaDataState {
 
   @Selector()
-  static directions(state: MetaDataStateModel): Direction[] { return state.directions; }
+  static directions(state: MetaDataStateModel): Direction[] { return state.directions }
 
   @Selector()
-  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections; }
+  static topDirections(state: MetaDataStateModel): Direction[] { return state.topDirections }
 
   @Selector()
-  static departments(state: MetaDataStateModel): Department[] { return state.departments; }
+  static departments(state: MetaDataStateModel): Department[] { return state.departments }
 
   @Selector()
-  static classes(state: MetaDataStateModel): IClass[] { return state.classes; }
+  static classes(state: MetaDataStateModel): IClass[] { return state.classes }
 
   @Selector()
-  static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups; }
+  static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups }
 
   @Selector()
-  static cities(state: MetaDataStateModel): City[] { return state.cities; }
+  static cities(state: MetaDataStateModel): City[] { return state.cities }
 
   @Selector()
-  static isCity(state: MetaDataStateModel): boolean { return state.isCity; }
+  static isCity(state: MetaDataStateModel): boolean { return state.isCity }
 
   @Selector()
-  static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections; }
+  static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections }
 
   @Selector()
-  static filteredDepartments(state: MetaDataStateModel): Department[] { return state.filteredDepartments; }
+  static filteredDepartments(state: MetaDataStateModel): Department[] { return state.filteredDepartments }
 
   @Selector()
-  static filteredClasses(state: MetaDataStateModel): IClass[] { return state.filteredClasses; }
+  static filteredClasses(state: MetaDataStateModel): IClass[] { return state.filteredClasses }
 
   @Selector()
-  static isLoading(state: MetaDataStateModel): boolean { return state.isLoading; }
+  static isLoading(state: MetaDataStateModel): boolean { return state.isLoading }
 
-  static rating(state: MetaDataStateModel): Rate[] { return state.rating; }
+  static rating(state: MetaDataStateModel): Rate[] { return state.rating }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -104,7 +104,7 @@ export class MetaDataState {
     private ratingService: RatingService) { }
 
   @Action(GetDirections)
-  getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
+  getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections) {
     patchState({ isLoading: true })
     return this.categoriesService
       .getDirections()
@@ -114,7 +114,7 @@ export class MetaDataState {
   }
 
   @Action(GetTopDirections)
-  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections): Observable<Direction[]> {
+  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetTopDirections) {
     patchState({ isLoading: true })
     return this.categoriesService
       .getTopDirections()
@@ -124,7 +124,7 @@ export class MetaDataState {
   }
 
   @Action(GetDepartments)
-  getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments): Observable<Department[]> {
+  getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments) {
     return this.categoriesService
       .getDepartmentsBytDirectionId(payload)
       .pipe(
@@ -133,7 +133,7 @@ export class MetaDataState {
   }
 
   @Action(GetClasses)
-  getClasses({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetClasses): Observable<IClass[]> {
+  getClasses({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetClasses) {
     return this.categoriesService
       .getClassByDepartmentId(payload)
       .pipe(
@@ -142,7 +142,7 @@ export class MetaDataState {
   }
 
   @Action(GetSocialGroup)
-  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup): Observable<SocialGroup[]> {
+  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup) {
     return this.childrenService
       .getSocialGroup()
       .pipe(
@@ -150,17 +150,17 @@ export class MetaDataState {
         ))
   }
   @Action(ClearClasses)
-  clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses): void {
+  clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses) {
     patchState({ classes: undefined });
   }
 
   @Action(ClearDepartments)
-  clearDepartments({ patchState }: StateContext<MetaDataStateModel>, { }: ClearDepartments): void {
+  clearDepartments({ patchState }: StateContext<MetaDataStateModel>, { }: ClearDepartments) {
     patchState({ departments: undefined });
   }
 
   @Action(GetCities)
-  getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities): Observable<City[]> {
+  getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities) {
     return this.cityService
       .getCities(payload)
       .pipe(
@@ -169,7 +169,7 @@ export class MetaDataState {
   }
 
   @Action(ClearCities)
-  clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities): void {
+  clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities) {
     patchState({ cities: null });
   }
 
@@ -189,7 +189,7 @@ export class MetaDataState {
   }
 
   @Action(GetRateByEntityId)
-  getRateByEntityId({ patchState }: StateContext<MetaDataStateModel>, { enitityType, entitytId }: GetRateByEntityId): Observable<Rate[]> {
+  getRateByEntityId({ patchState }: StateContext<MetaDataStateModel>, { enitityType, entitytId }: GetRateByEntityId) {
     return this.ratingService
       .getRateByEntityId(enitityType, entitytId)
       .pipe(

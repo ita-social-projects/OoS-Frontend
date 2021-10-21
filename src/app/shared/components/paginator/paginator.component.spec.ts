@@ -25,7 +25,7 @@ describe('PaginatorComponent', () => {
     component.currentPage = {
       element: 1,
       isActive: true
-    };
+    }
     fixture.detectChanges();
   });
 

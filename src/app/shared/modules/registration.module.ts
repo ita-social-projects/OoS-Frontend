@@ -23,8 +23,8 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
       logLevel: LogLevel.Error,
       secureRoutes: [this.stsServer],
       customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture') },
-    });
-  };
+    })
+  }
 }
 
 @NgModule({

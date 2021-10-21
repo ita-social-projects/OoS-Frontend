@@ -10,17 +10,18 @@ import { cardType } from '../../enum/role';
 export class PersonCardComponent implements OnInit {
 
   readonly CardType: typeof cardType = cardType;
-  UserFormGroup: FormGroup;
 
   @Input() card;
   @Input() cardType: cardType;
+
+  UserFormGroup: FormGroup;
 
   constructor(private fb: FormBuilder) {
     this.UserFormGroup = this.fb.group({
       birthDay: new FormControl('', Validators.required),
       gender: new FormControl(''),
       socialGroupId: new FormControl('', Validators.required),
-    });
+    })
   }
 
   ngOnInit(): void {

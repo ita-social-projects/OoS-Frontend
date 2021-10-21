@@ -42,6 +42,8 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
       this.store.dispatch(new ActivateEditMode(false));
       return true;
     } else {
+      const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+
       return this.provider$.pipe(map((provider: Provider) => provider !== undefined));
     }
   }

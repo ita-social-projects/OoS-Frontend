@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -9,9 +9,9 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit, OnDestroy {
+export class AboutComponent implements OnInit {
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {
+  constructor(private store: Store, public navigationBarService: NavigationBarService,) {
 
   }
 

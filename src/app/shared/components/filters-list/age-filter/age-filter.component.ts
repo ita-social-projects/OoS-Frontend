@@ -37,7 +37,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

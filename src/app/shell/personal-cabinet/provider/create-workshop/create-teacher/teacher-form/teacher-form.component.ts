@@ -12,17 +12,20 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class TeacherFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
-  today: Date = new Date();
 
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
+
   @Output() deleteForm = new EventEmitter();
+  
+  today: Date = new Date(); 
 
   constructor(private formBuilder: FormBuilder) {
     this.TeacherFormGroup = this.formBuilder.group({
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_TEACHER_DESCRIPTION_LENGTH), Validators.required])
-    });
+      description: new FormControl('', [Validators.maxLength(Constants.MAX_TEACHER_DESCRIPTION_LENGTH ), Validators.required]),
+    })
+   
   }
 
   ngOnInit(): void { }

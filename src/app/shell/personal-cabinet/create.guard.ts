@@ -14,7 +14,7 @@ import { AppState } from 'src/app/shared/store/app.state';
 })
 export class CreateGuard implements CanDeactivate<unknown> {
 
-  result: boolean;
+  result: boolean
   constructor(private matDialog: MatDialog, private store: Store) { }
 
   canDeactivate(

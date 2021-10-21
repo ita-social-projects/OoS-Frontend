@@ -30,21 +30,21 @@ export class WorkingHoursFormComponent implements OnInit {
       if (timeRange.startTime > timeRange.endTime && timeRange.endTime) {
         this.workingHoursForm.get('endTime').reset();
       }
-    });
+    })
   }
 
   /**
-   * This method check value, add it to the list of selected working days and distpatch filter action
-   * @param day WorkingDaysToggleValue
-   */
+ * This method check value, add it to the list of selected working days and distpatch filter action
+ * @param day
+ */
   onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
-      this.workingDays.push(this.workingDaysReverse[day.value]);
+      this.workingDays.push(this.workingDaysReverse[day.value])
     } else {
       this.workingDays.splice(this.workingDays.indexOf(day.value), 1);
     }
-    this.workingHoursForm.get('workdays').setValue(this.workingDays);
+    this.workingHoursForm.get('workdays').setValue(this.workingDays)
   }
 
   getMinTime(): string {
@@ -62,7 +62,7 @@ export class WorkingHoursFormComponent implements OnInit {
           day.selected = true;
           this.workingDays.push(day.value);
         }
-      });
+      })
     });
   }
 }

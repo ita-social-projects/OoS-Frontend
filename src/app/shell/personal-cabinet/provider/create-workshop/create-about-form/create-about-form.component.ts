@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 @Component({
   selector: 'app-create-about-form',
@@ -15,7 +16,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
   styleUrls: ['./create-about-form.component.scss'],
 
 })
-export class CreateAboutFormComponent implements OnInit, OnDestroy {
+export class CreateAboutFormComponent implements OnInit {
 
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
@@ -69,7 +70,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       ).subscribe((isPrice: boolean) => {
         if (isPrice) {
-          this.AboutFormGroup.get('price').enable();
+          this.AboutFormGroup.get('price').enable()
         } else {
           this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
           this.AboutFormGroup.get('price').disable();
@@ -84,23 +85,23 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       );
   }
   /**
-   * This method create new FormGroup add new FormGroup to the FormArray
-   */
-  addWorkingHours(range?: DateTimeRanges): void {
+  * This method create new FormGroup add new FormGroup to the FormArray
+  */
+  addWorkingHours(range?: DateTimeRanges) {
     this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
   }
 
   /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index: number
-   */
+  * This method delete FormGroup from the FormArray by index
+  * @param index
+  */
   deleteWorkingHour(index: number): void {
-    this.workingHoursFormArray.removeAt(index);
+    this.workingHoursFormArray.removeAt(index)
   }
 
   /**
-   * This method fills in the info from provider to the workshop if check box is checked
-   */
+  * This method fills in the info from provider to the workshop if check box is checked
+  */
   private useProviderInfo(): void {
     this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
       if (useProviderInfo) {
@@ -117,12 +118,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         this.AboutFormGroup.get('facebook').reset();
         this.AboutFormGroup.get('instagram').reset();
       }
-    });
+    })
   }
 
   /**
-   * This method fills inputs with information of edited workshop
-   */
+  * This method fills inputs with information of edited workshop
+  */
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
@@ -148,8 +149,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method makes input enable if radiobutton value
-   * is true and sets the value to teh formgroup TODO: add to teh second release
+   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup TODO: add to teh second release
    */
   // private onCompetitiveSelectionCtrlInit(): void {
   //   this.competitiveSelectionRadioBtn.valueChanges
@@ -168,7 +168,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   //     );
   // }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -22,7 +22,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   ) { }
 
   searchValue = new FormControl('', [Validators.maxLength(200)]);
-  isResultPage = false;
+  isResultPage: boolean = false;
   searchedText: string;
 
   @Select(NavigationState.navigationPaths)
@@ -33,23 +33,21 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.navigationPaths$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((navigationPaths: Navigation[]) =>
-        this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.TopWorkshops)
-      );
-
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((navigationPaths: Navigation[]) => this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.TopWorkshops));
+       
     this.searchValue.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: string) => {
-        this.searchedText = val;
-        if (val.length === 0) {
-          this.store.dispatch(new SetSearchQueryValue(''));
-        }
-      });
-
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((val: string) => {
+      this.searchedText = val;
+      if (val.length === 0) {
+        this.store.dispatch(new SetSearchQueryValue(''))
+      }
+    });
+    
     this.searchQuery$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text));
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((text: string) => this.searchValue.setValue(text));
   }
 
   onSearch(): void {
@@ -57,7 +55,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

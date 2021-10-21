@@ -12,8 +12,8 @@ export class ParentService {
   constructor(private http: HttpClient) { }
 
   /**
-   * This method get Parent by User id
-   */
+  * This method get Parent by User id
+  */
   getProfile(): Observable<Parent> {
     return this.http.get<Parent>(`/Parent/GetProfile`);
   }

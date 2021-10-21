@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Navigation } from '../../models/navigation.model';
-import { Store, NgxsModule } from '@ngxs/store';
+import { Store,NgxsModule } from '@ngxs/store';
 import { NavigationBarComponent } from './navigation-bar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -13,19 +13,19 @@ describe('NavigationBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+      imports:[
         RouterTestingModule,
         MatIconModule,
         NgxsModule.forRoot([])
-      ],
-      declarations: [NavigationBarComponent]
+    ],
+      declarations: [ NavigationBarComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({} as Navigation);
+    spyOn(store,'selectSnapshot').and.returnValue({} as Navigation);
     fixture = TestBed.createComponent(NavigationBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

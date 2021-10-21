@@ -1,6 +1,7 @@
-import { Child } from './child.model';
-import { Parent } from './parent.model';
-import { Workshop, WorkshopCard } from './workshop.model';
+import { Child } from "./child.model";
+import { Parent } from "./parent.model";
+import { Workshop, WorkshopCard } from "./workshop.model";
+
 export class Application {
   id: number;
   status: string;

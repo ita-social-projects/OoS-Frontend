@@ -25,7 +25,7 @@ describe('ActionsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User)
     fixture = TestBed.createComponent(ActionsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;

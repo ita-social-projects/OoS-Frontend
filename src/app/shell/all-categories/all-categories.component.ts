@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -13,7 +13,7 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
   templateUrl: './all-categories.component.html',
   styleUrls: ['./all-categories.component.scss']
 })
-export class AllCategoriesComponent implements OnInit, OnDestroy {
+export class AllCategoriesComponent implements OnInit {
 
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;

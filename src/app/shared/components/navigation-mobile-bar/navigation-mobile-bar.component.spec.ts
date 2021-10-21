@@ -9,21 +9,22 @@ describe('NavigationMobileBarComponent', () => {
   let component: NavigationMobileBarComponent;
   let fixture: ComponentFixture<NavigationMobileBarComponent>;
   let store: Store;
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+      imports:[
         RouterTestingModule,
         MatIconModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [NavigationMobileBarComponent]
+      declarations: [ NavigationMobileBarComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({} as Navigation);
+    spyOn(store,'selectSnapshot').and.returnValue({} as Navigation);
     fixture = TestBed.createComponent(NavigationMobileBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
