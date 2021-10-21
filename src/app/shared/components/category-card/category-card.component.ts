@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Direction } from '../../models/category.model';
 import { SetDirections } from '../../store/filter.actions';
-
+import { CategoryIcons } from '../../enum/category-icons';
 
 @Component({
   selector: 'app-category-card',
@@ -15,14 +15,17 @@ export class CategoryCardComponent implements OnInit {
   @Input() workshopsCount: number;
   @Input() direction: Direction;
   @Input() icons: {};
+  
+  public categoryIcons = CategoryIcons;    
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {    
+   }
 
   ngOnInit(): void {
   }
 
   selectDirection(direction: Direction): void {
-    this.store.dispatch(new SetDirections([direction]));
+    this.store.dispatch(new SetDirections([direction]));        
   }
   /**
    * Returns correct form of the ukrainian word "гурток" depending on the amount of workshops by category.
@@ -39,5 +42,6 @@ export class CategoryCardComponent implements OnInit {
         return "гуртки";
       }
     }
-  }
+  }     
+
 }
