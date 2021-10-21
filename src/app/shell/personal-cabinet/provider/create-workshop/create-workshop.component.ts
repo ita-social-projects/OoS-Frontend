@@ -61,12 +61,12 @@ export class CreateWorkshopComponent implements OnInit {
       const address: Address = new Address(this.AddressFormGroup.value);
       const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
       const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-  
+
       const aboutInfo = this.AboutFormGroup.getRawValue();
       const descInfo = this.DescriptionFormGroup.getRawValue();
-  
+
       let workshop: Workshop;
-  
+
       if (this.editMode) {
         workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
         this.store.dispatch(new UpdateWorkshop(workshop));
@@ -127,7 +127,6 @@ export class CreateWorkshopComponent implements OnInit {
   }
 
   private subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine && form.pristine))
@@ -153,7 +152,7 @@ export class CreateWorkshopComponent implements OnInit {
   }
 
   /**
-   * This method marks each control of form in the array of teachers' forms as touched 
+   * This method marks each control of form in the array of teachers' forms as touched
    */
   private checkTeacherFormArrayValidation(): void {
     Object.keys(this.TeacherFormArray.controls).forEach(key => {
