@@ -12,9 +12,6 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class StarsComponent implements OnInit {
 
   ratingFormControl = new FormControl('');
-  @Output() ratingSelect = new EventEmitter();
-  @Input() modalWindow = false;
-  @Input() rating : number;
   selectedStars = 0;
   ratingStars: number[] = [
     Constants.RATE_ONE_STAR,
@@ -24,12 +21,17 @@ export class StarsComponent implements OnInit {
     Constants.RATE_FIVE_STAR,
   ];
 
+  @Output() ratingSelect = new EventEmitter();
+  @Input() modalWindow = false;
+  @Input() rating: number;
+
   constructor() { }
 
   ngOnInit(): void {
     this.ratingSelect.emit(this.ratingFormControl);
   }
-  onClick(stars: number) {
+
+  onClick(stars: number): void {
     this.selectedStars = stars;
   }
 }

@@ -39,7 +39,7 @@ export class CreateContactsFormComponent implements OnInit {
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
     this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
       (isSame) ? this.ActualAddressFormGroup.patchValue(this.LegalAddressFormGroup.value) : this.ActualAddressFormGroup.reset();
-    })
+    });
 
     this.provider && this.activateEditMode();
   }

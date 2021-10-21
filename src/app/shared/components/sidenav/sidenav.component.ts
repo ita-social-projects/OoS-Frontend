@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -17,7 +17,7 @@ import { RegistrationState } from '../../store/registration.state';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy{
+export class SidenavComponent implements OnInit, OnDestroy {
 
   readonly Languages: typeof Languages = Languages;
   selectedLanguage: string;
@@ -47,7 +47,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
     private router: Router) {
   }
 
-  changeView() {
+  changeView(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
@@ -56,7 +56,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
     this.user$.subscribe(user => this.user = user);
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(visible => this.visibleSidenav = visible)
+      .subscribe(visible => this.visibleSidenav = visible);
   }
 
   login(): void {
@@ -75,7 +75,7 @@ export class SidenavComponent implements OnInit, OnDestroy{
     return this.router.url === route;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

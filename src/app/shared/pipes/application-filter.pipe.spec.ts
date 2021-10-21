@@ -1,4 +1,4 @@
-import { ApplicationFilterPipe } from "./application-filter.pipe";
+import { ApplicationFilterPipe } from './application-filter.pipe';
 
 describe('ApplicationFilterPipe', () => {
   it('create an instance', () => {
