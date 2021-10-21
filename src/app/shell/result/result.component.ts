@@ -30,7 +30,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopCard[]>;
   @Select(FilterState.isLoading)
-  isLoading$:Observable <boolean>;
+  isLoading$: Observable<boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;

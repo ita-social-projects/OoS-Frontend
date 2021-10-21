@@ -13,42 +13,42 @@ export class UserWorkshopService {
   constructor(private http: HttpClient) { }
 
   /**
-  * This method get workshops by Provider id
-  * @param id
-  */
+   * This method get workshops by Provider id
+   * @param id: number
+   */
   getWorkshopsByProviderId(id: number): Observable<WorkshopCard[]> {
     return this.http.get<WorkshopCard[]>(`/Workshop/GetByProviderId/${id}`);
   }
 
   /**
-  * This method get workshops by Workshop id
-  * @param id
-  */
+   * This method get workshops by Workshop id
+   * @param id: number
+   */
   getWorkshopById(id: number): Observable<Workshop> {
     return this.http.get<Workshop>(`/Workshop/GetById/${id}`);
   }
 
   /**
-  * This method create workshop
-  * @param Workshop
-  */
-  createWorkshop(workshop: Workshop): Observable<Object> {
+   * This method create workshop
+   * @param workshop: Workshop
+   */
+  createWorkshop(workshop: Workshop): Observable<object> {
     return this.http.post('/Workshop/Create', workshop);
   }
 
   /**
-  * This method delete workshop by Workshop id
-  * @param id
-  */
-  deleteWorkshop(id: number): Observable<Object> {
+   * This method delete workshop by Workshop id
+   * @param id: number
+   */
+  deleteWorkshop(id: number): Observable<object> {
     return this.http.delete(`/Workshop/Delete/${id}`);
   }
 
   /**
-  * This method update workshop
-  * @param Workshop
-  */
-  updateWorkshop(workshop: Workshop): Observable<Object> {
+   * This method update workshop
+   * @param workshop: Workshop
+   */
+  updateWorkshop(workshop: Workshop): Observable<object> {
     return this.http.put('/Workshop/Update', workshop);
   }
 

@@ -4,7 +4,7 @@ import { FavoriteWorkshopsService } from './../services/workshops/favorite-works
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Child, ChildCards } from '../models/child.model';
@@ -104,28 +104,28 @@ export interface UserStateModel {
 export class UserState {
   postUrl = '/Workshop/Create';
   @Selector()
-  static isLoading(state: UserStateModel): boolean { return state.isLoading }
+  static isLoading(state: UserStateModel): boolean { return state.isLoading; }
 
   @Selector()
-  static workshops(state: UserStateModel): WorkshopCard[] { return state.workshops }
+  static workshops(state: UserStateModel): WorkshopCard[] { return state.workshops; }
 
   @Selector()
-  static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider }
+  static selectedProvider(state: UserStateModel): Provider { return state.selectedProvider; }
 
   @Selector()
-  static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop }
+  static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop; }
 
   @Selector()
-  static applications(state: UserStateModel): Application[] { return state.applications }
+  static applications(state: UserStateModel): Application[] { return state.applications; }
 
   @Selector()
-  static children(state: UserStateModel): ChildCards { return state.children }
+  static children(state: UserStateModel): ChildCards { return state.children; }
 
   @Selector()
-  static favoriteWorkshops(state: UserStateModel): Favorite[] { return state.favoriteWorkshops }
+  static favoriteWorkshops(state: UserStateModel): Favorite[] { return state.favoriteWorkshops; }
 
   @Selector()
-  static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard }
+  static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -136,12 +136,11 @@ export class UserState {
     private userService: UserService,
     private ratingService: RatingService,
     private favoriteWorkshopsService: FavoriteWorkshopsService,
-
   ) { }
 
   @Action(GetWorkshopById)
-  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById) {
-    patchState({ isLoading: true })
+  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<Workshop> {
+    patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
@@ -151,7 +150,7 @@ export class UserState {
   }
 
   @Action(GetProviderById)
-  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById) {
+  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById): Observable<Provider> {
     return this.providerService
       .getProviderById(payload)
       .pipe(
@@ -161,7 +160,7 @@ export class UserState {
   }
 
   @Action(GetWorkshopsByProviderId)
-  getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId) {
+  getWorkshopsByProviderId({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopsByProviderId): Observable<WorkshopCard[]> {
     patchState({ isLoading: true })
     return this.userWorkshopService
       .getWorkshopsByProviderId(payload)
@@ -172,7 +171,7 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId) {
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId): Observable<Application[]> {
     patchState({ isLoading: true })
     return this.applicationService
       .getApplicationsByParentId(payload)
@@ -183,7 +182,7 @@ export class UserState {
   }
 
   @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId) {
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<Application[]> {
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
@@ -193,7 +192,7 @@ export class UserState {
   }
 
   @Action(GetUsersChildren)
-  getUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetUsersChildren) {
+  getUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetUsersChildren): Observable<ChildCards> {
     const state: UserStateModel = getState();
     return this.childrenService
       .getUsersChildren(state)
@@ -204,7 +203,7 @@ export class UserState {
   }
 
   @Action(GetAllUsersChildren)
-  getAllUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetAllUsersChildren) {
+  getAllUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetAllUsersChildren): Observable<ChildCards> {
     return this.childrenService
       .getAllUsersChildren()
       .pipe(
@@ -214,7 +213,7 @@ export class UserState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop) {
+  createWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop): Observable<object> {
     return this.userWorkshopService
       .createWorkshop(payload)
       .pipe(
@@ -242,7 +241,7 @@ export class UserState {
   }
 
   @Action(DeleteWorkshopById)
-  deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById) {
+  deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById): Observable<object> {
     return this.userWorkshopService
       .deleteWorkshop(payload.workshopId)
       .pipe(
@@ -264,7 +263,7 @@ export class UserState {
   }
 
   @Action(CreateChildren)
-  createChildren({ dispatch }: StateContext<UserStateModel>, { payload }: CreateChildren) {
+  createChildren({ dispatch }: StateContext<UserStateModel>, { payload }: CreateChildren): Observable<object> {
     return this.childrenService
       .createChild(payload)
       .pipe(
@@ -288,7 +287,7 @@ export class UserState {
   }
 
   @Action(CreateProvider)
-  createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider) {
+  createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
     return this.providerService
       .createProvider(payload)
       .pipe(
@@ -312,7 +311,7 @@ export class UserState {
   }
 
   @Action(CreateApplication)
-  createApplication({ dispatch }: StateContext<UserStateModel>, { payload }: CreateApplication) {
+  createApplication({ dispatch }: StateContext<UserStateModel>, { payload }: CreateApplication): Observable<object> {
     return this.applicationService
       .createApplication(payload)
       .pipe(
@@ -336,7 +335,7 @@ export class UserState {
   }
 
   @Action(DeleteChildById)
-  deleteChildById({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteChildById) {
+  deleteChildById({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteChildById): Observable<object> {
     return this.childrenService
       .deleteChild(payload)
       .pipe(
@@ -359,7 +358,7 @@ export class UserState {
   }
 
   @Action(UpdateWorkshop)
-  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop) {
+  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop): Observable<object> {
     return this.userWorkshopService
       .updateWorkshop(payload)
       .pipe(
@@ -375,7 +374,7 @@ export class UserState {
   }
 
   @Action(UpdateChild)
-  updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild) {
+  updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild): Observable<object> {
     return this.childrenService
       .updateChild(payload)
       .pipe(
@@ -408,7 +407,7 @@ export class UserState {
   }
 
   @Action(UpdateProvider)
-  updateProvider({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateProvider) {
+  updateProvider({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateProvider): Observable<object> {
     return this.providerService
       .updateProvider(payload)
       .pipe(
@@ -432,7 +431,7 @@ export class UserState {
   }
 
   @Action(UpdateUser)
-  updateUser({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateUser) {
+  updateUser({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateUser): Observable<object> {
     return this.userService
       .updateUser(payload)
       .pipe(
@@ -458,7 +457,7 @@ export class UserState {
 
 
   @Action(UpdateApplication)
-  updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication) {
+  updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication): Observable<object> {
     return this.applicationService
       .updateApplication(payload)
       .pipe(
@@ -478,7 +477,7 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінено', type: 'success' }));
   }
   @Action(CreateRating)
-  createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating) {
+  createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating): Observable<object> {
     return this.ratingService
       .createRate(payload)
       .pipe(
@@ -500,35 +499,41 @@ export class UserState {
   }
 
   @Action(GetFavoriteWorkshops)
-  getFavoriteWorkshops({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshops) {
+  getFavoriteWorkshops({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshops): Observable<Favorite[]> {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshops()
-      .subscribe((favoriteWorkshop: Favorite[]) => patchState({ favoriteWorkshops: favoriteWorkshop }))
+      .pipe(
+        tap((favoriteWorkshop: Favorite[]) => {
+          return patchState({ favoriteWorkshops: favoriteWorkshop });
+        }));
   }
 
   @Action(GetFavoriteWorkshopsByUserId)
-  getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId) {
+  getFavoriteWorkshopsByUserId({ patchState }: StateContext<UserStateModel>, { }: GetFavoriteWorkshopsByUserId): Observable<WorkshopFavoriteCard> {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshopsByUserId()
-      .subscribe((favoriteWorkshopCard: WorkshopFavoriteCard) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities }))
+      .pipe(
+        tap((favoriteWorkshopCard: WorkshopFavoriteCard) => {
+          return patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities });
+        }));
   }
 
   @Action(CreateFavoriteWorkshop)
-  createFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateFavoriteWorkshop) {
+  createFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateFavoriteWorkshop): Observable<object> {
     return this.favoriteWorkshopsService
       .createFavoriteWorkshop(payload)
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 
   @Action(DeleteFavoriteWorkshop)
-  deleteFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteFavoriteWorkshop) {
+  deleteFavoriteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteFavoriteWorkshop): Observable<object> {
     return this.favoriteWorkshopsService
       .deleteFavoriteWorkshop(payload)
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 
   @Action(CabinetPageChange)
-  pageChange({ patchState }: StateContext<FilterStateModel>, { payload }: CabinetPageChange) {
+  pageChange({ patchState }: StateContext<FilterStateModel>, { payload }: CabinetPageChange): void {
     patchState({ currentPage: payload });
   }
 }

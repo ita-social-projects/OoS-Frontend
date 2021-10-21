@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   templateUrl: './working-hours.component.html',
   styleUrls: ['./working-hours.component.scss']
 })
-export class WorkingHoursComponent implements OnInit {
+export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
@@ -48,20 +48,20 @@ export class WorkingHoursComponent implements OnInit {
   }
 
   /**
-  * This method check value, add it to the list of selected working days and distpatch filter action
-  * @param day
-  */
+   * This method check value, add it to the list of selected working days and distpatch filter action
+   * @param day WorkingDaysToggleValue
+   */
   onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
-      this.selectedWorkingDays.push(this.workingDaysReverse[day.value])
+      this.selectedWorkingDays.push(this.workingDaysReverse[day.value]);
     } else {
       this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(this.workingDaysReverse[day.value]), 1);
     }
     this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

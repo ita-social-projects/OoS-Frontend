@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Constants } from 'src/app/shared/constants/constants';
 
 
@@ -14,12 +13,12 @@ export class ScrollToTopComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
 
   @HostListener('window:scroll')
-  checkScroll() {
+  checkScroll(): void {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     this.showScrollButton = (scrollPosition >= this.constants.SCROLL_TO_TOP_BUTTON_POS) ? true : false;
   }
 
-  scrolltoTop() {
+  scrolltoTop(): void {
     window.scroll({
       top: 0,
       left: 0,
@@ -27,9 +26,8 @@ export class ScrollToTopComponent implements OnInit {
     });
   }
 
-  constructor(private store: Store) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
 }
-

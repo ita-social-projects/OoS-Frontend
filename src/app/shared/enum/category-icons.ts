@@ -1,5 +1,5 @@
-export enum CategoryIcons {  
-  'assets/icons/icon_music.svg' = 1,  
+export enum CategoryIcons {
+  'assets/icons/icon_music.svg' = 1,
   'assets/icons/icon_dancing.svg' = 2,
   'assets/icons/icon_sport.svg' = 3,
   'assets/icons/icon_books.svg' = 4,
