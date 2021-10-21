@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -9,7 +9,7 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
   templateUrl: './support.component.html',
   styleUrls: ['./support.component.scss']
 })
-export class SupportComponent implements OnInit, OnDestroy {
+export class SupportComponent implements OnInit {
 
   constructor(private store: Store, public navigationBarService: NavigationBarService) { }
 
@@ -20,9 +20,8 @@ export class SupportComponent implements OnInit, OnDestroy {
       )),
     );
   }
-
   ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch(new DeleteNavPath()); 
   }
 
 }

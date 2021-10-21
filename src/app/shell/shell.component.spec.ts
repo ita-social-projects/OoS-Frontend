@@ -5,7 +5,7 @@ import { ShellComponent } from './shell.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component } from '@angular/core';
 export class GeolocationServiceStub {
-  handleUserLocation(): void {
+  handleUserLocation() {
 
   }
 }
@@ -23,8 +23,8 @@ xdescribe('ShellComponent', () => {
         ShellComponent,
         MockNavigationBarComponent,
       ],
-      providers: [
-        { provide: GeolocationService, useValue: GeolocationServiceStub }
+      providers:[ 
+        {provide: GeolocationService, useValue: GeolocationServiceStub}
       ]
     })
       .compileComponents();
@@ -45,4 +45,4 @@ xdescribe('ShellComponent', () => {
   selector: 'app-navigation-bar',
   template: ''
 })
-class MockNavigationBarComponent { }
+class MockNavigationBarComponent{}

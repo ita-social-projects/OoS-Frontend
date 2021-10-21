@@ -10,27 +10,29 @@ import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
-import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { GeolocationAddress } from '../../models/geolocationAddress.model';
+import { takeUntil, filter, debounce, debounceTime } from 'rxjs/operators';
+import {GeolocationAddress} from '../../models/geolocationAddress.model'
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnDestroy {
-
-  public defaultCoords: Coords;
-  public zoom = 11;
-  public workshops: WorkshopCard[];
+export class MapComponent implements AfterViewInit, OnDestroy{
 
   @Select(FilterState.city)
-  city$: Observable<City>;
+  city$ :Observable<City>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  public defaultCoords: Coords;
+  public zoom: number = 11;
+  public workshops: WorkshopCard[];
+
   @Input() addressFormGroup: FormGroup;
-  @Input() isCreateWorkShops: boolean;
+  @Input() isCreateWorkShops: boolean ;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
@@ -61,18 +63,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/selectMarker.png',
   });
 
-  /**
-   * changing position on map
-   * @param coords:Coords
-   */
+/**
+ * changing position on map
+ * @param coords:Coords
+ */
   flyTo(coords: Coords): void {
     this.map?.flyTo(coords, this.zoom);
   }
 
-  /**
-   * method init start position on map
-   */
-  initMap(): void {
+/**
+ * method init start position on map
+ */
+  initMap():void {
     this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
 
     Layer.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -84,7 +86,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
       if (this.workshops) {
         this.unselectMarkers();
-        this.selectedAddress.emit(null);
+        this.selectedAddress.emit(null)
       } else {
         this.setMapLocation(L.latlng);
       }
@@ -100,15 +102,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
 
     this.city$
-      .pipe(takeUntil(this.destroy$), filter((city) => !!city))
-      .subscribe((city) => {
-        this.defaultCoords = { lat: city.latitude, lng: city.longitude };
+    .pipe(takeUntil(this.destroy$), filter((city)=> !!city))
+    .subscribe((city)=> {
+        this.defaultCoords = {lat: city.latitude, lng: city.longitude};
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
-      });
+    });
 
     this.filteredWorkshops$ && this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
+      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
       .subscribe(filteredWorkshops => {
         this.workshopMarkers.map((m) => this.map.removeLayer(m.marker));
         this.workshopMarkers = [];
@@ -208,16 +210,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * This method creates new marker
-   * @param coords - type [number, number]
-   * @param draggable - type boolean
-   * @param address - type Address
-   */
+  * This method creates new marker
+  * @param coords - type [number, number]
+  * @param draggable - type boolean
+  * @param address - type Address
+  */
   createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
     return new Layer.Marker(coords, { draggable, icon: this.unselectedMarkerIcon, riseOnHover: true });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

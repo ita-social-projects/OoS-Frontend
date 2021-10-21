@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Subject } from 'rxjs';
@@ -13,11 +13,11 @@ import { Constants } from 'src/app/shared/constants/constants';
   templateUrl: './create-description-form.component.html',
   styleUrls: ['./create-description-form.component.scss']
 })
-export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
+export class CreateDescriptionFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
-  isDirectionIdMarked = false;
+  isDirectionIdMarked: boolean = false;
 
   @Input() workshop: Workshop;
 
@@ -42,10 +42,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       head: new FormControl('', Validators.required),
       keyWords: new FormControl('', Validators.required),
       categories: this.formBuilder.group({
-        directionId: new FormControl('', Validators.required),
-        departmentId: new FormControl('', Validators.required),
-        classId: new FormControl('', Validators.required),
-      })
+          directionId: new FormControl('', Validators.required),
+          departmentId: new FormControl('', Validators.required),
+          classId: new FormControl('', Validators.required),
+        })
     });
   }
 
@@ -71,7 +71,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   onKeyWordsInput(isEditMode: boolean = true): void {
-    const inputKeyWord = this.keyWord.trim().toLowerCase();
+    let inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
 
       if (this.keyWords.length < 5) {
@@ -89,7 +89,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
@@ -115,8 +115,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method fills inputs with information of edited workshop
-   */
+  * This method fills inputs with information of edited workshop
+  */
   private activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 

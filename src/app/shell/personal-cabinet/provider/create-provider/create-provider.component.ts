@@ -27,7 +27,7 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
 export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
+  isDirtyForm$: Observable<Boolean>;
   isPristine = true;
   isLinear = false;
 
@@ -49,7 +49,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   constructor(private store: Store, private route: ActivatedRoute) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
 
     if (this.editMode) {
@@ -60,14 +60,14 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.route.params.subscribe((params: Params) => this.stepper.selectedIndex = +createProviderSteps[params.param]);
   }
 
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit(): void {
+  onSubmit() {
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
 
     let legalAddress: Address;
@@ -127,7 +127,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
         takeWhile(() => this.isPristine))
       .subscribe(() => {
         this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true));
+        this.store.dispatch(new MarkFormDirty(true))
       });
   }
 }

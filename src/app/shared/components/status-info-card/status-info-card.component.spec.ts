@@ -11,14 +11,15 @@ describe('StatusInfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatMenuModule,
-        MatDialogModule,
-        _MatMenuDirectivesModule],
-      declarations: [StatusInfoCardComponent],
+      imports:[  
+      NgxsModule.forRoot([]),
+      MatMenuModule, 
+      MatDialogModule,
+      _MatMenuDirectivesModule],
+      declarations: [ StatusInfoCardComponent ],
+
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {

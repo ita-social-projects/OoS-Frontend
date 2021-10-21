@@ -4,7 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { MatGridListModule } from "@angular/material/grid-list";
 
 describe('CreateTeacherComponent', () => {
   let component: CreateTeacherComponent;

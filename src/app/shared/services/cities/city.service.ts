@@ -11,7 +11,7 @@ export class CityService {
 
   constructor(private http: HttpClient) { }
 
-  getCities(city: string): Observable<City[]> {
-    return this.http.get<City[]>(`/City?name=${city}`);
+  getCities(string: string): Observable<City[]> {
+    return this.http.get<City[]>(`/City?name=${string}`);
   }
 }

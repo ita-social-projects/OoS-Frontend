@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild,OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -42,10 +43,13 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
-      .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
+      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
+      .subscribe(filteredWorkshops => {
+        this.workshops = filteredWorkshops.entities
+      });
+
   }
 
   onSelectedAddress(address: Address): void {
@@ -73,7 +77,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new PageChange(page));
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

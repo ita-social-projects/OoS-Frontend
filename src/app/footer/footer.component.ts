@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, ofAction } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import { ShowMessageBar } from '../shared/store/app.actions';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent implements OnInit, OnDestroy {
+export class FooterComponent implements OnInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -34,7 +34,7 @@ export class FooterComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

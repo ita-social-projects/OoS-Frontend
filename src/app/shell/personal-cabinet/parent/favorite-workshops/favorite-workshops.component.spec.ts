@@ -13,22 +13,22 @@ describe('FavoriteWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+      imports:[
         RouterTestingModule,
         NgxsModule.forRoot([])
       ],
-      declarations: [
+      declarations: [ 
         FavoriteWorkshopsComponent,
         MockWorkshopCardComponent,
         MockListWorkshopCardPaginatorComponent
       ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue([] as Workshop[]);
+    spyOn(store,'selectSnapshot').and.returnValue([] as Workshop[]);
     fixture = TestBed.createComponent(FavoriteWorkshopsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -42,14 +42,14 @@ describe('FavoriteWorkshopsComponent', () => {
   selector: 'app-workshop-card',
   template: ''
 })
-class MockWorkshopCardComponent {
+class MockWorkshopCardComponent{
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRole: string;
   @Input() parent: boolean;
-}
+ }
 
-@Component({
+ @Component({
   selector: 'app-paginator',
   template: ''
 })

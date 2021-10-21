@@ -16,14 +16,15 @@ import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class ImageFormControlComponent implements OnInit {
 
   photoFormGroup: FormGroup;
+
   gridCols: number;
-  mediumScreen = 500;
-  smallScreen = 366;
+  mediumScreen: number = 500;
+  smallScreen: number = 366;
   selectedImages: File[] = [];
   decodedImages = [];
+
   touched = false;
   disabled = false;
-
   @Input() imgMaxAmount: number;
   @Input() label: string;
 
@@ -41,7 +42,7 @@ export class ImageFormControlComponent implements OnInit {
     if (!this.disabled) {
       if (typeof event.target.files[0].name === 'string') {
         for (let i = 0; i < event.target.files.length; i++) {
-          if (this.selectedImages.length < this.imgMaxAmount) {
+          if (this.selectedImages.length<this.imgMaxAmount){
             this.imageDecoder(event.target.files[i]);
             this.selectedImages.push(event.target.files[i]);
           }
@@ -52,12 +53,12 @@ export class ImageFormControlComponent implements OnInit {
   }
   /**
    * This methods decodes the file for its correct displaying
-   * @param file: File)
+   * @param event
    */
   imageDecoder(file: File): void {
     const myReader = new FileReader();
     myReader.onload = () => {
-      if (this.decodedImages.length < this.imgMaxAmount) {
+      if (this.decodedImages.length<this.imgMaxAmount){
         this.decodedImages.push(myReader.result);
       }
     };
@@ -78,22 +79,24 @@ export class ImageFormControlComponent implements OnInit {
     }
   }
 
-  onChange = (array: File[]): void => { }
-  onTouched = (): void => { }
-  writeValue(array: File[]): void { }
-  registerOnChange(onChange: any): void {
+  onChange = (array: File[]) => { };
+  onTouched = () => { };
+
+  writeValue(array: File[]) {
+  }
+  registerOnChange(onChange: any) {
     this.onChange = onChange;
   }
-  registerOnTouched(onTouched: any): void {
+  registerOnTouched(onTouched: any) {
     this.onTouched = onTouched;
   }
-  markAsTouched(): void {
+  markAsTouched() {
     if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
-  setDisabledState(disabled: boolean): void {
+  setDisabledState(disabled: boolean) {
     this.disabled = disabled;
   }
   /* This method controls cols quantity in the img preview grid rows depending on screen width */

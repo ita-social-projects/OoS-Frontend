@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -20,20 +20,20 @@ import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
   templateUrl: './create-child.component.html',
   styleUrls: ['./create-child.component.scss']
 })
-export class CreateChildComponent implements OnInit, OnDestroy {
+export class CreateChildComponent implements OnInit {
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
-  editMode = false;
+  editMode: boolean = false;
   child: Child;
-  isAgreed = false;
+  isAgreed: boolean = false;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
+  isDirtyForm$: Observable<Boolean>;
   isPristine = true;
 
   constructor(
@@ -61,7 +61,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       ).subscribe((socialGroups: SocialGroup[]) => {
         if (socialGroups.length === 0) {
-          this.store.dispatch(new GetSocialGroup());
+          this.store.dispatch(new GetSocialGroup())
         }
       });
 
@@ -71,9 +71,9 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method create new FormGroup
-   * @param FormArray array
-   */
+  * This method create new FormGroup
+  * @param FormArray array
+  */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
       lastName: new FormControl('', Validators.required),
@@ -90,7 +90,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
         takeWhile(() => this.isPristine))
       .subscribe(() => {
         this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true));
+        this.store.dispatch(new MarkFormDirty(true))
       });
 
     this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
@@ -99,37 +99,37 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method create new FormGroup add new FormGroup to the FormArray
-   */
-  addChild(): void {
+  * This method create new FormGroup add new FormGroup to the FormArray
+  */
+  addChild() {
     this.ChildrenFormArray.push(this.newForm());
   }
 
   /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
+  * This method delete FormGroup from the FormArray by index
+  * @param index
+  */
   onDeleteForm(index: number): void {
-    this.ChildrenFormArray.removeAt(index);
+    this.ChildrenFormArray.removeAt(index)
   }
 
   /**
-   * This method create or edit Child and distpatch CreateChild action
-   */
-  onSubmit(): void {
+  * This method create or edit Child and distpatch CreateChild action
+  */
+  onSubmit() {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
-      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+      let child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
       this.store.dispatch(new UpdateChild(child));
     } else {
       this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-        const child: Child = new Child(form.value, parent.id);
+        let child: Child = new Child(form.value, parent.id);
         this.store.dispatch(new CreateChildren(child));
-      });
+      })
     }
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

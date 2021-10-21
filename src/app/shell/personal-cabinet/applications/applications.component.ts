@@ -23,8 +23,12 @@ import { ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/application
 })
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
 
+  @ViewChild(InfoBoxHostDirective, { static: true })
+  infoBoxHost: InfoBoxHostDirective;
+
+  isActiveInfoButton: boolean = false;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
-  isActiveInfoButton = false;
+
   providerApplicationParams: {
     status: string,
     workshopsId: number[]
@@ -33,11 +37,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       workshopsId: []
     };
 
-  @ViewChild(InfoBoxHostDirective, { static: true })
-  infoBoxHost: InfoBoxHostDirective;
-
-  constructor(
-    store: Store,
+  constructor(store: Store,
     private infoBoxService: InfoBoxService,
     matDialog: MatDialog,
     private actions$: Actions) {
@@ -71,8 +71,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   }
 
   /**
-   * This method initialize functionality to open child-info-box
-   */
+  * This method initialize functionality to open child-info-box
+  */
   private activateChildInfoBox(): void {
     const viewContainerRef = this.infoBoxHost.viewContainerRef;
 
@@ -88,54 +88,54 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   }
 
   /**
-   * This method changes status of emitted event to "approved"
-   * @param Application event
-   */
+  * This method changes status of emitted event to "approved"
+  * @param Application event
+  */
   onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**
-   * This method changes status of emitted event to "rejected"
-   * @param Application event
-   */
+  * This method changes status of emitted event to "rejected"
+  * @param Application event
+  */
   onReject(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**
-   * This method changes status of emitted event to "left"
-   * @param Application event
-   */
+  * This method changes status of emitted event to "left"
+  * @param Application event
+  */
   onLeave(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Left);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**
-   * This gte the lost of application according to teh selected tab
-   * @param workshopsId: number[]
-   */
+  * This gte the lost of application according to teh selected tab
+  * @param workshopsId: number[]
+  */
   onTabChange(event: MatTabChangeEvent): void {
     this.providerApplicationParams.status = ApplicationTitlesReverse[event.tab.textLabel];
     this.getProviderApplications(this.providerApplicationParams);
   }
 
   /**
-   * This applies selected workshops as filtering parameter to get list of applications
-   * @param workshopsId: number[]
-   */
+  * This applies selected workshops as filtering parameter to get list of applications
+  * @param workshopsId: number[]
+  */
   onWorkshopsSelect(workshopsId: number[]): void {
     this.providerApplicationParams.workshopsId = workshopsId;
     this.getProviderApplications(this.providerApplicationParams);
   }
 
   /**
-   * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
-   * @param object : { element: Element, child: Child }
-   */
+  * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
+  * @param { element: Element, child: Child } object
+  */
   onInfoShow({ element, child }: { element: Element, child: Child }): void {
     this.infoBoxService.onMouseOver({ element, child });
   }

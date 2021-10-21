@@ -30,7 +30,7 @@ describe('SideMenuComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User)
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -8,7 +8,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageFormControlComponent } from '../../../../../../shared/components/image-form-control/image-form-control.component';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { MatGridListModule } from "@angular/material/grid-list";
 import { Component, Input } from '@angular/core';
 
 describe('TeacherFormComponent', () => {
@@ -62,11 +62,11 @@ describe('TeacherFormComponent', () => {
   template: ''
 })
 
-class MockValidationHintForInputComponent {
+class MockValidationHintForInputComponent{
   @Input() type: string;
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
-  @Input() minCharachters: number;
+  @Input() minCharachters: number; 
 }

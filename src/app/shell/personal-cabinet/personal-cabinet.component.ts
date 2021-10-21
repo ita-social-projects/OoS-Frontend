@@ -29,7 +29,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
       { name: NavBarName.PersonalCabinet, isActive: false, disable: true }
-    )));
+    )))
   }
 
   ngOnDestroy(): void {

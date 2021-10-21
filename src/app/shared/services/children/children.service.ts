@@ -28,9 +28,9 @@ export class ChildrenService {
   }
 
   /**
-   * This method get children by Parent Child id
-   * @param id: number
-   */
+  * This method get children by Parent Child id
+  * @param id
+  */
   getUsersChildren(state: UserStateModel): Observable<ChildCards> {
     const options = { params: this.setParams(state) };
 
@@ -38,9 +38,9 @@ export class ChildrenService {
   }
 
   /**
-   * This method get children by Parent Child id
-   * @param id: number
-   */
+  * This method get children by Parent Child id
+  * @param id
+  */
   getAllUsersChildren(): Observable<ChildCards> {
     let params = new HttpParams();
     params = params.set('Size', '0');
@@ -51,48 +51,48 @@ export class ChildrenService {
 
 
   /**
-   * This method create Child
-   * @param child: Child
-   */
-  createChild(child: Child): Observable<object> {
+  * This method create Child
+  * @param Child
+  */
+  createChild(child: Child): Observable<Object> {
     return this.http.post('/Child/Create', child);
   }
 
   /**
-   * This method update Child
-   * @param child: Child
-   */
-  updateChild(child: Child): Observable<object> {
+  * This method update Child
+  * @param Child
+  */
+  updateChild(child: Child): Observable<Object> {
     return this.http.put('/Child/Update', child);
   }
 
   /**
-   * This method get Users Child By Id
-   * @param id: number
-   */
+  * This method get Users Child By Id
+  * @param id
+  */
   getUsersChildById(id: number): Observable<Child> {
     return this.http.get<Child>(`/Child/GetUsersChildById/${id}`);
   }
 
 
   /**
-   * This method delete child by Child id
-   * @param id: number
-   */
-  deleteChild(id: number): Observable<object> {
+  * This method delete child by Child id
+  * @param id
+  */
+  deleteChild(id: number): Observable<Object> {
     return this.http.delete(`/Child/Delete/${id}`);
   }
 
   /**
-   * This method get all social groups
-   */
+  * This method get all social groups
+  */
   getSocialGroup(): Observable<SocialGroup[]> {
     return this.http.get<SocialGroup[]>('/SocialGroup/Get');
   }
 
   /**
-   * This method get all social groups by Id
-   */
+ * This method get all social groups by Id
+ */
   getSocialGroupById(id: number): Observable<SocialGroup> {
     return this.http.get<SocialGroup>(`/SocialGroup/GetById/${id}`);
   }

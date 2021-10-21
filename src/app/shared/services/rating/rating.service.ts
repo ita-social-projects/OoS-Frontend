@@ -11,27 +11,27 @@ export class RatingService {
   constructor(private http: HttpClient) { }
 
   /**
-   * This method get Rate pf entity by its entityId
-   * @param entityType: string
-   * @param entityId: number
-   */
+  * This method get Rate pf entity by its entityId
+  * @param entityType: string
+  * @param entityId: number
+  */
   getRateByEntityId(entityType: string, entityId: number): Observable<Rate[]> {
     return this.http.get<Rate[]>(`/Rating/GetByEntityId/${entityType}/${entityId}`);
   }
 
   /**
-   * This method create Rate
-   * @param rate: Rate
-   */
-  createRate(rate: Rate): Observable<object> {
+  * This method create Rate
+  * @param Rate
+  */
+  createRate(rate: Rate): Observable<Object> {
     return this.http.post('/Rating/Create', rate);
   }
 
   /**
-   * This method update Rate
-   * @param rate: Rate
-   */
-  updateRate(rate: Rate): Observable<object> {
+  * This method update Rate
+  * @param Rate
+  */
+  updateRate(rate: Rate): Observable<Object> {
     return this.http.put('/Rating/Update', rate);
   }
 }

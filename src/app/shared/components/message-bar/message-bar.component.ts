@@ -9,12 +9,10 @@ import { messageType } from '../../enum/messageBar';
 })
 export class MessageBarComponent implements OnInit {
 
-  messageType: string = messageType[messageType.success];
+  messageType: string = messageType['success'];
 
-  constructor(
-    private snackBar: MatSnackBar,
-    @Inject(MAT_SNACK_BAR_DATA) public data: any) {
-  }
+  constructor(private snackBar: MatSnackBar,
+    @Inject(MAT_SNACK_BAR_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.messageType = messageType[this.data.type];

@@ -22,7 +22,7 @@ describe('CategorySelectComponent', () => {
         MatAutocompleteModule
       ],
       declarations: [
-        CategorySelectComponent,
+        CategorySelectComponent, 
         MockValidationHintForInputComponent
       ],
     })
@@ -50,11 +50,11 @@ describe('CategorySelectComponent', () => {
   template: ''
 })
 
-class MockValidationHintForInputComponent {
+class MockValidationHintForInputComponent{
   @Input() type: string;
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
-  @Input() minCharachters: number;
+  @Input() minCharachters: number; 
 }

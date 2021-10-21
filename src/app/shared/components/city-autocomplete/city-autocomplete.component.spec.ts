@@ -23,8 +23,7 @@ describe('CityAutocompleteComponent', () => {
         NgxsModule.forRoot([]),
       ],
       declarations: [
-        CityAutocompleteComponent,
-      ],
+        CityAutocompleteComponent,],
       providers: []
     })
       .compileComponents();

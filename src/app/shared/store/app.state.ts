@@ -3,18 +3,18 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { ActivateEditMode, MarkFormDirty, SetLocation, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
-  city: string;
-  lng: number | null;
-  lat: number | null;
-  isDirtyForm: boolean;
-  isEditMode: boolean;
-  isMobileScreen: undefined | boolean;
+  city: String;
+  lng: Number | null;
+  lat: Number | null;
+  isDirtyForm: boolean,
+  isEditMode: boolean,
+  isMobileScreen: undefined | boolean
 }
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    city: null,
+    city: "",
     lng: null,
     lat: null,
     isDirtyForm: false,
@@ -26,13 +26,13 @@ export interface AppStateModel {
 export class AppState {
 
   @Selector()
-  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen; }
+  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen }
 
   @Selector()
-  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm; }
+  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm }
 
   @Selector()
-  static isEditMode(state: AppStateModel): boolean { return state.isEditMode; }
+  static isEditMode(state: AppStateModel): boolean { return state.isEditMode }
 
   constructor() { }
 
@@ -55,8 +55,8 @@ export class AppState {
   showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void { }
 
   @Action(ToggleMobileScreen)
-  ToggleMobileScreen({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
-    patchState({ isMobileScreen: payload });
+  ToggleMobileScreen({patchState}:StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
+      patchState({ isMobileScreen: payload })
   }
 
 }

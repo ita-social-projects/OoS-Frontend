@@ -7,13 +7,14 @@ import { Child } from '../../models/child.model';
   templateUrl: './child-card.component.html',
   styleUrls: ['./child-card.component.scss']
 })
-export class ChildCardComponent implements OnInit {
+export class ChildCardComponent  implements OnInit {
 
   @Input() child: Child;
-  @Input() applications: Array<Application>;
+  @Input() applications:Array<Application>;
   @Output() deleteChild = new EventEmitter<Child>();
 
-  ngOnInit(): void { }
+
+  ngOnInit(): void {}
 
   onDelete(): void {
     this.deleteChild.emit(this.child);

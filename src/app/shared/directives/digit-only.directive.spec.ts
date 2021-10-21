@@ -1,6 +1,6 @@
 import { DigitOnlyDirective } from './digit-only.directive';
 
-const elRefMock = { nativeElement: document.createElement('input') };
+let elRefMock = { nativeElement: document.createElement('input') };
 
 describe('DigitOnlyDirective', () => {
   it('should create an instance', () => {

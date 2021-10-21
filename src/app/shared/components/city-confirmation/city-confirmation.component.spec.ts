@@ -9,10 +9,10 @@ describe('CityConfirmationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([])],
-      declarations: [CityConfirmationComponent]
+      imports:[ NgxsModule.forRoot([]) ],
+      declarations: [ CityConfirmationComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {

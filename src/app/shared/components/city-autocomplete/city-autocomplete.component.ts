@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -14,7 +14,7 @@ import { FilterState } from '../../store/filter.state';
   templateUrl: './city-autocomplete.component.html',
   styleUrls: ['./city-autocomplete.component.scss']
 })
-export class CityAutocompleteComponent implements OnInit, OnDestroy {
+export class CityAutocompleteComponent implements OnInit {
 
   _InitialCity: string;
 
@@ -38,7 +38,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   constructor(public store: Store, private actions$: Actions) { }
 
   displayCityName(city: City): string {
-    return typeof city === 'string' ? city : city?.name;
+    return typeof city === 'string'? city: city?.name;
   }
 
   ngOnInit(): void {
@@ -68,25 +68,25 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
    * @param MatAutocompleteSelectedEvent value
    */
   onSelect(event: MatAutocompleteSelectedEvent): void {
-    this.selectedCity.emit(event.option.value);
-    this.store.dispatch(new ClearCities());
+      this.selectedCity.emit(event.option.value);
+      this.store.dispatch(new ClearCities());
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
   /**
-   * This method set initial city to autocomplete
-   */
-  setInitialCity(): void {
-    if (this._InitialCity !== 'Такого міста немає') {
+  * This method set initial city to autocomplete
+  */
+   setInitialCity(): void {
+    if (this._InitialCity !== "Такого міста немаєї") {
       this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
         .pipe(last())
         .subscribe(() => {
-          this.cities && this.cityFormControl.setValue(this.cities[0]);
+          this.cities && this.cityFormControl.setValue(this.cities[0])
         });
     }
   }

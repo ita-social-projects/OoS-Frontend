@@ -7,8 +7,7 @@ export class DigitOnlyDirective {
 
   constructor(private el: ElementRef) { }
 
-  @HostListener('input', ['$event']) onInputChange(event: InputEvent): void {
-
+  @HostListener('input',['$event'])onInputChange(event) {
     const initValue = this.el.nativeElement.value;
 
     this.el.nativeElement.value = initValue.replace(/[^0-9]*/g, '');

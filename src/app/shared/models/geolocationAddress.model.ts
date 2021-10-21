@@ -7,7 +7,7 @@ export interface GeolocationAddress {
     hamlet?: string;
     road?: string;
     house_number?: string;
-  };
+  }
   lat?: string;
   lon?: string;
 }
