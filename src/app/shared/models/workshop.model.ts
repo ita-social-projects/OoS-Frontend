@@ -65,8 +65,8 @@ export class Workshop {
 }
 
 export interface WorkshopCard {
-  address: Address;
-  direction: string;
+  address: Address;  
+  directionId: number;
   isPerMonth: boolean;
   maxAge: number;
   minAge: number;
