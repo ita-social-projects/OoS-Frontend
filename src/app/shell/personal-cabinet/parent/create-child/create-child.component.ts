@@ -71,9 +71,9 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method create new FormGroup
-  * @param FormArray array
-  */
+   * This method create new FormGroup
+   * @param FormArray array
+   */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
       lastName: new FormControl('', Validators.required),
@@ -99,23 +99,23 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method create new FormGroup add new FormGroup to the FormArray
-  */
+   * This method create new FormGroup add new FormGroup to the FormArray
+   */
   addChild(): void {
     this.ChildrenFormArray.push(this.newForm());
   }
 
   /**
-  * This method delete FormGroup from the FormArray by index
-  * @param index
-  */
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
   onDeleteForm(index: number): void {
     this.ChildrenFormArray.removeAt(index);
   }
 
   /**
-  * This method create or edit Child and distpatch CreateChild action
-  */
+   * This method create or edit Child and distpatch CreateChild action
+   */
   onSubmit(): void {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {

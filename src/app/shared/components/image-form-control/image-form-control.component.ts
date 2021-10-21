@@ -52,7 +52,7 @@ export class ImageFormControlComponent implements OnInit {
   }
   /**
    * This methods decodes the file for its correct displaying
-   * @param event
+   * @param file: File)
    */
   imageDecoder(file: File): void {
     const myReader = new FileReader();

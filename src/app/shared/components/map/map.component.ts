@@ -62,16 +62,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   });
 
   /**
-  * changing position on map
-  * @param coords:Coords
-  */
+   * changing position on map
+   * @param coords:Coords
+   */
   flyTo(coords: Coords): void {
     this.map?.flyTo(coords, this.zoom);
   }
 
   /**
-  * method init start position on map
-  */
+   * method init start position on map
+   */
   initMap(): void {
     this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
 
@@ -92,11 +92,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-  * before map creation gets user coords from GeolocationService. If no user coords uses default coords
-  * Creates and sets map after div with is "map" renders.
-  * Adds onclick event handler which translates map coords into address
-  * subscribes on @input address change and on every change calls method to translate address into coords
-  */
+   * before map creation gets user coords from GeolocationService. If no user coords uses default coords
+   * Creates and sets map after div with is "map" renders.
+   * Adds onclick event handler which translates map coords into address
+   * subscribes on @input address change and on every change calls method to translate address into coords
+   */
   ngAfterViewInit(): void {
 
     this.city$
@@ -131,17 +131,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-  * uses GoelocationService to translate address into coords and sets marker on efault
-  * @param address - type Address
-  */
+   * uses GoelocationService to translate address into coords and sets marker on efault
+   * @param address - type Address
+   */
   setAddressLocation(address: Address): void {
     this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker(address);
   }
 
   /**
-  * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
-  * @param coords - type Coords
-  */
+   * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
+   * @param coords - type Coords
+   */
   setMapLocation(coords: Coords): void {
     this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
@@ -164,9 +164,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-  * This method remove existed marker and set the new marke to the map
-  * @param coords - type [number, number]
-  */
+   * This method remove existed marker and set the new marke to the map
+   * @param coords - type [number, number]
+   */
   setNewSingleMarker(address: Address): void {
     const coords: [number, number] = [address.latitude, address.longitude];
     this.singleMarker && this.map.removeLayer(this.singleMarker);
@@ -176,9 +176,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-  * This method remove existed marker and set the new marke to the map
-  * @param coords - type [number, number]
-  */
+   * This method remove existed marker and set the new marke to the map
+   * @param coords - type [number, number]
+   */
   setWorkshopMarkers(address: Address): void {
     const coords: [number, number] = [address.latitude, address.longitude];
     const marker = this.createMarker(coords, false);
@@ -197,8 +197,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-  * This method unselect target Marker
-  */
+   * This method unselect target Marker
+   */
   unselectMarkers(): void {
     const selectedWorkshopMarker = this.workshopMarkers.find((workshopMarkes) => workshopMarkes.isSelected);
     if (selectedWorkshopMarker) {
@@ -208,11 +208,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-  * This method creates new marker
-  * @param coords - type [number, number]
-  * @param draggable - type boolean
-  * @param address - type Address
-  */
+   * This method creates new marker
+   * @param coords - type [number, number]
+   * @param draggable - type boolean
+   * @param address - type Address
+   */
   createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
     return new Layer.Marker(coords, { draggable, icon: this.unselectedMarkerIcon, riseOnHover: true });
   }

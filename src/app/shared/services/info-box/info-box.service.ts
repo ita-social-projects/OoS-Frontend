@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Injectable, Type, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injectable, Type, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ChildInfoBoxComponent } from '../../components/child-info-box/child-info-box.component';
 import { Child } from '../../models/child.model';
@@ -26,7 +26,7 @@ export class InfoBoxService {
     this.isMouseOver.next(false);
   }
 
-  async loadComponent(vcr: ViewContainerRef, isMouseOver: boolean) {
+  async loadComponent(vcr: ViewContainerRef, isMouseOver: boolean): Promise<ComponentRef<ChildInfoBoxComponent>> {
     const { ChildInfoBoxComponent } = await import('../../components/child-info-box/child-info-box.component');
 
     vcr.clear();
@@ -34,9 +34,9 @@ export class InfoBoxService {
     if (isMouseOver) {
       const componentRef = vcr.createComponent(this.cfr.resolveComponentFactory(component));
 
-      (<ChildInfoBoxComponent>componentRef.instance).child = this.child ? this.child : null;
-      (<ChildInfoBoxComponent>componentRef.instance).top = this.top ? this.top : null;
-      (<ChildInfoBoxComponent>componentRef.instance).left = this.left ? this.left : null;
+      (componentRef.instance as ChildInfoBoxComponent).child = this.child ? this.child : null;
+      (componentRef.instance as ChildInfoBoxComponent).top = this.top ? this.top : null;
+      (componentRef.instance as ChildInfoBoxComponent).left = this.left ? this.left : null;
 
       return componentRef;
     }

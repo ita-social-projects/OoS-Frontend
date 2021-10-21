@@ -17,7 +17,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
 
-  isDirectionIdMarked: boolean = false;
+  isDirectionIdMarked = false;
 
   @Input() workshop: Workshop;
 
@@ -42,10 +42,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       head: new FormControl('', Validators.required),
       keyWords: new FormControl('', Validators.required),
       categories: this.formBuilder.group({
-          directionId: new FormControl('', Validators.required),
-          departmentId: new FormControl('', Validators.required),
-          classId: new FormControl('', Validators.required),
-        })
+        directionId: new FormControl('', Validators.required),
+        departmentId: new FormControl('', Validators.required),
+        classId: new FormControl('', Validators.required),
+      })
     });
   }
 
@@ -115,8 +115,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method fills inputs with information of edited workshop
-  */
+   * This method fills inputs with information of edited workshop
+   */
   private activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 

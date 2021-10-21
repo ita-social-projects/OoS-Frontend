@@ -21,7 +21,8 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
     isActive: true
   };
 
-  constructor(store: Store,
+  constructor(
+    store: Store,
     matDialog: MatDialog,
     private actions$: Actions) {
     super(store, matDialog);

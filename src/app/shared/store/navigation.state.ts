@@ -1,5 +1,5 @@
 import { Navigation } from './../models/navigation.model';
-import { State, Action, StateContext, Selector } from "@ngxs/store";
+import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { AddNavPath, SidenavToggle, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
 export interface NavStateModel {
@@ -18,16 +18,16 @@ export interface NavStateModel {
 export class NavigationState {
 
   @Selector()
-  static navigationPaths(state: NavStateModel): Navigation[] { return state.navigation };
+  static navigationPaths(state: NavStateModel): Navigation[] { return state.navigation; }
 
   @Selector()
-  static sidenavOpenTrue(state: NavStateModel): boolean { return state.sidenavOpen };
+  static sidenavOpenTrue(state: NavStateModel): boolean { return state.sidenavOpen; }
 
   @Selector()
   static navigationPathsMobile(state: NavStateModel): Navigation[] {
     const navigation = [...state.navigation];
     return [navigation.pop()];
-  };
+  }
 
   @Action(AddNavPath)
   addNavPath({ patchState }: StateContext<NavStateModel>, { payload }: AddNavPath): void {

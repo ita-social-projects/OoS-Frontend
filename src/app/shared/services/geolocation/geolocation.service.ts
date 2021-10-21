@@ -78,8 +78,11 @@ export class GeolocationService {
    * @param callback - Function, which receives 1 argument of type Address
    */
   locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
-    GeocoderService.geocode().reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk').subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
-      callback(result);
-    });
+    GeocoderService
+      .geocode()
+      .reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk')
+      .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
+        callback(result);
+      });
   }
 }

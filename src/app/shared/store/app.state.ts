@@ -26,13 +26,13 @@ export interface AppStateModel {
 export class AppState {
 
   @Selector()
-  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen };
+  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen; }
 
   @Selector()
-  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm };
+  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm; }
 
   @Selector()
-  static isEditMode(state: AppStateModel): boolean { return state.isEditMode };
+  static isEditMode(state: AppStateModel): boolean { return state.isEditMode; }
 
   constructor() { }
 

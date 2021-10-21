@@ -78,8 +78,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method set initial city to autocomplete
-  */
+   * This method set initial city to autocomplete
+   */
   setInitialCity(): void {
     if (this._InitialCity !== 'Такого міста немає') {
       this.cityFormControl.setValue(this._InitialCity);

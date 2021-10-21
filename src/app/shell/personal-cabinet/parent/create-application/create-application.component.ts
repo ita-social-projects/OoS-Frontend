@@ -86,8 +86,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   }
 
   /**
-    * This method create new Application
-    */
+   * This method create new Application
+   */
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',

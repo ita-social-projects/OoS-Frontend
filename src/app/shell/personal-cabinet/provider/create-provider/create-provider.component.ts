@@ -49,7 +49,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   constructor(private store: Store, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
 
     if (this.editMode) {
@@ -60,14 +60,14 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.route.params.subscribe((params: Params) => this.stepper.selectedIndex = +createProviderSteps[params.param]);
   }
 
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit() {
+  onSubmit(): void {
     const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
 
     let legalAddress: Address;

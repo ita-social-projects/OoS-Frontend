@@ -14,9 +14,9 @@ export class AppComponent implements OnInit {
   isMobileView: boolean;
 
   /**
-  * @param event global variable window
-  * method defined window.width and assign isMobileView: boolean
-  */
+   *@param event global variable window
+   * method defined window.width and assign isMobileView: boolean
+   */
 
   isWindowMobile(event: any): void {
     this.isMobileView = event.innerWidth <= 750;

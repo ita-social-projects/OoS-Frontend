@@ -10,22 +10,19 @@ import { CategoryIcons } from '../../enum/category-icons';
   styleUrls: ['./category-card.component.scss']
 })
 export class CategoryCardComponent implements OnInit {
-
-
   @Input() workshopsCount: number;
   @Input() direction: Direction;
   @Input() icons: {};
-  
-  public categoryIcons = CategoryIcons;    
+  public categoryIcons = CategoryIcons;
 
-  constructor(private store: Store) {    
-   }
+  constructor(private store: Store) {
+  }
 
   ngOnInit(): void {
   }
 
   selectDirection(direction: Direction): void {
-    this.store.dispatch(new SetDirections([direction]));        
+    this.store.dispatch(new SetDirections([direction]));
   }
   /**
    * Returns correct form of the ukrainian word "гурток" depending on the amount of workshops by category.
@@ -42,6 +39,6 @@ export class CategoryCardComponent implements OnInit {
         return 'гуртки';
       }
     }
-  }     
+  }
 
 }

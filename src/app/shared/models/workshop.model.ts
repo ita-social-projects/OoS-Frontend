@@ -65,7 +65,7 @@ export class Workshop {
 }
 
 export interface WorkshopCard {
-  address: Address;  
+  address: Address;
   directionId: number;
   isPerMonth: boolean;
   maxAge: number;

@@ -8,8 +8,8 @@ export class PlaceholderFormDirective implements AfterViewInit {
   constructor(private el: ElementRef, private r: Renderer2) { }
 
   /**
-  * This directive change placeholder styling ptoperties for input forms
-  */
+   * This directive change placeholder styling ptoperties for input forms
+   */
 
   ngAfterViewInit(): void {
 

@@ -84,23 +84,23 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       );
   }
   /**
-  * This method create new FormGroup add new FormGroup to the FormArray
-  */
+   * This method create new FormGroup add new FormGroup to the FormArray
+   */
   addWorkingHours(range?: DateTimeRanges): void {
     this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
   }
 
   /**
-  * This method delete FormGroup from the FormArray by index
-  * @param index
-  */
+   * This method delete FormGroup from the FormArray by index
+   * @param index: number
+   */
   deleteWorkingHour(index: number): void {
     this.workingHoursFormArray.removeAt(index);
   }
 
   /**
-  * This method fills in the info from provider to the workshop if check box is checked
-  */
+   * This method fills in the info from provider to the workshop if check box is checked
+   */
   private useProviderInfo(): void {
     this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
       if (useProviderInfo) {
@@ -121,8 +121,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method fills inputs with information of edited workshop
-  */
+   * This method fills inputs with information of edited workshop
+   */
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
@@ -130,9 +130,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method create new FormGroup
-  * @param FormArray array
-  */
+   * This method create new FormGroup
+   * @param FormArray array
+   */
   private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
     const workingHoursFormGroup = this.formBuilder.group({
       workdays: new FormControl('', Validators.required),
@@ -146,7 +146,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup TODO: add to teh second release
+   * This method makes input enable if radiobutton value
+   * is true and sets the value to teh formgroup TODO: add to teh second release
    */
   // private onCompetitiveSelectionCtrlInit(): void {
   //   this.competitiveSelectionRadioBtn.valueChanges

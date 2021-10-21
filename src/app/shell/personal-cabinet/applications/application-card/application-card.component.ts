@@ -36,41 +36,41 @@ export class ApplicationCardComponent implements OnInit {
   }
 
   /**
-  * This method emit on approve action
-  * @param Application application
-  */
+   * This method emit on approve action
+   * @param Application application
+   */
   onApprove(application: Application): void {
     this.approved.emit(application);
   }
 
   /**
-  * This method emit on deny action
-  * @param Application application
-  */
+   * This method emit on deny action
+   * @param Application application
+   */
   onReject(application: Application): void {
     this.rejected.emit(application);
   }
 
   /**
-  * This method emit on deny action
-  * @param Application application
-  */
+   * This method emit on deny action
+   * @param Application application
+   */
   onLeave(application: Application): void {
     this.leave.emit(application);
   }
 
   /**
-  * This method emit on mouseover action on child avatar
-  * @param Application application
-  */
+   * This method emit on mouseover action on child avatar
+   * @param Application application
+   */
   onInfoShow(element: Element): void {
     this.infoShow.emit({ element, child: this.application.child });
   }
 
   /**
-  * This method emit on mouseleave action on child avatar
-  * @param Application application
-  */
+   * This method emit on mouseleave action on child avatar
+   * @param Application application
+   */
   onInfoHide(): void {
     this.infoHide.emit();
   }
