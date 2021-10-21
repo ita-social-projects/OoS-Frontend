@@ -12,6 +12,7 @@ import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CategoryIcons } from '../../enum/category-icons';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -24,10 +25,12 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
+  public categoryIcons = CategoryIcons;
   public below = 'below';
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
+  roleUser: string;
 
   @Input() workshop: WorkshopCard;
   @Input() userRole: string;
@@ -36,16 +39,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() parent: boolean;
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = true;
+  @Input() icons: {};
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
-
-  roleUser: string;
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -102,6 +103,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
 }
 
 @Component({

@@ -16,6 +16,7 @@ enum ViewType {
   map = 'map',
   data = 'show-data'
 }
+
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
@@ -78,6 +79,5 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 
 }
