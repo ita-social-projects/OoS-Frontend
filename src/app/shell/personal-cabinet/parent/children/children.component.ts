@@ -51,7 +51,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.deleteChild,
         property: `${child.firstName} ${child.lastName}`
       }
     });
