@@ -27,7 +27,7 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
 export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<Boolean>;
+  isDirtyForm$: Observable<boolean>;
   isPristine = true;
   isLinear = true;
 
@@ -49,7 +49,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
 
   constructor(private store: Store, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
 
     if (this.editMode) {
@@ -60,7 +60,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
     this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.route.params.subscribe((params: Params) => this.stepper.selectedIndex = +createProviderSteps[params.param]);
   }
 
@@ -131,7 +131,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
         takeWhile(() => this.isPristine))
       .subscribe(() => {
         this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true))
+        this.store.dispatch(new MarkFormDirty(true));
       });
   }
 
@@ -146,7 +146,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * This method marks each control of form in the array of forms in ContactsFormGroup as touched 
+   * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
   checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach(key => {

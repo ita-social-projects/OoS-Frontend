@@ -41,11 +41,11 @@ export class CreateAddressComponent implements OnInit {
   }
 
   onSelectedCity(event: any): void {
-    this.AddressFormGroup.get('city').setValue(event.name)
+    this.AddressFormGroup.get('city').setValue(event.name);
   }
-  
+
   onReceiveAddressFromMap(address: Address): void {
     this.city = address.city;
-    this.AddressFormGroup.patchValue(address)
+    this.AddressFormGroup.patchValue(address);
   }
 }

@@ -22,7 +22,7 @@ export class ProviderService {
   * This method create Provider
   * @param Provider
   */
-  createProvider(provider: Provider): Observable<Object> {
+  createProvider(provider: Provider): Observable<object> {
     return this.http.post('/Provider/Create', provider);
   }
 
@@ -37,7 +37,7 @@ export class ProviderService {
  * This method update Provider
  * @param Provider
  */
-  updateProvider(provider: Provider): Observable<Object> {
+  updateProvider(provider: Provider): Observable<object> {
     return this.http.put('/Provider/Update', provider);
   }
 }

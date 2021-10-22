@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageFormControlComponent } from './image-form-control.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatGridListModule } from "@angular/material/grid-list";
+import { MatGridListModule } from '@angular/material/grid-list';
 
 describe('ImageFormControlComponent', () => {
   let component: ImageFormControlComponent;
@@ -13,9 +13,9 @@ describe('ImageFormControlComponent', () => {
         MatIconModule,
         MatGridListModule
       ],
-      declarations: [ ImageFormControlComponent ]
+      declarations: [ImageFormControlComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

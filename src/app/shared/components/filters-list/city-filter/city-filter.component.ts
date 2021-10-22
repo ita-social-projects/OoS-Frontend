@@ -20,7 +20,7 @@ export class CityFilterComponent {
   constructor(private store: Store) { }
 
   onSelectedCity(event): void {
-    this.store.dispatch(new SetCity(event))
+    this.store.dispatch(new SetCity(event));
   }
 
 }

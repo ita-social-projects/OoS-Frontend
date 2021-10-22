@@ -41,7 +41,7 @@ describe('WorkingHoursFormComponent', () => {
       workdays: new FormControl([]),
       endTime: new FormControl(''),
       startTime: new FormControl(''),
-    })
+    });
     fixture.detectChanges();
   });
 

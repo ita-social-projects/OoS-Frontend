@@ -24,7 +24,6 @@ describe('CreateChildComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule,
         MatCheckboxModule
-        
       ],
       declarations: [
         CreateChildComponent,
