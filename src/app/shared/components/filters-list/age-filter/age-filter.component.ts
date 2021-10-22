@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, skip } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
+
 @Component({
   selector: 'app-age-filter',
   templateUrl: './age-filter.component.html',
@@ -22,20 +23,16 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
-
     this.minAgeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged(),
-      // filter((age: number) => !!age)
+      distinctUntilChanged()
     ).subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
 
     this.maxAgeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged(),
-      // filter((age: number) => !!age)
+      distinctUntilChanged()
     ).subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
 
     this.resetFilter$.pipe(
@@ -44,7 +41,6 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
         this.maxAgeFormControl.setValue(0);
         this.minAgeFormControl.setValue(0);
     })
-
   }
 
   ngOnDestroy() {
