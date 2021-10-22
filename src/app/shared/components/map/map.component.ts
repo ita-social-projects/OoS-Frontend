@@ -51,7 +51,7 @@ export class MapComponent implements AfterViewInit, OnDestroy{
     iconAnchor: [10, 41],
     shadowAnchor: [0, 0],
     popupAnchor: [-3, -76],
-    iconUrl: '/assets/icons/marker.png',
+    iconUrl: '/assets/icons/marker.png',    
   });
 
   selectedMarkerIcon: Layer.Icon = Layer.icon({
