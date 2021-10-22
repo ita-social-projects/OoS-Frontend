@@ -28,6 +28,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() resetFilter$: Observable<void>;
   workshops: WorkshopCard[];
   public selectedWorkshops: WorkshopCard[] = [];
   public isSelectedMarker = false;
@@ -44,8 +45,20 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
+      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
       .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
+
+    this.resetFilter$
+      .pipe(
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.currentPage = {
+        element: 1,
+        isActive: true
+      }
+      this.store.dispatch(new PageChange(this.currentPage))
+    })
+
   }
 
   onSelectedAddress(address: Address): void {

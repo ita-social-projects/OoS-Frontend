@@ -1,11 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit,OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
 import { Direction } from 'src/app/shared/models/category.model';
 import { SetDirections } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
@@ -17,6 +18,12 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+
+  @Select(FilterState.directions)
+  filterDirections$: Observable<Direction[]>;
+
+  @Input() resetFilter$: Observable<void>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   allDirections: Direction[] = [];
@@ -29,9 +36,22 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
+
     this.directions$.pipe(
       takeUntil(this.destroy$),
     ).subscribe(directions => this.allDirections = directions);
+
+    this.filterDirections$.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe(directions => {
+      this.selectedDirections = directions});
+
+    this.resetFilter$.pipe(
+      takeUntil(this.destroy$)
+      ).subscribe(() => {
+          this.selectedDirections = [];
+          this.store.dispatch(new SetDirections(this.selectedDirections));
+    })
 
     this.directionSearch.valueChanges
       .pipe(

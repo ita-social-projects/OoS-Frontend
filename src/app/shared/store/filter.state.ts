@@ -25,6 +25,7 @@ import {
   PageChange,
   ConfirmCity,
   CleanCity,
+  FilterReset,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -240,4 +241,7 @@ export class FilterState {
 
   @Action(FilterChange)
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+
+  @Action(FilterReset)
+  filterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 }

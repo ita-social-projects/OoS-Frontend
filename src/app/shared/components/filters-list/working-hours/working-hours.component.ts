@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit ,OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
@@ -14,7 +14,7 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
-
+  @Input() resetFilter$: Observable<void>;
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
@@ -27,20 +27,28 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+
+    this.resetFilter$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+        this.startTimeFormControl.setValue("");
+        this.endTimeFormControl.setValue("");
+        this.selectedWorkingDays = []
+        this.days.forEach(day => day.selected = false)
+        this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays))
+    })
+
     this.startTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-      filter((time: string) => !!time),
-    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
-
+    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-      filter((time: string) => !!time),
-    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
   }
 
   getMinTime(): string {
