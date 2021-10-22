@@ -1,6 +1,6 @@
 export interface GeolocationPositionError {
-	code: number;
-	message: string;
+  code: number;
+  message: string;
 }
 
 export interface GeolocationPosition {

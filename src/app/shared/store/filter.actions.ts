@@ -1,21 +1,18 @@
-import { Direction } from "../models/category.model";
-import { City } from "../models/city.model";
-import { PaginationElement } from "../models/paginationElement.model";
+import { Direction } from '../models/category.model';
+import { City } from '../models/city.model';
+import { PaginationElement } from '../models/paginationElement.model';
 export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: City) { }
 }
-
 export class CleanCity {
   static readonly type = '[app] Clean City';
   constructor() { }
 }
-
 export class ConfirmCity {
   static readonly type = '[app] Confirm Current City';
   constructor(public payload: boolean) { }
 }
-
 export class SetOrder {
   static readonly type = '[filter] Set Order';
   constructor(public payload: string) { }
@@ -72,9 +69,13 @@ export class SetWithDisabilityOption {
   static readonly type = '[filter] Set with Disability option';
   constructor(public payload: boolean) { }
 }
-
 export class FilterChange {
   static readonly type = '[app] Filter Change';
+  constructor() { }
+}
+
+export class FilterReset {
+  static readonly type = '[filter] Filter Reset';
   constructor() { }
 }
 

@@ -21,3 +21,18 @@ color:#444444;
 .check-boxes{
   margin-top: 1rem;
 }
+
+.resetFilter {
+  box-sizing: border-box;
+  box-shadow: none;
+  border: 1px solid #EBEBEB;
+  border-radius: 25px;
+  background: #FFFFFF;
+  font-family: "Open Sans", sans-serif;
+  font-weight: normal;
+  line-height: 30px;
+  &:hover{
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}

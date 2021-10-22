@@ -14,19 +14,21 @@ export class MinMaxDirective {
   constructor(private ref: ElementRef) { }
 
   @HostListener('input', ['$event'])
-  public onInput(a_Event: InputEvent): void {
+  public onInput(event: InputEvent): void {
     this.MaxMinValidation();
   }
 
-  public handleKeyboardEvent(event: KeyboardEvent) {
+  public handleKeyboardEvent(event: KeyboardEvent): void {
     this.MaxMinValidation();
   }
+
   private MaxMinValidation(): void {
-    let val = parseInt(this.ref.nativeElement.value);
-    if (this.max !== null && this.max !== undefined && val >= this.max)
+    const val = Number(this.ref.nativeElement.value);
+    if (this.max !== null && this.max !== undefined && val >= this.max) {
       this.directiveFormControl.setValue(this.max);
-    else if (this.min !== null && this.min !== undefined && val <= this.min)
+    }
+    else if (this.min !== null && this.min !== undefined && val <= this.min) {
       this.directiveFormControl.setValue(this.min);
+    }
   }
-
 }

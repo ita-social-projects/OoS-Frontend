@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
 
 describe('CategoryCheckBoxComponent', () => {
   let component: CategoryCheckBoxComponent;
@@ -31,6 +32,7 @@ describe('CategoryCheckBoxComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryCheckBoxComponent);
     component = fixture.componentInstance;
+    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

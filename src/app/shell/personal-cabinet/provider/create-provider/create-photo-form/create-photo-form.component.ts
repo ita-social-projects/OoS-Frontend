@@ -19,7 +19,7 @@ export class CreatePhotoFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.PhotoFormGroup = this.formBuilder.group({
-      image: new FormControl('', Validators.required),
+      image: new FormControl(''),
       description: new FormControl('', Validators.required),
     });
   }

@@ -30,5 +30,5 @@ describe('ContactsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
 });
