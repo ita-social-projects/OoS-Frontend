@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
@@ -15,14 +15,14 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   templateUrl: './category-check-box.component.html',
   styleUrls: ['./category-check-box.component.scss']
 })
-export class CategoryCheckBoxComponent implements OnInit {
+export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
 
   @Select(FilterState.directions)
   filterDirections$: Observable<Direction[]>;
 
-  @Input() resetFilter$;
+  @Input() resetFilter$: Observable<void>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -66,23 +66,23 @@ export class CategoryCheckBoxComponent implements OnInit {
           this.filteredDirections = [];
           this.showAll = true;
         }
-      })
+      });
   }
 
   /**
-  * This method add checked direction to the list of selected directions and distpatch filter action
-  * @param direction
-  * @param event
-  */
-  onDirectionCheck(direction: Direction, event: MatCheckbox,): void {
+   * This method add checked direction to the list of selected directions and distpatch filter action
+   * @param direction
+   * @param event
+   */
+  onDirectionCheck(direction: Direction, event: MatCheckbox): void {
     (event.checked) ? this.selectedDirections.push(direction) : this.selectedDirections.splice(this.selectedDirections.indexOf(direction), 1);
     this.store.dispatch(new SetDirections(this.selectedDirections));
   }
 
   /**
-  * This method filter directions according to the input value
-  * @param value
-  */
+   * This method filter directions according to the input value
+   * @param value string
+   */
   onDirectionFilter(value: string): void {
     this.filteredDirections = this.allDirections
       .filter(direction => direction.title
@@ -93,9 +93,9 @@ export class CategoryCheckBoxComponent implements OnInit {
   }
 
   /**
-  * This method check if value is checked
-  * @returns boolean
-  */
+   * This method check if value is checked
+   * @returns boolean
+   */
   onSelectCheck(value: Direction): boolean {
     const result = this.selectedDirections
       .some(direction => direction.title.startsWith(value.title)
@@ -107,7 +107,7 @@ export class CategoryCheckBoxComponent implements OnInit {
     this.showAll = true;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

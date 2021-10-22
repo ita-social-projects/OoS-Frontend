@@ -49,7 +49,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     this.store.dispatch([new FilterReset(), new FilterChange()])
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

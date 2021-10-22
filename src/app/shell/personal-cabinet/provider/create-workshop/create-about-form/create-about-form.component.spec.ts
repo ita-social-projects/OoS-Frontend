@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { MatGridListModule } from "@angular/material/grid-list";
+import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { WorkingHoursFormComponent } from 'src/app/shared/components/working-hours-form/working-hours-form.component';

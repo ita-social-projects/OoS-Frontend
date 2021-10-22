@@ -20,6 +20,7 @@ enum ViewType {
   map = 'map',
   data = 'show-data'
 }
+
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
@@ -33,7 +34,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopCard[]>;
   @Select(FilterState.isLoading)
-  isLoading$:Observable <boolean>;
+  isLoading$: Observable<boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
@@ -106,6 +107,5 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 
 }

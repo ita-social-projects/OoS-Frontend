@@ -2,7 +2,7 @@ import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ApplicationStatus } from '../../enum/applications';
-import { ApplicationTitles} from 'src/app/shared/enum/enumUA/applications'
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -12,6 +12,7 @@ import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CategoryIcons } from '../../enum/category-icons';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -24,32 +25,28 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly role: typeof Role = Role;
-  public below: string = 'below';
+  public categoryIcons = CategoryIcons;
+  public below = 'below';
+  favoriteWorkshops: Favorite[];
+  isFavorite: boolean;
+  favoriteWorkshopId: Favorite;
+  roleUser: string;
 
   @Input() workshop: WorkshopCard;
   @Input() userRole: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
   @Input() parent: boolean;
-  @Input() isHorizontalView: boolean = false;
-  @Input() isCreateApplicationView: boolean = true;
-
-
+  @Input() isHorizontalView = false;
+  @Input() isCreateApplicationView = true;
+  @Input() icons: {};
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
-
-
-  status: string = 'approved'; //temporary
-  favoriteWorkshops: Favorite[];
-  isFavorite: boolean;
-  favoriteWorkshopId: Favorite;
-  roleUser: string;
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -66,12 +63,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !!this.favoriteWorkshopId;
 
     this.role$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(role => this.roleUser = role)
-  }
-
-  onEdit(): void {
-    console.log("I edit it")
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(role => this.roleUser = role);
   }
 
   onDelete(): void {
@@ -82,7 +75,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     const param = new Favorite(
       this.workshop.workshopId,
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
-    )
+    );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' })
@@ -110,6 +103,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
 }
 
 @Component({
@@ -121,6 +115,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     <div mat-dialog-actions fxLayoutAlign="center">
       <button mat-raised-button mat-dialog-close class="dialog-action-button">Повернутись</button>
     </div>`,
-    styleUrls: ['./workshop-card.component.scss']
-  })
-  export class WorkshopCardDialog { }
+  styleUrls: ['./workshop-card.component.scss']
+})
+export class WorkshopCardDialog { }

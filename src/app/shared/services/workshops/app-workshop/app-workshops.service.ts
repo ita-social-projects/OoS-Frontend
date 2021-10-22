@@ -88,8 +88,8 @@ export class AppWorkshopsService {
   }
 
   /**
-  * This method get workshops with applied filter options
-  */
+   * This method get workshops with applied filter options
+   */
   getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
     const options = { params: this.setParams(filters, isMapView) };
     return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', options);

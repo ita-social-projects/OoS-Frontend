@@ -1,10 +1,9 @@
-import { Observable } from "rxjs";
-import { map } from "rxjs/internal/operators/map";
-import { Child } from "../models/child.model";
+import { map } from 'rxjs/internal/operators/map';
+import { Child } from '../models/child.model';
 
 /**
- *Utility class that providers methods for shared data manipulations
-*/
+ * Utility class that providers methods for shared data manipulations
+ */
 export class Util {
 
   /**
@@ -23,16 +22,16 @@ export class Util {
       age--;
     }
 
-    return age ? age.toString() + ' ' + 'років' : month.toString() + ' ' + 'місяців'; //TODO: add words declension
+    return age ? age.toString() + ' ' + 'років' : month.toString() + ' ' + 'місяців'; // TODO: add words declension
   }
 
   /**
-  * This method returns array of empty element for aligning items in wrap
-  * @param wrap Reference to wrapper
-  * @param itemWidth width in pixels of item 
-  * @param items Observable or Array
-  * @returns Array
-  */
+   * This method returns array of empty element for aligning items in wrap
+   * @param wrap Reference to wrapper
+   * @param itemWidth width in pixels of item
+   * @param items Observable or Array
+   * @returns Array
+   */
   public static getEmptyCards(wrap: any, itemWidth: number, items, itemsLength?): Array<any> {
     let amountCardsInRow = 0;
     let itemsArray = [];
@@ -54,7 +53,7 @@ export class Util {
     if (wrap) {
       amountCardsInRow = Math.floor(Number((wrap.nativeElement.clientWidth) / itemWidth));
     }
-    let emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
+    const emptyWorkshops = (amountCardsInRow - amountWorkshops % amountCardsInRow) !== amountCardsInRow ? (amountCardsInRow - amountWorkshops % amountCardsInRow) : 0;
     return new Array(emptyWorkshops | 0);
   }
 }

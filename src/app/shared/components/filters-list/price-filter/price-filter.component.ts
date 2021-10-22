@@ -18,8 +18,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   isFreeControl = new FormControl(false);
   maxPriceControl = new FormControl(0, [Validators.maxLength(4)]);
   minPriceControl = new FormControl(0, [Validators.maxLength(4)]);
-  minValue: number = 0;
-  maxValue: number = 0;
+  minValue = 0;
+  maxValue = 0;
   options: Options = {
     floor: Constants.MIN_PRICE,
     ceil: Constants.MAX_PRICE,
@@ -65,7 +65,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -1,7 +1,6 @@
-import { FilterReset } from './../../shared/store/filter.actions';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { GetTopWorkshops } from 'src/app/shared/store/filter.actions';
@@ -24,7 +23,7 @@ import { Role } from 'src/app/shared/enum/role';
   styleUrls: ['./main.component.scss'],
 })
 
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.isAuthorized)
@@ -48,19 +47,19 @@ export class MainComponent implements OnInit {
   constructor(private store: Store) { }
 
   getTopWorkshops(role: string): void {
-    if(role === Role.parent) {
+    if (role === Role.parent) {
       combineLatest([this.city$, this.favoriteWorkshops$])
-      .pipe(
-        filter(([city, favorit]) => (!!city && !!favorit?.length) || (favorit === null)),
-        takeUntil(this.destroy$))
-      .subscribe(()=> this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+        .pipe(
+          filter(([city, favorit]) => (!!city && !!favorit?.length) || (favorit === null)),
+          takeUntil(this.destroy$))
+        .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
     else {
       this.city$
-      .pipe(
-        filter(city => !!city),
-        takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+        .pipe(
+          filter(city => !!city),
+          takeUntil(this.destroy$))
+        .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
   }
 
@@ -68,10 +67,10 @@ export class MainComponent implements OnInit {
     this.store.dispatch(new GetTopDirections());
 
     this.role$
-    .pipe(
-      filter(role => !!role),
-      takeUntil(this.destroy$))
-    .subscribe(role => this.getTopWorkshops(role))
+      .pipe(
+        filter(role => !!role),
+        takeUntil(this.destroy$))
+      .subscribe(role => this.getTopWorkshops(role));
 
     this.isParent$
       .pipe(

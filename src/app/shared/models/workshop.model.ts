@@ -1,7 +1,7 @@
-import { Address } from "./address.model";
-import { Provider } from "./provider.model";
-import { Teacher } from "./teacher.model";
-import { DateTimeRanges } from "./workingHours.model";
+import { Address } from './address.model';
+import { Provider } from './provider.model';
+import { Teacher } from './teacher.model';
+import { DateTimeRanges } from './workingHours.model';
 export class Workshop {
   id?: number;
   title: string;
@@ -66,7 +66,7 @@ export class Workshop {
 
 export interface WorkshopCard {
   address: Address;
-  direction: string;
+  directionId: number;
   isPerMonth: boolean;
   maxAge: number;
   minAge: number;
@@ -79,6 +79,6 @@ export interface WorkshopCard {
   workshopId: number;
 }
 export interface WorkshopFilterCard {
-  totalAmount: number,
-  entities: WorkshopCard[]
+  totalAmount: number;
+  entities: WorkshopCard[];
 }

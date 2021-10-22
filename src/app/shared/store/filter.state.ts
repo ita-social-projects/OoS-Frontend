@@ -85,25 +85,25 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops }
+  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
 
   @Selector()
-  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops }
+  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops };
 
   @Selector()
-  static directions(state: FilterStateModel): Direction[] { return state.directions }
+  static directions(state: FilterStateModel): Direction[] { return state.directions };
 
   @Selector()
-  static isLoading(state: FilterStateModel): boolean { return state.isLoading }
+  static isLoading(state: FilterStateModel): boolean { return state.isLoading };
 
   @Selector()
-  static city(state: FilterStateModel): City { return state.city }
+  static city(state: FilterStateModel): City { return state.city };
 
   @Selector()
-  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity }
+  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
 
   @Selector()
-  static searchQuery(state: FilterStateModel): string { return state.searchQuery }
+  static searchQuery(state: FilterStateModel): string { return state.searchQuery };
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -202,7 +202,7 @@ export class FilterState {
     return this.appWorkshopsService
       .getFilteredWorkshops(state, payload)
       .pipe(tap((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
-        () => patchState({ isLoading: false })))
+        () => patchState({ isLoading: false })));
   }
 
   @Action(GetTopWorkshops)
@@ -212,7 +212,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }))
+      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }));
   }
 
   @Action(SetWithDisabilityOption)

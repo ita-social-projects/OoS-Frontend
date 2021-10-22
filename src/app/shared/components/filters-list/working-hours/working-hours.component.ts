@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit ,OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, skip, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
@@ -13,11 +13,11 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   templateUrl: './working-hours.component.html',
   styleUrls: ['./working-hours.component.scss']
 })
-export class WorkingHoursComponent implements OnInit {
-  @Input() resetFilter$
+export class WorkingHoursComponent implements OnInit, OnDestroy {
+  @Input() resetFilter$: Observable<void>;
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-  days: WorkingDaysToggleValue[] = WorkingDaysValues;
+  days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
 
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
@@ -56,20 +56,20 @@ export class WorkingHoursComponent implements OnInit {
   }
 
   /**
-  * This method check value, add it to the list of selected working days and distpatch filter action
-  * @param day
-  */
+   * This method check value, add it to the list of selected working days and distpatch filter action
+   * @param day WorkingDaysToggleValue
+   */
   onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
-      this.selectedWorkingDays.push(this.workingDaysReverse[day.value])
+      this.selectedWorkingDays.push(this.workingDaysReverse[day.value]);
     } else {
       this.selectedWorkingDays.splice(this.selectedWorkingDays.indexOf(this.workingDaysReverse[day.value]), 1);
     }
     this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
