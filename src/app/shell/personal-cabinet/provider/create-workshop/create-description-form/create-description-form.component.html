@@ -20,8 +20,13 @@
   <mat-form-field>
     <input matInput class="step-input" placeholder="П.І.Б." formControlName="head">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="DescriptionFormGroup.get('head').errors?.required"
     [invalid]="DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched"
+    [forbiddenCharacter]="DescriptionFormGroup.get('head').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>

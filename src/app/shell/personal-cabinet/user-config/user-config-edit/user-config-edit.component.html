@@ -9,16 +9,26 @@
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="lastName">
       </mat-form-field>
-      <app-validation-hint-for-input type="requiredField"
+      <app-validation-hint-for-input type="requiredEmptyField"
+        [isEmptyCheck]="userEditFormGroup.get('lastName').errors?.required"
         [invalid]="userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched">
+      </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="validTextField"
+        [invalid]="userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched"
+        [forbiddenCharacter]="userEditFormGroup.get('lastName').errors?.pattern?.requiredPattern">
       </app-validation-hint-for-input>
 
       <label class="step-label"> Ім'я <span class="step-required">*</span></label>
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="firstName">
       </mat-form-field>
-      <app-validation-hint-for-input type="requiredField"
+      <app-validation-hint-for-input type="requiredEmptyField"
+        [isEmptyCheck]="userEditFormGroup.get('firstName').errors?.required"
         [invalid]="userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched">
+      </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="validTextField"
+        [invalid]="userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched"
+        [forbiddenCharacter]="userEditFormGroup.get('firstName').errors?.pattern?.requiredPattern">
       </app-validation-hint-for-input>
 
       <label class="step-label"> По-батькові </label>

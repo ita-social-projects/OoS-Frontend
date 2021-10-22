@@ -7,24 +7,39 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="lastName">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="TeacherFormGroup.get('lastName').errors?.required"
     [invalid]="TeacherFormGroup.get('lastName').invalid && TeacherFormGroup.get('lastName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="TeacherFormGroup.get('lastName').invalid && TeacherFormGroup.get('lastName').touched"
+    [forbiddenCharacter]="TeacherFormGroup.get('lastName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label"> Ім'я <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="firstName">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="TeacherFormGroup.get('firstName').errors?.required"
     [invalid]="TeacherFormGroup.get('firstName').invalid && TeacherFormGroup.get('firstName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="TeacherFormGroup.get('firstName').invalid && TeacherFormGroup.get('firstName').touched"
+    [forbiddenCharacter]="TeacherFormGroup.get('firstName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label"> По-батькові <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="middleName">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="TeacherFormGroup.get('middleName').errors?.required"
     [invalid]="TeacherFormGroup.get('middleName').invalid && TeacherFormGroup.get('middleName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="TeacherFormGroup.get('middleName').invalid && TeacherFormGroup.get('middleName').touched"
+    [forbiddenCharacter]="TeacherFormGroup.get('middleName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>

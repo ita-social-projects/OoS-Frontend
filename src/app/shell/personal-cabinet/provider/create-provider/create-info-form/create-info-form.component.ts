@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
+import {TEXT_REGEX} from 'src/app/shared/constants/regex-constants'
 
 @Component({
   selector: 'app-create-info-form',
@@ -30,14 +31,14 @@ export class CreateInfoFormComponent implements OnInit {
       fullTitle: new FormControl('', Validators.required),
       shortTitle: new FormControl('', Validators.required),
       edrpouIpn: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      director: new FormControl('', Validators.required),
+      director: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       website: new FormControl(''),
       facebook: new FormControl(''),
       instagram: new FormControl(''),
-      founder: new FormControl('', Validators.required),
+      founder: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       type: new FormControl(0, Validators.required),
       ownership: new FormControl(0, Validators.required),
     });

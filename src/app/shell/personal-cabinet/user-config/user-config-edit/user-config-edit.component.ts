@@ -6,6 +6,7 @@ import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { UpdateUser } from 'src/app/shared/store/user.actions';
 import { Constants } from 'src/app/shared/constants/constants';
+import {TEXT_REGEX} from 'src/app/shared/constants/regex-constants'
 
 @Component({
   selector: 'app-user-config-edit',
@@ -19,13 +20,15 @@ export class UserConfigEditComponent implements OnInit {
   user: User;
 
   readonly constants: typeof Constants = Constants;
+  
 
   userEditFormGroup: FormGroup;
-
+  
   constructor(private fb: FormBuilder, private store: Store) {
+ 
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl(''),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
     });

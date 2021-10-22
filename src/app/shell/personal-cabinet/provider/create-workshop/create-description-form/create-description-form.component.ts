@@ -8,6 +8,7 @@ import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/o
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
+import {TEXT_REGEX} from 'src/app/shared/constants/regex-constants'
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -35,7 +36,7 @@ export class CreateDescriptionFormComponent implements OnInit {
       image: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
-      head: new FormControl('', Validators.required),
+      head: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       keyWords: new FormControl('', Validators.required),
       directionId: new FormControl(''),
       departmentId: new FormControl(''),
