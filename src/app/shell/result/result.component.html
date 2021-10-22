@@ -16,10 +16,12 @@
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
-      <app-workshop-map-view-list [filteredWorkshops$]="filteredWorkshops$" [resetFilter$]="resetFilter$"></app-workshop-map-view-list>
+      <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$"
+        [resetFilter$]="resetFilter$"></app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [workshops$]="filteredWorkshops$" [resetFilter$]="resetFilter$"></app-workshop-cards-list>
+      <app-workshop-cards-list class="cards" [role]="role$ | async" [workshops$]="filteredWorkshops$"
+        [resetFilter$]="resetFilter$"></app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -27,8 +29,8 @@
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
     (click)="isFiltersVisible = !isFiltersVisible">
-    <span class="material-icons btn-icon">      
-     <mat-icon *ngIf="isFiltersVisible; else hidden">filter_alt</mat-icon>
+    <span class="material-icons btn-icon">
+      <mat-icon *ngIf="isFiltersVisible; else hidden">filter_alt</mat-icon>
       <ng-template #hidden>
         <mat-icon>filter_alt</mat-icon>
       </ng-template>

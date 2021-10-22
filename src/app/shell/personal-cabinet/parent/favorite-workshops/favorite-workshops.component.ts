@@ -20,25 +20,20 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
 
   @Select(UserState.favoriteWorkshopsCard)
   favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
-
-  @Select(RegistrationState.parent)
-  isParent$: Observable<boolean>;
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  getEmptyCards = Util.getEmptyCards;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
-  parent: boolean;
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  getEmptyCards = Util.getEmptyCards;
 
   constructor(public store: Store) { }
 
   ngOnInit(): void {
-    this.isParent$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(parent => this.parent = parent);
   }
 
   ngOnDestroy(): void {

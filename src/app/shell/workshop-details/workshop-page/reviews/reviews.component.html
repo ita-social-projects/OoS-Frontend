@@ -6,7 +6,8 @@
     </div>
     <div [matTooltip]="isRated ? 'Ви вже оцінили цей гурток' : 'Ви повинні бути прийнятим до даного гуртка'"
       [matTooltipDisabled]=" hasApprovedApplication && isRated">
-      <button mat-raised-button class="button" (click)="onRate()" *ngIf="isDisplayedforProvider" [disabled]="isRated || !hasApprovedApplication"> 
+      <button mat-raised-button class="button" (click)="onRate()" *ngIf="role === Role.provider"
+        [disabled]="isRated || !hasApprovedApplication">
         <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
       </button>
     </div>
@@ -15,7 +16,7 @@
   <div class="rate" *ngFor="let rate of (rating$|async)" fxLayout='column' fxLayoutAlign='start space-between'>
     <p class="rate-author"> {{rate.firstName}} {{rate.lastName}} </p>
     <p class="rate-date" fxLayout='row' fxLayoutAlign='start center'>
-      <app-stars  [rating]="rate.rate" class="star-icon"></app-stars>
+      <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
       {{rate.creationTime | date: 'shortDate'}}
     </p>
   </div>

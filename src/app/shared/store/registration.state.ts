@@ -123,7 +123,7 @@ export class RegistrationState {
     const state = getState();
     patchState({ role: state.user.role });
 
-    if (state.role === Role.parent) {
+    if (state.user.role === Role.parent) {
       return this.parentService
         .getProfile()
         .pipe(

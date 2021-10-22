@@ -12,8 +12,8 @@ import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CategoryIcons } from '../../enum/category-icons';
 import { MatDialog } from '@angular/material/dialog';
+import { CategoryIcons } from '../../enum/category-icons';
 
 @Component({
   selector: 'app-workshop-card',
@@ -24,22 +24,22 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
-  readonly role: typeof Role = Role;
+  readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
   public below = 'below';
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
-  roleUser: string;
 
   @Input() workshop: WorkshopCard;
-  @Input() userRole: string;
+  @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
-  @Input() parent: boolean;
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = true;
   @Input() icons: {};
+
+
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
 
@@ -47,6 +47,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
+  role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -56,15 +57,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.favoriteWorkshops$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((favorites) => {
+      .subscribe((favorites: Favorite[]) => {
         this.favoriteWorkshops = favorites;
         this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
-
-    this.role$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(role => this.roleUser = role);
+    this.role$.pipe(takeUntil(this.destroy$))
+      .subscribe((role: string) => this.role = role)
   }
 
   onDelete(): void {
@@ -110,7 +109,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   selector: 'app-workshop-dialog',
   template: `
     <div mat-dialog-content fxLayoutAlign="center" class="dialog-title">
-      <p>Для того щоб додати в улюблені будь ласка зареєструйтесь на порталі. Дякуемо</p>
+      <p>Для того щоб додати в улюблені будь ласка зареєструйтеся на порталі. Дякуємо</p>
     </div>
     <div mat-dialog-actions fxLayoutAlign="center">
       <button mat-raised-button mat-dialog-close class="dialog-action-button">Повернутись</button>

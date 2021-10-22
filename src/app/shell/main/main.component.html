@@ -20,8 +20,9 @@
       </a>
     </div>
     <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
-        <app-workshop-card *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop" [isMainPage]="true">
+      <div fxLayout="row wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
+        <app-workshop-card *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop" [isMainPage]="true"
+          [userRoleView]="Role.unauthorized">
         </app-workshop-card>
         <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap, widthOfWorkshopCard,topWorkshops$)"
           [workshop]="workshop" class="empty-card" [isMainPage]="true">

@@ -24,6 +24,8 @@ import { Role } from 'src/app/shared/enum/role';
 })
 
 export class MainComponent implements OnInit, OnDestroy {
+  Role = Role;
+
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.role)
@@ -38,7 +40,6 @@ export class MainComponent implements OnInit, OnDestroy {
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
-  Role = Role;
 
   constructor(private store: Store) { }
 
