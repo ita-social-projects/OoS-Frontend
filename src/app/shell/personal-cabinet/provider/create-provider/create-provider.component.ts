@@ -29,7 +29,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
   isPristine = true;
-  isLinear = false;
+  isLinear = true;
 
   provider: Provider;
 
@@ -67,23 +67,27 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit(): void {
-    const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-
-    let legalAddress: Address;
-    let actulaAdress: Address;
-    let provider: Provider;
-
-    if (this.editMode) {
-      legalAddress = new Address(this.ActualAddressFormGroup.value, this.provider.legalAddress);
-      actulaAdress = new Address(this.LegalAddressFormGroup.value, this.provider.actualAddress);
-      provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
-      this.store.dispatch(new UpdateProvider(provider));
+  onSubmit() {
+    if (this.PhotoFormGroup.invalid) {
+      this.checkValidation(this.PhotoFormGroup);
     } else {
-      legalAddress = new Address(this.ActualAddressFormGroup.value);
-      actulaAdress = new Address(this.LegalAddressFormGroup.value);
-      provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
-      this.store.dispatch(new CreateProvider(provider));
+      const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
+
+      let legalAddress: Address;
+      let actulaAdress: Address;
+      let provider: Provider;
+
+      if (this.editMode) {
+        legalAddress = new Address(this.ActualAddressFormGroup.value, this.provider.legalAddress);
+        actulaAdress = new Address(this.LegalAddressFormGroup.value, this.provider.actualAddress);
+        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
+        this.store.dispatch(new UpdateProvider(provider));
+      } else {
+        legalAddress = new Address(this.ActualAddressFormGroup.value);
+        actulaAdress = new Address(this.LegalAddressFormGroup.value);
+        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
+        this.store.dispatch(new CreateProvider(provider));
+      }
     }
   }
 
@@ -129,5 +133,24 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
       });
+  }
+
+  /**
+   * This method receives a form and marks each control of this form as touched
+   * @param FormGroup form
+   */
+  checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
+  }
+
+  /**
+   * This method marks each control of form in the array of forms in ContactsFormGroup as touched
+   */
+  checkValidationContacts(): void {
+    Object.keys(this.ContactsFormGroup.controls).forEach(key => {
+      this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
+    });
   }
 }
