@@ -9,6 +9,7 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { NgxsModule, Store } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs';
 
 const MockUser = {
   role: '',
@@ -42,6 +43,7 @@ describe('WorkshopCardsListComponentt', () => {
     spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
+    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

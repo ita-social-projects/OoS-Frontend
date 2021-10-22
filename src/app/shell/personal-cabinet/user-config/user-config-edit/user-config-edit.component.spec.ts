@@ -26,7 +26,7 @@ describe('UserConfigEditComponent', () => {
         MatDialogModule,
       ],
       declarations: [
-        UserConfigEditComponent, 
+        UserConfigEditComponent,
         MockValidationHintForInputComponent
       ]
     })
@@ -61,7 +61,7 @@ describe('UserConfigEditComponent', () => {
   template: ''
 })
 
-class MockValidationHintForInputComponent{
+class MockValidationHintForInputComponent {
   @Input() type: string;
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
@@ -70,6 +70,3 @@ class MockValidationHintForInputComponent{
   @Input() minCharachters: number; 
   @Input() forbiddenCharacter: string;
 }
-
-
- 

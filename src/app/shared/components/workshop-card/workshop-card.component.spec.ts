@@ -9,9 +9,9 @@ import { WorkshopCard } from '../../models/workshop.model';
 import { Address } from '../../models/address.model';
 import { Teacher } from '../../models/teacher.model';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Application } from '../../models/application.model';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -26,7 +26,8 @@ describe('WorkshopCardComponent', () => {
         FlexLayoutModule,
         RouterTestingModule,
         MatChipsModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDialogModule
       ],
       declarations: [WorkshopCardComponent],
     })
@@ -36,7 +37,6 @@ describe('WorkshopCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardComponent);
     component = fixture.componentInstance;
-    component.status = '';
     component.application = { status: null } as Application;
     component.workshop = {
       workshopId: 1,

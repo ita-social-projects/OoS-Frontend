@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
+import { of } from 'rxjs';
 
 describe('PriceFilterComponent', () => {
   let component: PriceFilterComponent;
@@ -35,6 +36,7 @@ describe('PriceFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PriceFilterComponent);
     component = fixture.componentInstance;
+    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

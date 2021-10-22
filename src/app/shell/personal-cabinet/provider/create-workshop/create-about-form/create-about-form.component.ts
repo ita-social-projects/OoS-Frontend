@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 @Component({
   selector: 'app-create-about-form',
@@ -16,7 +15,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
   styleUrls: ['./create-about-form.component.scss'],
 
 })
-export class CreateAboutFormComponent implements OnInit {
+export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
@@ -27,7 +26,7 @@ export class CreateAboutFormComponent implements OnInit {
 
   provider: Provider;
   AboutFormGroup: FormGroup;
-  workingHours: DateTimeRanges[] = [];
+  workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   priceRadioBtn: FormControl = new FormControl(false);
@@ -47,7 +46,7 @@ export class CreateAboutFormComponent implements OnInit {
       facebook: new FormControl(''),
       instagram: new FormControl(''),
       price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
-      workingHours: new FormControl(''),
+      workingHours: this.workingHoursFormArray,
       isPerMonth: new FormControl(false),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to teh second release
     });
@@ -58,7 +57,7 @@ export class CreateAboutFormComponent implements OnInit {
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.workshop ? this.activateEditMode() : this.addWorkHour(false);
+    this.workshop ? this.activateEditMode() : this.addWorkingHours();
   }
 
   /**
@@ -70,7 +69,7 @@ export class CreateAboutFormComponent implements OnInit {
         takeUntil(this.destroy$),
       ).subscribe((isPrice: boolean) => {
         if (isPrice) {
-          this.AboutFormGroup.get('price').enable()
+          this.AboutFormGroup.get('price').enable();
         } else {
           this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
           this.AboutFormGroup.get('price').disable();
@@ -84,43 +83,24 @@ export class CreateAboutFormComponent implements OnInit {
       ).subscribe((price: number) => this.AboutFormGroup.get('price').setValue(price)
       );
   }
-
   /**
-  * This method add new working hours form to the array of working hours
-  */
-  addWorkHour(hasEventEmitter = true, range: DateTimeRanges = {
-    workdays: [],
-    startTime: '',
-    endTime: '',
-  }): void {
-
-    const workHour: DateTimeRanges = new DateTimeRanges(range);
-
-    this.workingHours.push(workHour);
-    this.AboutFormGroup.get('workingHours').setValue(this.workingHours, { emitEvent: hasEventEmitter });
+   * This method create new FormGroup add new FormGroup to the FormArray
+   */
+  addWorkingHours(range?: DateTimeRanges): void {
+    this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
   }
 
   /**
-  * This method delete selected working hours form to the array of working hours
-  */
-  deleteWorkHour(workHour: DateTimeRanges): void {
-    this.workingHours.splice(this.workingHours.indexOf(workHour), 1);
-    this.AboutFormGroup.get('workingHours').setValue(this.workingHours);
+   * This method delete FormGroup from the FormArray by index
+   * @param index: number
+   */
+  deleteWorkingHour(index: number): void {
+    this.workingHoursFormArray.removeAt(index);
   }
 
   /**
-  * This method marks AboutForm disrty if the changes happened
-  */
-  OnChangeWorkHour(): void {
-    if (this.AboutFormGroup.pristine) {
-      this.AboutFormGroup.markAsDirty();// TODO: set isPristine false in create-workshop-component
-      this.store.dispatch(new MarkFormDirty(true));
-    }
-  }
-
-  /**
-  * This method fills in the info from provider to the workshop if check box is checked
-  */
+   * This method fills in the info from provider to the workshop if check box is checked
+   */
   private useProviderInfo(): void {
     this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
       if (useProviderInfo) {
@@ -137,20 +117,39 @@ export class CreateAboutFormComponent implements OnInit {
         this.AboutFormGroup.get('facebook').reset();
         this.AboutFormGroup.get('instagram').reset();
       }
-    })
+    });
   }
 
   /**
-  * This method fills inputs with information of edited workshop
-  */
+   * This method fills inputs with information of edited workshop
+   */
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
-    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkHour(false, range))
+    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup TODO: add to teh second release
+  * This method create new FormGroup
+  * @param DateTimeRanges range
+  */
+  private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
+    const workingHoursFormGroup = this.formBuilder.group({
+      workdays: new FormControl('', Validators.required),
+      startTime: new FormControl('', Validators.required),
+      endTime: new FormControl('', Validators.required),
+    });
+    if (range) {
+      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
+      workingHoursFormGroup.setValue(range);
+    }
+
+    return workingHoursFormGroup;
+  }
+
+  /**
+   * This method makes input enable if radiobutton value
+   * is true and sets the value to teh formgroup TODO: add to teh second release
    */
   // private onCompetitiveSelectionCtrlInit(): void {
   //   this.competitiveSelectionRadioBtn.valueChanges
@@ -169,7 +168,7 @@ export class CreateAboutFormComponent implements OnInit {
   //     );
   // }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -16,15 +16,13 @@ import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component'
   styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends CabinetDataComponent implements OnInit {
-  
-  
-
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
 
-  constructor(store: Store,
+  constructor(
+    store: Store,
     matDialog: MatDialog,
     private actions$: Actions) {
     super(store, matDialog);
@@ -53,7 +51,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.deleteChild,
         property: `${child.firstName} ${child.lastName}`
       }
     });

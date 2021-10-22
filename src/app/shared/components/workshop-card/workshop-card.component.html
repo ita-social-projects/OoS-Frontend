@@ -3,14 +3,15 @@
     <ng-container *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
     </ng-container>
 
-    <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
-      <div class="card-img"><img mat-card-image src="assets/icons/workshopCard.png" alt="workshop-photo"></div>
+    <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'" fxLayout="column"
+      fxLayoutAlign="space-evenly space-between">
+      <div class="card-img" fxLayout="row" fxLayoutAlign="center">
+        <img class="card-image" mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">        
+      </div>      
       <div>
-
         <mat-card-header>
           <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated [matTooltipPosition]="below">
             {{workshop.title}}</mat-card-title>
-          <img class="card_category" src="assets/icons/lang.png" alt="workshop-category">
         </mat-card-header>
 
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
@@ -46,12 +47,10 @@
         </mat-card-content>
 
         <mat-card-footer *ngIf="isCreateApplicationView" class="card-footer">
-          <div>
-            <a [routerLink]="['/workshop-details',workshop.workshopId ]" class="card_link">
-              Детальніше
-              <span class="material-icons arrow">arrow_forward</span>
-            </a>
-          </div>
+          <a class="more-details" [routerLink]="['/workshop-details',workshop.workshopId ]">
+            <span class="card_link">Детальніше</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </a>
         </mat-card-footer>
 
       </div>
@@ -71,21 +70,22 @@
 </ng-template>
 
 <ng-template #UserActions>
+<div *ngIf="(role$ | async) !== role.provider">  
   <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
 
     <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
     <ng-template #favorite>
-      <div (click)="parent && onDisLike(this.favoriteWorkshopId?.id)" class="actions_btn action-icon favorite-icon">
+      <div (click)="(roleUser === role.parent) && onDisLike(this.favoriteWorkshopId?.id)" class="actions_btn action-icon favorite-icon">
         <mat-icon>favorite</mat-icon>
       </div>
     </ng-template>
-
     <ng-template #notFavorite>
-      <div (click)="parent && onLike()" class="actions_btn action-icon">
+      <div (click)="(roleUser === role.parent) ? onLike() : onOpenDialog()" class="actions_btn action-icon">
         <mat-icon>favorite_border</mat-icon>
       </div>
     </ng-template>
   </div>
+</div>
 </ng-template>
 <ng-template #EmptyWorkshop>
   <div class="empty-card" fxLayout="column" fxLayoutAlign="space-between space-between" display="none">

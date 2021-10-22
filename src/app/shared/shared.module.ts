@@ -5,7 +5,7 @@ import { AgeFilterComponent } from './components/filters-list/age-filter/age-fil
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
+import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
@@ -24,7 +24,6 @@ import { PersonCardComponent } from './components/person-card/person-card.compon
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
-import { WorkingHoursFormControlComponent } from './components/working-hours-form-control/working-hours-form-control.component';
 import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from './components/map/map.component';
@@ -36,13 +35,10 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { StarsComponent } from './components/stars/stars.component';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
@@ -50,6 +46,8 @@ import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.c
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +70,6 @@ import { MaterialModule } from './modules/material.module';
     PriceFilterComponent,
     CategoryCheckBoxComponent,
     PersonCardComponent,
-    WorkingHoursFormControlComponent,
     ChildCardComponent,
     ApplicationChildFilterPipe,
     MapComponent,
@@ -94,6 +91,8 @@ import { MaterialModule } from './modules/material.module';
     ScrollToTopComponent,
     StatusInfoCardComponent,
     NoResultCardComponent,
+    WorkingHoursFormComponent,
+    WorkshopCardDialog
   ],
   imports: [
     MaterialModule,
@@ -103,9 +102,7 @@ import { MaterialModule } from './modules/material.module';
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    MatProgressBarModule,
-    MatButtonToggleModule,
-    MatIconModule
+    NgxMatTimepickerModule
   ],
   exports: [
     FiltersListComponent,
@@ -127,7 +124,6 @@ import { MaterialModule } from './modules/material.module';
     FormsModule,
     CategoryCheckBoxComponent,
     PersonCardComponent,
-    WorkingHoursFormControlComponent,
     ChildCardComponent,
     MapComponent,
     ApplicationChildFilterPipe,
@@ -140,7 +136,6 @@ import { MaterialModule } from './modules/material.module';
     WorkshopCheckboxDropdownComponent,
     FullSearchBarComponent,
     MessageBarComponent,
-    MatProgressBarModule,
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
     ReactiveFormsModule,
@@ -150,7 +145,9 @@ import { MaterialModule } from './modules/material.module';
     SidenavComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
-    NoResultCardComponent
+    NoResultCardComponent,
+    WorkingHoursFormComponent,
+    WorkshopCardDialog
   ]
 })
 export class SharedModule { }

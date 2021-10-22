@@ -17,7 +17,7 @@
           fxLayoutGap.xs="5px" class="footer">
           <a [routerLink]="''"> <button class="btn btn-cancel" mat-raised-button> Скасувати
             </button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -33,13 +33,13 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext>Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidationContacts()">Далі</button>
         </div>
       </mat-step>
 
       <mat-step [stepControl]="PhotoFormGroup">
         <ng-template matStepLabel>
-          <p class="step-name">Фото</p>
+          <p class="step-name">Опис</p>
         </ng-template>
         <app-create-photo-form (passPhotoFormGroup)="onReceivePhotoFormGroup($event)" [provider]="provider">
         </app-create-photo-form>
@@ -60,7 +60,6 @@
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
             [disabled]="(!isAgreed || !isNotRobot) && !editMode">Завершити</button>
-
         </div>
       </mat-step>
 

@@ -20,8 +20,8 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   @Input() workshops$: Observable<WorkshopFilterCard>;
- 
-  
+  @Input() resetFilter$
+
   isVisible = false;
   parent: boolean;
   currentPage: PaginationElement = {
@@ -41,10 +41,20 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   constructor(public store: Store) { }
 
   ngOnInit(): void {
-
     this.isParent$
       .pipe(takeUntil(this.destroy$))
       .subscribe(parent => this.parent = parent);
+
+    this.resetFilter$
+      .pipe(
+        takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.currentPage = {
+        element: 1,
+        isActive: true
+      }
+      this.store.dispatch(new PageChange(this.currentPage));
+    })
   }
 
   onPageChange(page: PaginationElement): void {

@@ -28,7 +28,6 @@ describe('StarsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StarsComponent);
     component = fixture.componentInstance;
-    component.modalWindow;
     component.rating = 0;
     fixture.detectChanges();
   });

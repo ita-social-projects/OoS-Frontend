@@ -1,6 +1,6 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
-  </app-image-form-control>
+  <!-- <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
+  </app-image-form-control> TODO: Second release -->
 
   <div class="step-label-combined">
     <label class="step-label"> Опис <span class="step-required">*</span></label>
@@ -37,7 +37,7 @@
     <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
   </mat-radio-group>
 
-  <app-category-select [workshop]="workshop" (passCategoriesFormGroup)="onReceiveCategoriesFormGroup($event)">
+  <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
   </app-category-select>
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
@@ -47,7 +47,7 @@
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
         {{keyWord}}
-        <mat-icon class="mat-icon" matChipRemove><img class="img-close" src="/assets/icons/close.png"></mat-icon>
+        <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
       <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()"
         [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
@@ -57,4 +57,5 @@
   <app-validation-hint-for-input type="requiredField"
     [invalid]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
   </app-validation-hint-for-input>
+  
 </form>

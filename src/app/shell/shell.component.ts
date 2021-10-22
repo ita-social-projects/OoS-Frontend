@@ -7,7 +7,6 @@ import { GeolocationService } from '../shared/services/geolocation/geolocation.s
 import { RegistrationState } from '../shared/store/registration.state';
 import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
-import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 
 @Component({
   selector: 'app-shell',
@@ -22,30 +21,30 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   constructor(
     private geolocationService: GeolocationService,
-    private store:Store
-    ) { }
+    private store: Store
+  ) { }
 
   ngOnInit(): void {
-    this.geolocationService.handleUserLocation((coords: Coords)=> {
+    this.geolocationService.handleUserLocation((coords: Coords) => {
       coords && this.geolocationService.locationDecode(coords, (result) => {
         this.geolocationService.confirmCity({
-          district: " ",
+          district: '',
           longitude: coords.lng,
           latitude: coords.lat,
           name: result.address.city || result.address.town || result.address.village || result.address.hamlet,
-          region: " "
-        }, false)
+          region: ''
+        }, false);
       });
     });
 
     this.isParent$
       .pipe(takeUntil(this.destroy$))
       .subscribe((parent) => {
-      !!parent && this.store.dispatch([
-        new GetFavoriteWorkshops(),
-        new GetFavoriteWorkshopsByUserId()
-      ]);
-    })
+        !!parent && this.store.dispatch([
+          new GetFavoriteWorkshops(),
+          new GetFavoriteWorkshopsByUserId()
+        ]);
+      });
   }
 
   ngOnDestroy(): void {

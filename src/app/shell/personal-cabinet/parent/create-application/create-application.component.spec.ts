@@ -77,14 +77,18 @@ class MockPersonCardComponent {
   template: ''
 })
 
-class MockValidationHintForInputComponent{
+class MockValidationHintForInputComponent {
   @Input() type: string;
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
+<<<<<<< HEAD
   @Input() minCharachters: number; 
   @Input() forbiddenCharacter: string;
+=======
+  @Input() minCharachters: number;
+>>>>>>> develop
 }
 
 @Component({

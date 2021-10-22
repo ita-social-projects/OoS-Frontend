@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
@@ -14,13 +14,17 @@ import {TEXT_REGEX} from 'src/app/shared/constants/regex-constants'
   templateUrl: './create-description-form.component.html',
   styleUrls: ['./create-description-form.component.scss']
 })
-export class CreateDescriptionFormComponent implements OnInit {
+export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
 
+  isDirectionIdMarked = false;
+
   @Input() workshop: Workshop;
+
   @Output() passDescriptionFormGroup = new EventEmitter();
 
+  CategoriesFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
 
   keyWordsCtrl: FormControl = new FormControl('', Validators.required);
@@ -38,9 +42,11 @@ export class CreateDescriptionFormComponent implements OnInit {
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       keyWords: new FormControl('', Validators.required),
-      directionId: new FormControl(''),
-      departmentId: new FormControl(''),
-      classId: new FormControl(''),
+      categories: this.formBuilder.group({
+        directionId: new FormControl('', Validators.required),
+        departmentId: new FormControl('', Validators.required),
+        classId: new FormControl('', Validators.required),
+      })
     });
   }
 
@@ -66,7 +72,7 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   onKeyWordsInput(isEditMode: boolean = true): void {
-    let inputKeyWord = this.keyWord.trim().toLowerCase();
+    const inputKeyWord = this.keyWord.trim().toLowerCase();
     if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
 
       if (this.keyWords.length < 5) {
@@ -84,21 +90,9 @@ export class CreateDescriptionFormComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }
-
-  onReceiveCategoriesFormGroup(categoriesForm: FormGroup): void {
-    categoriesForm.get('directionId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('directionId').setValue(id)
-    )
-    categoriesForm.get('departmentId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('departmentId').setValue(id)
-    )
-    categoriesForm.get('classId').valueChanges.subscribe((id: number) =>
-      this.DescriptionFormGroup.get('classId').setValue(id)
-    )
   }
 
   /**
@@ -122,8 +116,8 @@ export class CreateDescriptionFormComponent implements OnInit {
   }
 
   /**
-  * This method fills inputs with information of edited workshop
-  */
+   * This method fills inputs with information of edited workshop
+   */
   private activateEditMode(): void {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 

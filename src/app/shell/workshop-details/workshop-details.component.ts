@@ -26,8 +26,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.user) user$: Observable<User>;
   user: User;
-  isRegistered: boolean = false;
-  isDisplayedforProvider: boolean = false;
+  isRegistered = false;
+  isDisplayedforProvider = false;
   workshopId: number;
 
   constructor(
@@ -38,8 +38,15 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.workshopId = +this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
+    this.route.params.pipe(
+      takeUntil(this.destroy$))
+      .subscribe(params => {
+        this.store.dispatch(new GetWorkshopById(+params.id));
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
 
     this.workshop$.pipe(
       filter((workshop: Workshop) => !!workshop),

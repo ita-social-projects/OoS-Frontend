@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatGridListModule } from "@angular/material/grid-list";
+import { MatGridListModule } from '@angular/material/grid-list';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -60,6 +60,7 @@ describe('CreateDescriptionFormComponent', () => {
 })
 class MockCategorySelectComponent {
   @Input() workshop: Workshop;
+  @Input() CategoryFormGroup: FormGroup;
 }
 
 @Component({
@@ -67,12 +68,17 @@ class MockCategorySelectComponent {
   template: ''
 })
 
-class MockValidationHintForInputComponent{
+class MockValidationHintForInputComponent {
   @Input() type: string;
   @Input() invalid: boolean;
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
+<<<<<<< HEAD
   @Input() minCharachters: number; 
   @Input() forbiddenCharacter: string;
 }
+=======
+  @Input() minCharachters: number;
+}
+>>>>>>> develop

@@ -1,4 +1,6 @@
-import { MatDateFormats } from "@angular/material/core";
+import { MatDateFormats } from '@angular/material/core';
+import { WorkingDays } from '../enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from '../models/workingHours.model';
 
 /**
  * Constants for OutOfSchool
@@ -10,6 +12,8 @@ export class Constants {
   static readonly AGE_MAX = 18;
   static readonly MIN_PRICE = 0;
   static readonly MAX_PRICE = 10000;
+  static readonly MIN_TIME = '00:00';
+  static readonly MAX_TIME = '23:59';
   static readonly MAX_DESCRIPTION_LENGTH = 500;
   static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
   static readonly PHONE_LENGTH = 10;
@@ -32,8 +36,9 @@ export class Constants {
   static readonly WIDTH_OF_WORKSHOP_CARD = 352;
   static readonly WIDTH_OF_WORKSHOP_CARD_WITH_MARGINE = 370;
   static readonly WIDTH_OF_WORKSHOP_CARD_IN_WORKSHOP_DETAILS = 332;
+  static WorkingDaysValues: any;
 
-};
+}
 
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
@@ -53,3 +58,34 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: 'MMMM Y'
   }
 };
+
+export const WorkingDaysValues: WorkingDaysToggleValue[] = [
+  {
+    value: WorkingDays.monday,
+    selected: false,
+  },
+  {
+    value: WorkingDays.tuesday,
+    selected: false,
+  },
+  {
+    value: WorkingDays.wednesday,
+    selected: false,
+  },
+  {
+    value: WorkingDays.thursday,
+    selected: false,
+  },
+  {
+    value: WorkingDays.friday,
+    selected: false,
+  },
+  {
+    value: WorkingDays.saturday,
+    selected: false,
+  },
+  {
+    value: WorkingDays.sunday,
+    selected: false,
+  }
+];

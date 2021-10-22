@@ -1,8 +1,6 @@
-import { StateContext, Store } from "@ngxs/store";
-import { RegistrationState, RegistrationStateModel } from "../store/registration.state";
-import { Address } from "./address.model";
-import { User } from "./user.model";
-import { Workshop } from "./workshop.model";
+import { Address } from './address.model';
+import { User } from './user.model';
+import { Workshop } from './workshop.model';
 
 export class Provider {
   id: number;
@@ -47,6 +45,6 @@ export class Provider {
     this.userId = user.id;
     if (provider?.id) {
       this.id = provider.id;
-    };
+    }
   }
 }

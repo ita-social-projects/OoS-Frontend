@@ -41,7 +41,19 @@ export class AppWorkshopsService {
     }
 
     if (filters.maxAge) {
-      params = params.set('MAxAge', filters.maxAge.toString());
+      params = params.set('MaxAge', filters.maxAge.toString());
+    }
+
+    if (filters.startTime) {
+      params = params.set('StartHour', filters.startTime);
+    }
+
+    if (filters.endTime) {
+      params = params.set('EndHour', filters.endTime);
+    }
+
+    if (filters.workingDays.length > 0) {
+      filters.workingDays.forEach((day: string) => params = params.append('Workdays', day));
     }
 
     if (filters.isFree || !filters.minAge) {
@@ -76,8 +88,8 @@ export class AppWorkshopsService {
   }
 
   /**
-  * This method get workshops with applied filter options
-  */
+   * This method get workshops with applied filter options
+   */
   getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
     const options = { params: this.setParams(filters, isMapView) };
     return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', options);

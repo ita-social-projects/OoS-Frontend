@@ -1,11 +1,8 @@
-import { Constants } from './../constants/constants';
-import { GetTopDirections } from './meta-data.actions';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
-import { WorkingHours } from '../models/workingHours.model';
 import {
   SetOrder,
   SetCity,
@@ -13,7 +10,8 @@ import {
   GetTopWorkshops,
   SetDirections,
   SetWorkingDays,
-  SetWorkingHours,
+  SetStartTime,
+  SetEndTime,
   SetIsFree,
   SetMinPrice,
   SetMaxPrice,
@@ -27,16 +25,19 @@ import {
   PageChange,
   ConfirmCity,
   CleanCity,
+  FilterReset,
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
 import { tap } from 'rxjs/operators';
+import { Constants } from '../constants/constants';
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
   minAge: number;
-  workingHours: WorkingHours[];
-  workingDays: WorkingHours[];
+  workingDays: string[];
+  startTime: string;
+  endTime: string;
   isFree: boolean;
   maxPrice: number;
   minPrice: number;
@@ -58,8 +59,9 @@ export interface FilterStateModel {
     directions: [],
     maxAge: null,
     minAge: null,
+    startTime: null,
+    endTime: null,
     workingDays: [],
-    workingHours: [],
     isFree: false,
     maxPrice: 0,
     minPrice: 0,
@@ -83,25 +85,25 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops }
+  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
 
   @Selector()
-  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops }
+  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops };
 
   @Selector()
-  static directions(state: FilterStateModel): Direction[] { return state.directions }
+  static directions(state: FilterStateModel): Direction[] { return state.directions };
 
   @Selector()
-  static isLoading(state: FilterStateModel): boolean { return state.isLoading }
+  static isLoading(state: FilterStateModel): boolean { return state.isLoading };
 
   @Selector()
-  static city(state: FilterStateModel): City { return state.city }
+  static city(state: FilterStateModel): City { return state.city };
 
   @Selector()
-  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity }
+  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
 
   @Selector()
-  static searchQuery(state: FilterStateModel): string { return state.searchQuery }
+  static searchQuery(state: FilterStateModel): string { return state.searchQuery };
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -115,12 +117,12 @@ export class FilterState {
   }
 
   @Action(CleanCity)
-  cleanCity({ patchState }: StateContext<FilterStateModel> ): void {
-    patchState({ city: undefined});
+  cleanCity({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ city: undefined });
   }
 
   @Action(ConfirmCity)
-  confirmCity({patchState}:StateContext<FilterStateModel> , { payload }: ConfirmCity ): void {
+  confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
     patchState({
       isConfirmCity: payload
     });
@@ -144,9 +146,14 @@ export class FilterState {
     dispatch(new FilterChange());
   }
 
-  @Action(SetWorkingHours)
-  setWorkingHours({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWorkingHours) {
-    patchState({ workingHours: payload });
+  @Action(SetStartTime)
+  setStartTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetStartTime) {
+    patchState({ startTime: payload });
+    dispatch(new FilterChange());
+  }
+  @Action(SetEndTime)
+  setEndTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetEndTime) {
+    patchState({ endTime: payload });
     dispatch(new FilterChange());
   }
 
@@ -195,7 +202,7 @@ export class FilterState {
     return this.appWorkshopsService
       .getFilteredWorkshops(state, payload)
       .pipe(tap((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
-        () => patchState({ isLoading: false })))
+        () => patchState({ isLoading: false })));
   }
 
   @Action(GetTopWorkshops)
@@ -205,7 +212,7 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }))
+      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }));
   }
 
   @Action(SetWithDisabilityOption)
@@ -234,4 +241,7 @@ export class FilterState {
 
   @Action(FilterChange)
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+
+  @Action(FilterReset)
+  filterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 }

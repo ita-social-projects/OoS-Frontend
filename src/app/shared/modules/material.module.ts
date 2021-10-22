@@ -21,8 +21,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatTooltipModule } from '@angular/material/tooltip'
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   exports: [
     MatTooltipModule,
@@ -50,6 +50,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     MatGridListModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatProgressBarModule
   ]
 })
 export class MaterialModule { }

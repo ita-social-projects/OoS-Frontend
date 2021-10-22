@@ -13,11 +13,13 @@ import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
+import { Observable } from 'rxjs';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
   provider: Provider;
   parent: Parent;
+  role: string;
 }
 
 @State<RegistrationStateModel>({
@@ -26,7 +28,8 @@ export interface RegistrationStateModel {
     isAuthorized: false,
     user: undefined,
     provider: undefined,
-    parent: undefined
+    parent: undefined,
+    role: undefined
   }
 })
 
@@ -53,6 +56,11 @@ export class RegistrationState {
   @Selector()
   static parent(state: RegistrationStateModel): Parent {
     return state.parent;
+  }
+
+  @Selector()
+  static role(state: RegistrationStateModel): string | undefined {
+    return state.role;
   }
 
   constructor(
@@ -88,6 +96,8 @@ export class RegistrationState {
             patchState({ user: user });
             dispatch(new CheckRegistration());
           });
+        } else {
+          patchState({ role: Role.unauthorized });
         }
       });
   }
@@ -109,8 +119,9 @@ export class RegistrationState {
   }
 
   @Action(GetProfile)
-  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile) {
+  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile): Observable<Parent> | Observable<Provider> {
     const state = getState();
+    patchState({ role: state.user.role });
 
     if (state.user.role === Role.parent) {
       return this.parentService

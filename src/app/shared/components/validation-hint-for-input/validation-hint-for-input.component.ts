@@ -1,5 +1,4 @@
-import { InvokeFunctionExpr } from '@angular/compiler';
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-validation-hint-for-input',
@@ -15,5 +14,7 @@ export class ValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() forbiddenCharacter: string;
 
-  constructor () { }
+  constructor() {
+
+  }
 }

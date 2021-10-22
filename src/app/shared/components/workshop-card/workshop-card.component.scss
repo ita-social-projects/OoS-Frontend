@@ -1,4 +1,5 @@
 @import "src/app/shared/styles/cards.scss";
+
 .icon{
   display: flex;
   flex-direction: row;
@@ -27,7 +28,6 @@
   }
 }
 
-
 .horizontal-card {
   display: flex;
   flex-direction: row;
@@ -51,9 +51,29 @@
     display: block;
   }
 }
+
+.dialog-title {
+  max-width: 370px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  p {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+.dialog-action-button {
+  color: white;
+  background-color: #3849F9;
+  border: 1px solid #3849F9;
+  border-radius: 20px;
+}
+
 @media (max-width: 750px) {
 .horizontal-card {
-  min-height: 150px;
+  min-height: 150px;  
 
   .card_text {
     margin: 0;
