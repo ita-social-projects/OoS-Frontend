@@ -41,7 +41,7 @@
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-        {{keyWord}}        
+        {{keyWord}}
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
       <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()"
