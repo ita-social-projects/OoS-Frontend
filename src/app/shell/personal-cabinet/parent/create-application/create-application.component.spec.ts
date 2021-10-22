@@ -84,6 +84,7 @@ class MockValidationHintForInputComponent{
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
   @Input() minCharachters: number; 
+  @Input() forbiddenCharacter: string;
 }
 
 @Component({
