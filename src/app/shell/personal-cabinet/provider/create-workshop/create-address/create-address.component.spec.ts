@@ -76,5 +76,5 @@ class MockValidationHintForInputComponent {
 })
 class MockCityAutocompleteComponent {
   @Input() InitialCity: string;
-  @Input() className: string
+  @Input() className: string;
 }

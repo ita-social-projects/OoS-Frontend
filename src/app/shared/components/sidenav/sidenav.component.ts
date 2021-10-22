@@ -44,7 +44,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     private router: Router) {
   }
 
-  changeView() {
+  changeView(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
@@ -52,7 +52,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(visible => this.visibleSidenav = visible)
+      .subscribe(visible => this.visibleSidenav = visible);
   }
 
   login(): void {
@@ -71,7 +71,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     return this.router.url === route;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

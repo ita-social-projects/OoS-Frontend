@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -21,7 +22,8 @@ describe('ResultComponent', () => {
         MatButtonToggleModule,
         MatSidenavModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        RouterTestingModule
       ],
       declarations: [
         ResultComponent,
@@ -59,6 +61,7 @@ class MockSearchbarComponent {
   template: ''
 })
 class MockOrderingComponent {
+  @Input() resetFilter$: Observable<void>;
 }
 
 @Component({
@@ -66,6 +69,7 @@ class MockOrderingComponent {
   template: ''
 })
 class MockFiltersListComponent {
+  @Input() resetFilter$: Observable<void>;
 }
 @Component({
   selector: 'app-workshop-cards-list',
@@ -73,6 +77,7 @@ class MockFiltersListComponent {
 })
 class MockWorkshopCardsListComponent {
   @Input() workshops$: Observable<Workshop[]>;
+  @Input() resetFilter$: Observable<void>;
 }
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -80,6 +85,8 @@ class MockWorkshopCardsListComponent {
 })
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() resetFilter$: Observable<void>;
+
 }
 @Component({
   selector: 'app-scroll-to-top',

@@ -9,6 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { of } from 'rxjs';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;
@@ -37,6 +38,7 @@ describe('WorkingHoursComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkingHoursComponent);
     component = fixture.componentInstance;
+    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

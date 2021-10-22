@@ -1,6 +1,6 @@
-import { MatDateFormats } from "@angular/material/core";
-import { WorkingDays } from "../enum/enumUA/working-hours";
-import { WorkingDaysToggleValue } from "../models/workingHours.model";
+import { MatDateFormats } from '@angular/material/core';
+import { WorkingDays } from '../enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from '../models/workingHours.model';
 
 /**
  * Constants for OutOfSchool
@@ -38,7 +38,7 @@ export class Constants {
   static readonly WIDTH_OF_WORKSHOP_CARD_IN_WORKSHOP_DETAILS = 332;
   static WorkingDaysValues: any;
 
-};
+}
 
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;

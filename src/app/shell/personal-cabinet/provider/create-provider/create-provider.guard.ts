@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Role } from 'src/app/shared/enum/role';
 import { User } from 'src/app/shared/models/user.model';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { AppState } from 'src/app/shared/store/app.state';
 import { ActivateEditMode } from 'src/app/shared/store/app.actions';

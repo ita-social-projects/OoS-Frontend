@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications'
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { ChildCards } from 'src/app/shared/models/child.model';
@@ -79,7 +79,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
         });
       }
     });
-
   }
 
   getProviderApplications(providerApplicationParams): void {
@@ -89,7 +88,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   getParentApplications(): void {
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
   }
-
 
   getUsersChildren(): void {
     this.store.dispatch(new GetUsersChildren());
@@ -103,7 +101,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

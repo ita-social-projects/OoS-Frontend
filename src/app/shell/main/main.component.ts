@@ -1,6 +1,6 @@
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { GetTopWorkshops } from 'src/app/shared/store/filter.actions';
@@ -23,7 +23,7 @@ import { Role } from 'src/app/shared/enum/role';
   styleUrls: ['./main.component.scss'],
 })
 
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.role)
