@@ -81,7 +81,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
       middleName: new FormControl(''),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
-      socialGroupId: new FormControl('', Validators.required),
+      socialGroupId: new FormControl(0),
       placeOfStudy: new FormControl('')
     });
 
@@ -93,8 +93,10 @@ export class CreateChildComponent implements OnInit, OnDestroy {
         this.store.dispatch(new MarkFormDirty(true));
       });
 
-    this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
-
+    if(this.editMode) {
+      child.socialGroupId = child.socialGroupId || 0;
+      childFormGroup.patchValue(child, { emitEvent: false });
+    }
     return childFormGroup;
   }
 
