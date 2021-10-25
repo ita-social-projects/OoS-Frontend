@@ -2,8 +2,8 @@
 
 <div class="wrapper-card" *ngIf="(favoriteWorkshopsCard$ | async)?.length">
   <div fxLayout="row wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
-    <app-workshop-card class="cards" [userRoleView]="Role.unauthorized"
-      *ngFor="let workshop of (favoriteWorkshopsCard$ |async)" [workshop]="workshop" [isMainPage]="true">
+    <app-workshop-card class="cards" *ngFor="let workshop of (favoriteWorkshopsCard$ |async)" [workshop]="workshop"
+      [isMainPage]="false" [userRoleView]="Role.unauthorized">
     </app-workshop-card>
     <app-workshop-card
       *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , (favoriteWorkshopsCard$ | async))"

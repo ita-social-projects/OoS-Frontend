@@ -15,7 +15,7 @@
 </ng-template>
 
 <ng-template #ProviderWorkshops>
-  <div fxLayout="row wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
+  <div fxLayout="row wrap" fxLayoutAlign="start" #WorkshopsWrap>
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
       [isMainPage]="false" [userRoleView]="Role.provider" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
     <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
@@ -49,7 +49,7 @@
       <div *ngIf="isApplications(applications, child)">
         <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
           :'shortDate'}})</h3>
-        <div fxLayout="row wrap" fxLayoutAlign="space-evenly">
+        <div fxLayout="row wrap" fxLayoutAlign="start">
           <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
             [workshop]="application.workshop" [isMainPage]="false" [userRoleView]="Role.parent"
             [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
