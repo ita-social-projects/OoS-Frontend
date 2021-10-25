@@ -119,12 +119,19 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     // cheking if user edit workshop information
     if (this.addressFormGroup) {
-      this.addressFormGroup.value.latitude && this.setAddressLocation(this.addressFormGroup.value);
+      this.addressFormGroup.value.latitude && this.setLocation(this.addressFormGroup.value);
 
       this.addressFormGroup.valueChanges.pipe(
         debounceTime(500)
       ).subscribe((address: Address) => {
-        this.setAddressLocation(address);
+        address.longitude = address.longitude || this.addressFormGroup.value.longitude;
+        address.latitude = address.latitude || this.addressFormGroup.value.latitude;
+        if(!address.street && !address.buildingNumber){
+          this.setAddressLocation(address);
+        }
+        if(address.city && address.street && address.buildingNumber){
+           this.setLocation(address);
+        }
       });
     }
 
@@ -135,7 +142,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param address - type Address
    */
   setAddressLocation(address: Address): void {
-    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker(address);
+    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker([address.latitude, address.longitude]);
   }
 
   /**
@@ -159,7 +166,19 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           buildingNumber: '',
         });
       }
+    });
+  }
 
+   /**
+   * uses GeolocationService to translate address into coords and sets marker on default
+   * @param address - type Address
+   */
+  setLocation(address: Address): void {
+    this.workshops ? this.setWorkshopMarkers(address) : this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
+      if (result.address || (Array.isArray(result) && result.length)) {
+        const coords: [number, number] = [result.lat||result[0].lat, result.lon || result[0].lon];
+        this.setNewSingleMarker(coords);
+      }
     });
   }
 
@@ -167,8 +186,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method remove existed marker and set the new marke to the map
    * @param coords - type [number, number]
    */
-  setNewSingleMarker(address: Address): void {
-    const coords: [number, number] = [address.latitude, address.longitude];
+  setNewSingleMarker(coords: [number, number]): void {
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
     this.map.addLayer(this.singleMarker);
