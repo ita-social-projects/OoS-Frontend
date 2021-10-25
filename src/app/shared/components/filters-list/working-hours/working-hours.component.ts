@@ -31,8 +31,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.resetFilter$.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
-      this.startTimeFormControl.setValue("");
-      this.endTimeFormControl.setValue("");
+      this.startTimeFormControl.setValue('');
+      this.endTimeFormControl.setValue('');
       this.selectedWorkingDays = []
       this.days.forEach(day => day.selected = false)
       this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays))
