@@ -1,4 +1,4 @@
-import { Component, Input, OnInit ,OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -31,24 +31,24 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.resetFilter$.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
-        this.startTimeFormControl.setValue("");
-        this.endTimeFormControl.setValue("");
-        this.selectedWorkingDays = []
-        this.days.forEach(day => day.selected = false)
-        this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays))
+      this.startTimeFormControl.setValue('');
+      this.endTimeFormControl.setValue('');
+      this.selectedWorkingDays = []
+      this.days.forEach(day => day.selected = false)
+      this.store.dispatch(new SetWorkingDays(this.selectedWorkingDays))
     })
 
     this.startTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
       distinctUntilChanged(),
-    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time.split(':')[0])));
+    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
   }
 
   getMinTime(): string {
