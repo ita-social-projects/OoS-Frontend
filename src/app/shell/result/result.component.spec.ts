@@ -5,9 +5,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Component, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormGroup } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { Workshop, WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -78,6 +77,7 @@ class MockFiltersListComponent {
 class MockWorkshopCardsListComponent {
   @Input() workshops$: Observable<Workshop[]>;
   @Input() resetFilter$: Observable<void>;
+  @Input() role: string;
 }
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -86,7 +86,7 @@ class MockWorkshopCardsListComponent {
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() resetFilter$: Observable<void>;
-
+  @Input() role: string;
 }
 @Component({
   selector: 'app-scroll-to-top',
