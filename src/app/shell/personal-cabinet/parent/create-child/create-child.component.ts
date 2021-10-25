@@ -14,6 +14,7 @@ import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
 
 @Component({
   selector: 'app-create-child',
@@ -76,9 +77,9 @@ export class CreateChildComponent implements OnInit, OnDestroy {
    */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      middleName: new FormControl(''),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
       socialGroupId: new FormControl(0),

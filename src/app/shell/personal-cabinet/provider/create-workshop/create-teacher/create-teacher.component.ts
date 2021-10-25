@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+
 
 @Component({
   selector: 'app-create-teacher',
@@ -38,9 +40,9 @@ export class CreateTeacherComponent implements OnInit {
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
       img: new FormControl(''),
-      lastName: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      middleName: new FormControl('', Validators.required),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       dateOfBirth: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
     });
