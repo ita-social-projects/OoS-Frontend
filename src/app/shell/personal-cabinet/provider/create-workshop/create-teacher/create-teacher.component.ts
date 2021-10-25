@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
-import {TEXT_REGEX} from 'src/app/shared/constants/regex-constants'
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
 
 
 @Component({

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import {TEXT_REGEX, BUILDING_NUMBER_REGEX} from 'src/app/shared/constants/regex-constants'
+import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
 
 @Component({
   selector: 'app-create-address',
@@ -28,7 +28,7 @@ export class CreateAddressComponent implements OnInit {
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(BUILDING_NUMBER_REGEX)]),
+      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       latitude: new FormControl(''),
       longitude: new FormControl(''),

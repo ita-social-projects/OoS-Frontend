@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
-import {TEXT_REGEX, BUILDING_NUMBER_REGEX} from 'src/app/shared/constants/regex-constants'
+import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
 
 @Component({
   selector: 'app-create-contacts-form',
@@ -20,7 +20,7 @@ export class CreateContactsFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(BUILDING_NUMBER_REGEX)]),
+      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)])
@@ -28,7 +28,7 @@ export class CreateContactsFormComponent implements OnInit {
 
     this.ActualAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(BUILDING_NUMBER_REGEX)]),
+      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)])

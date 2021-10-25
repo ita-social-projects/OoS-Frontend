@@ -8,7 +8,7 @@ import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/o
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
-import {TEXT_REGEX} from 'src/app/shared/constants/regex-constants'
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
