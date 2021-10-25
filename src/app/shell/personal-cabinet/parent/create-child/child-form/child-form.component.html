@@ -5,22 +5,40 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="lastName">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="ChildFormGroup.get('lastName').errors?.required"
     [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched"
+    [forbiddenCharacter]="ChildFormGroup.get('lastName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="firstName">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="ChildFormGroup.get('firstName').errors?.required"
     [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched">
   </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched"
+    [forbiddenCharacter]="ChildFormGroup.get('firstName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
 
-  <label class="step-label">По-батькові</label>
+  <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="middleName">
   </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="ChildFormGroup.get('middleName').errors?.required"
+    [invalid]="ChildFormGroup.get('middleName').invalid && ChildFormGroup.get('middleName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="ChildFormGroup.get('middleName').invalid && ChildFormGroup.get('middleName').touched"
+    [forbiddenCharacter]="ChildFormGroup.get('middleName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
