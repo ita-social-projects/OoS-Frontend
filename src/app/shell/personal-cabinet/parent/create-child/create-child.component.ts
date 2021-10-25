@@ -27,6 +27,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   editMode = false;
   child: Child;
   isAgreed = false;
+  socialGroupIdAbsentValue = 0;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -81,7 +82,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
       middleName: new FormControl(''),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
-      socialGroupId: new FormControl(0),
+      socialGroupId: new FormControl(this.socialGroupIdAbsentValue),
       placeOfStudy: new FormControl('')
     });
 
@@ -93,7 +94,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
         this.store.dispatch(new MarkFormDirty(true));
       });
 
-    if(this.editMode) {
+    if (this.editMode) {
       child.socialGroupId = child.socialGroupId || 0;
       childFormGroup.patchValue(child, { emitEvent: false });
     }

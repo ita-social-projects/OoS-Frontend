@@ -20,7 +20,7 @@ export class CityList {
 }
 export class GetSocialGroup {
   static readonly type = '[meta-data] Get GetSocialGroup';
-  constructor() { }  
+  constructor() { }
 }
 export class ClearClasses {
   static readonly type = '[meta-data] clear classes state';
