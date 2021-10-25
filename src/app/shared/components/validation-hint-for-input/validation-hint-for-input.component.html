@@ -3,6 +3,8 @@
 <ng-container *ngIf = "type === 'validEmail' && isEmailCheck && invalid; then incorrectEmail"></ng-container>
 <ng-container *ngIf = "type === 'minDigitsLength' && minLength && invalid; then notEnoughDigits"></ng-container>
 <ng-container *ngIf = "type === 'minCharachtersLengthFOP' && minLength && invalid; then notEnoughCharactersFOP"></ng-container>
+<ng-container *ngIf = "type === 'validTextField' && forbiddenCharacter && invalid; then incorrectTextField"></ng-container>
+<ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
 
 <ng-template #requiredInput>
   <small appValidationMessageStyling>
@@ -25,5 +27,17 @@
 <ng-template #notEnoughCharactersFOP>
   <small appValidationMessageStyling>
     Введіть 10 цифр з ІПН. <br> У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр 
+  </small> 
+</ng-template>
+
+<ng-template #incorrectTextField>
+  <small appValidationMessageStyling>
+    "Перевірте введені данні. <br> Використовуйте будь ласка тільки кирилицю та символи ( ' - )"
+  </small> 
+</ng-template>
+
+<ng-template #incorrectBuildingNumberField>
+  <small appValidationMessageStyling>
+    "Перевірте введені данні. <br> Використовуйте будь ласка тільки кирилицю, цифри та символи ( ' - / , . )"
   </small> 
 </ng-template>

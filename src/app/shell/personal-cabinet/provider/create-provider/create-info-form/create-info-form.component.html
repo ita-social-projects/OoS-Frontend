@@ -51,8 +51,13 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="director">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="InfoFormGroup.get('director').errors?.required"
     [invalid]="InfoFormGroup.get('director').invalid && InfoFormGroup.get('director').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="InfoFormGroup.get('director').invalid && InfoFormGroup.get('director').touched"
+    [forbiddenCharacter]="InfoFormGroup.get('director').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
@@ -131,7 +136,12 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="founder">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="InfoFormGroup.get('founder').errors?.required"
     [invalid]="InfoFormGroup.get('founder').invalid && InfoFormGroup.get('founder').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="InfoFormGroup.get('founder').invalid && InfoFormGroup.get('founder').touched"
+    [forbiddenCharacter]="InfoFormGroup.get('founder').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 </form>
