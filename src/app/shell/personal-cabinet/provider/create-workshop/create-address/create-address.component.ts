@@ -42,6 +42,8 @@ export class CreateAddressComponent implements OnInit {
   }
 
   onSelectedCity(event: any): void {
+    this.AddressFormGroup.get('latitude').setValue(event.latitude);
+    this.AddressFormGroup.get('longitude').setValue(event.longitude);
     this.AddressFormGroup.get('city').setValue(event.name);
   }
 
