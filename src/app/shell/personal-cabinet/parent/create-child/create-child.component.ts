@@ -14,7 +14,8 @@ import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-create-child',
@@ -82,7 +83,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
       middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(''),
-      socialGroupId: new FormControl('', Validators.required),
+      socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfStudy: new FormControl('')
     });
 
@@ -94,8 +95,10 @@ export class CreateChildComponent implements OnInit, OnDestroy {
         this.store.dispatch(new MarkFormDirty(true));
       });
 
-    this.editMode && childFormGroup.patchValue(child, { emitEvent: false });
-
+    if (this.editMode) {
+      child.socialGroupId = child.socialGroupId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
+      childFormGroup.patchValue(child, { emitEvent: false });
+    }
     return childFormGroup;
   }
 
