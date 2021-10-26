@@ -1,22 +1,23 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
-    <div fxLayout="column" fxLayoutAlign="space-evenly">
-      <div fxLayout='column wrap' fxLayoutAlign='space-evenly' #WorkshopsWrap>
-        <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops"
-          [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
-        </app-workshop-card>
-      </div>
-      <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage"
-        (pageChange)="onPageChange($event)">
-      </app-paginator>
+  <div fxLayout="column" fxLayoutAlign="space-evenly">
+    <div fxLayout="column wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
+      <app-workshop-card class="workshop" [userRoleView]="Role.unauthorized" *ngFor="let workshop of selectedWorkshops"
+        [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
+      </app-workshop-card>
     </div>
+    <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
+    </app-paginator>
+  </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout="row" fxLayoutAlign="center">
-      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)"></app-map>
+      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)">
+      </app-map>
     </div>
   </div>
 
-  <div class="workshop-details-cards" fxLayout='column wrap' fxLayoutAlign='space-evenly' >
+  <div class="workshop-details-cards" fxLayout="column wrap" fxLayoutAlign="space-evenly">
     <app-workshop-card class="workshop-details-card" *ngFor="let selectedWorkshop of selectedWorkshops"
       [workshop]="selectedWorkshop" [isMainPage]="true" [isHorizontalView]="true"
       [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">

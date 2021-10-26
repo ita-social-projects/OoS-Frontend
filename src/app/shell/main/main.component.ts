@@ -24,23 +24,20 @@ import { Role } from 'src/app/shared/enum/role';
 })
 
 export class MainComponent implements OnInit, OnDestroy {
+  Role = Role;
+
   @Select(FilterState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.city)
   city$: Observable<City>;
-  @Select(RegistrationState.parent)
-  isParent$: Observable<boolean>;
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  public parent: boolean;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
@@ -70,12 +67,7 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(
         filter(role => !!role),
         takeUntil(this.destroy$))
-      .subscribe(role => this.getTopWorkshops(role));
-
-    this.isParent$
-      .pipe(
-        takeUntil(this.destroy$))
-      .subscribe(parent => this.parent = parent);
+      .subscribe(role => this.getTopWorkshops(role))
   }
 
   ngOnDestroy(): void {

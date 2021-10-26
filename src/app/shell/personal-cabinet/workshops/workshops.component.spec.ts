@@ -51,7 +51,6 @@ describe('WorkshopsComponent', () => {
 class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
-  @Input() userRole: string;
+  @Input() userRoleView: string;
   @Input() application: Application;
-  @Input() parent: boolean;
 }

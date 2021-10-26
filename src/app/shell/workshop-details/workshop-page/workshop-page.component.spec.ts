@@ -66,7 +66,7 @@ class MockWorkshopTeachersComponent {
 })
 class MockReviewsComponent {
   @Input() workshop: Workshop;
-  @Input() isDisplayedforProvider: boolean;
+  @Input() role: string;
 }
 
 @Component({
@@ -83,4 +83,5 @@ class MockProviderAboutComponent {
 })
 class MockAllProviderWorkshopsComponent {
   @Input() providerWorkshops: Workshop[];
+  @Input() role: string;
 }

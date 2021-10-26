@@ -47,7 +47,7 @@ describe('SideMenuComponent', () => {
 })
 class MockContactsComponent {
   @Input() workshop: Workshop;
-  @Input() isRegistered: boolean;
+  @Input() role: string;
 }
 
 @Component({
@@ -56,7 +56,7 @@ class MockContactsComponent {
 })
 class MockActionsComponent {
   @Input() workshop: Workshop;
-  @Input() isRegistered: boolean;
+  @Input() role: string;
 }
 
 @Component({

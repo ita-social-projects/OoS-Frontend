@@ -7,6 +7,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
@@ -25,8 +26,10 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
 
+  readonly Role: typeof Role = Role;
+
   @Input() workshop: Workshop;
-  @Input() isDisplayedforProvider: boolean;
+  @Input() role: string;
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;

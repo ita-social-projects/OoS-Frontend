@@ -7,16 +7,19 @@
   .workshop {
     &-image {
       width: 100%;
-
       img {
         width: 100%;
         object-fit: none;
       }
     }
 
+    &-icon{
+      width: 3rem;
+    }
+
     &__wrap {
-      padding: 24px;
-      margin: 20px;
+      padding: 2rem;
+      padding-top: 0;
     }
 
     &-header {

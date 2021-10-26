@@ -10,12 +10,12 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProviderGuard implements CanLoad {
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
 
   constructor(public store: Store) { }
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.user$.pipe(filter((user: User) => !!user), map((user: User) => user.role === Role.provider));
+    return this.role$.pipe(filter((role: string) => !!role), map((role: string) => role === Role.provider));
   }
 }

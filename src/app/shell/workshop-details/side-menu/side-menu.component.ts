@@ -1,5 +1,6 @@
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Component, Input, OnInit } from '@angular/core';
+import { Role } from 'src/app/shared/enum/role';
 
 @Component({
   selector: 'app-side-menu',
@@ -8,8 +9,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
 
-  @Input() isDisplayedforProvider: boolean;
-  @Input() isRegistered: boolean;
+  readonly Role: typeof Role = Role;
+  @Input() role: string;
   @Input() workshop: Workshop;
 
   constructor() { }
