@@ -174,7 +174,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param address - type Address
    */
   setLocation(address: Address): void {
-    this.workshops ? this.setWorkshopMarkers(address) : this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
+    this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
         const coords: [number, number] = [result.lat||result[0].lat, result.lon || result[0].lon];
         this.setNewSingleMarker(coords);
