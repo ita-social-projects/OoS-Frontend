@@ -34,5 +34,5 @@ describe('AllProviderWorkshopsComponent', () => {
 class MockProviderWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
-  @Input() userRole: string;
+  @Input() userRoleView: string;
 }

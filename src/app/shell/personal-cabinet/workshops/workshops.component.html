@@ -1,4 +1,4 @@
-<div *ngIf="(userRole === role.provider) then isProvider; else isParent"></div>
+<div *ngIf="(role === Role.provider) then isProvider; else isParent"></div>
 
 <ng-template #isProvider>
   <div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
@@ -15,9 +15,9 @@
 </ng-template>
 
 <ng-template #ProviderWorkshops>
-  <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
+  <div fxLayout="row wrap" fxLayoutAlign="start" #WorkshopsWrap>
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-      [isMainPage]="false" [userRole]="userRole" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
+      [isMainPage]="false" [userRoleView]="Role.provider" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
     <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
       [workshop]="workshop" class="empty-card" [isMainPage]="true">
     </app-workshop-card>
@@ -49,10 +49,14 @@
       <div *ngIf="isApplications(applications, child)">
         <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
           :'shortDate'}})</h3>
-        <div fxLayout='row' fxLayoutAlign='start center'>
+        <div fxLayout="row wrap" fxLayoutAlign="start">
           <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
-            [workshop]="application.workshop" [isMainPage]="false" [userRole]="userRole" [application]="application"
-            (leaveWorkshop)="onLeaveWorkshops($event)">
+            [workshop]="application.workshop" [isMainPage]="false" [userRoleView]="Role.parent"
+            [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
+          </app-workshop-card>
+          <app-workshop-card
+            *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
+            [workshop]="workshop" class="empty-card" [isMainPage]="true">
           </app-workshop-card>
         </div>
       </div>

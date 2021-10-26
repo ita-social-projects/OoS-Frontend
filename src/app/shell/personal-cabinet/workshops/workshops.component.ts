@@ -34,7 +34,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   }
 
   init(): void {
-    if (this.userRole === Role.provider) {
+    if (this.role === Role.provider) {
       this.getProviderWorkshops();
     } else {
       this.getAllUsersChildren();

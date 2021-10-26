@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { CanDeactivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Role } from 'src/app/shared/enum/role';
 import { User } from 'src/app/shared/models/user.model';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { AppState } from 'src/app/shared/store/app.state';
 import { ActivateEditMode } from 'src/app/shared/store/app.actions';
@@ -17,8 +16,8 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
 
   constructor(public store: Store) { }
 
@@ -42,7 +41,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
       this.store.dispatch(new ActivateEditMode(false));
       return true;
     } else {
-      return this.provider$.pipe(map((provider: Provider) => provider !== undefined));
+      return this.role$.pipe(filter((role: string) => !!role), map((role: string) => role === Role.provider));
     }
   }
 

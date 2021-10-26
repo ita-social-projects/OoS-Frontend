@@ -1,8 +1,8 @@
 <ng-container *ngIf="!(isLoadingResultPage$ | async)">
   <ng-container *ngIf="(workshops$ | async); else isEmptyList;">
     <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
-      <app-workshop-card [parent]="parent" *ngFor="let workshop of (workshops$ | async)?.entities" [workshop]="workshop"
-        [isMainPage]="true">
+      <app-workshop-card [userRoleView]="Role.unauthorized" *ngFor="let workshop of (workshops$ | async)?.entities"
+        [workshop]="workshop" [isMainPage]="true">
       </app-workshop-card>
       <app-workshop-card
         *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , (workshops$ | async)?.entities)"

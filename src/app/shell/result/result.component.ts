@@ -15,6 +15,7 @@ import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
 
 import { Router, NavigationEnd } from '@angular/router';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 enum ViewType {
   map = 'map',
@@ -35,6 +36,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   filteredWorkshops$: Observable<WorkshopCard[]>;
   @Select(FilterState.isLoading)
   isLoading$: Observable<boolean>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
@@ -92,7 +95,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     if (str.match("param")) {
       let [id, description, title] = str.slice(8).split("-")
       this.store.dispatch(new FilterReset());
-      setTimeout(() => this.store.dispatch(new SetDirections([{id: +id, description: description, title: title }])),300)
+      setTimeout(() => this.store.dispatch(new SetDirections([{ id: +id, description: description, title: title }])), 300)
     }
   }
 
