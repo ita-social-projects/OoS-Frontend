@@ -29,7 +29,7 @@ export class UserConfigEditComponent implements OnInit {
     this.userEditFormGroup = this.fb.group({
       lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl(''),
+      middleName: new FormControl('', Validators.pattern(TEXT_REGEX)),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
     });
   }

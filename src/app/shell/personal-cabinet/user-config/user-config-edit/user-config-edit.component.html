@@ -35,6 +35,10 @@
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="middleName">
       </mat-form-field>
+      <app-validation-hint-for-input type="validTextField"
+        [invalid]="userEditFormGroup.get('middleName').invalid && userEditFormGroup.get('middleName').touched"
+        [forbiddenCharacter]="userEditFormGroup.get('middleName').errors?.pattern?.requiredPattern">
+      </app-validation-hint-for-input>
 
       <label class="step-label"> Телефон <span class="step-required">*</span></label>
       <mat-form-field>
