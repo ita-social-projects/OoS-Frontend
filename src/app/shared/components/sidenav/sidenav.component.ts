@@ -25,6 +25,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   @Input() isMobileView: boolean;
 
   Role = Role;
+  roles = RoleLinks;
   showModalReg = false;
 
   title = 'out-of-school';
@@ -32,12 +33,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   @Select(NavigationState.sidenavOpenTrue)
   sidenavOpenTrue$: Observable<boolean>;
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  user: User;
-  roles = RoleLinks;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -53,7 +50,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
-    this.user$.subscribe(user => this.user = user);
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible);

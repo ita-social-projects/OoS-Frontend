@@ -5,6 +5,7 @@ import { Select } from '@ngxs/store';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { User } from 'src/app/shared/models/user.model';
 import { filter, map } from 'rxjs/operators';
+import { Role } from 'src/app/shared/enum/role';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,10 @@ import { filter, map } from 'rxjs/operators';
 export class PersonalCabinetGuard implements CanLoad {
   constructor() { }
 
-  @Select(RegistrationState.user)
-  user$: Observable<User>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.user$.pipe(filter((user: User) => !!user), map((user: User) => (user !== undefined)));
+    return this.role$.pipe(filter((role: string) => !!role), map((role: string) => (role !== Role.unauthorized)));
   }
 }

@@ -45,8 +45,7 @@ describe('FavoriteWorkshopsComponent', () => {
 class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
-  @Input() userRole: string;
-  @Input() parent: boolean;
+  @Input() userRoleView: string;
 }
 
 @Component({
@@ -56,5 +55,4 @@ class MockWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
-  @Input() parent: boolean;
 }
