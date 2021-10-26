@@ -38,6 +38,8 @@ export class Constants {
   static readonly WIDTH_OF_WORKSHOP_CARD_IN_WORKSHOP_DETAILS = 332;
   static WorkingDaysValues: any;
 
+  static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
+  
 }
 
 export class PaginationConstants {
