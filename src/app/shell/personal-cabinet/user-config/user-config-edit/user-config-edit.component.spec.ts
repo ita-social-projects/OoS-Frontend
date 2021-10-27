@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { User } from 'src/app/shared/models/user.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -24,6 +25,7 @@ describe('UserConfigEditComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatDialogModule,
+        RouterTestingModule,
       ],
       declarations: [
         UserConfigEditComponent,
