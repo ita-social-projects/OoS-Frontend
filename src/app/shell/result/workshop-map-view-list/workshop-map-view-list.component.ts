@@ -41,8 +41,33 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
   isParent$: Observable<boolean>;
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
+
+  private swipeCoord?: [number, number];
+  private swipeTime?: number;
+  public currentWorkShopIndex = 0;
+
+  swipe(e: TouchEvent, when: string): void {
+    const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
+    const time = new Date().getTime();      if (when === 'start') {       this.swipeCoord = coord;
+    this.swipeTime = time;
+  } else if (when === 'end') {
+    const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+    const duration = time - this.swipeTime;
+    if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+      const swipe = direction[0] < 0 ? 'next' : 'previous';
+        if (swipe === 'next') {
+          (this.selectedWorkshops.length-1) > this.currentWorkShopIndex && this.currentWorkShopIndex++
+        } else {
+          this.currentWorkShopIndex >= 1 && this.currentWorkShopIndex--
+        }
+      console.log('SWIPE',swipe)
+    }
+    }
+
+  }
   ngOnInit(): void {
     this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops)=> !!filteredWorkshops))
@@ -62,9 +87,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   onSelectedAddress(address: Address): void {
+    this.currentWorkShopIndex = 0;
     this.isSelectedMarker = Boolean(address);
 
     if (this.isSelectedMarker) {
+
+      this.curSelectedWorkshop.nativeElement.scrollIntoView();
       this.selectedWorkshops = this.workshops.filter((workshop: WorkshopCard) =>
         address.city === workshop.address.city &&
         address.street === workshop.address.street &&

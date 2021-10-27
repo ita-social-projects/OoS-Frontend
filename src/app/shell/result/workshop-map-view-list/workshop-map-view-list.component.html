@@ -16,9 +16,9 @@
     </div>
   </div>
 
-  <div class="workshop-details-cards" fxLayout='column wrap' fxLayoutAlign='space-evenly' >
-    <app-workshop-card class="workshop-details-card" *ngFor="let selectedWorkshop of selectedWorkshops"
-      [workshop]="selectedWorkshop" [isMainPage]="true" [isHorizontalView]="true"
+  <div #CurSelectedWorkshop class="workshop-details-cards" fxLayout='column wrap' fxLayoutAlign='space-evenly' (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')"  >
+    <app-workshop-card class="workshop-details-card"
+      [workshop]="selectedWorkshops[currentWorkShopIndex]" [isMainPage]="true" [isHorizontalView]="true"
       [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
     </app-workshop-card>
   </div>
