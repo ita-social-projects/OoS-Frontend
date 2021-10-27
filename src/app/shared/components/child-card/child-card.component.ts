@@ -22,9 +22,7 @@ export class ChildCardComponent implements OnInit {
   }
 
   getChildFullName(): string {
-    return `${this.child.lastName} 
-            ${this.child.firstName} 
-            ${this.child.middleName}`;    
+    return `${this.child.lastName} ${this.child.firstName} ${this.child.middleName}`;
   }
 
 }
