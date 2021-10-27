@@ -9,11 +9,16 @@ import { Child } from '../../models/child.model';
 })
 export class ChildCardComponent implements OnInit {
 
+  public below = 'below';
+  public childFullName: string;
+
   @Input() child: Child;
   @Input() applications: Array<Application>;
-  @Output() deleteChild = new EventEmitter<Child>();
+  @Output() deleteChild = new EventEmitter<Child>();  
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.childFullName =  `${this.child.lastName} ${this.child.firstName} ${this.child.middleName}`;
+  }
 
   onDelete(): void {
     this.deleteChild.emit(this.child);

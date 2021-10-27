@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Child } from '../../models/child.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
 
@@ -17,6 +18,7 @@ describe('ChildCardComponent', () => {
       imports: [
         MatIconModule,
         MatCardModule,
+        MatTooltipModule,
         RouterTestingModule,
         NgxsModule.forRoot([]),
       ],
