@@ -7,7 +7,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { Observable, Subject } from 'rxjs';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { FilterChange, FilterReset, GetFilteredWorkshops, SetDirections } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
+import { FilterState, FilterStateModel } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
@@ -30,6 +30,8 @@ enum ViewType {
 export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
+  @Select(FilterState.filteredState)
+  filteredState$: Observable<FilterStateModel>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
@@ -87,16 +89,16 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    let str = decodeURI(this.previuseUrlService.getPreviousUrl())
-    if (str === "/") {
-      this.store.dispatch(new FilterReset())
-    };
+    // let str = decodeURI(this.previuseUrlService.getPreviousUrl())
+    // if (str === "/") {
+    //   this.store.dispatch(new FilterReset())
+    // };
 
-    if (str.match("param")) {
-      let [id, description, title] = str.slice(8).split("-")
-      this.store.dispatch(new FilterReset());
-      setTimeout(() => this.store.dispatch(new SetDirections([{ id: +id, description: description, title: title }])), 300)
-    }
+    // if (str.match("param")) {
+    //   let [id, description, title] = str.slice(8).split("-")
+    //   this.store.dispatch(new FilterReset());
+    //   setTimeout(() => this.store.dispatch(new SetDirections([{ id: +id, description: description, title: title }])), 300)
+    // }
   }
 
   viewHandler(value: ViewType): void {

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Store, Action, Actions, ofAction } from '@ngxs/store';
 import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
-import { FilterChange, FilterReset, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
+import { FilterChange, FilterClear, FilterReset, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -46,7 +46,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   }
 
   onFilterReset() {
-    this.store.dispatch([new FilterReset(), new FilterChange()])
+    this.store.dispatch([new FilterClear(), new FilterChange()])
   }
 
   ngOnDestroy(): void {

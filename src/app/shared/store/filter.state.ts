@@ -26,6 +26,7 @@ import {
   ConfirmCity,
   CleanCity,
   FilterReset,
+  FilterClear
 } from './filter.actions';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -85,6 +86,9 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
+  static filteredState(state: FilterStateModel): FilterStateModel { return state };
+
+  @Selector()
   static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
 
   @Selector()
@@ -104,6 +108,30 @@ export class FilterState {
 
   @Selector()
   static searchQuery(state: FilterStateModel): string { return state.searchQuery };
+
+  @Selector()
+  static minAge(state: FilterStateModel): number { return state.minAge };
+
+  @Selector()
+  static maxAge(state: FilterStateModel): number { return state.maxAge };
+
+  @Selector()
+  static minPrice(state: FilterStateModel): number { return state.minPrice };
+
+  @Selector()
+  static maxPrice(state: FilterStateModel): number { return state.maxPrice };
+
+  @Selector()
+  static isFree(state: FilterStateModel): boolean { return state.isFree };
+
+  @Selector()
+  static workingDays(state: FilterStateModel): string[] { return state.workingDays };
+
+  @Selector()
+  static endTime(state: FilterStateModel): string { return state.endTime};
+
+  @Selector()
+  static startTime(state: FilterStateModel): string { return state.startTime};
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -243,5 +271,28 @@ export class FilterState {
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 
   @Action(FilterReset)
-  filterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+  FilterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+
+  @Action(FilterClear)
+  FilterClear({  patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
+    patchState({
+      directions: [],
+      maxAge: null,
+      minAge: null,
+      startTime: null,
+      endTime: null,
+      workingDays: [],
+      isFree: false,
+      maxPrice: 0,
+      minPrice: 0,
+      isOpenRecruitment: false,
+      isClosedRecruitment: false,
+      searchQuery: '',
+      order: '',
+      withDisabilityOption: false,
+      currentPage: {
+        element: 1,
+        isActive: true
+      }});
+  }
 }

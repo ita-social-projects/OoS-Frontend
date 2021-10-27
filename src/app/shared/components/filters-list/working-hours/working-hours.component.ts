@@ -1,12 +1,13 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
 import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-working-hours',
@@ -14,6 +15,15 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
+  @Select(FilterState.workingDays)
+  workingDays$: Observable<string[]>;
+  @Select(FilterState.endTime)
+  endTime$: Observable<string>;
+  @Select(FilterState.startTime)
+  startTime$: Observable<string>;
+
+
+  isFree$: Observable<boolean>;
   @Input() resetFilter$: Observable<void>;
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
@@ -27,6 +37,20 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+
+    this.workingDays$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((value) => {
+      this.selectedWorkingDays = value
+      this.days.forEach(day => {
+        if (this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value])) {
+          day.selected = true
+        } else {
+          day.selected = false
+        }
+      })
+    })
+
 
     this.resetFilter$.pipe(
       takeUntil(this.destroy$)
@@ -49,6 +73,21 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       debounceTime(300),
       distinctUntilChanged(),
     ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time.split(':')[0])));
+
+    this.startTime$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((value) => {
+      value ? value=value+':00' : value
+      this.startTimeFormControl.setValue(value, {emitEvent: false});
+    });
+
+    this.endTime$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((value) => {
+      value ? value=value+':00' : value
+      this.endTimeFormControl.setValue(value, {emitEvent: false});
+    });
+
   }
 
   getMinTime(): string {
