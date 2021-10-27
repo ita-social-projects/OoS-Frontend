@@ -9,6 +9,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+
 
 @Component({
   selector: 'app-user-config-edit',
@@ -22,17 +24,18 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
   user: User;
 
   readonly constants: typeof Constants = Constants;
-
+  
   userEditFormGroup: FormGroup;
 
   constructor(
     private fb: FormBuilder, 
     private store: Store, 
     private navigationBarService: NavigationBarService) {
+
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      middleName: new FormControl(''),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      middleName: new FormControl('', Validators.pattern(TEXT_REGEX)),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
     });
   }

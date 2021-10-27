@@ -20,9 +20,9 @@
       </a>
     </div>
     <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='space-evenly' fxLayoutGap="20px grid" #WorkshopsWrap>
-        <app-workshop-card [parent]="parent" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"
-          [isMainPage]="true" [userRole]="''">
+      <div fxLayout="row wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
+        <app-workshop-card *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop" [isMainPage]="true"
+          [userRoleView]="Role.unauthorized">
         </app-workshop-card>
         <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap, widthOfWorkshopCard,topWorkshops$)"
           [workshop]="workshop" class="empty-card" [isMainPage]="true">
@@ -30,7 +30,7 @@
       </div>
     </ng-container>
   </div>
-  <div *ngIf="!(isAuthorized$ | async)" class="main_registration" fxLayoutAlign="space-between center">
+  <div *ngIf="(role$ | async) !== Role.unauthorized" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
       <h2 class="main_question">
         Надаєш освітні послуги?

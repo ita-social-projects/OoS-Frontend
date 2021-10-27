@@ -11,16 +11,26 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="street">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="AddressFormGroup.get('street').errors?.required"
     [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched"
+    [forbiddenCharacter]="AddressFormGroup.get('street').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="buildingNumber">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="AddressFormGroup.get('buildingNumber').errors?.required"
     [invalid]="AddressFormGroup.get('buildingNumber').invalid && AddressFormGroup.get('buildingNumber').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validBuildingNumberField"
+    [invalid]="AddressFormGroup.get('buildingNumber').invalid && AddressFormGroup.get('buildingNumber').touched"
+    [forbiddenCharacter]="AddressFormGroup.get('buildingNumber').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <div class="border-bottom"></div>

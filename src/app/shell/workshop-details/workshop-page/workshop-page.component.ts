@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 
@@ -9,11 +10,11 @@ import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 })
 export class WorkshopPageComponent implements OnInit {
 
+  public categoryIcons = CategoryIcons;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
-  @Input() isDisplayedforProvider: boolean;
-  @Input() isRegistered: boolean;
+  @Input() role: string;
 
   constructor() { }
 

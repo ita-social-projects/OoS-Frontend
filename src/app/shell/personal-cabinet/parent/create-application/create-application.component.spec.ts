@@ -12,7 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { cardType } from 'src/app/shared/enum/role';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -83,7 +82,8 @@ class MockValidationHintForInputComponent {
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
-  @Input() minCharachters: number;
+  @Input() minCharachters: number; 
+  @Input() forbiddenCharacter: string;
 }
 
 @Component({

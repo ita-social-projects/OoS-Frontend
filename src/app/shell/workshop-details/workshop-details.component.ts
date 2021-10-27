@@ -11,23 +11,19 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { User } from 'src/app/shared/models/user.model';
-import { Role } from 'src/app/shared/enum/role';
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
   styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(UserState.selectedProvider) provider$: Observable<Provider>;
   @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
-  @Select(RegistrationState.user) user$: Observable<User>;
-  user: User;
-  isRegistered = false;
-  isDisplayedforProvider = false;
+  @Select(RegistrationState.role) role$: Observable<string>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   workshopId: number;
 
   constructor(
@@ -60,19 +56,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       )));
     });
 
-    this.setUserView();
-
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
       .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshopId)));
-  }
-
-  private setUserView(): void {
-    this.user$.subscribe((user: User) => this.user = user);
-    this.isRegistered = Boolean(this.user);
-    this.isDisplayedforProvider = (this.user?.role !== Role.provider);
   }
 
   ngOnDestroy(): void {

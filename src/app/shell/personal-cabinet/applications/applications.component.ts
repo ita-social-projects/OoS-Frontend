@@ -51,7 +51,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       .pipe(
         takeUntil(this.destroy$))
       .subscribe(() => {
-        if (this.userRole === Role.provider) {
+        if (this.role === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
         } else {
           this.getParentApplications();
@@ -60,7 +60,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   }
 
   init(): void {
-    if (this.userRole === Role.provider) {
+    if (this.role === Role.provider) {
       this.getProviderApplications(this.providerApplicationParams);
       this.getProviderWorkshops();
       this.activateChildInfoBox();
