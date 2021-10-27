@@ -14,8 +14,7 @@
       </div>
       <div>
         <mat-card-header>
-          <!-- <mat-card-title class="card-title"> {{child.lastName}} {{child.firstName}} {{child.middleName}}</mat-card-title> -->
-          <mat-card-title [matTooltip]="getChildFullName(child.id)" showTooltipIfTruncated [matTooltipPosition]="below">            
+          <mat-card-title [matTooltip]="getChildFullName()" showTooltipIfTruncated [matTooltipPosition]="below">            
             {{child.lastName}} {{child.firstName}} {{child.middleName}}
           </mat-card-title>
         </mat-card-header>
