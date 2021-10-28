@@ -1,12 +1,11 @@
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Role, RoleLinks } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -28,7 +27,10 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<User>(RegistrationState.user).role;
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.PersonalCabinet, isActive: false, disable: true }
+      { name: this.userRole === 'provider' ?
+        NavBarName.PersonalCabinetProvider : 
+        NavBarName.PersonalCabinetParent,
+        isActive: false, disable: true }
     )));
   }
 

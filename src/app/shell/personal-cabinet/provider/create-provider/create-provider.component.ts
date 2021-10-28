@@ -1,17 +1,20 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
+import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
 
@@ -24,7 +27,7 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class CreateProviderComponent implements OnInit, AfterViewInit {
+export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
@@ -47,7 +50,10 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
   AgreementFormControl = new FormControl(false);
   @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(private store: Store, private route: ActivatedRoute) { }
+  constructor(
+    private store: Store, 
+    private route: ActivatedRoute,
+    private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
@@ -58,6 +64,14 @@ export class CreateProviderComponent implements OnInit, AfterViewInit {
 
     this.RobotFormControl.valueChanges.subscribe((val: boolean) => this.isNotRobot = val);
     this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
+
+    this.editMode && this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
+      { name: NavBarName.PersonalCabinetProvider, isActive: false, disable: true }
+    )));
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new DeleteNavPath());
   }
 
   ngAfterViewInit(): void {
