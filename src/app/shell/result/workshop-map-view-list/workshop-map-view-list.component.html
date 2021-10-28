@@ -16,9 +16,26 @@
     </div>
   </div>
 
-  <div #CurSelectedWorkshop class="workshop-details-cards" fxLayout='column wrap' fxLayoutAlign='space-evenly' (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')"  >
-    <app-workshop-card class="workshop-details-card"
-      [workshop]="selectedWorkshops[currentWorkShopIndex]" [isMainPage]="true" [isHorizontalView]="true"
-      [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
-    </app-workshop-card>
+  <div
+    *ngIf="isSelectedMarker"
+    #CurSelectedWorkshop
+    class="workshop-details-cards"
+    fxLayout='row'
+    (touchstart)="swipe($event, 'start')"
+    (touchend)="swipe($event, 'end')"
+  >
+      <button
+        class="mapCardButton"
+        [ngClass]="(currentWorkShopIndex >= 1) ? 'display' : ''"
+        (click)="onClickScroll()"
+      ><</button>
+      <app-workshop-card class="workshop-details-card"
+        [workshop]="selectedWorkshops[currentWorkShopIndex]" [isMainPage]="true" [isHorizontalView]="true"
+        [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+      </app-workshop-card>
+      <button
+        class="mapCardButton"
+        [ngClass]="(selectedWorkshopsLength-1 > currentWorkShopIndex) ? 'display' : ''"
+        (click)="onClickScroll('next')"
+      >></button>
   </div>

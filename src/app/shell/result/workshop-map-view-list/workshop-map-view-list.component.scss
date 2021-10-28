@@ -80,7 +80,18 @@ $links-color: #3849F9;
     // padding: 15px 10px;
 
     .workshop-details-card {
+      flex-grow: 2;
       display: block !important;
+    }
+
+    .mapCardButton {
+      display: none;
+      background-color: #fff;
+      border: none;
+      color: #3849F9
+    }
+    .display {
+      display: inline-block;
     }
   }
 }

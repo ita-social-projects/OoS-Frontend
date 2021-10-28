@@ -3,6 +3,7 @@
 .horizontal {
   margin: 0;
 }
+
 .icon{
   display: flex;
   flex-direction: row;
@@ -77,6 +78,12 @@
 }
 
 @media (max-width: 750px) {
+
+.horizontal {
+  box-shadow: none;
+  border-radius: 0;
+}
+
 .horizontal-card {
   min-height: 150px;
   .card-img{
