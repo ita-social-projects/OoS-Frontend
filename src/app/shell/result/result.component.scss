@@ -1,7 +1,7 @@
 @import "src/app/shared/styles/toggle-button.scss";
 
 .view-control-panel {
-  flex-direction: row !important;
+  flex-direction: row !important;  
 }
 
 .workshops-count {
@@ -57,7 +57,7 @@
     min-width:100px;
   }
 }
-.mat-drawer-container {
+.mat-drawer-container {  
   min-height: 600px;
   background-color: inherit;
   color: inherit;
@@ -77,7 +77,7 @@
   }
 }
 
-.filters-toggle-btn {
+.filters-toggle-btn {  
   width: 34px;
   height: 34px;
   box-sizing: border-box;
@@ -120,13 +120,14 @@
     }
   }
 }
-@media(max-width: 1250px) {
+
+@media(max-width: 960px) {
   .workshops-count .filters-toggle-btn {
     display: none;
   }
 }
 
-@media(min-width: 1251px) {
+@media(min-width: 961px) {
   .workshops-search .filters-toggle-btn {
     display: none;
   }
