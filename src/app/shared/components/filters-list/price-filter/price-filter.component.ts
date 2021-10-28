@@ -21,7 +21,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   @Select(FilterState.isFree)
   isFree$: Observable<boolean>;
 
-  @Input() resetFilter$
+  @Input() priceFilter;
   readonly constants: typeof Constants = Constants;
 
   isFreeControl = new FormControl(false);
@@ -36,21 +36,32 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
+  
+  ngOnChanges() {
+    let {minPrice,maxPrice,isFree} = this.priceFilter;
 
+    this.minPriceControl.setValue(minPrice,{emitEvent: false});
+    this.minValue = minPrice;
+
+    this.maxPriceControl.setValue(maxPrice,{emitEvent: false});
+    this.maxValue = maxPrice;
+
+    this.isFreeControl.setValue(isFree,{emitEvent: false});
+  }
   /**
    * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
   ngOnInit(): void {
 
-    this.resetFilter$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-        this.maxPriceControl.setValue(0);
-        this.minPriceControl.setValue(0);
-        this.isFreeControl.reset();
-        this.minValue = 0;
-        this.maxValue= 0;
-    })
+    // this.resetFilter$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe(() => {
+    //     this.maxPriceControl.setValue(0);
+    //     this.minPriceControl.setValue(0);
+    //     this.isFreeControl.reset();
+    //     this.minValue = 0;
+    //     this.maxValue= 0;
+    // })
 
     this.isFreeControl.valueChanges.subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
     this.minPriceControl.valueChanges
@@ -73,25 +84,25 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SetMaxPrice(val));
       });
 
-    this.minPrice$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((value) => {
-        this.minPriceControl.setValue(value,{emitEvent: false});
-        this.minValue = value;
-    })
+    // this.minPrice$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe((value) => {
+    //     this.minPriceControl.setValue(value,{emitEvent: false});
+    //     this.minValue = value;
+    // })
 
-    this.maxPrice$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((value) => {
-        this.maxPriceControl.setValue(value,{emitEvent: false});
-        this.maxValue= value;
-    })
+    // this.maxPrice$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe((value) => {
+    //     this.maxPriceControl.setValue(value,{emitEvent: false});
+    //     this.maxValue= value;
+    // })
 
-    this.isFree$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((value) => {
-        this.isFreeControl.setValue(value,{emitEvent: false});
-    })
+    // this.isFree$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe((value) => {
+    //     this.isFreeControl.setValue(value,{emitEvent: false});
+    // })
 
   }
 

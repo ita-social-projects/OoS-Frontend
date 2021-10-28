@@ -61,7 +61,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
+
     this.store.dispatch([new GetTopDirections(), new FilterClear()]);
 
     this.role$

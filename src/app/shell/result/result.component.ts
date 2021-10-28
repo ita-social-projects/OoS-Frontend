@@ -29,9 +29,6 @@ enum ViewType {
 })
 export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
-
-  @Select(FilterState.filteredState)
-  filteredState$: Observable<FilterStateModel>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)

@@ -22,8 +22,10 @@ export class CategoryCardComponent implements OnInit {
   }
 
   selectDirection(direction: Direction): void {
-    location.hash = '?param=' + direction.id + '-' + direction.description + '-' + direction.title;
+    // location.hash = '?param=' + direction.id + '-' + direction.description + '-' + direction.title;
+    debugger;
     this.store.dispatch(new SetDirections([direction]));
+    debugger;
   }
   /**
    * Returns correct form of the ukrainian word "гурток" depending on the amount of workshops by category.

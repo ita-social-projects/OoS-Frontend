@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
+import { PaginationElement } from '../models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
+import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
   SetOrder,
   SetCity,
@@ -28,10 +31,7 @@ import {
   FilterReset,
   FilterClear
 } from './filter.actions';
-import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { PaginationElement } from '../models/paginationElement.model';
-import { tap } from 'rxjs/operators';
-import { Constants } from '../constants/constants';
+
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
@@ -86,7 +86,7 @@ export interface FilterStateModel {
 export class FilterState {
 
   @Selector()
-  static filteredState(state: FilterStateModel): FilterStateModel { return state };
+  static filterState(state: FilterStateModel): FilterStateModel { return state };
 
   @Selector()
   static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
@@ -132,6 +132,29 @@ export class FilterState {
 
   @Selector()
   static startTime(state: FilterStateModel): string { return state.startTime};
+
+  @Selector()
+  static filterList(state: FilterStateModel): any {
+    const {withDisabilityOption,minAge,maxAge,directions,minPrice,maxPrice,isFree,workingDays,startTime,endTime} = state
+    return {
+      withDisabilityOption,
+      ageFilter: {
+        minAge,
+        maxAge
+      },
+      categoryCheckBox: directions,
+      priceFilter: {
+        minPrice,
+        maxPrice,
+        isFree
+      },
+      workingHours: {
+        workingDays,
+        startTime,
+        endTime
+      }
+    }
+  };
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }

@@ -20,45 +20,51 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   maxAge$: Observable<number>;
 
   readonly constants: typeof Constants = Constants;
-  @Input() resetFilter$;
+  @Input() ageFilter;
   minAgeFormControl = new FormControl('');
   maxAgeFormControl = new FormControl('');
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
 
+  ngOnChanges() {
+    const {minAge,maxAge} = this.ageFilter
+    this.minAgeFormControl.setValue(minAge,{emitEvent: false});
+    this.maxAgeFormControl.setValue(maxAge,{emitEvent: false});
+  }
+
   ngOnInit(): void {
 
     this.minAgeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
-      debounceTime(300),
+      debounceTime(400),
       distinctUntilChanged()
     ).subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
 
     this.maxAgeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
-      debounceTime(300),
+      debounceTime(400),
       distinctUntilChanged()
     ).subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
 
-    this.resetFilter$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-        this.maxAgeFormControl.setValue(0);
-        this.minAgeFormControl.setValue(0);
-    })
+    // this.resetFilter$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe(() => {
+    //     this.maxAgeFormControl.setValue(0);
+    //     this.minAgeFormControl.setValue(0);
+    // })
 
-    this.minAge$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((value) => {
-        this.minAgeFormControl.setValue(value,{emitEvent: false});
-    })
+    // this.minAge$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe((value) => {
+    //     this.minAgeFormControl.setValue(value,{emitEvent: false});
+    // })
 
-    this.maxAge$.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((value) => {
-        this.maxAgeFormControl.setValue(value,{emitEvent: false});
-    })
+    // this.maxAge$.pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe((value) => {
+    //     this.maxAgeFormControl.setValue(value,{emitEvent: false});
+    // })
   }
 
   ngOnDestroy(): void {
