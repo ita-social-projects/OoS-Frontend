@@ -28,7 +28,7 @@
         class="mapCardButton"
         [ngClass]="(currentWorkShopIndex >= 1) ? 'display' : ''"
         (click)="onClickScroll()"
-      ><</button>
+      ><mat-icon>keyboard_arrow_left</mat-icon></button>
       <app-workshop-card class="workshop-details-card"
         [workshop]="selectedWorkshops[currentWorkShopIndex]" [isMainPage]="true" [isHorizontalView]="true"
         [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
@@ -37,5 +37,5 @@
         class="mapCardButton"
         [ngClass]="(selectedWorkshopsLength-1 > currentWorkShopIndex) ? 'display' : ''"
         (click)="onClickScroll('next')"
-      >></button>
+      ><mat-icon>keyboard_arrow_right</mat-icon></button>
   </div>

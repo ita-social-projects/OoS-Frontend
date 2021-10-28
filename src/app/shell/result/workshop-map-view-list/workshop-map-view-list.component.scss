@@ -86,9 +86,13 @@ $links-color: #3849F9;
 
     .mapCardButton {
       display: none;
+      width: 40px;
       background-color: #fff;
       border: none;
-      color: #3849F9
+      color: #3849F9;
+      .mat-icon {
+        font-size: 2rem;
+      }
     }
     .display {
       display: inline-block;

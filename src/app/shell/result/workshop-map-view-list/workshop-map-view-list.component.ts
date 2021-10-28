@@ -104,13 +104,14 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
     if (this.isSelectedMarker) {
 
-      this.curSelectedWorkshop.nativeElement.scrollIntoView();
+
       this.selectedWorkshops = this.workshops.filter((workshop: WorkshopCard) =>
         address.city === workshop.address.city &&
         address.street === workshop.address.street &&
         address.buildingNumber === workshop.address.buildingNumber);
 
       this.workshopDetailsAnimationState = true;
+      // this.curSelectedWorkshop.nativeElement.scrollIntoView();
     }
     else {
       this.selectedWorkshops = [];
