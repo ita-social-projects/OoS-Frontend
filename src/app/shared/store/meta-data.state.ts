@@ -95,6 +95,7 @@ export class MetaDataState {
   @Selector()
   static isLoading(state: MetaDataStateModel): boolean { return state.isLoading; }
 
+  @Selector()
   static rating(state: MetaDataStateModel): Rate[] { return state.rating; }
 
   constructor(
