@@ -1,7 +1,7 @@
 import { NavBarName } from './../../../../shared/enum/navigation-bar';
 import { NavigationBarService } from './../../../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -75,8 +75,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.TopWorkshops, isActive: false, disable: true })));
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+      { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
+      )));
   }
 
   ngOnDestroy(): void {

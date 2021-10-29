@@ -82,7 +82,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.isFiltersVisible = window.innerWidth > 750;
 
-
+    
   }
 
   ngAfterViewInit() {
