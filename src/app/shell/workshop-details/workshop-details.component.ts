@@ -38,7 +38,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$))
       .subscribe(params => {
         this.store.dispatch(new GetWorkshopById(+params.id));
-        window.scrollTo({
+        window?.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
