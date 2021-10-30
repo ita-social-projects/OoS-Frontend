@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
@@ -14,14 +15,19 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 })
 export class PriceFilterComponent implements OnInit, OnDestroy {
 
-  @Select(FilterState.minPrice)
-  minPrice$: Observable<number>;
-  @Select(FilterState.maxPrice)
-  maxPrice$: Observable<number>;
-  @Select(FilterState.isFree)
-  isFree$: Observable<boolean>;
+  @Input()
+  set priceFilter(filter) {
+    let {minPrice,maxPrice,isFree} = filter;
 
-  @Input() priceFilter;
+    this.minPriceControl.setValue(minPrice,{emitEvent: false});
+    this.minValue = minPrice;
+
+    this.maxPriceControl.setValue(maxPrice,{emitEvent: false});
+    this.maxValue = maxPrice;
+
+    this.isFreeControl.setValue(isFree,{emitEvent: false});
+  };
+
   readonly constants: typeof Constants = Constants;
 
   isFreeControl = new FormControl(false);
@@ -36,34 +42,14 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
-  
-  ngOnChanges() {
-    let {minPrice,maxPrice,isFree} = this.priceFilter;
 
-    this.minPriceControl.setValue(minPrice,{emitEvent: false});
-    this.minValue = minPrice;
-
-    this.maxPriceControl.setValue(maxPrice,{emitEvent: false});
-    this.maxValue = maxPrice;
-
-    this.isFreeControl.setValue(isFree,{emitEvent: false});
-  }
   /**
    * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
   ngOnInit(): void {
 
-    // this.resetFilter$.pipe(
-    //   takeUntil(this.destroy$)
-    // ).subscribe(() => {
-    //     this.maxPriceControl.setValue(0);
-    //     this.minPriceControl.setValue(0);
-    //     this.isFreeControl.reset();
-    //     this.minValue = 0;
-    //     this.maxValue= 0;
-    // })
-
     this.isFreeControl.valueChanges.subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
+
     this.minPriceControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -84,26 +70,16 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SetMaxPrice(val));
       });
 
-    // this.minPrice$.pipe(
-    //   takeUntil(this.destroy$)
-    // ).subscribe((value) => {
-    //     this.minPriceControl.setValue(value,{emitEvent: false});
-    //     this.minValue = value;
-    // })
+  }
 
-    // this.maxPrice$.pipe(
-    //   takeUntil(this.destroy$)
-    // ).subscribe((value) => {
-    //     this.maxPriceControl.setValue(value,{emitEvent: false});
-    //     this.maxValue= value;
-    // })
+  maxsetValue(e) {
+    debugger;
+    this.maxPriceControl.setValue(e);
+  }
 
-    // this.isFree$.pipe(
-    //   takeUntil(this.destroy$)
-    // ).subscribe((value) => {
-    //     this.isFreeControl.setValue(value,{emitEvent: false});
-    // })
-
+  userHandler(e) {
+    this.minPriceControl.setValue(e.value);
+    this.maxPriceControl.setValue(e.highValue);
   }
 
   ngOnDestroy(): void {

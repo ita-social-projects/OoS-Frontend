@@ -1,5 +1,4 @@
 import { Direction } from './../../shared/models/category.model';
-import { GetPreviuseUrlService } from './../../shared/services/getPreviousUrl/get-previuse-url.service';
 import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
@@ -27,8 +26,9 @@ enum ViewType {
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
-export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
-
+export class ResultComponent implements OnInit, OnDestroy {
+  @Select(FilterState.filterList)
+  filterList$: Observable<any>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
@@ -45,7 +45,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   public viewType = ViewType;
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
-  resetFilter$: Observable<void>
+
+  public filtersList;
+  public currentPage;
+  public order;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event): void {
@@ -55,8 +58,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private actions$: Actions,
     private store: Store,
-    public navigationBarService: NavigationBarService,
-    private previuseUrlService: GetPreviuseUrlService
+    public navigationBarService: NavigationBarService
   ) { }
 
   ngOnInit(): void {
@@ -74,28 +76,18 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map)));
 
-    this.resetFilter$ = this.actions$.pipe(ofAction(FilterReset)).pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
-    )
-
     this.isFiltersVisible = window.innerWidth > 750;
 
-    
-  }
+    this.filterList$
+      .pipe(
+        takeUntil(this.destroy$)
+    ).subscribe((list) => {
+        const {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours,currentPage,order} = list;
+        this.currentPage = currentPage;
+        this.filtersList = {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours};
+        this.order = order;
+    })
 
-  ngAfterViewInit() {
-    // let str = decodeURI(this.previuseUrlService.getPreviousUrl())
-    // if (str === "/") {
-    //   this.store.dispatch(new FilterReset())
-    // };
-
-    // if (str.match("param")) {
-    //   let [id, description, title] = str.slice(8).split("-")
-    //   this.store.dispatch(new FilterReset());
-    //   setTimeout(() => this.store.dispatch(new SetDirections([{ id: +id, description: description, title: title }])), 300)
-    // }
   }
 
   viewHandler(value: ViewType): void {

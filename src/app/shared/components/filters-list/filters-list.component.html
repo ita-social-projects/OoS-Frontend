@@ -1,9 +1,9 @@
 <div class="filters-wrapper">
   <button mat-raised-button class="resetFilter" (click)="onFilterReset()">Очистити Фільтри</button>
-  <app-category-check-box [categoryCheckBox]="(filterList$ | async).categoryCheckBox"></app-category-check-box>
-  <app-age-filter [ageFilter]="(filterList$ | async).ageFilter"></app-age-filter>
-  <app-working-hours [workingHours]="(filterList$ | async).workingHours"></app-working-hours>
-  <app-price-filter [priceFilter]="(filterList$ | async).priceFilter"></app-price-filter>
+  <app-category-check-box [categoryCheckBox]="categoryCheckBox"></app-category-check-box>
+  <app-age-filter [ageFilter]="ageFilter"></app-age-filter>
+  <app-working-hours [workingHours]="workingHours"></app-working-hours>
+  <app-price-filter [priceFilter]="priceFilter"></app-price-filter>
   <!-- <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
     <p class=" filter-text">Набір</p>
     <mat-checkbox color="primary" [formControl]="OpenRecruitmentControl">

@@ -1,9 +1,10 @@
+import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store, Action, Actions, ofAction, Select } from '@ngxs/store';
 import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
-import { FilterChange, FilterClear, FilterReset, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
+import { FilterChange, FilterClear, FilterReset, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 @Component({
   selector: 'app-filters-list',
@@ -11,16 +12,31 @@ import { FilterState } from '../../store/filter.state';
   styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
+
   @Select(FilterState.filterList)
-  filterList$: Observable<any>;
-  @Input() resetFilter$: Observable<void>
+  @Input()
+  set filtersList(filters) {
+    const {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours} = filters
+    this.priceFilter = priceFilter;
+    this.workingHours = workingHours;
+    this.categoryCheckBox = categoryCheckBox;
+    this.ageFilter = ageFilter;
+    this.WithDisabilityOptionControl.setValue(withDisabilityOption,{emitEvent:false})
+  };
+
+  public priceFilter;
+  public workingHours;
+  public categoryCheckBox;
+  public ageFilter;
+
+
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private actions$: Actions) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
 
@@ -38,13 +54,6 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
       ).subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
-
-    this.resetFilter$
-      .pipe(
-        takeUntil(this.destroy$)
-    ).subscribe(() => {
-        this.WithDisabilityOptionControl.reset();
-    })
 
   }
 

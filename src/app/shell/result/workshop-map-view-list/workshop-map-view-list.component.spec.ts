@@ -39,7 +39,6 @@ describe('WorkshopMapViewListComponent', () => {
     fixture = TestBed.createComponent(WorkshopMapViewListComponent);
     component = fixture.componentInstance;
     component.filteredWorkshops$ = of(null);
-    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

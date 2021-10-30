@@ -29,14 +29,17 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Input() resetFilter$: Observable<void>;
   @Input() role: string;
+  @Input()
+  set currentPage(page) {
+    this._currentPage = page
+  };
 
   workshops: WorkshopCard[];
   public selectedWorkshops: WorkshopCard[] = [];
   public isSelectedMarker = false;
   readonly Role = Role;
-  public currentPage: PaginationElement = {
+  public _currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
@@ -50,18 +53,6 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
       .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
-
-    this.resetFilter$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe(() => {
-        this.currentPage = {
-          element: 1,
-          isActive: true
-        }
-        this.store.dispatch(new PageChange(this.currentPage))
-      })
-
   }
 
   onSelectedAddress(address: Address): void {
@@ -85,7 +76,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
+    this._currentPage = page;
     this.store.dispatch(new PageChange(page));
   }
 

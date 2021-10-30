@@ -70,7 +70,7 @@ export interface FilterStateModel {
     isClosedRecruitment: false,
     city: undefined,
     searchQuery: '',
-    order: '',
+    order: 'Rating',
     filteredWorkshops: undefined,
     topWorkshops: [],
     withDisabilityOption: false,
@@ -110,39 +110,18 @@ export class FilterState {
   static searchQuery(state: FilterStateModel): string { return state.searchQuery };
 
   @Selector()
-  static minAge(state: FilterStateModel): number { return state.minAge };
+  static currentPage(state: FilterStateModel): {} { return state.currentPage };
 
   @Selector()
-  static maxAge(state: FilterStateModel): number { return state.maxAge };
-
-  @Selector()
-  static minPrice(state: FilterStateModel): number { return state.minPrice };
-
-  @Selector()
-  static maxPrice(state: FilterStateModel): number { return state.maxPrice };
-
-  @Selector()
-  static isFree(state: FilterStateModel): boolean { return state.isFree };
-
-  @Selector()
-  static workingDays(state: FilterStateModel): string[] { return state.workingDays };
-
-  @Selector()
-  static endTime(state: FilterStateModel): string { return state.endTime};
-
-  @Selector()
-  static startTime(state: FilterStateModel): string { return state.startTime};
+  static order(state: FilterStateModel): {} { return state.order };
 
   @Selector()
   static filterList(state: FilterStateModel): any {
-    const {withDisabilityOption,minAge,maxAge,directions,minPrice,maxPrice,isFree,workingDays,startTime,endTime} = state
+    const {withDisabilityOption,minAge,maxAge,directions,minPrice,maxPrice,isFree,workingDays,startTime,endTime,currentPage,order} = state
     return {
       withDisabilityOption,
-      ageFilter: {
-        minAge,
-        maxAge
-      },
       categoryCheckBox: directions,
+      ageFilter: {minAge,maxAge},
       priceFilter: {
         minPrice,
         maxPrice,
@@ -152,7 +131,9 @@ export class FilterState {
         workingDays,
         startTime,
         endTime
-      }
+      },
+      currentPage,
+      order
     }
   };
 
@@ -311,7 +292,7 @@ export class FilterState {
       isOpenRecruitment: false,
       isClosedRecruitment: false,
       searchQuery: '',
-      order: '',
+      order: 'Rating',
       withDisabilityOption: false,
       currentPage: {
         element: 1,

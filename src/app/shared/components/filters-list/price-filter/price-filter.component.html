@@ -23,7 +23,7 @@
     </mat-form-field>
   </div>
   <div class="filter-slider" fxLayout='column' fxLayoutAlign='space-between' fxLayoutGap='1rem'>
-    <ngx-slider (valueChange)="minPriceControl.setValue($event)" (highValueChange)="maxPriceControl.setValue($event)"
+    <ngx-slider (userChange)="userHandler($event)"
       [(value)]="minValue" [(highValue)]="maxValue" [options]="options">
     </ngx-slider>
   </div>
