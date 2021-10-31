@@ -30,7 +30,7 @@
       </div>
     </ng-container>
   </div>
-  <div *ngIf="(role$ | async) !== Role.unauthorized" class="main_registration" fxLayoutAlign="space-between center">
+  <div *ngIf="(role$ | async) === Role.unauthorized" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
       <h2 class="main_question">
         Надаєш освітні послуги?
@@ -40,7 +40,7 @@
       </h4>
     </div>
     <div class="main_button-wrapper">
-      <button mat-stroked-button class="main_button">ЗАРЕЄСТРУВАТИСЯ</button>
+      <button mat-stroked-button class="main_button" (click)="register()">ЗАРЕЄСТРУВАТИСЯ</button>
     </div>
   </div>
 </div>

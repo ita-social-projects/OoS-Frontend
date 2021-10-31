@@ -15,6 +15,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { Favorite } from 'src/app/shared/models/favorite.model';
 import { City } from 'src/app/shared/models/city.model';
 import { Role } from 'src/app/shared/enum/role';
+import { CheckRegistration, Login, Logout } from 'src/app/shared/store/registration.actions';
 
 
 @Component({
@@ -73,5 +74,9 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+  
+  register(): void {
+    this.store.dispatch(new Login());
   }
 }
