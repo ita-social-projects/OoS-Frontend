@@ -35,6 +35,10 @@
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="middleName">
       </mat-form-field>
+      <app-validation-hint-for-input type="validTextField"
+        [invalid]="userEditFormGroup.get('middleName').invalid && userEditFormGroup.get('middleName').touched"
+        [forbiddenCharacter]="userEditFormGroup.get('middleName').errors?.pattern?.requiredPattern">
+      </app-validation-hint-for-input>
 
       <label class="step-label"> Телефон <span class="step-required">*</span></label>
       <mat-form-field>
@@ -55,10 +59,12 @@
       </app-validation-hint-for-input>
 
     </form>
-    <div fxLayout='column' fxLayoutAlign='center start'>
-      <div fxLayout='row' fxLayoutAlign='center center' class="footer">
-        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit"
-          (click)="onSubmit()">Зберегти</button>
+    <div class="footer">
+      <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutGap.xs='5px'>
+        <a [routerLink]="'/personal-cabinet/config'">
+          <button mat-raised-button class="btn btn-cancel">Скасувати</button>
+        </a>
+        <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
       </div>
     </div>
   </div>

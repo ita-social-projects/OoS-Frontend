@@ -1,6 +1,6 @@
 <mat-card [ngClass]="isHorizontalView ? 'horizontal' : '' ">
   <div *ngIf="workshop; else EmptyWorkshop">
-    <ng-container *ngIf="(isMainPage || userRole !== role.provider) then UserActions; else ProviderActions;">
+    <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
     </ng-container>
 
     <div
@@ -20,7 +20,7 @@
 
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
 
-          <div *ngIf="userRole === role.parent" fxLayout="row" fxLayoutAlign="space-between center"
+          <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center"
             class="parent-status">
             <p class="{{application.status}} icon">
               <mat-icon>how_to_reg</mat-icon>{{
@@ -74,22 +74,23 @@
 </ng-template>
 
 <ng-template #UserActions>
-<div *ngIf="(role$ | async) !== role.provider">
-  <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="role !== Role.provider">
+    <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
 
-    <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
-    <ng-template #favorite>
-      <div (click)="(roleUser === role.parent) && onDisLike(this.favoriteWorkshopId?.id)" class="actions_btn action-icon favorite-icon">
-        <mat-icon>favorite</mat-icon>
-      </div>
-    </ng-template>
-    <ng-template #notFavorite>
-      <div (click)="(roleUser === role.parent) ? onLike() : onOpenDialog()" class="actions_btn action-icon">
-        <mat-icon>favorite_border</mat-icon>
-      </div>
-    </ng-template>
+      <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
+      <ng-template #favorite>
+        <div (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)"
+          class="actions_btn action-icon favorite-icon">
+          <mat-icon>favorite</mat-icon>
+        </div>
+      </ng-template>
+      <ng-template #notFavorite>
+        <div (click)="(role === Role.parent) ? onLike() : onOpenDialog()" class="actions_btn action-icon">
+          <mat-icon>favorite_border</mat-icon>
+        </div>
+      </ng-template>
+    </div>
   </div>
-</div>
 </ng-template>
 
 <ng-template #EmptyWorkshop>

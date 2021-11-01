@@ -10,6 +10,7 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
+import { Role } from 'src/app/shared/enum/role';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -19,8 +20,10 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
+  readonly Role = Role;
   @Input() workshops$: Observable<WorkshopFilterCard>;
-  @Input() resetFilter$
+  @Input() resetFilter$;
+  @Input() role: string;
 
   isVisible = false;
   parent: boolean;
@@ -29,8 +32,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
     isActive: true
   };
 
-  @Select(RegistrationState.parent)
-  isParent$: Observable<boolean>;
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -41,20 +42,16 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   constructor(public store: Store) { }
 
   ngOnInit(): void {
-    this.isParent$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(parent => this.parent = parent);
-
     this.resetFilter$
       .pipe(
         takeUntil(this.destroy$)
-    ).subscribe(() => {
-      this.currentPage = {
-        element: 1,
-        isActive: true
-      }
-      this.store.dispatch(new PageChange(this.currentPage));
-    })
+      ).subscribe(() => {
+        this.currentPage = {
+          element: 1,
+          isActive: true
+        }
+        this.store.dispatch(new PageChange(this.currentPage));
+      })
   }
 
   onPageChange(page: PaginationElement): void {

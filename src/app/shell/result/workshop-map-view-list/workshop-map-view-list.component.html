@@ -1,20 +1,22 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
-    <div fxLayout="column" fxLayoutAlign="space-evenly">
-      <div #WorkshopsWrap class="workshop-list">
-        <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops"
-          [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
-        </app-workshop-card>
-      </div>
-      <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage"
-        (pageChange)="onPageChange($event)">
-      </app-paginator>
+  <div fxLayout="column" fxLayoutAlign="space-evenly">
+    <div #WorkshopsWrap class="workshop-list">
+      <app-workshop-card class="workshop" [userRoleView]="Role.unauthorized" *ngFor="let workshop of selectedWorkshops"
+        [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
+      </app-workshop-card>
     </div>
+    <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
+    </app-paginator>
+  </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout="row" fxLayoutAlign="center">
-      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)"></app-map>
+      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)">
+      </app-map>
     </div>
   </div>
+  
   <div *ngIf="selectedWorkshopsLength > 1; else elseBlock">
     <div
     *ngIf="isSelectedMarker"
@@ -53,4 +55,4 @@
       <div class="mock"></div>
     </div>
   </ng-template>
-
+</div>

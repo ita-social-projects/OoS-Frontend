@@ -29,7 +29,7 @@ export interface RegistrationStateModel {
     user: undefined,
     provider: undefined,
     parent: undefined,
-    role: undefined
+    role: Role.unauthorized
   }
 })
 
