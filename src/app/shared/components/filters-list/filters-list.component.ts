@@ -1,10 +1,10 @@
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store, Action, Actions, ofAction, Select } from '@ngxs/store';
-import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
+import { Store, Select } from '@ngxs/store';
+import { Subject} from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
-import { FilterChange, FilterClear, FilterReset, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
+import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 @Component({
   selector: 'app-filters-list',

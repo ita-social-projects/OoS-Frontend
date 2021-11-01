@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, skip, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { SetIsFree, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
+
 @Component({
   selector: 'app-price-filter',
   templateUrl: './price-filter.component.html',
@@ -18,13 +18,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
   @Input()
   set priceFilter(filter) {
     let {minPrice,maxPrice,isFree} = filter;
-
     this.minPriceControl.setValue(minPrice,{emitEvent: false});
-    this.minValue = minPrice;
-
     this.maxPriceControl.setValue(maxPrice,{emitEvent: false});
-    this.maxValue = maxPrice;
-
     this.isFreeControl.setValue(isFree,{emitEvent: false});
   };
 
@@ -56,7 +51,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe((val: number) => {
-        val ? this.minValue = val : this.isFreeControl.setValue(!!this.minValue);
+        val ?  val : this.isFreeControl.setValue(!!this.minValue);
         this.store.dispatch(new SetMinPrice(val));
       });
 
@@ -66,18 +61,15 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged()
       ).subscribe((val: number) => {
-        this.maxValue = val;
+
         this.store.dispatch(new SetMaxPrice(val));
       });
 
   }
 
-  maxsetValue(e) {
-    debugger;
-    this.maxPriceControl.setValue(e);
-  }
 
-  userHandler(e) {
+
+  priceHandler(e) {
     this.minPriceControl.setValue(e.value);
     this.maxPriceControl.setValue(e.highValue);
   }
