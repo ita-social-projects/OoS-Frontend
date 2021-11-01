@@ -2,40 +2,47 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/dropdown.scss";
-.step{
-  margin:2rem 0;
+
+.step {
+  margin: 2rem 0;
 }
+
 .card-border {
   margin: 2rem 0;
   border-top: 2px solid #E3E3E3;
 }
+
 .nav {
   width: 410px;
   margin: 0 auto;
 }
-.application{
+
+.application {
   padding: 0 4rem;
 
   h3 {
     margin-bottom: 30px;
   }
-  .mat-icon-add{
+
+  .mat-icon-add {
     font-size: 16px;
     vertical-align: sub;
   }
 }
-.btn-add-child{
+
+.btn-add-child {
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
   color: #3849F9;
-&:hover{
-  opacity: 0.8;
- }
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #666666;
@@ -47,43 +54,50 @@ button[disabled]{
   margin: 0 auto;
   text-align: center;
 }
+
 :host ::ng-deep .mat-tab-label-active {
   background: rgba(56, 73, 249, 0.07);
   box-sizing: border-box;
   color: #3849F9;
 }
-::ng-deep .mat-tab-label{
+
+::ng-deep .mat-tab-label {
   height: 30px;
   opacity: 1;
   background-color: transparent;
 }
-:host ::ng-deep .mat-tab-header {
+
+:host ::ng-deep {
+  .mat-tab-header {
     border: 1px solid #EBEBEB;
     border-radius: 20px;
-}
-::ng-deep .mat-ink-bar{
-  display: none;
-}
-::ng-deep .mat-flat-button{
-  padding: 0;
+  }
+
+  .mat-ink-bar {
+    display: none;
+  }
+
+  .mat-flat-button {
+    padding: 0;
+  }
+
+  .mat-checkbox {
+    margin: 0.2rem !important;
+  }
 }
 
-::ng-deep .mat-checkbox{
-  margin:0.2rem !important;
-}
-
-.card{
+.card {
   width: max-content;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
-  &-image{
+  &-image {
     width: 70%;
     padding: 0;
   }
 
-  &-content{
+  &-content {
     width: 30%;
     padding: 1rem 0;
   }
