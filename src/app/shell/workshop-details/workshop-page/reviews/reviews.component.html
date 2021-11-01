@@ -4,7 +4,7 @@
       <mat-icon class="star-icon">star</mat-icon> {{workshop.rating}} <p class="rate-amount">
         ({{ (rating$|async)?.length ? (rating$|async)?.length : 0 }} відгуків)</p>
     </div>
-    <div [matTooltip]="isRated ? 'Ви вже оцінили цей гурток' : 'Ви повинні бути прийнятим до даного гуртка'"
+    <div [matTooltip]="!isApproved ? 'Ви повинні бути прийнятим до даного гуртка' : 'Ви вже оцінили цей гурток'"
       [matTooltipDisabled]="!(this.isRated || !this.isApproved)">
       <button mat-raised-button class="button" (click)="onRate()" *ngIf="role !== Role.provider"
         [disabled]="this.isRated || !this.isApproved">

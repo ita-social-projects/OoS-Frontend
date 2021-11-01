@@ -12,7 +12,7 @@ import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
+import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateRating, GetApplicationsByParentId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
@@ -49,8 +49,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
-
     this.getParentData();
     this.getWorkshopRatingList();
 
@@ -79,8 +77,11 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.rating$
       .pipe(
         filter((rating: Rate[]) => !!rating?.length),
+        filter((rating: Rate[]) => rating.some((rate: Rate) => +rate.entityId === this.workshop.id)),
         takeUntil(this.destroy$),
-      ).subscribe((rating: Rate[]) => this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent.id));
+      ).subscribe((rating: Rate[]) => {
+        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent.id && +rate.entityId === this.workshop.id);
+      });
   }
 
   onRate(): void {
@@ -106,5 +107,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new ClearRatings());
   }
 }

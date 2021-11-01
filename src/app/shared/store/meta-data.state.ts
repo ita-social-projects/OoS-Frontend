@@ -23,7 +23,8 @@ import {
   GetRateByEntityId,
   GetTopDirections,
   ClearDepartments,
-  ClearClasses
+  ClearClasses,
+  ClearRatings
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 
@@ -172,6 +173,11 @@ export class MetaDataState {
   @Action(ClearCities)
   clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities): void {
     patchState({ cities: null });
+  }
+
+  @Action(ClearRatings)
+  clearRatings({ patchState }: StateContext<MetaDataStateModel>, { }: ClearRatings): void {
+    patchState({ rating: null });
   }
 
   @Action(FilteredDirectionsList)
