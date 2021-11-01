@@ -57,7 +57,7 @@ button[disabled]{
   opacity: 1;
   background-color: transparent;
 }
-::ng-deep .mat-tab-header {
+:host ::ng-deep .mat-tab-header {
     border: 1px solid #EBEBEB;
     border-radius: 20px;
 }
