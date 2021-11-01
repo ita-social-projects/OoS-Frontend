@@ -26,23 +26,6 @@
     [style.left.vw]="left"
     (touchstart)="swipe($event, 'start')"
     (touchend)="swipe($event, 'end')"
-<<<<<<< HEAD
-  >
-      <button
-        class="mapCardButton"
-        [ngClass]="(currentWorkShopIndex >= 1) ? 'display' : ''"
-        (click)="onClickScroll()"
-      ><mat-icon>keyboard_arrow_left</mat-icon></button>
-      <app-workshop-card class="workshop-details-card"
-        [workshop]="selectedWorkshops[currentWorkShopIndex]" [isMainPage]="true" [isHorizontalView]="true"
-        [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
-      </app-workshop-card>
-      <button
-        class="mapCardButton"
-        [ngClass]="(selectedWorkshopsLength-1 > currentWorkShopIndex) ? 'display' : ''"
-        (click)="onClickScroll('next')"
-      ><mat-icon>keyboard_arrow_right</mat-icon></button>
-=======
     >
       <div class="mock"></div>
       <div *ngFor="let workshop of selectedWorkshops; let i = index">
@@ -53,7 +36,6 @@
       </div>
       <div class="mock"></div>
     </div>
->>>>>>> db3517c2 (add amimation and scroll workshoplist, when active halfmap)
   </div>
   <ng-template #elseBlock>
     <div

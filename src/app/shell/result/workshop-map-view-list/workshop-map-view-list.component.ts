@@ -67,10 +67,8 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
       const duration = time - this.swipeTime;
       if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
-
         const swipe = direction[0] < 0 ? 'next' : 'previous';
         this.direct = swipe
-
         if (swipe === 'next') {
           (this.selectedWorkshops.length-1) > this.currentWorkShopIndex && this.currentWorkShopIndex++
         } else {
@@ -116,17 +114,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
     if (this.isSelectedMarker) {
 
-<<<<<<< HEAD
-
-=======
->>>>>>> db3517c2 (add amimation and scroll workshoplist, when active halfmap)
       this.selectedWorkshops = this.workshops.filter((workshop: WorkshopCard) =>
         address.city === workshop.address.city &&
         address.street === workshop.address.street &&
         address.buildingNumber === workshop.address.buildingNumber);
 
       this.workshopDetailsAnimationState = true;
-      // this.curSelectedWorkshop.nativeElement.scrollIntoView();
     }
     else {
       this.selectedWorkshops = [];
