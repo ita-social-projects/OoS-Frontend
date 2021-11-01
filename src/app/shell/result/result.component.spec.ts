@@ -60,7 +60,7 @@ class MockSearchbarComponent {
   template: ''
 })
 class MockOrderingComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() order;
 }
 
 @Component({
@@ -68,7 +68,7 @@ class MockOrderingComponent {
   template: ''
 })
 class MockFiltersListComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() filtersList;
 }
 @Component({
   selector: 'app-workshop-cards-list',
@@ -76,7 +76,7 @@ class MockFiltersListComponent {
 })
 class MockWorkshopCardsListComponent {
   @Input() workshops$: Observable<Workshop[]>;
-  @Input() resetFilter$: Observable<void>;
+  @Input() currentPage;
   @Input() role: string;
 }
 @Component({
@@ -85,7 +85,7 @@ class MockWorkshopCardsListComponent {
 })
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Input() resetFilter$: Observable<void>;
+  @Input() currentPage;;
   @Input() role: string;
 }
 @Component({
