@@ -1,5 +1,5 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Renderer2 } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -30,7 +30,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store, private renderer: Renderer2) { }
+  constructor(private store: Store) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() resetFilter$: Observable<void>;
