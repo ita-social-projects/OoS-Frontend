@@ -1,6 +1,6 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
     <div fxLayout="column" fxLayoutAlign="space-evenly">
-      <div fxLayout='column wrap' fxLayoutAlign='space-evenly' #WorkshopsWrap>
+      <div #WorkshopsWrap class="workshop-list">
         <app-workshop-card class="workshop" [parent]="isParent$ | async" *ngFor="let workshop of selectedWorkshops"
           [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
         </app-workshop-card>
@@ -15,14 +15,18 @@
       <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)"></app-map>
     </div>
   </div>
-
-  <div
+  <div *ngIf="selectedWorkshopsLength > 1; else elseBlock">
+    <div
     *ngIf="isSelectedMarker"
     #CurSelectedWorkshop
     class="workshop-details-cards"
     fxLayout='row'
+    (@triggerName.done)="triggerNameDone($event)"
+    [@triggerName]="currentWorkShopIndex"
+    [style.left.vw]="left"
     (touchstart)="swipe($event, 'start')"
     (touchend)="swipe($event, 'end')"
+<<<<<<< HEAD
   >
       <button
         class="mapCardButton"
@@ -38,4 +42,33 @@
         [ngClass]="(selectedWorkshopsLength-1 > currentWorkShopIndex) ? 'display' : ''"
         (click)="onClickScroll('next')"
       ><mat-icon>keyboard_arrow_right</mat-icon></button>
+=======
+    >
+      <div class="mock"></div>
+      <div *ngFor="let workshop of selectedWorkshops; let i = index">
+        <app-workshop-card class="workshop-details-card"
+        [workshop]="workshop" [isMainPage]="true" [isHorizontalView]="true"
+        [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+      </app-workshop-card>
+      </div>
+      <div class="mock"></div>
+    </div>
+>>>>>>> db3517c2 (add amimation and scroll workshoplist, when active halfmap)
   </div>
+  <ng-template #elseBlock>
+    <div
+    *ngIf="isSelectedMarker"
+    #CurSelectedWorkshop
+    class="workshop-details-cards"
+    fxLayout='row'
+    [style.left.vw]="left"
+    >
+      <div class="mock"></div>
+      <app-workshop-card class="workshop-details-card"
+        [workshop]="selectedWorkshops[0]" [isMainPage]="true" [isHorizontalView]="true"
+        [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+      </app-workshop-card>
+      <div class="mock"></div>
+    </div>
+  </ng-template>
+

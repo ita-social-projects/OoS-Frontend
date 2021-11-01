@@ -23,20 +23,19 @@ $links-color: #3849F9;
 }
 
 .workshop-list{
-  width: 30%;
-  min-width: max-content;
-  max-height: 650px;
-  overflow: auto;
-  display: inline-block;
-  margin-right: 1rem;
+  overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
+<<<<<<< HEAD
 <<<<<<< HEAD
   display: none;
 =======
   display:none;
 >>>>>>> f2f2003b (del scroll view)
+=======
+  display:block;
+>>>>>>> db3517c2 (add amimation and scroll workshoplist, when active halfmap)
 }
 
 .empty-card {
@@ -48,6 +47,10 @@ $links-color: #3849F9;
 }
 
 @media (max-width: 750px) {
+  .mock {
+    width: 2vw;
+    margin: 1vw;
+  }
   .wrapper{
     max-height: none !important;
     height: 100vh;
@@ -76,8 +79,6 @@ $links-color: #3849F9;
 
     position: absolute;
     left: 0;
-    right: 0;
-    width: 100%;
     bottom: 100px;
     z-index: 400;
     overflow: scroll;
