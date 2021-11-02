@@ -1,4 +1,4 @@
-<mat-card [ngClass]="isHorizontalView ? 'horizontal' : '' ">
+<mat-card [class.horizontal]="isHorizontalView">
   <div *ngIf="workshop; else EmptyWorkshop">
     <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
     </ng-container>
