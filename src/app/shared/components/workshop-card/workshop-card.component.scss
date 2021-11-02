@@ -71,12 +71,6 @@
   border-radius: 20px;
 }
 
-.card {
-  &_link {
-    margin-right: 0;
-  }
-}
-
 @media (max-width: 750px) {
 .horizontal-card {
   min-height: 150px;
