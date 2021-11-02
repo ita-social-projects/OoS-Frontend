@@ -23,8 +23,8 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
       ])
     ]),
     trigger('triggerName', [
-      transition(':decrement', [animate('0.5s',style({ transform: "translateX(+92vw)"}))]),
-      transition(':increment', [animate('0.5s',style({ transform: "translateX(-92vw)" }) )]),
+      transition(':decrement', [animate('0.4s ease-in-out',style({ transform: "translateX(+92vw)"}))]),
+      transition(':increment', [animate('0.4s ease-in-out',style({ transform: "translateX(-92vw)" }) )]),
     ]),
   ]
 })
