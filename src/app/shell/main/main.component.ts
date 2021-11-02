@@ -77,6 +77,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
   
   register(): void {
+    localStorage.setItem('ProviderRegistration', 'true');
     this.store.dispatch(new Login());
   }
 }

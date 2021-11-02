@@ -22,7 +22,7 @@ export function configureAuth(oidcConfigService: OidcConfigService): any {
       scope: 'openid outofschoolapi.read offline_access',
       logLevel: LogLevel.Error,
       secureRoutes: [this.stsServer],
-      customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture') },
+      customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture'),'ProviderRegistration': localStorage.getItem('ProviderRegistration')},
     });
   };
 }
