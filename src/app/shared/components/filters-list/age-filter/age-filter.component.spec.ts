@@ -6,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
-import { of } from 'rxjs';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;
@@ -31,7 +30,6 @@ describe('AgeFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AgeFilterComponent);
     component = fixture.componentInstance;
-    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

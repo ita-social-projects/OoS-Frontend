@@ -22,7 +22,6 @@ export class CategoryCardComponent implements OnInit {
   }
 
   selectDirection(direction: Direction): void {
-    location.hash = '?param=' + direction.id + '-' + direction.description + '-' + direction.title;
     this.store.dispatch(new SetDirections([direction]));
   }
   /**
