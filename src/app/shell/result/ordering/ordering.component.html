@@ -1,6 +1,5 @@
 <mat-form-field>
-  <mat-select disableOptionCentering panelClass="dropdown-panel" class="select" [(ngModel)]="selectedOption"
-    [(value)]="selectedOption" (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
+  <mat-select disableOptionCentering panelClass="dropdown-panel" class="select" (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
     <mat-option class="options" value={{ordering.rating}} class="dropdown-option"> За рейтингом</mat-option>
     <mat-option class="options" value={{ordering.priceDesc}} class="dropdown-option"> За зростанням ціни &#8593;
     </mat-option>

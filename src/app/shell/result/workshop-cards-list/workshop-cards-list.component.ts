@@ -22,12 +22,15 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   readonly Role = Role;
   @Input() workshops$: Observable<WorkshopFilterCard>;
-  @Input() resetFilter$;
   @Input() role: string;
+  @Input()
+  set currentPage(page) {
+    this._currentPage = page
+  };
 
   isVisible = false;
   parent: boolean;
-  currentPage: PaginationElement = {
+  _currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
@@ -42,20 +45,11 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   constructor(public store: Store) { }
 
   ngOnInit(): void {
-    this.resetFilter$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe(() => {
-        this.currentPage = {
-          element: 1,
-          isActive: true
-        }
-        this.store.dispatch(new PageChange(this.currentPage));
-      })
+
   }
 
   onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
+    this._currentPage = page;
     this.store.dispatch(new PageChange(page));
   }
 
