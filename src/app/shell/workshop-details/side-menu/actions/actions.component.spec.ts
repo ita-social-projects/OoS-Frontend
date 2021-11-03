@@ -5,6 +5,7 @@ import { ActionsComponent } from './actions.component';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ActionsComponent', () => {
   let component: ActionsComponent;
@@ -14,6 +15,7 @@ describe('ActionsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MatDialogModule,
         RouterTestingModule,
         MatIconModule,
         NgxsModule.forRoot([])

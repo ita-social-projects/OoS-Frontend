@@ -1,6 +1,6 @@
 <div class="view-control-panel">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
-    <h3>Знайдено {{(filteredWorkshops$ | async)?.totalAmount}} гуртків</h3>
+    <h3>Знайдено {{(filteredWorkshops$ | async)?.totalAmount || 0}} гуртків</h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
   <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
@@ -12,16 +12,16 @@
 
 <mat-drawer-container>
   <mat-drawer mode="side" [(opened)]="isFiltersVisible">
-    <app-filters-list [resetFilter$]="resetFilter$"></app-filters-list>
+    <app-filters-list [filtersList]="filtersList"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
       <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$"
-        [resetFilter$]="resetFilter$"></app-workshop-map-view-list>
+        [currentPage]="currentPage"></app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
       <app-workshop-cards-list class="cards" [role]="role$ | async" [workshops$]="filteredWorkshops$"
-        [resetFilter$]="resetFilter$"></app-workshop-cards-list>
+        [currentPage]="currentPage"></app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
@@ -42,7 +42,7 @@
   <app-full-search-bar></app-full-search-bar>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
-    <app-ordering [resetFilter$]="resetFilter$"></app-ordering>
+    <app-ordering [order]="order"></app-ordering>
     <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
       (change)="viewHandler(group.value)">
       <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"

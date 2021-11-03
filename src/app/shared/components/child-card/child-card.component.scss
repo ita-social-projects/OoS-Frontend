@@ -3,3 +3,10 @@
 .mat-icon {
   color: #fff;
 }
+
+.mat-card-header {
+  .mat-card-title {
+    max-width: 235px;
+    width: 100%;
+  }
+} 

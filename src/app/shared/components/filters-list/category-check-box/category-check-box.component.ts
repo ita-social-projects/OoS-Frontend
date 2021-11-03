@@ -22,7 +22,10 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(FilterState.directions)
   filterDirections$: Observable<Direction[]>;
 
-  @Input() resetFilter$: Observable<void>;
+  @Input()
+  set categoryCheckBox(filter) {
+    this.selectedDirections = filter;
+  };
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -35,23 +38,12 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+
     this.store.dispatch(new GetDirections());
 
     this.directions$.pipe(
       takeUntil(this.destroy$),
     ).subscribe(directions => this.allDirections = directions);
-
-    this.filterDirections$.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe(directions => {
-      this.selectedDirections = directions});
-
-    this.resetFilter$.pipe(
-      takeUntil(this.destroy$)
-      ).subscribe(() => {
-          this.selectedDirections = [];
-          this.store.dispatch(new SetDirections(this.selectedDirections));
-    })
 
     this.directionSearch.valueChanges
       .pipe(
