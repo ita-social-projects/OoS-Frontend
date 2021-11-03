@@ -54,7 +54,7 @@ export class CreateContactsFormComponent implements OnInit {
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
+   * This method makes input enable if radiobutton value is true and sets the value to the formgroup
    */
   initDisableIsSameAddressControl(): void {
     this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
@@ -69,7 +69,9 @@ export class CreateContactsFormComponent implements OnInit {
       }
     });
   }
-
+  /**
+  * This method add validators to teh form-group when actual address is not teh same as legal address
+  */
   setValidators(): void {
     const addValidator = (formControlTitle: string) => (formControlTitle !== 'buildingNumber') ? Validators.pattern(TEXT_REGEX) : Validators.pattern(TEXT_WITH_DIGITS_REGEX);
 
