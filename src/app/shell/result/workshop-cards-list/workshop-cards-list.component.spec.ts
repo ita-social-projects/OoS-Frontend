@@ -43,7 +43,6 @@ describe('WorkshopCardsListComponentt', () => {
     spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
-    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 

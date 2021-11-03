@@ -7,6 +7,7 @@ import { GeolocationPositionError, GeolocationPosition } from '../../models/geol
 import { GeocoderService } from './geocoder.service';
 import { HttpClient } from '@angular/common/http';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
+import { Address } from '../../models/address.model';
 
 const kiev: City = {
   district: 'м.Київ',
@@ -81,6 +82,20 @@ export class GeolocationService {
     GeocoderService
       .geocode()
       .reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk')
+      .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
+        callback(result);
+      });
+  }
+
+  /**
+   * returns a location from a textual description or address.
+   *
+   * @param address - Address
+   * @param callback - Function, which receives 1 argument of type Address
+   */
+   addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
+    GeocoderService
+      .geocode(this.http, `${address.city}+${address.street}+${address.buildingNumber}`, 'uk-UA, uk')
       .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
         callback(result);
       });

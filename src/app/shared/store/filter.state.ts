@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
+import { PaginationElement } from '../models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
+import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
   SetOrder,
   SetCity,
@@ -26,11 +29,9 @@ import {
   ConfirmCity,
   CleanCity,
   FilterReset,
+  FilterClear
 } from './filter.actions';
-import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { PaginationElement } from '../models/paginationElement.model';
-import { tap } from 'rxjs/operators';
-import { Constants } from '../constants/constants';
+
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
@@ -69,7 +70,7 @@ export interface FilterStateModel {
     isClosedRecruitment: false,
     city: undefined,
     searchQuery: '',
-    order: '',
+    order: 'Rating',
     filteredWorkshops: undefined,
     topWorkshops: [],
     withDisabilityOption: false,
@@ -83,6 +84,9 @@ export interface FilterStateModel {
 })
 @Injectable()
 export class FilterState {
+
+  @Selector()
+  static filterState(state: FilterStateModel): FilterStateModel { return state };
 
   @Selector()
   static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
@@ -104,6 +108,34 @@ export class FilterState {
 
   @Selector()
   static searchQuery(state: FilterStateModel): string { return state.searchQuery };
+
+  @Selector()
+  static currentPage(state: FilterStateModel): {} { return state.currentPage };
+
+  @Selector()
+  static order(state: FilterStateModel): {} { return state.order };
+
+  @Selector()
+  static filterList(state: FilterStateModel): any {
+    const {withDisabilityOption,minAge,maxAge,directions,minPrice,maxPrice,isFree,workingDays,startTime,endTime,currentPage,order} = state
+    return {
+      withDisabilityOption,
+      categoryCheckBox: directions,
+      ageFilter: {minAge,maxAge},
+      priceFilter: {
+        minPrice,
+        maxPrice,
+        isFree
+      },
+      workingHours: {
+        workingDays,
+        startTime,
+        endTime
+      },
+      currentPage,
+      order
+    }
+  };
 
   constructor(
     private appWorkshopsService: AppWorkshopsService) { }
@@ -243,5 +275,28 @@ export class FilterState {
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 
   @Action(FilterReset)
-  filterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+  FilterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+
+  @Action(FilterClear)
+  FilterClear({  patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
+    patchState({
+      directions: [],
+      maxAge: null,
+      minAge: null,
+      startTime: null,
+      endTime: null,
+      workingDays: [],
+      isFree: false,
+      maxPrice: 0,
+      minPrice: 0,
+      isOpenRecruitment: false,
+      isClosedRecruitment: false,
+      searchQuery: '',
+      order: 'Rating',
+      withDisabilityOption: false,
+      currentPage: {
+        element: 1,
+        isActive: true
+      }});
+  }
 }

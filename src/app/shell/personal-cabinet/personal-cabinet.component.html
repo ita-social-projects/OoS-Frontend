@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="title">КАБІНЕТ КОРИСТУВАЧА</h1>
+  <h1 class="title">{{userRole === 'provider' ? 'КАБІНЕТ НАДАВАЧА' : 'КАБІНЕТ КОРИСТУВАЧА'}}</h1>
   <nav class="nav" mat-tab-nav-bar>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА
       ІНФОРМАЦІЯ</a>
