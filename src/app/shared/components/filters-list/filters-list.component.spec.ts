@@ -35,7 +35,6 @@ describe('FiltersListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FiltersListComponent);
     component = fixture.componentInstance;
-    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 
@@ -55,7 +54,7 @@ class MockCityFilterComponent {}
   template: ''
 })
 class MockCategoryCheckBoxComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() categoryCheckBox: {};
 }
 
 @Component({
@@ -63,7 +62,7 @@ class MockCategoryCheckBoxComponent {
   template: ''
 })
 class MockAgeFilterComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() ageFilter: {};
 }
 
 @Component({
@@ -71,7 +70,7 @@ class MockAgeFilterComponent {
   template: ''
 })
 class MockWorkingHoursComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() workingHours: {};
 }
 
 @Component({
@@ -79,7 +78,7 @@ class MockWorkingHoursComponent {
   template: ''
 })
 class MockPriceFilterComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() priceFilter: {};
 }
 
 
