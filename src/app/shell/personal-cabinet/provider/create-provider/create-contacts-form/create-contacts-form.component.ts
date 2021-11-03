@@ -27,41 +27,54 @@ export class CreateContactsFormComponent implements OnInit {
     });
 
     this.ActualAddressFormGroup = this.formBuilder.group({
-      street: new FormControl(''),
-      buildingNumber: new FormControl(''),
-      city: new FormControl(''),
-      district: new FormControl(''),
-      region: new FormControl('')
+      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
+      city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
     });
   }
 
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
-    this.onDisableIsSameAddressControlInit();
+    this.initDisableIsSameAddressControl();
 
     this.provider && this.activateEditMode();
   }
 
   activateEditMode(): void {
-    this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
+    this.LegalAddressFormGroup.addControl('id', this.formBuilder.control(''));
+    this.ActualAddressFormGroup.addControl('id', this.formBuilder.control(''));
+
     this.isSameAddressControl.setValue(!Boolean(this.provider.actualAddress));
+
+    this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
     this.provider.actualAddress && this.ActualAddressFormGroup.patchValue(this.provider.actualAddress, { emitEvent: false });
   }
 
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-  onDisableIsSameAddressControlInit(): void {
+  initDisableIsSameAddressControl(): void {
     this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
-      this.ActualAddressFormGroup.reset();
       if (isSame) {
+        this.ActualAddressFormGroup.reset();
         this.ActualAddressFormGroup.disable();
         this.ActualAddressFormGroup.clearValidators();
       } else {
         this.ActualAddressFormGroup.enable();
-        this.ActualAddressFormGroup.setValidators([Validators.required, Validators.pattern(TEXT_REGEX)]);
+        this.ActualAddressFormGroup.markAsUntouched();
+        this.setValidators();
       }
+    });
+  }
+
+  setValidators(): void {
+    const addValidator = (formControlTitle: string) => (formControlTitle !== 'buildingNumber') ? Validators.pattern(TEXT_REGEX) : Validators.pattern(TEXT_WITH_DIGITS_REGEX);
+
+    Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
+      this.ActualAddressFormGroup.get(formControlTitle).setValidators([addValidator(formControlTitle), Validators.required]);
     });
   }
 }
