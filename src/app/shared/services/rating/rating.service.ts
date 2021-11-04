@@ -15,7 +15,7 @@ export class RatingService {
    * @param entityType: string
    * @param entityId: number
    */
-  getRateByEntityId(entityType: string, entityId: number): Observable<Rate[]> {
+  getRateByEntityId(entityType: string, entityId: string): Observable<Rate[]> {
     return this.http.get<Rate[]>(`/Rating/GetByEntityId/${entityType}/${entityId}`);
   }
 

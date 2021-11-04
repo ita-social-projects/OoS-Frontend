@@ -22,7 +22,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class ActionsComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
-  public favoriteWorkshops: Favorite;
+  public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
 
   @Input() workshop: Workshop;
@@ -36,21 +36,21 @@ export class ActionsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private store: Store, 
-    public dialog: MatDialog, 
+    private store: Store,
+    public dialog: MatDialog,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.role$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(role => this.role = role);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(role => this.role = role);
 
     combineLatest([this.favoriteWorkshops$, this.route.params])
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(([favorites, params]) => {
-      this.favoriteWorkshops = favorites?.find(item => item.workshopId === +params.id);
-      this.isFavorite = !!this.favoriteWorkshops;
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([favorites, params]) => {
+        this.favoriteWorkshop = favorites?.find(item => item.workshopId === params.id);
+        this.isFavorite = !!this.favoriteWorkshop;
+      });
   }
 
   ngOnDestroy(): void {
@@ -64,7 +64,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   onLike(): void {
     const param = new Favorite(
-      +this.route.snapshot.paramMap.get('id'),
+      this.route.snapshot.paramMap.get('id'),
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
     );
     this.store.dispatch([
@@ -76,7 +76,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   onDisLike(): void {
     this.store.dispatch([
-      new DeleteFavoriteWorkshop(this.favoriteWorkshops.id),
+      new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
       new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;

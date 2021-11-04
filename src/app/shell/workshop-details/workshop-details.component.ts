@@ -24,7 +24,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role) role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  workshopId: number;
+  workshopId: string;
 
   constructor(
     private store: Store,
@@ -37,7 +37,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.store.dispatch(new GetWorkshopById(+params.id));
+        this.store.dispatch(new GetWorkshopById(params.id));
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
@@ -48,6 +48,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       filter((workshop: Workshop) => !!workshop),
       takeUntil(this.destroy$)
     ).subscribe((workshop: Workshop) => {
+      this.workshopId = workshop.id;
       this.store.dispatch(new GetProviderById(workshop.providerId));
       this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
       this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(

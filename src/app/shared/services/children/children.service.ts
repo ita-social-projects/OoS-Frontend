@@ -79,7 +79,7 @@ export class ChildrenService {
    * This method delete child by Child id
    * @param id: number
    */
-  deleteChild(id: number): Observable<object> {
+  deleteChild(id: string): Observable<object> {
     return this.http.delete(`/Child/Delete/${id}`);
   }
 

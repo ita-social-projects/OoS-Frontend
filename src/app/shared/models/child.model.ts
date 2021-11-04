@@ -1,6 +1,6 @@
 import { Parent } from './parent.model';
 export class Child {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   middleName: string;

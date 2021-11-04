@@ -59,7 +59,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites: Favorite[]) => {
         this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
+        this.favoriteWorkshopId = this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
@@ -82,7 +82,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onDisLike(id: number): void {
+  onDisLike(id: string): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(id),
       new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' })

@@ -19,7 +19,7 @@ export class ApplicationService {
     }
 
     if (parameters.workshopsId.length) {
-      parameters.workshopsId.forEach((workshopId: number) => params = params.append('Workshops', workshopId.toString()));
+      parameters.workshopsId.forEach((workshopId: string) => params = params.append('Workshops', workshopId));
     }
 
     params = params.set('OrderByDateAscending', 'true'); // TODO: change parameters setting according to the backend updtaes
@@ -35,7 +35,7 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id number
    */
-  getApplicationsByParentId(id: number): Observable<Application[]> {
+  getApplicationsByParentId(id: string): Observable<Application[]> {
     return this.http.get<Application[]>(`/Application/GetByParentId/${id}`);
   }
 
@@ -43,7 +43,7 @@ export class ApplicationService {
    * This method get applications by Provider id
    * @param id number
    */
-  getApplicationsByProviderId(id: number, parameters): Observable<Application[]> {
+  getApplicationsByProviderId(id: string, parameters): Observable<Application[]> {
     const options = { params: this.setParams(parameters) };
 
     return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`, options);
@@ -61,7 +61,7 @@ export class ApplicationService {
    * This method delete Application by Application id
    * @param id number
    */
-  deleteApplication(id: number): Observable<object> {
+  deleteApplication(id: string): Observable<object> {
     return this.http.delete(`Application/Delete/${id}`);
   }
 
