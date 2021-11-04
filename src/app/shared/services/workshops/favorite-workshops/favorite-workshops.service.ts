@@ -14,14 +14,14 @@ export class FavoriteWorkshopsService {
    * This method get favorite workshops
    */
   getFavoriteWorkshops(): Observable<Favorite[]> {
-    return this.http.get<Favorite[]>('/Favorite');
+    return this.http.get<Favorite[]>('/api/v1/Favorite');
   }
 
   /**
    * This method get favorite workshops by Userid
    */
   getFavoriteWorkshopsByUserId(): Observable<WorkshopFavoriteCard> {
-    return this.http.get<WorkshopFavoriteCard>('/Favorite/workshops');
+    return this.http.get<WorkshopFavoriteCard>('/api/v1/Favorite/workshops');
   }
 
   /**

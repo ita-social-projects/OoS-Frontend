@@ -34,7 +34,7 @@ export class ChildrenService {
   getUsersChildren(state: UserStateModel): Observable<ChildCards> {
     const options = { params: this.setParams(state) };
 
-    return this.http.get<ChildCards>(`/Child/GetUsersChildren`, options);
+    return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
   }
 
   /**
@@ -46,7 +46,7 @@ export class ChildrenService {
     params = params.set('Size', '0');
     params = params.set('From', '0');
 
-    return this.http.get<ChildCards>(`/Child/GetUsersChildren`, { params });
+    return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, { params });
   }
 
 
@@ -55,7 +55,7 @@ export class ChildrenService {
    * @param child: Child
    */
   createChild(child: Child): Observable<object> {
-    return this.http.post('/Child/Create', child);
+    return this.http.post('/api/v1/Child/Create', child);
   }
 
   /**
@@ -63,7 +63,7 @@ export class ChildrenService {
    * @param child: Child
    */
   updateChild(child: Child): Observable<object> {
-    return this.http.put('/Child/Update', child);
+    return this.http.put('/api/v1/Child/Update', child);
   }
 
   /**
@@ -71,7 +71,7 @@ export class ChildrenService {
    * @param id: number
    */
   getUsersChildById(id: number): Observable<Child> {
-    return this.http.get<Child>(`/Child/GetUsersChildById/${id}`);
+    return this.http.get<Child>(`/api/v1/Child/GetUsersChildById/${id}`);
   }
 
 
@@ -80,20 +80,20 @@ export class ChildrenService {
    * @param id: number
    */
   deleteChild(id: number): Observable<object> {
-    return this.http.delete(`/Child/Delete/${id}`);
+    return this.http.delete(`/api/v1/Child/Delete/${id}`);
   }
 
   /**
    * This method get all social groups
    */
   getSocialGroup(): Observable<SocialGroup[]> {
-    return this.http.get<SocialGroup[]>('/SocialGroup/Get');
+    return this.http.get<SocialGroup[]>('/api/v1/SocialGroup/Get');
   }
 
   /**
    * This method get all social groups by Id
    */
   getSocialGroupById(id: number): Observable<SocialGroup> {
-    return this.http.get<SocialGroup>(`/SocialGroup/GetById/${id}`);
+    return this.http.get<SocialGroup>(`/api/v1/SocialGroup/GetById/${id}`);
   }
 }
