@@ -29,7 +29,7 @@ export class FavoriteWorkshopsService {
    * @param favorite: Favorite
    */
   createFavoriteWorkshop(favorite: Favorite): Observable<object> {
-    return this.http.post('/Favorite', favorite);
+    return this.http.post('/api/v1/Favorite', favorite);
   }
 
   /**
@@ -37,6 +37,6 @@ export class FavoriteWorkshopsService {
    * @param id: number
    */
   deleteFavoriteWorkshop(id: number): Observable<object> {
-    return this.http.delete(`/Favorite/${id}`);
+    return this.http.delete(`/api/v1/Favorite/${id}`);
   }
 }
