@@ -9,10 +9,7 @@ export class Child {
   parentId?: number;
   socialGroupId: number;
   placeOfStudy: string;
-  parent: {
-    id: 0,
-    userId: Parent;
-  };
+  parent: Parent;
 
   constructor(info, parentId, id?) {
     this.id = id;
