@@ -17,9 +17,11 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   @Input()
   set priceFilter(filter) {
-    let {minPrice,maxPrice,isFree} = filter;
+    const {minPrice,maxPrice,isFree} = filter;
     this.minPriceControl.setValue(minPrice,{emitEvent: false});
+    this.minValue = minPrice;
     this.maxPriceControl.setValue(maxPrice,{emitEvent: false});
+    this.maxValue = maxPrice;
     this.isFreeControl.setValue(isFree,{emitEvent: false});
   };
 
@@ -51,7 +53,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe((val: number) => {
-        val ?  val : this.isFreeControl.setValue(!!this.minValue);
+        !val && this.isFreeControl.setValue(!!val);
         this.store.dispatch(new SetMinPrice(val));
       });
 
@@ -70,8 +72,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
 
   priceHandler(e) {
-    this.minPriceControl.setValue(e.value);
-    this.maxPriceControl.setValue(e.highValue);
+    e.pointerType && this.maxPriceControl.setValue(e.highValue);
+    !e.pointerType && this.minPriceControl.setValue(e.value);
   }
 
   ngOnDestroy(): void {
