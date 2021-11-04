@@ -70,7 +70,7 @@ export class ChildrenService {
    * This method get Users Child By Id
    * @param id: number
    */
-  getUsersChildById(id: number): Observable<Child> {
+  getUsersChildById(id: string): Observable<Child> {
     return this.http.get<Child>(`/Child/GetUsersChildById/${id}`);
   }
 

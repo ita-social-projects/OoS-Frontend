@@ -44,7 +44,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
   }
 
   childApplications(applications: Application[], child: Child): Array<Application> {
-    return applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
+    return applications?.length && applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
   }
 
   onDelete(child: Child): void {
