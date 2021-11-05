@@ -1,13 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
 import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-working-hours',
@@ -15,7 +14,8 @@ import { FilterState } from 'src/app/shared/store/filter.state';
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
-
+  public minTime: string;
+  public maxTime: string;
 
   isFree$: Observable<boolean>;
   @Input()
@@ -54,23 +54,20 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.startTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged(),
-    ).subscribe((time: string) => this.store.dispatch(new SetStartTime(time?.split(':')[0])));
+      distinctUntilChanged()
+    ).subscribe((time: string) => {
+      this.store.dispatch(new SetStartTime(time?.split(':')[0]));
+      this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MIN_TIME;
+  });
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged(),
-    ).subscribe((time: string) => this.store.dispatch(new SetEndTime(time?.split(':')[0])));
-
-  }
-
-  getMinTime(): string {
-    return this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MIN_TIME;
-  }
-
-  getMaxTime(): string {
-    return this.endTimeFormControl.value ? this.endTimeFormControl.value : this.constants.MAX_TIME;
+      distinctUntilChanged()
+    ).subscribe((time: string) => {
+      this.store.dispatch(new SetEndTime(time?.split(':')[0]));
+      this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : this.constants.MAX_TIME;
+    });
   }
 
   clearStart(): void {
