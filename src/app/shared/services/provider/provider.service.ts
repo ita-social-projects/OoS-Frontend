@@ -12,9 +12,9 @@ export class ProviderService {
 
   /**
   * This method get Provider by id
-  * @param id
+  * @param id string
   */
-  getProviderById(id: number): Observable<Provider> {
+  getProviderById(id: string): Observable<Provider> {
     return this.http.get<Provider>(`/api/v1/Provider/GetById/${id}?providerId=${id}`);
   }
 

@@ -34,9 +34,9 @@ export class FavoriteWorkshopsService {
 
   /**
    * This method delete favorite workshop
-   * @param id: number
+   * @param id: string
    */
-  deleteFavoriteWorkshop(id: number): Observable<object> {
+  deleteFavoriteWorkshop(id: string): Observable<object> {
     return this.http.delete(`/api/v1/Favorite/${id}`);
   }
 }

@@ -49,5 +49,5 @@ export class FilteredClassesList {
 }
 export class GetRateByEntityId {
   static readonly type = '[meta-data] Get Rate';
-  constructor(public enitityType: string, public entitytId: number) { }
+  constructor(public enitityType: string, public entitytId: string) { }
 }

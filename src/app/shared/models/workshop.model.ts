@@ -3,7 +3,7 @@ import { Provider } from './provider.model';
 import { Teacher } from './teacher.model';
 import { DateTimeRanges } from './workingHours.model';
 export class Workshop {
-  id?: number;
+  id?: string;
   title: string;
   phone: string;
   email: string;
@@ -28,7 +28,7 @@ export class Workshop {
   direction: string;
   departmentId?: number;
   classId?: number;
-  providerId: number;
+  providerId: string;
   providerTitle?: string;
   isPerMonth?: string;
   isCompetitiveSelection: boolean;
@@ -36,7 +36,7 @@ export class Workshop {
   logo: string;
   dateTimeRanges: DateTimeRanges[];
 
-  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: number) {
+  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.id = id;
     this.title = about.title;
     this.phone = about.phone;
@@ -76,7 +76,7 @@ export interface WorkshopCard {
   providerTitle: string;
   rating: number;
   title: string;
-  workshopId: number;
+  workshopId: string;
 }
 export interface WorkshopFilterCard {
   totalAmount: number;

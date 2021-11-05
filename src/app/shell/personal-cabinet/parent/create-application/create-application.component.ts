@@ -68,7 +68,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetUsersChildren());
       });
 
-    const workshopId = +this.route.snapshot.paramMap.get('id');
+    const workshopId = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(workshopId));
 
     this.workshop$
@@ -78,7 +78,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
       { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
-      )));
+    )));
   }
 
   ngOnDestroy(): void {
