@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { createProviderSteps, OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
@@ -27,16 +27,16 @@ export class ProviderOrgInfoComponent implements OnInit {
 
   editLink: string = createProviderSteps[0];
 
-  @Select(RegistrationState.provider) provider$: Observable<Provider>;
+  @Select(RegistrationState.provider) 
+  provider$: Observable<Provider>;
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() editMode: boolean;
-  @Input() provider: Provider;
   // m: number
   currentStatus: string;
-
+  data: any
   constructor(private store: Store) { }
 
   ngOnDestroy(): void {
@@ -47,23 +47,61 @@ export class ProviderOrgInfoComponent implements OnInit {
 
   ngOnInit(): void { 
     this.store.dispatch(new GetInstitutionStatus())
-    this.institutionStatuses$
+
+    // forkJoin([ob1$, ob2$])
+    //     .subscribe((data) => {
+    //       const [res1, res2] = data;
+    //       //bla bla
+    //     }, error => {
+    //       console.log(error);
+    //     });
+
+    forkJoin([
+      this.institutionStatuses$
     .pipe(
       takeUntil(this.destroy$),
-    ).subscribe((institutionStatuses: InstitutionStatus[]) => {
-      // this.store.dispatch(new GetInstitutionStatus())
-      // debugger
+    ),
+      this.provider$
+    .pipe(
+      takeUntil(this.destroy$),
+    )
+    ])
+    .subscribe((data) => {
+      const [institutionStatuses, provider] = data;
       if (institutionStatuses.length) {
         debugger
         // const m = institutionStatuses.find((item, index) => {+item.id === this.provider.institutionStatusId}) 
-        const m = institutionStatuses.find(({id}) => +id === this.provider.institutionStatusId) 
+        const m = institutionStatuses.find(({id}) => +id === provider.institutionStatusId) 
 
         // console.log(m)
         this.currentStatus = m.name.toString()
-        // console.log(this.b)
+        // console.log(this.currentStatus)
         
-      }; 
+      } error => {
+        console.log(error)
+      }
     }); 
+
+
+
+    // this.store.dispatch(new GetInstitutionStatus())
+    // this.institutionStatuses$
+    // .pipe(
+    //   takeUntil(this.destroy$),
+    // ).subscribe((institutionStatuses: InstitutionStatus[]) => {
+    //   // this.store.dispatch(new GetInstitutionStatus())
+    //   // debugger
+    //   if (institutionStatuses.length) {
+    //     debugger
+    //     // const m = institutionStatuses.find((item, index) => {+item.id === this.provider.institutionStatusId}) 
+    //     const m = institutionStatuses.find(({id}) => +id === this.provider.institutionStatusId) 
+
+    //     // console.log(m)
+    //     this.currentStatus = m.name.toString()
+    //     // console.log(this.b)
+        
+    //   }; 
+    // }); 
   } 
 
   ActivateEditMode(): void {
