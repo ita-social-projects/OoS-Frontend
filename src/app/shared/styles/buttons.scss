@@ -1,0 +1,63 @@
+$button-color:  #3849F9;
+$button-color-cancel: #444444;
+
+.btn{
+  color:white;
+  background-color: $button-color;
+  border: 1px solid $button-color;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &-reset, &-add{
+    color: $button-color;
+  }
+
+  .btn-add{
+    color: $button-color;
+    .mat-icon-add {
+      vertical-align: middle;
+      height: 26px;
+      color: $button-color;
+    }
+  }
+
+  &-cancel{
+    color: $button-color-cancel!important;
+    background-color:transparent !important;
+    border-color: $button-color-cancel!important;
+  }
+
+  &:hover{
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+.button {
+  box-sizing: border-box;
+  border-radius: 20px;
+
+  &-application{
+    background: $button-color;
+    border: 1px solid $button-color;
+    color: #FFFFFF;
+  }
+
+  &:hover{
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #cccccc;
+  background-color: #cccccc;
+  color: #666666;
+}

@@ -1,3 +1,5 @@
+@import "src/app/shared/styles/buttons.scss";
+
 .card {
   background: white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -70,16 +72,8 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-
-  box-sizing: border-box;
-  border-radius: 20px;
-  margin: 0 1rem;
   padding: 0 0.5rem;
-
   &-blue{
-    background: #3849F9;
-    border: 1px solid #3849F9;
-    color: #FFFFFF;
     min-width: 10rem;
   }
 
@@ -90,7 +84,7 @@
     min-width: 10rem;
   }
 }
-.btn:hover, .name:hover{
+.name:hover{
   cursor: pointer;
   opacity: 0.5;
 }
