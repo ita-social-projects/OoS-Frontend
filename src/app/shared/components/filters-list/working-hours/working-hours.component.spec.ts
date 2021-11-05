@@ -9,6 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;
@@ -17,6 +18,7 @@ describe('WorkingHoursComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MatIconModule,
         BrowserModule,
         BrowserAnimationsModule,
         MatDatepickerModule,
