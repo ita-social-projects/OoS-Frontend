@@ -1,6 +1,11 @@
 .card {
   width: 300px;
   min-height: 410px;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;
+  align-items: space-between;
+  align-content: space-between;
 
   &-title {
     font-family: Innerspace;
