@@ -3,7 +3,7 @@ import { User } from './user.model';
 import { Workshop } from './workshop.model';
 
 export class Provider {
-  id: number;
+  id: string;
   userId: string;
   fullTitle?: string;
   shortTitle: string;

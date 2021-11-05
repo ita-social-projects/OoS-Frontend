@@ -68,18 +68,18 @@ export class ChildrenService {
 
   /**
    * This method get Users Child By Id
-   * @param id: number
+   * @param id: string
    */
-  getUsersChildById(id: number): Observable<Child> {
+  getUsersChildById(id: string): Observable<Child> {
     return this.http.get<Child>(`/api/v1/Child/GetUsersChildById/${id}`);
   }
 
 
   /**
    * This method delete child by Child id
-   * @param id: number
+   * @param id: string
    */
-  deleteChild(id: number): Observable<object> {
+  deleteChild(id: string): Observable<object> {
     return this.http.delete(`/api/v1/Child/Delete/${id}`);
   }
 
