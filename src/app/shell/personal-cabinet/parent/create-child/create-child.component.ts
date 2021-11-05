@@ -61,14 +61,17 @@ export class CreateChildComponent implements OnInit, OnDestroy {
     } else {
       this.ChildrenFormArray.push(this.newForm());
     }
-
+    this.store.dispatch(new GetSocialGroup());
     this.socialGroups$
+    
       .pipe(
         takeUntil(this.destroy$),
       ).subscribe((socialGroups: SocialGroup[]) => {
-        if (socialGroups.length === 0) {
-          this.store.dispatch(new GetSocialGroup());
-        }
+        // debugger
+
+        // if (socialGroups.length === 0) {
+          
+        // }
       });
 
     this.AgreementFormControl.valueChanges.pipe(

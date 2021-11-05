@@ -34,8 +34,7 @@ export class ProviderOrgInfoComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() editMode: boolean;
-  // m: number
-  currentStatus: string;
+  currentStatus = 'hi';
   data: any
   constructor(private store: Store) { }
 
@@ -58,22 +57,22 @@ export class ProviderOrgInfoComponent implements OnInit {
       takeUntil(this.destroy$),
     )
     ])
-    .subscribe((data) => {
-      const [institutionStatuses, provider] = data;
-      if (institutionStatuses.length) {
+    .subscribe(([institutionStatuses, provider]) => {
+      // const [institutionStatuses, provider] = data;
+      // if (institutionStatuses.length !== 0) {
         debugger
-        // const m = institutionStatuses.find((item, index) => {+item.id === this.provider.institutionStatusId}) 
-        const m = institutionStatuses.find(({id}) => +id === provider.institutionStatusId) 
+        this.currentStatus = institutionStatuses.find((item) => +item.id === provider.institutionStatusId).name.toString()
 
-        // console.log(m)
-        this.currentStatus = m.name.toString()
-        // console.log(this.currentStatus)
+        console.log(m)
+        console.log(institutionStatuses, provider)
+        console.log(this.currentStatus)
         
-      } error => {
-        console.log(error)
-      }
+      // } 
     }); 
 
+//   }, error => {
+//     console.log(error)
+// }); 
 
 
     // this.store.dispatch(new GetInstitutionStatus())

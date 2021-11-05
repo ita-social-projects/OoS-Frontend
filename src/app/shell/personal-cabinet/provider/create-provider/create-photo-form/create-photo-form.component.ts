@@ -52,14 +52,20 @@ export class CreatePhotoFormComponent implements OnInit {
     .pipe(
       takeUntil(this.destroy$),
     ).subscribe((institutionStatuses: InstitutionStatus[]) => {
-      if (institutionStatuses.length === 0) {
-        this.store.dispatch(new GetInstitutionStatus());
+      if (this.editMode) {
+        debugger
+        this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
+        this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
       }
+      // if (institutionStatuses.length === 0) {
+      //   this.store.dispatch(new GetInstitutionStatus());
+      // }
     });
-    if (this.editMode) {
-      this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
-      this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
-    }
+    // if (this.editMode) {
+    //   debugger
+    //   this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
+    //   this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
+    // }
   }
 
   ngOnDestroy(): void {
