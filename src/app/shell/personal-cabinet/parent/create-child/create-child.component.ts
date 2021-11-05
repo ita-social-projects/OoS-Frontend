@@ -49,7 +49,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    const childId = +this.route.snapshot.paramMap.get('id');
+    const childId = this.route.snapshot.paramMap.get('id');
     if (childId) {
       this.editMode = true;
       this.childrenService.getUsersChildById(childId).pipe(

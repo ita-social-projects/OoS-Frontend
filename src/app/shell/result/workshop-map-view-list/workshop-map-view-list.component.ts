@@ -21,7 +21,11 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
         style({ bottom: '-25px', opacity: 0 }),
         animate('200ms ease-in-out')
       ])
-    ])
+    ]),
+    trigger('triggerName', [
+      transition(':decrement', [animate('0.2s ease-in-out',style({ transform: "translateX(+92vw)"}))]),
+      transition(':increment', [animate('0.2s ease-in-out',style({ transform: "translateX(-92vw)" }) )]),
+    ]),
   ]
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
@@ -47,7 +51,50 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
 
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
+  @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
+
+
+  private swipeCoord?: [number, number];
+  private swipeTime?: number;
+  public currentWorkShopIndex: number = 0;
+  public direct: string
+  public left: number = 0
+  swipe(e: TouchEvent, when: string): void {
+    const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
+    let time = new Date().getTime();
+
+    if (when === 'start' && (time - this.swipeTime) < 300 ) {
+      time -= 1000
+    }
+
+    if (when === 'start') {
+      this.swipeCoord = coord;
+      this.swipeTime = time;
+    } else if (when === 'end') {
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      const duration = time - this.swipeTime;
+      if ( duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+        const swipe = direction[0] < 0 ? 'next' : 'previous';
+        this.direct = swipe
+        if (swipe === 'next') {
+          (this.selectedWorkshops.length-1) > this.currentWorkShopIndex && this.currentWorkShopIndex++
+        } else {
+          this.currentWorkShopIndex >= 1 && this.currentWorkShopIndex--
+        }
+    }
+    }
+  }
+
+  triggerNameDone(e) {
+    if (this.direct === 'next' && this.selectedWorkshops.length > 1 ) {
+      this.left =parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92
+    }
+    if (this.direct === 'previous' && this.selectedWorkshops.length > 1) {
+      this.left =parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92
+    }
+  }
+
 
   ngOnInit(): void {
     this.filteredWorkshops$
@@ -57,8 +104,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);
+    this.left = 0;
+    this.currentWorkShopIndex = 0;
+    this.direct = null
 
     if (this.isSelectedMarker) {
+
       this.selectedWorkshops = this.workshops.filter((workshop: WorkshopCard) =>
         address.city === workshop.address.city &&
         address.street === workshop.address.street &&

@@ -12,10 +12,10 @@ export class ProviderService {
 
   /**
   * This method get Provider by id
-  * @param id
+  * @param id string
   */
-  getProviderById(id: number): Observable<Provider> {
-    return this.http.get<Provider>(`/Provider/GetById/${id}?providerId=${id}`);
+  getProviderById(id: string): Observable<Provider> {
+    return this.http.get<Provider>(`/api/v1/Provider/GetById/${id}?providerId=${id}`);
   }
 
   /**
@@ -23,14 +23,14 @@ export class ProviderService {
   * @param Provider
   */
   createProvider(provider: Provider): Observable<object> {
-    return this.http.post('/Provider/Create', provider);
+    return this.http.post('/api/v1/Provider/Create', provider);
   }
 
   /**
   * This method get Provider by User id
   */
   getProfile(): Observable<Provider> {
-    return this.http.get<Provider>(`/Provider/GetProfile`);
+    return this.http.get<Provider>(`/api/v1/Provider/GetProfile`);
   }
 
   /**
@@ -38,6 +38,6 @@ export class ProviderService {
  * @param Provider
  */
   updateProvider(provider: Provider): Observable<object> {
-    return this.http.put('/Provider/Update', provider);
+    return this.http.put('/api/v1/Provider/Update', provider);
   }
 }

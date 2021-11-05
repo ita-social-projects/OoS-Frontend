@@ -92,7 +92,7 @@ export class AppWorkshopsService {
    */
   getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
     const options = { params: this.setParams(filters, isMapView) };
-    return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', options);
+    return this.http.get<WorkshopFilterCard>('/api/v1/Workshop/GetByFilter', options);
   }
 
   /**
@@ -101,6 +101,6 @@ export class AppWorkshopsService {
   getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
     let params = new HttpParams();
     params = params.set('Limit', this.size.toString());
-    return this.http.get<WorkshopCard[]>('/Statistic/GetWorkshops', { params });
+    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }
 }

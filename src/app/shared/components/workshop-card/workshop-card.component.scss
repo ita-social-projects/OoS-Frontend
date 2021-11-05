@@ -1,5 +1,9 @@
 @import "src/app/shared/styles/cards.scss";
 
+.horizontal {
+  margin: 0;
+}
+
 .icon{
   display: flex;
   flex-direction: row;
@@ -42,11 +46,13 @@
     object-fit: cover;
     object-position: bottom;
   }
+
   .mat-card-image {
     width: 100%;
     margin: 0;
     margin-bottom: 0;
   }
+
   .hide {
     display: block;
   }
@@ -72,30 +78,47 @@
 }
 
 @media (max-width: 750px) {
-.horizontal-card {
-  min-height: 150px;
+  .horizontal-card {
+    min-height: 150px;
+  }
+  .horizontal {
+    box-shadow: none;
+    margin: 1vw;
+    width: 90vw;
+  }
 
-  .card_text {
-    margin: 0;
-  }
-  .mat-card-image {
-    height: 150px;
-    object-fit: cover;
-    object-position: bottom;
-  }
-  .hide {
-    display: none;
-  }
-  ::ng-deep .mat-card-header-text {
-    margin: 0;
-  }
-  .card-footer {
-    flex-direction: row;
-  }
-  .mat-card-title {
-    width: 150px;
-    font-size: 15px;
-    margin-bottom: 0;
+  .horizontal-card {
+    min-height: 150px;
+    .card-img{
+      flex: 1;
+    }
+    .wrap-for-details {
+      flex: 2;
+    }
+    .card_text {
+      margin: 0;
+    }
+    .mat-card-image {
+      height: 150px;
+      object-fit: cover;
+      object-position: bottom;
+    }
+    .card-image {
+      max-width: 100%
+    }
+    .hide {
+      display: none;
+    }
+    ::ng-deep .mat-card-header-text {
+      margin: 0;
+    }
+    .card-footer {
+      flex-direction: row;
+    }
+    .mat-card-title {
+      width: 150px;
+      font-size: 15px;
+      margin-bottom: 0;
+      }
     }
   }
-}

@@ -87,7 +87,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
           if (this.parent) {
             this.isRated = (rate.parentId === this.parent.id);
             this.hasApprovedApplication = this.approvedApplications?.some((application: Application) => {
-              (+rate.entityId === application.workshopId);
+              (rate.entityId === application.workshopId);
             });
           }
         });

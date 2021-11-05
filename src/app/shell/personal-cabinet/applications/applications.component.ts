@@ -27,7 +27,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   isActiveInfoButton = false;
   providerApplicationParams: {
     status: string,
-    workshopsId: number[]
+    workshopsId: string[]
   } = {
       status: undefined,
       workshopsId: []
@@ -127,7 +127,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * This applies selected workshops as filtering parameter to get list of applications
    * @param workshopsId: number[]
    */
-  onWorkshopsSelect(workshopsId: number[]): void {
+  onWorkshopsSelect(workshopsId: string[]): void {
     this.providerApplicationParams.workshopsId = workshopsId;
     this.getProviderApplications(this.providerApplicationParams);
   }

@@ -24,7 +24,7 @@
   </div>
   <div class="filter-slider" fxLayout='column' fxLayoutAlign='space-between' fxLayoutGap='1rem'>
     <ngx-slider (userChange)="priceHandler($event)"
-      [(value)]="minValue" [(highValue)]="maxValue" [options]="options">
+      [value]="minValue" [highValue]="maxValue" [options]="options">
     </ngx-slider>
   </div>
 </div>

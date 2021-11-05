@@ -1,17 +1,21 @@
-<mat-card>
+<mat-card [class.horizontal]="isHorizontalView">
   <div *ngIf="workshop; else EmptyWorkshop">
     <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
     </ng-container>
 
-    <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'" fxLayout="column"
-      fxLayoutAlign="space-evenly space-between">
+    <div
+      [ngClass]="isHorizontalView ? 'horizontal-card': 'card'"
+    >
       <div class="card-img" fxLayout="row" fxLayoutAlign="center">
         <img class="card-image" mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
       </div>
-      <div>
+      <div class="wrap-for-details">
         <mat-card-header>
-          <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated [matTooltipPosition]="below">
-            {{workshop.title}}</mat-card-title>
+          <mat-card-title
+            [matTooltip]="workshop.title"
+            showTooltipIfTruncated
+            [matTooltipPosition]="below"
+          >{{workshop.title}}</mat-card-title>
         </mat-card-header>
 
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
@@ -88,6 +92,7 @@
     </div>
   </div>
 </ng-template>
+
 <ng-template #EmptyWorkshop>
   <div class="empty-card" fxLayout="column" fxLayoutAlign="space-between space-between" display="none">
   </div>
