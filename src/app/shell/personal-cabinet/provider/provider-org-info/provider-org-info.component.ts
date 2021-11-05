@@ -45,25 +45,18 @@ export class ProviderOrgInfoComponent implements OnInit {
   
 
   ngOnInit(): void { 
-    this.store.dispatch(new GetInstitutionStatus())
+    this.store.dispatch(new GetInstitutionStatus());
 
-    forkJoin([
-      this.institutionStatuses$
-    .pipe(
+    this.institutionStatuses$.pipe(
+      filter(institutionStatuses => !!institutionStatuses.length),
       takeUntil(this.destroy$),
-    ),
-      this.provider$
-    .pipe(
-      takeUntil(this.destroy$),
-    )
-    ])
-    .subscribe(([institutionStatuses, provider]) => {
+    ).subscribe((institutionStatuses) => {
       // const [institutionStatuses, provider] = data;
       // if (institutionStatuses.length !== 0) {
         debugger
+        const provider = this.store.selectSnapshot(RegistrationState.provider);
         this.currentStatus = institutionStatuses.find((item) => +item.id === provider.institutionStatusId).name.toString()
 
-        console.log(m)
         console.log(institutionStatuses, provider)
         console.log(this.currentStatus)
         
