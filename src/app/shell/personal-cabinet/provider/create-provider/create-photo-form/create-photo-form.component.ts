@@ -42,6 +42,8 @@ export class CreatePhotoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new GetInstitutionStatus());
+
     this.provider && this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
 
@@ -50,7 +52,7 @@ export class CreatePhotoFormComponent implements OnInit {
     .pipe(
       takeUntil(this.destroy$),
     ).subscribe((institutionStatuses: InstitutionStatus[]) => {
-      if (institutionStatuses.length) {
+      if (institutionStatuses.length === 0) {
         this.store.dispatch(new GetInstitutionStatus());
       }
     });

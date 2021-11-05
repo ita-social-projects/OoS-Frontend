@@ -48,14 +48,6 @@ export class ProviderOrgInfoComponent implements OnInit {
   ngOnInit(): void { 
     this.store.dispatch(new GetInstitutionStatus())
 
-    // forkJoin([ob1$, ob2$])
-    //     .subscribe((data) => {
-    //       const [res1, res2] = data;
-    //       //bla bla
-    //     }, error => {
-    //       console.log(error);
-    //     });
-
     forkJoin([
       this.institutionStatuses$
     .pipe(

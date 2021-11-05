@@ -46,6 +46,6 @@ export class ProviderService {
  * This method get all institution statuses
  */
     getInstitutionStatus(): Observable<InstitutionStatus[]> {
-    return this.http.get<InstitutionStatus[]>('/InstitutionStatus/Get');
+    return this.http.get<InstitutionStatus[]>('/api/v1/InstitutionStatus/Get');
   }
 }
