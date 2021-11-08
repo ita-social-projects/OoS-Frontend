@@ -6,14 +6,16 @@
       {{day.value}}</div>
   </div>
   <p class="filter-text">Години роботи</p>
-  <mat-form-field>
+  <mat-form-field> 
     <div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
       <p class="filter-text">Від</p>
       <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24"
-        [formControl]="startTimeFormControl">
+        [formControl]="startTimeFormControl" [max]="maxTime">
+      <mat-icon class="clear-time-start clear-time" (click)="clearStart()">clear</mat-icon>
       <p class="filter-text">До</p>
       <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24"
-        [formControl]="endTimeFormControl" [min]="getMinTime()">
+        [formControl]="endTimeFormControl" [min]="minTime">
+      <mat-icon class="clear-time-end clear-time" (click)="clearEnd()">clear</mat-icon>      
     </div>
     <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
     </ngx-mat-timepicker>

@@ -1,3 +1,5 @@
+@import "src/app/shared/styles/buttons.scss";
+
 ::ng-deep .mat-dialog-container{
   min-width: 411px;
   min-height: 178px;
@@ -24,18 +26,4 @@
   font-size: 16px;
   line-height: 18px;
   color: #333333;
-}
-.btn{
-  color: white;
-  background-color: #3849F9;
-  border: 1px solid #3849F9;
-  box-sizing: border-box;
-  border-radius: 20px;
-  padding: 2px 30px;
-  margin: 0 1rem;
-  &-cancel{
-    color: #444444!important;
-    background-color: transparent !important;
-    border-color: #444444!important;
-  }
 }
