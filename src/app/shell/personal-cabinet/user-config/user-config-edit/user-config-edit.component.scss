@@ -1,6 +1,7 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form-wrapper.scss";
+@import "src/app/shared/styles/buttons.scss";
 
 .title{
   margin-bottom: 2rem;
@@ -42,5 +43,5 @@
     .btn {
       margin-left: 0;
     }
-  }  
+  }
 }

@@ -1,5 +1,3 @@
-@import "src/app/shared/styles/cards.scss";
-
 .container{
   background: #FFFFFF;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
@@ -9,7 +7,11 @@
 
   .contact-info {
     font-size: 13px;
-    
+    overflow: hidden;
+    max-width: 250px;
+    width: 100%;
+    text-overflow: ellipsis;
+
     .card_icon {
       width: 13px;
       height: 13px;
@@ -21,7 +23,7 @@
     a {
       color: #3849F9;
     }
-  }  
+  }
 
 }
 
@@ -60,5 +62,3 @@
     width: 100%;
   }
 }
-
-

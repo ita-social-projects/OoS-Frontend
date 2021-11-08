@@ -1,11 +1,6 @@
 @import "src/app/shared/styles/list-wrappers.scss";
-.btn{
-  color:white;
-  background-color:#3849F9;
-  border: 1px solid #3849F9;
-  box-sizing: border-box;
-  border-radius: 20px;
-}
+@import "src/app/shared/styles/buttons.scss";
+
 .text{
   font-family: Open Sans;
   font-weight: 400;
