@@ -65,3 +65,27 @@
   display: flex;
   justify-content: center;
 }
+
+.time-input:hover + .clear-time {
+  visibility: visible;
+}
+.clear-time {
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  font-size: 18px;
+  color: #adadad;
+}
+.clear-time-start {
+  top: 17px;
+  left: 94px;
+}
+.clear-time-end {
+  top: 17px;
+  left: 222px;
+}
+.clear-time-start:hover,
+.clear-time-end:hover {
+  visibility: visible;
+}
+
