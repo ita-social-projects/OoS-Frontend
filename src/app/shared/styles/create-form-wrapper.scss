@@ -1,6 +1,6 @@
 @import "src/app/shared/styles/buttons.scss";
 
-.wrapper{
+.wrapper {
   max-width: 654px;
   border-radius:5px;
   background: #FFFFFF;
@@ -8,28 +8,29 @@
   border-radius: 5px;
   padding: 0 1rem;
   margin: 1.5rem;
-  &-title{
+
+  &-title {
     font-family:Open Sans;
     font-weight: 700;
     color:#444444;
     margin-top: 48px;
     padding: 60;
   }
-  &-text{
+  &-text {
     font-family:Open Sans;
     font-weight: 700;
     color: #AAAAAA;
     padding: 0.2rem;
   }
 }
-.btn{
+.btn {
   min-width: 150px;
 
-  &-add{
+  &-add {
     margin:0;
   }
 
-  .btn-add{
+  .btn-add {
     margin:0;
   }
 }
@@ -38,16 +39,16 @@
   margin:20px;
 }
 
-.link{
+.link {
   text-decoration: underline;
   color: #3849F9;
   cursor: pointer;
 }
 
-.mat-icon-delete{
+.mat-icon-delete {
   color:#3849F9;
   opacity: 1;
-  &:hover{
+  &:hover {
     opacity: 0.5;
     cursor: pointer;
   }
@@ -69,13 +70,6 @@
 .link {
   font-weight: bold !important;
 }
-
-/* button:disabled,
-button[disabled]{
-  border: 1px solid #cccccc;
-  background-color: #cccccc;
-  color: #666666;
-} */
 
 @media only screen and (max-width: 650px) {
   .wrapper{

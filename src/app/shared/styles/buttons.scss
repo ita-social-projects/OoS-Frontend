@@ -1,7 +1,7 @@
-$button-color:  #3849F9;
+$button-color: #3849F9;
 $button-color-cancel: #444444;
 
-.btn{
+.btn {
   color:white;
   background-color: $button-color;
   border: 1px solid $button-color;
@@ -14,11 +14,11 @@ $button-color-cancel: #444444;
   justify-content: center;
   align-items: center;
 
-  &-reset, &-add{
+  &-reset, &-add {
     color: $button-color;
   }
 
-  .btn-add{
+  .btn-add {
     color: $button-color;
     .mat-icon-add {
       vertical-align: middle;
@@ -27,13 +27,13 @@ $button-color-cancel: #444444;
     }
   }
 
-  &-cancel{
+  &-cancel {
     color: $button-color-cancel!important;
     background-color:transparent !important;
     border-color: $button-color-cancel!important;
   }
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     opacity: 0.5;
   }
@@ -43,20 +43,20 @@ $button-color-cancel: #444444;
   box-sizing: border-box;
   border-radius: 20px;
 
-  &-application{
+  &-application {
     background: $button-color;
     border: 1px solid $button-color;
     color: #FFFFFF;
   }
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     opacity: 0.7;
   }
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
   border: 1px solid #cccccc;
   background-color: #cccccc;
   color: #666666;
