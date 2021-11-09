@@ -2,12 +2,12 @@ import { Child } from './child.model';
 import { Parent } from './parent.model';
 import { Workshop, WorkshopCard } from './workshop.model';
 export class Application {
-  id: number;
+  id: string;
   status: string;
   creationTime: Date;
-  workshopId: number;
-  childId: number;
-  parentId: number;
+  workshopId: string;
+  childId: string;
+  parentId: string;
   workshop: WorkshopCard;
   child: Child;
   parent: Parent;
@@ -20,7 +20,7 @@ export class Application {
 }
 
 export class ApplicationUpdate {
-  id: number;
+  id: string;
   status: string;
 
   constructor(id, status) {

@@ -3,7 +3,7 @@ import { Constants } from './../../shared/constants/constants';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { GetTopWorkshops } from 'src/app/shared/store/filter.actions';
+import { FilterClear, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
@@ -61,7 +61,8 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetTopDirections());
+
+    this.store.dispatch([new GetTopDirections(), new FilterClear()]);
 
     this.role$
       .pipe(

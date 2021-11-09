@@ -1,5 +1,5 @@
 export class Teacher {
-  id?: number;
+  id?: string;
   firstName: string;
   lastName: string;
   middleName: string;

@@ -21,13 +21,9 @@ $links-color: #3849F9;
     width: 70%;
   }
 }
+
 .workshop-list{
-  width: 30%;
-  min-width: max-content;
-  max-height: 650px;
-  overflow: auto;
-  display: inline-block;
-  margin-right: 1rem;
+  overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
@@ -43,13 +39,37 @@ $links-color: #3849F9;
 }
 
 @media (max-width: 750px) {
+  .workshop-counter-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .workshop-counter {
+    font-weight: 700;
+    padding: 8px 16px;
+    background: #FFFFFF;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    z-index: 400;
+  }
+
+  .mock {
+    width: 2vw;
+    margin: 1vw;
+  }
   .wrapper{
     max-height: none !important;
     height: 100vh;
+    width: 100vw;
     position: relative;
   }
 
-  .workshop-list {
+  .workshop {
     display: none;
   }
 
@@ -67,16 +87,33 @@ $links-color: #3849F9;
   }
 
   .workshop-details-cards {
+
     position: absolute;
     left: 0;
-    bottom: 70px;
+    bottom: 100px;
     z-index: 400;
-    width: 100%;
     overflow: scroll;
-    padding: 15px 10px;
+    // padding: 15px 10px;
 
     .workshop-details-card {
-      display: block !important;      
+      flex-grow: 2;
+      display: block !important;
+    }
+
+    .mapCardButton {
+      display: none;
+      width: 40px;
+      background-color: #fff;
+      border: none;
+      color: #3849F9;
+      .mat-icon {
+        font-size: 2rem;
+      }
+    }
+    .display {
+      display: inline-block;
     }
   }
+
+
 }

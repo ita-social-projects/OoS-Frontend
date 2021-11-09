@@ -11,18 +11,18 @@ export class CategoriesService {
   constructor(private http: HttpClient) { }
 
   getDirections(): Observable<Direction[]> {
-    return this.http.get<Direction[]>('/Direction/Get');
+    return this.http.get<Direction[]>('/api/v1/Direction/Get');
   }
 
   getTopDirections(): Observable<Direction[]> {
-    return this.http.get<Direction[]>(`/Statistic/GetDirections`);
+    return this.http.get<Direction[]>(`/api/v1/Statistic/GetDirections`);
   }
 
   getDepartmentsBytDirectionId(id: number): Observable<Department[]> {
-    return this.http.get<Department[]>(`/Department/GetByDirectionId/${id}`);
+    return this.http.get<Department[]>(`/api/v1/Department/GetByDirectionId/${id}`);
   }
 
   getClassByDepartmentId(id: number): Observable<IClass[]> {
-    return this.http.get<IClass[]>(`/Class/GetByDepartmentId/${id}`);
+    return this.http.get<IClass[]>(`/api/v1/Class/GetByDepartmentId/${id}`);
   }
 }

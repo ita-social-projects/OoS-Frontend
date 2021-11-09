@@ -11,11 +11,11 @@ import { Workshop, WorkshopCard } from '../../models/workshop.model';
 export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 
   workshopControl = new FormControl();
-  workshopsId: number[];
+  workshopsId: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workshops: WorkshopCard[];
-  @Output() workshopCheck = new EventEmitter<number[]>();
+  @Output() workshopCheck = new EventEmitter<string[]>();
 
   constructor() { }
 

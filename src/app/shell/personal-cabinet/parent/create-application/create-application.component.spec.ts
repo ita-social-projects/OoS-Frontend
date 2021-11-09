@@ -52,7 +52,7 @@ describe('CreateApplicationComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ id: 1 } as Parent);
+    spyOn(store, 'selectSnapshot').and.returnValue({ id: '1' } as Parent);
     fixture = TestBed.createComponent(CreateApplicationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -82,7 +82,7 @@ class MockValidationHintForInputComponent {
   @Input() isEmailCheck: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() minLength: boolean;
-  @Input() minCharachters: number; 
+  @Input() minCharachters: number;
   @Input() forbiddenCharacter: string;
 }
 

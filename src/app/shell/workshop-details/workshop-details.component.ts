@@ -28,6 +28,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   workshop: Workshop;
   ratings: Rate[];
+  workshopId: string;
 
   constructor(
     private store: Store,
@@ -40,8 +41,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.store.dispatch(new GetWorkshopById(+params.id));
-        this.store.dispatch(new GetRateByEntityId('workshop', +params.id));
+        this.store.dispatch(new GetWorkshopById(params.id));
+        this.store.dispatch(new GetRateByEntityId('workshop', params.id));
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
@@ -53,6 +54,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((workshop: Workshop) => {
       this.workshop = workshop;
+      this.workshopId = workshop.id;
       this.store.dispatch(new GetProviderById(workshop.providerId));
       this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
       this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(

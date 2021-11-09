@@ -1,3 +1,5 @@
+@import "src/app/shared/styles/buttons.scss";
+
 .step{
   min-width: 410px;
   font-family: Open Sans;
@@ -118,23 +120,7 @@ button:focus {
 }
 
 .btn{
-  color:white;
-  background-color:#3849F9;
-  border: 1px solid #3849F9;
   min-width: 150px;
-  box-sizing: border-box;
-  border-radius: 20px;
-  padding: 2px 30px;
-  margin: 0 1rem;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  &-reset, &-add{
-    color: #3849F9;
-  }
 }
 .mat-chip.mat-standard-chip{
   display: flex;

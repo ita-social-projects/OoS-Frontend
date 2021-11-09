@@ -1,6 +1,11 @@
 .card {
   width: 300px;
   min-height: 410px;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;
+  align-items: space-between;
+  align-content: space-between;
 
   &-title {
     font-family: Innerspace;
@@ -29,7 +34,6 @@
   &_link {
     color: #3849F9;
     font-weight: 700;
-    margin-right: -20px;
 
     .arrow {
       margin: 1rem;
