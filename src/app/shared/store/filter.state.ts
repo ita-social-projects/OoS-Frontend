@@ -28,8 +28,8 @@ import {
   PageChange,
   ConfirmCity,
   CleanCity,
-  FilterReset,
-  FilterClear
+  FilterClear,
+  SetFirstPage
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -268,14 +268,16 @@ export class FilterState {
   @Action(PageChange)
   pageChange({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: PageChange) {
     patchState({ currentPage: payload });
-    dispatch(new FilterChange());
+    dispatch(new GetFilteredWorkshops());
+  }
+
+  @Action(SetFirstPage)
+  setFirstPage({ patchState }: StateContext<FilterStateModel>) {
+    patchState({ currentPage: {element: 1,isActive: true} });
   }
 
   @Action(FilterChange)
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
-
-  @Action(FilterReset)
-  FilterReset({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 
   @Action(FilterClear)
   FilterClear({  patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
