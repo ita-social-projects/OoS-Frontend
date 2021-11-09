@@ -48,6 +48,11 @@
             {{ workshop.isPerMonth
             ? 'місяць' : 'заняття' }}
           </p>
+          <p *ngIf="workshop.address" class="card_text">
+            <mat-icon class="card_icon">location_on</mat-icon>
+            {{workshop.address.city}},
+            {{workshop.address.street}}, {{workshop.address.buildingNumber}}
+          </p>
         </mat-card-content>
 
         <mat-card-footer *ngIf="isCreateApplicationView" class="card-footer">
