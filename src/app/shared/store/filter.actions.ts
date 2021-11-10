@@ -96,3 +96,7 @@ export class PageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
 }
+export class SetFirstPage {
+  static readonly type = '[filter] Set First Page';
+  constructor() { }
+}
