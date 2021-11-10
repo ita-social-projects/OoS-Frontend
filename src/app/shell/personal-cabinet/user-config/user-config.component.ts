@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent implements OnInit {
+  public culture: string;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
@@ -20,10 +21,10 @@ export class UserConfigComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
+    this.culture = localStorage.getItem('ui-culture'); 
   }
 
   onRedirect(link: string): void {
-    window.open(this.authServer + link, link, 'height=500,width=500');
+    window.open(`${this.authServer + link}?culture=${this.culture}&ui-culture=${this.culture}`, link, 'height=500,width=500');
   }
 }
