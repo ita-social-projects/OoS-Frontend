@@ -41,27 +41,27 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.store.dispatch(new GetWorkshopById(params.id));
+        this.store.dispatch(new GetWorkshopById(params.id)).subscribe(() => {
+          this.workshop$.pipe(
+            filter((workshop: Workshop) => !!workshop),
+            takeUntil(this.destroy$)
+          ).subscribe((workshop: Workshop) => {
+            this.workshop = workshop;
+            this.workshopId = workshop.id;
+            this.store.dispatch(new GetProviderById(workshop.providerId));
+            this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
+            this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+              { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+              { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
+            )));
+          });
+        })
         this.store.dispatch(new GetRateByEntityId('workshop', params.id));
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
       });
-
-    this.workshop$.pipe(
-      filter((workshop: Workshop) => !!workshop),
-      takeUntil(this.destroy$)
-    ).subscribe((workshop: Workshop) => {
-      this.workshop = workshop;
-      this.workshopId = workshop.id;
-      this.store.dispatch(new GetProviderById(workshop.providerId));
-      this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
-      this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-        { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
-      )));
-    });
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(

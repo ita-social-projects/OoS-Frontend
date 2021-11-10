@@ -51,7 +51,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getParentData();
     this.getWorkshopRatingList();
-
+    
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
@@ -77,10 +77,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.rating$
       .pipe(
         filter((rating: Rate[]) => !!rating?.length),
-        filter((rating: Rate[]) => rating.some((rate: Rate) => rate.entityId === this.workshop.id)),
         takeUntil(this.destroy$),
       ).subscribe((rating: Rate[]) => {
-        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent.id && rate.entityId === this.workshop.id);
+        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent.id);
       });
   }
 
