@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
@@ -10,7 +10,8 @@ import { environment } from 'src/environments/environment';
   templateUrl: './user-config.component.html',
   styleUrls: ['./user-config.component.scss']
 })
-export class UserConfigComponent implements OnInit {
+export class UserConfigComponent {
+  public culture: string = localStorage.getItem('ui-culture');;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
@@ -19,11 +20,7 @@ export class UserConfigComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-
-  }
-
   onRedirect(link: string): void {
-    window.open(this.authServer + link, link, 'height=500,width=500');
+    window.open(`${this.authServer + link}?culture=${this.culture}&ui-culture=${this.culture}`, link, 'height=500,width=500');
   }
 }
