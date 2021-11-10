@@ -60,7 +60,7 @@ export class DeleteWorkshopById {
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';
-  constructor(public payload) { }
+  constructor(public payload: WorkshopCard) { }
 }
 export class OnDeleteWorkshopFail {
   static readonly type = '[user] delete Workshop fail';
