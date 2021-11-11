@@ -5,7 +5,7 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, FilterReset, GetFilteredWorkshops, SetDirections } from 'src/app/shared/store/filter.actions';
+import { FilterChange, GetFilteredWorkshops, SetFirstPage } from 'src/app/shared/store/filter.actions';
 import { FilterState, FilterStateModel } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -74,7 +74,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map)));
+      .subscribe(() => this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)]));
 
     this.isFiltersVisible = window.innerWidth > 750;
 

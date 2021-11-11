@@ -62,7 +62,7 @@ export class ApplicationService {
    * @param id string
    */
   deleteApplication(id: string): Observable<object> {
-    return this.http.delete(`api/v1/Application/Delete/${id}`);
+    return this.http.delete(`/api/v1/Application/Delete/${id}`);
   }
 
   /**
@@ -70,6 +70,6 @@ export class ApplicationService {
    * @param application: ApplicationUpdate
    */
   updateApplication(application: ApplicationUpdate): Observable<object> {
-    return this.http.put('api/v1/Application/Update', application);
+    return this.http.put('/api/v1/Application/Update', application);
   }
 }

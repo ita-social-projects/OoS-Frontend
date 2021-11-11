@@ -17,6 +17,8 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
+
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -31,6 +33,9 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
   isPristine = true;
+
+  @Select(UserState.isLoading)
+  isLoading$: Observable<boolean>;
 
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;

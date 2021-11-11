@@ -12,9 +12,8 @@ import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
+import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Login } from 'src/app/shared/store/registration.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateRating, GetApplicationsByParentId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -40,9 +39,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   parent: Parent;
-  approvedApplications: Application[];
   isRated = false;
-  hasApprovedApplication = false;
+  isApproved = false;
 
   constructor(
     private store: Store,
@@ -53,7 +51,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getParentData();
     this.getWorkshopRatingList();
-
+    
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
@@ -69,28 +67,19 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.parent = parent;
       this.store.dispatch(new GetApplicationsByParentId(parent.id));
       this.applications$.pipe(
-        filter((applications: Application[]) => applications?.length > 0),
+        filter((applications: Application[]) => !!applications?.length),
         takeUntil(this.destroy$)
-      ).subscribe((applications: Application[]) =>
-        this.approvedApplications = applications.filter((application: Application) => application.status = ApplicationStatus.Approved));
+      ).subscribe((applications: Application[]) => this.isApproved = applications.some((application: Application) => application.status === ApplicationStatus.Approved && this.workshop.id === application.workshopId));
     });
   }
 
   private getWorkshopRatingList(): void {
-    this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id));
     this.rating$
       .pipe(
-        filter((rating: Rate[]) => rating?.length > 0),
-        takeUntil(this.destroy$)
+        filter((rating: Rate[]) => !!rating?.length),
+        takeUntil(this.destroy$),
       ).subscribe((rating: Rate[]) => {
-        rating?.some((rate: Rate) => {
-          if (this.parent) {
-            this.isRated = (rate.parentId === this.parent.id);
-            this.hasApprovedApplication = this.approvedApplications?.some((application: Application) => {
-              (rate.entityId === application.workshopId);
-            });
-          }
-        });
+        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent.id);
       });
   }
 
@@ -107,7 +96,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateRating({
           rate: result,
           type: Constants.WORKSHOP_ENTITY_TYPE,
-          entityId: this.workshop.id,
+          entityId: `${this.workshop.id}`,
           parentId: this.parent.id,
         }));
       }
@@ -117,5 +106,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new ClearRatings());
   }
 }
