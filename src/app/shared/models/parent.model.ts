@@ -1,5 +1,5 @@
 export class Parent {
-  id?: number;
+  id?: string;
   userId?: number;
 
   constructor(info) {

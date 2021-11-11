@@ -2,6 +2,7 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/dropdown.scss";
+@import "src/app/shared/styles/buttons.scss";
 
 .step {
   margin: 2rem 0;
@@ -39,13 +40,6 @@
   &:hover {
     opacity: 0.8;
   }
-}
-
-button:disabled,
-button[disabled] {
-  border: 1px solid #cccccc;
-  background-color: #cccccc;
-  color: #666666;
 }
 
 .card-discription {

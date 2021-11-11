@@ -48,7 +48,7 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    const workshopId = +this.route.snapshot.paramMap.get('id');
+    const workshopId = this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
       this.userWorkshopService.getWorkshopById(workshopId).subscribe((workshop: Workshop) => this.workshop = workshop);

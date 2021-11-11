@@ -1,6 +1,6 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap='0.1rem'>
   <h4>КОНТАКТИ</h4>
-  <p *ngIf="workshop.address" class="contact-info">    
+  <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
     {{workshop.address.city}},
     {{workshop.address.street}}, {{workshop.address.buildingNumber}}
@@ -30,7 +30,7 @@
     <mat-icon class="card_icon">language</mat-icon>
     <a [href]="workshop.website">{{workshop.website}}</a>
   </p>
-  <div class="social" fxLayout="row" fxLayoutAlign="space-between center">    
+  <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
     <a href="{{workshop.instagram}}" [ngClass]="workshop.instagram ? 'link' : 'disable'">
       <img src="assets/icons/inst.png" alt="instagram">
     </a>
