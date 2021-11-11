@@ -76,9 +76,8 @@ export class CreateChildComponent implements OnInit, OnDestroy {
     ).subscribe(val => this.isAgreed = val);
 
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.PersonalCabinetParent, path: '/personal-cabinet/config', isActive: false, disable: false },
-      { name: NavBarName.InformationAboutChild, path: '/personal-cabinet/parent/info', isActive: false, disable: false },
-      { name: NavBarName.AddInformationAboutChild, isActive: false, disable: true },
+      { name: NavBarName.PersonalCabinetParent, path: '/personal-cabinet/parent/info', isActive: false, disable: false },
+      { name: this.editMode ? NavBarName.EditInformationAboutChild : NavBarName.AddInformationAboutChild, isActive: false, disable: true },
     )));
   }
 
