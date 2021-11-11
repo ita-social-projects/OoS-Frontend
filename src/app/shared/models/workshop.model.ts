@@ -72,7 +72,7 @@ export interface WorkshopCard {
   minAge: number;
   photo?: string;
   price: number;
-  providerId: number;
+  providerId: string;
   providerTitle: string;
   rating: number;
   title: string;

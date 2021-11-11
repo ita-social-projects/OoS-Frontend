@@ -246,7 +246,7 @@ export class UserState {
     return this.userWorkshopService
       .deleteWorkshop(payload.workshopId)
       .pipe(
-        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
@@ -259,8 +259,10 @@ export class UserState {
 
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
-    console.log('Workshop is deleted', payload);
+    console.log('Workshop is deleted', payload.title);
     dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload}" видалено!`, type: 'success' }));
+    dispatch(new GetWorkshopsByProviderId(payload.providerId));
+
   }
 
   @Action(CreateChildren)
@@ -424,11 +426,11 @@ export class UserState {
   }
 
   @Action(OnUpdateProviderSuccess)
-  onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
+  onUpdateProviderSuccess({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/provider/info']);
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
   @Action(UpdateUser)
