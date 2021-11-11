@@ -38,12 +38,12 @@ export class CreateContactsFormComponent implements OnInit {
   ngOnInit(): void {
     this.passActualAddressFormGroup.emit(this.ActualAddressFormGroup);
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
-    this.initDisableIsSameAddressControl();
+    this.sameAddressHandler();
 
     this.provider && this.activateEditMode();
   }
 
-  activateEditMode(): void {
+  private activateEditMode(): void {
     this.LegalAddressFormGroup.addControl('id', this.formBuilder.control(''));
     this.ActualAddressFormGroup.addControl('id', this.formBuilder.control(''));
 
@@ -56,7 +56,7 @@ export class CreateContactsFormComponent implements OnInit {
   /**
    * This method makes input enable if radiobutton value is true and sets the value to the formgroup
    */
-  initDisableIsSameAddressControl(): void {
+  private sameAddressHandler(): void {
     this.isSameAddressControl.valueChanges.subscribe((isSame: boolean) => {
       if (isSame) {
         this.ActualAddressFormGroup.reset();
@@ -73,7 +73,7 @@ export class CreateContactsFormComponent implements OnInit {
   /**
   * This method add validators to teh form-group when actual address is not teh same as legal address
   */
-  setValidators(): void {
+  private setValidators(): void {
     const addValidator = (formControlTitle: string) => (formControlTitle !== 'buildingNumber') ? Validators.pattern(TEXT_REGEX) : Validators.pattern(TEXT_WITH_DIGITS_REGEX);
 
     Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
