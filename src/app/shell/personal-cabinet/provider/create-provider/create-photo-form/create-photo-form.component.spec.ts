@@ -45,6 +45,7 @@ describe('CreatePhotoFormComponent', () => {
     component.PhotoFormGroup = new FormGroup({
       image: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+      institutionStatusId: new FormControl('', Validators.required)
     });
     fixture.detectChanges();
   });
