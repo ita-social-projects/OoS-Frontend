@@ -65,8 +65,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
     this.RobotFormControl.valueChanges.subscribe((val: boolean) => this.isNotRobot = val);
     this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
 
-    this.editMode && this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.PersonalCabinetProvider, isActive: false, disable: true }
+    this.editMode && this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
+      { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
   }
 

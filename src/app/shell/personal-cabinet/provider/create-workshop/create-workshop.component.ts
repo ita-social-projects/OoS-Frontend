@@ -54,8 +54,10 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
       this.userWorkshopService.getWorkshopById(workshopId).subscribe((workshop: Workshop) => this.workshop = workshop);
     }
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.PersonalCabinetProvider, isActive: false, disable: true }
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
+      { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true }
+
     )));
   }
 

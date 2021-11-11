@@ -10,4 +10,9 @@ export enum NavBarName {
   PersonalInformation = 'Особиста інформація',
   InformationAboutChild = 'Інформація про дитину',
   AddInformationAboutChild = 'Додати дані про дитину',
+  EditInformationAboutChild = 'Редагувати дані про дитину',
+  EditInstitutions = 'Редагувати заклад',
+  EditInformationAbout = 'Редагування особистої інформації',
+  NewWorkshop = 'Новий гурток',
+  EditWorkshop = 'Редагування гуртка'
 }
