@@ -24,11 +24,8 @@ import {
   GetTopDirections,
   ClearDepartments,
   ClearClasses,
-<<<<<<< HEAD
-  GetInstitutionStatus
-=======
+  GetInstitutionStatus,
   ClearRatings
->>>>>>> develop
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';

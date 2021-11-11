@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('CreatePhotoFormComponent', () => {
   let component: CreatePhotoFormComponent;
@@ -24,6 +26,8 @@ describe('CreatePhotoFormComponent', () => {
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
         MatIconModule,
+        MatOptionModule,
+        MatSelectModule,
         MatGridListModule
       ],
       declarations: [
