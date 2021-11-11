@@ -35,6 +35,10 @@ export class GetCities {
 export class ClearCities {
   static readonly type = '[meta-data] clear cities state';
 }
+
+export class ClearRatings {
+  static readonly type = '[meta-data] clear ratings state';
+}
 export class FilteredDirectionsList {
   static readonly type = '[meta-data] Get list of filtered directions';
   constructor(public payload: Direction[]) { }

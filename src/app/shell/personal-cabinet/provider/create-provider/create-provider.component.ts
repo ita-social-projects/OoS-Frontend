@@ -51,7 +51,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('stepper') stepper: MatStepper;
 
   constructor(
-    private store: Store, 
+    private store: Store,
     private route: ActivatedRoute,
     private navigationBarService: NavigationBarService) { }
 
@@ -75,8 +75,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit(): void {
-    this.route.params.subscribe((params: Params) => this.stepper.selectedIndex = +createProviderSteps[params.param]);
-  }
+    this.route.params.subscribe((params: Params) => {
+    this.stepper.selectedIndex = +createProviderSteps[params.param];
+  });}
 
   /**
    * This method dispatch store action to create a Provider with Form Groups values
