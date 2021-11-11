@@ -63,10 +63,20 @@
     color: #333333;
     margin: 0.3rem;
     padding: 0;
+
+    &_blue {
+      color: #3849F9;
+    }
   }
+
+
   &_icon{
     color: #AAAAAA;
     margin-right: 0.2rem;
+
+    &_blue{
+      color: #3849F9;
+    }
   }
 }
 .card-footer {

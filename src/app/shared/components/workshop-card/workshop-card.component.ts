@@ -35,6 +35,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
+  @Input() pendingApplicationAmount: number;
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = true;
   @Input() icons: {};
