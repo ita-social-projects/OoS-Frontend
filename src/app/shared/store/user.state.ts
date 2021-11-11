@@ -214,7 +214,8 @@ export class UserState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop): Observable<object> {
+  createWorkshop({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop): Observable<object> {
+    patchState({ isLoading: true })
     return this.userWorkshopService
       .createWorkshop(payload)
       .pipe(
@@ -230,7 +231,8 @@ export class UserState {
   }
 
   @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+  onCreateWorkshopSuccess({patchState, dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    patchState({ isLoading: false })
     dispatch(new MarkFormDirty(false));
     console.log('Workshop is created', payload);
     dispatch(new ShowMessageBar({ message: 'Гурток створено!', type: 'success' }));
@@ -246,7 +248,7 @@ export class UserState {
     return this.userWorkshopService
       .deleteWorkshop(payload.workshopId)
       .pipe(
-        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
@@ -260,7 +262,8 @@ export class UserState {
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
-    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload}" видалено!`, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload.title}" видалено!`, type: 'success' }));
+    dispatch(new GetWorkshopsByProviderId(payload.providerId));
   }
 
   @Action(CreateChildren)

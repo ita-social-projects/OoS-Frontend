@@ -23,7 +23,8 @@ import {
   GetRateByEntityId,
   GetTopDirections,
   ClearDepartments,
-  ClearClasses
+  ClearClasses,
+  ClearRatings
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 
@@ -95,6 +96,7 @@ export class MetaDataState {
   @Selector()
   static isLoading(state: MetaDataStateModel): boolean { return state.isLoading; }
 
+  @Selector()
   static rating(state: MetaDataStateModel): Rate[] { return state.rating; }
 
   constructor(
@@ -171,6 +173,11 @@ export class MetaDataState {
   @Action(ClearCities)
   clearCities({ patchState }: StateContext<MetaDataStateModel>, { }: ClearCities): void {
     patchState({ cities: null });
+  }
+
+  @Action(ClearRatings)
+  clearRatings({ patchState }: StateContext<MetaDataStateModel>, { }: ClearRatings): void {
+    patchState({ rating: null });
   }
 
   @Action(FilteredDirectionsList)
