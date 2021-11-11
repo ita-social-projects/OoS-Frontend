@@ -204,7 +204,7 @@ export class UserState {
   }
 
   @Action(GetAllUsersChildren)
-  getAllUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetAllUsersChildren): Observable<ChildCards> {
+  getAllUsersChildren({ patchState }: StateContext<UserStateModel>, { }: GetAllUsersChildren): Observable<ChildCards> {
     return this.childrenService
       .getAllUsersChildren()
       .pipe(
@@ -231,7 +231,7 @@ export class UserState {
   }
 
   @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess({patchState, dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+  onCreateWorkshopSuccess({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
     patchState({ isLoading: false })
     dispatch(new MarkFormDirty(false));
     console.log('Workshop is created', payload);
@@ -431,7 +431,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/provider/info']);
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
   @Action(UpdateUser)

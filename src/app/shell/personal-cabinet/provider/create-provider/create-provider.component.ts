@@ -87,19 +87,18 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-
       let legalAddress: Address;
       let actulaAdress: Address;
       let provider: Provider;
 
       if (this.editMode) {
-        legalAddress = new Address(this.ActualAddressFormGroup.value, this.provider.legalAddress);
-        actulaAdress = new Address(this.LegalAddressFormGroup.value, this.provider.actualAddress);
+        legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
+        actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
         provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
         this.store.dispatch(new UpdateProvider(provider));
       } else {
-        legalAddress = new Address(this.ActualAddressFormGroup.value);
-        actulaAdress = new Address(this.LegalAddressFormGroup.value);
+        legalAddress = new Address(this.LegalAddressFormGroup.value);
+        actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
         provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
         this.store.dispatch(new CreateProvider(provider));
       }
