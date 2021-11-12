@@ -40,7 +40,7 @@ export class CreatePhotoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
-    if (this.provider.institutionStatusId === null) {
+    if (this.provider?.institutionStatusId === null) {
       this.provider.institutionStatusId = 0
     }
     this.provider && this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });

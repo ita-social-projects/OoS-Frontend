@@ -35,7 +35,7 @@ export class ProviderOrgInfoComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   currentStatus: string;
-  constructor(private store: Store, private actions$: Actions,) { }
+  constructor(private store: Store) { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
