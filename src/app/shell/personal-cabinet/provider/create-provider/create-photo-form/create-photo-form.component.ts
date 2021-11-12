@@ -4,7 +4,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
@@ -31,41 +30,28 @@ export class CreatePhotoFormComponent implements OnInit {
   
   @Output() passPhotoFormGroup = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private store: Store, ) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: new FormControl('', Validators.required),
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE),
     });
-
-    
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
-
     this.provider && this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-
     
     this.institutionStatuses$
     .pipe(
       takeUntil(this.destroy$),
     ).subscribe((institutionStatuses: InstitutionStatus[]) => {
       if (this.editMode) {
-        debugger
         this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
         this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
       }
-      // if (institutionStatuses.length === 0) {
-      //   this.store.dispatch(new GetInstitutionStatus());
-      // }
     });
-    // if (this.editMode) {
-    //   debugger
-    //   this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
-    //   this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
-    // }
   }
 
   ngOnDestroy(): void {
