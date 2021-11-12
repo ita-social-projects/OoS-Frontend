@@ -40,13 +40,16 @@ export class CreatePhotoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
+    if (this.provider.institutionStatusId === null) {
+      this.provider.institutionStatusId = 0
+    }
     this.provider && this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
     
     this.institutionStatuses$
     .pipe(
       takeUntil(this.destroy$),
-    ).subscribe((institutionStatuses: InstitutionStatus[]) => {
+    ).subscribe(() => {
       if (this.editMode) {
         this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
         this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
