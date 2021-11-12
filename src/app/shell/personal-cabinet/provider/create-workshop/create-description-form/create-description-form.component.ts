@@ -24,6 +24,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   @Output() passDescriptionFormGroup = new EventEmitter();
 
+  @ViewChild('keyWordsInput') keyWordsInputElement: ElementRef;
+
   CategoriesFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
 
@@ -72,21 +74,22 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   onKeyWordsInput(isEditMode: boolean = true): void {
-    const inputKeyWord = this.keyWord.trim().toLowerCase();
-    if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
-
-      if (this.keyWords.length < 5) {
-        this.keyWords.push(inputKeyWord);
+    this.DescriptionFormGroup.get('keyWords').markAsTouched();
+    if(this.keyWord){
+      const inputKeyWord = this.keyWord.trim().toLowerCase();
+      if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
+        if (this.keyWords.length < 5) {
+          this.keyWords.push(inputKeyWord);
+        } else {
+          this.keyWords.pop();
+          this.keyWords.unshift(inputKeyWord);
+        }
+        this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
+        this.keyWordsCtrl.setValue(null);
+        this.keyWord = '';
       } else {
-        this.keyWords.pop();
-        this.keyWords.unshift(inputKeyWord);
+        this.keyWord = '';
       }
-
-      this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
-      this.keyWordsCtrl.setValue(null);
-      this.keyWord = '';
-    } else {
-      this.keyWord = '';
     }
   }
 
@@ -131,5 +134,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     if (this.workshop.withDisabilityOptions) {
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
+  }
+  
+  /**
+   * This method puts keyWordsInput field in focus
+   */
+  makeFocus(){
+    this.keyWordsInputElement.nativeElement.focus();
   }
 }
