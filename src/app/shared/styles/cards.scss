@@ -17,7 +17,6 @@
 
   &-image {
     max-width: 50%;
-    margin-top: 1rem;
   }
 
   &_category {
@@ -181,11 +180,7 @@
 }
 .mat-card-image {
   width: 100%;
-  margin: 0;
-  margin-bottom: 20px;
-  &:first-child {
-    margin-top: 0;
-  }
+  margin: 1rem;
 }
 .actions {
   position: absolute;
