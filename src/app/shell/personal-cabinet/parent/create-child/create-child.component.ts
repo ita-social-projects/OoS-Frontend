@@ -91,7 +91,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       dateOfBirth: new FormControl('', Validators.required),
-      gender: new FormControl(''),
+      gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfStudy: new FormControl('')
     });
@@ -130,16 +130,39 @@ export class CreateChildComponent implements OnInit, OnDestroy {
    * This method create or edit Child and distpatch CreateChild action
    */
   onSubmit(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    if (this.editMode) {
-      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
-      this.store.dispatch(new UpdateChild(child));
+    if (this.ChildrenFormArray.invalid) {
+      this.checkValidationChild();
     } else {
-      this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-        const child: Child = new Child(form.value, parent.id);
-        this.store.dispatch(new CreateChildren(child));
-      });
+      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+      if (this.editMode) {
+        const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+        this.store.dispatch(new UpdateChild(child));
+      } else {
+        this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
+          const child: Child = new Child(form.value, parent.id);
+          this.store.dispatch(new CreateChildren(child));
+        });
+      }
     }
+  }
+
+  /**
+   * This method marks each control of form in the array of forms in ChildrenFormArray as touched
+   */
+  checkValidationChild(): void {
+    Object.keys(this.ChildrenFormArray.controls).forEach(key => {
+      this.checkValidation(<FormGroup>this.ChildrenFormArray.get(key));
+    });
+  }
+
+  /**
+   * This method receives a form and marks each control of this form as touched
+   * @param FormGroup form
+   */
+  checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
   }
 
   ngOnDestroy(): void {
