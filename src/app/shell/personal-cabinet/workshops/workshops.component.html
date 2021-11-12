@@ -15,10 +15,10 @@
 </ng-template>
 
 <ng-template #ProviderWorkshops>
-  <div fxLayout="row wrap" fxLayoutAlign="start" #WorkshopsWrap>
-    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
+  <div fxLayout="row wrap" fxLayoutAlign="start">
+    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
       [isMainPage]="false" [userRoleView]="Role.provider"
-      [pendingApplicationAmount]="getPendingStatusAmount(workshop.id)" (deleteWorkshop)="onDelete($event)">
+      [pendingApplicationAmount]="getPendingStatusAmount(workshop.workshopId)" (deleteWorkshop)="onDelete($event)">
     </app-workshop-card>
     <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
       [workshop]="workshop" class="empty-card" [isMainPage]="true">
