@@ -46,7 +46,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     }
   }
 
-  getPendingStatusAmount(workshopId?: string): number {
+  getPendingStatusAmount(workshopId: string): number {
     return this.applications?.filter((application: Application) => application.workshopId === workshopId).length;
   }
 
