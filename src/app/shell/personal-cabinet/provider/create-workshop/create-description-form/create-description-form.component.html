@@ -42,7 +42,7 @@
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу</label>
-  <div class="step-input" style="min-height:100px" (click)="makeFocus()"
+  <div class="step-input" style="min-height:100px" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)"

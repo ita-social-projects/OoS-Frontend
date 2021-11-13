@@ -75,7 +75,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   onKeyWordsInput(isEditMode: boolean = true): void {
     this.DescriptionFormGroup.get('keyWords').markAsTouched();
-    if(this.keyWord){
+    if (this.keyWord) {
       const inputKeyWord = this.keyWord.trim().toLowerCase();
       if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
         if (this.keyWords.length < 5) {
@@ -139,7 +139,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method puts keyWordsInput field in focus
    */
-  makeFocus(){
+  setFocus(): void {
     this.keyWordsInputElement.nativeElement.focus();
   }
 }
