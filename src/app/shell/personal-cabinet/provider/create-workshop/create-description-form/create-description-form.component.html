@@ -47,7 +47,7 @@
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)"
       class="keyWordChip">
-        <div [matTooltip]="keyWord" showTooltipIfTruncated class="chip-text"> {{keyWord}}</div>
+        <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
       <input #keyWordsInput (focusout)="onKeyWordsInput()"

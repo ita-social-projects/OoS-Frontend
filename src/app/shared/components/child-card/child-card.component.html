@@ -14,9 +14,12 @@
       </div>
       <div>
         <mat-card-header>
-          <mat-card-title [matTooltip]="childFullName" showTooltipIfTruncated [matTooltipPosition]="below">
-            {{child.lastName}} {{child.firstName}} {{child.middleName}}
-          </mat-card-title>
+          <mat-card-title 
+            [matTooltip]="childFullName" 
+            showTooltipIfTruncated
+            matTooltipClass="tooltip" 
+            [matTooltipPosition]="below"
+          >{{child.lastName}} {{child.firstName}} {{child.middleName}}</mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
           <p class="card_text">
