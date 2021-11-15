@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { Provider } from '../../models/provider.model';
 
 @Injectable({
@@ -39,5 +40,12 @@ export class ProviderService {
  */
   updateProvider(provider: Provider): Observable<object> {
     return this.http.put('/api/v1/Provider/Update', provider);
+  }
+
+  /**
+ * This method get all institution statuses
+ */
+  getInstitutionStatus(): Observable<InstitutionStatus[]> {
+    return this.http.get<InstitutionStatus[]>('/api/v1/InstitutionStatus/Get');
   }
 }
