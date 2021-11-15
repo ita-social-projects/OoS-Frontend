@@ -61,7 +61,4 @@ export class ProviderOrgInfoComponent implements OnInit {
     this.editLink = createProviderSteps[tabChangeEvent.index];
   }
 
-  
-
-
 }
