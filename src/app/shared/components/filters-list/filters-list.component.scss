@@ -23,16 +23,18 @@ color:#444444;
 }
 
 .resetFilter {
-  box-sizing: border-box;
+  padding: 0;
+  margin-bottom: 3px;
+  font-family: Innerspace;
+  border: none;
   box-shadow: none;
-  border: 1px solid #EBEBEB;
-  border-radius: 25px;
-  background: #FFFFFF;
-  font-family: "Open Sans", sans-serif;
-  font-weight: normal;
-  line-height: 30px;
-  &:hover{
-    cursor: pointer;
-    opacity: 0.8;
-  }
+  background-color: inherit;
+  color: #3849F9;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 14.6px;
+}
+
+.matFilter {
+
 }

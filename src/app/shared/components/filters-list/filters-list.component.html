@@ -1,5 +1,9 @@
 <div class="filters-wrapper">
-  <button mat-raised-button class="resetFilter" (click)="onFilterReset()">Очистити Фільтри</button>
+  <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
+
+    <mat-icon class="matFilter">remove_circle_outline</mat-icon>
+    Очистити Фільтри
+  </button>
   <app-category-check-box [categoryCheckBox]="categoryCheckBox"></app-category-check-box>
   <app-age-filter [ageFilter]="ageFilter"></app-age-filter>
   <app-working-hours [workingHours]="workingHours"></app-working-hours>
