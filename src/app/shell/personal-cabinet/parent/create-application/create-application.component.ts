@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetAllUsersChildren, GetUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -65,7 +65,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((parent: Parent) => {
         this.parent = parent;
-        this.store.dispatch(new GetUsersChildren());
+        this.store.dispatch(new GetAllUsersChildren());
       });
 
     const workshopId = this.route.snapshot.paramMap.get('id');
@@ -105,5 +105,30 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateApplication(application));
       }
     });
+  }
+
+
+  promise(): void {
+    let p = new Promise((res, rej) => {
+      setTimeout(() => {
+        rej('Hello 1');
+      }, 2000)
+    }).catch(err => console.error(err));
+
+    p.then((result) => {
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          res('Hello 2 ' + result);
+        })
+      })
+    })
+      .then((result) => {
+        return new Promise((res, rej) => {
+          setTimeout(() => {
+            res('Hello 3 ' + result);
+          })
+        })
+      })
+      .catch(err => console.error(err))
   }
 }

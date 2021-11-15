@@ -5,20 +5,20 @@
     <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
     <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
   </div>
-  <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops;"></ng-container>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops;"></ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #isParent>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
-  </ng-container>
+  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
 </ng-template>
 
 <ng-template #ProviderWorkshops>
   <div fxLayout="row wrap" fxLayoutAlign="start">
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
-      [isMainPage]="false" [userRoleView]="Role.provider"
-      [pendingApplicationAmount]="getPendingStatusAmount(workshop.workshopId)" (deleteWorkshop)="onDelete($event)">
+      [isMainPage]="false" [userRoleView]="Role.provider" [pendingApplications]="applications$ | async"
+      (deleteWorkshop)="onDelete($event)">
     </app-workshop-card>
     <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
       [workshop]="workshop" class="empty-card" [isMainPage]="true">

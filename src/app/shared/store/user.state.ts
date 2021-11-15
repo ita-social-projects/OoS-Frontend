@@ -173,7 +173,7 @@ export class UserState {
 
   @Action(GetApplicationsByParentId)
   getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId): Observable<Application[]> {
-    patchState({ isLoading: true })
+    patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByParentId(payload)
       .pipe(
@@ -184,6 +184,7 @@ export class UserState {
 
   @Action(GetApplicationsByProviderId)
   getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<Application[]> {
+    patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(

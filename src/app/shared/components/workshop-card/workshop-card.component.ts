@@ -30,12 +30,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
+  pendingApplicationAmount: number;
 
   @Input() workshop: WorkshopCard;
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
-  @Input() pendingApplicationAmount: number;
+  @Input() pendingApplications: Application[];
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = true;
   @Input() icons: {};
@@ -64,7 +65,12 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       });
     this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => this.role = role)
+      .subscribe((role: string) => this.role = role);
+    (this.userRoleView === Role.provider) && this.getPedingApplicationAmount();
+  }
+
+  getPedingApplicationAmount(): void {
+    this.pendingApplicationAmount = this.pendingApplications.filter((application: Application) => application.workshopId === this.workshop.workshopId).length;
   }
 
   onDelete(): void {
