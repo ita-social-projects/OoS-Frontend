@@ -42,14 +42,15 @@
 
   <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
     щоб додати тегу</label>
-  <div class="step-input" style="min-height:100px"
+  <div class="step-input" style="min-height:100px" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
     <mat-chip-list #chipList>
-      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)">
-        {{keyWord}}
+      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)"
+      class="keyWordChip">
+        <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input #keyWordsInput (focusout)="DescriptionFormGroup.get('keyWords').markAsTouched()"
+      <input #keyWordsInput (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord">
     </mat-chip-list>
