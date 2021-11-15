@@ -136,3 +136,8 @@ $config: mat-typography-config(
 .dropdownOptionMobile {
   display: none;
 }
+
+.tooltip {
+  word-break: break-all !important;
+  white-space: normal !important;
+}

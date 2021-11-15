@@ -1,2 +1,14 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
+
+.keyWordChip.keyWordChip.keyWordChip {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.chip-text {
+  width: calc(100%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
