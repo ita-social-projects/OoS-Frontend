@@ -35,6 +35,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
   sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  @Select(RegistrationState.isAuthorized)
+  isAuthorized$: Observable<string>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
