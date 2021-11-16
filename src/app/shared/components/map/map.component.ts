@@ -12,6 +12,8 @@ import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
+import { UserState } from '../../store/user.state';
+import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 
 @Component({
   selector: 'app-map',
@@ -19,7 +21,8 @@ import { GeolocationAddress } from '../../models/geolocationAddress.model';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-
+  @Select(UserState.selectedWorkshop)
+  selectedWorkshop$: Observable<any>;
   public defaultCoords: Coords;
   public zoom = 11;
   public workshops: WorkshopCard[];
@@ -34,8 +37,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
-  constructor(private geolocationService: GeolocationService) { }
-
+  constructor(private geolocationService: GeolocationService,private previousUrl: PreviousUrlService) { }
   map: Layer.Map;
   singleMarker: Layer.Marker;
   workshopMarkers: {
@@ -107,6 +109,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.flyTo(this.defaultCoords);
       });
 
+
+
     this.filteredWorkshops$ && this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
       .subscribe(filteredWorkshops => {
@@ -114,6 +118,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.workshopMarkers = [];
         this.workshops = filteredWorkshops.entities;
         filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+        this.setPrevWorkShopMarker();
       });
 
 
@@ -201,7 +206,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const coords: [number, number] = [address.latitude, address.longitude];
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
-    this.workshopMarkers.push({ marker, isSelected: false });
+    this.workshopMarkers.push({ marker, isSelected: false});
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
@@ -212,6 +217,28 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       targetMarker.isSelected ? targetMarker.marker.setIcon(this.selectedMarkerIcon) : targetMarker.marker.setIcon(this.unselectedMarkerIcon);
       this.selectedAddress.emit(address);
     });
+  }
+
+  setPrevWorkShopMarker() {
+    this.selectedWorkshop$.pipe(takeUntil(this.destroy$)).subscribe(value => {
+      if ('/workshop-details/'+value.id === this.previousUrl.getPreviousUrl()) {
+        const targetMarkers = this.workshopMarkers.filter((workshopMarker) => {
+          const {lat, lng} = workshopMarker.marker.getLatLng()
+          if ( lat === value.address.latitude && lng === value.address.longitude) {
+            return true
+          } else {
+            return false
+          }
+        });
+        targetMarkers.forEach(targetMarker => {
+          targetMarker.isSelected = true;
+          targetMarker.isSelected ? targetMarker.marker.setIcon(this.selectedMarkerIcon) : targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+        })
+        this.selectedAddress.emit(value.address);
+
+      }
+    })
+
   }
 
   /**

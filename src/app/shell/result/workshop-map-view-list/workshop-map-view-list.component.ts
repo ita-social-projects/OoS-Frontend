@@ -8,8 +8,10 @@ import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { PreviousUrlService } from 'src/app/shared/services/previousUrl/previous-url.service';
 import { PageChange } from 'src/app/shared/store/filter.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -30,8 +32,8 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
+
   @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
   @Input()
@@ -49,17 +51,26 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   };
   public workshopDetailsAnimationState = false;
 
-
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
-
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   public currentWorkShopIndex: number = 0;
   public direct: string
   public left: number = 0
+
+  constructor(private store: Store) { }
+
+  ngOnInit(): void {
+    this.filteredWorkshops$
+      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
+      .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
+
+
+  }
+
   swipe(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     let time = new Date().getTime();
@@ -96,11 +107,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnInit(): void {
-    this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
-      .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
-  }
+
 
   onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);

@@ -1,3 +1,4 @@
+
 import { Direction } from './../../shared/models/category.model';
 import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
@@ -13,8 +14,10 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
 
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { PreviousUrlService } from 'src/app/shared/services/previousUrl/previous-url.service';
+import { UserState } from 'src/app/shared/store/user.state';
 
 enum ViewType {
   map = 'map',
@@ -37,6 +40,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
+
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
@@ -58,7 +62,10 @@ export class ResultComponent implements OnInit, OnDestroy {
   constructor(
     private actions$: Actions,
     private store: Store,
-    public navigationBarService: NavigationBarService
+    public navigationBarService: NavigationBarService,
+    private route: ActivatedRoute,
+    private router: Router,
+
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +75,14 @@ export class ResultComponent implements OnInit, OnDestroy {
         { name: NavBarName.TopWorkshops, isActive: false, disable: true }
       )),
     );
+
+    this.route.params.subscribe(params => {
+      if (params.param === 'map') {
+        this.currentView = this.viewType.map
+      } else {
+        this.currentView = this.viewType.data
+      }
+    });
 
     this.actions$.pipe(ofAction(FilterChange))
       .pipe(
@@ -92,8 +107,12 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   viewHandler(value: ViewType): void {
     this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => {
-      this.currentView = value;
-    });
+      if (value === this.viewType.map) {
+        this.router.navigate(['result/map'])
+      } else {
+        this.router.navigate(['result/list'])
+      }
+    })
   }
 
   ngOnDestroy(): void {
