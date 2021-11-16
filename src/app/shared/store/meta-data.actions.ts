@@ -22,6 +22,10 @@ export class GetSocialGroup {
   static readonly type = '[meta-data] Get GetSocialGroup';
   constructor() { }
 }
+export class GetInstitutionStatus{
+  static readonly type = '[meta-data] Get GetInstitutionStatus';
+  constructor() { }
+}
 export class ClearClasses {
   static readonly type = '[meta-data] clear classes state';
 }
