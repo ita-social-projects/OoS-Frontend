@@ -19,7 +19,8 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <ng-container>
+    <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyTopWorkshops"></ng-container>
+    <ng-template #topWorkshops>
       <div fxLayout="row wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
         <app-workshop-card *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop" [isMainPage]="true"
           [userRoleView]="Role.unauthorized">
@@ -28,7 +29,12 @@
           [workshop]="workshop" class="empty-card" [isMainPage]="true">
         </app-workshop-card>
       </div>
-    </ng-container>
+    </ng-template>
+    <ng-template #emptyTopWorkshops>
+      <div class="empty-list-wrapper">
+        <p class="text">За результатами нічого не знайдено</p>
+      </div>
+    </ng-template>
   </div>
   <div *ngIf="(role$ | async) !== Role.unauthorized" class="main_registration" fxLayoutAlign="space-between center">
     <div class="main_description">
