@@ -49,6 +49,8 @@ export class Constants {
     name: 'Київ',
     region: 'м.Київ',
   };
+
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
   
 }
 
