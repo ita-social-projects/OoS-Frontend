@@ -1,5 +1,6 @@
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
+import { City } from '../models/city.model';
 import { WorkingDaysToggleValue } from '../models/workingHours.model';
 
 /**
@@ -39,6 +40,17 @@ export class Constants {
   static WorkingDaysValues: any;
 
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
+
+  static readonly KIEV: City = {
+    district: 'м.Київ',
+    id: 14446,
+    longitude: 30.5595,
+    latitude: 50.44029,
+    name: 'Київ',
+    region: 'м.Київ',
+  };
+
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
   
 }
 
