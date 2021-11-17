@@ -17,7 +17,7 @@
 <ng-template #ProviderWorkshops>
   <div fxLayout="row wrap" fxLayoutAlign="start">
     <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
-      [isMainPage]="false" [userRoleView]="Role.provider" [pendingApplications]="applications$ | async"
+      [isMainPage]="false" [userRoleView]="Role.provider" [pendingApplications]="applications"
       (deleteWorkshop)="onDelete($event)">
     </app-workshop-card>
     <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
