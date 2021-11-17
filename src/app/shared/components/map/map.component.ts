@@ -14,17 +14,14 @@ import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { UserState } from '../../store/user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
-
-interface workshopMarkers {
-  marker: Layer.Marker,
-  isSelected?: boolean
-}
+import { WorkshopMarker } from '../../models/workshopMarker.model';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
+
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Select(UserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
@@ -45,7 +42,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) { }
   map: Layer.Map;
   singleMarker: Layer.Marker;
-  workshopMarkers: workshopMarkers[] = [];
+  workshopMarkers: WorkshopMarker[] = [];
 
   unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
@@ -217,20 +214,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  setPrevWorkShopMarker() {
+  setPrevWorkShopMarker(): void {
     this.selectedWorkshop$.pipe(takeUntil(this.destroy$)).subscribe((workshop: Workshop) => {
       if ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()) {
-        const targetMarkers = this.workshopMarkers.filter((workshopMarker) => {
-          const {lat, lng} = workshopMarker.marker.getLatLng()
+        const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
+          const {lat, lng} = workshopMarker.marker.getLatLng();
           return ( lat === workshop.address.latitude && lng === workshop.address.longitude);
         });
-        targetMarkers.forEach((targetMarker: workshopMarkers) => {
+        targetMarkers.forEach((targetMarker: WorkshopMarker) => {
           targetMarker.isSelected = true;
           targetMarker.marker.setIcon(this.selectedMarkerIcon);
         });
         this.selectedAddress.emit(workshop.address);
       }
-    })
+    });
 
   }
 
@@ -238,10 +235,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method unselect target Marker
    */
   unselectMarkers(): void {
-    const selectedWorkshopMarker = this.workshopMarkers.find((workshopMarkes) => workshopMarkes.isSelected);
+    const selectedWorkshopMarker = this.workshopMarkers.filter((workshopMarkes) => workshopMarkes.isSelected);
     if (selectedWorkshopMarker) {
-      selectedWorkshopMarker.isSelected = false;
-      selectedWorkshopMarker.marker.setIcon(this.unselectedMarkerIcon);
+      selectedWorkshopMarker.forEach((targetMarker: WorkshopMarker) => {
+        targetMarker.isSelected = false;
+        targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+      });
     }
   }
 

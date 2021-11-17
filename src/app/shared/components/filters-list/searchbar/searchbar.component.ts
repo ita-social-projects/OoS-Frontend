@@ -1,3 +1,4 @@
+import { emit } from 'process';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -49,7 +50,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text));
+      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
   }
 
   onSearch(): void {

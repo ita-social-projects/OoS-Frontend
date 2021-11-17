@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,15 @@ export class PreviousUrlService {
 
   constructor(private router : Router) {
     this.currentUrl = this.router.url;
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
+    router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
         this.previousUrl = this.currentUrl;
         this.currentUrl = event.url;
-      };
     });
   }
 
-  public getPreviousUrl(){
+  public getPreviousUrl(): string {
     return this.previousUrl;
   }
 }

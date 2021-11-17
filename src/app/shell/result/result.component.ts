@@ -14,10 +14,8 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
 
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { PreviousUrlService } from 'src/app/shared/services/previousUrl/previous-url.service';
-import { UserState } from 'src/app/shared/store/user.state';
 
 enum ViewType {
   map = 'map',
@@ -64,22 +62,23 @@ export class ResultComponent implements OnInit, OnDestroy {
     private store: Store,
     public navigationBarService: NavigationBarService,
     private route: ActivatedRoute,
-    private router: Router,
-
+    private router: Router
   ) { }
 
   ngOnInit(): void {
 
-    this.route.params.subscribe(params => {
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
       this.currentView = params.param === this.viewType.map ? this.viewType.map : this.viewType.data;
     });
 
-    this.store.dispatch(
+    this.store.dispatch([
       new AddNavPath(this.navigationBarService.creatOneNavPath(
         { name: NavBarName.TopWorkshops, isActive: false, disable: true }
-      ))
-    );
-
+      )),
+      new GetFilteredWorkshops(this.currentView === this.viewType.map)
+    ]);
 
     this.actions$.pipe(ofAction(FilterChange))
       .pipe(
@@ -103,7 +102,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   viewHandler(value: ViewType): void {
-    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => this.router.navigate([`result/${value}`]))
+    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.router.navigate([`result/${value}`]));
   }
 
   ngOnDestroy(): void {
