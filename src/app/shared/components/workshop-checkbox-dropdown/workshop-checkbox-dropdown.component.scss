@@ -1,5 +1,6 @@
 @import "src/app/shared/styles/dropdown.scss";
-.dropdown{
+
+.dropdown {
   width: 200px;
   background: #FFFFFF;
   font-weight: 500;
@@ -10,18 +11,15 @@
   color: #333333;
 }
 
-.dropdown-wrapper{
+.dropdown-wrapper {
   z-index: 3;
 }
-.label{
+
+.label {
   padding: 1rem;
 }
 
-::ng-deep .mat-form-field-underline{
-  display: none;
-}
-
-mat-form-field mat-label{
+mat-form-field mat-label {
   display: flex;
   justify-content: flex-start;
   font-weight: 800;
@@ -29,9 +27,9 @@ mat-form-field mat-label{
   color: #333333;
 }
 
-::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label{
+::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
   display: none;
 }
-::ng-deep .mat-primary .mat-pseudo-checkbox-checked{
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
   background: #3849F9;
 }
