@@ -67,8 +67,6 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
       .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
-
-
   }
 
   swipe(e: TouchEvent, when: string): void {
@@ -105,9 +103,6 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       this.left =parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92
     }
   }
-
-
-
 
   onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);

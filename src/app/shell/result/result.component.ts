@@ -21,7 +21,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 
 enum ViewType {
   map = 'map',
-  data = 'show-data'
+  data = 'list'
 }
 
 @Component({
@@ -71,11 +71,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.route.params.subscribe(params => {
-      if (params.param === 'map') {
-        this.currentView = this.viewType.map
-      } else {
-        this.currentView = this.viewType.data
-      }
+      this.currentView = params.param === this.viewType.map ? this.viewType.map : this.viewType.data;
     });
 
     this.store.dispatch(
@@ -107,13 +103,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   viewHandler(value: ViewType): void {
-    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => {
-      if (value === this.viewType.map) {
-        this.router.navigate(['result/map'])
-      } else {
-        this.router.navigate(['result/list'])
-      }
-    })
+    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => this.router.navigate([`result/${value}`]))
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
 import { Select, Store } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
@@ -15,6 +15,11 @@ import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { UserState } from '../../store/user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 
+interface workshopMarkers {
+  marker: Layer.Marker,
+  isSelected?: boolean
+}
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -22,7 +27,7 @@ import { PreviousUrlService } from '../../services/previousUrl/previous-url.serv
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Select(UserState.selectedWorkshop)
-  selectedWorkshop$: Observable<any>;
+  selectedWorkshop$: Observable<Workshop>;
   public defaultCoords: Coords;
   public zoom = 11;
   public workshops: WorkshopCard[];
@@ -37,13 +42,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
-  constructor(private geolocationService: GeolocationService,private previousUrl: PreviousUrlService) { }
+  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) { }
   map: Layer.Map;
   singleMarker: Layer.Marker;
-  workshopMarkers: {
-    marker: Layer.Marker,
-    isSelected?: boolean
-  }[] = [];
+  workshopMarkers: workshopMarkers[] = [];
 
   unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
@@ -109,8 +111,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.flyTo(this.defaultCoords);
       });
 
-
-
     this.filteredWorkshops$ && this.filteredWorkshops$
       .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
       .subscribe(filteredWorkshops => {
@@ -120,7 +120,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
         this.setPrevWorkShopMarker();
       });
-
 
     // cheking if user edit workshop information
     if (this.addressFormGroup) {
@@ -139,7 +138,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         }
       });
     }
-
   }
 
   /**
@@ -220,21 +218,17 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   setPrevWorkShopMarker() {
-    this.selectedWorkshop$.pipe(takeUntil(this.destroy$)).subscribe(value => {
-      if ('/workshop-details/'+value.id === this.previousUrl.getPreviousUrl()) {
+    this.selectedWorkshop$.pipe(takeUntil(this.destroy$)).subscribe((workshop: Workshop) => {
+      if ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()) {
         const targetMarkers = this.workshopMarkers.filter((workshopMarker) => {
           const {lat, lng} = workshopMarker.marker.getLatLng()
-          if ( lat === value.address.latitude && lng === value.address.longitude) {
-            return true
-          } else {
-            return false
-          }
+          return ( lat === workshop.address.latitude && lng === workshop.address.longitude);
         });
-        targetMarkers.forEach(targetMarker => {
+        targetMarkers.forEach((targetMarker: workshopMarkers) => {
           targetMarker.isSelected = true;
-          targetMarker.isSelected && targetMarker.marker.setIcon(this.selectedMarkerIcon);
-        })
-        this.selectedAddress.emit(value.address);
+          targetMarker.marker.setIcon(this.selectedMarkerIcon);
+        });
+        this.selectedAddress.emit(workshop.address);
       }
     })
 
