@@ -232,10 +232,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         });
         targetMarkers.forEach(targetMarker => {
           targetMarker.isSelected = true;
-          targetMarker.isSelected ? targetMarker.marker.setIcon(this.selectedMarkerIcon) : targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+          targetMarker.isSelected && targetMarker.marker.setIcon(this.selectedMarkerIcon);
         })
         this.selectedAddress.emit(value.address);
-
       }
     })
 
