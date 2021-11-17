@@ -33,11 +33,7 @@ export class Util {
   public static getDeclensionYear(year: number) : string {
     let ageString;
     let lastDigit = year % 10;
-    if (year === 11) {
-      ageString = 'років';
-    } else {
-      (lastDigit === 1) ? ageString = 'рік' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
-    }
+      (lastDigit === 1 && year !== 11) ? ageString = 'рік' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
     return ageString;
   }
 
