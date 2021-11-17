@@ -57,7 +57,7 @@
     min-width:100px;
   }
 }
-.mat-drawer-container {  
+.mat-drawer-container {
   min-height: 600px;
   background-color: inherit;
   color: inherit;
@@ -77,7 +77,7 @@
   }
 }
 
-.filters-toggle-btn {  
+.filters-toggle-btn {
   width: 34px;
   height: 34px;
   box-sizing: border-box;
@@ -136,7 +136,9 @@
 @media(max-width: 1000px) {
   .view-control-panel {
     flex-wrap: wrap-reverse;
+    margin-bottom: 16px;
   }
+  
   .workshops-count {
     margin-top: 10px;
   }
