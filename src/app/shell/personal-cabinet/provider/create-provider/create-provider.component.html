@@ -6,7 +6,7 @@
         у вашому особистому кабінеті.</p>
     </div>
 
-    <mat-horizontal-stepper #stepper [linear]="isLinear">
+    <mat-horizontal-stepper #stepper [linear]="editMode ? false : true">
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
@@ -15,7 +15,7 @@
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
           fxLayoutGap.xs="5px" class="footer">
-          <a [routerLink]="''"> <button class="btn btn-cancel" mat-raised-button> Скасувати
+          <a *ngIf="editMode" [routerLink]="'/personal-cabinet/provider/info'"> <button class="btn btn-cancel" mat-raised-button> Скасувати
             </button></a>
           <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
         </div>
@@ -31,7 +31,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
           fxLayoutGap.xs="5px" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+          <a *ngIf="editMode" [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext (click)="checkValidationContacts()">Далі</button>
         </div>
@@ -56,7 +56,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
           fxLayoutGap.xs="5px" class="footer">
           <button class="btn" mat-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+          <a *ngIf="editMode" [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
             [disabled]="(!isAgreed || !isNotRobot) && !editMode">Завершити</button>

@@ -51,7 +51,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('stepper') stepper: MatStepper;
 
   constructor(
-    private store: Store, 
+    private store: Store,
     private route: ActivatedRoute,
     private navigationBarService: NavigationBarService) { }
 
@@ -65,8 +65,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
     this.RobotFormControl.valueChanges.subscribe((val: boolean) => this.isNotRobot = val);
     this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
 
-    this.editMode && this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.PersonalCabinetProvider, isActive: false, disable: true }
+    this.editMode && this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
+      { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
   }
 
@@ -75,8 +76,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit(): void {
-    this.route.params.subscribe((params: Params) => this.stepper.selectedIndex = +createProviderSteps[params.param]);
-  }
+    this.route.params.subscribe((params: Params) => {
+    this.stepper.selectedIndex = +createProviderSteps[params.param];
+  });}
 
   /**
    * This method dispatch store action to create a Provider with Form Groups values
@@ -86,19 +88,18 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
-
       let legalAddress: Address;
       let actulaAdress: Address;
       let provider: Provider;
 
       if (this.editMode) {
-        legalAddress = new Address(this.ActualAddressFormGroup.value, this.provider.legalAddress);
-        actulaAdress = new Address(this.LegalAddressFormGroup.value, this.provider.actualAddress);
+        legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
+        actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
         provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
         this.store.dispatch(new UpdateProvider(provider));
       } else {
-        legalAddress = new Address(this.ActualAddressFormGroup.value);
-        actulaAdress = new Address(this.LegalAddressFormGroup.value);
+        legalAddress = new Address(this.LegalAddressFormGroup.value);
+        actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
         provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
         this.store.dispatch(new CreateProvider(provider));
       }
