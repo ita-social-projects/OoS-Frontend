@@ -49,7 +49,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text,{emitEvent: false}));
+      .subscribe((text: string) => this.searchValue.setValue(text));
   }
 
   onSearch(): void {

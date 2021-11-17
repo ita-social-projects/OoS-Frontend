@@ -70,12 +70,6 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.store.dispatch(
-      new AddNavPath(this.navigationBarService.creatOneNavPath(
-        { name: NavBarName.TopWorkshops, isActive: false, disable: true }
-      )),
-    );
-
     this.route.params.subscribe(params => {
       if (params.param === 'map') {
         this.currentView = this.viewType.map
@@ -83,6 +77,13 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.currentView = this.viewType.data
       }
     });
+
+    this.store.dispatch(
+      new AddNavPath(this.navigationBarService.creatOneNavPath(
+        { name: NavBarName.TopWorkshops, isActive: false, disable: true }
+      ))
+    );
+
 
     this.actions$.pipe(ofAction(FilterChange))
       .pipe(
