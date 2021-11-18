@@ -24,9 +24,12 @@ import {
   GetTopDirections,
   ClearDepartments,
   ClearClasses,
+  GetInstitutionStatus,
   ClearRatings
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
+import { InstitutionStatus } from '../models/institutionStatus.model';
+import { ProviderService } from '../services/provider/provider.service';
 
 export interface MetaDataStateModel {
   directions: Direction[];
@@ -35,6 +38,7 @@ export interface MetaDataStateModel {
   classes: IClass[];
   cities: City[];
   socialGroups: SocialGroup[];
+  institutionStatuses: InstitutionStatus[];
   isCity: boolean;
   filteredDirections: Direction[];
   filteredDepartments: Department[];
@@ -51,6 +55,7 @@ export interface MetaDataStateModel {
     classes: [],
     cities: null,
     socialGroups: [],
+    institutionStatuses: [],
     isCity: false,
     filteredDirections: [],
     filteredDepartments: [],
@@ -79,6 +84,9 @@ export class MetaDataState {
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups; }
 
   @Selector()
+  static institutionStatuses(state: MetaDataStateModel): InstitutionStatus[] { return state.institutionStatuses; }
+
+  @Selector()
   static cities(state: MetaDataStateModel): City[] { return state.cities; }
 
   @Selector()
@@ -102,9 +110,10 @@ export class MetaDataState {
   constructor(
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService,
+    private providerService: ProviderService,
     private cityService: CityService,
     private ratingService: RatingService) { }
-
+    
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
     patchState({ isLoading: true })
@@ -151,6 +160,16 @@ export class MetaDataState {
         tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
         ))
   }
+
+  @Action(GetInstitutionStatus)
+  getInstitutionStatus({ patchState }: StateContext<MetaDataStateModel>, { }: GetInstitutionStatus): Observable<InstitutionStatus[]> {
+    return this.providerService
+      .getInstitutionStatus()
+      .pipe(
+        tap((institutionStatuses: InstitutionStatus[]) => patchState({ institutionStatuses: institutionStatuses })
+        ))
+  }
+
   @Action(ClearClasses)
   clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses): void {
     patchState({ classes: undefined });

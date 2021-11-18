@@ -1,5 +1,6 @@
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
+import { City } from '../models/city.model';
 import { WorkingDaysToggleValue } from '../models/workingHours.model';
 
 /**
@@ -29,7 +30,7 @@ export class Constants {
   static readonly RATE_FIVE_STAR = 5;
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
-  static readonly SHORT_DATE_FORMAT = 'dd MMMM yyyy';
+  static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
 
@@ -39,7 +40,18 @@ export class Constants {
   static WorkingDaysValues: any;
 
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
-  
+
+  static readonly KIEV: City = {
+    district: 'м.Київ',
+    id: 14446,
+    longitude: 30.5595,
+    latitude: 50.44029,
+    name: 'Київ',
+    region: 'м.Київ',
+  };
+
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
+
 }
 
 export class PaginationConstants {

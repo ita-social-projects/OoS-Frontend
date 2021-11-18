@@ -1,3 +1,4 @@
+import { Role } from 'src/app/shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -24,7 +25,7 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
   user: User;
 
   readonly constants: typeof Constants = Constants;
-  
+  readonly role: typeof Role = Role;
   userEditFormGroup: FormGroup;
 
   constructor(
@@ -44,11 +45,12 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
     this.user$.subscribe((user: User) => this.user = user);
     this.user && this.userEditFormGroup.patchValue(this.user);
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === 'provider' ?
-        NavBarName.PersonalCabinetProvider :
-        NavBarName.PersonalCabinetParent,
-        isActive: false, disable: true }
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
+        NavBarName.PersonalCabinetProvider : NavBarName.PersonalCabinetParent,
+        path: '/personal-cabinet/config',
+        isActive: false, disable: false },
+      { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
     )));
   }
 

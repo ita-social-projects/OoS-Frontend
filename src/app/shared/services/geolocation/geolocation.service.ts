@@ -8,15 +8,8 @@ import { GeocoderService } from './geocoder.service';
 import { HttpClient } from '@angular/common/http';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { Address } from '../../models/address.model';
+import { Constants } from '../../constants/constants';
 
-const kiev: City = {
-  district: 'м.Київ',
-  id: 14446,
-  longitude: 30.5595,
-  latitude: 50.44029,
-  name: 'м.Київ',
-  region: 'м.Київ',
-};
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +41,7 @@ export class GeolocationService {
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(kiev, true);
+    this.confirmCity(Constants.KIEV, true);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
