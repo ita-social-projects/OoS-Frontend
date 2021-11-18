@@ -1,7 +1,7 @@
 <mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
   [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
+    <div class='block1' fxLayout='column' fxLayoutAlign='start start'>
       <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
         <h4 class="name title">{{
           application.child.firstName }} {{
@@ -13,23 +13,25 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
+    <div class='block2' fxLayout='column' fxLayoutAlign='start start'>
       <h4 class="title text-link" [routerLink]="['/workshop-details', application?.workshopId ]">{{
         application?.workshop.title }}</h4>
-
-      <p class="text" *ngIf="userRole === role.parent">
-        <mat-icon class="text_icon">home</mat-icon>
-        {{application?.workshop.providerTitle}}
-      </p>
-
+        <div class="organization" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.parent">
+          <mat-icon class="text_icon">home</mat-icon>
+          <p class="text">{{application?.workshop.providerTitle}}</p>
+        </div>
+        <div class="workshop-age" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.parent">
+          <mat-icon class="text_icon">person</mat-icon>
+          <p class="text">{{application?.workshop.minAge}} - {{application?.workshop.maxAge}}</p>
+        </div>
     </div>
   </mat-card-content>
 
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
+  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
+    <div class='block3' *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
       (mouseleave)="trigger.closeMenu()">
       <div class="application-popup-status {{application.status}}">
-        <span> <i class={{applicationIcons[application.status]}}></i></span>
+        <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
         <span> {{applicationTitles[application.status]}}</span>
       </div>
     </div>
