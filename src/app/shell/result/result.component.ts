@@ -1,21 +1,19 @@
-
-import { Direction } from './../../shared/models/category.model';
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { FilterChange, GetFilteredWorkshops, SetFirstPage } from 'src/app/shared/store/filter.actions';
-import { FilterState, FilterStateModel } from 'src/app/shared/store/filter.state';
+import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
-
-import { Router, NavigationEnd, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
 
 enum ViewType {
   map = 'map',
@@ -33,7 +31,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopCard[]>;
+  filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Select(FilterState.isLoading)
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
@@ -70,7 +68,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-      this.currentView = params.param === this.viewType.map ? this.viewType.map : this.viewType.data;
+      this.currentView = (params.param === this.viewType.map) ? this.viewType.map : this.viewType.data;
     });
 
     this.store.dispatch([
@@ -85,7 +83,11 @@ export class ResultComponent implements OnInit, OnDestroy {
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)]));
+      .subscribe(() => this.store.dispatch([
+          new SetFirstPage(),
+          new ResetSelectedWorkshop(),
+          new GetFilteredWorkshops(this.currentView === this.viewType.map)
+        ]));
 
     this.isFiltersVisible = window.innerWidth > 750;
 

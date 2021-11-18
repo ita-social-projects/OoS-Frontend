@@ -5,7 +5,7 @@ import { GeolocationService } from 'src/app/shared/services/geolocation/geolocat
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { City } from '../../models/city.model';
@@ -106,16 +106,19 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.defaultCoords = { lat: city.latitude, lng: city.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
-      });
 
-    this.filteredWorkshops$ && this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
-      .subscribe(filteredWorkshops => {
-        this.workshopMarkers.map((m) => this.map.removeLayer(m.marker));
-        this.workshopMarkers = [];
-        this.workshops = filteredWorkshops.entities;
-        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-        this.setPrevWorkShopMarker();
+        this.filteredWorkshops$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
+        )
+        .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+          this.workshopMarkers.map((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+          this.workshopMarkers = [];
+          this.workshops = filteredWorkshops.entities;
+          filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+          this.setPrevWorkShopMarker();
+        });
       });
 
     // cheking if user edit workshop information
@@ -205,38 +208,36 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-
       const targetMarker = this.workshopMarkers.find((workshopMarker) => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
-
-      targetMarker.isSelected ? targetMarker.marker.setIcon(this.selectedMarkerIcon) : targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+      targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedAddress.emit(address);
     });
   }
 
   setPrevWorkShopMarker(): void {
-    this.selectedWorkshop$.pipe(takeUntil(this.destroy$)).subscribe((workshop: Workshop) => {
-      if ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()) {
+    this.selectedWorkshop$.pipe(
+        filter((workshop: Workshop) => !!workshop),
+        filter((workshop: Workshop) => ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()))
+      ).subscribe((workshop: Workshop) => {
         const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
           const {lat, lng} = workshopMarker.marker.getLatLng();
-          return ( lat === workshop.address.latitude && lng === workshop.address.longitude);
+          return (lat === workshop.address.latitude && lng === workshop.address.longitude);
         });
         targetMarkers.forEach((targetMarker: WorkshopMarker) => {
           targetMarker.isSelected = true;
           targetMarker.marker.setIcon(this.selectedMarkerIcon);
         });
         this.selectedAddress.emit(workshop.address);
-      }
     });
-
   }
 
   /**
    * This method unselect target Marker
    */
   unselectMarkers(): void {
-    const selectedWorkshopMarker = this.workshopMarkers.filter((workshopMarkes) => workshopMarkes.isSelected);
-    if (selectedWorkshopMarker) {
+    const selectedWorkshopMarker = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => workshopMarker.isSelected);
+    if (selectedWorkshopMarker.length > 0) {
       selectedWorkshopMarker.forEach((targetMarker: WorkshopMarker) => {
         targetMarker.isSelected = false;
         targetMarker.marker.setIcon(this.unselectedMarkerIcon);

@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -8,10 +8,7 @@ import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { PreviousUrlService } from 'src/app/shared/services/previousUrl/previous-url.service';
 import { PageChange } from 'src/app/shared/store/filter.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -34,7 +31,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
   @Input()
   set currentPage(page) {
@@ -42,14 +39,14 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   };
 
   workshops: WorkshopCard[];
-  public selectedWorkshops: WorkshopCard[] = [];
-  public isSelectedMarker = false;
+  selectedWorkshops: WorkshopCard[] = [];
+  isSelectedMarker: boolean = false;
   readonly Role = Role;
-  public _currentPage: PaginationElement = {
+  _currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
-  public workshopDetailsAnimationState = false;
+  workshopDetailsAnimationState: boolean = false;
 
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
@@ -65,8 +62,14 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
-      .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
+        )
+      .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+        this.workshops = filteredWorkshops.entities;
+        this.onSelectedAddress(null);
+      });
   }
 
   swipe(e: TouchEvent, when: string): void {
@@ -105,6 +108,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   onSelectedAddress(address: Address): void {
+
     this.isSelectedMarker = Boolean(address);
     this.left = 0;
     this.currentWorkShopIndex = 0;
