@@ -65,7 +65,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
-        )
+      )
       .subscribe((filteredWorkshops: WorkshopFilterCard) => {
         this.workshops = filteredWorkshops.entities;
         this.onSelectedAddress(null);

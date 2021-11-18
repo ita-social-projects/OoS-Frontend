@@ -117,7 +117,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           this.workshopMarkers = [];
           this.workshops = filteredWorkshops.entities;
           filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-          this.setPrevWorkShopMarker();
+          this.setPrevWorkshopMarker();
         });
       });
 
@@ -215,7 +215,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  setPrevWorkShopMarker(): void {
+  setPrevWorkshopMarker(): void {
     this.selectedWorkshop$.pipe(
         filter((workshop: Workshop) => !!workshop),
         filter((workshop: Workshop) => ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()))
