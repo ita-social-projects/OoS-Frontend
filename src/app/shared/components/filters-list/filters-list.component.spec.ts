@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import { FiltersListComponent } from './filters-list.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable, of } from 'rxjs';
 
 describe('FiltersListComponent', () => {
   let component: FiltersListComponent;
@@ -13,6 +13,7 @@ describe('FiltersListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MatIconModule,
         MatCheckboxModule,
         FormsModule,
         ReactiveFormsModule,
