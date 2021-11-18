@@ -14,20 +14,19 @@
       </div>
       <div>
         <mat-card-header>
-          <mat-card-title 
-            [matTooltip]="childFullName" 
+          <mat-card-title
+            [matTooltip]="childFullName"
             showTooltipIfTruncated
-            matTooltipClass="tooltip" 
+            matTooltipClass="tooltip"
             [matTooltipPosition]="below"
           >{{child.lastName}} {{child.firstName}} {{child.middleName}}</mat-card-title>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
           <p class="card_text">
-            <mat-icon class="card_icon">calendar_today</mat-icon> {{child.dateOfBirth | date:
-            'shortDate'}}
+            <mat-icon class="card_icon">calendar_today</mat-icon> {{child.dateOfBirth | date: constants.SHORT_DATE_FORMAT}} ({{ childAge }})
           </p>
           <h5 class="card_text">
-            <mat-icon class="card_icon">apps</mat-icon>Гуртки 
+            <mat-icon class="card_icon">apps</mat-icon>Гуртки
           </h5>
           <div *ngIf="applications?.length; else NoWorkshops ">
             <div fxLayout="row" fxLayoutAlign="end start">

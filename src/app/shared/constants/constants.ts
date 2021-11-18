@@ -30,7 +30,7 @@ export class Constants {
   static readonly RATE_FIVE_STAR = 5;
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
-  static readonly SHORT_DATE_FORMAT = 'dd MMMM yyyy';
+  static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
 
@@ -51,7 +51,7 @@ export class Constants {
   };
 
   static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
-  
+
 }
 
 export class PaginationConstants {

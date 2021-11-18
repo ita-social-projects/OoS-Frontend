@@ -3,9 +3,7 @@
   <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
     <div fxLayout='column' fxLayoutAlign='start start'>
       <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
-        <h4 class="name title">{{
-          application.child.firstName }} {{
-          application.child.lastName }} {{ application.child.middleName }}</h4>
+        <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{ application.child.middleName }}</h4>
       </div>
       <p class="text text-bold">{{ childAge }}</p>
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>
