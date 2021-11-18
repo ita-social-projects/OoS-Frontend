@@ -68,7 +68,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-      this.currentView = (params.param === this.viewType.map) ? this.viewType.map : this.viewType.data;
+      this.currentView = params.param;
     });
 
     this.store.dispatch([

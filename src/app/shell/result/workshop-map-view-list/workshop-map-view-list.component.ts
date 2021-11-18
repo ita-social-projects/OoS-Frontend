@@ -40,13 +40,13 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
-  isSelectedMarker: boolean = false;
+  isSelectedMarker = false;
   readonly Role = Role;
   _currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
-  workshopDetailsAnimationState: boolean = false;
+  workshopDetailsAnimationState = false;
 
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;

@@ -113,7 +113,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
         )
         .subscribe((filteredWorkshops: WorkshopFilterCard) => {
-          this.workshopMarkers.map((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+          this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
           this.workshopMarkers = [];
           this.workshops = filteredWorkshops.entities;
           filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
@@ -204,7 +204,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const coords: [number, number] = [address.latitude, address.longitude];
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
-    this.workshopMarkers.push({ marker, isSelected: false});
+    this.workshopMarkers.push({ marker, isSelected: false });
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
