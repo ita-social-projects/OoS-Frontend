@@ -33,3 +33,7 @@ mat-form-field mat-label {
 ::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
   background: #3849F9;
 }
+
+:host ::ng-deep .mat-form-field-underline {
+  height: 0;
+}
