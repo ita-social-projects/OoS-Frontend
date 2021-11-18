@@ -106,29 +106,4 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-
-  promise(): void {
-    let p = new Promise((res, rej) => {
-      setTimeout(() => {
-        rej('Hello 1');
-      }, 2000)
-    }).catch(err => console.error(err));
-
-    p.then((result) => {
-      return new Promise((res, rej) => {
-        setTimeout(() => {
-          res('Hello 2 ' + result);
-        })
-      })
-    })
-      .then((result) => {
-        return new Promise((res, rej) => {
-          setTimeout(() => {
-            res('Hello 3 ' + result);
-          })
-        })
-      })
-      .catch(err => console.error(err))
-  }
 }
