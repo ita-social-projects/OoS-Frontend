@@ -24,7 +24,7 @@ export class Util {
 
     return age ? age.toString() + ' ' + this.getDeclensionYear(age) : month.toString() + ' ' + this.getDeclensionMonth(month);
   }
-  
+
   /**
    * This method returns declension for Child's age in years
    * @param year Child's age in years
@@ -33,7 +33,7 @@ export class Util {
   public static getDeclensionYear(year: number) : string {
     let ageString;
     let lastDigit = year % 10;
-    (lastDigit === 1) ? ageString = 'рік' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
+      (lastDigit === 1 && year !== 11) ? ageString = 'рік' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
     return ageString;
   }
 

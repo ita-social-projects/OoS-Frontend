@@ -7,7 +7,6 @@
 .step {
   margin: 2rem 0;
 }
-
 .card-border {
   margin: 2rem 0;
   border-top: 2px solid #E3E3E3;
@@ -22,7 +21,7 @@
   padding: 0 4rem;
 
   h3 {
-    margin-bottom: 30px;
+    margin-bottom: 1rem;
   }
 
   .mat-icon-add {
@@ -86,13 +85,11 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
-  &-image {
-    width: 70%;
-    padding: 0;
-  }
-
   &-content {
     width: 30%;
     padding: 1rem 0;
   }
+}
+.wrapper-title{
+  margin: 2rem;
 }

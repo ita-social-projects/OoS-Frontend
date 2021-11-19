@@ -79,6 +79,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
         });
       }
     });
+
+    this.applications$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((applications: Application[]) => this.applications = applications);
   }
 
   getProviderApplications(providerApplicationParams): void {
