@@ -5,26 +5,39 @@
   width: 100%;
   margin-bottom: 2rem;
 
+  .icon-text {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+    .icon {
+      position: relative;
+      color: #AAAAAA;
+      font-size: 20px;
+    }
+  }
+
   .workshop {
+    &-wrapper{
+      margin: 0 2rem 2rem 2rem;
+    }
+
     &-image {
       width: 100%;
       img {
         width: 100%;
         object-fit: none;
       }
-    }
-
-    &-icon{
-      width: 3rem;
-    }
-
-    &__wrap {
-      padding: 2rem;
-      padding-top: 0;
-    }
-
-    &-header {
-      margin: 1rem;
     }
 
     &-link {
@@ -56,13 +69,6 @@
   }
 }
 
-.title,
-.nav {
-  margin: 10px;
-  font-weight: 700;
-  opacity: 1;
-}
-
 .active {
   color: #3849F9;
   opacity: 1;
@@ -77,7 +83,6 @@
 
 @media(max-width: 600px) {
   .title {
-    margin: 0 10px 0 0;
     font-size: 20px;
   }
 }
@@ -90,6 +95,7 @@
   line-height: 1.125rem;
   color: #333333;
   padding: 0;
+  margin-bottom: 1rem;
 }
 
 .icon {
