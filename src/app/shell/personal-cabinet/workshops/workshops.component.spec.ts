@@ -53,4 +53,5 @@ class MockWorkshopCardComponent {
   @Input() isMainPage: boolean;
   @Input() userRoleView: string;
   @Input() application: Application;
+  @Input() pendingApplications: Application[];
 }

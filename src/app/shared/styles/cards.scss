@@ -17,7 +17,6 @@
 
   &-image {
     max-width: 50%;
-    margin-top: 1rem;
   }
 
   &_category {
@@ -63,10 +62,21 @@
     color: #333333;
     margin: 0.3rem;
     padding: 0;
+    font-weight: 500;
+
+    &_blue {
+      color: #3849F9;
+    }
   }
+
+
   &_icon{
     color: #AAAAAA;
     margin-right: 0.2rem;
+
+    &_blue{
+      color: #3849F9;
+    }
   }
 }
 .card-footer {
@@ -170,7 +180,7 @@
 }
 .mat-card-image {
   width: 100%;
-  margin-bottom: 20px;
+  margin: 1rem;
 }
 .actions {
   position: absolute;
