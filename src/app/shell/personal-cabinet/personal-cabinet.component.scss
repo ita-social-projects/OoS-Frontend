@@ -13,7 +13,7 @@
 .nav a {
   font-weight: 700;
   font-family:'Innerspace';
-  color: #444444
+  color: #444444;
 }
 .title {
   font-size: 18px;
@@ -26,11 +26,11 @@
     font-size: 13px;
     opacity: 1;
   }
-}
-.active {
-  color: #3849f9!important;
-  opacity: 1;
-  border-bottom: 2px solid #3849f9;
+  .active {
+    color: #3849f9;
+    opacity: 1;
+    border-bottom: 2px solid #3849f9;
+  }
 }
 ::ng-deep .mat-tab-link {
   min-width: 0px !important;

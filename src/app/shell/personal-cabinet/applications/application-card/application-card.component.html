@@ -1,7 +1,7 @@
 <mat-card *ngIf="application" fxLayout="row" fxLayoutAlign="space-evenly center"
   [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
-    <div class="block1" fxLayout="column" fxLayoutAlign="start start">
+    <div fxLayout="column" fxLayoutAlign="start start">
       <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
         <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{ application.child.middleName }}</h4>
       </div>
@@ -11,7 +11,7 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
-    <div class="block2" fxLayout="column" fxLayoutAlign="start start">
+    <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
       <h4 class="title text-link" [routerLink]="['/workshop-details', application?.workshopId ]">{{
         application?.workshop.title }}</h4>
         <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
@@ -26,7 +26,7 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
-    <div class="block3" *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
+    <div class="application-status" *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
       (mouseleave)="trigger.closeMenu()">
       <div class="application-popup-status {{application.status}}">
         <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
