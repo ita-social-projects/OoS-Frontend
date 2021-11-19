@@ -206,3 +206,7 @@ export class CabinetPageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
 }
+export class ResetSelectedWorkshop {
+  static readonly type = '[user] reset selected workshop';
+  constructor() { }
+}
