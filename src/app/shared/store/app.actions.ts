@@ -24,7 +24,7 @@ export class ToggleMobileScreen {
   constructor(public payload: boolean) { }
 }
 
-export class SetFocusOnInput {
-  static readonly type = '[app] SetFocusOnInput';
+export class SetFocusOnCityField {
+  static readonly type = '[app] SetFocusOnCityField';
   constructor( ) { }
 }

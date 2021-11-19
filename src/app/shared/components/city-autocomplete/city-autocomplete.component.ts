@@ -7,7 +7,7 @@ import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
-import { SetFocusOnInput } from '../../store/app.actions';
+import { SetFocusOnCityField } from '../../store/app.actions';
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -64,9 +64,9 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
     this._InitialCity && this.setInitialCity();
 
     this.actions$
-      .pipe(ofAction(SetFocusOnInput))
+      .pipe(ofAction(SetFocusOnCityField))
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onFocus());
+      .subscribe(() => this.setFocus());
   }
   /**
    * This method selects an option from the list of filtered cities as a chosen city
@@ -100,7 +100,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   /**
    * This method sets focus on input search city
    */
-  onFocus(): void {  
+  setFocus(): void {  
     this.searchElement.nativeElement.focus();
   }
 
