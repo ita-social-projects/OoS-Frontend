@@ -70,6 +70,7 @@ import {
   GetUsersChildren,
   CabinetPageChange,
   GetAllUsersChildren,
+  ResetSelectedWorkshop,
 } from './user.actions';
 
 
@@ -538,7 +539,12 @@ export class UserState {
   }
 
   @Action(CabinetPageChange)
-  pageChange({ patchState }: StateContext<FilterStateModel>, { payload }: CabinetPageChange): void {
+  pageChange({ patchState }: StateContext<UserStateModel>, { payload }: CabinetPageChange): void {
     patchState({ currentPage: payload });
+  }
+
+  @Action(ResetSelectedWorkshop)
+  ResetSelectedWorkshop({ patchState }: StateContext<UserStateModel>): void {
+    patchState({ selectedWorkshop: null });
   }
 }

@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -9,7 +9,6 @@ import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { PageChange } from 'src/app/shared/store/filter.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -30,9 +29,9 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store) { }
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @Input() public filteredWorkshops$: Observable<WorkshopFilterCard>;
+
+  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
   @Input()
   set currentPage(page) {
@@ -40,26 +39,39 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   };
 
   workshops: WorkshopCard[];
-  public selectedWorkshops: WorkshopCard[] = [];
-  public isSelectedMarker = false;
+  selectedWorkshops: WorkshopCard[] = [];
+  isSelectedMarker = false;
   readonly Role = Role;
-  public _currentPage: PaginationElement = {
+  _currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
-  public workshopDetailsAnimationState = false;
-
+  workshopDetailsAnimationState = false;
 
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
-
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   public currentWorkShopIndex: number = 0;
   public direct: string
   public left: number = 0
+
+  constructor(private store: Store) { }
+
+  ngOnInit(): void {
+    this.filteredWorkshops$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
+      )
+      .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+        this.workshops = filteredWorkshops.entities;
+        this.onSelectedAddress(null);
+      });
+  }
+
   swipe(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     let time = new Date().getTime();
@@ -95,14 +107,8 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  ngOnInit(): void {
-    this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
-      .subscribe(filteredWorkshops => this.workshops = filteredWorkshops.entities);
-  }
-
   onSelectedAddress(address: Address): void {
+
     this.isSelectedMarker = Boolean(address);
     this.left = 0;
     this.currentWorkShopIndex = 0;
