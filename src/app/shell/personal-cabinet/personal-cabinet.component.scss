@@ -25,18 +25,16 @@
   a {
     font-size: 13px;
     opacity: 1;
+    min-width: 0px !important;
+    height: inherit!important;
+    padding: 0 24px 8px 24px!important;
+  }
+  a:first-child {
+    padding: 0 24px 8px 0px!important;
   }
   .active {
     color: #3849f9;
     opacity: 1;
     border-bottom: 2px solid #3849f9;
   }
-}
-::ng-deep .mat-tab-link {
-  min-width: 0px !important;
-  height: inherit!important;
-  padding: 0 24px 8px 24px!important;
-}
-::ng-deep .mat-tab-link:first-child {
-  padding: 0 24px 8px 0px!important;
 }
