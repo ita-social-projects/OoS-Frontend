@@ -1,3 +1,13 @@
+.filter-text {
+  margin: 0;
+  margin-right: 1rem;
+}
+.title {
+  margin-top: 24px;
+}
+.wrapper {
+  margin-top: 13px;
+}
 ::ng-deep .filter{
   &-text{
     font-family: Innerspace;
@@ -6,9 +16,11 @@
     color: #444444;
   }
   &-slider{
-     margin: 0.5rem;
+    margin: 12px 0;
+    margin-left: 0.5rem;
     .ngx-slider{
       margin: 0;
+      max-width: 234px;
       .ngx-slider-bar-wrapper{
         margin: 0;
         height: 0;
@@ -36,12 +48,15 @@
 }
 .price-input{
   border: 1px solid #E3E3E3;
+  background-color: #FFFFFF;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 80px;
+  max-width: 85px;
+  max-height: 34px;
 }
 .input-wrapper{
+  margin-top: 13px;
   margin-bottom: 0 !important;
 }
 ::ng-deep .mat-form-field-underline {
@@ -50,4 +65,7 @@
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
   padding: 0;
   margin: 0;
+}
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0 !important;
 }
