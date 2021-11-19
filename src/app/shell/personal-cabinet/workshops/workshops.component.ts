@@ -36,6 +36,10 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   init(): void {
     if (this.role === Role.provider) {
       this.getProviderWorkshops();
+      this.getProviderApplications({
+        status: ApplicationStatus.Pending,
+        workshopsId: []
+      });
     } else {
       this.getAllUsersChildren();
       this.getParentApplications();

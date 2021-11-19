@@ -30,6 +30,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
+  pendingApplicationAmount: number;
 
   @Input() workshop: WorkshopCard;
   @Input() userRoleView: string;
@@ -38,6 +39,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = true;
   @Input() icons: {};
+  @Input() set pendingApplications(applications: Application[]) {
+    this.pendingApplicationAmount = applications.filter((application: Application) => application.workshopId === this.workshop.workshopId).length;
+  };
 
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
@@ -63,7 +67,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       });
     this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => this.role = role)
+      .subscribe((role: string) => this.role = role);
   }
 
   onDelete(): void {
