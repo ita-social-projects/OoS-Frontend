@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayout.lt-lg="row wrap" fxLayoutAlign="start center" fxLayoutAlign.lt-lg="space-between">
+<div class="container" fxLayout="column" fxLayout.lt-lg="row wrap" fxLayoutAlign="center start">
   <app-actions *ngIf="role !== Role.provider" [role]="role" [workshop]="workshop"></app-actions>
   <app-contacts [workshop]="workshop"></app-contacts>
   <!-- <app-schedule [workshop]="workshop"></app-schedule> TODO: for teh second release-->
