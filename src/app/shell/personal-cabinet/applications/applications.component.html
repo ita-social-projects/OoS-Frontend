@@ -66,8 +66,7 @@
 
 
         <ng-template #ChildApplication>
-          <h3 class='name'> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
-            :'shortDate'}})</h3>
+          <h3 class="name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
           <ng-container
             *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
           </ng-container>

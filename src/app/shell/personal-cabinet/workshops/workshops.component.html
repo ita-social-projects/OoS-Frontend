@@ -49,8 +49,7 @@
   <ng-container *ngIf="applications?.length else isEmptyList;">
     <div *ngFor="let child of (childrenCards$ | async)?.entities">
       <div *ngIf="isApplications(applications, child)">
-        <h3 class='name'> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
-          :'shortDate'}})</h3>
+        <h3 class="name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
         <div fxLayout="row wrap" fxLayoutAlign="start">
           <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
             [workshop]="application.workshop" [isMainPage]="false" [userRoleView]="Role.parent"
