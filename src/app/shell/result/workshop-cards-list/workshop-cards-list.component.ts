@@ -24,7 +24,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() workshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
   @Input()
-  set currentPage(page) {
+  set currentPage(page: PaginationElement) {
     this._currentPage = page
   };
 

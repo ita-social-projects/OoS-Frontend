@@ -5,8 +5,8 @@
       ІНФОРМАЦІЯ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole +'/' + 'info'">ІНФОРМАЦІЯ ПРО
       {{ roles[userRole] | uppercase }}</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">ГУРТКИ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВКИ</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">МОЇ ГУРТКИ</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВИ</a>
     <a *ngIf="userRole === Role.parent" mat-tab-link [routerLinkActive]="['active']"
       [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
     <!-- <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>  TODO: second release -->

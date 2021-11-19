@@ -4,22 +4,27 @@ import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
-import { Select, Store } from '@ngxs/store';
+import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
+import { Select } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
+import { UserState } from '../../store/user.state';
+import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
+import { WorkshopMarker } from '../../models/workshopMarker.model';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnDestroy {
 
+export class MapComponent implements AfterViewInit, OnDestroy {
+  @Select(UserState.selectedWorkshop)
+  selectedWorkshop$: Observable<Workshop>;
   public defaultCoords: Coords;
   public zoom = 11;
   public workshops: WorkshopCard[];
@@ -34,14 +39,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() setAddressEvent = new EventEmitter<Address>();
   @Output() selectedAddress = new EventEmitter<Address>();
 
-  constructor(private geolocationService: GeolocationService) { }
-
+  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) { }
   map: Layer.Map;
   singleMarker: Layer.Marker;
-  workshopMarkers: {
-    marker: Layer.Marker,
-    isSelected?: boolean
-  }[] = [];
+  workshopMarkers: WorkshopMarker[] = [];
 
   unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
@@ -105,17 +106,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.defaultCoords = { lat: city.latitude, lng: city.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
-      });
 
-    this.filteredWorkshops$ && this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$), filter((filteredWorkshops) => !!filteredWorkshops))
-      .subscribe(filteredWorkshops => {
-        this.workshopMarkers.map((m) => this.map.removeLayer(m.marker));
-        this.workshopMarkers = [];
-        this.workshops = filteredWorkshops.entities;
-        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+        this.filteredWorkshops$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
+        )
+        .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+          this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+          this.workshopMarkers = [];
+          this.workshops = filteredWorkshops.entities;
+          filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+          this.setPrevWorkshopMarker();
+        });
       });
-
 
     // cheking if user edit workshop information
     if (this.addressFormGroup) {
@@ -134,7 +138,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         }
       });
     }
-
   }
 
   /**
@@ -205,12 +208,27 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-
       const targetMarker = this.workshopMarkers.find((workshopMarker) => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
-
-      targetMarker.isSelected ? targetMarker.marker.setIcon(this.selectedMarkerIcon) : targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+      targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedAddress.emit(address);
+    });
+  }
+
+  setPrevWorkshopMarker(): void {
+    this.selectedWorkshop$.pipe(
+        filter((workshop: Workshop) => !!workshop),
+        filter((workshop: Workshop) => ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()))
+      ).subscribe((workshop: Workshop) => {
+        const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
+          const {lat, lng} = workshopMarker.marker.getLatLng();
+          return (lat === workshop.address.latitude && lng === workshop.address.longitude);
+        });
+        targetMarkers.forEach((targetMarker: WorkshopMarker) => {
+          targetMarker.isSelected = true;
+          targetMarker.marker.setIcon(this.selectedMarkerIcon);
+        });
+        this.selectedAddress.emit(workshop.address);
     });
   }
 
@@ -218,10 +236,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method unselect target Marker
    */
   unselectMarkers(): void {
-    const selectedWorkshopMarker = this.workshopMarkers.find((workshopMarkes) => workshopMarkes.isSelected);
-    if (selectedWorkshopMarker) {
-      selectedWorkshopMarker.isSelected = false;
-      selectedWorkshopMarker.marker.setIcon(this.unselectedMarkerIcon);
+    const selectedWorkshopMarker = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => workshopMarker.isSelected);
+    if (selectedWorkshopMarker.length > 0) {
+      selectedWorkshopMarker.forEach((targetMarker: WorkshopMarker) => {
+        targetMarker.isSelected = false;
+        targetMarker.marker.setIcon(this.unselectedMarkerIcon);
+      });
     }
   }
 

@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Actions, ofAction, ofActionCompleted, ofActionSuccessful, Select, Store } from '@ngxs/store';
+import { Actions, ofAction, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, first, last, map, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, last, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
-import { FilterState } from '../../store/filter.state';
+import { SetFocusOnCityField } from '../../store/app.actions';
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -15,6 +15,7 @@ import { FilterState } from '../../store/filter.state';
   styleUrls: ['./city-autocomplete.component.scss']
 })
 export class CityAutocompleteComponent implements OnInit, OnDestroy {
+  @ViewChild('search') searchElement: ElementRef;
 
   _InitialCity: string;
 
@@ -61,6 +62,11 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
       ).subscribe(value => this.store.dispatch(new GetCities(value)));
 
     this._InitialCity && this.setInitialCity();
+
+    this.actions$
+      .pipe(ofAction(SetFocusOnCityField))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.setFocus());
   }
   /**
    * This method selects an option from the list of filtered cities as a chosen city
@@ -89,6 +95,13 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
           this.cities && this.cityFormControl.setValue(this.cities[0]);
         });
     }
+  }
+  
+  /**
+   * This method sets focus on input search city
+   */
+  setFocus(): void {  
+    this.searchElement.nativeElement.focus();
   }
 
 }

@@ -1,24 +1,23 @@
-import { Direction } from './../../shared/models/category.model';
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { FilterChange, GetFilteredWorkshops, SetFirstPage } from 'src/app/shared/store/filter.actions';
-import { FilterState, FilterStateModel } from 'src/app/shared/store/filter.state';
+import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
-
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
 
 enum ViewType {
   map = 'map',
-  data = 'show-data'
+  data = 'list'
 }
 
 @Component({
@@ -32,11 +31,12 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopCard[]>;
+  filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Select(FilterState.isLoading)
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
+
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
@@ -58,23 +58,36 @@ export class ResultComponent implements OnInit, OnDestroy {
   constructor(
     private actions$: Actions,
     private store: Store,
-    public navigationBarService: NavigationBarService
+    public navigationBarService: NavigationBarService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
 
-    this.store.dispatch(
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
+      this.currentView = params.param;
+    });
+
+    this.store.dispatch([
       new AddNavPath(this.navigationBarService.creatOneNavPath(
         { name: NavBarName.TopWorkshops, isActive: false, disable: true }
       )),
-    );
+      new GetFilteredWorkshops(this.currentView === this.viewType.map)
+    ]);
 
     this.actions$.pipe(ofAction(FilterChange))
       .pipe(
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)]));
+      .subscribe(() => this.store.dispatch([
+          new SetFirstPage(),
+          new ResetSelectedWorkshop(),
+          new GetFilteredWorkshops(this.currentView === this.viewType.map)
+        ]));
 
     this.isFiltersVisible = window.innerWidth > 750;
 
@@ -91,9 +104,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   viewHandler(value: ViewType): void {
-    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map)).subscribe(() => {
-      this.currentView = value;
-    });
+    this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.router.navigate([`result/${value}`]));
   }
 
   ngOnDestroy(): void {
