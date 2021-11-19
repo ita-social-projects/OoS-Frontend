@@ -20,22 +20,22 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   isFree$: Observable<boolean>;
   @Input()
   set workingHours(filter) {
-      let {endTime, startTime, workingDays} = filter
+    let { endTime, startTime, workingDays } = filter
 
-      this.selectedWorkingDays = workingDays
-      this.days.forEach(day => {
-        if (this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value])) {
-          day.selected = true
-        } else {
-          day.selected = false
-        }
-      })
+    this.selectedWorkingDays = workingDays
+    this.days.forEach(day => {
+      if (this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value])) {
+        day.selected = true
+      } else {
+        day.selected = false
+      }
+    })
 
-      endTime ? endTime=endTime+':00' : endTime
-      this.endTimeFormControl.setValue(endTime, {emitEvent: false});
+    endTime ? endTime = endTime + ':00' : endTime
+    this.endTimeFormControl.setValue(endTime, { emitEvent: false });
 
-      startTime ? startTime=startTime+':00' : startTime
-      this.startTimeFormControl.setValue(startTime, {emitEvent: false});
+    startTime ? startTime = startTime + ':00' : startTime
+    this.startTimeFormControl.setValue(startTime, { emitEvent: false });
   };
 
   readonly constants: typeof Constants = Constants;
@@ -58,7 +58,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     ).subscribe((time: string) => {
       this.store.dispatch(new SetStartTime(time?.split(':')[0]));
       this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MIN_TIME;
-  });
+    });
 
     this.endTimeFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),

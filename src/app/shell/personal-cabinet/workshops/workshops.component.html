@@ -5,19 +5,21 @@
     <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
     <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
   </div>
-  <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops;"></ng-container>
-</ng-template>
-
-<ng-template #isParent>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
+    <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops;"></ng-container>
   </ng-container>
 </ng-template>
 
+<ng-template #isParent>
+  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
+</ng-template>
+
 <ng-template #ProviderWorkshops>
-  <div fxLayout="row wrap" fxLayoutAlign="start" #WorkshopsWrap>
-    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async " [workshop]="workshop"
-      [isMainPage]="false" [userRoleView]="Role.provider" (deleteWorkshop)="onDelete($event)"></app-workshop-card>
+  <div fxLayout="row wrap" fxLayoutAlign="start">
+    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
+      [isMainPage]="false" [userRoleView]="Role.provider" [pendingApplications]="applications"
+      (deleteWorkshop)="onDelete($event)">
+    </app-workshop-card>
     <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
       [workshop]="workshop" class="empty-card" [isMainPage]="true">
     </app-workshop-card>
@@ -47,8 +49,7 @@
   <ng-container *ngIf="applications?.length else isEmptyList;">
     <div *ngFor="let child of (childrenCards$ | async)?.entities">
       <div *ngIf="isApplications(applications, child)">
-        <h3> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date
-          :'shortDate'}})</h3>
+        <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
         <div fxLayout="row wrap" fxLayoutAlign="start">
           <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
             [workshop]="application.workshop" [isMainPage]="false" [userRoleView]="Role.parent"
