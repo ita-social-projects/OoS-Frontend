@@ -6,7 +6,6 @@
   margin-bottom: 2rem;
 
   .icon-text {
-    font-family: Open Sans;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -26,7 +25,6 @@
       font-size: 20px;
     }
   }
-
   .workshop {
     &-wrapper{
       margin: 0 2rem 2rem 2rem;
@@ -40,6 +38,11 @@
       }
     }
 
+    &-icon{
+      width: 3rem;
+      padding: 1rem;
+    }
+
     &-link {
       display: flex;
       flex-direction: row;
@@ -50,32 +53,31 @@
         color: #a6ade7;
       }
     }
-
-    &-status {
-      width: 106px;
-      height: 24px;
-      background: #99CD56;
-      border-radius: 16px;
-
-      &-text {
-        font-family: Innerspace;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 11px;
-        line-height: 12px;
-        color: #FFFFFF;
-      }
-    }
   }
 }
-
-.active {
-  color: #3849F9;
-  opacity: 1;
-  border-bottom: 2px solid #3849F9;
+:host ::ng-deep .mat-tab-label-content, .nav, .icon-text {
+  font-family: Innerspace;
+  font-style: normal;
 }
 
-::ng-deep .mat-tab-link {
+:host ::ng-deep .mat-tab-label-content{
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .mat-tab-label-active{
+  color: #3849F9;
+  opacity: 1;
+}
+
+:host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: #3849F9;
+  height: 2px;
+}
+
+:host ::ng-deep .mat-tab-link {
   min-width: 0px !important;
   padding: inherit !important;
   margin: 10px;

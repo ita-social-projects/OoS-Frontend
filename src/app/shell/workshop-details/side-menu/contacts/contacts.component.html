@@ -2,8 +2,11 @@
   <h4 class="card-title">КОНТАКТИ</h4>
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
-    {{workshop.address.city}},
-    {{workshop.address.street}}, {{workshop.address.buildingNumber}}
+    <span fxLayout="row wrap" fxLayoutAlign="start">
+      <span>{{workshop.address.city}}</span>
+      <span>{{workshop.address.street}}</span>
+      <span>{{workshop.address.buildingNumber}}</span>
+    </span>
   </p>
 
   <a (click)="mapLink()" target="_blank" class="map">
