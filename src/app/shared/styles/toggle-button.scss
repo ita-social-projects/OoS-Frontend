@@ -4,8 +4,8 @@
 .mat-button-toggle-checked {
   background-color: #E3E3E3;
   color: #2979FF;
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1.2rem;
+  border-bottom-left-radius: 1.2rem;
   border: 2px solid #3849F9;
 }
 
@@ -17,19 +17,16 @@
   border-radius: 20px;
   font-weight: bold;
 }
-
 .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle{
-  border-top-right-radius: 1rem !important;
-  border-bottom-right-radius: 1rem !important;
+  border-top-right-radius: 1.2rem !important;
+  border-bottom-right-radius: 1.2rem !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
-
-
-.mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
-  padding: 0px !important;
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+  padding: 1rem;
+  line-height: 32px;
 }
-
 .mat-button-toggle-group .mat-button-toggle:nth-child(2){
  &.mat-button-toggle-checked{
    border-left: 2px solid #3849F9;
