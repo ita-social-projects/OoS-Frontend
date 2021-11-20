@@ -95,3 +95,9 @@
     margin: 0 2rem 2rem 0;
   }
 }
+
+@media(max-width: 720px) {
+  .container{
+    margin: 0 0 2rem 0;
+  }
+}
