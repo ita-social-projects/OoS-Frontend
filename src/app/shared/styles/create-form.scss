@@ -118,7 +118,9 @@ button:focus {
   font-weight: 400;
   color:#444444;
 }
-
+::ng-deep .mat-button-toggle-checked.mat-button-toggle-appearance-standard{
+  background-color: white;
+}
 .btn{
   min-width: 150px;
 }
