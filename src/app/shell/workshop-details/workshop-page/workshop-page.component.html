@@ -5,46 +5,42 @@
     <div class="workshop-image">
       <img src="assets/images/groupimages/workshop-img.png" alt="">
     </div>
-    <div class="workshop__wrap">
+    <div class="workshop-wrapper">
 
-      <div class="workshop-header" fxLayout="column" fxLayoutAlign="space-between space-between">
+      <div fxLayout="column" fxLayoutAlign="space-between space-between">
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
             <h1 class="title">{{workshop.title}}</h1>
-            <!-- <mat-chip class="workshop-status" fxLayout="row" fxLayoutAlign="center center">
-            <p class="workshop-status-text">Набір триває</p>
-          </mat-chip> -->
           </div>
           <div>
             <img class="workshop-icon" [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
           </div>
-
         </div>
-        <p fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-          <span class="icon-text">
-            <mat-icon class="icon">star</mat-icon>
-            {{workshop.rating}}
-          </span>
-        </p>
-        <a fxLayout="row" fxLayoutAlign="start center" class="workshop-link">
-          <mat-icon>home</mat-icon> {{provider.fullTitle}}
-        </a>
+
+        <span class="icon-text">
+          <mat-icon class="icon">star</mat-icon>
+          {{workshop.rating}}
+        </span>
+        <span class="icon-text">
+          <mat-icon class="icon">home</mat-icon> {{provider.fullTitle}}
+        </span>
+
       </div>
-      <mat-tab-group>
-        <mat-tab label="ПРО ГУРТОК ">
+      <mat-tab-group class="nav">
+        <mat-tab class="label" label="ПРО ГУРТОК ">
           <app-workshop-about [workshop]="workshop"></app-workshop-about>
         </mat-tab>
-        <mat-tab label="ПРО ШКОЛУ">
+        <mat-tab class="label" label="ПРО ШКОЛУ">
           <app-provider-about [provider]="provider"></app-provider-about>
         </mat-tab>
-        <mat-tab label="ВЧИТЕЛІ">
+        <mat-tab class="label" label="ВЧИТЕЛІ">
           <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
         </mat-tab>
-        <mat-tab label="ІНШІ ГУРТКИ ШКОЛИ">
+        <mat-tab class="label" label="ІНШІ ГУРТКИ ШКОЛИ">
           <app-all-provider-workshops [providerWorkshops]="providerWorkshops" [role]="role">
           </app-all-provider-workshops>
         </mat-tab>
-        <mat-tab label="ВІДГУКИ">
+        <mat-tab class="label" label="ВІДГУКИ">
           <app-reviews [workshop]="workshop" [role]="role">
           </app-reviews>
         </mat-tab>

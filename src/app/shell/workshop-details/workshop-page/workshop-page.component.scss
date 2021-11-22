@@ -3,8 +3,33 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   max-width: 954px;
   width: 100%;
+  margin-bottom: 2rem;
 
+  .icon-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+    .icon {
+      position: relative;
+      color: #AAAAAA;
+      font-size: 20px;
+    }
+  }
   .workshop {
+    &-wrapper{
+      margin: 0 2rem 2rem 2rem;
+    }
+
     &-image {
       width: 100%;
       img {
@@ -15,15 +40,7 @@
 
     &-icon{
       width: 3rem;
-    }
-
-    &__wrap {
-      padding: 2rem;
-      padding-top: 0;
-    }
-
-    &-header {
-      margin: 1rem;
+      padding: 1rem;
     }
 
     &-link {
@@ -36,39 +53,31 @@
         color: #a6ade7;
       }
     }
-
-    &-status {
-      width: 106px;
-      height: 24px;
-      background: #99CD56;
-      border-radius: 16px;
-
-      &-text {
-        font-family: Innerspace;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 11px;
-        line-height: 12px;
-        color: #FFFFFF;
-      }
-    }
   }
 }
-
-.title,
-.nav {
-  margin: 10px;
-  font-weight: 700;
-  opacity: 1;
+:host ::ng-deep .mat-tab-label-content, .nav, .icon-text {
+  font-family: Innerspace;
+  font-style: normal;
 }
 
-.active {
+:host ::ng-deep .mat-tab-label-content{
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .mat-tab-label-active{
   color: #3849F9;
   opacity: 1;
-  border-bottom: 2px solid #3849F9;
 }
 
-::ng-deep .mat-tab-link {
+:host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: #3849F9;
+  height: 2px;
+}
+
+:host ::ng-deep .mat-tab-link {
   min-width: 0px !important;
   padding: inherit !important;
   margin: 10px;
@@ -76,7 +85,6 @@
 
 @media(max-width: 600px) {
   .title {
-    margin: 0 10px 0 0;
     font-size: 20px;
   }
 }
@@ -89,6 +97,7 @@
   line-height: 1.125rem;
   color: #333333;
   padding: 0;
+  margin-bottom: 1rem;
 }
 
 .icon {

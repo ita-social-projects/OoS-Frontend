@@ -21,7 +21,8 @@ import { InfoComponent } from './info/info.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'result', component: ResultComponent },
+  { path: 'result', redirectTo: 'result/list', pathMatch: 'full'},
+  { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'info', component: InfoComponent, children: [
     { path: 'about', component: AboutComponent },

@@ -22,6 +22,8 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
+  readonly constants: typeof Constants = Constants;
+  
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD_WITH_MARGINE;
