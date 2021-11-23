@@ -13,6 +13,11 @@
   text-overflow: ellipsis;
 }
 
-.keywords-input::placeholder {
-  white-space: pre-wrap;
+.keywordsPlaceholder {
+  opacity: 0.5;
+}
+
+.keywords-input {
+  position: relative;
+  top: -2.25rem;
 }
