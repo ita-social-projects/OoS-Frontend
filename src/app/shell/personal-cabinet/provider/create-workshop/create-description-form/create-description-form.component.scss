@@ -1,6 +1,11 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
 
+.step-input {
+  min-height: 100px;
+  position:relative;
+}
+
 .keyWordChip.keyWordChip.keyWordChip {
   width: fit-content;
   max-width: 100%;
@@ -18,6 +23,6 @@
 }
 
 .keywords-input {
-  position: relative;
-  top: -2.25rem;
+  position: absolute;
+  top: 5px;
 }
