@@ -39,7 +39,7 @@
     <label class="step-label">Ключові слова</label>
     <label class="step-characters-count">{{keyWords.length}}/{{constants.MAX_KEYWORDS_LENGTH}}</label>
   </div>
-  <div class="step-input" (click)="setFocus()"
+  <div class="step-input keywords" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
     <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум 5 слів)</span>
     <mat-chip-list #chipList>
