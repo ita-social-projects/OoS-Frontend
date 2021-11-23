@@ -6,7 +6,7 @@
         Переглянути всі <span class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
-    <div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
       <app-category-card *ngFor="let direction of topDirections$ | async " [direction]="direction.direction"
         [workshopsCount]="direction.workshopsCount">
       </app-category-card>
@@ -21,12 +21,9 @@
     </div>
     <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyTopWorkshops"></ng-container>
     <ng-template #topWorkshops>
-      <div fxLayout="row wrap" fxLayoutAlign="space-evenly" #WorkshopsWrap>
+      <div fxLayout="row wrap" fxLayoutAlign="start center" #WorkshopsWrap>
         <app-workshop-card *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop" [isMainPage]="true"
           [userRoleView]="Role.unauthorized">
-        </app-workshop-card>
-        <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap, widthOfWorkshopCard,topWorkshops$)"
-          [workshop]="workshop" class="empty-card" [isMainPage]="true">
         </app-workshop-card>
       </div>
     </ng-template>

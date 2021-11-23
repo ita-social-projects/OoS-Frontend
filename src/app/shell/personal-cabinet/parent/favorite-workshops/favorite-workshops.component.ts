@@ -17,7 +17,6 @@ import { Role } from 'src/app/shared/enum/role';
 })
 export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
@@ -26,8 +25,6 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   @Select(UserState.favoriteWorkshopsCard)
   favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  getEmptyCards = Util.getEmptyCards;
 
   constructor(public store: Store) { }
 

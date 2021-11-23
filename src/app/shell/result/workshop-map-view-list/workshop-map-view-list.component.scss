@@ -30,14 +30,6 @@ $links-color: #3849F9;
   display: none;
 }
 
-.empty-card {
-  width: 300px;
-  height: 440px;
-  margin: 0 16px;
-  visibility: hidden;
-  border: none;
-}
-
 @media (max-width: 750px) {
   .workshop-counter-wrapper {
     position: absolute;

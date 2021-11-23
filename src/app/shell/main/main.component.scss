@@ -58,14 +58,6 @@
   }
 }
 
-.empty-card {
-  width: 300px;
-  height: 440px;
-  margin: 0 16px;
-  visibility: hidden;
-  border: none;
-}
-
 app-footer {
   visibility: hidden;
   position: absolute;
@@ -98,12 +90,6 @@ app-footer {
 
     &_categories {
       margin-bottom: 20px;
-
-      .categories-wrapper {
-        flex-wrap: nowrap !important;
-        overflow: scroll;
-        padding: 16px;
-      }
     }
 
     &_header {
