@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -31,7 +32,8 @@ describe('CreateDescriptionFormComponent', () => {
         BrowserAnimationsModule,
         MatIconModule,
         MatRadioModule,
-        MatGridListModule
+        MatGridListModule,
+        MatTooltipModule
       ],
       declarations: [
         CreateDescriptionFormComponent,

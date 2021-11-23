@@ -9,23 +9,23 @@ import { PaginationElement } from '../models/paginationElement.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class GetProviderById {
   static readonly type = '[user] get Provider By Provider Id';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
-  constructor(public id: number, public parameters) { }
+  constructor(public id: string, public parameters) { }
 }
 
 export class GetApplicationsByStatus {
@@ -60,7 +60,7 @@ export class DeleteWorkshopById {
 }
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[user] delete Workshop success';
-  constructor(public payload: string) { }
+  constructor(public payload: WorkshopCard) { }
 }
 export class OnDeleteWorkshopFail {
   static readonly type = '[user] delete Workshop fail';
@@ -80,7 +80,7 @@ export class OnCreateChildrenSuccess {
 }
 export class DeleteChildById {
   static readonly type = '[user] delete Children';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';
@@ -200,9 +200,13 @@ export class CreateFavoriteWorkshop {
 }
 export class DeleteFavoriteWorkshop {
   static readonly type = '[favorite] delete favorite workshop';
-  constructor(public payload: number) { }
+  constructor(public payload: string) { }
 }
 export class CabinetPageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
+}
+export class ResetSelectedWorkshop {
+  static readonly type = '[user] reset selected workshop';
+  constructor() { }
 }

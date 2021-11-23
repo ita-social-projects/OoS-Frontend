@@ -8,7 +8,7 @@
   justify-content: end;
   z-index: 1000;
 }
-@media (max-width: 1024px) {
+@media (max-width: 1070px) {
   .tab-wrapper{
     bottom: 0;
   }
@@ -28,4 +28,10 @@
   cursor: pointer;
   margin: auto 1rem;
   z-index: 100;
+}
+.child-name {
+  color: #444444;
+  font-family: 'Innerspace';
+  font-weight: 700;
+  font-size: 18px;
 }

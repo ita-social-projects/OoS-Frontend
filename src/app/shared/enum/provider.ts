@@ -43,5 +43,5 @@ export enum WorkshopTypeUkr {
 export enum createProviderSteps {
   'info',
   'contacts',
-  'photo'
+  'description'
 }

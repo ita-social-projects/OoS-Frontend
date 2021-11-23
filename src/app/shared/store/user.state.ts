@@ -70,6 +70,7 @@ import {
   GetUsersChildren,
   CabinetPageChange,
   GetAllUsersChildren,
+  ResetSelectedWorkshop,
 } from './user.actions';
 
 
@@ -173,7 +174,7 @@ export class UserState {
 
   @Action(GetApplicationsByParentId)
   getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId): Observable<Application[]> {
-    patchState({ isLoading: true })
+    patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByParentId(payload)
       .pipe(
@@ -184,6 +185,7 @@ export class UserState {
 
   @Action(GetApplicationsByProviderId)
   getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<Application[]> {
+    patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
@@ -204,7 +206,7 @@ export class UserState {
   }
 
   @Action(GetAllUsersChildren)
-  getAllUsersChildren({ patchState, getState }: StateContext<UserStateModel>, { }: GetAllUsersChildren): Observable<ChildCards> {
+  getAllUsersChildren({ patchState }: StateContext<UserStateModel>, { }: GetAllUsersChildren): Observable<ChildCards> {
     return this.childrenService
       .getAllUsersChildren()
       .pipe(
@@ -214,7 +216,8 @@ export class UserState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop): Observable<object> {
+  createWorkshop({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop): Observable<object> {
+    patchState({ isLoading: true })
     return this.userWorkshopService
       .createWorkshop(payload)
       .pipe(
@@ -230,7 +233,8 @@ export class UserState {
   }
 
   @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+  onCreateWorkshopSuccess({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    patchState({ isLoading: false })
     dispatch(new MarkFormDirty(false));
     console.log('Workshop is created', payload);
     dispatch(new ShowMessageBar({ message: 'Гурток створено!', type: 'success' }));
@@ -246,7 +250,7 @@ export class UserState {
     return this.userWorkshopService
       .deleteWorkshop(payload.workshopId)
       .pipe(
-        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload.title))),
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
         catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
@@ -260,7 +264,8 @@ export class UserState {
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
-    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload}" видалено!`, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload.title}" видалено!`, type: 'success' }));
+    dispatch(new GetWorkshopsByProviderId(payload.providerId));
   }
 
   @Action(CreateChildren)
@@ -427,8 +432,8 @@ export class UserState {
   onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/provider/info']);
+    dispatch([new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }), new GetProfile()]);
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
   @Action(UpdateUser)
@@ -534,7 +539,12 @@ export class UserState {
   }
 
   @Action(CabinetPageChange)
-  pageChange({ patchState }: StateContext<FilterStateModel>, { payload }: CabinetPageChange): void {
+  pageChange({ patchState }: StateContext<UserStateModel>, { payload }: CabinetPageChange): void {
     patchState({ currentPage: payload });
+  }
+
+  @Action(ResetSelectedWorkshop)
+  ResetSelectedWorkshop({ patchState }: StateContext<UserStateModel>): void {
+    patchState({ selectedWorkshop: null });
   }
 }

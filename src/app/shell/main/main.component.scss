@@ -1,3 +1,4 @@
+@import "src/app/shared/styles/list-wrappers.scss";
 .main {
   padding-bottom: 48px;
   &_registration {
@@ -102,7 +103,6 @@ app-footer {
         flex-wrap: nowrap !important;
         overflow: scroll;
         padding: 16px;
-        margin: 0 -16px;
       }
     }
 

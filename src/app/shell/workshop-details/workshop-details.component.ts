@@ -11,6 +11,8 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
+import { Rate } from 'src/app/shared/models/rating';
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
@@ -24,7 +26,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role) role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  workshopId: number;
+  workshop: Workshop;
+  ratings: Rate[];
+  workshopId: string;
 
   constructor(
     private store: Store,
@@ -37,30 +41,34 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.store.dispatch(new GetWorkshopById(+params.id));
+        this.store.dispatch(new GetWorkshopById(params.id)).subscribe(() => {
+          this.workshop$.pipe(
+            filter((workshop: Workshop) => !!workshop),
+            takeUntil(this.destroy$)
+          ).subscribe((workshop: Workshop) => {
+            this.workshop = workshop;
+            this.workshopId = workshop.id;
+            this.store.dispatch(new GetProviderById(workshop.providerId));
+            this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
+            this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+              { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+              { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
+            )));
+          });
+        })
+        this.store.dispatch(new GetRateByEntityId('workshop', params.id));
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
       });
 
-    this.workshop$.pipe(
-      filter((workshop: Workshop) => !!workshop),
-      takeUntil(this.destroy$)
-    ).subscribe((workshop: Workshop) => {
-      this.store.dispatch(new GetProviderById(workshop.providerId));
-      this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
-      this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-        { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
-      )));
-    });
-
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshopId)));
+      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
+
   }
 
   ngOnDestroy(): void {
@@ -68,5 +76,4 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

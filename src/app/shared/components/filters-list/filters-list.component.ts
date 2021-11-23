@@ -1,23 +1,42 @@
+import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store, Action, Actions, ofAction } from '@ngxs/store';
-import { Subject, Observable, of, BehaviorSubject } from 'rxjs';
+import { Store, Select } from '@ngxs/store';
+import { Subject} from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
-import { FilterChange, FilterReset, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
+import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
+import { FilterState } from '../../store/filter.state';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
   styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
-  @Input() resetFilter$: Observable<void>
+
+  @Select(FilterState.filterList)
+  @Input()
+  set filtersList(filters) {
+    const {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours} = filters
+    this.priceFilter = priceFilter;
+    this.workingHours = workingHours;
+    this.categoryCheckBox = categoryCheckBox;
+    this.ageFilter = ageFilter;
+    this.WithDisabilityOptionControl.setValue(withDisabilityOption,{emitEvent:false})
+  };
+
+  public priceFilter;
+  public workingHours;
+  public categoryCheckBox;
+  public ageFilter;
+
+
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private actions$: Actions) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
 
@@ -36,17 +55,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       ).subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
 
-    this.resetFilter$
-      .pipe(
-        takeUntil(this.destroy$)
-    ).subscribe(() => {
-        this.WithDisabilityOptionControl.reset();
-    })
-
   }
 
   onFilterReset() {
-    this.store.dispatch([new FilterReset(), new FilterChange()])
+    this.store.dispatch([new FilterClear(), new FilterChange()])
   }
 
   ngOnDestroy(): void {

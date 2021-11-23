@@ -1,14 +1,9 @@
 @import "src/app/shared/styles/list-wrappers.scss";
 @import "src/app/shared/styles/navigation-tabs.scss";
-.btn{
-  color:white;
-  background-color:#3849F9;
-  border: 1px solid #3849F9;
-  box-sizing: border-box;
-  border-radius: 20px;
-}
+@import "src/app/shared/styles/buttons.scss";
+
 .text{
-  font-family: Open Sans;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   color:#272425;
 }
@@ -26,4 +21,10 @@
   margin: 0 26px;
   visibility: hidden;
   border: none;
+}
+.child-name {
+  color: #444444;
+  font-family: 'Innerspace';
+  font-weight: 700;
+  font-size: 18px;
 }

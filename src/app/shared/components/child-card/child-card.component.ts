@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Application } from '../../models/application.model';
 import { Child } from '../../models/child.model';
+import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from '../../constants/constants';
 
 @Component({
   selector: 'app-child-card',
@@ -9,11 +11,19 @@ import { Child } from '../../models/child.model';
 })
 export class ChildCardComponent implements OnInit {
 
+  public below = 'below';
+  public childFullName: string;
+  public childAge: string;
+  readonly constants: typeof Constants = Constants;
+
   @Input() child: Child;
   @Input() applications: Array<Application>;
   @Output() deleteChild = new EventEmitter<Child>();
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.childFullName =  `${this.child.lastName} ${this.child.firstName} ${this.child.middleName}`;
+    this.childAge = Util.getChildAge(this.child);
+  }
 
   onDelete(): void {
     this.deleteChild.emit(this.child);

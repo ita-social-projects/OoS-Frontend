@@ -1,19 +1,24 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
+import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
+
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -23,11 +28,14 @@ import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.action
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class CreateWorkshopComponent implements OnInit {
+export class CreateWorkshopComponent implements OnInit, OnDestroy {
 
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
   isPristine = true;
+
+  @Select(UserState.isLoading)
+  isLoading$: Observable<boolean>;
 
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
@@ -41,14 +49,25 @@ export class CreateWorkshopComponent implements OnInit {
   constructor(
     private store: Store,
     private route: ActivatedRoute,
-    private userWorkshopService: UserWorkshopService) { }
+    private userWorkshopService: UserWorkshopService,
+    private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    const workshopId = +this.route.snapshot.paramMap.get('id');
+    const workshopId = this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
       this.userWorkshopService.getWorkshopById(workshopId).subscribe((workshop: Workshop) => this.workshop = workshop);
     }
+
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
+      { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true }
+
+    )));
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new DeleteNavPath());
   }
 
   /**

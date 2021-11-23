@@ -16,26 +16,27 @@ import { SetOrder } from 'src/app/shared/store/filter.actions';
 
 export class OrderingComponent implements OnInit {
 
-  @Input() resetFilter$: Observable<void>;
+  @Input()
+  set order(rating) {
+    this.orderFormControl.setValue(rating, {emitEvent: false});
+  };
+
   readonly ordering: typeof Ordering = Ordering;
 
-  selectedOption: string = Ordering.rating;
+  selectedOption: string;
   orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private store: Store,private actions$: Actions) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.resetFilter$.pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.orderFormControl.setValue(this.ordering.rating)
-      })
 
-    this.orderFormControl.valueChanges.subscribe(() => this.store.dispatch(new SetOrder(this.selectedOption)));
   }
 
   OnSelectOption(event: MatSelectChange): void {
     this.selectedOption = event.value;
+    this.store.dispatch(new SetOrder(this.selectedOption))
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -4,14 +4,17 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Child } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
@@ -42,10 +45,11 @@ export class CreateChildComponent implements OnInit, OnDestroy {
     private store: Store,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private childrenService: ChildrenService) { }
+    private childrenService: ChildrenService,
+    private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    const childId = +this.route.snapshot.paramMap.get('id');
+    const childId = this.route.snapshot.paramMap.get('id');
     if (childId) {
       this.editMode = true;
       this.childrenService.getUsersChildById(childId).pipe(
@@ -70,6 +74,11 @@ export class CreateChildComponent implements OnInit, OnDestroy {
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe(val => this.isAgreed = val);
+
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.PersonalCabinetParent, path: '/personal-cabinet/parent/info', isActive: false, disable: false },
+      { name: this.editMode ? NavBarName.EditInformationAboutChild : NavBarName.AddInformationAboutChild, isActive: false, disable: true },
+    )));
   }
 
   /**
@@ -82,7 +91,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       dateOfBirth: new FormControl('', Validators.required),
-      gender: new FormControl(''),
+      gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfStudy: new FormControl('')
     });
@@ -121,20 +130,44 @@ export class CreateChildComponent implements OnInit, OnDestroy {
    * This method create or edit Child and distpatch CreateChild action
    */
   onSubmit(): void {
-    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-    if (this.editMode) {
-      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
-      this.store.dispatch(new UpdateChild(child));
+    if (this.ChildrenFormArray.invalid) {
+      this.checkValidationChild();
     } else {
-      this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-        const child: Child = new Child(form.value, parent.id);
-        this.store.dispatch(new CreateChildren(child));
-      });
+      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+      if (this.editMode) {
+        const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+        this.store.dispatch(new UpdateChild(child));
+      } else {
+        this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
+          const child: Child = new Child(form.value, parent.id);
+          this.store.dispatch(new CreateChildren(child));
+        });
+      }
     }
+  }
+
+  /**
+   * This method marks each control of form in the array of forms in ChildrenFormArray as touched
+   */
+  checkValidationChild(): void {
+    Object.keys(this.ChildrenFormArray.controls).forEach(key => {
+      this.checkValidation(<FormGroup>this.ChildrenFormArray.get(key));
+    });
+  }
+
+  /**
+   * This method receives a form and marks each control of this form as touched
+   * @param FormGroup form
+   */
+  checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new DeleteNavPath());
   }
 }

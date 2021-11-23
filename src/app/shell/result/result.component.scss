@@ -120,13 +120,14 @@
     }
   }
 }
-@media(max-width: 1250px) {
+
+@media(max-width: 960px) {
   .workshops-count .filters-toggle-btn {
     display: none;
   }
 }
 
-@media(min-width: 1251px) {
+@media(min-width: 961px) {
   .workshops-search .filters-toggle-btn {
     display: none;
   }
@@ -135,7 +136,9 @@
 @media(max-width: 1000px) {
   .view-control-panel {
     flex-wrap: wrap-reverse;
+    margin-bottom: 16px;
   }
+  
   .workshops-count {
     margin-top: 10px;
   }

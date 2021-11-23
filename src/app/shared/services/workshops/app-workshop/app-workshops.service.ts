@@ -92,15 +92,17 @@ export class AppWorkshopsService {
    */
   getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
     const options = { params: this.setParams(filters, isMapView) };
-    return this.http.get<WorkshopFilterCard>('/Workshop/GetByFilter', options);
+    return this.http.get<WorkshopFilterCard>('/api/v1/Workshop/GetByFilter', options);
   }
 
   /**
    * This method get top workshops
    */
   getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
+    let city = JSON.parse(localStorage.getItem('cityConfirmation'));
     let params = new HttpParams();
     params = params.set('Limit', this.size.toString());
-    return this.http.get<WorkshopCard[]>('/Statistic/GetWorkshops', { params });
+    params = params.set('City', city?.name ?? Constants.KIEV.name);
+    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }
 }

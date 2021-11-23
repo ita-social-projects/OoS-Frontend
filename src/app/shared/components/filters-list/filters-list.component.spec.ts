@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import { FiltersListComponent } from './filters-list.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable, of } from 'rxjs';
 
 describe('FiltersListComponent', () => {
   let component: FiltersListComponent;
@@ -13,6 +13,7 @@ describe('FiltersListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        MatIconModule,
         MatCheckboxModule,
         FormsModule,
         ReactiveFormsModule,
@@ -35,7 +36,6 @@ describe('FiltersListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FiltersListComponent);
     component = fixture.componentInstance;
-    component.resetFilter$ = of()
     fixture.detectChanges();
   });
 
@@ -55,7 +55,7 @@ class MockCityFilterComponent {}
   template: ''
 })
 class MockCategoryCheckBoxComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() categoryCheckBox: {};
 }
 
 @Component({
@@ -63,7 +63,7 @@ class MockCategoryCheckBoxComponent {
   template: ''
 })
 class MockAgeFilterComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() ageFilter: {};
 }
 
 @Component({
@@ -71,7 +71,7 @@ class MockAgeFilterComponent {
   template: ''
 })
 class MockWorkingHoursComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() workingHours: {};
 }
 
 @Component({
@@ -79,7 +79,7 @@ class MockWorkingHoursComponent {
   template: ''
 })
 class MockPriceFilterComponent {
-  @Input() resetFilter$: Observable<void>;
+  @Input() priceFilter: {};
 }
 
 

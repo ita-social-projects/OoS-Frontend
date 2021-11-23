@@ -14,6 +14,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
+import { Constants } from 'src/app/shared/constants/constants';
 
 
 @Component({
@@ -24,10 +25,12 @@ import { ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/application
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
+  readonly constants: typeof Constants = Constants;
+  
   isActiveInfoButton = false;
   providerApplicationParams: {
     status: string,
-    workshopsId: number[]
+    workshopsId: string[]
   } = {
       status: undefined,
       workshopsId: []
@@ -127,7 +130,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * This applies selected workshops as filtering parameter to get list of applications
    * @param workshopsId: number[]
    */
-  onWorkshopsSelect(workshopsId: number[]): void {
+  onWorkshopsSelect(workshopsId: string[]): void {
     this.providerApplicationParams.workshopsId = workshopsId;
     this.getProviderApplications(this.providerApplicationParams);
   }

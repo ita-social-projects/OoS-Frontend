@@ -1,18 +1,25 @@
 ::ng-deep .mat-snack-bar-container{
-  padding: 8px 12px;
-  border-radius: 24px;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
   color: #444444;
+  min-width: 550px;
+
   font-family: Innerspace;
   font-style: normal;
   font-weight: bold;
-  font-size: 16px;
-  min-width: 550px;
+  font-size: 13px;
+  line-height: 19px;
+}
+:host ::ng-deep .mat-icon{
+  height: 1.2rem;
+  width: 1.2rem;
 }
 
 .icon{
+  margin-right: 0.5rem;
   border-radius: 2rem;
   border: solid 1px #444444;
-  margin: 5px;
+  font-size: 13px;
 }
 
 .action{

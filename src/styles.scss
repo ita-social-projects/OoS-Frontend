@@ -136,3 +136,28 @@ $config: mat-typography-config(
 .dropdownOptionMobile {
   display: none;
 }
+
+.tooltip {
+  word-break: break-all !important;
+  white-space: normal !important;
+}
+
+.mat-checkbox-inner-container {
+  height: 18px !important;
+  width: 18px !important;
+  align-items: center !important;
+}
+
+.mat-checkbox-checked {
+  & .mat-checkbox-background,
+  .mat-checkbox-frame {
+      background-color: #3849F9 !important;
+      border-radius: 3px;
+  }
+}
+.mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #3849F9 !important;
+}
+.mat-radio-button.mat-primary .mat-radio-inner-circle {
+  background-color: #3849F9 !important;
+}

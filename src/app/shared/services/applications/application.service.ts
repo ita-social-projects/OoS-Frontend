@@ -19,7 +19,7 @@ export class ApplicationService {
     }
 
     if (parameters.workshopsId.length) {
-      parameters.workshopsId.forEach((workshopId: number) => params = params.append('Workshops', workshopId.toString()));
+      parameters.workshopsId.forEach((workshopId: string) => params = params.append('Workshops', workshopId));
     }
 
     params = params.set('OrderByDateAscending', 'true'); // TODO: change parameters setting according to the backend updtaes
@@ -33,20 +33,20 @@ export class ApplicationService {
 
   /**
    * This method get applications by Parent id
-   * @param id number
+   * @param id string
    */
-  getApplicationsByParentId(id: number): Observable<Application[]> {
-    return this.http.get<Application[]>(`/Application/GetByParentId/${id}`);
+  getApplicationsByParentId(id: string): Observable<Application[]> {
+    return this.http.get<Application[]>(`/api/v1/Application/GetByParentId/${id}`);
   }
 
   /**
    * This method get applications by Provider id
-   * @param id number
+   * @param id string
    */
-  getApplicationsByProviderId(id: number, parameters): Observable<Application[]> {
+  getApplicationsByProviderId(id: string, parameters): Observable<Application[]> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<Application[]>(`/Application/GetByPropertyId/provider/${id}`, options);
+    return this.http.get<Application[]>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
   }
 
   /**
@@ -54,15 +54,15 @@ export class ApplicationService {
    * @param Workshop Workshop
    */
   createApplication(application: Application): Observable<object> {
-    return this.http.post('/Application/Create', application);
+    return this.http.post('/api/v1/Application/Create', application);
   }
 
   /**
    * This method delete Application by Application id
-   * @param id number
+   * @param id string
    */
-  deleteApplication(id: number): Observable<object> {
-    return this.http.delete(`Application/Delete/${id}`);
+  deleteApplication(id: string): Observable<object> {
+    return this.http.delete(`/api/v1/Application/Delete/${id}`);
   }
 
   /**
@@ -70,6 +70,6 @@ export class ApplicationService {
    * @param application: ApplicationUpdate
    */
   updateApplication(application: ApplicationUpdate): Observable<object> {
-    return this.http.put('/Application/Update', application);
+    return this.http.put('/api/v1/Application/Update', application);
   }
 }

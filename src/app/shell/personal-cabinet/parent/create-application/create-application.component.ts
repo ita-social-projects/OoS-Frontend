@@ -1,7 +1,7 @@
 import { NavBarName } from './../../../../shared/enum/navigation-bar';
 import { NavigationBarService } from './../../../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetAllUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -65,18 +65,20 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((parent: Parent) => {
         this.parent = parent;
-        this.store.dispatch(new GetUsersChildren());
+        this.store.dispatch(new GetAllUsersChildren());
       });
 
-    const workshopId = +this.route.snapshot.paramMap.get('id');
+    const workshopId = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(workshopId));
 
     this.workshop$
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
-      { name: NavBarName.TopWorkshops, isActive: false, disable: true })));
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+      { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
+    )));
   }
 
   ngOnDestroy(): void {

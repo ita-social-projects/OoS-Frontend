@@ -68,12 +68,16 @@
 
 </form>
 <hr fxLayout='row' fxLayoutAlign='center center' width="500" size="2" color="#E3E3E3" />
-<form [formGroup]="ActualAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <h4>Фактична адреса</h4>
 
+<div fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <h4>Фактична адреса</h4>
   <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">Співпадає з юридичною
     адресою
   </mat-checkbox>
+</div>
+
+<form [formGroup]="ActualAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
+  [ngClass]="{'disbale': isSameAddressControl.value}">
 
   <label class="step-label">Область<span class="step-required">*</span></label>
   <mat-form-field>

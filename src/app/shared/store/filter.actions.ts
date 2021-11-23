@@ -79,6 +79,11 @@ export class FilterReset {
   constructor() { }
 }
 
+export class FilterClear {
+  static readonly type = '[filter] Filter Clear';
+  constructor() { }
+}
+
 export class SetMinAge {
   static readonly type = '[filter] Set Min Age';
   constructor(public payload: number) { }
@@ -90,4 +95,8 @@ export class SetMaxAge {
 export class PageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
+}
+export class SetFirstPage {
+  static readonly type = '[filter] Set First Page';
+  constructor() { }
 }

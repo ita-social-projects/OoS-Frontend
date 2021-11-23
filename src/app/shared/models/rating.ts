@@ -3,7 +3,7 @@ export interface Rate {
   rate: number;
   type: string;
   entityId: string;
-  parentId: number;
+  parentId: string;
   creationTime: Date;
   lastName: string;
   firstName: string;

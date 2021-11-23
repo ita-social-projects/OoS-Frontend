@@ -1,17 +1,8 @@
-import { CleanCity } from './../../store/filter.actions';
+import { Constants } from 'src/app/shared/constants/constants';
 import { Store } from '@ngxs/store';
 import { Component } from '@angular/core';
 import { ConfirmCity } from '../../store/filter.actions';
-import { City } from '../../models/city.model';
-
-const kiev: City = {
-  district: 'м.Київ',
-  id: 14446,
-  longitude: 30.5595,
-  latitude: 50.44029,
-  name: 'м.Київ',
-  region: 'м.Київ',
-};
+import { SetFocusOnCityField } from '../../store/app.actions';
 
 @Component({
   selector: 'app-city-confirmation',
@@ -23,12 +14,12 @@ export class CityConfirmationComponent {
   constructor(public store: Store) { }
 
   confirmCity(): void {
-    localStorage.setItem('cityConfirmation', JSON.stringify(kiev));
+    localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));
     this.store.dispatch(new ConfirmCity(false));
   }
 
   changeCity(): void {
-    this.store.dispatch([new ConfirmCity(false), new CleanCity()]);
+    this.store.dispatch([new ConfirmCity(false), new SetFocusOnCityField()]);
   }
 
 }

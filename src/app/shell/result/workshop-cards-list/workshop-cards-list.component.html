@@ -9,7 +9,7 @@
         [workshop]="workshop" class="empty-card">
       </app-workshop-card>
     </div>
-    <app-paginator [totalEntities]="(workshops$ | async)?.totalAmount" [currentPage]="currentPage"
+    <app-paginator [totalEntities]="(workshops$ | async)?.totalAmount" [currentPage]="_currentPage"
       (pageChange)="onPageChange($event)">
     </app-paginator>
   </ng-container>

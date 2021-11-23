@@ -22,6 +22,10 @@ export class GetSocialGroup {
   static readonly type = '[meta-data] Get GetSocialGroup';
   constructor() { }
 }
+export class GetInstitutionStatus{
+  static readonly type = '[meta-data] Get GetInstitutionStatus';
+  constructor() { }
+}
 export class ClearClasses {
   static readonly type = '[meta-data] clear classes state';
 }
@@ -34,6 +38,10 @@ export class GetCities {
 }
 export class ClearCities {
   static readonly type = '[meta-data] clear cities state';
+}
+
+export class ClearRatings {
+  static readonly type = '[meta-data] clear ratings state';
 }
 export class FilteredDirectionsList {
   static readonly type = '[meta-data] Get list of filtered directions';
@@ -49,5 +57,5 @@ export class FilteredClassesList {
 }
 export class GetRateByEntityId {
   static readonly type = '[meta-data] Get Rate';
-  constructor(public enitityType: string, public entitytId: number) { }
+  constructor(public enitityType: string, public entitytId: string) { }
 }

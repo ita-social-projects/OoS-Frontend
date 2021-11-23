@@ -22,6 +22,8 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
 
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
+  readonly constants: typeof Constants = Constants;
+  
   @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   getEmptyCards = Util.getEmptyCards;
   widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD_WITH_MARGINE;
@@ -36,6 +38,10 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   init(): void {
     if (this.role === Role.provider) {
       this.getProviderWorkshops();
+      this.getProviderApplications({
+        status: ApplicationStatus.Pending,
+        workshopsId: []
+      });
     } else {
       this.getAllUsersChildren();
       this.getParentApplications();

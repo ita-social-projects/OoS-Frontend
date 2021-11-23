@@ -1,35 +1,35 @@
-<mat-card *ngIf="application" fxLayout='row' fxLayoutAlign='space-evenly center'
+<mat-card *ngIf="application" fxLayout="row" fxLayoutAlign="space-evenly center"
   [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
+  <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
+    <div fxLayout="column" fxLayoutAlign="start start">
       <div #name (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
-        <h4 class="name title">{{
-          application.child.firstName }} {{
-          application.child.lastName }} {{ application.child.middleName }}</h4>
+        <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{ application.child.middleName }}</h4>
       </div>
       <p class="text text-bold">{{ childAge }}</p>
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>
     </div>
   </mat-card-content>
 
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start center'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
+  <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
+    <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
       <h4 class="title text-link" [routerLink]="['/workshop-details', application?.workshopId ]">{{
         application?.workshop.title }}</h4>
-
-      <p class="text" *ngIf="userRole === role.parent">
-        <mat-icon class="text_icon">home</mat-icon>
-        {{application?.workshop.providerTitle}}
-      </p>
-
+        <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
+          <mat-icon class="text_icon">home</mat-icon>
+          <p class="text">{{application?.workshop.providerTitle}}</p>
+        </div>
+        <div class="workshop-age" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
+          <mat-icon class="text_icon">person</mat-icon>
+          <p class="text">{{application?.workshop.minAge}} - {{application?.workshop.maxAge}}</p>
+        </div>
     </div>
   </mat-card-content>
 
-  <mat-card-content class="card-block" fxLayout='column' fxLayoutAlign='start start'>
-    <div *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
+  <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
+    <div class="application-status" *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseenter)="trigger.openMenu()"
       (mouseleave)="trigger.closeMenu()">
       <div class="application-popup-status {{application.status}}">
-        <span> <i class={{applicationIcons[application.status]}}></i></span>
+        <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
         <span> {{applicationTitles[application.status]}}</span>
       </div>
     </div>
@@ -39,14 +39,14 @@
     </mat-menu>
   </mat-card-content>
 
-  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.provider">
-    <div fxLayout='column' fxLayoutAlign='start start'
+  <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.provider">
+    <div fxLayout="column" fxLayoutAlign="start start"
       [ngClass]="(application.status === applicationStatus.Approved || application.status === applicationStatus.Rejected) && 'hidden'">
       <button class="btn btn-blue" (click)="onApprove(application)">
         <p>ПРИЙНЯТИ</p>
       </button>
     </div>
-    <div fxLayout='column' fxLayoutAlign='start start'
+    <div fxLayout="column" fxLayoutAlign="start start"
       [ngClass]="application.status === applicationStatus.Rejected && 'hidden'">
       <button class="btn btn-gray" (click)="onReject(application)">
         <p>ВІДМОВИТИ</p>
@@ -54,8 +54,8 @@
     </div>
   </mat-card-content>
 
-  <mat-card-content class="card-block" fxLayout='row' fxLayoutAlign='center center' *ngIf="userRole === role.parent">
-    <div fxLayout='column' fxLayoutAlign='start start'
+  <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
+    <div fxLayout="column" fxLayoutAlign="start start"
       [ngClass]="(application.status === applicationStatus.Left || application.status === applicationStatus.Rejected) && 'hidden'">
       <button class="btn btn-gray" (click)="onLeave(application)">
         <p>ЗАЛИШИТИ ГУРТОК</p>

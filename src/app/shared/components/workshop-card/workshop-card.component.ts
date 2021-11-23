@@ -30,6 +30,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
+  pendingApplicationAmount: number;
 
   @Input() workshop: WorkshopCard;
   @Input() userRoleView: string;
@@ -38,6 +39,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = true;
   @Input() icons: {};
+  @Input() set pendingApplications(applications: Application[]) {
+    this.pendingApplicationAmount = applications.filter((application: Application) => application.workshopId === this.workshop.workshopId).length;
+  };
 
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
@@ -59,11 +63,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites: Favorite[]) => {
         this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find(item => item.workshopId === this.workshop?.workshopId);
+        this.favoriteWorkshopId = this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
       });
     this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => this.role = role)
+      .subscribe((role: string) => this.role = role);
   }
 
   onDelete(): void {
@@ -82,7 +86,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onDisLike(id: number): void {
+  onDisLike(id: string): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(id),
       new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' })
