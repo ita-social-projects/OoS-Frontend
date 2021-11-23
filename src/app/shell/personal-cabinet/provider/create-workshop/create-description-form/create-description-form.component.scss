@@ -12,3 +12,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.keywords-input::placeholder {
+  white-space: pre-wrap;
+}

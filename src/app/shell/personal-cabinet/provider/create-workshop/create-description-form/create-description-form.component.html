@@ -40,8 +40,10 @@
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
   </app-category-select>
 
-  <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
-    щоб додати тегу</label>
+  <div class="step-label-combined">
+    <label class="step-label">Ключові слова</label>
+    <label class="step-characters-count">{{keyWords.length}}/{{constants.MAX_KEYWORDS_LENGTH}}</label>
+  </div>
   <div class="step-input" style="min-height:100px" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
     <mat-chip-list #chipList>
@@ -50,7 +52,8 @@
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input #keyWordsInput (focusout)="onKeyWordsInput()"
+      <input class="keywords-input" [placeholder]="keyWords.length > 0 ? '' : 'Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум 5 слів)'" 
+        [disabled]="disabled" #keyWordsInput (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord">
     </mat-chip-list>
