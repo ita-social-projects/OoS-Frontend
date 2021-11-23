@@ -7,6 +7,21 @@
   margin: 1rem 0;
 }
 
+.all-categories {
+  &__full-search-bar_wrap {
+    max-width: 378px;
+    width: 100%;
+
+    .search {
+      .search__search-bar {
+        .search-bar {
+          height: 34px;
+        }
+      }
+    }
+  }
+}
+
 @media(min-width: 750px) {
   .shell-search{
     width:  50%;

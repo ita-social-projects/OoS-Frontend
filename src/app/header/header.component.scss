@@ -31,6 +31,19 @@
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
 
+  &__full-search-bar_wrap {
+    max-width: 846px;
+    width: 100%;
+
+    .search {
+      .search__search-bar {
+        .search-bar {
+          height: 56px;
+        }
+      }
+    }
+  }
+
   .authorization {
     color: white;
   }
@@ -159,6 +172,10 @@
       padding-right: 6px;
     }
   }
+}
+
+:host ::ng-deep .search {
+  height: 56px;
 }
 
 ::ng-deep .header_menu {

@@ -110,8 +110,10 @@
 
 @media(max-width: 1400px) {
 
-  ::ng-deep app-full-search-bar {
+  :host ::ng-deep app-full-search-bar {
     min-width: 300px;
+    max-width: 378px;
+    width: 100%;
 
     app-searchbar {
       input {
@@ -138,7 +140,7 @@
     flex-wrap: wrap-reverse;
     margin-bottom: 16px;
   }
-  
+
   .workshops-count {
     margin-top: 10px;
   }
