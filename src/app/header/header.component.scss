@@ -120,10 +120,11 @@
   }
 
   &_username {
-    font-size: medium;
+    font-size: 0.7rem;
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
+    text-transform: uppercase;
     cursor: pointer;
 
     &:hover {
@@ -216,6 +217,7 @@
 
 .lang-option-text{
   padding: 0;
+  font-size: 0.7rem;
   font-weight: bold;
   font-family: "Open Sans", sans-serif;
   text-align: center;
