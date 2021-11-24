@@ -34,7 +34,7 @@
     fxLayoutAlign='center space-between'>
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
-    <input matInput class="step-input" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
+    <input matInput class="step-input" [ngClass]="{'opacity' : !disabilityOptionRadioBtn.value}" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
   </mat-radio-group>
 
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
@@ -58,5 +58,5 @@
   <app-validation-hint-for-input type="requiredField"
     [invalid]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
   </app-validation-hint-for-input>
-  
+
 </form>
