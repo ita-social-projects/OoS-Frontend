@@ -31,12 +31,12 @@
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
 
-  &__full-search-bar_wrap {
+  .header-full-search-bar-wrap {
     max-width: 846px;
     width: 100%;
 
     .search {
-      .search__search-bar {
+      .search-bar-wrap {
         .search-bar {
           height: 56px;
         }
