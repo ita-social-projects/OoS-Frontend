@@ -1,9 +1,10 @@
-.mat-button-toggle-button :active{
+.mat-button-toggle-button :active {
   color: #3849F9;
 }
+
 .mat-button-toggle-checked {
-  background-color: #E3E3E3;
-  color: #2979FF;
+  background-color: rgba(56, 73, 249, 0.07);
+  color: #3849F9;
   border-top-left-radius: 1.2rem;
   border-bottom-left-radius: 1.2rem;
   border: 2px solid #3849F9;
