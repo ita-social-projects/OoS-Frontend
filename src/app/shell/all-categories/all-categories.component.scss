@@ -1,5 +1,10 @@
+@import "src/app/shared/styles/card-wrapper.scss";
+.header-wrapper{
+  margin-bottom: 2rem;
+}
+
 .title{
-  margin: 1rem;
+  margin-right: 1rem;
 }
 
 @media(min-width: 750px) {

@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" fxLayoutAlign="start center" class="all-provider-worshops-wrapper">
-  <app-workshop-card [userRoleView]="Role.unauthorized" class="cards" *ngFor="let workshop of providerWorkshops "
+<div class="card-wrapper">
+  <app-workshop-card class="card" [userRoleView]="Role.unauthorized" *ngFor="let workshop of providerWorkshops "
     [workshop]="workshop" [isMainPage]="true"></app-workshop-card>
 </div>

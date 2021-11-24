@@ -10,10 +10,14 @@ export class TeacherCardComponent implements OnInit {
 
   @Input() teacher: Teacher;
 
+  teacherFullName: string;
+  below = 'below';
+
   constructor() {
   }
 
   ngOnInit(): void {
+    this.teacherFullName = `${this.teacher.lastName} ${this.teacher.firstName}`
   }
 
 }

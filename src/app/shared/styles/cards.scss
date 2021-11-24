@@ -6,6 +6,7 @@
   justify-content:space-evenly;
   align-items: space-between;
   align-content: space-between;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 
   &-title {
     font-family: Innerspace;
@@ -165,7 +166,6 @@
   background: red;
 }
 .mat-card {
-  margin-right: 2rem;
   padding: 0;
 }
 .mat-card-content,

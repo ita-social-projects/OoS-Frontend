@@ -1,7 +1,7 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
   <div fxLayout="column" fxLayoutAlign="space-evenly">
-    <div fxLayout="row" fxLayoutAlign="start center" class="workshop-list">
-      <app-workshop-card class="workshop" [userRoleView]="Role.unauthorized" *ngFor="let workshop of selectedWorkshops"
+    <div fxLayout="row" fxLayoutAlign="start center" class="workshop-list card-wrapper">
+      <app-workshop-card class="card" [userRoleView]="Role.unauthorized" *ngFor="let workshop of selectedWorkshops"
         [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
       </app-workshop-card>
     </div>
@@ -23,9 +23,9 @@
     [@triggerName]="currentWorkShopIndex" [style.left.vw]="left" (touchstart)="swipe($event, 'start')"
     (touchend)="swipe($event, 'end')">
     <div class="mock"></div>
-    <div *ngFor="let workshop of selectedWorkshops; let i = index">
-      <app-workshop-card class="workshop-details-card" [workshop]="workshop" [isMainPage]="true"
-        [isHorizontalView]="true" [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+    <div class="card-wrapper" *ngFor="let workshop of selectedWorkshops; let i = index">
+      <app-workshop-card class="card" [workshop]="workshop" [isMainPage]="true" [isHorizontalView]="true"
+        [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
       </app-workshop-card>
     </div>
     <div class="mock"></div>

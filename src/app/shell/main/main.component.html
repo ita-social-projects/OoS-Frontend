@@ -1,16 +1,14 @@
 <div class="main">
-  <div class="main_categories">
-    <div class="main_header" fxLayoutAlign="space-between center">
-      <h3>Найпопулярніші напрямки</h3>
-      <a routerLink="/all-categories" class="main_link">
-        Переглянути всі <span class="material-icons arrow">arrow_forward</span>
-      </a>
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="start center">
-      <app-category-card *ngFor="let direction of topDirections$ | async " [direction]="direction.direction"
-        [workshopsCount]="direction.workshopsCount">
-      </app-category-card>
-    </div>
+  <div class="main_header" fxLayoutAlign="space-between center">
+    <h3>Найпопулярніші напрямки</h3>
+    <a routerLink="/all-categories" class="main_link">
+      Переглянути всі <span class="material-icons arrow">arrow_forward</span>
+    </a>
+  </div>
+  <div class="card-wrapper">
+    <app-category-card class="card" *ngFor="let direction of topDirections$ | async " [direction]="direction.direction"
+      [workshopsCount]="direction.workshopsCount">
+    </app-category-card>
   </div>
   <div class="main_cards">
     <div class="main_header" fxLayoutAlign="space-between center">
@@ -21,9 +19,9 @@
     </div>
     <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyTopWorkshops"></ng-container>
     <ng-template #topWorkshops>
-      <div fxLayout="row wrap" fxLayoutAlign="start center" #WorkshopsWrap>
-        <app-workshop-card *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop" [isMainPage]="true"
-          [userRoleView]="Role.unauthorized">
+      <div class="card-wrapper">
+        <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"
+          [isMainPage]="true" [userRoleView]="Role.unauthorized">
         </app-workshop-card>
       </div>
     </ng-template>

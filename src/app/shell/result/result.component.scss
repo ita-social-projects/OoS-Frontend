@@ -70,10 +70,7 @@
     background-color: inherit;
     color: inherit;
     overflow: hidden;
-
-    .workshop-details-card {
-      display: none !important;
-    }
+    margin-top: 2rem;
   }
 }
 
@@ -138,7 +135,7 @@
     flex-wrap: wrap-reverse;
     margin-bottom: 16px;
   }
-  
+
   .workshops-count {
     margin-top: 10px;
   }
