@@ -53,7 +53,7 @@
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
       <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}"
-        [disabled]="disabled" #keyWordsInput (focusout)="onKeyWordsInput()"
+        [disabled]="disabledKeyWordsInput" #keyWordsInput (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord">
     </mat-chip-list>

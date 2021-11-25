@@ -34,7 +34,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
 
-  disabled: boolean = false;
+  disabledKeyWordsInput: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
@@ -63,7 +63,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
-      this.disabled = false;
+      this.disabledKeyWordsInput = false;
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
       if (this.keyWords.length) {
         this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
@@ -84,7 +84,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
           this.keyWordsCtrl.setValue(null);
           this.keyWord = '';
         }
-        (this.keyWords.length >= 5) && (this.disabled = true);
+        this.disabledKeyWordsInput = this.keyWords.length >= 5;
       }
     }
   }
