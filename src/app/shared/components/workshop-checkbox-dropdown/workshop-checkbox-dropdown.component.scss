@@ -19,6 +19,10 @@
   padding: 1rem;
 }
 
+.label-disabled {
+  opacity: 0.3;
+}
+
 mat-form-field mat-label {
   display: flex;
   justify-content: flex-start;
