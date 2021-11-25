@@ -1,16 +1,4 @@
 @import "src/app/shared/styles/list-wrappers.scss";
 @import "src/app/shared/styles/buttons.scss";
-
-.text{
-  font-family: Open Sans;
-  font-weight: 400;
-  color:#272425;
-}
-.wrapper-card{
-  background:transparent;
-  border-radius: 5px;
-  flex: 1;
-}
-.cards{
-  margin:20px;
-}
+@import "src/app/shared/styles/cards.scss";
+@import "src/app/shared/styles/card-wrapper.scss";

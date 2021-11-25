@@ -1,7 +1,7 @@
 :host ::ng-deep {
   .mat-tab-label-active {
     color: #3849F9;
-    background: none;
+    background: rgba(56, 73, 249, 0.07);
     border: 2px solid #3849F9;
     box-sizing: border-box;
     border-radius: 20px;
@@ -15,7 +15,6 @@
 
   .mat-tab-header {
     border: none;
-    margin-bottom: 1rem;
   }
 
   .mat-ink-bar{

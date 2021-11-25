@@ -14,9 +14,7 @@ export class AllProviderWorkshopsComponent implements OnInit {
   readonly Role = Role;
   @Input() role: string;
   @Input() providerWorkshops: WorkshopCard[];
-  getEmptyCards = Util.getEmptyCards;
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD_IN_WORKSHOP_DETAILS;
+
   constructor() { }
 
   ngOnInit(): void {

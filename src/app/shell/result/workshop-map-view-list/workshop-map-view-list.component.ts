@@ -22,8 +22,8 @@ import { PageChange } from 'src/app/shared/store/filter.actions';
       ])
     ]),
     trigger('triggerName', [
-      transition(':decrement', [animate('0.2s ease-in-out',style({ transform: "translateX(+92vw)"}))]),
-      transition(':increment', [animate('0.2s ease-in-out',style({ transform: "translateX(-92vw)" }) )]),
+      transition(':decrement', [animate('0.2s ease-in-out', style({ transform: "translateX(+92vw)" }))]),
+      transition(':increment', [animate('0.2s ease-in-out', style({ transform: "translateX(-92vw)" }))]),
     ]),
   ]
 })
@@ -48,9 +48,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   };
   workshopDetailsAnimationState = false;
 
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
@@ -76,7 +74,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     let time = new Date().getTime();
 
-    if (when === 'start' && (time - this.swipeTime) < 300 ) {
+    if (when === 'start' && (time - this.swipeTime) < 300) {
       time -= 1000
     }
 
@@ -86,24 +84,24 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     } else if (when === 'end') {
       const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
       const duration = time - this.swipeTime;
-      if ( duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
+      if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
         const swipe = direction[0] < 0 ? 'next' : 'previous';
         this.direct = swipe
         if (swipe === 'next') {
-          (this.selectedWorkshops.length-1) > this.currentWorkShopIndex && this.currentWorkShopIndex++
+          (this.selectedWorkshops.length - 1) > this.currentWorkShopIndex && this.currentWorkShopIndex++
         } else {
           this.currentWorkShopIndex >= 1 && this.currentWorkShopIndex--
         }
-    }
+      }
     }
   }
 
   triggerNameDone(e) {
-    if (this.direct === 'next' && this.selectedWorkshops.length > 1 ) {
-      this.left =parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92
+    if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92
     }
     if (this.direct === 'previous' && this.selectedWorkshops.length > 1) {
-      this.left =parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92
     }
   }
 
