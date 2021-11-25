@@ -15,13 +15,10 @@
 </ng-template>
 
 <ng-template #ProviderWorkshops>
-  <div fxLayout="row wrap" fxLayoutAlign="start">
-    <app-workshop-card class="cards" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
+  <div class="card-wrapper">
+    <app-workshop-card class="card" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
       [isMainPage]="false" [userRoleView]="Role.provider" [pendingApplications]="applications"
       (deleteWorkshop)="onDelete($event)">
-    </app-workshop-card>
-    <app-workshop-card *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
-      [workshop]="workshop" class="empty-card" [isMainPage]="true">
     </app-workshop-card>
   </div>
 </ng-template>
@@ -49,15 +46,12 @@
   <ng-container *ngIf="applications?.length else isEmptyList;">
     <div *ngFor="let child of (childrenCards$ | async)?.entities">
       <div *ngIf="isApplications(applications, child)">
-        <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
-        <div fxLayout="row wrap" fxLayoutAlign="start">
-          <app-workshop-card class="cards" *ngFor="let application of applications | applicationChildFilter : child"
+        <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth
+          | date: constants.SHORT_DATE_FORMAT }})</h3>
+        <div class="card-wrapper">
+          <app-workshop-card class="card" *ngFor="let application of applications | applicationChildFilter : child"
             [workshop]="application.workshop" [isMainPage]="false" [userRoleView]="Role.parent"
             [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
-          </app-workshop-card>
-          <app-workshop-card
-            *ngFor="let workshop of getEmptyCards(workshopsWrap,  widthOfWorkshopCard , workshops$|async)"
-            [workshop]="workshop" class="empty-card" [isMainPage]="true">
           </app-workshop-card>
         </div>
       </div>

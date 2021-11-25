@@ -1,6 +1,11 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
 
+.keywords {
+  min-height: 100px;
+  position: relative;
+}
+
 .keyWordChip.keyWordChip.keyWordChip {
   width: fit-content;
   max-width: 100%;
@@ -13,6 +18,17 @@
   text-overflow: ellipsis;
 }
 
+<<<<<<< HEAD
 .opacity {
   opacity: 0.3;
 }
+=======
+.keywordsPlaceholder {
+  opacity: 0.5;
+}
+
+.keywords-input {
+  position: absolute;
+  top: 5px;
+}
+>>>>>>> develop

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TeacherCardComponent } from './teacher-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { Teacher } from '../../models/teacher.model';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('TeacherCardComponent', () => {
   let component: TeacherCardComponent;
@@ -10,11 +11,12 @@ describe('TeacherCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatCardModule
+        MatCardModule,
+        MatTooltipModule,
       ],
-      declarations: [ TeacherCardComponent ]
+      declarations: [TeacherCardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

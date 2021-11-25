@@ -1,5 +1,5 @@
 <mat-card [class.horizontal]="isHorizontalView">
-  <div *ngIf="workshop; else EmptyWorkshop">
+  <div>
     <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
     </ng-container>
 
@@ -105,9 +105,4 @@
     {{workshop.address.city}},
     {{workshop.address.street}}, {{workshop.address.buildingNumber}}
   </p>
-</ng-template>
-
-<ng-template #EmptyWorkshop>
-  <div class="empty-card" fxLayout="column" fxLayoutAlign="space-between space-between" display="none">
-  </div>
 </ng-template>

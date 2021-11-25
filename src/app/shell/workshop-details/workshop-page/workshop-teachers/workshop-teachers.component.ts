@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
