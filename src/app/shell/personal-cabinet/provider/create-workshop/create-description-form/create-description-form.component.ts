@@ -1,11 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Subject } from 'rxjs';
-import { Select, Store } from '@ngxs/store';
 import { ENTER } from '@angular/cdk/keycodes';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
-import { MetaDataState } from '../../../../../shared/store/meta-data.state';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
