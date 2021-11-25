@@ -16,6 +16,7 @@ export class Constants {
   static readonly MIN_TIME = '00:00';
   static readonly MAX_TIME = '23:59';
   static readonly MAX_DESCRIPTION_LENGTH = 500;
+  static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
   static readonly PHONE_LENGTH = 10;
   static readonly PROVIDER_ENTITY_TYPE = 1;
@@ -34,9 +35,6 @@ export class Constants {
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
 
-  static readonly WIDTH_OF_WORKSHOP_CARD = 352;
-  static readonly WIDTH_OF_WORKSHOP_CARD_WITH_MARGINE = 370;
-  static readonly WIDTH_OF_WORKSHOP_CARD_IN_WORKSHOP_DETAILS = 332;
   static WorkingDaysValues: any;
 
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;

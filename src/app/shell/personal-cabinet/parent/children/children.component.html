@@ -6,16 +6,14 @@
 <div *ngIf="(childrenCards$ | async)?.totalAmount then ChildList;"></div>
 
 <ng-template #ChildList>
-  <div class="wrapper-card">
-    <ng-container>
-      <div fxLayout='row wrap' fxLayoutAlign='start start' fxLayoutGap="20px grid">
-        <app-child-card class="cards" *ngFor="let child of (childrenCards$ | async)?.entities" [child]="child"
-          (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
-        </app-child-card>
-      </div>
-      <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage"
-        (pageChange)="onPageChange($event)">
-      </app-paginator>
-    </ng-container>
-  </div>
+  <ng-container>
+    <div class="card-wrapper">
+      <app-child-card class="card" *ngFor="let child of (childrenCards$ | async)?.entities" [child]="child"
+        (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
+      </app-child-card>
+    </div>
+    <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
+    </app-paginator>
+  </ng-container>
 </ng-template>

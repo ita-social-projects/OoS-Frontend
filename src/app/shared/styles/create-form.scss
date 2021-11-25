@@ -26,6 +26,10 @@
     line-height: initial;
     box-sizing: border-box;
 
+    &-field{
+      margin-bottom: -1.34em;
+    }
+
     &-date{
     width: 35%;
     min-width: 182px;
