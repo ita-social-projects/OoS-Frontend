@@ -10,11 +10,12 @@ describe('TeacherCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatCardModule
+        MatCardModule,
+        MatTooltipModule,
       ],
-      declarations: [ TeacherCardComponent ]
+      declarations: [TeacherCardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
