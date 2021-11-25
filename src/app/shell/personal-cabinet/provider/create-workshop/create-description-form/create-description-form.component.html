@@ -7,9 +7,8 @@
     <label class="step-characters-count">
       {{DescriptionFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
   </div>
-
-  <mat-form-field appPlaceholderStyling>
-    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+  <mat-form-field appearance="none">
+    <textarea matInput class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
       formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
@@ -17,8 +16,8 @@
   </app-validation-hint-for-input>
 
   <label class="step-label"> Директор <span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" placeholder="П.І.Б." formControlName="head">
+  <mat-form-field appearance="none">
+    <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="DescriptionFormGroup.get('head').errors?.required"
@@ -40,17 +39,21 @@
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
   </app-category-select>
 
-  <label class="step-label"> Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter
-    щоб додати тегу</label>
-  <div class="step-input" style="min-height:100px" (click)="setFocus()"
+  <div class="step-label-combined">
+    <label class="step-label">Ключові слова</label>
+    <label class="step-characters-count">{{keyWords.length}}/{{constants.MAX_KEYWORDS_LENGTH}}</label>
+  </div>
+  <div class="step-input keywords" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
+    <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум 5 слів)</span>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)"
       class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input #keyWordsInput (focusout)="onKeyWordsInput()"
+      <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}"
+        [disabled]="disabledKeyWordsInput" #keyWordsInput (focusout)="onKeyWordsInput()"
         [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord">
     </mat-chip-list>
