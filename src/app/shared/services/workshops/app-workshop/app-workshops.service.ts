@@ -22,6 +22,8 @@ export class AppWorkshopsService {
 
     if (filters.city) {
       params = params.set('City', filters.city.name);
+      params = params.set('Latitude', filters.city.latitude.toString());
+      params = params.set('Longitude', filters.city.longitude.toString());
     }
 
     if (filters.maxPrice) {
