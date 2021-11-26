@@ -65,6 +65,15 @@
     color: #333333;
     margin: 0.3rem;
     padding: 0;
+    min-width: 0;
+
+    &_label{
+      margin: 0;
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &_bold{
       font-weight: bold;
@@ -173,7 +182,7 @@
   margin: 0 1rem !important;
 }
 .mat-card-header{
-  margin:0 1rem !important;
+  margin: 0 1rem !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
