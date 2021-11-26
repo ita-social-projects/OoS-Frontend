@@ -26,12 +26,12 @@
             <mat-icon class="card_icon">apps</mat-icon>Гуртки
           </h5>
           <div *ngIf="applications?.length; else NoWorkshops ">
-            <div fxLayout="row" fxLayoutAlign="end start">
               <div [routerLink]="['/workshop-details', application.workshop.workshopId]"
-                class="card-list card-list-workshop" *ngFor="let application of applications">
+                class="card-list card-list-workshop" *ngFor="let application of applications"
+                [matTooltip]="application.workshop.title" showTooltipIfTruncated matTooltipClass="tooltip"
+                [matTooltipPosition]="below">
                 {{application.workshop.title}}
               </div>
-            </div>
           </div>
         </mat-card-content>
       </div>

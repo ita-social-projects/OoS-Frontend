@@ -46,13 +46,17 @@
 
   &-list {
     color: #3849F9;
-    margin-left: 2rem;
+    margin: 1rem 0 1rem 2rem;
     padding: 0;
   }
   &-list-workshop{
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:hover {
       cursor: pointer;
-      }
+    }
   }
 
   &_text {
