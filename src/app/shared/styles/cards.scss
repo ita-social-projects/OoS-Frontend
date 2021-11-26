@@ -32,7 +32,10 @@
 
   &_link {
     color: #3849F9;
+    font-family: Innerspace;
     font-weight: 700;
+    font-style: normal;
+    font-size: 13px;
 
     .arrow {
       margin: 1rem;
@@ -43,7 +46,6 @@
 
   &-list {
     color: #3849F9;
-    font-weight: 700;
     margin-left: 2rem;
     padding: 0;
   }
@@ -92,7 +94,7 @@
 
     color: #AAAAAA;
     margin-right: 0.2rem;
-    font-size: 20px;
+    font-size: 16px;
 
     &_blue{
       color: #3849F9;
@@ -177,11 +179,13 @@
 .mat-card {
   padding: 0;
 }
-.mat-card-content,
-.mat-card-footer{
-  margin: 0 1rem !important;
+.mat-card-content {
+  margin: 0 1.5rem !important;
 }
-.mat-card-header{
+.mat-card-footer {
+  margin: 1.5rem 1.5rem 0 1.5rem !important;
+}
+.mat-card-header {
   margin: 0 1rem !important;
   display: flex;
   justify-content: space-between;
