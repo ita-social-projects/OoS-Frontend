@@ -13,10 +13,10 @@
     font-family:Open Sans;
     font-weight: 700;
     color:#444444;
-    margin-top: 48px;
-    padding: 60;
+    margin: 2rem 0;
   }
   &-text {
+    text-align: center;
     font-family:Open Sans;
     font-weight: 700;
     color: #AAAAAA;
@@ -71,9 +71,8 @@
   font-weight: bold !important;
 }
 
-@media only screen and (max-width: 650px) {
-  .wrapper{
-    max-width: 100%;
-    padding:0;
+@media (max-width: 750px) {
+  .wrapper-title{
+    margin: 1rem 0;
   }
 }

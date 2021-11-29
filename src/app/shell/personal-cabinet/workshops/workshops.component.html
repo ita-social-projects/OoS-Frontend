@@ -1,7 +1,7 @@
 <div *ngIf="(role === Role.provider) then isProvider; else isParent"></div>
 
 <ng-template #isProvider>
-  <div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
+  <div class="add-wrapper">
     <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
     <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
   </div>

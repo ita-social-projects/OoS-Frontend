@@ -2,6 +2,7 @@
 @import "src/app/shared/styles/card-wrapper.scss";
 
 .main {
+
   &_registration {
     padding: 32px 40px;
     background: #3849f9;
@@ -61,7 +62,6 @@ app-footer {
     padding: 20px;
     height: inherit;
     display: block !important;
-    margin-top: 1rem;
 
     .main_button-wrapper {
       text-align: center;
@@ -92,20 +92,8 @@ app-footer {
   }
 }
 
-@media (max-width: 415px) {
-  .cards {
-    display: contents !important;
-  }
-}
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media (max-device-width: 1024px) {
   .main {
     padding: 1rem;
-  }
-}
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  h3 {
-    font-size: inherit;
   }
 }

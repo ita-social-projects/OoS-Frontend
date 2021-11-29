@@ -25,3 +25,9 @@
     cursor: pointer;
   }
 }
+
+@media(max-width: 750px) {
+  .config{
+    margin: 0 0 1rem 0;
+  }
+}

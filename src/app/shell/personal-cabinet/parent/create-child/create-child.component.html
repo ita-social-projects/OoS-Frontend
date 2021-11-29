@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="center center" *ngIf="(editMode && child) || !editMode">
+<div *ngIf="(editMode && child) || !editMode">
   <div class="wrapper">
     <div fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
@@ -30,8 +30,7 @@
         </p>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
-        fxLayoutGap.xs="5px">
+      <div fxLayout="row" fxLayoutAlign="center center">
         <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button class="btn btn-cancel">Додати
             пізніше</button></a>
         <button class="btn" mat-button type="submit" (click)="onSubmit()"

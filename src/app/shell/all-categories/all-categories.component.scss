@@ -41,3 +41,9 @@
     width: 50%;
   }
 }
+
+@media(max-width: 750px) {
+  .header-wrapper{
+    margin: 2rem 1rem;
+  }
+}
