@@ -165,7 +165,9 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
    */
   checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
+      if ((<FormGroup>this.ContactsFormGroup.get(key)).enabled) {
+        this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
+      }
     });
   }
 }

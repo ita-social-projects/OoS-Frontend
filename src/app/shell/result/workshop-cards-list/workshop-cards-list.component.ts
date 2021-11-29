@@ -38,10 +38,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  workshopsCopy: any;
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  getEmptyCards = Util.getEmptyCards;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
+
   constructor(public store: Store) { }
 
   ngOnInit(): void {

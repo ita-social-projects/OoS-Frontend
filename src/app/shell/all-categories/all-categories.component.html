@@ -2,7 +2,7 @@
   <h3 class="title">Усі напрямки</h3>
   <app-full-search-bar></app-full-search-bar>
 </div>
-<div class="categories-wrapper" fxLayout="row" fxLayoutAlign="space-evenly" fxLayoutGap="grid">
-  <app-category-card *ngFor="let direction of directions$ | async " [direction]="direction">
+<div class="card-wrapper">
+  <app-category-card class="card" *ngFor="let direction of directions$ | async " [direction]="direction">
   </app-category-card>
 </div>
