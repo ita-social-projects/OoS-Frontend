@@ -30,3 +30,12 @@ $basen-blue-color: #3849F9;
 .description{
   max-width: 35rem;
 }
+@media(max-width: 750px) {
+  .wrapper{
+    width: 100%;
+    padding: 1rem 0;
+    p, h5, h3{
+    padding: 0 1rem;
+    }
+  }
+}
