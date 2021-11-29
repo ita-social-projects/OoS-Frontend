@@ -1,11 +1,1 @@
-.wrapper {
-  padding: 30px 0;
-}
-
-@media(max-width: 750px) {
-  app-teacher-card {
-    ::ng-deep mat-card {
-      max-width: calc(100% - 17px);
-    }
-  }
-}
+@import "src/app/shared/styles/card-wrapper.scss";

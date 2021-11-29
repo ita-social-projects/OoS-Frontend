@@ -31,6 +31,19 @@
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
 
+  .header-full-search-bar-wrap {
+    max-width: 846px;
+    width: 100%;
+
+    .search {
+      .search-bar-wrap {
+        .search-bar {
+          height: 56px;
+        }
+      }
+    }
+  }
+
   .authorization {
     color: white;
   }
@@ -107,10 +120,11 @@
   }
 
   &_username {
-    font-size: medium;
+    font-size: 0.7rem;
     font-weight: bold;
     white-space: nowrap;
     line-height: 40px;
+    text-transform: uppercase;
     cursor: pointer;
 
     &:hover {
@@ -161,6 +175,10 @@
   }
 }
 
+:host ::ng-deep .search {
+  height: 56px;
+}
+
 ::ng-deep .header_menu {
   .mat-menu-item {
     height: 35px;
@@ -199,6 +217,7 @@
 
 .lang-option-text{
   padding: 0;
+  font-size: 0.7rem;
   font-weight: bold;
   font-family: "Open Sans", sans-serif;
   text-align: center;

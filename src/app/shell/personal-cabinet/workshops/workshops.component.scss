@@ -1,30 +1,16 @@
 @import "src/app/shared/styles/list-wrappers.scss";
 @import "src/app/shared/styles/navigation-tabs.scss";
 @import "src/app/shared/styles/buttons.scss";
-
+@import "src/app/shared/styles/card-wrapper.scss";
 .text{
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   color:#272425;
-}
-.wrapper-card{
-  background:transparent;
-  border-radius: 5px;
-  flex: 1;
-}
-.cards{
-  margin:20px;
-}
-.empty-card {
-  width: 300px;
-  height: 440px;
-  margin: 0 26px;
-  visibility: hidden;
-  border: none;
 }
 .child-name {
   color: #444444;
   font-family: 'Innerspace';
   font-weight: 700;
   font-size: 18px;
+  margin: 2rem 0;
 }

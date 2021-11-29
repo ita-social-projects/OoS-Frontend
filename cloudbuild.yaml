@@ -50,8 +50,6 @@ steps:
       - --concurrency=40
       # Disable http2 because prod will be http1.1 for now
       - --no-use-http2
-      - --vpc-connector
-      - central-serverless
   # Clean old versions except previous Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: bash

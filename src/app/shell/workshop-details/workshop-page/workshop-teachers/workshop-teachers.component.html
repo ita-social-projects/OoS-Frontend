@@ -1,18 +1,4 @@
-<div *ngIf="(teachers.length) then IsTeachers; else NoTeachers"></div>
-
-<ng-template #IsTeachers>
-  <div class="wrapper">
-    <ng-container>
-      <div fxLayout='row wrap' fxLayout.lt-md='row nowrap' fxLayoutAlign='start space-evenly' fxLayoutGap="20px" fxLayoutGap.lt-md="10px">
-        <app-teacher-card class="cards" *ngFor="let teacher of teachers" [teacher]="teacher">
-       
-        </app-teacher-card>
-      </div>
-    </ng-container>
-  </div>
-</ng-template>
-<ng-template #NoTeachers>
-  <div class="wrapper">
-    Вчителів немає
-  </div>
-</ng-template>
+<div class="card-wrapper">
+  <app-teacher-card class="card" *ngFor="let teacher of teachers" [teacher]="teacher">
+  </app-teacher-card>
+</div>

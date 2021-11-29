@@ -1,19 +1,5 @@
 @import "src/app/shared/styles/cards.scss";
 
-mat-card {
-  min-height: 370px;
-  width: 300px;  
-
-  .mat-card-image {
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-
-  mat-card-title {
-    margin: -10px 16px 16px 16px;
-    line-height: 26px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }  
+.card-img {
+  max-width: 200px;
 }
