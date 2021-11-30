@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
+import { WorkshopCard } from '../../models/workshop.model';
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
