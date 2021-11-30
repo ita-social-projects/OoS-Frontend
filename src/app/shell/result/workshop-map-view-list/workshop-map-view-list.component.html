@@ -1,6 +1,6 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
-  <div fxLayout="column" fxLayoutAlign="space-evenly">
-    <div fxLayout="row" fxLayoutAlign="start center" class="workshop-list card-wrapper">
+  <div fxLayout="column" fxLayoutAlign="space-evenly" class="wrapper-workshop-list">
+    <div class="workshop-list card-wrapper">
       <app-workshop-card class="card" [userRoleView]="Role.unauthorized" *ngFor="let workshop of selectedWorkshops"
         [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
       </app-workshop-card>
