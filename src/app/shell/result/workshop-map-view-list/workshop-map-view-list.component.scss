@@ -28,12 +28,29 @@ $links-color: #3849F9;
   display: none;
 }
 
+@media (max-width: 1070px) {
+  .card-wrapper > .card {
+    margin: 0 2rem 2rem 0;
+  }
+}
+
 @media (max-width: 750px) {
+  .card-wrapper {
+    padding: 0;
+    .card {
+      margin: 0;
+    }
+  }
+
+  .wrapper-workshop-list {
+     display: none !important;
+  }
+
   .workshop-counter-wrapper {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 60px;
+    bottom: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,14 +71,12 @@ $links-color: #3849F9;
   }
   .wrapper{
     max-height: none !important;
-    height: 100vh;
     width: 100vw;
     position: relative;
   }
 
   app-map {
-    height: calc(100vh - 62px) !important;
-    margin-top: 30px;
+    height: calc(100vh - 81px) !important;
     position: relative;
 
     ::ng-deep {
@@ -69,14 +84,16 @@ $links-color: #3849F9;
         position: absolute;
         height: 100% !important;
       }
+      .leaflet-control-zoom.leaflet-bar.leaflet-control {
+        top: 120px !important;
+      }
     }
   }
 
   .workshop-details-cards {
-
     position: absolute;
     left: 0;
-    bottom: 100px;
+    bottom: 60px;
     z-index: 400;
     overflow: scroll;
     // padding: 15px 10px;
@@ -100,6 +117,4 @@ $links-color: #3849F9;
       display: inline-block;
     }
   }
-
-
 }

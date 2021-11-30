@@ -1,6 +1,6 @@
-<div class="view-control-panel">
+<div class="view-control-panel" [class.mobile-map-view]="currentView === viewType.map">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
-    <h3>Знайдено {{(filteredWorkshops$ | async)?.totalAmount || 0}} гуртків</h3>
+    <h3 [class.mobile-map-view]="currentView === viewType.map">Знайдено {{(filteredWorkshops$ | async)?.totalAmount || 0}} гуртків</h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
   <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
@@ -14,7 +14,7 @@
   <mat-drawer mode="side" [(opened)]="isFiltersVisible">
     <app-filters-list [filtersList]="filtersList"></app-filters-list>
   </mat-drawer>
-  <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'">
+  <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'" [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
       <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$"
         [currentPage]="currentPage"></app-workshop-map-view-list>
