@@ -6,6 +6,7 @@
   justify-content:space-evenly;
   align-items: space-between;
   align-content: space-between;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 
   &-title {
     font-family: Innerspace;
@@ -31,7 +32,10 @@
 
   &_link {
     color: #3849F9;
+    font-family: Innerspace;
     font-weight: 700;
+    font-style: normal;
+    font-size: 13px;
 
     .arrow {
       margin: 1rem;
@@ -42,14 +46,17 @@
 
   &-list {
     color: #3849F9;
-    font-weight: 700;
-    margin-left: 2rem;
+    margin: 1rem 0 1rem 2rem;
     padding: 0;
   }
   &-list-workshop{
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:hover {
       cursor: pointer;
-      }
+    }
   }
 
   &_text {
@@ -64,6 +71,15 @@
     color: #333333;
     margin: 0.3rem;
     padding: 0;
+    min-width: 0;
+
+    &_label{
+      margin: 0;
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &_bold{
       font-weight: bold;
@@ -82,7 +98,7 @@
 
     color: #AAAAAA;
     margin-right: 0.2rem;
-    font-size: 20px;
+    font-size: 16px;
 
     &_blue{
       color: #3849F9;
@@ -165,15 +181,16 @@
   background: red;
 }
 .mat-card {
-  margin: 1rem;
   padding: 0;
 }
-.mat-card-content,
-.mat-card-footer{
-  margin: 0 1rem !important;
+.mat-card-content {
+  margin: 0 1.5rem !important;
 }
-.mat-card-header{
-  margin:0 1rem !important;
+.mat-card-footer {
+  margin: 1.5rem 1.5rem 0 1.5rem !important;
+}
+.mat-card-header {
+  margin: 0 1rem !important;
   display: flex;
   justify-content: space-between;
   align-items: center;

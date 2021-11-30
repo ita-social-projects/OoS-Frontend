@@ -1,6 +1,7 @@
 @import "src/app/shared/styles/list-wrappers.scss";
+@import "src/app/shared/styles/card-wrapper.scss";
+
 .main {
-  padding-bottom: 48px;
   &_registration {
     padding: 32px 40px;
     background: #3849f9;
@@ -46,25 +47,9 @@
     }
   }
   &_header {
-    margin-top: 48px;
     margin-bottom: 24px;
   }
-  &_categories {
-    margin-bottom: 48px;
-    .categories-wrapper {
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-  }
-}
-
-.empty-card {
-  width: 300px;
-  height: 440px;
-  margin: 0 16px;
-  visibility: hidden;
-  border: none;
-}
+ }
 
 app-footer {
   visibility: hidden;
@@ -94,22 +79,9 @@ app-footer {
 
 @media (max-width: 645px) {
   .main {
-    padding: 1rem 0;
-
-    &_categories {
-      margin-bottom: 20px;
-
-      .categories-wrapper {
-        flex-wrap: nowrap !important;
-        overflow: scroll;
-        padding: 16px;
-      }
-    }
-
     &_header {
       display: block;
       margin-top: 0;
-      margin-bottom: 0;
     }
   }
 }
@@ -123,20 +95,6 @@ app-footer {
 @media (max-width: 415px) {
   .cards {
     display: contents !important;
-  }
-
-  .categories-wrapper {
-    app-category-card {
-      ::ng-deep.category {
-        width: 150px;
-        height: 150px;
-        padding: 16px 0;
-
-        &_card {
-          margin: 0.5rem !important;
-        }
-      }
-    }
   }
 }
 
