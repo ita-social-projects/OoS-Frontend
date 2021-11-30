@@ -1,23 +1,22 @@
-<div fxLayout="row" fxLayoutAlign="center center" *ngIf="(editMode && provider) || !editMode">
+<div class="create-form" *ngIf="(editMode && provider) || !editMode">
   <div class="wrapper">
-    <div fxLayout='column' fxLayoutAlign='center center'>
-      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ ЗАКЛАД' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ'}} </h3>
-      <p class="wrapper-text"> Ви завжди можете додати цю інформацію
-        у вашому особистому кабінеті.</p>
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ ЗАКЛАД' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ'}}</h3>
+      <p class="wrapper-text">Ви завжди можете додати цю інформацію
+        у вашому особистому кабінеті</p>
     </div>
 
-    <mat-horizontal-stepper #stepper [linear]="editMode ? false : true">
-      <mat-step [stepControl]="InfoFormGroup">
+    <mat-horizontal-stepper [linear]="!editMode">
+      <mat-step [stepControl]="ContactsFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
         </ng-template>
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
         </app-create-info-form>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
-          fxLayoutGap.xs="5px" class="footer">
-          <a *ngIf="editMode" [routerLink]="'/personal-cabinet/provider/info'"> <button class="btn btn-cancel" mat-raised-button> Скасувати
-            </button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AboutFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -28,14 +27,45 @@
         <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">
         </app-create-contacts-form>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
-          fxLayoutGap.xs="5px" class="footer">
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a *ngIf="editMode" [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
+          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidationContacts()">Далі</button>
+          <button class="btn" mat-raised-button matStepperNext
+            (click)="checkValidation(DescriptionFormGroup)">Далі</button>
         </div>
       </mat-step>
+
+      <!-- <mat-horizontal-stepper #stepper [linear]="editMode ? false : true">
+      <mat-step [stepControl]="InfoFormGroup">
+        <ng-template matStepLabel>
+          <p class="step-name">Інформація про заклад</p>
+        </ng-template>
+        <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
+        </app-create-info-form>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AboutFormGroup)">Далі</button>
+        </div>
+
+      </mat-step>
+
+      <mat-step [stepControl]="ContactsFormGroup">
+        <ng-template matStepLabel>
+          <p class="step-name">Контакти</p>
+        </ng-template>
+        <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
+          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">
+        </app-create-contacts-form>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-raised-button matStepperNext
+            (click)="checkValidationContacts(AddressFormGroup)">Далі</button>
+        </div>
+      </mat-step> -->
 
       <mat-step [stepControl]="PhotoFormGroup">
         <ng-template matStepLabel>
@@ -53,10 +83,9 @@
             не робот
           </mat-checkbox>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutAlign.xs="center center"
-          fxLayoutGap.xs="5px" class="footer">
-          <button class="btn" mat-button matStepperPrevious>Назад</button>
-          <a *ngIf="editMode" [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
             [disabled]="(!isAgreed || !isNotRobot) && !editMode">Завершити</button>

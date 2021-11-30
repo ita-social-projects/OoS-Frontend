@@ -99,12 +99,17 @@
     padding-top: 1rem;
   }
   .btn{
-    margin-top: 1rem;
+    margin-top: 1rem !important;
   }
   .footer{
     display: flex;
     flex-direction: column !important;
     justify-content: center;
     align-items: center;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .step-name{
+    display: none;
   }
 }

@@ -166,16 +166,6 @@ button:focus {
   font-weight: 600;
 }
 
-@media only screen and (max-width: 650px) {
-  .step{
-    max-width: 65vw;
-    margin:0 0 0 45px;
-  }
-  .step-name__xs{
-    display: flex;
-    justify-content: center;
-  }
-}
 @media (max-width: 750px) {
   .step{
     max-width: 85vw;

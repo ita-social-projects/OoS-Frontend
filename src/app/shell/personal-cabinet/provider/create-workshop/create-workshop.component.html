@@ -27,7 +27,7 @@
         <app-create-description-form fxLayout="row" fxLayoutAlign="center center"
           (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop">
         </app-create-description-form>
-        <div fxLayout='row' fxLayoutAlign='center center' class="footer">
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
@@ -56,8 +56,9 @@
         </ng-template>
         <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers">
         </app-create-teacher>
-        <div class="footer">
-          <button class="btn" mat-button matStepperPrevious>Назад</button>
+
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button [disabled]="(isLoading$ | async)" class="btn" mat-button type="submit"
