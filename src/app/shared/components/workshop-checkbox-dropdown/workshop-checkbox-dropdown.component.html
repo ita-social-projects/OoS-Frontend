@@ -1,5 +1,5 @@
 <mat-form-field class="dropdown-wrapper">
-  <mat-label class="label" [ngClass]="{'disabledField': workshops?.length < 1}">Усі гуртки</mat-label>
+  <mat-label class="label" [ngClass]="{'disabled-field': workshops?.length < 1}">Усі гуртки</mat-label>
   <mat-select [disabled]="workshops?.length < 1" [formControl]="workshopControl" multiple class="dropdown" disableOptionCentering
     panelClass="dropdown-panel">
     <mat-select-trigger>
