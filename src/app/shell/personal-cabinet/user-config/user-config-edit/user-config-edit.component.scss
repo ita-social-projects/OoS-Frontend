@@ -2,46 +2,10 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form-wrapper.scss";
 @import "src/app/shared/styles/buttons.scss";
-
-.title{
+.wrapper{
+  padding: 1rem 5rem;
   margin-bottom: 2rem;
-}
-.wrapper {
-  padding: 30px 122px;
-  min-width: 654px;
-  box-sizing: border-box;
-
-  .phone {
-    &_code {
-      width: 60px;
-      margin-right: 5px;
-
-      input {
-        padding: 8px 12px;
-      }
-    }
-    &_number {
-      width: 100%;
-    }
-  }
-
-  mat-form-field {
-    margin-bottom: 10px;
-
-    ::ng-deep.mat-form-field-suffix {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-      color: #aaaaaa;
-    }
-  }
-
-  .footer {
-    margin-left: 0;
-
-    .btn {
-      margin-left: 0;
-    }
+  &-title{
+    text-align: center;
   }
 }
