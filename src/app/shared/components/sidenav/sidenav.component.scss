@@ -39,6 +39,12 @@
     z-index: 999;
 
     &-header {
+      font-family: Innerspace;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 13px;
+      line-height: 15px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -154,5 +160,3 @@
   }
 
 }
-
-

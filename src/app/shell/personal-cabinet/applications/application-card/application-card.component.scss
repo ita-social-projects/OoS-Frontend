@@ -144,7 +144,11 @@ p {
     align-items: start !important;
   }
 
-  .card-block, .workshop-description, .application-status, .workshop-header, .status-menu {
+  .card-block,
+  .workshop-description,
+  .application-status,
+  .workshop-header,
+  .status-menu {
     margin: 0px;
     width: 100%;
     text-align: center;
@@ -158,9 +162,12 @@ p {
         margin: 1rem 0 0 0;
       }
     }
-    .title, .text, .name{
+    .title,.name{
       width: 100%;
       text-align: center;
+    }
+    .application-status, .title, .btn-gray{
+      margin-top: 1rem;
     }
   }
 }

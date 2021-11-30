@@ -2,6 +2,7 @@
 @import "src/app/shared/styles/card-wrapper.scss";
 
 .main {
+  width: 100%;
 
   &_registration {
     padding: 32px 40px;
@@ -47,8 +48,12 @@
       line-height: 24px;
     }
   }
-  &_header {
-    margin-bottom: 24px;
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
   }
  }
 
@@ -77,23 +82,8 @@ app-footer {
   }
 }
 
-@media (max-width: 645px) {
-  .main {
-    &_header {
-      display: block;
-      margin-top: 0;
-    }
-  }
-}
-
 @media (max-width: 415px) {
   .main_title {
     font-size: 16px !important;
-  }
-}
-
-@media (max-device-width: 1024px) {
-  .main {
-    padding: 1rem;
   }
 }
