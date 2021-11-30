@@ -21,6 +21,14 @@
           </mat-select>
         </button>
       </div>
+      <hr class="hr-grey">
+
+      <div class="mobile-sidenav-info-support">
+        <a [routerLink]="'./info/support'" (click)="changeView()">
+          <mat-icon class="mobile-sidenav-icon">support</mat-icon>
+          Підтримка
+        </a>
+      </div>
     </ng-template>
 
     <ng-template #isAuthorized>
@@ -65,14 +73,7 @@
             </mat-select>
           </button>
         </div>
-        <hr class="hr-grey">
 
-        <div class="mobile-sidenav-info-support">
-          <a [routerLink]="'./info/support'" (click)="changeView()">
-            <mat-icon class="mobile-sidenav-icon">support</mat-icon>
-            Підтримка
-          </a>
-        </div>
 
         <hr class="hr-grey">
 
