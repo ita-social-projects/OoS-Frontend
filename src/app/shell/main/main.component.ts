@@ -1,6 +1,5 @@
-import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from './../../shared/constants/constants';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { FilterClear, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
@@ -15,7 +14,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { Favorite } from 'src/app/shared/models/favorite.model';
 import { City } from 'src/app/shared/models/city.model';
 import { Role } from 'src/app/shared/enum/role';
-import { CheckRegistration, Login, Logout } from 'src/app/shared/store/registration.actions';
+import { Login } from 'src/app/shared/store/registration.actions';
 
 
 @Component({
