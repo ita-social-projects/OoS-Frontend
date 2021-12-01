@@ -13,6 +13,8 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { Rate } from 'src/app/shared/models/rating';
+import { AppState } from 'src/app/shared/store/app.state';
+
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
@@ -20,6 +22,7 @@ import { Rate } from 'src/app/shared/models/rating';
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
+  @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(UserState.selectedProvider) provider$: Observable<Provider>;
   @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
