@@ -3,13 +3,11 @@
 @import "src/app/shared/styles/buttons.scss";
 
 .agreement {
+  text-align: center;
   margin: 1rem;
   display: inline-block;
 }
 .hidden {
   visibility: hidden;
   height: 0;
-}
-.wrapper-text {
-  margin: 0;
 }

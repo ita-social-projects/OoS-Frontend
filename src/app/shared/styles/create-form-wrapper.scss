@@ -1,27 +1,47 @@
 @import "src/app/shared/styles/buttons.scss";
 
+.create-form{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  &-header{
+    margin: 2rem 0 1rem 0;
+  }
+}
+
 .wrapper {
   max-width: 654px;
   border-radius:5px;
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  padding: 0 1rem;
-  margin: 1.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+
+  p,h3{
+    margin: 0;
+    padding: 0;
+  }
 
   &-title {
+    text-align: center;
     font-family:Open Sans;
     font-weight: 700;
     color:#444444;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
   &-text {
     text-align: center;
     font-family:Open Sans;
     font-weight: 700;
     color: #AAAAAA;
-    padding: 0.2rem;
+    margin-top: 1rem !important;
   }
+}
+.footer{
+  margin: 1rem;
 }
 .btn {
   min-width: 150px;
@@ -34,11 +54,6 @@
     margin:0;
   }
 }
-
-.footer{
-  margin:20px;
-}
-
 .link {
   text-decoration: underline;
   color: #3849F9;
@@ -74,5 +89,28 @@
 @media (max-width: 750px) {
   .wrapper-title{
     margin: 1rem 0;
+  }
+  .create-form{
+    display: block;
+    &-header{
+      margin: 0;
+    }
+  }
+  .wrapper{
+    padding-top: 1rem;
+  }
+  .btn{
+    margin-top: 1rem !important;
+  }
+  .footer{
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .step-name{
+    display: none;
   }
 }

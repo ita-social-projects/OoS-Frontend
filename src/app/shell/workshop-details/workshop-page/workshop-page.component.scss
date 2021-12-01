@@ -82,9 +82,7 @@
   padding: inherit !important;
   margin: 10px;
 }
-:host ::ng-deep .mat-tab-body-wrapper{
-  padding-top: 2rem;
-}
+
 @media(max-width: 600px) {
   .title {
     font-size: 20px;
