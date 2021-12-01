@@ -7,6 +7,7 @@ import { User } from '../../shared/models/user.model';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const MockUser = {
   role: '',
@@ -22,6 +23,7 @@ describe('WorkshopDetailsComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
         RouterModule.forRoot([]),
+        FlexLayoutModule
       ],
       declarations: [
         WorkshopDetailsComponent,
