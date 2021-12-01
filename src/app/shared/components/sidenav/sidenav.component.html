@@ -21,6 +21,14 @@
           </mat-select>
         </button>
       </div>
+      <hr class="hr-grey">
+
+      <div class="mobile-sidenav-info-support">
+        <a [routerLink]="'./info/support'" (click)="changeView()">
+          <mat-icon class="mobile-sidenav-icon">support</mat-icon>
+          Підтримка
+        </a>
+      </div>
     </ng-template>
 
     <ng-template #isAuthorized>
@@ -37,7 +45,8 @@
       </div>
 
       <div class="mobile-sidenav-shell">
-        <div class="mobile-sidenav-notification">
+        <!-- <div class="mobile-sidenav-notification">
+
           <div class="mobile-sidenav-notification-items">
             <button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
               <div class="mobile-sidenav-notification-item">
@@ -48,11 +57,12 @@
               </div>
               <div class="mobile-sidenav-notification-item">
                 <span class="mobile-sidenav-notification-badge">17</span>
-              </div>
+
             </button>
+
           </div>
         </div>
-        <hr class="hr-grey">
+        <hr class="hr-grey">TODO: add to teh second release-->
 
         <div class="mobile-sidenav-language">
           <button mat-flat-button>
@@ -63,6 +73,8 @@
             </mat-select>
           </button>
         </div>
+
+
         <hr class="hr-grey">
 
         <div class="mobile-sidenav-menu">
@@ -71,7 +83,7 @@
             {{roles[(user$ | async).role]}}</a>
           <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
           <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
-          <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a>
+          <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
           <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
             (click)="changeView()">Улюблене</a>
           <button (click)="logout()">Вийти</button>
@@ -83,14 +95,7 @@
     <div class="mobile-sidenav-info-about">
       <a [routerLink]="'./info/about'" (click)="changeView()">Про Портал</a>
     </div>
-    <hr class="hr-grey">
 
-    <div class="mobile-sidenav-info-support">
-      <a [routerLink]="'./info/support'" (click)="changeView()">
-        <mat-icon class="mobile-sidenav-icon">support</mat-icon>
-        Підтримка
-      </a>
-    </div>
     <hr class="hr-grey">
   </div>
 
