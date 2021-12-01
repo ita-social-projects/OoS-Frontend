@@ -1,7 +1,5 @@
-<div *ngIf="workshop && (provider$ | async)" class="wrapper"
- [fxLayout]="(isMobileScreen$ | async) ? 'column': 'row'"
- [fxLayout.lt-lg]="(isMobileScreen$ | async) ? 'column' : 'row wrap'"
-  fxLayoutAlign="center space-between">
+<div *ngIf="workshop && (provider$ | async)" class="wrapper" [fxLayout]="(isMobileScreen$ | async) ? 'column': 'row'"
+  [fxLayout.lt-lg]="(isMobileScreen$ | async) ? 'column' : 'row wrap'" fxLayoutAlign="center space-between">
   <app-workshop-page class="workshop-page-wrap" [workshop]="workshop" [provider]="provider$ | async"
     [providerWorkshops]="workshops$ | async" [role]="role$ | async">
   </app-workshop-page>
