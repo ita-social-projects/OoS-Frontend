@@ -154,15 +154,26 @@
 }
 
 @media(max-width: 750px) {
+
   .view-control-panel {
     position: relative;
     z-index: 2;
     width: 90vw;
     margin-left: 5vw;
 
+    &.mobile-map-view {
+      position: absolute;
+    }
+
     .search-block-wrapper {
       display: none;
+    }
+  }
 
+
+  .workshops-count {
+    .mobile-map-view {
+      display: none;
     }
   }
 

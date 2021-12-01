@@ -142,6 +142,10 @@ $config: mat-typography-config(
   white-space: normal !important;
 }
 
+.disabled-field {
+  opacity: 0.3;
+}
+
 .mat-checkbox-inner-container {
   height: 18px !important;
   width: 18px !important;
