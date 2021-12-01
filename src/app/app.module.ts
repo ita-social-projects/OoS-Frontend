@@ -50,7 +50,9 @@ registerLocaleData(localeUk);
     NgxsReduxDevtoolsPluginModule.forRoot({
       disabled: environment.production
     }),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      disabled: environment.production
+    }),
     FlexLayoutModule,
     ShellModule,
     RegistrationModule,

@@ -142,6 +142,10 @@ $config: mat-typography-config(
   white-space: normal !important;
 }
 
+.disabled-field {
+  opacity: 0.3;
+}
+
 .mat-checkbox-inner-container {
   height: 18px !important;
   width: 18px !important;
@@ -160,4 +164,7 @@ $config: mat-typography-config(
 }
 .mat-radio-button.mat-primary .mat-radio-inner-circle {
   background-color: #3849F9 !important;
+}
+.mat-card-image:first-child{
+  margin-top: 1rem !important;
 }

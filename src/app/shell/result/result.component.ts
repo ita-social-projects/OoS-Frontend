@@ -37,9 +37,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   role$: Observable<string>;
 
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  getEmptyCards = Util.getEmptyCards;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
   public viewType = ViewType;
@@ -68,8 +65,8 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-      this.currentView = params.param;
-    });
+        this.currentView = params.param;
+      });
 
     this.store.dispatch([
       new AddNavPath(this.navigationBarService.creatOneNavPath(
@@ -84,22 +81,22 @@ export class ResultComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch([
-          new SetFirstPage(),
-          new ResetSelectedWorkshop(),
-          new GetFilteredWorkshops(this.currentView === this.viewType.map)
-        ]));
+        new SetFirstPage(),
+        new ResetSelectedWorkshop(),
+        new GetFilteredWorkshops(this.currentView === this.viewType.map)
+      ]));
 
     this.isFiltersVisible = window.innerWidth > 750;
 
     this.filterList$
       .pipe(
         takeUntil(this.destroy$)
-    ).subscribe((list) => {
-        const {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours,currentPage,order} = list;
+      ).subscribe((list) => {
+        const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours, currentPage, order } = list;
         this.currentPage = currentPage;
-        this.filtersList = {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours};
+        this.filtersList = { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours };
         this.order = order;
-    })
+      })
 
   }
 

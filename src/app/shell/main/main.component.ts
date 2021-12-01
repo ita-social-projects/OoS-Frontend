@@ -38,9 +38,6 @@ export class MainComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @ViewChild('WorkshopsWrap') workshopsWrap: ElementRef;
-  getEmptyCards = Util.getEmptyCards;
-  widthOfWorkshopCard = Constants.WIDTH_OF_WORKSHOP_CARD;
 
   constructor(private store: Store) { }
 
