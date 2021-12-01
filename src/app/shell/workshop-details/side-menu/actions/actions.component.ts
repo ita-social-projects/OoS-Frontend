@@ -83,6 +83,6 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    !(this.role !== Role.unauthorized) && this.store.dispatch(new Login());
+    !(this.role !== Role.unauthorized) && this.store.dispatch(new Login(false));
   }
 }
