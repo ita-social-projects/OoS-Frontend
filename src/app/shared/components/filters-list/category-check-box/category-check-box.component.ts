@@ -86,7 +86,7 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
    */
   onSelectCheck(value: Direction): boolean {
     const result = this.selectedDirections
-      .some(direction => direction.title.toLowerCase() === value.title.toLowerCase()
+      .some(direction => direction.title.startsWith(value.title)
       );
     return result;
   }
