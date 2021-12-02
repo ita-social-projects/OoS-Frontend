@@ -73,8 +73,8 @@ export class RegistrationState {
   ) { }
 
   @Action(Login)
-  Login({ }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.authorize();
+  Login({ }: StateContext<RegistrationStateModel>, { payload }: Login): void {
+    this.oidcSecurityService.authorize({ customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture'), 'ProviderRegistration': payload}});
   }
 
   @Action(Logout)

@@ -58,7 +58,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    this.store.dispatch(new Login());
+    this.store.dispatch(new Login(false));
   }
 
   logout(): void {
