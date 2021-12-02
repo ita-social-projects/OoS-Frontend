@@ -26,23 +26,3 @@
   position: absolute;
   top: 5px;
 }
-
-.wrapper-border {
-  border: 1px solid #E3E3E3;
-  border-radius: 25px;
-  padding: 20px;
-}
-
-textarea::-webkit-scrollbar {
-  width: 10px;
-}
-
-textarea::-webkit-resizer {
-  opacity: 0;
-}
-
-.step-textarea {
-  border: none;
-  border-radius: 0;
-  padding: 0;
-}
