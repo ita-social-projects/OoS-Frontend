@@ -17,7 +17,9 @@
       Переглянути всі <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
-  <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyTopWorkshops"></ng-container>
+  <ng-container *ngIf="!(isLoadingResultPage$ | async) && !(isLoadingMetaData$ | async)">
+    <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyTopWorkshops"></ng-container>
+  </ng-container> 
   <ng-template #topWorkshops>
     <div class="card-wrapper">
       <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"

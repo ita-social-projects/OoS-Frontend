@@ -37,6 +37,10 @@ export class MainComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(FilterState.isLoading)
+  isLoadingResultPage$: Observable<boolean>;
+  @Select(MetaDataState.isLoading)
+  isLoadingMetaData$: Observable<boolean>;
 
   constructor(private store: Store) { }
 
