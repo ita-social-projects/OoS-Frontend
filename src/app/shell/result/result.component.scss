@@ -1,13 +1,13 @@
 @import "src/app/shared/styles/toggle-button.scss";
-
+// .view-control-panel {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+// }
 .shadow {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
-
-.view-control-panel {
-  flex-direction: row !important;
-}
-
 .workshops-count {
   max-width: 300px;
   margin-right: 2rem;
@@ -19,46 +19,14 @@
 }
 
 .workshops-search {
-  display: flex !important;
-
-  &-mobile {
-    display: none !important;
-    padding: 15px;
-    margin-top: 20px;
-    position: absolute;
-    z-index: 1001;
-  }
+  display: flex ;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
-.workshops-map-filters {
-  .shell-search {
-    background: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-    height: 34px;
-    gap: 15px;
-    border-radius: 60px;
-    padding: 0 20px;
-
-    .shell-searchbar {
-      flex-grow: 1;
-      width: 70%;
-    }
-
-    .shell-city {
-      border-right: 1px solid #E3E3E3;
-      width: 30%;
-    }
-  }
-
-  .view-toggle {
-    height: 30px;
-    align-items: center;
-    background: #FFFFFF;
-  }
-}
 .mat-button-toggle-group {
   height: 2rem;
   .mat-button-toggle{
@@ -142,24 +110,22 @@
   }
 }
 
-@media(max-width: 1000px) {
-  .view-control-panel {
-    flex-wrap: wrap-reverse;
-    margin-bottom: 16px;
+@media(max-width: 780px) {
+  .workshops-search{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 
-  .workshops-count {
-    margin-top: 10px;
-  }
-}
-
-@media(max-width: 750px) {
-
   .view-control-panel {
+    display: flex;
+    flex-direction: column-reverse !important;
+    justify-content: center;
+    align-items: center;
     position: relative;
     z-index: 2;
     width: 90vw;
-    margin-left: 5vw;
 
     &.mobile-map-view {
       position: absolute;
