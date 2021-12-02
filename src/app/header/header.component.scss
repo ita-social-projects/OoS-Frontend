@@ -416,46 +416,27 @@
     }
   }
 }
-@media (max-width: 415px) {
+@media (max-width: 750px) {
   .header {
     padding: 0;
     &_title{
       font-size: 1.5rem;
       line-height: 2rem;
       text-align: center;
-      margin-top: 120px;
+      margin-top: 2rem;
     }
     &_descr{
       text-align: center;
       font-size: 1rem;
     }
-    &_city{
-      width: 60px;
+
+    .header-full-search-bar-wrap{
+      width: inherit;
+      margin: 1rem;
     }
   }
+
   .mat-button-wrapper{
     padding:0.3rem;
   }
 }
-
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
-  .header{
-    padding: 0;
-    &_title{
-      margin-top: 120px;
-    }
-  }
-}
-
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px){
-.header_login[_ngcontent-upc-c122] {
-  padding: 0 !important;
-    font-size: 9px;
-}
-}
-
-

@@ -55,6 +55,8 @@
 .application-info-title {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: start;
   max-width: max-content;
   font-size: 13px;
   font-weight: normal;
@@ -75,4 +77,8 @@
   font-weight: bold;
   padding: 8px;
 }
-
+@media(max-width: 750px) {
+  .application-info-menu,::ng-deep .mat-application-menu {
+    width: 100vw;
+  }
+}

@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import { User } from 'src/app/shared/models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -16,7 +17,8 @@ describe('SideMenuComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
+        FlexLayoutModule
       ],
       declarations: [
         SideMenuComponent,

@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
   }
 
   login(): void {
-    this.store.dispatch(new Login());
+    this.store.dispatch(new Login(false));
   }
 
   isRouter(route: string): boolean {
