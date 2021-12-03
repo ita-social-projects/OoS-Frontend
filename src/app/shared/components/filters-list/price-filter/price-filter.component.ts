@@ -17,12 +17,13 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   @Input()
   set priceFilter(filter) {
-    const { minPrice, maxPrice, isFree } = filter;
+    const { minPrice, maxPrice, isFree, isPaid } = filter;
     this.minPriceControl.setValue(minPrice, { emitEvent: false });
     this.minValue = minPrice;
     this.maxPriceControl.setValue(maxPrice, { emitEvent: false });
     this.maxValue = maxPrice;
     this.isFreeControl.setValue(isFree, { emitEvent: false });
+    this.isPaidControl.setValue(isPaid, { emitEvent: false });
   };
 
   readonly constants: typeof Constants = Constants;

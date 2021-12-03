@@ -121,7 +121,7 @@ export class FilterState {
 
   @Selector()
   static filterList(state: FilterStateModel): any {
-    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, workingDays, startTime, endTime, currentPage, order } = state
+    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, currentPage, order } = state
     return {
       withDisabilityOption,
       categoryCheckBox: directions,
@@ -129,7 +129,8 @@ export class FilterState {
       priceFilter: {
         minPrice,
         maxPrice,
-        isFree
+        isFree,
+        isPaid
       },
       workingHours: {
         workingDays,
