@@ -110,14 +110,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.filteredWorkshops$
         .pipe(
           takeUntil(this.destroy$),
-          filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
         )
         .subscribe((filteredWorkshops: WorkshopFilterCard) => {
           this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
           this.workshopMarkers = [];
-          this.workshops = filteredWorkshops.entities;
-          filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-          this.setPrevWorkshopMarker();
+          if (filteredWorkshops) {
+            this.workshops = filteredWorkshops.entities;
+            filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+            this.setPrevWorkshopMarker();
+          }
         });
       });
 
