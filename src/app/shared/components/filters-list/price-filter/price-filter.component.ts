@@ -68,6 +68,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe((val: number) => {
+        !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMinPrice(val));
       });
 
@@ -77,6 +78,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged()
       ).subscribe((val: number) => {
+        !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMaxPrice(val));
       });
 
