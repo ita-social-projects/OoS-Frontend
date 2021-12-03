@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
   @Select(UserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
-  isLoadingDirections: Observable<boolean>;
+  isLoadingMetaData$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
