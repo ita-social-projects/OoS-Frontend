@@ -17,8 +17,6 @@ export class AppWorkshopsService {
 
   constructor(private http: HttpClient) { }
 
-
-
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
@@ -96,6 +94,9 @@ export class AppWorkshopsService {
     return params;
   }
 
+  /**
+   * This method applied min and max price filter options
+   */
   private setIsPaid(filters: FilterStateModel, params: HttpParams): HttpParams {
     if (filters.maxPrice) {
       params = params.set('MaxPrice', filters.maxPrice.toString());
@@ -104,7 +105,6 @@ export class AppWorkshopsService {
     if (filters.minPrice) {
       params = params.set('MinPrice', filters.minPrice.toString());
     }
-
     return params;
   }
 
