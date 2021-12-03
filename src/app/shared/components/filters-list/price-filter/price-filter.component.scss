@@ -58,6 +58,11 @@
 .input-wrapper{
   margin-top: 13px;
   margin-bottom: 0 !important;
+  &-disable{
+    opacity: 0.3;
+    cursor: initial;
+    pointer-events: none;
+  }
 }
 ::ng-deep .mat-form-field-underline {
   display: none;

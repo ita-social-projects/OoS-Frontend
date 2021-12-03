@@ -36,37 +36,6 @@
         </div>
       </mat-step>
 
-      <!-- <mat-horizontal-stepper #stepper [linear]="editMode ? false : true">
-      <mat-step [stepControl]="InfoFormGroup">
-        <ng-template matStepLabel>
-          <p class="step-name">Інформація про заклад</p>
-        </ng-template>
-        <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
-        </app-create-info-form>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AboutFormGroup)">Далі</button>
-        </div>
-
-      </mat-step>
-
-      <mat-step [stepControl]="ContactsFormGroup">
-        <ng-template matStepLabel>
-          <p class="step-name">Контакти</p>
-        </ng-template>
-        <app-create-contacts-form (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
-          (passLegalAddressFormGroup)="onReceiveLegalAddressFormGrou($event)" [provider]="provider">
-        </app-create-contacts-form>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext
-            (click)="checkValidationContacts(AddressFormGroup)">Далі</button>
-        </div>
-      </mat-step> -->
-
       <mat-step [stepControl]="PhotoFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Опис</p>

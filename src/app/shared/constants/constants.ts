@@ -11,7 +11,7 @@ export class Constants {
   static readonly CLASS_AMOUNT_MAX = 7;
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
-  static readonly MIN_PRICE = 0;
+  static readonly MIN_PRICE = 1;
   static readonly MAX_PRICE = 10000;
   static readonly MIN_TIME = '00:00';
   static readonly MAX_TIME = '23:59';

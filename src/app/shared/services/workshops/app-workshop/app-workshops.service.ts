@@ -17,6 +17,8 @@ export class AppWorkshopsService {
 
   constructor(private http: HttpClient) { }
 
+
+
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
@@ -26,12 +28,17 @@ export class AppWorkshopsService {
       params = params.set('Longitude', filters.city.longitude.toString());
     }
 
-    if (filters.maxPrice) {
-      params = params.set('MaxPrice', filters.maxPrice.toString());
+    if (filters.isFree) {
+      params = params.set('IsFree', 'true');
     }
 
-    if (filters.minPrice) {
-      params = params.set('MinPrice', filters.minPrice.toString());
+    if (filters.isPaid) {
+      params = this.setIsPaid(filters, params);
+    }
+
+    if ((filters.isFree && filters.isPaid) || (!filters.isFree && !filters.isPaid)) {
+      params = params.set('IsFree', 'true');
+      params = this.setIsPaid(filters, params);
     }
 
     if (filters.searchQuery) {
@@ -58,7 +65,7 @@ export class AppWorkshopsService {
       filters.workingDays.forEach((day: string) => params = params.append('Workdays', day));
     }
 
-    if (filters.isFree || !filters.minAge) {
+    if (filters.isFree || !filters.minPrice) {
       params = params.set('IsFree', 'true');
     }
 
@@ -84,6 +91,18 @@ export class AppWorkshopsService {
 
       params = params.set('Size', size.toString());
       params = params.set('From', from.toString());
+    }
+
+    return params;
+  }
+
+  private setIsPaid(filters: FilterStateModel, params: HttpParams): HttpParams {
+    if (filters.maxPrice) {
+      params = params.set('MaxPrice', filters.maxPrice.toString());
+    }
+
+    if (filters.minPrice) {
+      params = params.set('MinPrice', filters.minPrice.toString());
     }
 
     return params;
