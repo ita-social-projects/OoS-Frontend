@@ -1,8 +1,15 @@
 <div class="filters-wrapper">
-  <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
-    <mat-icon class="matFilter">delete_forever</mat-icon>
-    Очистити Фільтри
-  </button>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
+      <mat-icon class="matFilter">delete_forever</mat-icon>
+      Очистити Фільтри
+    </button>
+    <ng-container *ngIf="(isMobileScreen$ | async)">
+      <button mat-button (click)="changeView()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </ng-container>
+  </div>
   <app-category-check-box [categoryCheckBox]="categoryCheckBox"></app-category-check-box>
   <app-age-filter [ageFilter]="ageFilter"></app-age-filter>
   <app-working-hours [workingHours]="workingHours"></app-working-hours>

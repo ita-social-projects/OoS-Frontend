@@ -15,3 +15,7 @@ export class SidenavToggle {
   static readonly type = '[navigation] sidenavOpen';
   constructor() { }
 }
+export class FiltersSidenavToggle {
+  static readonly type = '[navigation] filtersSidenavOpen';
+  constructor() { }
+}

@@ -2,10 +2,12 @@ import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
-import { Subject} from 'rxjs';
-import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
+import { Observable, Subject} from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
+import { AppState } from '../../store/app.state';
+import { FiltersSidenavToggle } from '../../store/navigation.actions';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -13,6 +15,8 @@ import { FilterState } from '../../store/filter.state';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
 
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filterList)
   @Input()
   set filtersList(filters) {
@@ -28,7 +32,6 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   public workingHours;
   public categoryCheckBox;
   public ageFilter;
-
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
@@ -57,7 +60,11 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   }
 
-  onFilterReset() {
+  changeView(): void {
+    this.store.dispatch(new FiltersSidenavToggle());
+  }
+
+  onFilterReset(): void {
     this.store.dispatch([new FilterClear(), new FilterChange()])
   }
 
