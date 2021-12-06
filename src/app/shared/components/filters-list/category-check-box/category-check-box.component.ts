@@ -7,7 +7,6 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Direction } from 'src/app/shared/models/category.model';
 import { AppState } from 'src/app/shared/store/app.state';
 import { SetDirections } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
@@ -19,13 +18,15 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
+  
   @Select(FilterState.directions)
   filterDirections$: Observable<Direction[]>;
 
   @Input()
-  set categoryCheckBox(filter) {
+  set categoryCheckBox(filter: Direction[]) {
     this.selectedDirections = filter;
   };
 
@@ -69,7 +70,7 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
    * @param event
    */
   onDirectionCheck(direction: Direction, event: MatCheckbox): void {
-    (event.checked) ? this.selectedDirections.push(direction) : this.selectedDirections.splice(this.selectedDirections.indexOf(direction), 1);
+    (event.checked) ? this.selectedDirections.push(direction) : this.selectedDirections.splice(this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id), 1);
     this.store.dispatch(new SetDirections(this.selectedDirections));
   }
 
