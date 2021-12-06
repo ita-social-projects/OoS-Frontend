@@ -20,12 +20,12 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
   @Input()
   set filtersList(filters) {
-    const {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours} = filters
+    const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours } = filters;
     this.priceFilter = priceFilter;
     this.workingHours = workingHours;
     this.categoryCheckBox = categoryCheckBox;
     this.ageFilter = ageFilter;
-    this.WithDisabilityOptionControl.setValue(withDisabilityOption,{emitEvent:false})
+    this.WithDisabilityOptionControl.setValue(withDisabilityOption, { emitEvent: false });
   };
 
   public priceFilter;

@@ -80,10 +80,13 @@ app-footer {
     visibility: visible;
     position: static;
   }
-}
-
-@media (max-width: 415px) {
-  .main_title {
+  .main_title, .main_link {
     font-size: 16px !important;
+  }
+  .main-header{
+    padding: 0 1rem;
+    h3{
+      width: 50%;
+    }
   }
 }
