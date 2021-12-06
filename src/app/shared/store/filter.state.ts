@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
+import { Constants } from '../constants/constants';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -29,7 +30,8 @@ import {
   ConfirmCity,
   CleanCity,
   FilterClear,
-  SetFirstPage
+  SetFirstPage,
+  SetIsPaid
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -40,6 +42,7 @@ export interface FilterStateModel {
   startTime: string;
   endTime: string;
   isFree: boolean;
+  isPaid: boolean;
   maxPrice: number;
   minPrice: number;
   isOpenRecruitment: boolean;
@@ -64,8 +67,9 @@ export interface FilterStateModel {
     endTime: null,
     workingDays: [],
     isFree: false,
-    maxPrice: 0,
-    minPrice: 0,
+    isPaid: false,
+    maxPrice: Constants.MAX_PRICE,
+    minPrice: Constants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
     city: undefined,
@@ -117,15 +121,16 @@ export class FilterState {
 
   @Selector()
   static filterList(state: FilterStateModel): any {
-    const {withDisabilityOption,minAge,maxAge,directions,minPrice,maxPrice,isFree,workingDays,startTime,endTime,currentPage,order} = state
+    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, currentPage, order } = state
     return {
       withDisabilityOption,
       categoryCheckBox: directions,
-      ageFilter: {minAge,maxAge},
+      ageFilter: { minAge, maxAge },
       priceFilter: {
         minPrice,
         maxPrice,
-        isFree
+        isFree,
+        isPaid
       },
       workingHours: {
         workingDays,
@@ -192,6 +197,11 @@ export class FilterState {
   @Action(SetIsFree)
   setIsFree({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsFree) {
     patchState({ isFree: payload });
+    dispatch(new FilterChange());
+  }
+  @Action(SetIsPaid)
+  setIsPaid({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsPaid) {
+    patchState({ isPaid: payload });
     dispatch(new FilterChange());
   }
 
@@ -273,14 +283,14 @@ export class FilterState {
 
   @Action(SetFirstPage)
   setFirstPage({ patchState }: StateContext<FilterStateModel>) {
-    patchState({ currentPage: {element: 1,isActive: true} });
+    patchState({ currentPage: { element: 1, isActive: true } });
   }
 
   @Action(FilterChange)
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 
   @Action(FilterClear)
-  FilterClear({  patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
+  FilterClear({ patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
     patchState({
       directions: [],
       maxAge: null,
@@ -289,8 +299,9 @@ export class FilterState {
       endTime: null,
       workingDays: [],
       isFree: false,
-      maxPrice: 0,
-      minPrice: 0,
+      isPaid: false,
+      maxPrice: Constants.MAX_PRICE,
+      minPrice: Constants.MIN_PRICE,
       isOpenRecruitment: false,
       isClosedRecruitment: false,
       searchQuery: '',
@@ -299,6 +310,7 @@ export class FilterState {
       currentPage: {
         element: 1,
         isActive: true
-      }});
+      }
+    });
   }
 }
