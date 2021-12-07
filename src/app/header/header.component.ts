@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
 
   selectedLanguage = 'uk';
   showModalReg = false;
+  userShortName: string = '';
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
@@ -72,6 +73,13 @@ export class HeaderComponent implements OnInit {
 
   setLanguage(): void {
     localStorage.setItem('ui-culture', this.selectedLanguage);
+  }
+
+  getUserShortName(user$: Observable<User>): string {
+    this.user$.subscribe(item => {
+      this.userShortName = item.lastName + ' ' + (item.firstName).slice(0,1) + '.' + (item.middleName).slice(0,1) + '.';
+    })
+    return this.userShortName;
   }
 
 }
