@@ -48,6 +48,7 @@ import { NoResultCardComponent } from './components/no-result-card/no-result-car
 import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
+import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { WorkingHoursFormComponent } from './components/working-hours-form/worki
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
-    WorkshopCardDialog
+    WorkshopCardDialog,
+    SidenavFiltersComponent
   ],
   imports: [
     MaterialModule,
@@ -147,7 +149,8 @@ import { WorkingHoursFormComponent } from './components/working-hours-form/worki
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
-    WorkshopCardDialog
+    WorkshopCardDialog,
+    SidenavFiltersComponent
   ]
 })
 export class SharedModule { }

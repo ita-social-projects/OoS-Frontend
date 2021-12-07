@@ -1,16 +1,18 @@
 import { Navigation } from './../models/navigation.model';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { AddNavPath, SidenavToggle, DeleteNavPath, RemoveLastNavPath } from './navigation.actions';
+import { AddNavPath, SidenavToggle, DeleteNavPath, RemoveLastNavPath, FiltersSidenavToggle } from './navigation.actions';
 export interface NavStateModel {
   navigation: Navigation[];
   sidenavOpen: boolean;
+  filtersSidenavOpen: boolean;
 }
 @State<NavStateModel>({
   name: 'navigation',
   defaults: {
     navigation: [],
-    sidenavOpen: false
+    sidenavOpen: false,
+    filtersSidenavOpen: false
   }
 })
 
@@ -22,6 +24,9 @@ export class NavigationState {
 
   @Selector()
   static sidenavOpenTrue(state: NavStateModel): boolean { return state.sidenavOpen; }
+
+  @Selector()
+  static filtersSidenavOpenTrue(state: NavStateModel): boolean { return state.filtersSidenavOpen; }
 
   @Selector()
   static navigationPathsMobile(state: NavStateModel): Navigation[] {
@@ -57,6 +62,14 @@ export class NavigationState {
     const sidenavOpenState = getState().sidenavOpen;
     patchState({
       sidenavOpen: !sidenavOpenState
+    });
+  }
+
+  @Action(FiltersSidenavToggle)
+  FiltersSidenavToggle({ patchState, getState }: StateContext<NavStateModel>): void {
+    const filtersSidenavOpenState = getState().filtersSidenavOpen;
+    patchState({
+      filtersSidenavOpen: !filtersSidenavOpenState
     });
   }
 
