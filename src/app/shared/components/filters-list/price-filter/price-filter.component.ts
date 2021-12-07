@@ -1,12 +1,11 @@
-import { element } from 'protractor';
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, skip, takeUntil } from 'rxjs/operators';
+import { FormControl, Validators, } from '@angular/forms';
+import { Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { SetIsFree, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
+import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-price-filter',
@@ -17,21 +16,25 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   @Input()
   set priceFilter(filter) {
-    const {minPrice,maxPrice,isFree} = filter;
-    this.minPriceControl.setValue(minPrice,{emitEvent: false});
+    const { minPrice, maxPrice, isFree, isPaid } = filter;
+    this.minPriceControl.setValue(minPrice, { emitEvent: false });
     this.minValue = minPrice;
-    this.maxPriceControl.setValue(maxPrice,{emitEvent: false});
+    this.maxPriceControl.setValue(maxPrice, { emitEvent: false });
     this.maxValue = maxPrice;
-    this.isFreeControl.setValue(isFree,{emitEvent: false});
+    this.isFreeControl.setValue(isFree, { emitEvent: false });
+    this.isPaidControl.setValue(isPaid, { emitEvent: false });
   };
 
   readonly constants: typeof Constants = Constants;
 
   isFreeControl = new FormControl(false);
-  maxPriceControl = new FormControl(0, [Validators.maxLength(4)]);
-  minPriceControl = new FormControl(0, [Validators.maxLength(4)]);
-  minValue = 0;
-  maxValue = 0;
+  isPaidControl = new FormControl(false);
+
+  minPriceControl = new FormControl(Constants.MIN_PRICE, [Validators.maxLength(4)]);
+  maxPriceControl = new FormControl(Constants.MAX_PRICE, [Validators.maxLength(4)]);
+
+  minValue = Constants.MIN_PRICE;
+  maxValue = Constants.MAX_PRICE;
   options: Options = {
     floor: Constants.MIN_PRICE,
     ceil: Constants.MAX_PRICE,
@@ -45,7 +48,19 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    this.isFreeControl.valueChanges.subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
+    this.isFreeControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+      ).subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
+
+    this.isPaidControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(),
+      ).subscribe((val: boolean) => this.store.dispatch(new SetIsPaid(val)));
 
     this.minPriceControl.valueChanges
       .pipe(
@@ -53,7 +68,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe((val: number) => {
-        !val && this.isFreeControl.setValue(!!val);
+        !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMinPrice(val));
       });
 
@@ -63,13 +78,11 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged()
       ).subscribe((val: number) => {
-
+        !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMaxPrice(val));
       });
 
   }
-
-
 
   priceHandler(e) {
     e.pointerType && this.maxPriceControl.setValue(e.highValue);
