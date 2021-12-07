@@ -1,12 +1,11 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Navigation, Router } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { User } from '../../models/user.model';
-import { AppState } from '../../store/app.state';
 import { SidenavToggle } from '../../store/navigation.actions';
 import { NavigationState } from '../../store/navigation.state';
 import { Login, Logout } from '../../store/registration.actions';
