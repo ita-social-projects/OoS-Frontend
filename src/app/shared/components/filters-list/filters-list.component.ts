@@ -2,7 +2,7 @@ import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
-import { Subject} from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
 import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
@@ -16,19 +16,18 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
   @Input()
   set filtersList(filters) {
-    const {withDisabilityOption,ageFilter,categoryCheckBox,priceFilter,workingHours} = filters
+    const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours } = filters;
     this.priceFilter = priceFilter;
     this.workingHours = workingHours;
     this.categoryCheckBox = categoryCheckBox;
     this.ageFilter = ageFilter;
-    this.WithDisabilityOptionControl.setValue(withDisabilityOption,{emitEvent:false})
+    this.WithDisabilityOptionControl.setValue(withDisabilityOption, { emitEvent: false });
   };
 
   public priceFilter;
   public workingHours;
   public categoryCheckBox;
   public ageFilter;
-
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
