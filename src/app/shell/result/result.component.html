@@ -10,6 +10,8 @@
   <app-scroll-to-top *ngIf="(isMobileScreen$ | async)"></app-scroll-to-top>
 </div>
 
+<app-sidenav-filters [isMobileView]="(isMobileScreen$ | async)" [filtersList]="filtersList"></app-sidenav-filters>
+
 <mat-drawer-container>
   <mat-drawer mode="side" [(opened)]="isFiltersVisible">
     <app-filters-list [filtersList]="filtersList"></app-filters-list>
@@ -28,7 +30,7 @@
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
-    (click)="isFiltersVisible = !isFiltersVisible">
+    (click)="filterHandler()">
     <span class="material-icons btn-icon">
       <mat-icon *ngIf="isFiltersVisible; else hidden">filter_alt</mat-icon>
       <ng-template #hidden>

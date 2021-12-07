@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
 import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
@@ -9,8 +9,6 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
-import { Util } from 'src/app/shared/utils/utils';
-import { Constants } from 'src/app/shared/constants/constants';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
@@ -46,6 +44,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   public filtersList;
   public currentPage;
   public order;
+
+  isMobileScreen: boolean;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event): void {
@@ -98,12 +98,23 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.order = order;
       })
 
+      this.isMobileScreen$
+      .pipe(
+        takeUntil(this.destroy$)
+      ).subscribe((isMobile) => {
+        this.isMobileScreen = isMobile;
+      })
+
   }
 
   viewHandler(value: ViewType): void {
     this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.router.navigate([`result/${value}`]));
+  }
+
+  filterHandler(): void {
+    (!this.isMobileScreen) ? (this.isFiltersVisible = !this.isFiltersVisible) : this.store.dispatch(new FiltersSidenavToggle());
   }
 
   ngOnDestroy(): void {
