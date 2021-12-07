@@ -37,6 +37,11 @@ export class SetIsFree {
   static readonly type = '[filter] Set Is Free type of payment';
   constructor(public payload: boolean) { }
 }
+
+export class SetIsPaid {
+  static readonly type = '[filter] Set Is Paid type of payment';
+  constructor(public payload: boolean) { }
+}
 export class SetMinPrice {
   static readonly type = '[filter] Set Min Price';
   constructor(public payload: number) { }
