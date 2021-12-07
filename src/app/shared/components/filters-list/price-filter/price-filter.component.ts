@@ -35,12 +35,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   minValue = Constants.MIN_PRICE;
   maxValue = Constants.MAX_PRICE;
-  options: Options = {
-    floor: Constants.MIN_PRICE,
-    ceil: Constants.MAX_PRICE,
-  };
+  options: Options = this.getSliderOprions(true);
   destroy$: Subject<boolean> = new Subject<boolean>();
-
 
   constructor(private store: Store) { }
 
@@ -48,6 +44,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
    * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
   ngOnInit(): void {
+    this.maxPriceControl.disable();
+    this.minPriceControl.disable();
 
     this.isFreeControl.valueChanges
       .pipe(
@@ -61,12 +59,18 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         debounceTime(300),
         distinctUntilChanged(),
-      ).subscribe((val: boolean) => this.store.dispatch(new SetIsPaid(val)));
+      ).subscribe((val: boolean) => {
+        this.store.dispatch(new SetIsPaid(val));
+        const func = val ? 'enable' : 'disable';
+        this.minPriceControl[func]();
+        this.maxPriceControl[func]();
+        this.options = this.getSliderOprions(!val)
+      });
 
     this.minPriceControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
+        debounceTime(500),
         distinctUntilChanged(),
       ).subscribe((val: number) => {
         !this.isPaidControl.value && this.isPaidControl.setValue(true);
@@ -76,13 +80,21 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.maxPriceControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
+        debounceTime(500),
         distinctUntilChanged()
       ).subscribe((val: number) => {
         !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMaxPrice(val));
       });
 
+  }
+
+  getSliderOprions(val): Options {
+    return {
+      floor: Constants.MIN_PRICE,
+      ceil: Constants.MAX_PRICE,
+      disabled: val
+    }
   }
 
   priceHandler(e) {

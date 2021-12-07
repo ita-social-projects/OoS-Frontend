@@ -12,28 +12,26 @@ export class MinMaxDirective implements OnInit, OnDestroy {
   @Input() public max: number;
   @Input() public directiveFormControl: FormControl;
 
-  debounce$: Subject<boolean> = new Subject<boolean>();
+  debounce$: Subject<number> = new Subject<number>();
 
   constructor(private ref: ElementRef) { }
 
   ngOnInit(): void {
     this.debounce$.pipe(
       debounceTime(1000)
-    ).subscribe(() => this.MaxMinValidation());
+    ).subscribe((val) => {
+      this.MaxMinValidation(val)
+    });
   }
 
   @HostListener('input', ['$event'])
   public onInput(event: InputEvent): void {
-    this.debounce$.next();
-
-  }
-
-  public handleKeyboardEvent(event: KeyboardEvent): void {
-    this.debounce$.next();
-  }
-
-  private MaxMinValidation(): void {
     const val = Number(this.ref.nativeElement.value);
+
+    this.debounce$.next(val);
+  }
+
+  private MaxMinValidation(val: number): void {
     if (this.max !== null && this.max !== undefined && val >= this.max) {
       this.directiveFormControl.setValue(this.max);
     }
