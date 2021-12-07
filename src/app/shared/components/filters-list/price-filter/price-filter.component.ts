@@ -40,6 +40,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     ceil: Constants.MAX_PRICE,
   };
   destroy$: Subject<boolean> = new Subject<boolean>();
+  debounce$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
 
