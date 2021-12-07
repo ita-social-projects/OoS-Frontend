@@ -17,8 +17,8 @@
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">До</p>
         <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [debounce$]="debounce$" [directiveFormControl]="maxPriceControl"
-          [formControl]="maxPriceControl" appMinMax>
+          [max]="constants.MAX_PRICE" [directiveFormControl]="maxPriceControl" [formControl]="maxPriceControl"
+          appMinMax>
       </div>
     </mat-form-field>
   </div>
