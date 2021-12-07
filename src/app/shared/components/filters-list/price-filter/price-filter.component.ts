@@ -86,7 +86,6 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMaxPrice(val));
       });
-
   }
 
   getSliderOprions(val): Options {
