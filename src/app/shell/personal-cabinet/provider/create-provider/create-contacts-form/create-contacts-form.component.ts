@@ -50,7 +50,7 @@ export class CreateContactsFormComponent implements OnInit {
     this.isSameAddressControl.setValue(!Boolean(this.provider.actualAddress));
 
     this.LegalAddressFormGroup.patchValue(this.provider.legalAddress, { emitEvent: false });
-    this.provider.actualAddress && this.ActualAddressFormGroup.patchValue(this.provider.actualAddress, { emitEvent: false });
+    this.provider?.actualAddress && this.ActualAddressFormGroup.patchValue(this.provider.actualAddress, { emitEvent: false });
   }
 
   /**
@@ -66,7 +66,7 @@ export class CreateContactsFormComponent implements OnInit {
         this.ActualAddressFormGroup.enable();
         this.ActualAddressFormGroup.markAsUntouched();
         this.setValidators();
-        this.provider.actualAddress && this.ActualAddressFormGroup.get('id').setValue(this.provider.actualAddress.id);
+        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id').setValue(this.provider.actualAddress.id);
       }
     });
   }
