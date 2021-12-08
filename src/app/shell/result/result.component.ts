@@ -9,7 +9,7 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, UrlSegment } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
 
@@ -46,6 +46,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public order;
 
   isMobileScreen: boolean;
+  isDisable: boolean;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event): void {
@@ -104,6 +105,11 @@ export class ResultComponent implements OnInit, OnDestroy {
       ).subscribe((isMobile) => {
         this.isMobileScreen = isMobile;
       })
+
+      this.route.url
+      .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
+        this.isDisable = item.path === 'map' ? false : true; 
+      }));
 
   }
 
