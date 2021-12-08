@@ -7,7 +7,7 @@
     </div>
 
     <mat-horizontal-stepper [linear]="!editMode">
-      <mat-step [stepControl]="ContactsFormGroup">
+      <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
         </ng-template>
@@ -16,7 +16,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AboutFormGroup)">Далі</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -32,7 +32,7 @@
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext
-            (click)="checkValidation(DescriptionFormGroup)">Далі</button>
+            (click)="checkValidation(ContactsFormGroup)">Далі</button>
         </div>
       </mat-step>
 
