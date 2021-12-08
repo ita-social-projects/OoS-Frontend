@@ -80,19 +80,17 @@
 }
 
 @media (max-width: 750px) {
-  .horizontal-card {
-    min-height: 150px;
-  }
   .horizontal {
-    box-shadow: none;
     margin: 1vw;
     width: 90vw;
   }
-
   .horizontal-card {
     min-height: 150px;
     .card-img{
       flex: 1;
+      &-hide{
+        display: none !important;
+      }
     }
     .wrap-for-details {
       flex: 2;
