@@ -3,9 +3,11 @@ import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, skip, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Direction } from 'src/app/shared/models/category.model';
+import { AppState } from 'src/app/shared/store/app.state';
 import { SetDirections } from 'src/app/shared/store/filter.actions';
+import { FilterState } from 'src/app/shared/store/filter.state';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
@@ -17,6 +19,12 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
+  
+  @Select(FilterState.directions)
+  filterDirections$: Observable<Direction[]>;
 
   @Input()
   set categoryCheckBox(filter: Direction[]) {

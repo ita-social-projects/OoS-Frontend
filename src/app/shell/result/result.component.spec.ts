@@ -29,6 +29,7 @@ describe('ResultComponent', () => {
         MockSearchbarComponent,
         MockOrderingComponent,
         MockFiltersListComponent,
+        MockFiltersSidenavComponent,
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent
@@ -93,3 +94,11 @@ class MockWorkshopMapViewListComponent {
   template: ''
 })
 class MockScrollToTopComponent { }
+@Component({
+  selector: 'app-sidenav-filters',
+  template: ''
+})
+class MockFiltersSidenavComponent {
+  @Input() isMobileView;
+  @Input() filtersList;
+}
