@@ -44,7 +44,7 @@
   <app-full-search-bar></app-full-search-bar>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
-    <app-ordering [order]="order" *ngIf="isDisable"></app-ordering>
+    <app-ordering [order]="order" *ngIf="isHidden"></app-ordering>
     <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
       (change)="viewHandler(group.value)">
       <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"

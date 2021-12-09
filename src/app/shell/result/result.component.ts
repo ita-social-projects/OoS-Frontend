@@ -46,7 +46,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public order;
 
   isMobileScreen: boolean;
-  isDisable: boolean;
+  isHidden: boolean;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event): void {
@@ -108,7 +108,7 @@ export class ResultComponent implements OnInit, OnDestroy {
 
       this.route.url
       .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
-        this.isDisable = item.path === 'map' ? false : true; 
+        this.isHidden = item.path === 'map' ? false : true; 
       }));
 
   }
