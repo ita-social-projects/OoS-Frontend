@@ -47,8 +47,8 @@
 
   .card-img {
     display: flex;
-    width: 100%;
-    min-width: 150px;
+    max-width: 100% !important;
+    min-width: inherit;
     object-fit: cover;
     object-position: bottom;
   }
@@ -89,7 +89,8 @@
     width: 90vw;
   }
   .horizontal-card {
-    // min-height: 150px;
+    max-width: 100%;
+    padding: 0.5rem;
     .card-img{
       flex: 1;
       &-hide{
@@ -98,17 +99,14 @@
     }
     .wrap-for-details {
       flex: 2;
+      width: 50%;
     }
     .card_text {
       margin: 0;
     }
     .mat-card-image {
-      height: 150px;
       object-fit: cover;
       object-position: bottom;
-    }
-    .card-image {
-      max-width: 100%
     }
     .hide {
       display: none;

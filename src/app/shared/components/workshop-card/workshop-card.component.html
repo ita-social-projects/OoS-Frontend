@@ -6,7 +6,7 @@
     <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
       <div class="card-img" [ngClass]="{'card-img-hide': isCreateApplicationView}" fxLayout="row"
         fxLayoutAlign="center">
-        <img class="card-image" mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
+        <img mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
       </div>
       <div class="wrap-for-details">
         <mat-card-header>
