@@ -22,8 +22,7 @@
         </button>
       </div>
       <hr class="hr-grey">
-
-      <div class="mobile-sidenav-info-support">
+      <div class="mobile-sidenav-info mobile-sidenav-info-support">
         <a [routerLink]="'./info/support'" (click)="changeView()">
           <mat-icon class="mobile-sidenav-icon">support</mat-icon>
           Підтримка
@@ -91,9 +90,12 @@
       </div>
     </ng-template>
     <hr class="hr-grey">
-
-    <div class="mobile-sidenav-info-about">
+    <div class="mobile-sidenav-info">
       <a [routerLink]="'./info/about'" (click)="changeView()">Про Портал</a>
+    </div>
+    <hr class="hr-grey">
+    <div class="mobile-sidenav-info">
+      <a [routerLink]="''" (click)="changeView()">Головна</a>
     </div>
 
     <hr class="hr-grey">
