@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ToggleMobileScreen } from './shared/store/app.actions';
+import { GetFeaturesList } from './shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-root',
@@ -30,5 +31,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isWindowMobile(window);
+    this.store.dispatch(new GetFeaturesList());
   }
 }
