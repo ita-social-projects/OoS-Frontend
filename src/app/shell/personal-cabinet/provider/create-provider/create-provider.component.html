@@ -6,7 +6,7 @@
         у вашому особистому кабінеті</p>
     </div>
 
-    <mat-horizontal-stepper [linear]="!editMode">
+    <mat-horizontal-stepper #stepper [linear]="!editMode">
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
@@ -32,7 +32,7 @@
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext
-            (click)="checkValidation(ContactsFormGroup)">Далі</button>
+            (click)="checkValidationContacts(ContactsFormGroup)">Далі</button>
         </div>
       </mat-step>
 

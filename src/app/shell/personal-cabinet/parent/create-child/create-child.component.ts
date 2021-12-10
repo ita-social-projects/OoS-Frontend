@@ -149,7 +149,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
   /**
    * This method marks each control of form in the array of forms in ChildrenFormArray as touched
    */
-  checkValidationChild(): void {
+  private checkValidationChild(): void {
     Object.keys(this.ChildrenFormArray.controls).forEach(key => {
       this.checkValidation(<FormGroup>this.ChildrenFormArray.get(key));
     });
@@ -159,7 +159,7 @@ export class CreateChildComponent implements OnInit, OnDestroy {
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
    */
-  checkValidation(form: FormGroup): void {
+  private checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });

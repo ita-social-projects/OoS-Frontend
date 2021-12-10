@@ -139,23 +139,16 @@
   }
 
   .mobile-sidenav-info{
-    &-about {
-      padding: 15px;
+    padding: 14px 0 14px 15px;
       font-family: Innerspace;
       font-size: 13px;
       font-weight: bold;
       color: black;
-    }
 
     &-support {
       display: flex;
       align-items: center;
       flex-direction: row;
-      padding: 14px 0 14px 15px;
-      font-family: Innerspace;
-      font-size: 13px;
-      font-weight: bold;
-      color: black;
     }
   }
 

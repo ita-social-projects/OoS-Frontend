@@ -78,7 +78,7 @@
       </button>
 
       <div class="header_username" [matMenuTriggerFor]="log">
-        <ng-container>{{(user$ | async).firstName}} {{(user$ | async).lastName}}</ng-container>
+        <ng-container>{{ userShortName }}</ng-container>
       </div>
       <button mat-icon-button [matMenuTriggerFor]="log">
         <mat-icon>arrow_drop_down</mat-icon>
@@ -91,7 +91,7 @@
 
     <mat-menu #log="matMenu" class="header_menu">
       <button mat-menu-item class="header_menu_account-button">
-        <ng-container>{{(user$ | async).firstName}} {{(user$ | async).lastName}}</ng-container>
+        <ng-container>{{ userShortName }}</ng-container>
         <button mat-raised-button class="header_menu_account-button_account-circle" matBadge="2"
           matBadgePosition="before" matBadgeColor="accent">
           <i>

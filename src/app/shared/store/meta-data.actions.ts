@@ -59,3 +59,7 @@ export class GetRateByEntityId {
   static readonly type = '[meta-data] Get Rate';
   constructor(public enitityType: string, public entitytId: string) { }
 }
+export class GetFeaturesList {
+  static readonly type = '[meta-data] Get features list';
+  constructor() { }
+}
