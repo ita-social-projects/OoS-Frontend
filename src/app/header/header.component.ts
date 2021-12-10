@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit {
 
   selectedLanguage = 'uk';
   showModalReg = false;
+  userShortName: string = '';
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
@@ -56,6 +58,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new CheckAuth());
+
+    this.user$.pipe(
+      filter((user) => !!user)
+    )
+    .subscribe(item => {
+      this.userShortName = item.lastName + ' ' + (item.firstName).slice(0,1) + '.' + (item.middleName).slice(0,1) + '.';
+    })
   }
 
   logout(): void {
@@ -73,5 +82,4 @@ export class HeaderComponent implements OnInit {
   setLanguage(): void {
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
-
 }
