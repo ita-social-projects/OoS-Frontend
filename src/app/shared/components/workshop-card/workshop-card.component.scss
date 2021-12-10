@@ -1,5 +1,10 @@
 @import "src/app/shared/styles/cards.scss";
-
+.card-img-full{
+  width: 60%;
+}
+.card-img-mobile{
+  width: 30%;
+}
 .horizontal {
   margin: 0;
 }
@@ -84,6 +89,9 @@
 }
 
 @media (max-width: 750px) {
+  .card-img-mobile{
+    display: none !important;
+  }
   .horizontal {
     margin: 1vw;
     width: 90vw;
@@ -93,9 +101,6 @@
     padding: 0.5rem;
     .card-img{
       flex: 1;
-      &-hide{
-        display: none !important;
-      }
     }
     .wrap-for-details {
       flex: 2;
@@ -117,10 +122,11 @@
     .card-footer {
       flex-direction: row;
     }
-    .mat-card-title {
+    .card-title, .mat-card-header{
       width: 150px;
       font-size: 15px;
       margin-bottom: 0;
-      }
+      text-align: center;
     }
   }
+}

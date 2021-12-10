@@ -4,8 +4,8 @@
     </ng-container>
 
     <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
-      <div class="card-img" [ngClass]="{'card-img-hide': isCreateApplicationView}" fxLayout="row"
-        fxLayoutAlign="center">
+      <div [ngClass]="isCreateApplicationView ? 'card-img card-img-full card-img-mobile': 'card-img card-img-full'"
+        fxLayout="row" fxLayoutAlign="center">
         <img mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
       </div>
       <div class="wrap-for-details">

@@ -2,10 +2,9 @@
   width: 300px;
   min-height: 410px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  justify-content:space-evenly;
-  align-items: space-between;
-  align-content: space-between;
+  align-items: center;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 
   &-title {
