@@ -6,10 +6,12 @@ import { Department, Direction, IClass } from '../models/category.model';
 import { City } from '../models/city.model';
 import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
+import { FeaturesList } from '../models/featuresList.model';
 import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CityService } from '../services/cities/city.service';
 import { RatingService } from '../services/rating/rating.service';
+import { FeatureManagementService } from '../services/feature-management/feature-management.service';
 import {
   GetSocialGroup,
   GetClasses,
@@ -25,7 +27,8 @@ import {
   ClearDepartments,
   ClearClasses,
   GetInstitutionStatus,
-  ClearRatings
+  ClearRatings,
+  GetFeaturesList
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -45,6 +48,7 @@ export interface MetaDataStateModel {
   filteredClasses: IClass[];
   rating: Rate[];
   isLoading: boolean;
+  featuresList: FeaturesList
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -61,7 +65,8 @@ export interface MetaDataStateModel {
     filteredDepartments: [],
     filteredClasses: [],
     rating: [],
-    isLoading: false
+    isLoading: false,
+    featuresList: null
   }
 
 })
@@ -107,12 +112,16 @@ export class MetaDataState {
   @Selector()
   static rating(state: MetaDataStateModel): Rate[] { return state.rating; }
 
+  @Selector()
+  static featuresList (state: MetaDataStateModel): FeaturesList { return state.featuresList; }
+
   constructor(
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
     private cityService: CityService,
-    private ratingService: RatingService) { }
+    private ratingService: RatingService,
+    private featureManagementService: FeatureManagementService) { }
     
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
@@ -220,6 +229,15 @@ export class MetaDataState {
       .getRateByEntityId(enitityType, entitytId)
       .pipe(
         tap((rating: Rate[]) => patchState({ rating: rating })
+        ))
+  }
+
+  @Action(GetFeaturesList)
+  getFeaturesList({ patchState }: StateContext<MetaDataStateModel>, { }: GetFeaturesList): Observable<FeaturesList> {
+    return this.featureManagementService
+      .getFeaturesList()
+      .pipe(
+        tap((featuresList: FeaturesList) => patchState({ featuresList: featuresList })
         ))
   }
 
