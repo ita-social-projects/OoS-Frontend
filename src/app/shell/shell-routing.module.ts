@@ -18,6 +18,8 @@ import { AllCategoriesComponent } from './all-categories/all-categories.componen
 import { AboutComponent } from './info/about/about.component';
 import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
+import { AdminToolsComponent } from './admin-tools/admin-tools.component';
+import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -32,6 +34,11 @@ const routes: Routes = [
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
     canLoad: [PersonalCabinetGuard]
+  },
+  {
+    path: 'admin-tools', component: AdminToolsComponent,
+    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
+    canLoad: [AdminToolsGuard]
   },
   {
     path: 'personal-cabinet/config/edit',

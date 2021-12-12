@@ -4,6 +4,7 @@ export enum NavBarName {
   TopDestination = 'Найпопулярніші напрямки',
   PersonalCabinetParent = 'Кабінет користувача',
   PersonalCabinetProvider = 'Кабінет надавача',
+  PersonalCabinetTechAdmin = 'Кабінет тех.адміна',
   About = 'Про портал',
   Support = 'Підтримка',
   RequestOnWorkshop = 'Заява на гурток',

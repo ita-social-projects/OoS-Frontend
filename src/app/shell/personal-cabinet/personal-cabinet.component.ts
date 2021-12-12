@@ -29,6 +29,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
       { name: this.userRole === 'provider' ?
         NavBarName.PersonalCabinetProvider : 
+        this.userRole === 'tech-admin' ?
+        NavBarName.PersonalCabinetTechAdmin :
         NavBarName.PersonalCabinetParent,
         isActive: false, disable: true }
     )));

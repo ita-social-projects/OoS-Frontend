@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -13,7 +14,14 @@ export class UserService {
    * @return object of type User
    */
   getUserById(id): Observable<User> {
-    return this.http.get<User>(`/api/v1/User/GetUserById/${id}`);
+    //return this.http.get<User>(`/api/v1/User/GetUserById/${id}`);
+    /** !!Here we make each user role as a tech-admin
+     *  !!But we need to change this function to get actual data from backend
+    */
+    return this.http.get<User>(`/api/v1/User/GetUserById/${id}`).pipe(map((response) => {
+      response.role = 'tech-admin';
+      return response;
+    }));
   }
 
   /**

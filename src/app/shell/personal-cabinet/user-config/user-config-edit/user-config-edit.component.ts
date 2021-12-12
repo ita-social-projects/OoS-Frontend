@@ -47,7 +47,10 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
-        NavBarName.PersonalCabinetProvider : NavBarName.PersonalCabinetParent,
+        NavBarName.PersonalCabinetProvider : 
+        this.role.techAdmin ?
+        NavBarName.PersonalCabinetTechAdmin :
+        NavBarName.PersonalCabinetParent,
         path: '/personal-cabinet/config',
         isActive: false, disable: false },
       { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
