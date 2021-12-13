@@ -1,5 +1,10 @@
 @import "src/app/shared/styles/cards.scss";
-
+.card-img-full{
+  width: 60%;
+}
+.card-img-mobile{
+  width: 30%;
+}
 .horizontal {
   margin: 0;
 }
@@ -41,10 +46,14 @@
   align-items: center;
   overflow: hidden;
 
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+
   .card-img {
     display: flex;
-    width: 100%;
-    min-width: 150px;
+    max-width: 100% !important;
+    min-width: inherit;
     object-fit: cover;
     object-position: bottom;
   }
@@ -80,33 +89,29 @@
 }
 
 @media (max-width: 750px) {
-  .horizontal-card {
-    min-height: 150px;
+  .card-img-mobile{
+    display: none !important;
   }
   .horizontal {
-    box-shadow: none;
     margin: 1vw;
     width: 90vw;
   }
-
   .horizontal-card {
-    min-height: 150px;
+    max-width: 100%;
+    padding: 0.5rem;
     .card-img{
       flex: 1;
     }
     .wrap-for-details {
       flex: 2;
+      width: 50%;
     }
     .card_text {
       margin: 0;
     }
     .mat-card-image {
-      height: 150px;
       object-fit: cover;
       object-position: bottom;
-    }
-    .card-image {
-      max-width: 100%
     }
     .hide {
       display: none;
@@ -117,10 +122,11 @@
     .card-footer {
       flex-direction: row;
     }
-    .mat-card-title {
+    .card-title, .mat-card-header{
       width: 150px;
       font-size: 15px;
       margin-bottom: 0;
-      }
+      text-align: center;
     }
   }
+}
