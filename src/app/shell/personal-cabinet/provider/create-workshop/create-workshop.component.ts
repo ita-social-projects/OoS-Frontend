@@ -169,6 +169,15 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
         this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
       });
     }
+    if (form.get('workingHours')) {
+      (this.AboutFormGroup.get('workingHours') as FormArray).controls.forEach((form: FormGroup) => {
+        Object.keys(form.controls).forEach(key => {
+          form.get(key).markAsTouched();
+        });
+      })
+
+
+    }
   }
 
   /**
