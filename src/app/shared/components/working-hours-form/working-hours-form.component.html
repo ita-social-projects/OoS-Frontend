@@ -2,13 +2,13 @@
   fxLayoutAlign.xs="center start">
   <div>
     <div fxLayout='row' fxLayoutAlign='space-between'
-      [ngClass]="!(workingHoursForm.invalid && workingHoursForm.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
+      [ngClass]="!(workingHoursForm.get('workdays').invalid && workingHoursForm.get('workdays').touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
       <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center'
         (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
         {{day.value}}</div>
     </div>
     <app-validation-hint-for-input type="requiredField"
-      [invalid]="workingHoursForm.invalid && workingHoursForm.touched">
+      [invalid]="workingHoursForm.get('workdays').invalid && workingHoursForm.get('workdays').touched">
     </app-validation-hint-for-input>
   </div>
 
@@ -19,7 +19,7 @@
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime">
       <app-validation-hint-for-input type="requiredField"
-        [invalid]="workingHoursForm.invalid && workingHoursForm.touched">
+        [invalid]="workingHoursForm.get('startTime').invalid && workingHoursForm.get('startTime').touched">
       </app-validation-hint-for-input>
     </div>
     <p class="text">До</p>
@@ -27,7 +27,7 @@
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerEnd" format="24" required formControlName="endTime" [min]="getMinTime()">
       <app-validation-hint-for-input type="requiredField"
-        [invalid]="workingHoursForm.invalid && workingHoursForm.touched">
+        [invalid]="workingHoursForm.get('endTime').invalid && workingHoursForm.get('endTime').touched">
       </app-validation-hint-for-input>
     </div>
   </form>
