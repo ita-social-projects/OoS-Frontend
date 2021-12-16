@@ -227,8 +227,9 @@ export class UserState {
   }
 
   @Action(OnCreateWorkshopFail)
-  onCreateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
+  onCreateWorkshopFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
     throwError(payload);
+    patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 

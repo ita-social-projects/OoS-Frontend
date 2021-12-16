@@ -13,7 +13,7 @@ import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class ImageFormControlComponent implements OnInit {
+export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
 
   photoFormGroup: FormGroup;
   gridCols: number;

@@ -38,7 +38,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
-      image: new FormControl(''),
+      imageFiles: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
@@ -131,7 +131,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
   }
-  
+
   /**
    * This method puts keyWordsInput field in focus
    */
