@@ -19,6 +19,7 @@ export class WorkingHoursFormComponent implements OnInit {
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;
+
   @Output() deleteWorkingHour = new EventEmitter();
 
   constructor() { }
