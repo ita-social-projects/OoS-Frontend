@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Workshop, WorkshopCard, WorkshopMultiForm } from '../../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,14 +32,11 @@ export class UserWorkshopService {
    * This method create workshop
    * @param workshop: Workshop
    */
-  createWorkshop(workshop: WorkshopMultiForm): Observable<object> {
+  createWorkshop(workshop: Workshop): Observable<object> {
     const formData = new FormData();
-    Object.keys(workshop.main).forEach((key: string) => {
-      formData.append(key, JSON.stringify(workshop.main[key]));
+    Object.keys(workshop).forEach((key: string) => {
+      formData.append(key, JSON.stringify(workshop.[key]));
     });
-
-    formData.append(workshop.imageFiles, JSON.stringify(workshop.imageFiles));
-
 
     return this.http.post('/api/v2/Workshop/Create', formData)
   }
