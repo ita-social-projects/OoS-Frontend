@@ -115,8 +115,8 @@
       </ng-container>
       <ng-container *ngIf="((user$ | async)?.role === Role.techAdmin)">
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'"> <button mat-menu-item>Адміністрування</button></a>
-        <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Налаштування</button></a>
+        <a [routerLink]="'./admin-tools/platform/'"> <button mat-menu-item>Адміністрування</button></a>
+        <a><button mat-menu-item>Налаштування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-container>
     </mat-menu>
