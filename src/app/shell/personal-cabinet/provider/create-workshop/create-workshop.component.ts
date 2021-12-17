@@ -9,7 +9,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Workshop, WorkshopMultiForm } from 'src/app/shared/models/workshop.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
@@ -85,13 +85,13 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
       const aboutInfo = this.AboutFormGroup.getRawValue();
       const descInfo = this.DescriptionFormGroup.getRawValue();
 
-      let workshop: WorkshopMultiForm;
+      let workshop: Workshop;
 
       if (this.editMode) {
-        // workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
-        // this.store.dispatch(new UpdateWorkshop(workshop));
+        workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
+        this.store.dispatch(new UpdateWorkshop(workshop));
       } else {
-        workshop = new WorkshopMultiForm(aboutInfo, descInfo, address, teachers, provider);
+        workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
         this.store.dispatch(new CreateWorkshop(workshop));
       }
     }

@@ -37,7 +37,6 @@ export class Workshop {
   imageFiles?: string[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    this.id = id;
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -82,40 +81,4 @@ export interface WorkshopCard {
 export interface WorkshopFilterCard {
   totalAmount: number;
   entities: WorkshopCard[];
-}
-
-export class WorkshopMultiForm {
-  main: any;
-  imageFiles: any;
-
-  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    this.main = {
-      title: about.title,
-      phone: `${about.phone}`,
-      email: about.email,
-      minAge: about.minAge,
-      maxAge: about.maxAge,
-      price: about.price,
-      address: address,
-      teachers: teachers,
-      website: about.website,
-      facebook: about.facebook,
-      instagram: about.instagram,
-      providerId: provider.id,
-      providerTitle: provider.fullTitle,
-      isPerMonth: about.isPerMonth,
-      dateTimeRanges: about.workingHours,
-      description: description.description,
-      directionId: description.categories.directionId.id,
-      departmentId: description.categories.departmentId.id,
-      classId: description.categories.classId.id,
-      keywords: description.keyWords,
-      withDisabilityOptions: Boolean(description.disabilityOptionsDesc),
-      disabilityOptionsDesc: description.disabilityOptionsDesc,
-      head: description.head
-    }
-    this.imageFiles = {
-      imageFiles: description.imageFiles,
-    }
-  }
 }
