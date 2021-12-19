@@ -3,6 +3,11 @@
 
 .days-toggle{
   min-width: 200px;
+  &-invalid{
+    border-radius: 21px;
+    outline: none;
+    border: 1px solid #C72A21;
+  }
 }
 .toggle{
     height: 40px;
@@ -33,7 +38,7 @@
     border-radius: 21px;
     padding:0.5rem;
     max-width: max-content;
-    max-height: 40px;
+    height: 40px;
     align-items: center;
     text-align: center;
 }
