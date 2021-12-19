@@ -1,7 +1,13 @@
 <mat-card *ngIf="application" [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
-      <div #name class="workshop-header" (mouseover)="onInfoShow(name)" (mouseleave)="onInfoHide(name)">
+      <div
+        #name
+        class="workshop-header"
+        (mouseover)="!deviceToogle && onInfoShow(name)"
+        (mouseleave)="!deviceToogle && onInfoHide(name)"
+        (click)="deviceToogle && onInfoShow(name, $event)"
+      >
         <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{
           application.child.middleName }}</h4>
       </div>
