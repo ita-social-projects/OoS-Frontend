@@ -4,6 +4,7 @@ import { Gender } from '../../enum/gender';
 import { Child } from '../../models/child.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { ChildrenService } from '../../services/children/children.service';
+import { DetectedDeviceService } from '../../services/detected-device.service';
 import { Util } from '../../utils/utils';
 
 @Component({
@@ -13,13 +14,13 @@ import { Util } from '../../utils/utils';
 })
 export class ChildInfoBoxComponent implements OnInit {
 
-  constructor(private childrenService: ChildrenService) { }
+  constructor(private childrenService: ChildrenService, private detectedDevice: DetectedDeviceService) { }
 
   @Input() child: Child;
   @ViewChild('childInfoBox') childInfoBox: ElementRef<HTMLInputElement>;
   @Input() top: string;
   @Input() left: string;
-
+  isMobile = false
   socialGroup: SocialGroup;
   childAge: string;
   readonly gender = Gender;
@@ -35,5 +36,6 @@ export class ChildInfoBoxComponent implements OnInit {
     }
 
     this.childAge = Util.getChildAge(this.child);
+    this.isMobile = this.detectedDevice.checkedDevice();
   }
 }

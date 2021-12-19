@@ -26,7 +26,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
-  
+
   isActiveInfoButton = false;
   providerApplicationParams: {
     status: string,
@@ -139,7 +139,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
    * @param object : { element: Element, child: Child }
    */
-  onInfoShow({ element, child }: { element: Element, child: Child }): void {
+  onInfoShow({ element, child}: { element: Element, child: Child}): void {
     this.infoBoxService.onMouseOver({ element, child });
   }
 
