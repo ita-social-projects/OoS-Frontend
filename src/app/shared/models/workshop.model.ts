@@ -37,6 +37,9 @@ export class Workshop {
   imageFiles?: string[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+    if (id) {
+      this.id = id;
+    }
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -60,7 +63,9 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
-    this.imageFiles = description.imageFiles;
+    this.imageFiles = description.imageFiles.map(element => {
+      JSON.stringify(element);
+    });
   }
 }
 

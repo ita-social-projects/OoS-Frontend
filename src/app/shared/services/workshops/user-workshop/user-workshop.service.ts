@@ -34,8 +34,10 @@ export class UserWorkshopService {
    */
   createWorkshop(workshop: Workshop): Observable<object> {
     const formData = new FormData();
+
+    console.log(workshop.imageFiles)
     Object.keys(workshop).forEach((key: string) => {
-      formData.append(key, JSON.stringify(workshop[key]));
+      formData.append(key, workshop[key]);
     });
 
     return this.http.post('/api/v2/Workshop/Create', formData)
