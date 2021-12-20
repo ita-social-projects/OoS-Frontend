@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
 @Injectable({
@@ -34,10 +36,17 @@ export class UserWorkshopService {
    */
   createWorkshop(workshop: Workshop): Observable<object> {
     const formData = new FormData();
+    const formNames = [, 'address', 'dateTimeRanges', 'teachers'];
+
 
     console.log(workshop.imageFiles)
     Object.keys(workshop).forEach((key: string) => {
-      formData.append(key, workshop[key]);
+
+      if (formNames.includes(key)) {
+        formData.append(key, JSON.stringify(workshop[key]));
+      } else {
+        formData.append(key, workshop[key]);
+      }
     });
 
     return this.http.post('/api/v2/Workshop/Create', formData)

@@ -34,7 +34,7 @@ export class Workshop {
   competitiveSelectionDescription: string;
   logo: string;
   dateTimeRanges: DateTimeRanges[];
-  imageFiles?: string[];
+  imageFiles?: File[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     if (id) {
@@ -63,9 +63,7 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
-    this.imageFiles = description.imageFiles.map(element => {
-      JSON.stringify(element);
-    });
+    this.imageFiles = description.imageFiles;
   }
 }
 
