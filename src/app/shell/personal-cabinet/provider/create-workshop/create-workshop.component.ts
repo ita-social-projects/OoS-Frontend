@@ -44,7 +44,6 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
 
   editMode = false;
   workshop: Workshop;
-  isLinear = true;
 
   constructor(
     private store: Store,
@@ -56,7 +55,6 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
     const workshopId = this.route.snapshot.paramMap.get('id');
     if (workshopId) {
       this.editMode = true;
-      this.isLinear = false;
       this.userWorkshopService.getWorkshopById(workshopId).subscribe((workshop: Workshop) => this.workshop = workshop);
     }
 
