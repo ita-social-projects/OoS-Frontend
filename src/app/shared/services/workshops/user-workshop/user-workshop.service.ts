@@ -37,18 +37,17 @@ export class UserWorkshopService {
   createWorkshop(workshop: Workshop): Observable<object> {
     const formData = new FormData();
     const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords'];
-
+    const imageFiles = 'imageFiles';
 
     Object.keys(workshop).forEach((key: string) => {
 
-      if (key === 'imageFiles') {
-        workshop.imageFiles.forEach((file: File) => formData.append('imageFiles', file));
+      if (key === imageFiles) {
+        workshop.imageFiles.forEach((file: File) => formData.append(imageFiles, file));
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(workshop[key]));
       } else {
         formData.append(key, workshop[key]);
       }
-
     });
 
     return this.http.post('/api/v2/Workshop/Create', formData)
