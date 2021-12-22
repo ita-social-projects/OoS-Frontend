@@ -16,7 +16,7 @@ export class InfoBoxService {
 
   constructor(private cfr: ComponentFactoryResolver) { }
 
-  onMouseOver({ element, child }: { element: Element, child: Child }): void {
+  onMouseOver({ element, child}: { element: Element, child: Child}): void {
     this.isMouseOver.next(true);
     this.child = child;
     this.getPosition(element);
@@ -33,11 +33,9 @@ export class InfoBoxService {
     const component: Type<ChildInfoBoxComponent> = ChildInfoBoxComponent;
     if (isMouseOver) {
       const componentRef = vcr.createComponent(this.cfr.resolveComponentFactory(component));
-
       (componentRef.instance as ChildInfoBoxComponent).child = this.child ? this.child : null;
       (componentRef.instance as ChildInfoBoxComponent).top = this.top ? this.top : null;
       (componentRef.instance as ChildInfoBoxComponent).left = this.left ? this.left : null;
-
       return componentRef;
     }
   }
@@ -49,7 +47,7 @@ export class InfoBoxService {
   getPosition(element: Element): void {
     const bodyRect = document.body.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
-    const offset = elementRect.top - bodyRect.top + 20;
+    const offset = (bodyRect.height - elementRect.top < 331) ? elementRect.top - bodyRect.top - 361 : elementRect.top - bodyRect.top + 20
     this.top = offset + 'px';
     this.left = elementRect.left + 'px';
   }
