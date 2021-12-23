@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AboutFormComponent } from './about-form.component';
 import { Component, Input } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AboutFormComponent', () => {
   let component: AboutFormComponent;
@@ -17,7 +18,8 @@ describe('AboutFormComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MatInputModule,
-        MatIconModule
+        MatIconModule,
+        NoopAnimationsModule
       ],
       declarations: [ 
         AboutFormComponent, 
