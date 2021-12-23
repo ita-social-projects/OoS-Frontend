@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus, ApplicationIcons } from 'src/app/shared/enum/applications';
 import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications';
@@ -20,6 +21,8 @@ export class ApplicationCardComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
   childAge: string;
+  deviceToogle: boolean;
+  infoShowToggle: boolean = false;
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -29,11 +32,19 @@ export class ApplicationCardComponent implements OnInit {
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
-  constructor() { }
+  constructor(private detectedDevice: DetectedDeviceService) { }
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
+    this.deviceToogle = this.detectedDevice.checkedDevice()
   }
+
+
+  onClick(event) {
+    if (event.target.id === 'child-box' || event.target.parentElement.id === 'child-box' || event.target.parentElement.parentElement.id === 'child-box') return
+    this.onInfoHide()
+  }
+
 
   /**
    * This method emit on approve action
@@ -63,8 +74,15 @@ export class ApplicationCardComponent implements OnInit {
    * This method emit on mouseover action on child avatar
    * @param Application application
    */
-  onInfoShow(element: Element): void {
-    this.infoShow.emit({ element, child: this.application.child });
+  onInfoShow(element: Element, event): void {
+    if (!this.infoShowToggle) {
+      this.infoShowToggle = true;
+      this.infoShow.emit({ element, child: this.application.child});
+      event.stopPropagation();
+      this.deviceToogle && document.addEventListener('click', this.onClick.bind(this));
+    } else {
+      this.onInfoHide();
+    }
   }
 
   /**
@@ -72,7 +90,9 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onInfoHide(): void {
+    this.infoShowToggle = false;
     this.infoHide.emit();
+    this.deviceToogle && document.removeEventListener('click', this.onClick.bind(this));
   }
 
 }
