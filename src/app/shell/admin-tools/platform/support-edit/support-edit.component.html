@@ -1,0 +1,51 @@
+<div class="create-form">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">РЕДАГУВАННЯ ПІДТРИМКА</h3>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <form [formGroup]="supportEditFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <label class="step-label">Заголовок</label>
+          <i class="material-icons status-info-icon" (click)="isActiveHeaderInfoButton=!isActiveHeaderInfoButton"
+          [ngClass]="isActiveHeaderInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+        </div>
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="headerName">
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <label class="step-label">Назва розділу</label>
+          <i class="material-icons status-info-icon" (click)="isActiveSectionInfoButton=!isActiveSectionInfoButton"
+          [ngClass]="isActiveSectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+        </div>
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="sectionName">
+        </mat-form-field>
+      
+
+        <div class="step-label-combined">
+          <label class="step-label"> Опис <span class="step-required">*</span></label>
+          <label class="step-characters-count">
+            {{supportEditFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}</label>
+        </div>
+        <mat-form-field appearance="none">
+          <div class="wrapper-border">
+            <textarea matInput class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
+            formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
+          </div>
+        </mat-form-field>
+      </form>
+      <button class="btn-add" mat-button>
+        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <a [routerLink]="'/admin-tools/platform/support'"><button mat-raised-button
+          class="btn btn-cancel">Скасувати</button></a>
+      <button [disabled]="!supportEditFormGroup.valid" class="btn" mat-button type="submit"
+        (click)="onSubmit()">Зберегти</button>
+    </div>
+  </div>
+</div>

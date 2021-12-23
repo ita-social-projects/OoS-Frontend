@@ -11,6 +11,7 @@ import { SetDirections } from '../../store/filter.actions';
 })
 export class CategoryCardComponent implements OnInit {
   @Input() workshopsCount: number;
+  @Input() isEditMode: boolean;
   @Input() direction: Direction;
   @Input() icons: {};
   public categoryIcons = CategoryIcons;

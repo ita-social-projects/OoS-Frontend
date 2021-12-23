@@ -5,6 +5,7 @@ export enum NavBarName {
   PersonalCabinetParent = 'Кабінет користувача',
   PersonalCabinetProvider = 'Кабінет надавача',
   PersonalCabinetTechAdmin = 'Кабінет тех.адміна',
+  AdminTools = 'Адміністрування',
   About = 'Про портал',
   Support = 'Підтримка',
   RequestOnWorkshop = 'Заява на гурток',
@@ -14,6 +15,7 @@ export enum NavBarName {
   EditInformationAboutChild = 'Редагувати дані про дитину',
   EditInstitutions = 'Редагувати заклад',
   EditInformationAbout = 'Редагування особистої інформації',
+  Platform = 'Портал',
   NewWorkshop = 'Новий гурток',
   EditWorkshop = 'Редагування гуртка'
 }

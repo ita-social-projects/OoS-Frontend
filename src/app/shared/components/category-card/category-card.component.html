@@ -2,6 +2,14 @@
   (click)="selectDirection(direction)">
   <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
 
+  <ng-container *ngIf="isEditMode">
+    <a class="config_edit-icon">
+      <button mat-button class="config-button">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </a>
+  </ng-container>
+
   <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
     <!-- <div class="link">

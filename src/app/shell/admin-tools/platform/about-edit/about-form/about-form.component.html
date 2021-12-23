@@ -1,0 +1,49 @@
+<form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step"
+[ngClass]="(aboutFormAmount > 1) ? 'step-border' : ''">
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Заголовок </label>
+    <i class="material-icons status-info-icon" (click)="isActiveHeaderInfoButton=!isActiveHeaderInfoButton"
+    [ngClass]="isActiveHeaderInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+  </div>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="headerName">
+  </mat-form-field>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="AboutFormGroup.get('headerName').invalid && AboutFormGroup.get('headerName').touched"
+    [forbiddenCharacter]="AboutFormGroup.get('headerName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Назва розділу </label>
+    <i class="material-icons status-info-icon" (click)="isActiveSectionInfoButton=!isActiveSectionInfoButton"
+    [ngClass]="isActiveSectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+  </div>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="sectionName">
+  </mat-form-field>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="AboutFormGroup.get('sectionName').invalid && AboutFormGroup.get('sectionName').touched"
+    [forbiddenCharacter]="AboutFormGroup.get('sectionName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <div class="step-label-combined">
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{AboutFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}</label>
+  </div>
+  <mat-form-field appearance="none">
+    <div class="wrapper-border">
+      <textarea matInput class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
+      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
+    </div>
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AboutFormGroup.get('description').invalid && AboutFormGroup.get('description').touched">
+  </app-validation-hint-for-input>
+  <div fxLayout="row" fxLayoutAlign="center" *ngIf="aboutFormAmount > 1">
+    <button class="btn-reset" type="reset" mat-button (click)="delete()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані
+    </button>
+  </div>
+</form>

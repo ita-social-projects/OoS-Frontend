@@ -20,6 +20,8 @@ import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
+import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
+import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -43,6 +45,14 @@ const routes: Routes = [
   {
     path: 'personal-cabinet/config/edit',
     component: UserConfigEditComponent
+  },
+  {
+    path: 'admin-tools/platform/about/edit',
+    component: AboutEditComponent
+  },
+  {
+    path: 'admin-tools/platform/support/edit',
+    component: SupportEditComponent
   },
   {
     path: 'workshop-details/:id', component: WorkshopDetailsComponent,

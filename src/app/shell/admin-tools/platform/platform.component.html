@@ -1,0 +1,78 @@
+  <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab label="{{adminTabsUkr.about}}"> 
+      <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
+        <div class="config">
+          <a routerLink="./edit" class="config_edit-icon">
+            <button mat-button class="config-button">
+              <mat-icon>edit</mat-icon>Редагувати
+            </button>
+          </a>
+          <h5>Про портал</h5>
+          <p>Раді вітати Вас на порталі <strong>"Позашкілля"!</strong></p>
+          <p><strong>Мета проєкту полягає в тому, щоб залучити якомога більше дітей, молоді та дорослих
+            до
+            занять улюбленою справою: чи то є хобі, розвага, спорт, мистецтво, наука, технологія, чи майбутня професія або
+            перекваліфікація через навчання.</strong></p>
+          <p>Проєкт презентує різноманіття гуртків, секцій та класів з позашкільної освіти, культури, спорту, демонструє
+            вибір
+            освітніх послуг, максимально наближених до місця навчання або проживання.</p>
+          <p>Проєкт дає можливість реєстрації як споживача послуг (діти, молодь, дорослі) так і їх надавача (заклади освіти
+            будь-якої форми власності).
+          </p>
+          <p><strong>Ідея проєкту реалізується за допомогою інформаційної системи пошуку гуртка за
+            параметрами місця їх знаходження; певного творчого колективу, де може реалізуватися особа; певного напряму
+            обраної
+            діяльності тощо.</strong> </p>
+          <p>Проєкт реалізується на виконання програми діджиталізації країни, загальнонаціональної програми Президента
+            “Здорова Україна”, задля подолання перепонів, які стоять на заваді реалізації творчого потенціалу дитини,
+            здійсненні її мрій.</p>
+          <p>Продукт створено за участі креативної команди професіоналів з ІТ компанії SoftServe, а також інших волонтерів
+            зі
+            сфери освіти, науки, культури та спорту
+            Партнери проєкту: МОН, Мінкульт, Мінмолодьспорт та інші органи державної влади та місцевого самоврядування.
+          </p>
+          <p>Ваші пропозиції по покращенню роботи сервісу можна надсилати:<a href="mailto:pozashkillia@gmail.com" target="_blank"><span class="link">
+              Pozashkillia@gmail.com</span></a></p>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
+    <mat-tab label="{{adminTabsUkr.directions}}"> 
+      <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <app-full-search-bar class="search-bar"></app-full-search-bar>
+        <a [routerLink]=""><button class="btn" mat-raised-button>Додати напрямок</button></a>
+      </div>
+      <div class="card-wrapper">
+        <app-category-card class="card" *ngFor="let direction of directions$ | async" [direction]="direction"
+          [isEditMode]="true">
+        </app-category-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>
+    <mat-tab label="{{adminTabsUkr.support}}"> 
+
+      <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
+        <div class="config config-support">
+          <a routerLink="./edit" class="config_edit-icon">
+            <button mat-button class="config-button">
+              <mat-icon>edit</mat-icon>Редагувати
+            </button>
+          </a>
+          <h5 class="support-title">Підтримка</h5>
+          <p><strong>У разі технічних питань писати на:</strong>
+          <a class="link" href="mailto:pozashkillia@gmail.com" target="_blank">
+            pozashkillia@gmail.com
+          </a>
+          </p>
+          <p><strong>У разі будь яких інших питань звертатися на:</strong>
+            <a class="link" href="mailto:pozashkillyainfo@gmail.com" target="_blank">
+              pozashkillyainfo@gmail.com
+            </a>
+          </p>
+          <p><strong>Або за телефоном:</strong>
+            <a class="link" href="tel:+380977777777" alt="Телефон +380977777777">+38(097) 777 7 777</a>
+          </p>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
