@@ -17,7 +17,6 @@ import { UserState } from 'src/app/shared/store/user.state';
   template: '',
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
-
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
   @Select(UserState.isLoading)
@@ -26,7 +25,6 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   featuresList$: Observable<FeaturesList>;
   isRelease2: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
 
   isPristine = true;
   editMode: boolean;
