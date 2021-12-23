@@ -2,25 +2,19 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeUntil, takeWhile } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Address } from 'src/app/shared/models/address.model';
-import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
-import { CreateFormComponent } from '../../create-form/create-form/create-form.component';
+import { CreateFormComponent } from '../../create-form/create-form.component';
 
 @Component({
   selector: 'app-create-workshop',
@@ -32,7 +26,6 @@ import { CreateFormComponent } from '../../create-form/create-form/create-form.c
   }]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
-
   workshop: Workshop;
 
   AboutFormGroup: FormGroup;
@@ -47,7 +40,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     navigationBarService: NavigationBarService) {
     super(store, route, navigationBarService);
   }
-
 
   ngOnInit(): void {
     this.determineEditMode();

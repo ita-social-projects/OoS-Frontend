@@ -17,7 +17,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
-import { CreateFormComponent } from '../../create-form/create-form/create-form.component';
+import { CreateFormComponent } from '../../create-form/create-form.component';
 
 @Component({
   selector: 'app-create-child',
