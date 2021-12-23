@@ -5,7 +5,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { createProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
@@ -17,6 +17,7 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
+import { CreateFormComponent } from '../../create-form/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-provider',
@@ -27,52 +28,36 @@ import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.action
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
-  isPristine = true;
-  isLinear = true;
-
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
   provider: Provider;
+  isAgreed: boolean;
+  isNotRobot: boolean;
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   PhotoFormGroup: FormGroup;
+
   ContactsFormGroup: FormGroup = new FormGroup({});
-
-  isAgreed: boolean;
-  isNotRobot: boolean;
-  editMode: boolean;
-
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
+
   @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(
-    private store: Store,
-    private route: ActivatedRoute,
-    private navigationBarService: NavigationBarService) { }
-
-  ngOnInit(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
-
-    if (this.editMode) {
-      this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    }
-
-    this.RobotFormControl.valueChanges.subscribe((val: boolean) => this.isNotRobot = val);
-    this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
-
-    this.editMode && this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
-      { name: NavBarName.EditInstitutions, isActive: false, disable: true }
-    )));
+  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService) {
+    super(store, route, navigationBarService);
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+  ngOnInit(): void {
+    this.determineEditMode();
+
+    this.RobotFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => this.isNotRobot = val);
+
+    this.AgreementFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => this.isAgreed = val);
   }
 
   ngAfterViewInit(): void {
@@ -81,6 +66,18 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
         this.stepper.selectedIndex = +createProviderSteps[params.param];
       });
     }
+  }
+
+  setEditMode(): void {
+    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.addNavPath();
+  }
+
+  addNavPath(): void {
+    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
+      { name: NavBarName.EditInstitutions, isActive: false, disable: true }
+    )));
   }
 
   /**
@@ -128,7 +125,7 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
     this.ContactsFormGroup.addControl('actual', form);
   }
 
-  onReceiveLegalAddressFormGrou(form: FormGroup): void {
+  onReceiveLegalAddressFormGroup(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('legal', form);
@@ -143,15 +140,6 @@ export class CreateProviderComponent implements OnInit, AfterViewInit, OnDestroy
     this.subscribeOnDirtyForm(form);
   }
 
-  private subscribeOnDirtyForm(form: FormGroup): void {
-    form.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true));
-      });
-  }
 
   /**
    * This method receives a form and marks each control of this form as touched

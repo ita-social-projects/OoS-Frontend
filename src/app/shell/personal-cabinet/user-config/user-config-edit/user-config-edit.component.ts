@@ -29,8 +29,8 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
   userEditFormGroup: FormGroup;
 
   constructor(
-    private fb: FormBuilder, 
-    private store: Store, 
+    private fb: FormBuilder,
+    private store: Store,
     private navigationBarService: NavigationBarService) {
 
     this.userEditFormGroup = this.fb.group({
@@ -46,10 +46,12 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
     this.user && this.userEditFormGroup.patchValue(this.user);
 
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
-        NavBarName.PersonalCabinetProvider : NavBarName.PersonalCabinetParent,
+      {
+        name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
+          NavBarName.PersonalCabinetProvider : NavBarName.PersonalCabinetParent,
         path: '/personal-cabinet/config',
-        isActive: false, disable: false },
+        isActive: false, disable: false
+      },
       { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
     )));
   }

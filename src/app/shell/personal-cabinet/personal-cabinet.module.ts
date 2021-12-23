@@ -11,6 +11,7 @@ import { UserConfigComponent } from './user-config/user-config.component';
 import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CreateFormComponent } from './create-form/create-form/create-form.component';
 
 @NgModule({
   declarations: [
