@@ -12,12 +12,12 @@ import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
-
   readonly constants: typeof Constants = Constants;
 
   isDirectionIdMarked = false;
 
   @Input() workshop: Workshop;
+  @Input() isRelease2: boolean;
 
   @Output() passDescriptionFormGroup = new EventEmitter();
 

@@ -1,18 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserWorkshopService {
+  isRelease2: boolean;
 
-  tepmUrl = '/Workshop/Get';
-
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store) { }
 
   /**
    * This method get workshops by Provider id
@@ -35,6 +39,16 @@ export class UserWorkshopService {
    * @param workshop: Workshop
    */
   createWorkshop(workshop: Workshop): Observable<object> {
+    this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
+
+    return this.isRelease2 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+  }
+
+  createWorkshopV1(workshop: Workshop): Observable<object> {
+    return this.http.post('/api/v1/Workshop/Create', workshop);
+  }
+
+  createWorkshopV2(workshop: Workshop): Observable<object> {
     const formData = new FormData();
     const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords'];
     const imageFiles = 'imageFiles';
@@ -50,7 +64,7 @@ export class UserWorkshopService {
       }
     });
 
-    return this.http.post('/api/v2/Workshop/Create', formData)
+    return this.http.post('/api/v2/Workshop/Create', formData);
   }
 
   /**

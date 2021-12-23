@@ -24,6 +24,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
+  isRelease2: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
 
@@ -40,6 +41,12 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   abstract setEditMode(): void;
   abstract addNavPath(): void;
 
+  determineRelease(): void {
+    this.featuresList$
+      .pipe(
+        takeWhile(() => this.isPristine))
+      .subscribe((featuresList: FeaturesList) => this.isRelease2 = featuresList.release2);
+  }
 
   determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));

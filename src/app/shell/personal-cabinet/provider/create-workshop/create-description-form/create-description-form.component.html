@@ -1,5 +1,5 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="imageFiles">
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="10" [label]="'Фото'" formControlName="imageFiles">
   </app-image-form-control>
 
   <div class="step-label-combined">

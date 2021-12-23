@@ -43,6 +43,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   ngOnInit(): void {
     this.determineEditMode();
+    this.determineRelease();
     this.addNavPath();
   }
 
