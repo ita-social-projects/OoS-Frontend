@@ -2,8 +2,8 @@
 
 <ng-template #WorkshopDetails>
   <div class="container">
-    <carousel class="carousel" [images]="images" width="100%" cellWidth="100%" [arrows]="workshop.imageIds.length > 1"
-      dots="workshop.imageIds.length > 1">
+    <carousel [images]="images" [cellWidth]="'100%'" [height]="300" [autoplay]="false" [dots]="true" [loop]="true"
+      objectFit="'contain'">
     </carousel>
     <div class="workshop-wrapper">
 

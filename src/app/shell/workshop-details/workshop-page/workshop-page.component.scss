@@ -30,13 +30,6 @@
       margin: 0 2rem 2rem 2rem;
     }
 
-    &-image {
-      width: 100%;
-      img {
-        width: 100%;
-      }
-    }
-
     &-icon{
       width: 3rem;
       padding: 1rem;
@@ -102,10 +95,4 @@
 .icon {
   color: #AAAAAA;
   margin-right: 0.2rem;
-}
-.carousel{
-  height: 400px !important;
-}
-:host ::ng-deep .carousel-cells .carousel-cell img{
-  object-fit: contain !important;
 }
