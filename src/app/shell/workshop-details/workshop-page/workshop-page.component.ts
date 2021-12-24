@@ -7,14 +7,16 @@ import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-
+interface imgPath {
+  path: string;
+}
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
   styleUrls: ['./workshop-page.component.scss']
 })
-export class WorkshopPageComponent implements OnInit, OnDestroy {
 
+export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   public categoryIcons = CategoryIcons;
   @Input() workshop: Workshop;
@@ -26,18 +28,26 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   imgUrl = `https://api.oos.dmytrominochkin.cloud/api/v1/PublicImage/`;
-  imgId: string;
   isRelease2: boolean;
+  images: imgPath[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
-    this.imgId = this.workshop.imageIds[0];
+    this.getWorkshopImages();
     this.featuresList$
       .pipe(
         takeUntil(this.destroy$)
       ).subscribe((featuresList: FeaturesList) => this.isRelease2 = featuresList.release2);
 
+  }
+
+  getWorkshopImages(): void {
+    if (this.workshop.imageIds.length) {
+      this.workshop.imageIds.forEach((imgId) => this.images.push({ path: this.imgUrl + imgId }))
+    } else {
+      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
+    }
   }
 
   ngOnDestroy(): void {

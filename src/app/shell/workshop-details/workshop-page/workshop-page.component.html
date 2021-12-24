@@ -2,9 +2,9 @@
 
 <ng-template #WorkshopDetails>
   <div class="container">
-    <div class="workshop-image">
-      <img src="{{imgUrl+imgId}}" alt="workshopImage">
-    </div>
+    <carousel class="carousel" [images]="images" width="100%" cellWidth="100%" [arrows]="workshop.imageIds.length > 1"
+      dots="workshop.imageIds.length > 1">
+    </carousel>
     <div class="workshop-wrapper">
 
       <div fxLayout="column" fxLayoutAlign="space-between space-between">
