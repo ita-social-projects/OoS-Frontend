@@ -32,10 +32,8 @@ export class AboutEditComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.AdminTools,
-        isActive: false, disable: false },
+      { name: NavBarName.AdminTools, isActive: false, disable: false },
       { name: NavBarName.Platform, isActive: false, disable: false },
       { name: NavBarName.About, isActive: false, disable: true }
     )));
@@ -77,7 +75,30 @@ export class AboutEditComponent implements OnInit, OnDestroy {
     this.AboutFormArray.removeAt(index);
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    if (this.AboutFormArray.invalid) {
+      this.checkValidationAboutFormArray();
+    }
+  }
+
+  /**
+   * This method marks each control of form in the array of forms in AboutFormArray as touched
+   */
+   private checkValidationAboutFormArray(): void {
+    Object.keys(this.AboutFormArray.controls).forEach(key => {
+      this.checkValidation(<FormGroup>this.AboutFormArray.get(key));
+    });
+  }
+
+  /**
+   * This method receives a form and marks each control of this form as touched
+   * @param FormGroup form
+   */
+   private checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
+  }
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());

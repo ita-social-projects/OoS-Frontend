@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AboutFormComponent } from './about-form.component';
@@ -14,9 +14,8 @@ describe('AboutFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatFormFieldModule,
         ReactiveFormsModule,
-        FormsModule,
+        MatFormFieldModule,
         MatInputModule,
         MatIconModule,
         NoopAnimationsModule
@@ -54,9 +53,5 @@ describe('AboutFormComponent', () => {
 class MockValidationHintForInputComponent {
   @Input() type: string;
   @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
-  @Input() minCharachters: number; 
   @Input() forbiddenCharacter: string;
 }

@@ -1,7 +1,6 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,12 +15,10 @@ describe('AboutEditComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         NgxsModule.forRoot([]),
-        FormsModule,
-        MatButtonModule,
         ReactiveFormsModule,
+        MatButtonModule,
         MatIconModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
+        RouterTestingModule
       ],
       declarations: [ 
         AboutEditComponent,
@@ -47,7 +44,7 @@ describe('AboutEditComponent', () => {
   template: ''
 })
 class MockAboutFormComponent {
-  @Input() ChildFormGroup: FormGroup;
+  @Input() AboutFormGroup: FormGroup;
   @Input() index: number;
   @Input() aboutFormAmount: number;
 }
