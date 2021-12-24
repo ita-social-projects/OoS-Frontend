@@ -35,10 +35,14 @@ export class Workshop {
   logo: string;
   dateTimeRanges: DateTimeRanges[];
   imageFiles?: File[];
+  imageIds: string[]
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     if (id) {
       this.id = id;
+    }
+    if (description.imageIds) {
+      this.imageIds = description.imageIds;
     }
     this.title = about.title;
     this.phone = about.phone;
