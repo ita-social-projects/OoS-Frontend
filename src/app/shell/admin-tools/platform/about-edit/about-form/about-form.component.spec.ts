@@ -33,7 +33,7 @@ describe('AboutFormComponent', () => {
     component = fixture.componentInstance;
     component.AboutFormGroup = new FormGroup({
       image: new FormControl(''),
-      headerName: new FormControl(''),
+      title: new FormControl(''),
       sectionName: new FormControl(''),
       description: new FormControl('')
     });

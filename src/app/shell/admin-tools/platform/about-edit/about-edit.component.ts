@@ -45,7 +45,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   private newForm(): FormGroup {
     const aboutEditFormGroup = this.fb.group({
       image: new FormControl(''),
-      headerName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
+      title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
       sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH), Validators.required]),
     });

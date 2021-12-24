@@ -7,11 +7,11 @@
     [ngClass]="isActiveHeaderInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="headerName">
+    <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
   <app-validation-hint-for-input type="validTextField"
-    [invalid]="AboutFormGroup.get('headerName').invalid && AboutFormGroup.get('headerName').touched"
-    [forbiddenCharacter]="AboutFormGroup.get('headerName').errors?.pattern?.requiredPattern">
+    [invalid]="AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched"
+    [forbiddenCharacter]="AboutFormGroup.get('title').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <div fxLayout="row" fxLayoutAlign="start center">
