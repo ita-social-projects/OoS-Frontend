@@ -2,9 +2,8 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -12,12 +11,10 @@ import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { CreateFormComponent } from '../../create-form/create-form.component';
 
 @Component({
   selector: 'app-create-workshop',
@@ -28,48 +25,41 @@ import { UserState } from 'src/app/shared/store/user.state';
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class CreateWorkshopComponent implements OnInit, OnDestroy {
-
-  @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
-  isPristine = true;
-
-  @Select(UserState.isLoading)
-  isLoading$: Observable<boolean>;
+export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
+  workshop: Workshop;
 
   AboutFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  editMode = false;
-  workshop: Workshop;
-  isLinear = true;
-
   constructor(
-    private store: Store,
-    private route: ActivatedRoute,
     private userWorkshopService: UserWorkshopService,
-    private navigationBarService: NavigationBarService) { }
+    store: Store,
+    route: ActivatedRoute,
+    navigationBarService: NavigationBarService) {
+    super(store, route, navigationBarService);
+  }
 
   ngOnInit(): void {
-    const workshopId = this.route.snapshot.paramMap.get('id');
-    if (workshopId) {
-      this.editMode = true;
-      this.isLinear = false;
-      this.userWorkshopService.getWorkshopById(workshopId).subscribe((workshop: Workshop) => this.workshop = workshop);
-    }
+    this.determineEditMode();
+    this.determineRelease();
+    this.addNavPath();
+  }
 
+  addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
-      { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true }
-
-    )));
+      { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true })));
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+  setEditMode(): void {
+    const workshopId = this.route.snapshot.paramMap.get('param');
+    this.userWorkshopService.getWorkshopById(workshopId).pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((workshop: Workshop) => this.workshop = workshop);
   }
+
 
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
@@ -146,15 +136,6 @@ export class CreateWorkshopComponent implements OnInit, OnDestroy {
     return teachers;
   }
 
-  private subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-    form.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine && form.pristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true));
-      });
-  }
 
   /**
    * This method receives a form and marks each control of this form as touched

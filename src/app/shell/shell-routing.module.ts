@@ -21,13 +21,15 @@ import { InfoComponent } from './info/info.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'result', redirectTo: 'result/list', pathMatch: 'full'},
+  { path: 'result', redirectTo: 'result/list', pathMatch: 'full' },
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
-  { path: 'info', component: InfoComponent, children: [
-    { path: 'about', component: AboutComponent },
-    { path: 'support', component: SupportComponent},
-  ] },
+  {
+    path: 'info', component: InfoComponent, children: [
+      { path: 'about', component: AboutComponent },
+      { path: 'support', component: SupportComponent },
+    ]
+  },
   {
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
@@ -42,7 +44,7 @@ const routes: Routes = [
     loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
   },
   {
-    path: 'create-workshop/:id', component: CreateWorkshopComponent,
+    path: 'create-workshop/:param', component: CreateWorkshopComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
@@ -60,7 +62,7 @@ const routes: Routes = [
     canDeactivate: [CreateProviderGuard, CreateGuard]
   },
   {
-    path: 'create-child/:id', component: CreateChildComponent,
+    path: 'create-child/:param', component: CreateChildComponent,
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]

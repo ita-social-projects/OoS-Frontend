@@ -1,6 +1,6 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <!-- <app-image-form-control [imgMaxAmount]="10" [label]="'Фото'" formControlName="image">
-  </app-image-form-control> TODO: Second release -->
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="10" [label]="'Фото'" formControlName="imageFiles">
+  </app-image-form-control>
 
   <div class="step-label-combined">
     <label class="step-label"> Опис <span class="step-required">*</span></label>
@@ -9,8 +9,9 @@
   </div>
   <mat-form-field appearance="none">
     <div class="wrapper-border">
-      <textarea matInput class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+      <textarea matInput class="step-textarea step-input-field"
+        placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів" formControlName="description"
+        maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
     </div>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
@@ -35,7 +36,8 @@
     fxLayoutAlign='center space-between'>
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
-    <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}" placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
+    <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
+      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
   </mat-radio-group>
 
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
@@ -47,17 +49,16 @@
   </div>
   <div class="step-input keywords" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
-    <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум 5 слів)</span>
+    <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими
+      користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум 5 слів)</span>
     <mat-chip-list #chipList>
-      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)"
-      class="keyWordChip">
+      <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}"
-        [disabled]="disabledKeyWordsInput" #keyWordsInput (focusout)="onKeyWordsInput()"
-        [formControl]="keyWordsCtrl" [matChipInputFor]="chipList" (keyup.enter)="onKeyWordsInput()"
-        [(ngModel)]="keyWord">
+      <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}" [disabled]="disabledKeyWordsInput"
+        #keyWordsInput (focusout)="onKeyWordsInput()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"
+        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord">
     </mat-chip-list>
   </div>
   <app-validation-hint-for-input type="requiredField"

@@ -113,7 +113,7 @@ export class MetaDataState {
   static rating(state: MetaDataStateModel): Rate[] { return state.rating; }
 
   @Selector()
-  static featuresList (state: MetaDataStateModel): FeaturesList { return state.featuresList; }
+  static featuresList(state: MetaDataStateModel): FeaturesList { return state.featuresList; }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -122,7 +122,7 @@ export class MetaDataState {
     private cityService: CityService,
     private ratingService: RatingService,
     private featureManagementService: FeatureManagementService) { }
-    
+
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
     patchState({ isLoading: true })
