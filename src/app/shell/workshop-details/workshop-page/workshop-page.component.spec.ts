@@ -7,6 +7,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
 import { Teacher } from '../../../shared/models/teacher.model';
 import { RouterTestingModule } from '@angular/router/testing';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { NgxsModule } from '@ngxs/store';
 
 describe('WorkshopPageComponent', () => {
   let component: WorkshopPageComponent;
@@ -19,7 +21,9 @@ describe('WorkshopPageComponent', () => {
         MatTabsModule,
         RouterTestingModule,
         MatIconModule,
-        MatChipsModule
+        MatChipsModule,
+        IvyCarouselModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         WorkshopPageComponent,
