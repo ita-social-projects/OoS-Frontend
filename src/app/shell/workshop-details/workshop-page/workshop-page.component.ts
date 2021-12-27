@@ -33,7 +33,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   getWorkshopImages(): void {
     if (this.workshop.imageIds.length) {
-      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.imgUrl + imgId } })
+      this.workshop.imageIds.forEach((imgId) => this.images.push({ path: this.imgUrl + imgId }))
     } else {
       this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
     }
