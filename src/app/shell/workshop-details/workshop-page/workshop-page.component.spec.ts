@@ -44,9 +44,6 @@ describe('WorkshopPageComponent', () => {
   });
 
   it('should create', () => {
-    component.workshop = {
-      imageIds: [],
-    } as Workshop;
     expect(component).toBeTruthy();
   });
 });
