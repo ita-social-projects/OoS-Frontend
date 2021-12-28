@@ -41,12 +41,12 @@ describe('WorkshopPageComponent', () => {
     fixture = TestBed.createComponent(WorkshopPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.workshop = {
-      imageIds: [],
-    } as Workshop;
   });
 
   it('should create', () => {
+    component.workshop = {
+      imageIds: [],
+    } as Workshop;
     expect(component).toBeTruthy();
   });
 });
