@@ -2031,6 +2031,13 @@ angular-auth-oidc-client@^11.5.0:
     jsrsasign-reduced "^8.0.15"
     tslib "^2.0.0"
 
+angular-responsive-carousel@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/angular-responsive-carousel/-/angular-responsive-carousel-2.1.2.tgz#151adacb80835e374d6b9a3b99ff6d0cf4bd82ec"
+  integrity sha512-nOCEyL9R80kW876GY8KvXoPu9fHu3nEnA2RVoFZ3hnBLx/OIdebeKFTxfogWLgbI4S1xn+vOecY/a+GnAQNc8w==
+  dependencies:
+    tslib "^2.0.0"
+
 ansi-colors@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-4.1.1.tgz#cbb9ae256bf750af1eab344f229aa27fe94ba348"
