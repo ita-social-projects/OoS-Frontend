@@ -38,7 +38,6 @@ export class UserWorkshopService {
    */
   createWorkshop(workshop: Workshop): Observable<object> {
     this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-
     return this.isRelease2 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
   }
 
@@ -47,22 +46,26 @@ export class UserWorkshopService {
   }
 
   createWorkshopV2(workshop: Workshop): Observable<object> {
-    const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords'];
-    const imageFiles = 'imageFiles';
-
-    Object.keys(workshop).forEach((key: string) => {
-
-      if (key === imageFiles) {
-        workshop.imageFiles.forEach((file: File) => formData.append(imageFiles, file));
-      } else if (formNames.includes(key)) {
-        formData.append(key, JSON.stringify(workshop[key]));
-      } else {
-        formData.append(key, workshop[key]);
-      }
-    });
-
+    const formData = this.createFormData(workshop);
     return this.http.post('/api/v2/Workshop/Create', formData);
+  }
+
+  /**
+   * This method update workshop
+   * @param workshop: Workshop
+   */
+  updateWorkshop(workshop: Workshop): Observable<object> {
+    this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
+    return this.isRelease2 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+  }
+
+  updateWorkshopV1(workshop: Workshop): Observable<object> {
+    return this.http.put('/api/v1/Workshop/Update', workshop);
+  }
+
+  updateWorkshopV2(workshop: Workshop): Observable<object> {
+    const formData = this.createFormData(workshop);
+    return this.http.post('/api/v2/Workshop/Update', formData);
   }
 
   /**
@@ -73,12 +76,23 @@ export class UserWorkshopService {
     return this.http.delete(`/api/v1/Workshop/Delete/${id}`);
   }
 
-  /**
-   * This method update workshop
-   * @param workshop: Workshop
-   */
-  updateWorkshop(workshop: Workshop): Observable<object> {
-    return this.http.put('/api/v1/Workshop/Update', workshop);
+  private createFormData(workshop: Workshop): FormData {
+    const formData = new FormData();
+    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imgIds'];
+    const imageFiles = 'imageFiles';
+
+    Object.keys(workshop).forEach((key: string) => {
+
+      if (workshop.imageFiles && (key === imageFiles)) {
+        workshop.imageFiles.forEach((file: File) => formData.append(imageFiles, file));
+      } else if (formNames.includes(key)) {
+        formData.append(key, JSON.stringify(workshop[key]));
+      } else {
+        formData.append(key, workshop[key]);
+      }
+    });
+
+    return formData;
   }
 
 }
