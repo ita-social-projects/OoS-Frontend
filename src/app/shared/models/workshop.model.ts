@@ -41,9 +41,6 @@ export class Workshop {
     if (id) {
       this.id = id;
     }
-    if (description.imageIds) {
-      this.imageIds = description.imageIds;
-    }
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -68,6 +65,9 @@ export class Workshop {
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
     this.imageFiles = description.imageFiles;
+    if (description.imageIds) {
+      this.imageIds = description.imageIds;
+    }
   }
 }
 
