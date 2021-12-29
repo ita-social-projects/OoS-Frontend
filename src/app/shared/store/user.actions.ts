@@ -2,7 +2,6 @@ import { Favorite } from './../models/favorite.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
-import { Rate } from '../models/rating';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { PaginationElement } from '../models/paginationElement.model';

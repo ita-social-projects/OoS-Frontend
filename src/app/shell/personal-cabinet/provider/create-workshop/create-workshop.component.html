@@ -5,7 +5,7 @@
       <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
     </div>
 
-    <mat-horizontal-stepper [linear]="isLinear">
+    <mat-horizontal-stepper [linear]="!editMode">
       <mat-step [stepControl]="AboutFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Про гурток</p>
@@ -25,7 +25,8 @@
           <p class="step-name">Опис</p>
         </ng-template>
         <app-create-description-form fxLayout="row" fxLayoutAlign="center center"
-          (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop">
+          (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop"
+          [isRelease2]="isRelease2">
         </app-create-description-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>

@@ -16,7 +16,6 @@ export class Workshop {
   description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
-  image?: File[];
   head: string;
   headDateOfBirth?: Date;
   keywords?: string[];
@@ -35,9 +34,13 @@ export class Workshop {
   competitiveSelectionDescription: string;
   logo: string;
   dateTimeRanges: DateTimeRanges[];
+  imageFiles?: File[];
+  imageIds: string[]
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    this.id = id;
+    if (id) {
+      this.id = id;
+    }
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -61,6 +64,10 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
+    this.imageFiles = description.imageFiles;
+    if (description.imageIds) {
+      this.imageIds = description.imageIds;
+    }
   }
 }
 

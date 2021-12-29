@@ -105,7 +105,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
       if (useProviderInfo) {
         this.AboutFormGroup.get('email').setValue(this.provider.email);
-        this.AboutFormGroup.get('title').setValue(this.provider.fullTitle);
         this.AboutFormGroup.get('phone').setValue(this.provider.phoneNumber);
         this.AboutFormGroup.get('website').setValue(this.provider.website);
         this.AboutFormGroup.get('facebook').setValue(this.provider.facebook);

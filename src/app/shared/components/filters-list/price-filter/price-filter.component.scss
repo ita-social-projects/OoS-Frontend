@@ -61,7 +61,9 @@
   &-disable{
     opacity: 0.5;
     cursor: initial;
-    color:#FFFFFF;
+    .price-input{
+      color:#FFFFFF;
+    }
   }
 }
 ::ng-deep .mat-form-field-underline {

@@ -19,7 +19,6 @@ import { UserWorkshopService } from '../services/workshops/user-workshop/user-wo
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 import { ClearClasses, ClearDepartments } from './meta-data.actions';
-import { FilterStateModel } from './filter.state';
 import { PaginationElement } from '../models/paginationElement.model';
 import {
   CreateApplication,
@@ -227,8 +226,9 @@ export class UserState {
   }
 
   @Action(OnCreateWorkshopFail)
-  onCreateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
+  onCreateWorkshopFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopFail): void {
     throwError(payload);
+    patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
