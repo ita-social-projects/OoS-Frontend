@@ -64,8 +64,10 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
-    this.imageFiles = description.imageFiles;
-    if (description.imageIds) {
+    if (description.imageFiles.length) {
+      this.imageFiles = description.imageFiles;
+    }
+    if (description.imageIds && description.imageIds.length) {
       this.imageIds = description.imageIds;
     }
   }

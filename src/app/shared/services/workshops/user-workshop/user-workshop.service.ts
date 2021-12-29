@@ -56,7 +56,7 @@ export class UserWorkshopService {
    */
   updateWorkshop(workshop: Workshop): Observable<object> {
     this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+    return this.isRelease2 ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
   }
 
   updateWorkshopV1(workshop: Workshop): Observable<object> {
@@ -65,7 +65,7 @@ export class UserWorkshopService {
 
   updateWorkshopV2(workshop: Workshop): Observable<object> {
     const formData = this.createFormData(workshop);
-    return this.http.post('/api/v2/Workshop/Update', formData);
+    return this.http.put('/api/v2/Workshop/Update', formData);
   }
 
   /**
@@ -78,7 +78,7 @@ export class UserWorkshopService {
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imgIds'];
+    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imageIds'];
     const imageFiles = 'imageFiles';
 
     Object.keys(workshop).forEach((key: string) => {

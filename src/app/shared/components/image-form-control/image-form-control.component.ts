@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
   selector: 'app-image-form-control',
   templateUrl: './image-form-control.component.html',
@@ -14,7 +13,6 @@ import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
   ]
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
-
   photoFormGroup: FormGroup;
   gridCols: number;
   mediumScreen = 500;
@@ -23,14 +21,18 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   decodedImages = [];
   touched = false;
   disabled = false;
+  imgUrl = `https://api.oos.dmytrominochkin.cloud/api/v1/PublicImage/`;
+  imgAmount: number = 0;
 
   @Input() imgMaxAmount: number;
+  @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
 
   constructor() { }
 
   ngOnInit(): void {
     this.onResize(window);
+    this.imageIdsFormControl.value.length && this.activateEditMode();
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -49,6 +51,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.onChange(this.selectedImages);
       }
     }
+    this.imgAmount = this.decodedImages.length;
   }
   /**
    * This methods decodes the file for its correct displaying
@@ -67,15 +70,27 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
    * This method remove already added img from the list of images
    * @param string word
    */
-  onRemoveImg(img: File): void {
+  onRemoveImg(img: File | string): void {
     this.markAsTouched();
     if (!this.disabled) {
       if (this.decodedImages.indexOf(img) >= 0) {
         this.decodedImages.splice(this.decodedImages.indexOf(img), 1);
-        this.selectedImages.splice(this.selectedImages.indexOf(img), 1);
-        this.onChange(this.selectedImages);
+        if (typeof (img) === 'string') {
+          this.imageIdsFormControl.value.splice(this.imageIdsFormControl.value.indexOf(img), 1);
+        } else {
+          this.selectedImages.splice(this.selectedImages.indexOf(img), 1);
+          this.onChange(this.selectedImages);
+        }
       }
     }
+    this.imgAmount = this.decodedImages.length;
+  }
+
+  activateEditMode(): void {
+    this.imgAmount = this.imageIdsFormControl.value.length;
+    this.imageIdsFormControl.value.forEach((imageId) => {
+      this.decodedImages.push(`${this.imgUrl + imageId}`)
+    })
   }
 
   onChange = (array: File[]): void => { }

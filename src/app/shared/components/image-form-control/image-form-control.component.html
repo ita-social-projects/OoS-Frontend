@@ -4,9 +4,9 @@
     <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{imgMaxAmount}} фото</div>
     <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px"
       (window:resize)="onResize($event.target)">
-      <mat-grid-tile class="logo_button" *ngIf="selectedImages.length < imgMaxAmount || selectedImages.length === 0">
+      <mat-grid-tile class="logo_button" *ngIf="imgAmount < imgMaxAmount || imgAmount === 0">
         <label>
-          <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">                             
+          <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">
           <mat-icon class="card_icon">add</mat-icon>
         </label>
       </mat-grid-tile>

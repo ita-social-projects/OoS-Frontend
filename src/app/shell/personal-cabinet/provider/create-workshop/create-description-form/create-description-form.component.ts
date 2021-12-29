@@ -132,8 +132,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.workshop.imageIds) {
-      this.DescriptionFormGroup.addControl('imageIds', this.formBuilder.control(''));
-      this.DescriptionFormGroup.setValue(this.workshop.imageIds);
+      this.DescriptionFormGroup.addControl('imageIds', this.formBuilder.control(this.workshop.imageIds));
     }
   }
 
