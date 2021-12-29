@@ -2,7 +2,7 @@
   <div class="main-header">
     <h3>Найпопулярніші напрямки</h3>
     <a routerLink="/all-categories" class="main_link">
-      Переглянути всі <span class="material-icons arrow">arrow_forward</span>
+      {{ isMobile ? 'Всі' : 'Переглянути всі' }} <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
   <div class="card-wrapper">
@@ -14,7 +14,7 @@
   <div class="main-header">
     <h3>Найпопулярніші гуртки</h3>
     <a routerLink="/result" class="main_link">
-      Переглянути всі <span class="material-icons arrow">arrow_forward</span>
+      {{ isMobile ? 'Всі' : 'Переглянути всі' }} <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
   <ng-container *ngIf="!(isLoadingResultPage$ | async) && !(isLoadingMetaData$ | async)">
