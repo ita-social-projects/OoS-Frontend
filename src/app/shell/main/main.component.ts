@@ -15,6 +15,7 @@ import { Favorite } from 'src/app/shared/models/favorite.model';
 import { City } from 'src/app/shared/models/city.model';
 import { Role } from 'src/app/shared/enum/role';
 import { Login } from 'src/app/shared/store/registration.actions';
+import { AppState } from 'src/app/shared/store/app.state';
 
 
 @Component({
@@ -41,14 +42,16 @@ export class MainComponent implements OnInit, OnDestroy {
   isLoadingResultPage$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
   isLoadingMetaData$: Observable<boolean>;
-
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
+  isMobile:boolean;
   constructor(private store: Store) { }
 
   getTopWorkshops(role: string): void {
     if (role === Role.parent) {
       combineLatest([this.city$, this.favoriteWorkshops$])
         .pipe(
-          filter(([city, favorit]) => (!!city && !!favorit?.length) || (favorit === null)),
+          filter(([city, favorite]) => (!!city && !!favorite?.length) || (favorite === null)),
           takeUntil(this.destroy$))
         .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
     }
@@ -69,7 +72,11 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(
         filter(role => !!role),
         takeUntil(this.destroy$))
-      .subscribe(role => this.getTopWorkshops(role))
+      .subscribe(role => this.getTopWorkshops(role));
+    
+    this.isMobileScreen$
+      .pipe(takeUntil(this.destroy$))  
+      .subscribe((isMobile) => this.isMobile = isMobile);
   }
 
   ngOnDestroy(): void {

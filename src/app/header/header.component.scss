@@ -185,6 +185,9 @@
 
 :host ::ng-deep .search {
   height: 56px;
+  @media (max-width: 750px) {
+    height: initial;
+  }
 }
 
 ::ng-deep .header_menu {

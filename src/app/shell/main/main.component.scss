@@ -82,13 +82,16 @@ app-footer {
     visibility: visible;
     position: static;
   }
-  .main_title, .main_link {
+  .main_title {
     font-size: 16px !important;
   }
-  .main-header{
+  .main-header {
     padding: 0 1rem;
     h3{
-      width: 50%;
+      font-size: 14px;
+    }
+    .main_link {
+      font-size: 13px;
     }
   }
   .card-wrapper {

@@ -1,7 +1,7 @@
 <div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
-      <div *ngIf="isMobileView && (navigationPaths$ | async)?.length > 0 then mobileNav; else logo"></div>
+      <div *ngIf="isMobile && (navigationPaths?.length > 0) then mobileNav; else logo"></div>
       <ng-template #mobileNav>
         <app-navigation-mobile-bar></app-navigation-mobile-bar>
       </ng-template>
@@ -113,7 +113,7 @@
     </mat-menu>
   </div>
 </ng-template>
-<div *ngIf="(isLoadingResultPage$ | async) || (isLoadingCabinet$ | async) || (isLoadingMetaData$ | async)"
+<div *ngIf="isLoadingResultPage || isLoadingMetaData || isLoadingCabinet"
   class="progress-bar">
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>
