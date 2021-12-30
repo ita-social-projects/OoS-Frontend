@@ -32,7 +32,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   ngOnInit(): void {
     this.onResize(window);
-    this.imageIdsFormControl.value.length && this.activateEditMode();
+    (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -87,7 +87,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   }
 
   activateEditMode(): void {
-    this.imgAmount = this.imageIdsFormControl?.value.length;
+    this.imgAmount = this.imageIdsFormControl.value.length;
     this.imageIdsFormControl.value.forEach((imageId) => {
       this.decodedImages.push(`${this.imgUrl + imageId}`)
     })
