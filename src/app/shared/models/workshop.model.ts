@@ -67,7 +67,7 @@ export class Workshop {
     if (description.imageFiles.length) {
       this.imageFiles = description.imageFiles;
     }
-    if (description.imageIds && description.imageIds.length) {
+    if (description.imageIds) {
       this.imageIds = description.imageIds;
     }
   }

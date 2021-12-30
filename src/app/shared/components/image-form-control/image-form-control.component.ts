@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-image-form-control',
   templateUrl: './image-form-control.component.html',
@@ -21,7 +22,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   decodedImages = [];
   touched = false;
   disabled = false;
-  imgUrl = `https://api.oos.dmytrominochkin.cloud/api/v1/PublicImage/`;
+  authServer: string = environment.serverUrl;
+  imgUrl = `/api/v1/PublicImage/`;
   imgAmount: number = 0;
 
   @Input() imgMaxAmount: number;
@@ -89,7 +91,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   activateEditMode(): void {
     this.imgAmount = this.imageIdsFormControl.value.length;
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(`${this.imgUrl + imageId}`)
+      this.decodedImages.push(`${this.authServer + this.imgUrl + imageId}`)
     })
   }
 
