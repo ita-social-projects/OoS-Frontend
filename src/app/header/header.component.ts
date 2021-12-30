@@ -1,9 +1,9 @@
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { delay, filter, takeUntil } from 'rxjs/operators';
 import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
@@ -21,9 +21,7 @@ import { AppState } from '../shared/store/app.state';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-
-  @Input() isMobileView: boolean;
+export class HeaderComponent implements OnInit, OnDestroy {
 
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
@@ -43,9 +41,18 @@ export class HeaderComponent implements OnInit {
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<string>;
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
+  isLoadingResultPage: boolean;
+  isLoadingCabinet: boolean;
+  isLoadingMetaData: boolean;
+  isMobile: boolean;
+  navigationPaths: Navigation[];
+
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public store: Store,
@@ -56,11 +63,27 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new SidenavToggle());
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$])
+    .pipe(takeUntil(this.destroy$), delay(0))
+    .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet]) => {
+      this.isLoadingResultPage = isLoadingResult;
+      this.isLoadingMetaData = isLoadingMeta;
+      this.isLoadingCabinet = isLoadingCabinet;
+    });
+
+    combineLatest([this.isMobileScreen$, this.navigationPaths$])
+    .pipe(takeUntil(this.destroy$), delay(0))
+    .subscribe(([isMobile, navigationPaths]) => {
+      this.isMobile = isMobile;
+      this.navigationPaths = navigationPaths;
+    })
+  
     this.store.dispatch(new CheckAuth());
 
     this.user$.pipe(
-      filter((user) => !!user)
+      filter((user) => !!user),
+      takeUntil(this.destroy$)
     )
     .subscribe(item => {
       this.userShortName = item.lastName + ' ' + (item.firstName).slice(0,1) + '.' + (item.middleName).slice(0,1) + '.';
@@ -81,5 +104,10 @@ export class HeaderComponent implements OnInit {
 
   setLanguage(): void {
     localStorage.setItem('ui-culture', this.selectedLanguage);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
