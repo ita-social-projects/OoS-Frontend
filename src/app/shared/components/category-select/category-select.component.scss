@@ -1,6 +1,8 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form.scss";
 
+@import "src/app/shared/styles/dropdown.scss";
+
 .step-label {
   margin: 0.5rem 0;
 }
@@ -16,6 +18,10 @@
 :host ::ng-deep .dropdown-option .mat-option-text {
   padding-left: 1rem !important;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::ng-deep .dropdown-panel {
+  top: 0.5rem;
 }
 
 :host ::ng-deep .mat-option {
