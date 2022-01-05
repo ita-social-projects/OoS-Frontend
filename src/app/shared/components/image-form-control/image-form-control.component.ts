@@ -60,7 +60,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     const myReader = new FileReader();
     myReader.onload = () => {
       if (this.decodedImages.length < this.imgMaxAmount) {
-        this.decodedImages.push(new DecodedImage(myReader.result, false));
+        this.decodedImages.push(new DecodedImage(myReader.result, file));
       }
     };
     return myReader.readAsDataURL(file);
@@ -73,12 +73,13 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     this.markAsTouched();
     if (!this.disabled) {
       if (this.decodedImages.indexOf(img) >= 0) {
-        this.decodedImages.splice(this.decodedImages.indexOf(img), 1);
-        if (img.isUpdate) {
-          this.imageIdsFormControl.value.splice(this.imageIdsFormControl.value.indexOf(img), 1);
-        } else {
-          this.selectedImages.splice(this.selectedImages.indexOf(img as any), 1);
+        const imageIndex = this.decodedImages.indexOf(img);
+        this.decodedImages.splice(imageIndex, 1);
+        if (img.imgFile) {
+          this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
           this.onChange(this.selectedImages);
+        } else {
+          this.imageIdsFormControl.value.splice(imageIndex, 1);
         }
       }
     }
@@ -86,7 +87,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + imageId}`, true))
+      this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + imageId}`, null))
     })
   }
 

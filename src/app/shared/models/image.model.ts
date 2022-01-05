@@ -1,10 +1,10 @@
 
 export class DecodedImage {
   image: string;
-  isUpdate: boolean
+  imgFile: File | null;
 
-  constructor(image, isUpdate) {
+  constructor(image, imgFile) {
     this.image = image;
-    this.isUpdate = isUpdate;
+    this.imgFile = imgFile;
   }
 }
