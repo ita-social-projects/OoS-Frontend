@@ -43,11 +43,10 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   onFileSelected(event): void {
     this.markAsTouched();
     if (!this.disabled) {
-      for (let i = 0; i < event.target.files.length; i++) {
-        if (this.selectedImages.length < this.imgMaxAmount) {
-          this.imageDecoder(event.target.files[i]);
-          this.selectedImages.push(event.target.files[i]);
-        }
+      const maxNewImg = this.imgMaxAmount - this.decodedImages.length;
+      for (let i = 0; i < maxNewImg; i++) {
+        this.imageDecoder(event.target.files[i]);
+        this.selectedImages.push(event.target.files[i]);
       }
       this.onChange(this.selectedImages);
     }
@@ -59,9 +58,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   imageDecoder(file: File): void {
     const myReader = new FileReader();
     myReader.onload = () => {
-      if (this.decodedImages.length < this.imgMaxAmount) {
-        this.decodedImages.push(new DecodedImage(myReader.result, file));
-      }
+      this.decodedImages.push(new DecodedImage(myReader.result, file));
     };
     return myReader.readAsDataURL(file);
   }
