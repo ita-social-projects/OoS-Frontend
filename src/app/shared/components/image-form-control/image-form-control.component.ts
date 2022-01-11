@@ -44,9 +44,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     this.markAsTouched();
     if (!this.disabled) {
       const maxNewImg = this.imgMaxAmount - this.decodedImages.length;
-      for (let i = 0; i < maxNewImg; i++) {
-        this.imageDecoder(event.target.files[i]);
-        this.selectedImages.push(event.target.files[i]);
+      for (let i = 0; i < event.target.files.length; i++) {
+        if (i < maxNewImg) {
+          this.imageDecoder(event.target.files[i]);
+          this.selectedImages.push(event.target.files[i]);
+        }
       }
       this.onChange(this.selectedImages);
     }
@@ -55,7 +57,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
    * This methods decodes the file for its correct displaying
    * @param file: File)
    */
-  imageDecoder(file: File): void {
+  imageDecoder(file: any): void {
     const myReader = new FileReader();
     myReader.onload = () => {
       this.decodedImages.push(new DecodedImage(myReader.result, file));
