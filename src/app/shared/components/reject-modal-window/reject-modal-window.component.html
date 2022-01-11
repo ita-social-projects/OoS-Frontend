@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <h2 mat-dialog-title>{{ modalTitle }}</h2>
+  <p class="confirmation"> {{ modalDescription }} 
+  </p>
+  <!-- <div *ngIf="data.type === modalConfirmationType.rate">
+    <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
+  </div> -->
+  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
+    <button class="btn" mat-button
+      [mat-dialog-close]="true"
+      cdkFocusInitial>ПІДТВЕРДИТИ</button>
+    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
+  </mat-dialog-actions>
+</div>
