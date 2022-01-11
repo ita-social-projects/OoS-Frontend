@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { environment } from 'src/environments/environment';
 interface imgPath {
   path: string;
 }
@@ -22,7 +23,8 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  imgUrl = `https://api.oos.dmytrominochkin.cloud/api/v1/PublicImage/`;
+  authServer: string = environment.serverUrl;
+  imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
   constructor() { }
@@ -33,7 +35,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
-      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.imgUrl + imgId } })
+      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } })
     } else {
       this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
     }
