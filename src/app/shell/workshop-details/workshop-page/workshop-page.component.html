@@ -26,6 +26,10 @@
           <mat-icon class="icon">home</mat-icon> {{provider.fullTitle}}
         </span>
 
+        <ng-conteiner *ngIf="(isMobileScreen$ | async)">
+          <app-actions *ngIf="role !== Role.provider" [role]="role" [workshop]="workshop"></app-actions>
+         </ng-conteiner>
+
       </div>
       <mat-tab-group class="nav">
         <mat-tab class="label" label="ПРО ГУРТОК ">

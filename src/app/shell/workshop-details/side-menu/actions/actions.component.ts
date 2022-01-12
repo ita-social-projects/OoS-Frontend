@@ -13,6 +13,7 @@ import { ShowMessageBar } from 'src/app/shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
+import { AppState } from 'src/app/shared/store/app.state';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() role: string;
+
 
   @Select(RegistrationState.role)
   role$: Observable<string>;
