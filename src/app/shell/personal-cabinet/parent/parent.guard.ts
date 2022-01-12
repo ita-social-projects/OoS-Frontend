@@ -16,6 +16,6 @@ export class ParentGuard implements CanLoad {
   constructor(public store: Store) { }
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$.pipe(filter((role: string) => !!role), map((role: string) => role === Role.parent));
+    return this.role$.pipe(filter((role: string) => role === Role.parent), map((role: string) => role === Role.parent));
   }
 }
