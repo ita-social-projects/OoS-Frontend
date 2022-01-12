@@ -11,11 +11,13 @@ export class Application {
   workshop: WorkshopCard;
   child: Child;
   parent: Parent;
+  reason: string;
 
-  constructor(child: Child, workshop: Workshop, parent: Parent) {
+  constructor(child: Child, workshop: Workshop, parent: Parent, reason?: string) {
     this.childId = child.id;
     this.workshopId = workshop.id;
     this.parentId = parent.id;
+    this.reason = reason || "";
   }
 }
 
