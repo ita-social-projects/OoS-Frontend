@@ -35,7 +35,7 @@ export class Workshop {
   logo: string;
   dateTimeRanges: DateTimeRanges[];
   imageFiles?: File[];
-  imageIds: string[]
+  imageIds?: string[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     if (id) {
@@ -64,7 +64,9 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
-    this.imageFiles = description.imageFiles;
+    if (description.imageFiles.length) {
+      this.imageFiles = description.imageFiles;
+    }
     if (description.imageIds) {
       this.imageIds = description.imageIds;
     }

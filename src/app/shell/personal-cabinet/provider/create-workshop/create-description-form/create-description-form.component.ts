@@ -130,6 +130,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     if (this.workshop.withDisabilityOptions) {
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
+
+    if (this.workshop.imageIds) {
+      this.DescriptionFormGroup.addControl('imageIds', this.formBuilder.control(this.workshop.imageIds));
+    }
   }
 
   /**
