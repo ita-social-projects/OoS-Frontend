@@ -101,25 +101,28 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
 
     this.city$
-      .pipe(takeUntil(this.destroy$), filter((city) => !!city))
-      .subscribe((city) => {
+      .pipe(takeUntil(this.destroy$), filter((city: City) => !!city))
+      .subscribe((city: City) => {
         this.defaultCoords = { lat: city.latitude, lng: city.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 
-        this.filteredWorkshops$
-        .pipe(
-          takeUntil(this.destroy$),
-        )
-        .subscribe((filteredWorkshops: WorkshopFilterCard) => {
-          this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
-          this.workshopMarkers = [];
-          if (filteredWorkshops) {
-            this.workshops = filteredWorkshops.entities;
-            filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-            this.setPrevWorkshopMarker();
-          }
-        });
+        // cheking if there are filtered workshops on the map
+        if (!!this.filteredWorkshops$) {
+          this.filteredWorkshops$
+            .pipe(
+              takeUntil(this.destroy$),
+            )
+            .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+              this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+              this.workshopMarkers = [];
+              if (filteredWorkshops) {
+                this.workshops = filteredWorkshops.entities;
+                filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+                this.setPrevWorkshopMarker();
+              }
+            });
+        }
       });
 
     // cheking if user edit workshop information
