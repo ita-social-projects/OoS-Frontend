@@ -3,7 +3,7 @@
   <p class="confirmation"> {{ modalDescription }} 
   </p>
 
-  <form [formGroup]="ReasonFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <form [formGroup]="ReasonFormGroup" fxLayout='column' class="reject-form">
   
     <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
@@ -13,15 +13,15 @@
     </div>
   </mat-form-field>
 
-    <!-- <app-validation-hint-for-input type="requiredField"
+    <app-validation-hint-for-input type="requiredField"
       [invalid]="ReasonFormGroup.get('description').invalid && ReasonFormGroup.get('description').touched">
-    </app-validation-hint-for-input> -->
+    </app-validation-hint-for-input>
   </form>
 
-  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
     <button class="btn" mat-button
       [mat-dialog-close]="ReasonFormGroup.get('description').value"
-      cdkFocusInitial>ПІДТВЕРДИТИ</button>
+      cdkFocusInitial [disabled]="ReasonFormGroup.get('description').value === ''">ПІДТВЕРДИТИ</button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>
