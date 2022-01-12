@@ -2,13 +2,26 @@
   <h2 mat-dialog-title>{{ modalTitle }}</h2>
   <p class="confirmation"> {{ modalDescription }} 
   </p>
-  <!-- <div *ngIf="data.type === modalConfirmationType.rate">
-    <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
-  </div> -->
+
+  <form [formGroup]="ReasonFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  
+    <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
+  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
+    <div class="wrapper-border">
+      <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+        formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+    </div>
+  </mat-form-field>
+
+    <!-- <app-validation-hint-for-input type="requiredField"
+      [invalid]="ReasonFormGroup.get('description').invalid && ReasonFormGroup.get('description').touched">
+    </app-validation-hint-for-input> -->
+  </form>
+
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
     <button class="btn" mat-button
-      [mat-dialog-close]="true"
+      [mat-dialog-close]="ReasonFormGroup.get('description').value"
       cdkFocusInitial>ПІДТВЕРДИТИ</button>
-    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
+    <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>
