@@ -11,22 +11,23 @@ export class Application {
   workshop: WorkshopCard;
   child: Child;
   parent: Parent;
-  reason: string;
+  rejectionMessage: string
 
-  constructor(child: Child, workshop: Workshop, parent: Parent, reason?: string) {
+  constructor(child: Child, workshop: Workshop, parent: Parent) {
     this.childId = child.id;
     this.workshopId = workshop.id;
     this.parentId = parent.id;
-    this.reason = reason || "";
   }
 }
 
 export class ApplicationUpdate {
   id: string;
   status: string;
+  rejectionMessage: string
 
-  constructor(id, status) {
+  constructor(id, status, rejectionMessage?) {
     this.id = id;
     this.status = status;
+    this.rejectionMessage = rejectionMessage
   }
 }
