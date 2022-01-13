@@ -65,14 +65,6 @@ export class ApplicationCardComponent implements OnInit {
   }
 
   /**
-   * This method emit on deny action
-   * @param Application application
-   */
-  // onReject(application: Application): void {
-  //   this.rejected.emit(application);
-  // }
-
-  /**
    * This method emit reject Application
    * @param Application application
    */
