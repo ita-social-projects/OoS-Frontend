@@ -33,7 +33,7 @@
 
   <label class="step-label"> Повна назва організації <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="fullTitle">
+    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('fullTitle').invalid && InfoFormGroup.get('fullTitle').touched">
@@ -41,7 +41,7 @@
 
   <label class="step-label"> Скорочена назва організації <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="shortTitle">
+    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('shortTitle').invalid && InfoFormGroup.get('shortTitle').touched">
@@ -49,7 +49,7 @@
 
   <label class="step-label"> ПІБ керівника <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="director">
+    <input matInput class="step-input" type="text" formControlName="director" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="InfoFormGroup.get('director').errors?.required"
@@ -74,7 +74,8 @@
   <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}} <span
       class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" maxlength="10" appDigitOnly formControlName="edrpouIpn">
+    <input matInput class="step-input" type="text" maxlength="10" appDigitOnly formControlName="edrpouIpn"
+      autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="InfoFormGroup.get('edrpouIpn').errors?.required"
@@ -119,22 +120,22 @@
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website">
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none">
   </mat-form-field>
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook">
+    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none">
   </mat-form-field>
 
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram">
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none">
   </mat-form-field>
 
   <label class="step-label">Засновник<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="founder">
+    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="InfoFormGroup.get('founder').errors?.required"
