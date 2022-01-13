@@ -25,7 +25,7 @@ export class ApplicationUpdate {
   status: string;
   rejectionMessage: string
 
-  constructor(id, status, rejectionMessage?) {
+  constructor(id: string, status: string, rejectionMessage?: string) {
     this.id = id;
     this.status = status;
     this.rejectionMessage = rejectionMessage
