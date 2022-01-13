@@ -6,14 +6,8 @@ import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
-
-
 import { MatDialog } from '@angular/material/dialog';
-// import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
-// import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-// import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Select, Store } from '@ngxs/store';
 import { FormControl, FormGroup } from '@angular/forms';
 
 
@@ -36,7 +30,6 @@ export class ApplicationCardComponent implements OnInit {
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
   ReasonFormGroup: FormGroup;
-  reason: string;
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -48,7 +41,6 @@ export class ApplicationCardComponent implements OnInit {
 
   constructor(
     private detectedDevice: DetectedDeviceService,
-    private store: Store,
     private matDialog: MatDialog
     ) {}
 
@@ -79,6 +71,25 @@ export class ApplicationCardComponent implements OnInit {
   // onReject(application: Application): void {
   //   this.rejected.emit(application);
   // }
+
+  /**
+   * This method emit reject Application
+   * @param Application application
+   */
+    onReject(application: Application): void {
+    const dialogRef = this.matDialog.open(RejectModalWindowComponent, {
+      width: '330px',
+      data: {
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if(result) {
+        application.rejectionMessage = result;
+        this.rejected.emit(application);
+      }
+    });
+  }
 
   /**
    * This method emit on deny action
@@ -112,30 +123,5 @@ export class ApplicationCardComponent implements OnInit {
     this.infoHide.emit();
     this.deviceToogle && document.removeEventListener('click', this.onClick.bind(this));
   }
-
-    /**
-   * This method receives a form from reject-modal-window child component and assigns to the Reason
-   * @param FormGroup form
-   */
-    //  onReceiveReasonFormGroup(form: FormGroup): void {
-    //   this.ReasonFormGroup = form;
-    // }
-
-    /**
-   * This method reject Application
-   */
-     onReject(application: Application): void {
-      const dialogRef = this.matDialog.open(RejectModalWindowComponent, {
-        width: '330px',
-        data: {
-          test: this.reason
-        }
-      });
-  
-      dialogRef.afterClosed().subscribe((result: string) => {        
-          application.reason = result;
-          this.rejected.emit(application);        
-      });
-    }
 
 }
