@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RejectModalWindowComponent } from './reject-modal-window.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
@@ -23,7 +23,10 @@ describe('RejectModalWindowComponent', () => {
       declarations: [ 
         RejectModalWindowComponent,
         MockValidationHintForInputComponent
-       ]
+       ],
+      providers: [
+        { provide: MatDialog, MatDialogRef, useValue: {} }
+      ]
     })
     .compileComponents();
   });
@@ -31,6 +34,11 @@ describe('RejectModalWindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RejectModalWindowComponent);
     component = fixture.componentInstance;
+    component.ReasonFormGroup = new FormGroup({
+      description: new FormControl({value: 'Reason', disabled: true}, Validators.required)
+    });
+    component.modalTitle = 'ВІДМОВИТИ';
+    component.modalDescription = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?';
     fixture.detectChanges();
   });
 
