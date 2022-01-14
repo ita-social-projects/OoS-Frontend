@@ -88,7 +88,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   /**
-   * This method receives a from from create-address child component and assigns to the Address FormGroup
+   * This method receives a form from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
    */
   onReceiveAddressFormGroup(form: FormGroup): void {
@@ -106,7 +106,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   /**
-   * This method receives  a from from create-about child component and assigns to the About FormGroup
+   * This method receives  a from form create-about child component and assigns to the About FormGroup
    * @param FormGroup form
    */
   onReceiveAboutFormGroup(form: FormGroup): void {

@@ -27,7 +27,7 @@ export class CreateAddressComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       latitude: new FormControl(''),
