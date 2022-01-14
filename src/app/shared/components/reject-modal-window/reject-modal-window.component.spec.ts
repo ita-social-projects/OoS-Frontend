@@ -25,9 +25,8 @@ describe('RejectModalWindowComponent', () => {
         MockValidationHintForInputComponent
        ],
       providers: [
-        {provide: MatDialogRef, useValue: {}},
+        {provide: MatDialogRef, close: (dialogResult: any) => { }},
         {provide: MatDialog, useValue: {}},
-
       ]
     })
     .compileComponents();
