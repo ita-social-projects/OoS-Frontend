@@ -9,7 +9,7 @@
 
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title">
+    <input matInput class="step-input" type="text" formControlName="title" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched">
@@ -43,15 +43,15 @@
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website">
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none">
   </mat-form-field>
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook">
+    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none">
   </mat-form-field>
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram">
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none">
   </mat-form-field>
   <div class="border-bottom"></div>
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
@@ -62,7 +62,8 @@
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly
             maxlength="2" appMinMax [directiveFormControl]="AboutFormGroup.get('minAge')" [min]="constants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : constants.AGE_MAX">
+            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : constants.AGE_MAX"
+            autocomplete="none">
         </mat-form-field>
       </div>
       <app-validation-hint-for-input type="requiredField"
@@ -75,8 +76,9 @@
         <p class="step-text">До</p>
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly
-            maxlength="2" [directiveFormControl]="AboutFormGroup.get('maxAge')" appMinMax [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : constants.AGE_MIN"
-            [max]="constants.AGE_MAX">
+            maxlength="2" [directiveFormControl]="AboutFormGroup.get('maxAge')" appMinMax
+            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : constants.AGE_MIN"
+            [max]="constants.AGE_MAX" autocomplete="none">
         </mat-form-field>
 
       </div>
@@ -94,8 +96,6 @@
       <app-working-hours-form [workingHoursForm]="form" [workingHoursAmount]="workingHoursFormArray.controls.length"
         [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkingHour)="deleteWorkingHour(form)">
       </app-working-hours-form>
-      <app-validation-hint-for-input type="requiredField" [invalid]="form.invalid && form.touched">
-      </app-validation-hint-for-input>
     </div>
 
 

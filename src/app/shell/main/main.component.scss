@@ -11,6 +11,7 @@
     position: relative;
     height: 125px;
     margin-top: 4rem;
+    margin-bottom: 4rem;
     &::before {
       content: "";
       display: block;
@@ -66,6 +67,7 @@ app-footer {
   .main_registration {
     padding: 20px;
     height: inherit;
+    margin: 24px 16px;
     display: block !important;
 
     .main_button-wrapper {
@@ -80,13 +82,31 @@ app-footer {
     visibility: visible;
     position: static;
   }
-  .main_title, .main_link {
+  .main_title {
     font-size: 16px !important;
   }
-  .main-header{
+  .main-header {
     padding: 0 1rem;
     h3{
-      width: 50%;
+      font-size: 14px;
+    }
+    .main_link {
+      font-size: 13px;
     }
   }
+  .card-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    .card {
+      margin-right: 8px;
+      scroll-snap-align: center;
+    }
+  }
+  
 }

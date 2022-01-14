@@ -59,6 +59,7 @@ class MockCreateAboutFormComponent {
 })
 class MockCreateDescriptionFormComponent {
   @Input() workshop: Workshop;
+  @Input() isRelease2: boolean;
 }
 
 @Component({

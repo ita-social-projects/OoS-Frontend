@@ -29,8 +29,8 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
   userEditFormGroup: FormGroup;
 
   constructor(
-    private fb: FormBuilder, 
-    private store: Store, 
+    private fb: FormBuilder,
+    private store: Store,
     private navigationBarService: NavigationBarService) {
 
     this.userEditFormGroup = this.fb.group({
@@ -52,7 +52,8 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
         NavBarName.PersonalCabinetTechAdmin :
         NavBarName.PersonalCabinetParent,
         path: '/personal-cabinet/config',
-        isActive: false, disable: false },
+        isActive: false, disable: false
+      },
       { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
     )));
   }

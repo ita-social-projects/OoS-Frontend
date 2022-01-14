@@ -37,7 +37,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isMainPage: boolean;
   @Input() application: Application;
   @Input() isHorizontalView = false;
-  @Input() isCreateApplicationView = true;
+  @Input() isCreateApplicationView = false;
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
     this.pendingApplicationAmount = applications.filter((application: Application) => application.workshopId === this.workshop.workshopId).length;

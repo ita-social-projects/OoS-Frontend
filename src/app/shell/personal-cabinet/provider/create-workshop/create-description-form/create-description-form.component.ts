@@ -12,12 +12,12 @@ import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
-
   readonly constants: typeof Constants = Constants;
 
   isDirectionIdMarked = false;
 
   @Input() workshop: Workshop;
+  @Input() isRelease2: boolean;
 
   @Output() passDescriptionFormGroup = new EventEmitter();
 
@@ -38,7 +38,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
-      image: new FormControl(''),
+      imageFiles: new FormControl(''),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
@@ -130,8 +130,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     if (this.workshop.withDisabilityOptions) {
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
+
+    if (this.workshop.imageIds) {
+      this.DescriptionFormGroup.addControl('imageIds', this.formBuilder.control(this.workshop.imageIds));
+    }
   }
-  
+
   /**
    * This method puts keyWordsInput field in focus
    */

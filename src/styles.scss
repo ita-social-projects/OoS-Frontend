@@ -126,6 +126,9 @@ $config: mat-typography-config(
   background-color: #E0E0E0;
   border-radius: 5px;
 }
+.mobile-sidenav ::-webkit-scrollbar {
+  display: none;
+}
 
 .dropdownOption {
   margin-top: 35px;

@@ -113,7 +113,7 @@ export class MetaDataState {
   static rating(state: MetaDataStateModel): Rate[] { return state.rating; }
 
   @Selector()
-  static featuresList (state: MetaDataStateModel): FeaturesList { return state.featuresList; }
+  static featuresList(state: MetaDataStateModel): FeaturesList { return state.featuresList; }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -122,7 +122,7 @@ export class MetaDataState {
     private cityService: CityService,
     private ratingService: RatingService,
     private featureManagementService: FeatureManagementService) { }
-    
+
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
     patchState({ isLoading: true })
@@ -237,7 +237,7 @@ export class MetaDataState {
     return this.featureManagementService
       .getFeaturesList()
       .pipe(
-        tap((featuresList: FeaturesList) => patchState({ featuresList: featuresList })
+        tap((featuresList: FeaturesList) => patchState({ featuresList: { release1: true, release2: true, release3: false } })
         ))
   }
 

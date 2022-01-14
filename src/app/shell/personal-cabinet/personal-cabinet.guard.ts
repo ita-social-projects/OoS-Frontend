@@ -17,6 +17,6 @@ export class PersonalCabinetGuard implements CanLoad {
   role$: Observable<string>;
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$.pipe(filter((role: string) => !!role), map((role: string) => (role !== Role.unauthorized)));
+    return this.role$.pipe(filter((role: string) => role !== Role.unauthorized), map((role: string) => (role !== Role.unauthorized)));
   }
 }

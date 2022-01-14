@@ -15,6 +15,7 @@ import { ContactsComponent } from './side-menu/contacts/contacts.component';
 import { ScheduleComponent } from './side-menu/schedule/schedule.component';
 import { AllProviderWorkshopsComponent } from './workshop-page/all-provider-workshops/all-provider-workshops.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     MaterialModule,
     RouterModule,
+    IvyCarouselModule
   ],
   providers: [
   ]

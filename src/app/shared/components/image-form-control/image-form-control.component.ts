@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { DecodedImage } from '../../models/image.model';
 @Component({
   selector: 'app-image-form-control',
   templateUrl: './image-form-control.component.html',
@@ -13,24 +14,27 @@ import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class ImageFormControlComponent implements OnInit {
-
+export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
   photoFormGroup: FormGroup;
   gridCols: number;
   mediumScreen = 500;
   smallScreen = 366;
   selectedImages: File[] = [];
-  decodedImages = [];
+  decodedImages: DecodedImage[] = [];
   touched = false;
   disabled = false;
+  authServer: string = environment.serverUrl;
+  imgUrl = `/api/v1/PublicImage/`;
 
   @Input() imgMaxAmount: number;
+  @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
 
   constructor() { }
 
   ngOnInit(): void {
     this.onResize(window);
+    (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -39,27 +43,24 @@ export class ImageFormControlComponent implements OnInit {
   onFileSelected(event): void {
     this.markAsTouched();
     if (!this.disabled) {
-      if (typeof event.target.files[0].name === 'string') {
-        for (let i = 0; i < event.target.files.length; i++) {
-          if (this.selectedImages.length < this.imgMaxAmount) {
-            this.imageDecoder(event.target.files[i]);
-            this.selectedImages.push(event.target.files[i]);
-          }
+      const maxNewImg = this.imgMaxAmount - this.decodedImages.length;
+      for (let i = 0; i < event.target.files.length; i++) {
+        if (i < maxNewImg) {
+          this.imageDecoder(event.target.files[i]);
+          this.selectedImages.push(event.target.files[i]);
         }
-        this.onChange(this.selectedImages);
       }
+      this.onChange(this.selectedImages);
     }
   }
   /**
    * This methods decodes the file for its correct displaying
    * @param file: File)
    */
-  imageDecoder(file: File): void {
+  imageDecoder(file: any): void {
     const myReader = new FileReader();
     myReader.onload = () => {
-      if (this.decodedImages.length < this.imgMaxAmount) {
-        this.decodedImages.push(myReader.result);
-      }
+      this.decodedImages.push(new DecodedImage(myReader.result, file));
     };
     return myReader.readAsDataURL(file);
   }
@@ -67,15 +68,26 @@ export class ImageFormControlComponent implements OnInit {
    * This method remove already added img from the list of images
    * @param string word
    */
-  onRemoveImg(img: File): void {
+  onRemoveImg(img: DecodedImage): void {
     this.markAsTouched();
     if (!this.disabled) {
       if (this.decodedImages.indexOf(img) >= 0) {
-        this.decodedImages.splice(this.decodedImages.indexOf(img), 1);
-        this.selectedImages.splice(this.selectedImages.indexOf(img), 1);
-        this.onChange(this.selectedImages);
+        const imageIndex = this.decodedImages.indexOf(img);
+        this.decodedImages.splice(imageIndex, 1);
+        if (img.imgFile) {
+          this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
+          this.onChange(this.selectedImages);
+        } else {
+          this.imageIdsFormControl.value.splice(imageIndex, 1);
+        }
       }
     }
+  }
+
+  activateEditMode(): void {
+    this.imageIdsFormControl.value.forEach((imageId) => {
+      this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + imageId}`, null))
+    })
   }
 
   onChange = (array: File[]): void => { }

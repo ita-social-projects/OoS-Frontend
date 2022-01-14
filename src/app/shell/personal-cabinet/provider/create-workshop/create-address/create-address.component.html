@@ -1,7 +1,7 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city"
-    [className]="'create-form'" class="city-autocomplete">
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city" [className]="'create-form'"
+    class="city-autocomplete">
   </app-city-autocomplete>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="AddressFormGroup.get('city').invalid && AddressFormGroup.get('city').touched">
@@ -9,20 +9,20 @@
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street">
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="AddressFormGroup.get('street').errors?.required"
     [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched">
   </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
+  <app-validation-hint-for-input type="validAddressField"
     [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched"
     [forbiddenCharacter]="AddressFormGroup.get('street').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber">
+    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="AddressFormGroup.get('buildingNumber').errors?.required"

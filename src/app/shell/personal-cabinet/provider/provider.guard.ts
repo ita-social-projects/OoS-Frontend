@@ -16,6 +16,6 @@ export class ProviderGuard implements CanLoad {
   constructor(public store: Store) { }
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$.pipe(filter((role: string) => !!role), map((role: string) => role === Role.provider));
+    return this.role$.pipe(filter((role: string) => role === Role.provider), map((role: string) => role === Role.provider));
   }
 }

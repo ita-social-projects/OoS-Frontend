@@ -4,8 +4,9 @@
     </ng-container>
 
     <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
-      <div class="card-img" fxLayout="row" fxLayoutAlign="center">
-        <img class="card-image" mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
+      <div [ngClass]="isCreateApplicationView ? 'card-img card-img-full card-img-mobile': 'card-img card-img-full'"
+        fxLayout="row" fxLayoutAlign="center">
+        <img mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop?.title}}">
       </div>
       <div class="wrap-for-details">
         <mat-card-header>
@@ -20,7 +21,7 @@
 
         </mat-card-content>
 
-        <mat-card-footer *ngIf="isCreateApplicationView" class="card-footer">
+        <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
           <a class="more-details" [routerLink]="['/workshop-details',workshop.workshopId ]">
             <span class="card_link">Детальніше</span>
             <mat-icon>arrow_forward</mat-icon>
@@ -82,15 +83,14 @@
       (click)="onWorkshopLeave()">Залишити гурток
     </p>
   </div>
-  
+
   <p class="card_text">
     <mat-icon class="card_icon">star</mat-icon> {{ workshop.rating }}
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">home</mat-icon>
-    <p class="card_text_label" [matTooltip]="workshop.providerTitle" 
-      showTooltipIfTruncated matTooltipClass="tooltip"
-      [matTooltipPosition]="below">{{ workshop.providerTitle }}</p>  
+    <p class="card_text_label" [matTooltip]="workshop.providerTitle" showTooltipIfTruncated matTooltipClass="tooltip"
+      [matTooltipPosition]="below">{{ workshop.providerTitle }}</p>
   </div>
   <p class="card_text" [ngClass]="isCreateApplicationView ? 'hide': ''">
     <mat-icon class="card_icon">person</mat-icon>{{ workshop.minAge }} - {{ workshop.maxAge }} років
@@ -106,9 +106,8 @@
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>
     <p class="card_text_label" [matTooltip]="workshop.address.city + ', ' + workshop.address.street + ', ' +
-      workshop.address.buildingNumber" 
-      showTooltipIfTruncated matTooltipClass="tooltip"
-      [matTooltipPosition]="below">{{workshop.address.city}},
+      workshop.address.buildingNumber" showTooltipIfTruncated matTooltipClass="tooltip" [matTooltipPosition]="below">
+      {{workshop.address.city}},
       {{workshop.address.street}}, {{workshop.address.buildingNumber}}</p>
   </div>
 </ng-template>
