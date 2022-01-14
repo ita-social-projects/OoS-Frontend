@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RejectModalWindowComponent } from './reject-modal-window.component';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
@@ -25,7 +25,9 @@ describe('RejectModalWindowComponent', () => {
         MockValidationHintForInputComponent
        ],
       providers: [
-        { provide: MatDialog, MatDialogRef, useValue: {} }
+        {provide: MatDialogRef, useValue: {}},
+        {provide: MatDialog, useValue: {}},
+
       ]
     })
     .compileComponents();
