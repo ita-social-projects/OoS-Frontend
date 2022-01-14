@@ -7,12 +7,16 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
+import { SupportFormComponent } from './support-edit/support-form/support-form.component';
+import { CreateDirectionComponent } from './create-direction/create-direction.component';
 
 @NgModule({
   declarations: [
     AboutEditComponent,
     SupportEditComponent,
-    AboutFormComponent 
+    AboutFormComponent,
+    SupportFormComponent,
+    CreateDirectionComponent 
   ],
   imports: [
     CommonModule,

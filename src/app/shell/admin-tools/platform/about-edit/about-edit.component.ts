@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil, takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { AboutPortal } from 'src/app/shared/models/aboutPortal.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { UpdateInfoAboutPortal } from 'src/app/shared/store/admin.actions';
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
@@ -22,16 +25,30 @@ export class AboutEditComponent implements OnInit, OnDestroy {
 
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
+
+  @Select(AdminState.aboutPortal)
+  aboutPortal$: Observable<AboutPortal>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  infoAboutPortal: AboutPortal;
+  isInfoAboutPortal: boolean;
   isPristine = true;
 
   constructor(
     private fb: FormBuilder, 
     private store: Store, 
-    private navigationBarService: NavigationBarService) {
-      this.AboutFormArray.push(this.newForm());
-    }
+    private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
+    this.aboutPortal$
+    .pipe(
+      filter((aboutPortal: AboutPortal) => !!aboutPortal),
+      takeUntil(this.destroy$),
+    ).subscribe((aboutPortal: AboutPortal) => {
+        this.infoAboutPortal = aboutPortal;
+        (this.infoAboutPortal) ? this.AboutFormArray.push(this.newForm(this.infoAboutPortal)) : this.AboutFormArray.push(this.newForm());
+      });
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: NavBarName.AdminTools, isActive: false, disable: false },
       { name: NavBarName.Platform, isActive: false, disable: false },
@@ -42,7 +59,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(): FormGroup {
+  private newForm(aboutPortal?: AboutPortal): FormGroup {
     const aboutEditFormGroup = this.fb.group({
       image: new FormControl(''),
       title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
@@ -57,6 +74,9 @@ export class AboutEditComponent implements OnInit, OnDestroy {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
       });
+
+      aboutPortal && aboutEditFormGroup.patchValue(aboutPortal, { emitEvent: false });
+
       return aboutEditFormGroup;
   }
 
@@ -78,6 +98,11 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.AboutFormArray.invalid) {
       this.checkValidationAboutFormArray();
+    } else {
+      this.AboutFormArray.controls.forEach((form: FormGroup) => {
+        const aboutPortal: AboutPortal = new AboutPortal(form.value);
+        this.store.dispatch(new UpdateInfoAboutPortal(aboutPortal));
+      });
     }
   }
 
@@ -101,6 +126,8 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
     this.store.dispatch(new DeleteNavPath());
   }
 }

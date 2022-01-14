@@ -39,8 +39,13 @@
     <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
     <mat-tab label="{{adminTabsUkr.directions}}"> 
       <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <app-full-search-bar class="search-bar"></app-full-search-bar>
-        <a [routerLink]=""><button class="btn" mat-raised-button>Додати напрямок</button></a>
+        <div class="search shadow">
+          <mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
+            <input type="text" maxlength="200" matInput placeholder="Введіть назву напрямку">
+            <mat-icon class="icon" style="transform: rotate(90deg)">search</mat-icon>
+          </mat-form-field>
+        </div>
+        <a routerLink="./create"><button class="btn" mat-raised-button>Додати напрямок</button></a>
       </div>
       <div class="card-wrapper">
         <app-category-card class="card" *ngFor="let direction of directions$ | async" [direction]="direction"

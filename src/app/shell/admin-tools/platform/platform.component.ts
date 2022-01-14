@@ -6,9 +6,9 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { Direction } from 'src/app/shared/models/category.model';
+import { GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { NavigationState } from 'src/app/shared/store/navigation.state';
 
 @Component({
   selector: 'app-platform',
@@ -33,7 +33,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
-
+    this.store.dispatch(new GetInfoAboutPortal());
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe((params: Params) => this.tabIndex = +this.adminTabs[params.index])
@@ -41,8 +41,8 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
     this.router.navigate([`admin-tools/platform/${this.adminTabs[event.index]}`]);
-   }
-
+  }
+  
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

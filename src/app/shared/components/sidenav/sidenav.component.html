@@ -77,15 +77,24 @@
         <hr class="hr-grey">
 
         <div class="mobile-sidenav-menu">
-          <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
-          <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'" (click)="changeView()">Інформація про
-            {{roles[(user$ | async).role]}}</a>
-          <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
-          <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
-          <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
-          <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
-            (click)="changeView()">Улюблене</a>
-          <button (click)="logout()">Вийти</button>
+          <ng-container *ngIf="((user$ | async)?.role !== Role.techAdmin)">
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
+            <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'" (click)="changeView()">Інформація про
+              {{roles[(user$ | async).role]}}</a>
+            <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
+            <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
+            <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
+            <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
+              (click)="changeView()">Улюблене</a>
+            <button (click)="logout()">Вийти</button>
+          </ng-container>
+          <ng-container *ngIf="((user$ | async)?.role === Role.techAdmin)">
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста інформація</a>
+            <a [routerLink]="'./admin-tools/platform/about'" (click)="changeView()">Адміністрування</a>
+            <a (click)="changeView()">Налаштування</a>
+            <button (click)="logout()">Вийти</button>
+          </ng-container>
+
         </div>
       </div>
     </ng-template>
@@ -97,8 +106,16 @@
     <div class="mobile-sidenav-info">
       <a [routerLink]="''" (click)="changeView()">Головна</a>
     </div>
-
-    <hr class="hr-grey">
+    <ng-container *ngIf="((user$ | async)?.role === Role.techAdmin)">
+      <hr class="hr-grey">
+      <div class="mobile-sidenav-info">
+        <a (click)="changeView()">Нормативно-правові акти</a>
+      </div>
+      <hr class="hr-grey">
+      <div class="mobile-sidenav-info">
+        <a [routerLink]="'./info/support'" (click)="changeView()">Підтримка</a>
+      </div>
+    </ng-container>
   </div>
 
 </mat-drawer>

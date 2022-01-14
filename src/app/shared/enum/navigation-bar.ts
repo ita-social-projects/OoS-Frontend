@@ -8,6 +8,7 @@ export enum NavBarName {
   AdminTools = 'Адміністрування',
   About = 'Про портал',
   Support = 'Підтримка',
+  Direction = 'Напрямок',
   RequestOnWorkshop = 'Заява на гурток',
   PersonalInformation = 'Особиста інформація',
   InformationAboutChild = 'Інформація про дитину',

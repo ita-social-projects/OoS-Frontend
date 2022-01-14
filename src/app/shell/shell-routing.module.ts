@@ -22,6 +22,7 @@ import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
 import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
+import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'admin-tools/platform/support/edit',
     component: SupportEditComponent
+  },
+  {
+    path: 'admin-tools/platform/directions/create',
+    component: CreateDirectionComponent
   },
   {
     path: 'workshop-details/:id', component: WorkshopDetailsComponent,
