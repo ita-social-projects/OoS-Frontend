@@ -3,12 +3,12 @@
   <p class="confirmation"> {{ modalDescription }} 
   </p>
 
-  <form [formGroup]="ReasonFormGroup" fxLayout='column' class="reject-form">
+  <form [formGroup]="ReasonFormGroup" fxLayout="column" class="reject-form">
   
     <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-      <div class="wrapper-border">
-        <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+      <div [ngClass]="(ReasonFormGroup.get('description').invalid && ReasonFormGroup.get('description').touched) ? 'redBorder' : '' " class="wrapper-border">
+        <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
           formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
       </div>
     </mat-form-field>
