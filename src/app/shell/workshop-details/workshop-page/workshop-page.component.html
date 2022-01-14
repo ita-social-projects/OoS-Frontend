@@ -2,12 +2,14 @@
 
 <ng-template #WorkshopDetails>
   <div class="container">
-    <carousel class="carousel" [images]="images" [cellWidth]="'100%'" [height]="300" [autoplay]="false" [dots]="true"
+    <ng-conteiner *ngIf="(isMobileScreen$ | async)">
+      <app-actions *ngIf="role !== Role.provider" [role]="role" [workshop]="workshop"></app-actions>
+    </ng-conteiner>
+     <carousel class="carousel" [images]="images" [cellWidth]="'100%'" [height]="300" [autoplay]="false" [dots]="true"
       [loop]="images.length > 1" objectFit="'contain'" [arrows]="images.length > 1" [dots]="images.length > 1"
       cellsToShow="1">
     </carousel>
     <div class="workshop-wrapper">
-
       <div fxLayout="column" fxLayoutAlign="space-between space-between">
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
@@ -16,8 +18,7 @@
           <div>
             <img class="workshop-icon" [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
           </div>
-        </div>
-
+        </div> 
         <span class="icon-text">
           <mat-icon class="icon">star</mat-icon>
           {{workshop.rating}}
@@ -25,11 +26,6 @@
         <span class="icon-text">
           <mat-icon class="icon">home</mat-icon> {{provider.fullTitle}}
         </span>
-
-        <ng-conteiner *ngIf="(isMobileScreen$ | async)">
-          <app-actions *ngIf="role !== Role.provider" [role]="role" [workshop]="workshop"></app-actions>
-         </ng-conteiner>
-
       </div>
       <mat-tab-group class="nav">
         <mat-tab class="label" label="ПРО ГУРТОК ">

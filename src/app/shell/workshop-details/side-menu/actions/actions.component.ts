@@ -29,7 +29,6 @@ export class ActionsComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
   @Input() role: string;
 
-
   @Select(RegistrationState.role)
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
