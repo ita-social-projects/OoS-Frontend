@@ -15,6 +15,8 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   directionFormGroup: FormGroup;
 
+  editMode = false;
+
   isActiveDirectionInfoButton = false;
   isActiveSectionInfoButton = false;
   isActiveClassInfoButton = false;

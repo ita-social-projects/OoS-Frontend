@@ -1,7 +1,7 @@
 <div class="create-form">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">ДОДАТИ НАПРЯМОК</h3>
+      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} НАПРЯМОК</h3>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">

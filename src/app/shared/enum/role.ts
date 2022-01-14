@@ -2,7 +2,7 @@ export enum Role {
   provider = 'provider',
   parent = 'parent',
   unauthorized = 'unauthorized',
-  techAdmin = 'tech-admin'
+  techAdmin = 'admin'
 }
 
 export enum cardType {

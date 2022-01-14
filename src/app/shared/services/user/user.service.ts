@@ -14,14 +14,7 @@ export class UserService {
    * @return object of type User
    */
   getUserById(id): Observable<User> {
-    //return this.http.get<User>(`/api/v1/User/GetUserById/${id}`);
-    /** !!Here we make each user role as a tech-admin
-     *  !!But we need to change this function to get actual data from backend
-    */
-    return this.http.get<User>(`/api/v1/User/GetUserById/${id}`).pipe(map((response) => {
-      response.role = 'tech-admin';
-      return response;
-    }));
+    return this.http.get<User>(`/api/v1/User/GetUserById/${id}`);
   }
 
   /**
