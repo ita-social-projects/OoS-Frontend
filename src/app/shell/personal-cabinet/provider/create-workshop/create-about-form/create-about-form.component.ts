@@ -45,7 +45,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       website: new FormControl(''),
       facebook: new FormControl(''),
       instagram: new FormControl(''),
-      price: new FormControl({ value: this.constants.MIN_PRICE, disabled: true }, [Validators.required]),
+      price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       isPerMonth: new FormControl(false),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to teh second release
@@ -70,8 +70,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ).subscribe((isPrice: boolean) => {
         if (isPrice) {
           this.AboutFormGroup.get('price').enable();
-        } else {
           this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
+        } else {
+          this.AboutFormGroup.get('price').setValue(0);
           this.AboutFormGroup.get('price').disable();
         }
       });
