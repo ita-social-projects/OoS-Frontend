@@ -6,6 +6,8 @@ import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angu
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 describe('RejectModalWindowComponent', () => {
   let component: RejectModalWindowComponent;
@@ -18,15 +20,15 @@ describe('RejectModalWindowComponent', () => {
         ReactiveFormsModule,
         MatDialogModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        BrowserAnimationsModule
       ],
       declarations: [ 
         RejectModalWindowComponent,
         MockValidationHintForInputComponent
        ],
       providers: [
-        {provide: MatDialogRef, close: (dialogResult: any) => { }},
-        {provide: MatDialog, useValue: {}},
+        {provide: MatDialogRef, close: (dialogResult: any) => { }}
       ]
     })
     .compileComponents();
@@ -38,10 +40,14 @@ describe('RejectModalWindowComponent', () => {
     component.ReasonFormGroup = new FormGroup({
       description: new FormControl({value: 'Reason', disabled: true}, Validators.required)
     });
-    component.modalTitle = 'ВІДМОВИТИ';
-    component.modalDescription = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?';
+    component.modalTitle = '';
+    component.modalDescription = '';
     fixture.detectChanges();
   });
+
+  it("renders without crashing", () => {
+    window.scrollTo = jest.fn()
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
