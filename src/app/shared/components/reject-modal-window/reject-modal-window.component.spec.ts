@@ -28,7 +28,8 @@ describe('RejectModalWindowComponent', () => {
         MockValidationHintForInputComponent
        ],
       providers: [
-        {provide: MatDialogRef, close: (dialogResult: any) => { }}
+        {provide: MatDialogRef, close: (dialogResult: any) => { }},
+        {provide: MatDialog, useValue: {}}
       ]
     })
     .compileComponents();
@@ -46,7 +47,7 @@ describe('RejectModalWindowComponent', () => {
   });
 
   it("renders without crashing", () => {
-    window.scrollTo = jest.fn()
+    global.scrollTo = jest.fn()
   })
 
   it('should create', () => {
