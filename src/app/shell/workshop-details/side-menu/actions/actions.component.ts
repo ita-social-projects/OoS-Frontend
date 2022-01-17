@@ -11,7 +11,7 @@ import { Favorite } from 'src/app/shared/models/favorite.model';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'src/app/shared/store/user.actions';
 import { ShowMessageBar } from 'src/app/shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
 import { AppState } from 'src/app/shared/store/app.state';
 
@@ -28,6 +28,9 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() role: string;
+  @Input() isMobileScreen$: Observable<boolean>;
+  isMobileScreen: boolean;
+
 
   @Select(RegistrationState.role)
   role$: Observable<string>;
@@ -42,6 +45,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.isMobileScreen$.pipe(filter((isMobileScreen: boolean) => !!isMobileScreen, map((isMobileScreen: boolean) => this.isMobileScreen = isMobileScreen)));
     this.role$
       .pipe(takeUntil(this.destroy$))
       .subscribe(role => this.role = role);

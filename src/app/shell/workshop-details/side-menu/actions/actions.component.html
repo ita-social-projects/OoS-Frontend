@@ -1,4 +1,4 @@
-<div class="container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap='0.8rem'>
+<div [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap='0.8rem'>
   <h4 class="card-title" *ngIf="workshop.price"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття'
     }} </h4>
   <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
