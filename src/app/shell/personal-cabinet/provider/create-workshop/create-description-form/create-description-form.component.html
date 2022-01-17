@@ -21,7 +21,7 @@
 
   <label class="step-label"> Директор <span class="step-required">*</span></label>
   <mat-form-field appearance="none">
-    <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head">
+    <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="DescriptionFormGroup.get('head').errors?.required"
@@ -38,7 +38,7 @@
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
     <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
-      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc">
+      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none">
   </mat-radio-group>
 
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
@@ -59,7 +59,7 @@
       </mat-chip>
       <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}" [disabled]="disabledKeyWordsInput"
         #keyWordsInput (focusout)="onKeyWordsInput()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"
-        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord">
+        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none">
     </mat-chip-list>
   </div>
   <app-validation-hint-for-input type="requiredField"

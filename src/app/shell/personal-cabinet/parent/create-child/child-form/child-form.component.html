@@ -3,7 +3,7 @@
 
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName">
+    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ChildFormGroup.get('lastName').errors?.required"
@@ -16,7 +16,7 @@
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName">
+    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ChildFormGroup.get('firstName').errors?.required"
@@ -29,7 +29,7 @@
 
   <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName">
+    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ChildFormGroup.get('middleName').errors?.required"
@@ -72,7 +72,7 @@
 
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfStudy">
+    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none">
   </mat-form-field>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1">

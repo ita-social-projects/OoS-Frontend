@@ -481,6 +481,7 @@ export class UserState {
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
     dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінено', type: 'success' }));
+    dispatch(new GetApplicationsByParentId(payload.parentId));
   }
   @Action(CreateRating)
   createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating): Observable<object> {
