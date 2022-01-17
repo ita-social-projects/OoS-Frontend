@@ -7,10 +7,8 @@
   
     <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-      <div [ngClass]="(ReasonFormGroup.get('description').invalid && ReasonFormGroup.get('description').touched) ? 'redBorder' : '' " class="wrapper-border">
-        <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
+        <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
           formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
-      </div>
     </mat-form-field>
 
     <app-validation-hint-for-input type="requiredField"
@@ -21,7 +19,7 @@
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
     <button class="btn" mat-button
       [mat-dialog-close]="ReasonFormGroup.get('description').value"
-      cdkFocusInitial [disabled]="ReasonFormGroup.get('description').value === ''">ПІДТВЕРДИТИ</button>
+      cdkFocusInitial [disabled]="!ReasonFormGroup.get('description').value">ПІДТВЕРДИТИ</button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>
