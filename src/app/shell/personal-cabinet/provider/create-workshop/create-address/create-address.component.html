@@ -15,7 +15,7 @@
     [isEmptyCheck]="AddressFormGroup.get('street').errors?.required"
     [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched">
   </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
+  <app-validation-hint-for-input type="validAddressField"
     [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched"
     [forbiddenCharacter]="AddressFormGroup.get('street').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
