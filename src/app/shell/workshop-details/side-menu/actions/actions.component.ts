@@ -28,14 +28,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() role: string;
-  @Input() isMobileScreen$: Observable<boolean>;
-  isMobileScreen: boolean;
-
 
   @Select(RegistrationState.role)
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -45,7 +44,6 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.isMobileScreen$.pipe(filter((isMobileScreen: boolean) => !!isMobileScreen, map((isMobileScreen: boolean) => this.isMobileScreen = isMobileScreen)));
     this.role$
       .pipe(takeUntil(this.destroy$))
       .subscribe(role => this.role = role);
