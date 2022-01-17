@@ -171,7 +171,7 @@ export class OnUpdateApplicationFail {
 }
 export class OnUpdateApplicationSuccess {
   static readonly type = '[user] update Application success';
-  constructor(public payload) { }
+  constructor(public payload: any) { }
 }
 export class CreateRating {
   static readonly type = '[parent] create Rating';
