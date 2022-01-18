@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { WorkshopPageComponent } from './workshop-page/workshop-page.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { WorkshopDetailsComponent } from './workshop-details.component';
@@ -38,6 +38,7 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     RouterModule,
     IvyCarouselModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
   ]
 })
