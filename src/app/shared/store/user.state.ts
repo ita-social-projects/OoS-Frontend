@@ -481,7 +481,6 @@ export class UserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-    console.log('OnUpdateApplicationSuccess', payload);
     
     dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left ? `Гурток успішно залишено` : 'Статус заявки успішно змінено', type: 'success' }));
     dispatch(new GetApplicationsByParentId(payload.parentId));
