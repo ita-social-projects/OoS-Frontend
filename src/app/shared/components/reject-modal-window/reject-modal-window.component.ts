@@ -12,18 +12,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class RejectModalWindowComponent implements OnInit {
   @Input() application: Application;
   readonly constants: typeof Constants = Constants;
-  ReasonFormGroup: FormGroup;
+  ReasonFormControl= new FormControl('', Validators.required);
   modalTitle = 'ВІДМОВИТИ';
   modalDescription = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?';
 
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<RejectModalWindowComponent>
-  ) {
-    this.ReasonFormGroup = this.formBuilder.group({
-      description: new FormControl('', Validators.required),
-    });
-  }
+  ) {}
 
   ngOnInit(): void {}
 

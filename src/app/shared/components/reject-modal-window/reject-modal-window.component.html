@@ -3,23 +3,23 @@
   <p class="confirmation"> {{ modalDescription }} 
   </p>
 
-  <form [formGroup]="ReasonFormGroup" fxLayout="column" class="reject-form">
+  <form fxLayout="column" class="reject-form">
   
     <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
         <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-          formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+          formControlName="reason" [formControl]="ReasonFormControl" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
     </mat-form-field>
 
     <app-validation-hint-for-input type="requiredField"
-      [invalid]="ReasonFormGroup.get('description').invalid && ReasonFormGroup.get('description').touched">
+      [invalid]="ReasonFormControl.invalid && ReasonFormControl.touched">
     </app-validation-hint-for-input>
   </form>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
     <button class="btn" mat-button
-      [mat-dialog-close]="ReasonFormGroup.get('description').value"
-      cdkFocusInitial [disabled]="!ReasonFormGroup.get('description').value">ПІДТВЕРДИТИ</button>
+      [mat-dialog-close]="ReasonFormControl.value"
+      cdkFocusInitial [disabled]="!ReasonFormControl.value">ПІДТВЕРДИТИ</button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>
