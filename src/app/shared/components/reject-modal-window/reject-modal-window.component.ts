@@ -1,12 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Application } from 'src/app/shared/models/application.model';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -15,15 +10,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./reject-modal-window.component.scss'],
 })
 export class RejectModalWindowComponent implements OnInit {
-  readonly constants: typeof Constants = Constants;
-
-  modalTitle = 'ВІДМОВИТИ';
-  modalDescription =
-    'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?';
-
-  ReasonFormGroup: FormGroup;
-
   @Input() application: Application;
+  readonly constants: typeof Constants = Constants;
+  ReasonFormGroup: FormGroup;
+  modalTitle = 'ВІДМОВИТИ';
+  modalDescription = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?';
 
   constructor(
     private formBuilder: FormBuilder,
