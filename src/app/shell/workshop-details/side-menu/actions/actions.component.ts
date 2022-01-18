@@ -11,7 +11,7 @@ import { Favorite } from 'src/app/shared/models/favorite.model';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'src/app/shared/store/user.actions';
 import { ShowMessageBar } from 'src/app/shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
 import { AppState } from 'src/app/shared/store/app.state';
 
