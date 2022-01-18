@@ -35,6 +35,9 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 230px;
+    &:hover {
+    cursor: pointer;
+  }
 }
 .text{
   font-family: 'Open Sans', sans-serif;
