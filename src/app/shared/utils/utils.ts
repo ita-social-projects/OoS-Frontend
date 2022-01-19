@@ -22,8 +22,8 @@ export class Util {
       age--;
     }
 
-    if (age < 1 ) {
-      age = "< 1";
+    if (age < 1 ){
+      return '<1 року';
     }
 
     return age.toString() + ' ' + this.getDeclensionYear(age);
@@ -37,7 +37,7 @@ export class Util {
   public static getDeclensionYear(year: number): string {
     let ageString;
     let lastDigit = year % 10;
-    (lastDigit === 1 && year !== 11) ? ageString = 'рік' : (year == "< 1") ? ageString = 'року' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
+    (lastDigit === 1 && year !== 11) ? ageString = 'рік' : (year === 0) ? ageString = '<1 року' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
     return ageString;
   }
 }
