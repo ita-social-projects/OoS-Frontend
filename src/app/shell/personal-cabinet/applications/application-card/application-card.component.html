@@ -48,12 +48,13 @@
   <mat-card-content class="card-block card-block-buttons" *ngIf="userRole === role.provider">
     <div fxLayout="column" fxLayoutAlign="start start">
       <button class="btn btn-blue" (click)="onApprove(application)"
-      [disabled]="application.status === applicationStatus.Approved || application.status === applicationStatus.Left">
+      [ngClass]="(application.status === applicationStatus.Approved || application.status === applicationStatus.Left) && 'hidden'">
         <p>ПРИЙНЯТИ</p>
       </button>
     </div>
     <div fxLayout="column" fxLayoutAlign="start start">
-      <button class="btn btn-gray" (click)="onReject(application)" [disabled]="application.status === applicationStatus.Rejected || application.status === applicationStatus.Left">
+      <button class="btn btn-gray" (click)="onReject(application)"
+      [ngClass]="(application.status === applicationStatus.Rejected || application.status === applicationStatus.Left) && 'hidden'">
         <p>ВІДМОВИТИ</p>
       </button>
     </div>
