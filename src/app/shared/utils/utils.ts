@@ -21,12 +21,8 @@ export class Util {
     if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-
-    if (age < 1 ){
-      return '<1 року';
-    }
-
-    return age.toString() + ' ' + this.getDeclensionYear(age);
+  
+    return (age < 1) ? '<1 року' :  age.toString() + ' ' + this.getDeclensionYear(age);
   }
 
   /**
