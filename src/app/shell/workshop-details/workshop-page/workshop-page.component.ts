@@ -9,10 +9,8 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { environment } from 'src/environments/environment';
 import { UserState } from 'src/app/shared/store/user.state';
 import { filter, takeUntil } from 'rxjs/operators';
+import { imgPath } from 'src/app/shared/models/carousel.model';
 
-interface imgPath {
-  path: string;
-}
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
@@ -23,23 +21,10 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
-  //@Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
-  // @Input() set imageIds(imageIdsArr: string[]) {
-  //   if (imageIdsArr.length) {
-  //     console.log('ImageIdsArrLength = ', imageIdsArr.length)
-  //     this.images = [];
-  //     this.images = imageIdsArr.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } })
-  //     console.log('Images Length = ', this.images.length)
-  //   } else {
-  //     console.log('ImageIdsArrLength = 0');
-  //     this.images = [];
-  //     this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
-  //     console.log('Images Length = ', this.images.length)
-  //   }
-  // }
+  
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 

@@ -5,10 +5,7 @@
     <ng-conteiner *ngIf="(isMobileScreen$ | async)">
       <app-actions *ngIf="role !== Role.provider" [role]="role" [workshop]="workshop"></app-actions>
     </ng-conteiner>
-     <carousel class="carousel" [images]="images" [cellWidth]="'100%'" [height]="300" [autoplay]="false" [dots]="true"
-      [loop]="images.length > 1" objectFit="'contain'" [arrows]="images.length > 1" [dots]="images.length > 1"
-      cellsToShow="1">
-    </carousel>
+    <app-image-carousel [images]="images"></app-image-carousel>
     <div class="workshop-wrapper">
       <div fxLayout="column" fxLayoutAlign="space-between space-between">
         <div fxLayout="row" fxLayoutAlign="space-between center">
