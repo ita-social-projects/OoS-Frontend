@@ -71,6 +71,8 @@ import {
   GetAllUsersChildren,
   ResetSelectedWorkshop,
 } from './user.actions';
+import { ApplicationStatus } from '../enum/applications';
+import { messageStatus } from '../enum/messageBar';
 
 
 export interface UserStateModel {
@@ -480,7 +482,10 @@ export class UserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-    dispatch(new ShowMessageBar({ message: 'Статус заявки успішно змінено', type: 'success' }));
+    
+    dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left 
+      ? messageStatus.left 
+      : messageStatus.approved, type: 'success' }));
     dispatch(new GetApplicationsByParentId(payload.parentId));
   }
   @Action(CreateRating)

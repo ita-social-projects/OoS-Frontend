@@ -13,6 +13,7 @@ import { ShowMessageBar } from 'src/app/shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
+import { AppState } from 'src/app/shared/store/app.state';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class ActionsComponent implements OnInit, OnDestroy {
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
