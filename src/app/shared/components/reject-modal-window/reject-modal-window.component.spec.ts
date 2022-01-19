@@ -37,9 +37,7 @@ describe('RejectModalWindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RejectModalWindowComponent);
     component = fixture.componentInstance;
-    component.ReasonFormGroup = new FormGroup({
-      description: new FormControl({value: 'Reason', disabled: true}, Validators.required)
-    });
+    component.ReasonFormControl= new FormControl({value: 'Reason', disabled: true}, Validators.required)
     component.modalTitle = '';
     component.modalDescription = '';
     fixture.detectChanges();

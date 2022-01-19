@@ -8,7 +8,6 @@ import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
-import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -16,8 +15,6 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './application-card.component.html',
   styleUrls: ['./application-card.component.scss']
 })
-
-
 export class ApplicationCardComponent implements OnInit {
 
   readonly applicationTitles = ApplicationTitles;
@@ -29,7 +26,6 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
-  ReasonFormGroup: FormGroup;
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -69,12 +65,7 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
     onReject(application: Application): void {
-    const dialogRef = this.matDialog.open(RejectModalWindowComponent, {
-      width: '330px',
-      data: {
-      }
-    });
-
+    const dialogRef = this.matDialog.open(RejectModalWindowComponent, {});
     dialogRef.afterClosed().subscribe((result: string) => {
       if(result) {
         application.rejectionMessage = result;
