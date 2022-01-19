@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopPageComponent } from './workshop-page.component';
-import { Component, Input, Provider } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, Provider } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
@@ -32,7 +32,10 @@ describe('WorkshopPageComponent', () => {
         MockReviewsComponent,
         MockWorkshopTeachersComponent,
         MockWorkshopAboutComponent
-      ]
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
     })
       .compileComponents();
   });
