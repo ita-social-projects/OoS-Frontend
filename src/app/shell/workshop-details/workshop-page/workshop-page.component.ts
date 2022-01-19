@@ -1,8 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Select } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
+import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { AppState } from 'src/app/shared/store/app.state';
 import { environment } from 'src/environments/environment';
 interface imgPath {
   path: string;
@@ -14,12 +17,14 @@ interface imgPath {
 })
 
 export class WorkshopPageComponent implements OnInit, OnDestroy {
-
+  readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
+
+  @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 

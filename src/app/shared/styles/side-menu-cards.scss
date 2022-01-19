@@ -6,6 +6,11 @@
   min-height: 206px;
   margin: 0 0 2rem 2rem;
 
+    &-mobile {
+      min-height: min-content;
+      padding: 1rem;
+    }
+
   .card-title{
     font-family: Innerspace;
     font-style: normal;
