@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { StatusInfoCardComponent } from 'src/app/shared/components/status-info-card/status-info-card.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
+import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -22,10 +23,12 @@ describe('ApplicationCardComponent', () => {
         HttpClientModule,
         MatIconModule,
         MatMenuModule,
+        MatDialogModule,
         MatTooltipModule,
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'uk' },
+        {provide: MatDialog, useValue: {}}
       ],
       declarations: [
         ApplicationCardComponent,
