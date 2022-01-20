@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -16,28 +15,19 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
-  styleUrls: ['./workshop-page.component.scss'],
+  styleUrls: ['./workshop-page.component.scss']
 })
+
 export class WorkshopPageComponent implements OnInit, OnDestroy {
-<<<<<<< HEAD
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
   tabIndex: number;
-=======
->>>>>>> fix: update selected index
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
-<<<<<<< HEAD
   
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
-=======
-  readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
-  tabIndex: number;
-
->>>>>>> fix: update selected index
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -46,10 +36,10 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
-<<<<<<< HEAD
     this.workshop$.pipe(
       filter((workshop: Workshop) => !!workshop),
       takeUntil(this.destroy$)
@@ -57,9 +47,6 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
       this.workshop = workshop;
       this.getWorkshopImages();
     })
-=======
-    this.getWorkshopImages();
->>>>>>> fix: indentations
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.tabIndex = 0));
@@ -67,17 +54,9 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
-<<<<<<< HEAD
       this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } });
     } else {
       this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
-=======
-      this.images = this.workshop.imageIds.map((imgId) => {
-        return { path: this.authServer + this.imgUrl + imgId };
-      });
-    } else {
-      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' });
->>>>>>> fix: indentations
     }
   }
 
