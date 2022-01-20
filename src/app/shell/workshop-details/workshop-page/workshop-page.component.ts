@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -17,14 +18,14 @@ interface imgPath {
   styleUrls: ['./workshop-page.component.scss']
 })
 
-export class WorkshopPageComponent implements OnInit, OnDestroy, OnChanges {
-  readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
-  tabIndex: number;
+export class WorkshopPageComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
+  readonly Role: typeof Role = Role;
+  public categoryIcons = CategoryIcons;
+  tabIndex: number;
 
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
@@ -39,13 +40,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.getWorkshopImages();
-    this.tabIndex = 0;
-    this.route.params.subscribe((params: Params) =>console.log(params))
-
-  }
-  ngOnChanges(change: any): void {
-    this.tabIndex = 0;
-    debugger
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => this.tabIndex = 0);
   }
 
   private getWorkshopImages(): void {
