@@ -102,7 +102,8 @@
           </i>
         </button>
       </button>
-      <ng-container *ngIf="((user$ | async)?.role !== Role.techAdmin)">
+      <div *ngIf="((user$ | async)?.role !== Role.techAdmin) then UserView; else AdminView"></div>
+      <ng-template #UserView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
         <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'"> <button mat-menu-item>Інформація про
             {{roles[(user$ | async).role]}}</button></a>
@@ -112,13 +113,13 @@
         <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
             mat-menu-item>Улюблене</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
-      </ng-container>
-      <ng-container *ngIf="((user$ | async)?.role === Role.techAdmin)">
+      </ng-template>
+      <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
         <a [routerLink]="'./admin-tools/platform/about'"> <button mat-menu-item>Адміністрування</button></a>
         <a><button mat-menu-item>Налаштування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
-      </ng-container>
+      </ng-template>
     </mat-menu>
   </div>
 </ng-template>

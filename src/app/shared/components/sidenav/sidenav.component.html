@@ -77,7 +77,8 @@
         <hr class="hr-grey">
 
         <div class="mobile-sidenav-menu">
-          <ng-container *ngIf="((user$ | async)?.role !== Role.techAdmin)">
+          <div *ngIf="((user$ | async)?.role !== Role.techAdmin) then UserView; else AdminView"></div>
+          <ng-template #UserView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
             <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'" (click)="changeView()">Інформація про
               {{roles[(user$ | async).role]}}</a>
@@ -87,14 +88,13 @@
             <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
               (click)="changeView()">Улюблене</a>
             <button (click)="logout()">Вийти</button>
-          </ng-container>
-          <ng-container *ngIf="((user$ | async)?.role === Role.techAdmin)">
+          </ng-template>
+          <ng-template #AdminView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста інформація</a>
             <a [routerLink]="'./admin-tools/platform/about'" (click)="changeView()">Адміністрування</a>
             <a (click)="changeView()">Налаштування</a>
             <button (click)="logout()">Вийти</button>
-          </ng-container>
-
+          </ng-template>
         </div>
       </div>
     </ng-template>

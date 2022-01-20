@@ -56,7 +56,6 @@ export class AdminState {
   @Action(OnUpdateInfoAboutPortalSuccess)
   OnUpdateInfoAboutPortalSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalSuccess): void {
     dispatch(new MarkFormDirty(false));
-    console.log('InfoAboutPortal is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/about']);
   }
