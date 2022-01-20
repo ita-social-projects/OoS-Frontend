@@ -15,9 +15,8 @@ interface imgPath {
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
-  styleUrls: ['./workshop-page.component.scss']
+  styleUrls: ['./workshop-page.component.scss'],
 })
-
 export class WorkshopPageComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
   @Input() provider: Provider;
@@ -35,19 +34,22 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
-  constructor(private route: ActivatedRoute
-    ) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.getWorkshopImages();
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => this.tabIndex = 0);
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => (this.tabIndex = 0));
   }
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
-      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } })
+      this.images = this.workshop.imageIds.map((imgId) => {
+        return { path: this.authServer + this.imgUrl + imgId };
+      });
     } else {
-      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
+      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' });
     }
   }
 
