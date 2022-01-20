@@ -15,9 +15,8 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
-  styleUrls: ['./workshop-page.component.scss']
+  styleUrls: ['./workshop-page.component.scss'],
 })
-
 export class WorkshopPageComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
@@ -36,8 +35,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
-  constructor(private route: ActivatedRoute
-    ) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.workshop$.pipe(
@@ -54,9 +52,11 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
-      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } });
+      this.images = this.workshop.imageIds.map((imgId) => {
+        return { path: this.authServer + this.imgUrl + imgId };
+      });
     } else {
-      this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
+      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' });
     }
   }
 
