@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -19,15 +20,25 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 })
 
 export class WorkshopPageComponent implements OnInit, OnDestroy {
+<<<<<<< HEAD
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
   tabIndex: number;
+=======
+>>>>>>> fix: update selected index
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
+<<<<<<< HEAD
   
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
+=======
+  readonly Role: typeof Role = Role;
+  public categoryIcons = CategoryIcons;
+  tabIndex: number;
+
+>>>>>>> fix: update selected index
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
