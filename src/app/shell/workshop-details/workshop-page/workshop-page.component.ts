@@ -49,10 +49,9 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
-      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } })
+      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } });
     } else {
-      this.images = [];
-      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
+      this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
     }
   }
 

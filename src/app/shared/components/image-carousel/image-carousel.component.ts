@@ -17,9 +17,8 @@ export class ImageCarouselComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.myCarousel) {
-      this.myCarousel.utils.carouselProperties.cellsElement.style.transform = 'none'
-      this.myCarousel.dotsArr = [];
-      this.myCarousel.dotsArr = Array(this.images.length).fill(1)
+      this.myCarousel.utils.carouselProperties.cellsElement.style.transform = 'none';
+      this.myCarousel.dotsArr = Array(this.images.length).fill(1);
     }
   }
 
