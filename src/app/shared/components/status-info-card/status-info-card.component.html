@@ -5,6 +5,7 @@
   </div>
   <div class="application-info-menu application-info-description-card">({{
     applicationStatusDescription[application.status] }})</div>
+    <p *ngIf="application.rejectionMessage" class="application-info-menu">{{application.rejectionMessage}}</p>
 </div>
 <ng-template #cardFormat>
   <div class="application-info-menu-title"> Статуси заявок</div>
