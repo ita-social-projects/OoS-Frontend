@@ -2,7 +2,10 @@
 
 # compiled output
 /dist/*
+# Staticfile buildpack configuration
 !/dist/buildpack.yml
+# Nginx Cach control configuration
+!/dist/includes/
 /tmp
 /out-tsc
 # Only exists if Bazel was run

@@ -20,7 +20,7 @@ describe('ActionsComponent', () => {
         MatIconModule,
         NgxsModule.forRoot([])
       ],
-      declarations: [ActionsComponent]
+      declarations: [ActionsComponent],
     })
       .compileComponents();
   });

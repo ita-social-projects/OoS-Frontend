@@ -1,3 +1,4 @@
+# TODO: Reconfigure to single buildpack step (compile + nginx + static)
 steps:
   - name: 'gcr.io/cloud-builders/yarn'
     args: [ 'install' ]
