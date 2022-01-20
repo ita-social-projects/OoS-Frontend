@@ -243,10 +243,6 @@ export class MetaDataState {
         environment.production ? environment.production :
         patchState({ featuresList: { release1: true, release2: true, release3: false } })
         ))
-
-      // .pipe(
-      //   tap((featuresList: FeaturesList) => patchState({ featuresList: { release1: true, release2: true, release3: false } })
-      //   ))
   }
 
 }
