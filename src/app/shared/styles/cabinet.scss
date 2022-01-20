@@ -5,7 +5,7 @@
   padding: 1.5rem 1.5rem 0 1.5rem;
   border-radius: 5px;
 
-  .nav {
+.nav {
   border-bottom: none;
   a {
     font-size: 13px;
@@ -19,7 +19,6 @@
   }
   .active {
     color: #3849f9;
-    opacity: 1;
     border-bottom: 2px solid #3849f9;
   }
 }

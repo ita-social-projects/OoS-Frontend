@@ -82,7 +82,7 @@ export class SupportEditComponent implements OnInit, OnDestroy {
     if (this.SupportFormArray.invalid) {
       this.checkValidationAboutFormArray();
     } else {
-    // this.SupportFormArray.controls.forEach((form: FormGroup) => {});
+    // TODO: update support on back-end side
     }
   }
 
