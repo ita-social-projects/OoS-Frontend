@@ -16,9 +16,8 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
-  styleUrls: ['./workshop-page.component.scss']
+  styleUrls: ['./workshop-page.component.scss'],
 })
-
 export class WorkshopPageComponent implements OnInit, OnDestroy {
 <<<<<<< HEAD
   readonly Role: typeof Role = Role;
@@ -47,10 +46,10 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
-  constructor(private route: ActivatedRoute
-    ) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+<<<<<<< HEAD
     this.workshop$.pipe(
       filter((workshop: Workshop) => !!workshop),
       takeUntil(this.destroy$)
@@ -58,6 +57,9 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
       this.workshop = workshop;
       this.getWorkshopImages();
     })
+=======
+    this.getWorkshopImages();
+>>>>>>> fix: indentations
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.tabIndex = 0));
@@ -65,9 +67,17 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
+<<<<<<< HEAD
       this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } });
     } else {
       this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
+=======
+      this.images = this.workshop.imageIds.map((imgId) => {
+        return { path: this.authServer + this.imgUrl + imgId };
+      });
+    } else {
+      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' });
+>>>>>>> fix: indentations
     }
   }
 
