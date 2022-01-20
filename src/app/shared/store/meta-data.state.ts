@@ -237,11 +237,10 @@ export class MetaDataState {
   getFeaturesList({ patchState }: StateContext<MetaDataStateModel>, { }: GetFeaturesList): Observable<FeaturesList> {
     return this.featureManagementService
       .getFeaturesList()
-
       .pipe(
         tap((featuresList: FeaturesList) => 
-        environment.production ? environment.production :
-        patchState({ featuresList: { release1: true, release2: true, release3: false } })
+        patchState(environment.production ? {featuresList: featuresList} :
+        { featuresList: { release1: true, release2: true, release3: false } })
         ))
   }
 
