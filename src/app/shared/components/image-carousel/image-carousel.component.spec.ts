@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
 
 import { ImageCarouselComponent } from './image-carousel.component';
 
@@ -8,6 +9,9 @@ describe('ImageCarouselComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        IvyCarouselModule
+      ],
       declarations: [ ImageCarouselComponent ]
     })
     .compileComponents();
