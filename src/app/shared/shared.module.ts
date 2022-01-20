@@ -49,6 +49,7 @@ import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
+import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-fi
     NoResultCardComponent,
     WorkingHoursFormComponent,
     WorkshopCardDialog,
-    SidenavFiltersComponent
+    SidenavFiltersComponent,
+    RejectModalWindowComponent
   ],
   imports: [
     MaterialModule,

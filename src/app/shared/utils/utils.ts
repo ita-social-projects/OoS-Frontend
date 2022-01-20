@@ -21,8 +21,8 @@ export class Util {
     if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-
-    return age ? age.toString() + ' ' + this.getDeclensionYear(age) : month.toString() + ' ' + this.getDeclensionMonth(month);
+  
+    return (age < 1) ? '<1 року' :  age.toString() + ' ' + this.getDeclensionYear(age);
   }
 
   /**
@@ -34,17 +34,6 @@ export class Util {
     let ageString;
     let lastDigit = year % 10;
     (lastDigit === 1 && year !== 11) ? ageString = 'рік' : (lastDigit > 1 && lastDigit < 5) ? ageString = 'роки' : ageString = 'років';
-    return ageString;
-  }
-
-  /**
-   * This method returns declension for Child's age in months
-   * @param month Child's age in months
-   * @returns string
-   */
-  public static getDeclensionMonth(month: number): string {
-    let ageString;
-    (month === 1) ? ageString = 'місяць' : (month > 1 && month < 5) ? ageString = 'місяці' : ageString = 'місяців';
     return ageString;
   }
 }
