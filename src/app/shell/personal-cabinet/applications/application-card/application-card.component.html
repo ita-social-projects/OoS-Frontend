@@ -4,7 +4,7 @@
       <div
         #name
         class="workshop-header"
-        (mouseover)="!deviceToogle && onInfoShow(name)"
+        (mouseover)="!deviceToogle && onInfoShow(name, $event)"
         (mouseleave)="!deviceToogle && onInfoHide(name)"
         (click)="deviceToogle && onInfoShow(name, $event)"
       >
@@ -18,8 +18,8 @@
 
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
     <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
-      <h4 class="title text-link" [routerLink]="['/workshop-details', application?.workshopId ]">{{
-        application?.workshop.title }}</h4>
+      <h4 [routerLink]="['/workshop-details', application?.workshopId]" [matTooltip]="application?.workshop.title" showTooltipIfTruncated matTooltipClass="tooltip"
+      matTooltipPosition="below" class="title" >{{ application?.workshop.title }} </h4>
       <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
         <mat-icon class="text_icon">home</mat-icon>
         <p class="text">{{application?.workshop.providerTitle}}</p>
