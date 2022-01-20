@@ -1,4 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
@@ -18,9 +19,10 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 })
 
 export class WorkshopPageComponent implements OnInit, OnDestroy {
-  
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
+  tabIndex: number;
+  @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
@@ -33,9 +35,9 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   authServer: string = environment.serverUrl;
   imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
-  workshop: Workshop;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
     this.workshop$.pipe(
@@ -45,6 +47,9 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
       this.workshop = workshop;
       this.getWorkshopImages();
     })
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => (this.tabIndex = 0));
   }
 
   private getWorkshopImages(): void {
