@@ -11,6 +11,7 @@ import { OrderingComponent } from './result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
+import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
@@ -25,6 +26,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { InfoComponent } from './info/info.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
+import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 @NgModule({
   declarations: [
     MainComponent,
@@ -32,6 +34,7 @@ import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
     WorkshopCardsListComponent,
     OrderingComponent,
     PersonalCabinetComponent,
+    AdminToolsComponent,
     WorkshopMapViewListComponent,
     AllCategoriesComponent,
     AboutComponent,
@@ -50,6 +53,7 @@ import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
   ],
   providers: [
     PersonalCabinetGuard,
+    AdminToolsGuard,
     ProviderGuard,
     ParentGuard,
     CreateProviderGuard,
