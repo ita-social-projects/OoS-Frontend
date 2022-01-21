@@ -20,7 +20,7 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 export class WorkshopPageComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
-  tabIndex: number;
+  selectedIndex: number;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
@@ -47,7 +47,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
     })
     this.route.params
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.tabIndex = 0));
+      .subscribe(() => (this.selectedIndex = 0));
   }
 
   private getWorkshopImages(): void {

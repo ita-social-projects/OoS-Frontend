@@ -24,7 +24,7 @@
           <mat-icon class="icon">home</mat-icon> {{provider.fullTitle}}
         </span>
       </div>
-      <mat-tab-group class="nav" [(selectedIndex)]="tabIndex">
+      <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex">
         <mat-tab class="label" label="ПРО ГУРТОК ">
           <app-workshop-about [workshop]="workshop"></app-workshop-about>
         </mat-tab>
