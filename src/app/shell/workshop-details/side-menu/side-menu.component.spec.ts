@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SideMenuComponent } from './side-menu.component';
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Store } from '@ngxs/store';
 import { User } from 'src/app/shared/models/user.model';
@@ -25,7 +25,8 @@ describe('SideMenuComponent', () => {
         MockScheduleComponent,
         MockActionsComponent,
         MockContactsComponent
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
   });

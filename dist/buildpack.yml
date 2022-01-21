@@ -3,3 +3,4 @@ staticfile:
     root: out-of-school
     pushstate: true
     force_https: true
+    location_include: includes/*.conf

@@ -6,12 +6,16 @@ import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
+import { MatDialog } from '@angular/material/dialog';
+import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
   styleUrls: ['./application-card.component.scss']
 })
-
 export class ApplicationCardComponent implements OnInit {
 
   readonly applicationTitles = ApplicationTitles;
@@ -32,7 +36,10 @@ export class ApplicationCardComponent implements OnInit {
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
 
-  constructor(private detectedDevice: DetectedDeviceService) { }
+  constructor(
+    private detectedDevice: DetectedDeviceService,
+    private matDialog: MatDialog
+    ) {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
@@ -51,15 +58,34 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onApprove(application: Application): void {
-    this.approved.emit(application);
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: ModalConfirmationType.approveApplication,
+        property: ''
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.approved.emit(application);
+      }
+    });    
   }
 
+
   /**
-   * This method emit on deny action
+   * This method emit reject Application
    * @param Application application
    */
   onReject(application: Application): void {
-    this.rejected.emit(application);
+    const dialogRef = this.matDialog.open(RejectModalWindowComponent, {});
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if(result) {
+        application.rejectionMessage = result;
+        this.rejected.emit(application);
+      }
+    });
   }
 
   /**

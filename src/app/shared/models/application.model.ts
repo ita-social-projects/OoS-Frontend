@@ -11,6 +11,7 @@ export class Application {
   workshop: WorkshopCard;
   child: Child;
   parent: Parent;
+  rejectionMessage: string
 
   constructor(child: Child, workshop: Workshop, parent: Parent) {
     this.childId = child.id;
@@ -22,9 +23,11 @@ export class Application {
 export class ApplicationUpdate {
   id: string;
   status: string;
+  rejectionMessage: string
 
-  constructor(id, status) {
+  constructor(id: string, status: string, rejectionMessage?: string) {
     this.id = id;
     this.status = status;
+    this.rejectionMessage = rejectionMessage
   }
 }

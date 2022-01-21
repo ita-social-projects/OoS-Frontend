@@ -95,7 +95,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * @param Application event
    */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);    
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -104,7 +104,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * @param Application event
    */
   onReject(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected);
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected, application?.rejectionMessage );
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
