@@ -50,6 +50,8 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
+import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
 
 @NgModule({
   declarations: [
@@ -96,7 +98,8 @@ import { RejectModalWindowComponent } from './components/reject-modal-window/rej
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
-    RejectModalWindowComponent
+    RejectModalWindowComponent,
+    ImageCarouselComponent,
   ],
   imports: [
     MaterialModule,
@@ -106,7 +109,8 @@ import { RejectModalWindowComponent } from './components/reject-modal-window/rej
     RouterModule,
     FormsModule,
     NgxSliderModule,
-    NgxMatTimepickerModule
+    NgxMatTimepickerModule,
+    IvyCarouselModule
   ],
   exports: [
     FiltersListComponent,
@@ -152,7 +156,8 @@ import { RejectModalWindowComponent } from './components/reject-modal-window/rej
     NoResultCardComponent,
     WorkingHoursFormComponent,
     WorkshopCardDialog,
-    SidenavFiltersComponent
+    SidenavFiltersComponent,
+    ImageCarouselComponent
   ]
 })
 export class SharedModule { }
