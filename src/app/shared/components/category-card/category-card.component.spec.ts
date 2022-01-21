@@ -4,6 +4,8 @@ import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
 import { Direction } from '../../models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
@@ -13,8 +15,10 @@ describe('CategoryCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatCardModule,
+        MatButtonModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule
+        RouterTestingModule,
+        MatIconModule
       ],
       declarations: [CategoryCardComponent],
     })

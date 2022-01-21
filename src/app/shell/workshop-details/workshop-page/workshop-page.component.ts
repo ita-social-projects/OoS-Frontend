@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
@@ -7,23 +8,25 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { AppState } from 'src/app/shared/store/app.state';
 import { environment } from 'src/environments/environment';
-interface imgPath {
-  path: string;
-}
+import { UserState } from 'src/app/shared/store/user.state';
+import { filter, takeUntil } from 'rxjs/operators';
+import { imgPath } from 'src/app/shared/models/carousel.model';
+
 @Component({
   selector: 'app-workshop-page',
   templateUrl: './workshop-page.component.html',
-  styleUrls: ['./workshop-page.component.scss']
+  styleUrls: ['./workshop-page.component.scss'],
 })
-
 export class WorkshopPageComponent implements OnInit, OnDestroy {
-  readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
-
+  readonly Role: typeof Role = Role;
+  public categoryIcons = CategoryIcons;
+  selectedIndex: number;
+  
+  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -32,17 +35,28 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getWorkshopImages();
+    this.workshop$.pipe(
+      filter((workshop: Workshop) => !!workshop),
+      takeUntil(this.destroy$)
+    ).subscribe((workshop: Workshop) => {
+      this.workshop = workshop;
+      this.getWorkshopImages();
+    })
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => (this.selectedIndex = 0));
   }
 
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
-      this.images = this.workshop.imageIds.map((imgId) => { return { path: this.authServer + this.imgUrl + imgId } })
+      this.images = this.workshop.imageIds.map((imgId) => {
+        return { path: this.authServer + this.imgUrl + imgId };
+      });
     } else {
-      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' })
+      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' });
     }
   }
 

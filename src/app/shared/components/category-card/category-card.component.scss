@@ -37,3 +37,25 @@
     }
   }
 }
+
+.config_edit-icon {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  z-index: 2;
+  color : #3849F9;
+  .mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .mat-button {
+    padding: 0px;
+    min-width:auto;
+    line-height: 16px;
+  }
+}
+
+.config-support p {
+  margin: 0;
+}

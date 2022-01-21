@@ -8,17 +8,20 @@ import { User } from '../models/user.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { ParentService } from '../services/parent/parent.service';
 import { Parent } from '../models/parent.model';
+import { TechAdmin } from '../models/techAdmin.model';
 import { tap } from 'rxjs/operators';
 import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { Observable } from 'rxjs';
+import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
   provider: Provider;
   parent: Parent;
+  techAdmin: TechAdmin;
   role: string;
 }
 
@@ -29,6 +32,7 @@ export interface RegistrationStateModel {
     user: undefined,
     provider: undefined,
     parent: undefined,
+    techAdmin: undefined,
     role: Role.unauthorized
   }
 })
@@ -59,6 +63,11 @@ export class RegistrationState {
   }
 
   @Selector()
+  static techAdmin(state: RegistrationStateModel): TechAdmin {
+    return state.techAdmin;
+  }
+
+  @Selector()
   static role(state: RegistrationStateModel): string | undefined {
     return state.role;
   }
@@ -69,6 +78,7 @@ export class RegistrationState {
     private userService: UserService,
     private providerService: ProviderService,
     private parentService: ParentService,
+    private techAdminService: TechAdminService,
     private router: Router
   ) { }
 
@@ -129,6 +139,14 @@ export class RegistrationState {
         .pipe(
           tap(
             (parent: Parent) => patchState({ parent: parent })
+          ));
+    } 
+    if (state.user.role === Role.techAdmin) {
+      return this.techAdminService
+        .getProfile()
+        .pipe(
+          tap(
+            (techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })
           ));
     } else {
       return this.providerService
