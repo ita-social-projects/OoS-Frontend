@@ -5,7 +5,7 @@
 }
 .dropdown{
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   z-index: 1000;
 }
 @media (max-width: 1070px) {
@@ -14,7 +14,7 @@
   }
   .dropdown{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
   }
 }
 .activeInfoBtn {
