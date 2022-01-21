@@ -18,13 +18,13 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
   styleUrls: ['./workshop-page.component.scss'],
 })
 export class WorkshopPageComponent implements OnInit, OnDestroy {
-  readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
-  selectedIndex: number;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
+  readonly Role: typeof Role = Role;
+  public categoryIcons = CategoryIcons;
+  selectedIndex: number;
   
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
