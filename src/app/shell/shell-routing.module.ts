@@ -18,6 +18,11 @@ import { AllCategoriesComponent } from './all-categories/all-categories.componen
 import { AboutComponent } from './info/about/about.component';
 import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
+import { AdminToolsComponent } from './admin-tools/admin-tools.component';
+import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
+import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
+import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
+import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -36,8 +41,25 @@ const routes: Routes = [
     canLoad: [PersonalCabinetGuard]
   },
   {
+    path: 'admin-tools', component: AdminToolsComponent,
+    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
+    canLoad: [AdminToolsGuard]
+  },
+  {
     path: 'personal-cabinet/config/edit',
     component: UserConfigEditComponent
+  },
+  {
+    path: 'admin-tools/platform/about/edit',
+    component: AboutEditComponent
+  },
+  {
+    path: 'admin-tools/platform/support/edit',
+    component: SupportEditComponent
+  },
+  {
+    path: 'admin-tools/platform/directions/create',
+    component: CreateDirectionComponent
   },
   {
     path: 'workshop-details/:id', component: WorkshopDetailsComponent,
