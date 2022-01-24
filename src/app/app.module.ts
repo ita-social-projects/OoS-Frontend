@@ -23,6 +23,7 @@ import { NavigationState } from './shared/store/navigation.state';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
+import { AdminState } from './shared/store/admin.state';
 
 registerLocaleData(localeUk);
 
@@ -44,6 +45,7 @@ registerLocaleData(localeUk);
       MetaDataState,
       RegistrationState,
       UserState,
+      AdminState,
       NavigationState
     ]),
 

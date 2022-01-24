@@ -1,0 +1,23 @@
+<div class="create-form">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">РЕДАГУВАННЯ ПРО ПОРТАЛ</h3>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <ng-container>
+        <app-about-form *ngFor="let form of AboutFormArray.controls" [AboutFormGroup]="form"
+          [index]="AboutFormArray.controls.indexOf(form)" [aboutFormAmount]="AboutFormArray.controls.length"
+          (deleteForm)="onDeleteForm($event)"></app-about-form>
+      </ng-container>
+      <button class="btn-add" mat-button (click)="addAboutForm()">
+        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <a [routerLink]="'/admin-tools/platform/about'"><button mat-raised-button
+          class="btn btn-cancel">Скасувати</button></a>
+      <button class="btn" mat-button type="submit"
+        (click)="onSubmit()">Зберегти</button>
+    </div>
+  </div>
+</div>

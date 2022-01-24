@@ -4,7 +4,7 @@
       <div
         #name
         class="workshop-header"
-        (mouseover)="!deviceToogle && onInfoShow(name)"
+        (mouseover)="!deviceToogle && onInfoShow(name, $event)"
         (mouseleave)="!deviceToogle && onInfoHide(name)"
         (click)="deviceToogle && onInfoShow(name, $event)"
       >
@@ -18,8 +18,8 @@
 
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
     <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
-      <h4 class="title text-link" [routerLink]="['/workshop-details', application?.workshopId ]">{{
-        application?.workshop.title }}</h4>
+      <h4 [routerLink]="['/workshop-details', application?.workshopId]" [matTooltip]="application?.workshop.title" showTooltipIfTruncated matTooltipClass="tooltip"
+      matTooltipPosition="below" class="title" >{{ application?.workshop.title }} </h4>
       <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
         <mat-icon class="text_icon">home</mat-icon>
         <p class="text">{{application?.workshop.providerTitle}}</p>
@@ -46,15 +46,15 @@
   </mat-card-content>
 
   <mat-card-content class="card-block card-block-buttons" *ngIf="userRole === role.provider">
-    <div fxLayout="column" fxLayoutAlign="start start"
-      [ngClass]="(application.status === applicationStatus.Approved || application.status === applicationStatus.Rejected) && 'hidden'">
-      <button class="btn btn-blue" (click)="onApprove(application)">
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <button class="btn btn-blue" (click)="onApprove(application)"
+      [ngClass]="(application.status === applicationStatus.Approved || application.status === applicationStatus.Left) && 'hidden'">
         <p>ПРИЙНЯТИ</p>
       </button>
     </div>
-    <div fxLayout="column" fxLayoutAlign="start start"
-      [ngClass]="application.status === applicationStatus.Rejected && 'hidden'">
-      <button class="btn btn-gray" (click)="onReject(application)">
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <button class="btn btn-gray" (click)="onReject(application)"
+      [ngClass]="(application.status === applicationStatus.Rejected || application.status === applicationStatus.Left) && 'hidden'">
         <p>ВІДМОВИТИ</p>
       </button>
     </div>
