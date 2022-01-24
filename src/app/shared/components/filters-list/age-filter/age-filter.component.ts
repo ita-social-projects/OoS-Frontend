@@ -1,11 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Constants } from 'src/app/shared/constants/constants';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, skip } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-age-filter',
@@ -14,16 +13,12 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 })
 export class AgeFilterComponent implements OnInit, OnDestroy {
 
-  // @Select(FilterState.ageFilter)
-  // ageFilter$: Observable<any>;
-
-
   readonly constants: typeof Constants = Constants;
   @Input()
   set ageFilter(filter) {
-    const {minAge,maxAge} = filter
-    this.minAgeFormControl.setValue(minAge,{emitEvent: false});
-    this.maxAgeFormControl.setValue(maxAge,{emitEvent: false});
+    const { minAge, maxAge } = filter
+    this.minAgeFormControl.setValue(minAge, { emitEvent: false });
+    this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
   }
 
   minAgeFormControl = new FormControl('');
@@ -50,5 +45,13 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  clearMin(): void {
+    this.minAgeFormControl.reset();
+  }
+
+  clearMax(): void {
+    this.maxAgeFormControl.reset();
   }
 }
