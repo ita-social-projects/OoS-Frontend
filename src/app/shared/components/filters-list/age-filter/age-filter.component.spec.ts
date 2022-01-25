@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;
@@ -19,6 +20,7 @@ describe('AgeFilterComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
+        MatIconModule
       ],
       declarations: [
         AgeFilterComponent,
