@@ -32,8 +32,8 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
-    <div class="application-status" *ngIf="application" [matMenuTriggerFor]="menu" (mouseleave)="closeMenu()">
-      <div class="application-popup-status {{application.status}}" (mouseenter)="openMenu()">
+    <div class="application-status" *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (mouseleave)="trigger.closeMenu()">
+      <div class="application-popup-status {{application.status}}" (mouseenter)="trigger.openMenu()">
         <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
         <span> {{applicationTitles[application.status]}}</span>
       </div>      

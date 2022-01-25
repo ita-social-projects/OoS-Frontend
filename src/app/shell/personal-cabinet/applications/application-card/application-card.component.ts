@@ -125,12 +125,4 @@ export class ApplicationCardComponent implements OnInit {
     this.deviceToogle && document.removeEventListener('click', this.onClick.bind(this));
   }
 
-  openMenu() {     
-    this.trigger.openMenu();    
-  }
-  
-  closeMenu() {
-    this.trigger.closeMenu();
-  }
-
 }
