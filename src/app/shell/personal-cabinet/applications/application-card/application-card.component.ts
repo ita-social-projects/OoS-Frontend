@@ -10,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-application-card',
@@ -28,7 +27,6 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
-  isOpenMenu: boolean = false;
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -37,8 +35,6 @@ export class ApplicationCardComponent implements OnInit {
   @Output() leave = new EventEmitter();
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
-
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
   constructor(
     private detectedDevice: DetectedDeviceService,
