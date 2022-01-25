@@ -33,16 +33,15 @@
 
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
     <div class="application-status" *ngIf="application" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-      (mouseenter)="trigger.openMenu()" (mouseleave)="trigger.closeMenu()">
-      <div class="application-popup-status {{application.status}}">
+      (mouseleave)="trigger.closeMenu()">
+      <div class="application-popup-status {{application.status}}" (mouseenter)="trigger.openMenu()">
         <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
         <span> {{applicationTitles[application.status]}}</span>
-      </div>
+      </div>      
     </div>
-    <mat-menu class="status-menu" [hasBackdrop]="false" disabled #menu="matMenu" [overlapTrigger]="false"
-      (mouseleave)="trigger.closeMenu()" class="mat-application-menu">
+    <mat-menu class="status-menu" [hasBackdrop]="false"  #menu="matMenu" disabled [overlapTrigger]="false" xPosition="after" class="mat-application-menu">
       <app-status-info-card [application]="application"></app-status-info-card>
-    </mat-menu>
+    </mat-menu>    
   </mat-card-content>
 
   <mat-card-content class="card-block card-block-buttons" *ngIf="userRole === role.provider">
