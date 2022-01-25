@@ -72,9 +72,12 @@ export class UserWorkshopService {
    * This method delete workshop by Workshop id
    * @param id: string
    */
+
   deleteWorkshop(id: string): Observable<object> {
-    return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
-  }
+    return this.isRelease2 
+    ? this.http.delete(`/api/v2/Workshop/Delete/${id}`) 
+    : this.http.delete(`/api/v1/Workshop/Delete/${id}`);
+  }  
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
