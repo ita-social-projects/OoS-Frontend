@@ -3,6 +3,9 @@
 p {
   margin: 0px;
 }
+.card>:nth-of-type(2) {
+  max-width: 20%;
+}
 .card {
   background: white;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -31,13 +34,6 @@ p {
   line-height: 20px;
   color: #444444;
   padding-bottom: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 230px;
-    &:hover {
-    cursor: pointer;
-  }
 }
 .text{
   font-family: 'Open Sans', sans-serif;
@@ -137,7 +133,14 @@ p {
   padding-bottom: 8px;
 }
 .workshop-description {
-  width: 60%;
+  width: 100%;
+
+  h4 {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 .application-status {
   width: 80%;
@@ -146,12 +149,29 @@ p {
   font-size: 12px!important;
 }
 
+@media (min-width: 751px) and (max-width: 950px) {
+  .card-block {
+    max-width: 25%;
+  }
+  .card-block-buttons {
+    flex-flow: wrap;
+    row-gap: 1rem;
+  }
+  .hidden {
+    display: none!important;
+  }
+}
+
 @media(max-width: 750px) {
   .card{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start !important;
+  }
+
+  .card>:nth-of-type(2) {
+    max-width: 100%;
   }
 
   .card-block,
