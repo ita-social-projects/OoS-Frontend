@@ -4,12 +4,9 @@ import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Workshop, WorkshopFilterCard } from '../../../shared/models/workshop.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { Workshop } from '../../../shared/models/workshop.model';
 import { NgxsModule, Store } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs';
 
 const MockUser = {
   role: '',
@@ -26,7 +23,6 @@ describe('WorkshopCardsListComponentt', () => {
         WorkshopCardsListComponent,
         MockOrderingComponent,
         MockListWorkshopCardComponent,
-        MockListWorkshopCardPaginatorComponent,
         NoResultCardComponent
       ],
       imports: [
@@ -66,12 +62,4 @@ class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRoleView: string;
-}
-@Component({
-  selector: 'app-paginator',
-  template: ''
-})
-class MockListWorkshopCardPaginatorComponent {
-  @Input() totalEntities: number;
-  @Input() currentPage: PaginationElement;
 }

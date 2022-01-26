@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -32,7 +33,8 @@ describe('ResultComponent', () => {
         MockFiltersSidenavComponent,
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
-        MockScrollToTopComponent
+        MockScrollToTopComponent,
+        MockListWorkshopCardPaginatorComponent
       ]
     })
       .compileComponents();
@@ -101,4 +103,12 @@ class MockScrollToTopComponent { }
 class MockFiltersSidenavComponent {
   @Input() isMobileView;
   @Input() filtersList;
+}
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListWorkshopCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
 }
