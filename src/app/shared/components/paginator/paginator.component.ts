@@ -120,7 +120,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
     this.carouselPageList = this.carouselPageList.concat(pageList);
 
-    if (pageList[pageList.length - 1].element !== this.totalPageAmount) {
+    if (pageList[pageList.length - 1]?.element !== this.totalPageAmount) {
       const end: PaginationElement[] = [
         {
           element: this.constants.PAGINATION_DOTS,
