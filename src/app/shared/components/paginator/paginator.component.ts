@@ -7,12 +7,11 @@ import { PaginationElement } from '../../models/paginationElement.model';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit, OnChanges {
+  readonly constants: typeof PaginationConstants = PaginationConstants;
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
   @Output() pageChange = new EventEmitter<PaginationElement>();
-
-  readonly constants: typeof PaginationConstants = PaginationConstants;
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
