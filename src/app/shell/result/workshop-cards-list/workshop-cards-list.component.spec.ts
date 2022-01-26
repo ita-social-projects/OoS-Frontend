@@ -8,10 +8,6 @@ import { Workshop } from '../../../shared/models/workshop.model';
 import { NgxsModule, Store } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
-const MockUser = {
-  role: '',
-};
-
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
   let fixture: ComponentFixture<WorkshopCardsListComponent>;
