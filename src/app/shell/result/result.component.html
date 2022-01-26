@@ -1,6 +1,7 @@
 <div class="view-control-panel" [class.mobile-map-view]="currentView === viewType.map">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
-    <h3 [class.mobile-map-view]="currentView === viewType.map">Знайдено {{(filteredWorkshops$ | async)?.totalAmount || 0}} гуртків</h3>
+    <h3 [class.mobile-map-view]="currentView === viewType.map">Знайдено {{(filteredWorkshops$ | async)?.totalAmount ||
+      0}} гуртків</h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
   <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
@@ -16,7 +17,8 @@
   <mat-drawer mode="side" [(opened)]="isFiltersVisible">
     <app-filters-list [filtersList]="filtersList"></app-filters-list>
   </mat-drawer>
-  <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'" [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
+  <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'"
+    [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
     <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
       <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$"
         [currentPage]="currentPage"></app-workshop-map-view-list>
@@ -24,13 +26,17 @@
     <ng-template #ShowData>
       <app-workshop-cards-list class="cards" [role]="role$ | async" [workshops$]="filteredWorkshops$"
         [currentPage]="currentPage"></app-workshop-cards-list>
+      <ng-container *ngIf="(filteredWorkshops$ | async)">
+        <app-paginator [totalEntities]="(filteredWorkshops$ | async).totalAmount" [currentPage]="currentPage"
+          (pageChange)="onPageChange($event)">
+        </app-paginator>
+      </ng-container>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
 
 <ng-template #filterButton>
-  <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'"
-    (click)="filterHandler()">
+  <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'" (click)="filterHandler()">
     <span class="material-icons btn-icon">
       <mat-icon *ngIf="isFiltersVisible; else hidden">filter_alt</mat-icon>
       <ng-template #hidden>

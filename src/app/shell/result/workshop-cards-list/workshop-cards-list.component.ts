@@ -23,18 +23,9 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly Role = Role;
   @Input() workshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
-  @Input()
-  set currentPage(page: PaginationElement) {
-    this._currentPage = page
-  };
 
   isVisible = false;
   parent: boolean;
-  _currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
-
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -44,12 +35,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
   }
-
-  onPageChange(page: PaginationElement): void {
-    this._currentPage = page;
-    this.store.dispatch(new PageChange(page));
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
