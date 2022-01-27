@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { CategoryIcons } from '../../enum/category-icons';
 import { Direction } from '../../models/category.model';
@@ -14,12 +14,17 @@ export class CategoryCardComponent implements OnInit {
   @Input() isEditMode: boolean;
   @Input() direction: Direction;
   @Input() icons: {};
+  @Output() deleteDirection = new EventEmitter<Direction>();
   public categoryIcons = CategoryIcons;
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
+  }
+
+  onDelete(): void {
+    this.deleteDirection.emit(this.direction);
   }
 
   selectDirection(direction: Direction): void {

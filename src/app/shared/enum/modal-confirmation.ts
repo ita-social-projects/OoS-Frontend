@@ -1,5 +1,6 @@
 export enum ModalConfirmationType {
   delete = 'delete',
+  deleteDirection = 'deleteDirection',
   leaveWorkshop = 'leaveWorkshop',
   deleteChild = 'deleteChild',
   leavePage = 'leavePage',
@@ -10,6 +11,7 @@ export enum ModalConfirmationType {
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
+  deleteDirection ='ВИДАЛИТИ НАПРЯМОК?',
   deleteChild = 'ВИЛУЧИТИ ДАНІ ПРО ДИТИНУ?',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
   leavePage = 'ЗАЛИШИТИ СТОРІНКУ?',
@@ -20,6 +22,7 @@ export enum ModalConfirmationTitle {
 
 export enum ModalConfirmationText {
   delete = 'Ви впевнені, що хочете видалити гурток',
+  deleteDirection = 'Ви впевнені, що хочете видалити напрямок',
   deleteChild = 'Ви впевнені, що хочете вилучити дані про дитину',
   leaveWorkshop = 'Ви впевнені, що хочете залишити гурток',
   leavePage = 'Ви впевнені, що хочете залишити сторінку?',

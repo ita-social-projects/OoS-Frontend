@@ -23,9 +23,9 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store, 
-    private navigationBarService: NavigationBarService) { 
-      
+    private store: Store,
+    private navigationBarService: NavigationBarService) {
+
       this.directionFormGroup = this.fb.group({
         image: new FormControl(''),
         directionName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),

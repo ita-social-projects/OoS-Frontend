@@ -60,4 +60,5 @@ class MockValidationHintForInputComponent {
   @Input() invalid: boolean;
   @Input() isEmptyCheck: boolean;
   @Input() forbiddenCharacter: string;
+  @Input() directionFormGroup: FormGroup;
 }

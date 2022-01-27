@@ -16,7 +16,7 @@ import { CreateDirectionComponent } from './create-direction/create-direction.co
     SupportEditComponent,
     AboutFormComponent,
     SupportFormComponent,
-    CreateDirectionComponent 
+    CreateDirectionComponent,
   ],
   imports: [
     CommonModule,

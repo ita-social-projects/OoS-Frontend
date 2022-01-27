@@ -1,5 +1,5 @@
   <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{adminTabsUkr.about}}"> 
+    <mat-tab label="{{adminTabsUkr.about}}">
       <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
         <div class="config">
           <a routerLink="./edit" class="config_edit-icon">
@@ -37,7 +37,7 @@
       </div>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
-    <mat-tab label="{{adminTabsUkr.directions}}"> 
+    <mat-tab label="{{adminTabsUkr.directions}}">
       <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
         <div class="search shadow">
           <mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
@@ -49,12 +49,12 @@
       </div>
       <div class="card-wrapper">
         <app-category-card class="card" *ngFor="let direction of directions$ | async" [direction]="direction"
-          [isEditMode]="true">
+          [isEditMode]="true" (deleteDirection)="onDelete($event)">
         </app-category-card>
       </div>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>
-    <mat-tab label="{{adminTabsUkr.support}}"> 
+    <mat-tab label="{{adminTabsUkr.support}}">
 
       <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
         <div class="config config-support">

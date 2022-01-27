@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
-import { GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
+import { DeleteDirectionById, GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
@@ -28,8 +31,9 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
+    private route: ActivatedRoute,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
@@ -42,7 +46,21 @@ export class PlatformComponent implements OnInit, OnDestroy {
   onSelectedTabChange(event: MatTabChangeEvent): void {
     this.router.navigate([`admin-tools/platform/${this.adminTabs[event.index]}`]);
   }
-  
+
+  onDelete(direction: Direction): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: ModalConfirmationType.deleteDirection,
+        property: direction.title
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteDirectionById(direction.id));
+    });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
