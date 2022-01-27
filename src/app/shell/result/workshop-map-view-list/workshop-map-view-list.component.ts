@@ -33,19 +33,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
-  @Input()
-  set currentPage(page) {
-    this._currentPage = page
-  };
-
+  @Input() currentPage: PaginationElement;
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
   isSelectedMarker = false;
   readonly Role = Role;
-  _currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
+
   workshopDetailsAnimationState = false;
 
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
@@ -131,7 +124,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(page: PaginationElement): void {
-    this._currentPage = page;
+    this.currentPage = page;
     this.store.dispatch(new PageChange(page));
   }
 
