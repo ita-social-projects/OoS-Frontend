@@ -24,7 +24,9 @@
     border-radius: 21px;
     padding: 0.5rem 1rem;
     line-height: initial;
+    font-family: 'Open Sans', sans-serif;
     box-sizing: border-box;
+
 
     &-field{
       margin-bottom: -1.34em;
@@ -47,8 +49,7 @@
   }
 
   &-text{
-    font-family: Open Sans;
-    font-weight: 700;
+    font-weight: 700;    
     color: #AAAAAA;
     padding: 5px;
   }
@@ -57,6 +58,7 @@
     border: 1px solid #E3E3E3;
     border-radius: 21px;
     padding: 1.1rem;
+    font-family: 'Open Sans', sans-serif;
     box-sizing: border-box;
     &-short{
       height: 100px;
@@ -70,7 +72,7 @@
     padding-top: 5px;
   }
   &-characters-count {
-    font-family: Open Sans;
+    font-family: 'Open Sans', sans-serif;
     color: #AAAAAA;
   }
   &-border{
