@@ -111,7 +111,6 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
         this.isHidden = item.path === 'map' ? false : true;
       }));
-
   }
 
   viewHandler(value: ViewType): void {
@@ -124,10 +123,6 @@ export class ResultComponent implements OnInit, OnDestroy {
     (!this.isMobileScreen) ? (this.isFiltersVisible = !this.isFiltersVisible) : this.store.dispatch(new FiltersSidenavToggle());
   }
 
-  onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
-  }
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());

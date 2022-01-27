@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { NgxsModule, Store } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -19,7 +20,8 @@ describe('WorkshopCardsListComponentt', () => {
         WorkshopCardsListComponent,
         MockOrderingComponent,
         MockListWorkshopCardComponent,
-        NoResultCardComponent
+        NoResultCardComponent,
+        MockListWorkshopCardPaginatorComponent
       ],
       imports: [
         FlexLayoutModule,
@@ -58,4 +60,12 @@ class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isMainPage: boolean;
   @Input() userRoleView: string;
+}
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListWorkshopCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
 }

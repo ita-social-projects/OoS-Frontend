@@ -6,7 +6,7 @@ import { PaginationElement } from '../../models/paginationElement.model';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent implements OnInit, OnChanges {
+export class PaginatorComponent implements OnInit {
   readonly constants: typeof PaginationConstants = PaginationConstants;
 
   @Input() currentPage: PaginationElement;
@@ -21,22 +21,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.totalPageAmount = this.getTotalPageAmount();
     this.createPageList();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.currentPage) {
-      if (!changes.currentPage.isFirstChange()) {
-        const currentPage = this.carouselPageList.find((page: PaginationElement) => page.element === this.currentPage.element);
-        const isForward: boolean = this.checkIsForwardScrollDirection(changes);
-        const isRecreationAllowed: boolean = this.checkCarouseleRecreationIsAllowed(isForward, currentPage);
-        const isFitAllPages = (+currentPage.element + this.constants.PAGINATION_SHIFT_DELTA) <= this.totalPageAmount;
-
-        if (isRecreationAllowed && isFitAllPages) {
-          this.createPageList();
-        }
-      }
-
-    }
   }
 
   onPageChange(page: PaginationElement): void {
@@ -57,27 +41,11 @@ export class PaginatorComponent implements OnInit, OnChanges {
     this.pageChange.emit(page);
   }
 
-  private checkIsForwardScrollDirection(changes: SimpleChanges): boolean {
-    return changes.currentPage.previousValue.element < changes.currentPage.currentValue.element;
-  }
-
-  private checkCarouseleRecreationIsAllowed(isForward: boolean, currentPage: PaginationElement): boolean {
-    if (isForward) {
-      return this.carouselPageList.indexOf(currentPage) >= this.constants.PAGINATION_SHIFT_DELTA;
-    } else {
-      return this.carouselPageList.indexOf(currentPage) <= this.constants.PAGINATION_SHIFT_DELTA;
-    }
-  }
-
   private createPageList(): void {
     this.carouselPageList = [];
     const pageList = this.createDisplayedPageList();
 
-    if (this.totalPageAmount < this.constants.MAX_PAGE_PAGINATOR_DISPLAY) {
-      this.carouselPageList = pageList;
-    } else {
-      this.createCarouselPageList(pageList);
-    }
+    this.createCarouselPageList(pageList);
   }
 
   private getTotalPageAmount(): number {

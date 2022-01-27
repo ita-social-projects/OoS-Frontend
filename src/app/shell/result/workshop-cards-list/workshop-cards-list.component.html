@@ -5,6 +5,9 @@
         *ngFor="let workshop of (workshops$ | async)?.entities" [workshop]="workshop" [isMainPage]="true">
       </app-workshop-card>
     </div>
+    <app-paginator [totalEntities]="(workshops$ | async).totalAmount" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
+    </app-paginator>
   </ng-container>
 </ng-container>
 

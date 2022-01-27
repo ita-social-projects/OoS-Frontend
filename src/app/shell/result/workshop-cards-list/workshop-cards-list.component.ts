@@ -22,6 +22,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   readonly Role = Role;
   @Input() workshops$: Observable<WorkshopFilterCard>;
+  @Input() currentPage: PaginationElement;
   @Input() role: string;
 
   isVisible = false;
@@ -30,11 +31,16 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+
   constructor(public store: Store) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
 
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new PageChange(page));
   }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
