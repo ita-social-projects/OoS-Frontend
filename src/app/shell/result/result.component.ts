@@ -68,7 +68,22 @@ export class ResultComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.currentView = params.param;
+        // this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map))
+        //   .pipe(takeUntil(this.destroy$))
+        //   .subscribe();
       });
+
+    this.router.events
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event: NavigationStart) => {
+        if (event.navigationTrigger === 'popstate') {
+          console.log('Navigation event: ', event);
+          console.log('Previous view (on Return button click): ', this.currentView);
+          this.store.dispatch(new GetFilteredWorkshops(this.currentView !== this.viewType.map))
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => console.log('Current view (after new state dispatched): ', this.currentView));
+        }
+      })
 
     this.store.dispatch([
       new AddNavPath(this.navigationBarService.creatOneNavPath(
