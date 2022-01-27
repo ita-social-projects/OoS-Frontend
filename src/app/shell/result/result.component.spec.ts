@@ -32,7 +32,7 @@ describe('ResultComponent', () => {
         MockFiltersSidenavComponent,
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
-        MockScrollToTopComponent
+        MockScrollToTopComponent,
       ]
     })
       .compileComponents();
