@@ -1,3 +1,8 @@
 @import "src/app/shared/styles/create-form.scss";
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/calendar.scss";
+
+.step-textarea,
+.step-input {
+  font-family: 'Open Sans', sans-serif;
+}
