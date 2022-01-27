@@ -194,7 +194,8 @@
   .mat-menu-item {
     height: 35px;
     line-height: 35px;
-    font-weight: bold;
+    font-weight: 600;
+    text-rendering:optimizeLegibility;
   }
 }
 
