@@ -14,6 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryIcons } from '../../enum/category-icons';
+import { OwnershipTypeUkr} from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-workshop-card',
@@ -25,6 +26,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly Role: typeof Role = Role;
+  readonly ownershipTypeUkr = OwnershipTypeUkr;
   public categoryIcons = CategoryIcons;
   public below = 'below';
   favoriteWorkshops: Favorite[];

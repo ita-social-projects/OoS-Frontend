@@ -83,6 +83,7 @@ export interface WorkshopCard {
   price: number;
   providerId: string;
   providerTitle: string;
+  providerOwnership: string;
   rating: number;
   title: string;
   workshopId: string;
