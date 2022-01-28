@@ -56,7 +56,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
         return { path: this.authServer + this.imgUrl + imgId };
       });
     } else {
-      this.images.push({ path: 'assets/images/groupimages/workshop-img.png' });
+      this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
     }
   }
 
