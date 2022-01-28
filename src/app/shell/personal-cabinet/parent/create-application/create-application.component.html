@@ -45,10 +45,10 @@
     </div>
 
     <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box">
-      <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
+      <mat-checkbox class="step-check-box" color="primary" [formControl]="AttendAgreementFormControl">
         Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас
       </mat-checkbox>
-      <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
+      <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControl">
         Я(моя дитина) не маю противопоказів щодо відвідування гуртока/секції/класу
       </mat-checkbox>
       <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
@@ -59,7 +59,11 @@
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
-      <button class="btn" mat-button type="submit" [disabled]="!isAgreed || !isParentAgreed || !selectedChild "
+      <button class="btn" mat-button type="submit" 
+        [disabled]="!isAttendAgreed || 
+                    !isContraindicationAgreed || 
+                    !isParentAgreed || 
+                    !selectedChild "
         (click)="onSubmit()">Відправити</button>
     </div>
   </div>

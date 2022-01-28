@@ -36,11 +36,13 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
 
-  AgreementFormControl = new FormControl(false);
+  ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
+  AttendAgreementFormControl = new FormControl(false);
 
   selectedChild: Child;
-  isAgreed: boolean;
+  isContraindicationAgreed: boolean;
+  isAttendAgreed: boolean;
   isParentAgreed: boolean;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
@@ -58,8 +60,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.ParentAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isParentAgreed = val);
-
-    this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
+    this.AttendAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAttendAgreed = val);
+    this.ContraindicationAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isContraindicationAgreed = val);
 
     this.parent$
       .pipe(takeUntil(this.destroy$))
