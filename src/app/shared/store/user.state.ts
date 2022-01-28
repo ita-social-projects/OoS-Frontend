@@ -330,8 +330,8 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    throwError(payload);    
+    dispatch(new ShowMessageBar({ message: 'Ліміт заяв неревищено (>10), повторіть, будь ласка, спробу пізніше', type: 'error' }));
   }
 
   @Action(OnCreateApplicationSuccess)
