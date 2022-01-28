@@ -47,6 +47,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
+  workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
@@ -70,8 +71,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetAllUsersChildren());
       });
 
-    const workshopId = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopById(workshopId));
+    this.workshopId = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(new GetWorkshopById(this.workshopId));
 
     this.workshop$
       .pipe(takeUntil(this.destroy$))
