@@ -58,7 +58,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button class="btn btn-cancel" mat-raised-button><a [routerLink]="''">Скасувати</a></button>
+      <a [routerLink]="['/workshop-details', workshop.id]"><button class="btn btn-cancel" mat-raised-button>Скасувати</button></a>
       <button class="btn" mat-button type="submit" 
         [disabled]="!isAttendAgreed || 
                     !isContraindicationAgreed || 
