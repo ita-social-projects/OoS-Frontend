@@ -73,6 +73,7 @@ import {
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 export interface UserStateModel {
@@ -330,8 +331,11 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    throwError(payload);    
-    dispatch(new ShowMessageBar({ message: 'Ліміт заяв неревищено (>10), повторіть, будь ласка, спробу пізніше', type: 'error' }));
+    throwError(payload);        
+    dispatch(new ShowMessageBar({ message: payload.error.status === 429 
+      ? `Ліміт заяв перевищено, повторіть спробу через 6 днів` 
+      : 'На жаль виникла помилка', 
+      type: 'error' }));
   }
 
   @Action(OnCreateApplicationSuccess)
