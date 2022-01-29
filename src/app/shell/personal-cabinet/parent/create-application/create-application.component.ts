@@ -60,9 +60,15 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.ParentAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isParentAgreed = val);
-    this.AttendAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAttendAgreed = val);
-    this.ContraindicationAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isContraindicationAgreed = val);
+    this.ParentAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.isParentAgreed = val);
+    this.AttendAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.isAttendAgreed = val);
+    this.ContraindicationAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.isContraindicationAgreed = val);
 
     this.parent$
       .pipe(takeUntil(this.destroy$))
