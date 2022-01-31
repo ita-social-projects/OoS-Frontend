@@ -8,11 +8,18 @@ import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model
 import { Provider } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
 
 @Component({
   selector: 'app-create-photo-form',
   templateUrl: './create-photo-form.component.html',
-  styleUrls: ['./create-photo-form.component.scss']
+  styleUrls: ['./create-photo-form.component.scss'],
+  providers: [
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'create-photo-overlay-panel' },
+    },
+  ],
 })
 export class CreatePhotoFormComponent implements OnInit {
 

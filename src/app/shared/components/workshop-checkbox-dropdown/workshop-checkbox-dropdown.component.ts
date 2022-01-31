@@ -3,10 +3,18 @@ import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkshopCard } from '../../models/workshop.model';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
-  styleUrls: ['./workshop-checkbox-dropdown.component.scss']
+  styleUrls: ['./workshop-checkbox-dropdown.component.scss'],
+  providers: [
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'application-overlay-panel' },
+    },
+  ],
 })
 export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 

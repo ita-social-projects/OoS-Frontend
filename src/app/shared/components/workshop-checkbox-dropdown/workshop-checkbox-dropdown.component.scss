@@ -37,3 +37,13 @@ mat-form-field mat-label {
 :host ::ng-deep .mat-form-field-underline {
   height: 0;
 }
+
+::ng-deep .application-overlay-panel {
+  transform: translate(-160px, 2.5rem) !important;
+}
+
+@media (max-width: 1070px) {
+  ::ng-deep .application-overlay-panel {
+    transform: translate(-16px, 2.5rem) !important;
+  }
+}
