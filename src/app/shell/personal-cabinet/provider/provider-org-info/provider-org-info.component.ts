@@ -12,6 +12,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { GetProfile } from 'src/app/shared/store/registration.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { OnUpdateProviderSuccess } from 'src/app/shared/store/user.actions';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-provider-org-info',
@@ -20,6 +21,7 @@ import { OnUpdateProviderSuccess } from 'src/app/shared/store/user.actions';
 })
 export class ProviderOrgInfoComponent implements OnInit {
 
+  readonly constants: typeof Constants = Constants;
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;

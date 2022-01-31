@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-contacts',
@@ -7,6 +8,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
+  readonly constants: typeof Constants = Constants;
   address = 'https://www.google.com/maps/place/';
 
   @Input() workshop: Workshop;
