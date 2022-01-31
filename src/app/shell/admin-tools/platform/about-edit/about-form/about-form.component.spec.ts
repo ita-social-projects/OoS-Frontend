@@ -31,9 +31,7 @@ describe('AboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AboutFormComponent);
     component = fixture.componentInstance;
-    component.AboutFormGroup = new FormGroup({
-      image: new FormControl(''),
-      title: new FormControl(''),
+    component.AboutItemFormGroup = new FormGroup({
       sectionName: new FormControl(''),
       description: new FormControl('')
     });

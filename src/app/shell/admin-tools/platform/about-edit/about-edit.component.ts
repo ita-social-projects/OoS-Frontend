@@ -115,7 +115,8 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.AboutPortalItemArray.invalid) {
       this.checkValidationAboutFormArray(this.AboutPortalItemArray);
-    } else if (this.AboutFormGroup.invalid) {
+    }
+    if (this.AboutFormGroup.invalid) {
       this.checkValidation(this.AboutFormGroup);
     } else {
       let aboutPortalItemArray = [];
