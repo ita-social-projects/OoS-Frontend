@@ -2,7 +2,7 @@
   <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="start"> {{ workshop.price }} грн/{{ workshop.isPerMonth ? 'місяць' : 'заняття'
     }} </h4>
   <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
-  <a [routerLink]="['/create-application', workshop.id]" (click)="login()">
+  <a [routerLink]="['/create-application', workshop.id]" (click)="login()" *ngIf="(role !== Role.techAdmin)">
     <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
       ПОДАТИ ЗАЯВУ
     </button>
@@ -15,7 +15,7 @@
 
   <ng-container *ngIf="isFavorite then disLike; else like"></ng-container>
 
-  <ng-template #disLike>
+  <ng-template #disLike *ngIf="(role !== Role.techAdmin)">
     <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center"
       (click)="role === Role.parent && onDisLike()">
       <mat-icon>favorite</mat-icon>
@@ -23,7 +23,7 @@
     </button>
   </ng-template>
 
-  <ng-template #like>
+  <ng-template #like *ngIf="(role !== Role.techAdmin)">
     <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center"
       (click)="(role === Role.parent) ? onLike() : onOpenDialog()">
       <mat-icon>favorite_border</mat-icon>
