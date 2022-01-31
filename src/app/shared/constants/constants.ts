@@ -20,6 +20,7 @@ export class Constants {
   static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
   static readonly PHONE_LENGTH = 9;
+  static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
 
