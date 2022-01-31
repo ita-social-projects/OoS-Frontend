@@ -29,7 +29,7 @@
           <p>{{provider.phoneNumber}}</p>
           <h5>Емейл</h5>
           <p>{{provider.email}}</p>
-          <h5>Вебсайт</h5>
+          <h5 *ngIf='provider.website'>Вебсайт</h5>
           <p>{{provider.website}}</p>
         </mat-tab>
 
