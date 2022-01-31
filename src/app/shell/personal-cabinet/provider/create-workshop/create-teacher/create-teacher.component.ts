@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 
 
 @Component({
@@ -15,7 +18,7 @@ export class CreateTeacherComponent implements OnInit {
   @Input() teachers: Teacher[];
   @Output() passTeacherFormArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     if (this.teachers?.length) {
@@ -56,6 +59,18 @@ export class CreateTeacherComponent implements OnInit {
    * @param index: number
    */
   onDeleteForm(index: number): void {
-    this.TeacherFormArray.removeAt(index);
+    debugger
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: ModalConfirmationType.deleteTeacher,
+        property: ''
+      }
+    });
+   
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.TeacherFormArray.removeAt(index);
+    });    
   }
+
 }
