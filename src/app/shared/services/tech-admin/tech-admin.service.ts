@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TechAdmin } from '../../models/techAdmin.model';
@@ -7,18 +8,12 @@ import { TechAdmin } from '../../models/techAdmin.model';
 })
 export class TechAdminService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
  /**
   * This method get TechAdmin by id
-  * !!But we need to change this function to get actual data from backend
   */
   getProfile(): Observable<TechAdmin> {
-    return Observable.create(observer => {
-      setTimeout(() => {
-        observer.next({id:"id45nhb", userId: 95});
-      }, 1000);
-    })
+    return this.http.get<TechAdmin>(`/api/v1/Admin/GetProfile`);
   }
-
 }

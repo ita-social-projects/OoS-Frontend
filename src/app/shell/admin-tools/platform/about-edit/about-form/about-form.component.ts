@@ -11,20 +11,19 @@ export class AboutFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
-  @Input() AboutFormGroup: FormGroup;
+  @Input() AboutItemFormGroup: FormGroup;
   @Input() index: number;
   @Input() aboutFormAmount: number;
 
   @Output() deleteForm = new EventEmitter();
 
-  isActiveHeaderInfoButton = false;
   isActiveSectionInfoButton = false;
 
   constructor() { }
 
   ngOnInit(): void { }
 
-  delete(): void {
+  onDelete(): void {
     this.deleteForm.emit(this.index);
   }
 }
