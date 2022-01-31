@@ -2,7 +2,7 @@
 
   <label class="step-label">Форма властності<span class="step-required">*</span></label>
 
-  <mat-form-field floatLabel="never">
+  <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
       name="ownership" placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
