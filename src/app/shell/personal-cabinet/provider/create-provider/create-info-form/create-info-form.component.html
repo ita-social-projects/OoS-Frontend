@@ -6,7 +6,7 @@
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
       name="ownership" placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
-        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
+        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
           {{ ownershipTypeUkr[type.key] }}
         </mat-option>
       </ng-container>

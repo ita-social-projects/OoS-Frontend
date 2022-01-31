@@ -36,15 +36,18 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
 
-  AgreementFormControl = new FormControl(false);
+  ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
+  AttendAgreementFormControl = new FormControl(false);
 
   selectedChild: Child;
-  isAgreed: boolean;
+  isContraindicationAgreed: boolean;
+  isAttendAgreed: boolean;
   isParentAgreed: boolean;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
+  workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
@@ -57,9 +60,15 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.ParentAgreementFormControl.valueChanges.subscribe((val: boolean) => this.isParentAgreed = val);
-
-    this.AgreementFormControl.valueChanges.subscribe((val: boolean) => this.isAgreed = val);
+    this.ParentAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.isParentAgreed = val);
+    this.AttendAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.isAttendAgreed = val);
+    this.ContraindicationAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.isContraindicationAgreed = val);
 
     this.parent$
       .pipe(takeUntil(this.destroy$))
@@ -68,8 +77,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetAllUsersChildren());
       });
 
-    const workshopId = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopById(workshopId));
+    this.workshopId = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(new GetWorkshopById(this.workshopId));
 
     this.workshop$
       .pipe(takeUntil(this.destroy$))
