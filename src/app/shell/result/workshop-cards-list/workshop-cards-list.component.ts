@@ -22,31 +22,22 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   readonly Role = Role;
   @Input() workshops$: Observable<WorkshopFilterCard>;
+  @Input() currentPage: PaginationElement;
   @Input() role: string;
-  @Input()
-  set currentPage(page: PaginationElement) {
-    this._currentPage = page
-  };
 
   isVisible = false;
   parent: boolean;
-  _currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
-
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+
   constructor(public store: Store) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   onPageChange(page: PaginationElement): void {
-    this._currentPage = page;
+    this.currentPage = page;
     this.store.dispatch(new PageChange(page));
   }
 
