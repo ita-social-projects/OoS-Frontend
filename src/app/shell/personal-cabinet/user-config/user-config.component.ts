@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { environment } from 'src/environments/environment';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-user-config',
@@ -11,6 +12,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent {
+  readonly constants: typeof Constants = Constants;
   public culture: string = localStorage.getItem('ui-culture');;
 
   @Select(RegistrationState.user)
