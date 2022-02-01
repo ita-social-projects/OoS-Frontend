@@ -330,12 +330,11 @@ export class UserState {
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
     throwError(payload);    
-
-    console.log('OnCreateApplicationFail', payload);
-    
     
     dispatch(new ShowMessageBar({ message: payload.error.status = 429 
-      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(payload.headers.get('retry-after'))}}` 
+      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(235498)}, 
+        ${payload.headers.get('content-length')},
+        ${payload.headers.get('retry-after')}` 
       : 'На жаль виникла помилка', 
       type: 'error' }));
 
@@ -343,12 +342,38 @@ export class UserState {
         seconds = Number(seconds);
         const d = Math.floor(seconds / (3600*24));
         const h = Math.floor(seconds % (3600*24) / 3600);        
-        const dDisplay = d > 0 ? d + (d == 1 ? " день " : " дні ") : "";
-        const hDisplay = h > 0 ? h + (h == 1 ? " годину " : " годин ") : "";
+        let dDisplay;
+        let hDisplay;
+        if(d > 0) {
+          switch(d) {
+            case 1: dDisplay = d + " день ";
+            break;
+            case 2:
+            case 3:
+            case 4: dDisplay = d + " дні ";
+            break;
+            default: dDisplay = d + " днів ";            
+          }
+        } else {
+          dDisplay = ""
+        };
+
+        if(h > 0) {
+          switch(h) {
+            case 1: hDisplay = history + " годину";
+            break;
+            case 2:
+            case 3:
+            case 4: hDisplay = h + " години";
+            break;
+            default: hDisplay = h + " годин";            
+          }
+        } else {
+          hDisplay = ""
+        };
         return dDisplay + hDisplay;
         }
-  }
-  
+  }  
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
