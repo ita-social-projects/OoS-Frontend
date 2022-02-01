@@ -3,19 +3,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-info-form',
   templateUrl: './create-info-form.component.html',
-  styleUrls: ['./create-info-form.component.scss'],
-  providers: [
-    {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'create-info-overlay-panel' },
-    },
-  ],
+  styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit {
 

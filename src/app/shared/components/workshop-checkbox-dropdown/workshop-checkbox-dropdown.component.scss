@@ -38,12 +38,6 @@ mat-form-field mat-label {
   height: 0;
 }
 
-::ng-deep .application-overlay-panel {
-  transform: translate(-160px, 2.5rem) !important;
-}
-
-@media (max-width: 1070px) {
-  ::ng-deep .application-overlay-panel {
-    transform: translate(-16px, 2.5rem) !important;
-  }
+::ng-deep .custom-overlay-panel .application-dropdown {
+  max-width: 180px;
 }

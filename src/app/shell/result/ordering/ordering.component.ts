@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatSelectChange, MAT_SELECT_CONFIG } from '@angular/material/select';
+import { MatSelectChange } from '@angular/material/select';
 import { Actions, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,13 +11,7 @@ import { SetOrder } from 'src/app/shared/store/filter.actions';
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
-  styleUrls: ['./ordering.component.scss'],
-  providers: [
-    {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'ordering-overlay-panel' },
-    },
-  ],
+  styleUrls: ['./ordering.component.scss']
 })
 
 export class OrderingComponent implements OnInit {

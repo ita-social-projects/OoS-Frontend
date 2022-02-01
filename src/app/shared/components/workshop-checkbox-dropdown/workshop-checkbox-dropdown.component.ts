@@ -8,13 +8,7 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
-  styleUrls: ['./workshop-checkbox-dropdown.component.scss'],
-  providers: [
-    {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'application-overlay-panel' },
-    },
-  ],
+  styleUrls: ['./workshop-checkbox-dropdown.component.scss']
 })
 export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 
