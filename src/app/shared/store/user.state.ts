@@ -330,9 +330,12 @@ export class UserState {
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
     throwError(payload);    
+
+    console.log('OnCreateApplicationFail', payload);
+    
     
     dispatch(new ShowMessageBar({ message: payload.error.status = 429 
-      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(237047)}` 
+      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(payload.headers.get('retry-after'))}}` 
       : 'На жаль виникла помилка', 
       type: 'error' }));
 
