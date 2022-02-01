@@ -3,7 +3,7 @@
  [fxLayoutAlign]="isMobileScreen ? 'none' : 'center start'"
  fxLayoutGap="2rem">
  <ng-container *ngIf="!isMobileScreen">
-   <app-actions *ngIf="(role !== Role.provider)" [role]="role" [workshop]="workshop"></app-actions>
+   <app-actions *ngIf="(role !== Role.provider && role !== Role.techAdmin)" [role]="role" [workshop]="workshop"></app-actions>
  </ng-container>
   <app-contacts [workshop]="workshop"></app-contacts>
   <!-- <app-schedule [workshop]="workshop"></app-schedule> TODO: for teh second release-->
