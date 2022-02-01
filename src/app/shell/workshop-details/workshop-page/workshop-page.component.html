@@ -2,9 +2,9 @@
 
 <ng-template #WorkshopDetails>
   <div class="container">
-    <ng-conteiner *ngIf="(isMobileScreen$ | async)">
+    <ng-container *ngIf="(isMobileScreen$ | async)">
       <app-actions *ngIf="role !== Role.provider" [role]="role" [workshop]="workshop"></app-actions>
-    </ng-conteiner>
+    </ng-container>
     <app-image-carousel [images]="images"></app-image-carousel>
     <div class="workshop-wrapper">
       <div fxLayout="column" fxLayoutAlign="space-between space-between">
