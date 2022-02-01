@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkshopCard } from '../../models/workshop.model';
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
 
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
