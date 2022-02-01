@@ -9,7 +9,7 @@
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
     <button class="btn" mat-button
       [mat-dialog-close]="(data.type === modalConfirmationType.rate) ? ratingSelectControl?.value : true"
-      cdkFocusInitial>ПІДТВЕРДИТИ</button>
+      cdkFocusInitial>{{data.type === modalConfirmationType.delete ? 'ВИДАЛИТИ' : 'ПІДТВЕРДИТИ'}}</button>
     <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>
