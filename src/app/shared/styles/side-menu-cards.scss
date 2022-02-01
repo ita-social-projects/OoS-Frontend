@@ -4,7 +4,7 @@
   padding: 24px;
   width: 300px;
   min-height: 206px;
-  margin: 0 0 2rem 2rem;
+  margin: 0 0 2rem 0;
 
     &-mobile {
       min-height: min-content;
@@ -43,6 +43,10 @@
     }
     a {
       color: #3849F9;
+    }
+
+    span {
+      white-space: pre;
     }
   }
 }
@@ -95,15 +99,14 @@
   margin-left: 22px;
 }
 
-@media(max-width: 1280px) {
+@media(min-width: 1280px) {
   .container{
-    margin: 0 2rem 2rem 0;
+    margin: 0;
   }
 }
 
-@media(max-width: 720px) {
+@media(max-width: 750px) {
   .container{
-    margin: 0 0 2rem 0;
     width: 100%;
   }
 }
