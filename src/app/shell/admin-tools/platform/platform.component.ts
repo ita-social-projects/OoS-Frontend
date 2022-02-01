@@ -5,8 +5,10 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { AboutPortal } from 'src/app/shared/models/aboutPortal.model';
 import { Direction } from 'src/app/shared/models/category.model';
 import { GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
@@ -23,6 +25,9 @@ export class PlatformComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @Select(AdminState.aboutPortal)
+  aboutPortal$: Observable<AboutPortal>;
 
   tabIndex: number;
 

@@ -10,6 +10,10 @@
     font-weight: normal;
     font-size: 13px;
     line-height: 18px;
+    white-space: break-spaces;
+  }
+  h4 {
+    margin-bottom: 20px;
   }
 }
 
@@ -23,8 +27,8 @@
 }
 
 .config-button {
-  font-weight: bold;
-  font-family:Open Sans;
+  font-weight: 300;
+  font-family: Open Sans;
 }
 
 .config-support p {
