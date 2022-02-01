@@ -73,8 +73,6 @@ import {
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
-import { HttpErrorResponse } from '@angular/common/http';
-
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -331,12 +329,23 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    throwError(payload);        
-    dispatch(new ShowMessageBar({ message: payload.error.status === 429 
-      ? `Ліміт заяв перевищено, повторіть спробу через 6 днів` 
+    throwError(payload);    
+    
+    dispatch(new ShowMessageBar({ message: payload.error.status = 429 
+      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(237047)}` 
       : 'На жаль виникла помилка', 
       type: 'error' }));
+
+      function secondsToDhms(seconds: number): string {
+        seconds = Number(seconds);
+        const d = Math.floor(seconds / (3600*24));
+        const h = Math.floor(seconds % (3600*24) / 3600);        
+        const dDisplay = d > 0 ? d + (d == 1 ? " день " : " дні ") : "";
+        const hDisplay = h > 0 ? h + (h == 1 ? " годину " : " годин ") : "";
+        return dDisplay + hDisplay;
+        }
   }
+  
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
@@ -381,7 +390,7 @@ export class UserState {
 
   @Action(OnUpdateWorkshopFail)
   onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
-    throwError(payload);
+    throwError(payload);    
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
@@ -394,7 +403,6 @@ export class UserState {
         catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
       );
   }
-
 
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
