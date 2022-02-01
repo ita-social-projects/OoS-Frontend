@@ -79,7 +79,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   private newForm(aboutPortalItem?: AboutPortalItem): FormGroup {
     const aboutEditFormGroup = this.fb.group({
       sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH), Validators.required]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH)]),
     });
 
     aboutEditFormGroup.valueChanges
@@ -115,8 +115,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.AboutPortalItemArray.invalid) {
       this.checkValidationAboutFormArray(this.AboutPortalItemArray);
-    }
-    if (this.AboutFormGroup.invalid) {
+    } else if (this.AboutFormGroup.invalid) {
       this.checkValidation(this.AboutFormGroup);
     } else {
       let aboutPortalItemArray = [];
