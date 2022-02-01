@@ -16,9 +16,9 @@ export class AboutPortal {
   title?: string;
   aboutPortalItems: AboutPortalItem [];
 
-  constructor(title: string, portalItem: AboutPortalItem[], id?) {
+  constructor(title: string, portalItems: AboutPortalItem[], id?) {
     this.id = id;
     this.title = title;
-    this.aboutPortalItems = portalItem;
+    this.aboutPortalItems = portalItems;
   }
 }
