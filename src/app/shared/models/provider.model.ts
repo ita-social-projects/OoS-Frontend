@@ -17,7 +17,7 @@ export class Provider {
   directorDateOfBirth?: string | Date;
   phoneNumber?: string;
   founder?: string;
-  ownership?: number;
+  ownership?: string;
   type?: number;
   status?: boolean;
   legalAddress?: Address;

@@ -2,11 +2,11 @@
 
   <label class="step-label">Форма властності<span class="step-required">*</span></label>
 
-  <mat-form-field floatLabel="never">
+  <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
       name="ownership" placeholder="Оберіть форму властності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
-        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
+        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
           {{ ownershipTypeUkr[type.key] }}
         </mat-option>
       </ng-container>
@@ -93,7 +93,7 @@
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
-      <span class="step-text">+380</span>
+      <span class="step-text">{{constants.PHONE_PREFIX}}</span>
       <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
         ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
     </div>

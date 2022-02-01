@@ -15,12 +15,12 @@ export class PortalService {
    * @param aboutPortal: AboutPortal
    */
    updateInfoAboutPortal(aboutPortal: AboutPortal): Observable<object> {
-    return this.http.put('/api/v1/InformationAboutPortal/Update', aboutPortal);
+    return this.http.put('/api/v1/AboutPortal/Update', aboutPortal);
   }
   /**
    * This method get information about Portal from the database.
    */
    getInfoAboutPortal(): Observable<AboutPortal> {
-    return this.http.get<AboutPortal>('/api/v1/InformationAboutPortal/Get');
+    return this.http.get<AboutPortal>('/api/v1/AboutPortal/Get');
   }
 }

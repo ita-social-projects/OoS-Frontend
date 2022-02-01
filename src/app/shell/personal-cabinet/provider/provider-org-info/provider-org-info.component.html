@@ -26,11 +26,15 @@
           <h5>ЄДРПОУ/ІПН</h5>
           <p>{{provider.edrpouIpn}}</p>
           <h5>Телефон</h5>
-          <p>{{provider.phoneNumber}}</p>
+          <p>{{constants.PHONE_PREFIX}}{{provider.phoneNumber}}</p>
           <h5>Емейл</h5>
           <p>{{provider.email}}</p>
-          <h5>Вебсайт</h5>
+          <h5 *ngIf='provider.website'>Вебсайт</h5>
           <p>{{provider.website}}</p>
+          <h5 *ngIf='provider.facebook'>Facebook</h5>
+          <p>{{provider.facebook}}</p>
+          <h5 *ngIf='provider.instagram'>Instagram</h5>
+          <p>{{provider.instagram}}</p>
         </mat-tab>
 
         <mat-tab label="Контакти">
