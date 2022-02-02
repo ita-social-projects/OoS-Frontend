@@ -96,7 +96,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
-      placeOfStudy: new FormControl('')
+      placeOfStudy: new FormControl(''),
+      placeOfLiving: new FormControl(''),
+      certificateOfBirth: new FormControl(''),
     });
 
     this.subscribeOnDirtyForm(childFormGroup);

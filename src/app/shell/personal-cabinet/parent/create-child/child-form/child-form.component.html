@@ -70,9 +70,19 @@
     </mat-select>
   </mat-form-field>
 
+  <label class="step-label">Місце проживання</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none">
+  </mat-form-field>
+
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none">
+  </mat-form-field>
+
+  <label class="step-label">Серія та номер свідоцтва про народження</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none">
   </mat-form-field>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1">
