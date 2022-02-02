@@ -329,12 +329,11 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    throwError(payload);    
+    throwError(payload);
+    console.log('OnCreateApplicationFail', payload.headers);    
     
     dispatch(new ShowMessageBar({ message: payload.error.status = 429 
-      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(235498)}, 
-        ${payload.headers.get('content-length')},
-        ${payload.headers.get('retry-after')}` 
+      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(170658)}, ${payload.headers.get('retry-after')}` 
       : 'На жаль виникла помилка', 
       type: 'error' }));
 
@@ -364,6 +363,8 @@ export class UserState {
             break;
             case 2:
             case 3:
+            case 23:
+            case 24:
             case 4: hDisplay = h + " години";
             break;
             default: hDisplay = h + " годин";            
