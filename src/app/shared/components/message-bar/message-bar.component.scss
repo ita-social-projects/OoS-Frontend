@@ -32,6 +32,10 @@
 
 ::ng-deep .success{
   background: #C4EBC5;
+  .icon{    
+    border: solid 1px #199953;
+    color: #199953;
+  }
 }
 ::ng-deep .error{
   background: #F8E4DD;

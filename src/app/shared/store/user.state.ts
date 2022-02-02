@@ -290,10 +290,10 @@ export class UserState {
   onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Child is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Дитина успішно зареєстрована', type: 'success' }));
+    dispatch(new ShowMessageBar({ message: 'Дякуємо! Дитина була успішно додана.', type: 'success' }));
     this.router.navigate(['/personal-cabinet/parent/info']);
   }
-
+ 
   @Action(CreateProvider)
   createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
     return this.providerService
