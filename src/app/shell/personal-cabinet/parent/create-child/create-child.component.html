@@ -13,8 +13,8 @@
         [socialGroups]="(socialGroups$ | async)" (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
 
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <button *ngIf="!editMode" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
+    <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
+      <button class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
     </div>
