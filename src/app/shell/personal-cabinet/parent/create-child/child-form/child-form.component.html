@@ -100,10 +100,6 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ChildFormGroup.get('placeOfStudy').errors?.required"
-    [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched">
-  </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validAddressField"
     [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
     [forbiddenCharacter]="ChildFormGroup.get('placeOfStudy').errors?.pattern?.requiredPattern">
