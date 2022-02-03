@@ -95,6 +95,17 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none">
   </mat-form-field>
+  <app-validation-hint-for-input type="validAddressField"
+    [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
+    [forbiddenCharacter]="ChildFormGroup.get('placeOfLiving').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validLength"
+    [minLength]="ChildFormGroup.get('placeOfLiving').errors?.minlength"
+    [maxLength]="ChildFormGroup.get('placeOfLiving').errors?.maxlength"
+    [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
+    [minCharachters]="10"
+    [maxCharachters]="256">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
