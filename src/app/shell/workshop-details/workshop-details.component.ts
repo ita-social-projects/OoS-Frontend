@@ -1,6 +1,6 @@
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
@@ -14,6 +14,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { Rate } from 'src/app/shared/models/rating';
 import { AppState } from 'src/app/shared/store/app.state';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-workshop-details',
@@ -32,21 +33,45 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   workshop: Workshop;
   ratings: Rate[];
   workshopId: string;
+  previousUrl: string;
+  currentUrl: string;
 
   constructor(
     private store: Store,
     private route: ActivatedRoute,
+    private router: Router,
     public navigationBarService: NavigationBarService,
     private actions$: Actions,
+    private location: Location,
   ) { }
 
   ngOnInit(): void {
+    this.currentUrl = this.router.url;
+    this.previousUrl = null;
+    console.log('previousUrl if first on workshop-details: ', this.previousUrl);
+    console.log('currentUrl if first on workshop-details: ', this.currentUrl);
+
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
+        this.previousUrl = this.currentUrl;
+        this.currentUrl = this.router.url;
+        console.log('previousUrl: ', this.previousUrl);
+        console.log('currentUrl: ', this.currentUrl);
         this.store.dispatch(new GetWorkshopById(params.id)).subscribe(() => {
           this.workshop$.pipe(
-            filter((workshop: Workshop) => !!workshop),
+            filter((workshop: Workshop) => {
+              if (workshop) {
+                return true;
+              } else {
+                if (this.currentUrl !== this.previousUrl && this.previousUrl) {
+                  this.router.navigate([this.previousUrl]);
+                } else {
+                  console.log('location back work');
+                  this.location.back();
+                }
+              }
+            }),
             takeUntil(this.destroy$)
           ).subscribe((workshop: Workshop) => {
             this.workshop = workshop;

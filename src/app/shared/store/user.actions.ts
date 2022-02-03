@@ -14,6 +14,10 @@ export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: string) { }
 }
+export class OnGetWorkshopByIdFail {
+  static readonly type = '[user] get Workshop By Workshop Id fail';
+  constructor(public payload: Error) { }
+}
 export class GetProviderById {
   static readonly type = '[user] get Provider By Provider Id';
   constructor(public payload: string) { }
