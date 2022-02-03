@@ -16,6 +16,8 @@ $button-color-cancel: #444444;
 
   &-reset, &-add {
     color: $button-color;
+    padding: 2px 30px;
+    border-radius: 20px;
   }
 
   .btn-add {
