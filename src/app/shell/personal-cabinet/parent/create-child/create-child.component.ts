@@ -15,7 +15,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 
@@ -90,15 +90,38 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      lastName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX), 
+        Validators.minLength(1), 
+        Validators.maxLength(30)
+      ]),
+      firstName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(1), 
+        Validators.maxLength(30)
+      ]),
+      middleName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(1), 
+        Validators.maxLength(30)
+      ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
-      placeOfStudy: new FormControl(''),
-      placeOfLiving: new FormControl(''),
+      placeOfLiving: new FormControl('', [
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(10), 
+        Validators.maxLength(256)
+      ]),
       certificateOfBirth: new FormControl(''),
+      placeOfStudy: new FormControl('', [
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(10), 
+        Validators.maxLength(256)
+      ])
     });
 
     this.subscribeOnDirtyForm(childFormGroup);
