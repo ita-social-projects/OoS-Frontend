@@ -74,6 +74,7 @@ import {
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 
+
 export interface UserStateModel {
   isLoading: boolean;
   workshops: WorkshopCard[];
@@ -289,10 +290,10 @@ export class UserState {
   onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Child is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Дитина успішно зареєстрована', type: 'success' }));
+    dispatch(new ShowMessageBar({ message: 'Дякуємо! Дитина була успішно додана.', type: 'success' }));
     this.router.navigate(['/personal-cabinet/parent/info']);
   }
-
+ 
   @Action(CreateProvider)
   createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
     return this.providerService
@@ -334,7 +335,7 @@ export class UserState {
       ? `Ліміт заяв перевищено, повторіть спробу через ${this.applicationService.secondsToDh(362230)}, ${payload.headers.get('retry-after')}` 
       : 'На жаль виникла помилка', 
       type: 'error' }));      
-  }  
+  }
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
@@ -379,7 +380,7 @@ export class UserState {
 
   @Action(OnUpdateWorkshopFail)
   onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
-    throwError(payload);    
+    throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
@@ -392,6 +393,7 @@ export class UserState {
         catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
       );
   }
+
 
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildFail): void {
