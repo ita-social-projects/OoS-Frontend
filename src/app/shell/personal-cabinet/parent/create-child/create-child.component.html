@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
-      <p class="wrapper-text">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю
+      <p class="wrapper-text" *ngIf="!editMode">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю
         інформацію
         у вашому особистому кабінеті.</p>
     </div>
