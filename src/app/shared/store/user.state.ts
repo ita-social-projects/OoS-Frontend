@@ -330,50 +330,12 @@ export class UserState {
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
     throwError(payload);
-    console.log('OnCreateApplicationFail', payload.headers.get('content-length'));    
+    console.log('OnCreateApplicationFail', payload.headers);    
     
     dispatch(new ShowMessageBar({ message: payload.error.status = 429 
-      ? `Ліміт заяв перевищено, повторіть спробу через ${secondsToDhms(151317)}, ${payload.headers.get('retry-after')}` 
+      ? `Ліміт заяв перевищено, повторіть спробу через ${this.applicationService.secondsToDh(151317)}, ${payload.headers.get('retry-after')}` 
       : 'На жаль виникла помилка', 
-      type: 'error' }));
-
-      function secondsToDhms(seconds: number): string {
-        seconds = Number(seconds);
-        const d = Math.floor(seconds / (3600*24));
-        const h = Math.floor(seconds % (3600*24) / 3600);        
-        let dDisplay;
-        let hDisplay;
-        if(d > 0) {
-          switch(d) {
-            case 1: dDisplay = d + " день ";
-            break;
-            case 2:
-            case 3:
-            case 4: dDisplay = d + " дні ";
-            break;
-            default: dDisplay = d + " днів ";            
-          }
-        } else {
-          dDisplay = ""
-        };
-
-        if(h > 0) {
-          switch(h) {
-            case 1: hDisplay = history + " годину";
-            break;
-            case 2:
-            case 3:
-            case 23:
-            case 24:
-            case 4: hDisplay = h + " години";
-            break;
-            default: hDisplay = h + " годин";            
-          }
-        } else {
-          hDisplay = ""
-        };
-        return dDisplay + hDisplay;
-        }
+      type: 'error' }));      
   }  
 
   @Action(OnCreateApplicationSuccess)
