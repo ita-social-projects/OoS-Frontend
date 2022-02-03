@@ -48,16 +48,12 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUrl = this.router.url;
     this.previousUrl = null;
-    console.log('previousUrl if first on workshop-details: ', this.previousUrl);
-    console.log('currentUrl if first on workshop-details: ', this.currentUrl);
-
+    
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
         this.previousUrl = this.currentUrl;
         this.currentUrl = this.router.url;
-        console.log('previousUrl: ', this.previousUrl);
-        console.log('currentUrl: ', this.currentUrl);
         this.store.dispatch(new GetWorkshopById(params.id)).subscribe(() => {
           this.workshop$.pipe(
             filter((workshop: Workshop) => {
@@ -67,7 +63,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
                 if (this.currentUrl !== this.previousUrl && this.previousUrl) {
                   this.router.navigate([this.previousUrl]);
                 } else {
-                  console.log('location back work');
                   this.location.back();
                 }
               }
