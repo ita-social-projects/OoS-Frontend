@@ -1,6 +1,6 @@
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
