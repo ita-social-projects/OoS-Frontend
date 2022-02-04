@@ -64,8 +64,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
                   this.router.navigate([this.previousUrl]);
                 } else {
                   this.location.back();
-                  return false;
                 }
+                return false;
               }
             }),
             takeUntil(this.destroy$)
