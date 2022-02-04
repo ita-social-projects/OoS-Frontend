@@ -79,10 +79,12 @@ export class ApplicationService {
 
     if(h > 0) {
       switch(h) {
+        case 21:
         case 1: hDisplay = history + " годину";
         break;
         case 2:
         case 3:
+        case 22:
         case 23:
         case 24:
         case 4: hDisplay = h + " години";
