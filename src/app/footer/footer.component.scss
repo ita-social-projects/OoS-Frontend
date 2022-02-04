@@ -1,0 +1,20 @@
+.footer {
+  background-color: #EBEBEB;
+  padding: 2.375rem 5rem;
+  bottom: 0;
+  width: 100%;
+
+  .min-logo {
+    height: 41px;
+  }
+
+  @media(max-width: 599px) {
+    padding: 1rem;
+    position: static;
+    transform: none;
+
+    .min-logo {
+      height: 25px;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
+  [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
+  <p class="step-name__xs">Про гурток</p>
+  <!-- <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
+  TODO: Second release -->
+
+  <label class="step-label"> Призвіще <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="lastName">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="TeacherFormGroup.get('lastName').errors?.required"
+    [invalid]="TeacherFormGroup.get('lastName').invalid && TeacherFormGroup.get('lastName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="TeacherFormGroup.get('lastName').invalid && TeacherFormGroup.get('lastName').touched"
+    [forbiddenCharacter]="TeacherFormGroup.get('lastName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="firstName">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="TeacherFormGroup.get('firstName').errors?.required"
+    [invalid]="TeacherFormGroup.get('firstName').invalid && TeacherFormGroup.get('firstName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="TeacherFormGroup.get('firstName').invalid && TeacherFormGroup.get('firstName').touched"
+    [forbiddenCharacter]="TeacherFormGroup.get('firstName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <label class="step-label"> По-батькові <span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="middleName">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="TeacherFormGroup.get('middleName').errors?.required"
+    [invalid]="TeacherFormGroup.get('middleName').invalid && TeacherFormGroup.get('middleName').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="TeacherFormGroup.get('middleName').invalid && TeacherFormGroup.get('middleName').touched"
+    [forbiddenCharacter]="TeacherFormGroup.get('middleName').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <label class="step-label">Дата народження<span class="step-required">*</span></label>
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+    <input [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="01.01.2000">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="TeacherFormGroup.get('dateOfBirth').invalid && TeacherFormGroup.get('dateOfBirth').touched">
+  </app-validation-hint-for-input>
+
+  <div class="step-label-combined">
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{TeacherFormGroup.get('description').value.length}}/{{constants.MAX_TEACHER_DESCRIPTION_LENGTH }}</label>
+  </div>
+  <mat-form-field appearance="none">
+    <div class="wrapper-border">
+      <textarea matInput class="step-textarea step-input-field"
+        placeholder="Максимум {{constants.MAX_TEACHER_DESCRIPTION_LENGTH}} символів" formControlName="description"
+        maxlength="{{constants.MAX_TEACHER_DESCRIPTION_LENGTH}}"></textarea>
+    </div>
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="TeacherFormGroup.get('description').invalid && TeacherFormGroup.get('description').touched">
+  </app-validation-hint-for-input>
+
+  <div fxLayout='row' fxLayoutAlign='center' *ngIf="teacherAmount > 1">
+    <button class=" btn-reset" mat-button (click)="onDeleteTeacher()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про викладача
+    </button>
+  </div>
+
+</form>

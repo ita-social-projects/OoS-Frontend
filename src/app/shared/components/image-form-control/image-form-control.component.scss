@@ -1,0 +1,77 @@
+@import "src/app/shared/styles/create-form.scss";
+
+.form-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.photo-header {
+  font-weight: bold;
+  font-size: 0.813rem;
+  line-height: 0.938rem;
+  color: #333333;
+}
+.photo-subheader {
+  font-weight: normal;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
+  margin-bottom:0.3rem;
+  color: #AAAAAA;
+}
+.logo {
+  &_cancel{
+    position: absolute;
+    cursor: pointer;
+    top:0;
+    right:0;
+    z-index: 10;
+    display: none;
+  }
+  &_button {
+    width: 100%;
+    max-width: 95px;
+    label {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 95px;
+      height: 58px;
+      background: rgba(56, 73, 249, 0.1);
+      border: 0.063rem dashed #3849F9;
+      box-sizing: border-box;
+      border-radius: 0.313rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    label:hover {
+      transition: all 0.3s ease-out;
+      background: rgba(56, 73, 249, 0.3);
+    }
+    input {
+      display: none;
+    }
+  }
+  &_images {
+    width: 95px;
+    height: 58px;
+    background: #FFFFFF;
+    img {
+      object-fit: cover;
+      width: 95px;
+      height: 58px;
+      border-radius: 5px;
+    }
+  }
+}
+mat-grid-tile img:hover +.logo_cancel {
+  display:block;
+}
+.logo_cancel:hover {
+  display: block
+}
+mat-icon:hover{
+  color:red;
+}

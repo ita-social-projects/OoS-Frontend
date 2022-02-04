@@ -1,0 +1,21 @@
+<mat-card class="category" fxLayout="column" fxLayoutAlign="center center" [routerLink]="'/result'"
+  (click)="selectDirection(direction)">
+  <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
+
+  <ng-container *ngIf="isEditMode">
+    <a routerLink="./create" class="config_edit-icon">
+      <button mat-button class="config-button">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </a>
+  </ng-container>
+
+  <div class="details">
+    <h3 class="title">{{ direction.title }}</h3>
+    <!-- <div class="link">
+      <a >
+        {{ workshopsCount }} {{ getWord(workshopsCount) }} <span class="material-icons arrow">arrow_forward</span>
+      </a>
+    </div> -->
+  </div>
+</mat-card>

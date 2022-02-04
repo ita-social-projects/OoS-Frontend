@@ -1,0 +1,6 @@
+<mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
+  <input type="text" maxlength="200" [formControl]="searchValue" matInput placeholder="Введіть назву гуртка, школи"
+    (keyup.enter)="onSearch()">
+  <mat-error *ngIf="searchValue && searchValue.errors">Пошук не може містити спеціальні символи.</mat-error>
+  <mat-icon class="icon" style="transform: rotate(90deg)" (click)="onSearch()">search</mat-icon>
+</mat-form-field>

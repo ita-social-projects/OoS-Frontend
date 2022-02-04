@@ -1,0 +1,35 @@
+:host ::ng-deep .mat-form-field-wrapper{
+  padding: 0;
+}
+:host ::ng-deep .mat-form-field-infix{
+  border: none;
+}
+.city-search{
+  position: relative;
+  min-width: min-content;
+}
+.city-filter {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  color: #444444;
+}
+.create-form {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+}
+.mat-option {
+  line-height: 20px;
+}
+.city-region {
+  color: #161414;
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+.step-input {
+  font-family: 'Open Sans', sans-serif;
+}

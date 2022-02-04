@@ -1,0 +1,17 @@
+.step-input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched, .redBorder { 
+  outline: none;
+  border: 1px solid #C72A21;
+}
+
+.disabled-button {
+  opacity: 0.5;
+}
+
+.highlight-text {
+  color: red;
+}
+
+mat-error {
+  margin-top: 8px;
+}
+

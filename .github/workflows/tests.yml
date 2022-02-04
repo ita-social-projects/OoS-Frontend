@@ -1,0 +1,22 @@
+name: Build and test
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull the source code to GitHub workspace
+        uses: actions/checkout@v2
+      - name: Set up Node environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Run build
+        run: yarn run build --prod
+      - name: Run tests
+        if: ${{ success() }}
+        run: yarn test

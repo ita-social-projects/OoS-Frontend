@@ -1,0 +1,25 @@
+.page{
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #444444;
+  pointer-events: none;
+  padding: 1rem;
+  min-width: 20px !important;
+
+  &-selected{
+    color: #3849F9;
+  }
+}
+.arrow, .page-selected, .page-unselected{
+  pointer-events: all;
+}
+.arrow:hover{
+  color: #3849F9;
+}
+.page-selected:hover, .page-unselected:hover, .arrow:hover{
+  cursor: pointer;
+  opacity: 0.5;
+}

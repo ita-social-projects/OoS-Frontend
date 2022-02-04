@@ -1,0 +1,112 @@
+@import "src/app/shared/styles/list-wrappers.scss";
+@import "src/app/shared/styles/card-wrapper.scss";
+
+.main {
+  width: 100%;
+
+  &_registration {
+    padding: 32px 40px;
+    background: #3849f9;
+    border-radius: 5px;
+    position: relative;
+    height: 125px;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      background-image: url(../../../assets/images/half_circle.png);
+      height: 100%;
+      width: 62px;
+      left: 0;
+      top: 0;
+    }
+  }
+  &_button {
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 13px;
+    line-height: 13px;
+    border-color: white;
+    color: white;
+  }
+  &_question {
+    color: #ffffff;
+  }
+  &_hint {
+    margin-top: 16px;
+    color: #ffffff;
+  }
+  &_link {
+    display: flex;
+    font-weight: bold;
+    color: #3849f9;
+    align-items: center;
+    .arrow {
+      margin-left: 8px;
+      font-size: 15px;
+      line-height: 24px;
+    }
+  }
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+  }
+ }
+
+app-footer {
+  visibility: hidden;
+  position: absolute;
+}
+
+@media (max-width: 675px) {
+  .main_registration {
+    padding: 20px;
+    height: inherit;
+    margin: 24px 16px;
+    display: block !important;
+
+    .main_button-wrapper {
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  app-footer {
+    visibility: visible;
+    position: static;
+  }
+  .main_title {
+    font-size: 16px !important;
+  }
+  .main-header {
+    padding: 0 1rem;
+    h3{
+      font-size: 14px;
+    }
+    .main_link {
+      font-size: 13px;
+    }
+  }
+  .card-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    .card {
+      margin-right: 8px;
+      scroll-snap-align: center;
+    }
+  }
+  
+}

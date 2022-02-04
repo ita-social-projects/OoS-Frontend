@@ -1,0 +1,275 @@
+@import "src/app/shared/styles/toggle-button.scss";
+
+.shadow {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.view-control-panel {
+  flex-direction: row !important;
+}
+
+.workshops-count {
+  max-width: 300px;
+  margin-right: 2rem;
+}
+
+.mat-button-toggle-group.view-toggle {
+  height: 34px;
+  border: none;
+}
+
+.workshops-search {
+  display: flex !important;
+
+  &-mobile {
+    display: none !important;
+    padding: 15px;
+    margin-top: 20px;
+    position: absolute;
+    z-index: 1001;
+  }
+}
+
+.workshops-map-filters {
+  .shell-search {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    height: 34px;
+    gap: 15px;
+    border-radius: 60px;
+    padding: 0 20px;
+
+    .shell-searchbar {
+      flex-grow: 1;
+      width: 70%;
+    }
+
+    .shell-city {
+      border-right: 1px solid #E3E3E3;
+      width: 30%;
+    }
+  }
+
+  .view-toggle {
+    height: 30px;
+    align-items: center;
+    background: #FFFFFF;
+  }
+}
+.mat-button-toggle-group {
+  height: 2rem;
+  .mat-button-toggle{
+    height: 100%;
+    min-width:100px;
+  }
+}
+.mat-drawer-container {
+  min-height: 600px;
+  background-color: inherit;
+  color: inherit;
+
+  .mat-drawer {
+    background-color: inherit;
+  }
+
+  .mat-drawer-content {
+    background-color: inherit;
+    color: inherit;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+}
+
+.filters-toggle-btn {
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 60px;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+
+  &.visible {
+    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
+    border: 1px solid #3849F9;
+    color: #3849F9;
+  }
+
+  &.hidden {
+    background: #FFFFFF;
+  }
+
+  .btn-icon {
+    line-height: 8px;
+  }
+}
+
+.mat-drawer-side {
+  border: none;
+  color: #444444;
+}
+
+:host ::ng-deep app-full-search-bar {
+  min-width: 300px;
+  max-width: 378px;
+  width: 100%;
+
+  app-searchbar {
+    input {
+      min-width: auto !important;
+    }
+  }
+
+  .search.shadow {
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
+:host ::ng-deep app-city-autocomplete {
+  .city-filter.add-size {
+    font-size: 13px;
+  }
+}
+
+@media(max-width: 960px) {
+  .workshops-count .filters-toggle-btn {
+    display: none;
+  }
+}
+
+@media(min-width: 961px) {
+  .workshops-search .filters-toggle-btn {
+    display: none;
+  }
+}
+
+@media(max-width: 1000px) {
+  .view-control-panel {
+    flex-wrap: wrap-reverse;
+    margin-bottom: 16px;
+  }
+
+  .workshops-count {
+    margin-top: 10px;
+  }
+}
+
+@media(max-width: 750px) {
+
+  .view-control-panel {
+    position: relative;
+    z-index: 2;
+    width: 90vw;
+    margin-left: 5vw;
+
+    &.mobile-map-view {
+      position: absolute;
+    }
+
+    .search-block-wrapper {
+      display: none;
+    }
+  }
+
+
+  .workshops-count {
+    .mobile-map-view {
+      display: none;
+    }
+  }
+
+  ::ng-deep app-ordering {
+    mat-form-field {
+      mat-select.select {
+        min-width: 160px !important;
+      }
+    }
+  }
+
+  mat-button-toggle {
+    min-width: auto !important;
+
+    .view-toggle_icon {
+      display: none;
+    }
+  }
+
+  .workshops-map-filters {
+    position: absolute;
+    top: 75px;
+    z-index: 2;
+    padding: 0 25px;
+
+    .shell-search {
+      width: 100% !important;
+    }
+
+    app-ordering {
+      ::ng-deep {
+        mat-select {
+          min-width: 150px;
+        }
+      }
+    }
+
+    .view-toggle {
+      &_icon {
+        display: none;
+
+        &_small {
+          display: block;
+        }
+      }
+
+      .mat-button-toggle {
+        min-width: 50px;
+      }
+    }
+  }
+
+  .mat-drawer {
+    margin-left: 15px;
+
+    &-container {
+      width: 100%;
+
+      .mat-drawer-content {
+        position: static;
+
+        app-workshop-cards-list {
+          display: block;
+
+          ::ng-deep>div {
+            overflow: scroll;
+            height: 100%;
+          }
+        }
+
+        ::ng-deep app-workshop-map-view-list {
+          display: block;
+
+          .map-half {
+            width: 100%;
+          }
+        }
+      }
+
+      ::ng-deep app-filters-list {
+        display: block;
+      }
+    }
+  }
+
+  .filters-toggle-btn {
+    display: block;
+  }
+
+  :host-context(app-footer) {
+    display: none;
+  }
+}

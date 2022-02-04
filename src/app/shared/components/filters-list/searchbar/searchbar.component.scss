@@ -1,0 +1,28 @@
+.mat-form-field {
+  font-size: 14px;
+}
+:host ::ng-deep .mat-form-field-wrapper {
+  padding: 0 0 0 10px;
+  width: 100%;
+}
+:host ::ng-deep .mat-form-field-infix {
+  border: none;
+  display: flex;
+}
+button {
+  border: none;
+  height: 100%;
+}
+input {
+  font-weight: normal;
+  line-height: 22px;
+  color: #161414;
+  opacity: 0.4;
+  text-overflow: ellipsis;
+}
+.icon {
+  margin: 0 1rem;
+  color: #AAAAAA;
+  line-height: 26px;
+  cursor: pointer;
+}

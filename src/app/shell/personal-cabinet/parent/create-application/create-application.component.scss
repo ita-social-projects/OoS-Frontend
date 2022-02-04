@@ -1,0 +1,15 @@
+@import "src/app/shared/styles/create-form-wrapper.scss";
+@import "src/app/shared/styles/create-form.scss";
+@import "src/app/shared/styles/validation-form.scss";
+@import "src/app/shared/styles/dropdown.scss";
+@import "src/app/shared/styles/buttons.scss";
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+.wrapper-check-box, .info-wrapper{
+  margin-top: 1rem;
+}
+.application-workshop{
+  margin: 0 1rem;
+}

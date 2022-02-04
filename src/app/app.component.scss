@@ -1,0 +1,16 @@
+
+.app-wrapper {
+  position: relative;
+  box-sizing: border-box;
+}
+.content {
+  min-height: calc(100vh - 121px);
+  flex-grow: 1;
+}
+@media(max-width: 750px) {
+  app-footer {
+    display: none;
+  }
+}
+
+

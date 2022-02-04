@@ -1,0 +1,43 @@
+<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <label class="step-label">Місто<span class="step-required">*</span></label>
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city" [className]="'create-form'"
+    class="city-autocomplete">
+  </app-city-autocomplete>
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="AddressFormGroup.get('city').invalid && AddressFormGroup.get('city').touched">
+  </app-validation-hint-for-input>
+
+  <label class="step-label">Вулиця<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="AddressFormGroup.get('street').errors?.required"
+    [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validAddressField"
+    [invalid]="AddressFormGroup.get('street').invalid && AddressFormGroup.get('street').touched"
+    [forbiddenCharacter]="AddressFormGroup.get('street').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <label class="step-label">Будинок<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="AddressFormGroup.get('buildingNumber').errors?.required"
+    [invalid]="AddressFormGroup.get('buildingNumber').invalid && AddressFormGroup.get('buildingNumber').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validBuildingNumberField"
+    [invalid]="AddressFormGroup.get('buildingNumber').invalid && AddressFormGroup.get('buildingNumber').touched"
+    [forbiddenCharacter]="AddressFormGroup.get('buildingNumber').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+
+  <div class="border-bottom"></div>
+  <div fxLayout='column' fxLayoutAlign='center center'>
+    <p>Або позначте на карті</p>
+  </div>
+  <div class="map">
+    <app-map [addressFormGroup]="AddressFormGroup" (setAddressEvent)="onReceiveAddressFromMap($event)"></app-map>
+  </div>
+</form>

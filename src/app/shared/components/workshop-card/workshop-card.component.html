@@ -1,0 +1,116 @@
+<mat-card [class.horizontal]="isHorizontalView">
+  <div>
+    <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
+    </ng-container>
+
+    <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
+      <div [ngClass]="isCreateApplicationView ? 'card-img card-img-full card-img-mobile': 'card-img card-img-full'"
+        fxLayout="row" fxLayoutAlign="center">
+        <img mat-card-image [src]="categoryIcons[workshop.directionId]" alt="{{workshop?.title}}">
+      </div>
+      <div class="wrap-for-details">
+        <mat-card-header>
+          <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated matTooltipClass="tooltip"
+            [matTooltipPosition]="below" class="card-title">{{workshop.title}}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+          <ng-container
+            *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
+          </ng-container>
+
+        </mat-card-content>
+
+        <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
+          <a class="more-details" [routerLink]="['/workshop-details',workshop.workshopId ]">
+            <span class="card_link">Детальніше</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </a>
+        </mat-card-footer>
+
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<ng-template #ProviderActions>
+  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+    <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshop.workshopId]">
+      <mat-icon>edit</mat-icon>
+    </div>
+    <div class="actions_btn action-icon" (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #UserActions>
+  <div *ngIf="role !== Role.provider">
+    <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
+
+      <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
+      <ng-template #favorite>
+        <div (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)"
+          class="actions_btn action-icon favorite-icon">
+          <mat-icon>favorite</mat-icon>
+        </div>
+      </ng-template>
+      <ng-template #notFavorite>
+        <div (click)="(role === Role.parent) ? onLike() : onOpenDialog()" class="actions_btn action-icon">
+          <mat-icon>favorite_border</mat-icon>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ProviderWorkshopView>
+  <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
+    <p class="card_text card_text_blue">
+      <i class="fas fa-user-clock card_icon card_icon_blue"></i> Очікує підтвердження:
+    </p>
+    <span class="card_text card_text_blue"> {{ pendingApplicationAmount }}</span>
+  </div>
+</ng-template>
+
+<ng-template #UserWorkshopView>
+  <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
+    <p class="{{application.status}} icon">
+      <mat-icon>how_to_reg</mat-icon>{{
+      applicationTitles[application.status] }}
+    </p>
+    <p class="card_link status_action" *ngIf="application.status === applicationStatus.Approved"
+      (click)="onWorkshopLeave()">Залишити гурток
+    </p>
+  </div>
+
+  <p class="card_text">
+    <mat-icon class="card_icon">star</mat-icon> {{ workshop.rating }}
+  </p>
+  <div class="card_text">
+    <mat-icon class="card_icon">home</mat-icon>
+    <p class="card_text_label" [matTooltip]="workshop.providerTitle" showTooltipIfTruncated matTooltipClass="tooltip"
+      [matTooltipPosition]="below">{{ workshop.providerTitle }}</p>
+  </div>
+  <p class="card_text" *ngIf="ownershipType">
+    <mat-icon class="card_icon">account_balance</mat-icon> Форма власності: {{ ownershipType }}
+  </p>
+  <p class="card_text" [ngClass]="isCreateApplicationView ? 'hide': ''">
+    <mat-icon class="card_icon">person</mat-icon>{{ workshop.minAge }} - {{ workshop.maxAge }} років
+  </p>
+  <p class="card_text" *ngIf="!workshop.price">
+    <mat-icon class="card_icon"> attach_money</mat-icon> Безкоштовно
+  </p>
+  <p class="card_text" *ngIf="workshop.price">
+    <mat-icon class="card_icon"> attach_money</mat-icon> {{ workshop.price }} грн/
+    {{ workshop.isPerMonth
+    ? 'місяць' : 'заняття' }}
+  </p>
+  <div class="card_text">
+    <mat-icon class="card_icon">location_on</mat-icon>
+    <p class="card_text_label" [matTooltip]="workshop.address.city + ', ' + workshop.address.street + ', ' +
+      workshop.address.buildingNumber" showTooltipIfTruncated matTooltipClass="tooltip" [matTooltipPosition]="below">
+      {{workshop.address.city}},
+      {{workshop.address.street}}, {{workshop.address.buildingNumber}}</p>
+  </div>
+</ng-template>

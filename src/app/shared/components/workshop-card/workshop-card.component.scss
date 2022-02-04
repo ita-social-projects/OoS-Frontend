@@ -1,0 +1,133 @@
+@import "src/app/shared/styles/cards.scss";
+.card-img-full{
+  width: 60%;
+}
+.card-img-mobile{
+  width: 30%;
+}
+.horizontal {
+  margin: 0;
+}
+.provider-content{
+  min-height: 5rem;
+}
+.icon{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+.action-icon {
+  color: #fff;
+}
+.favorite-icon {
+  color: #ffbd00;
+}
+.parent-status{
+  .Approved{
+    color:#199953
+  }
+  .Pending{
+    color: #FFBD00;
+  }
+  .AcceptedForSelection{
+    color: #27A3FF;
+  }
+  .Rejected, .Left, .Blocked{
+    color: #C72A21;
+  }
+}
+
+.horizontal-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+
+  .card-img {
+    display: flex;
+    max-width: 100% !important;
+    min-width: inherit;
+    object-fit: cover;
+    object-position: bottom;
+  }
+
+  .mat-card-image {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 0;
+  }
+
+  .hide {
+    display: block;
+  }
+}
+
+.dialog-title {
+  max-width: 370px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  p {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+.dialog-action-button {
+  color: white;
+  background-color: #3849F9;
+  border: 1px solid #3849F9;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 750px) {
+  .card-img-mobile{
+    display: none !important;
+  }
+  .horizontal {
+    margin: 1vw;
+    width: 90vw;
+  }
+  .horizontal-card {
+    max-width: 100%;
+    padding: 0.5rem;
+    .card-img{
+      flex: 1;
+    }
+    .wrap-for-details {
+      flex: 2;
+      width: 50%;
+    }
+    .card_text {
+      margin: 0;
+    }
+    .mat-card-image {
+      object-fit: cover;
+      object-position: bottom;
+    }
+    .hide {
+      display: none;
+    }
+    ::ng-deep .mat-card-header-text {
+      margin: 0;
+    }
+    .card-footer {
+      flex-direction: row;
+    }
+    .card-title, .mat-card-header{
+      width: 150px;
+      font-size: 15px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+  }
+}

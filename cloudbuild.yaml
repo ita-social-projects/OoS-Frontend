@@ -1,0 +1,59 @@
+# TODO: Reconfigure to single buildpack step (compile + nginx + static)
+steps:
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: [ 'install' ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cat <<EOF > src/environments/environment.prod.ts
+        export const environment = {
+          production: true,
+          stsServer: 'https://auth.oos.dmytrominochkin.cloud',
+          serverUrl: 'https://api.oos.dmytrominochkin.cloud',
+        };
+        EOF
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: [ 'build:prod' ]
+  # Build the container image
+  - name: 'gcr.io/k8s-skaffold/pack'
+    entrypoint: 'pack'
+    env:
+      - "TMPDIR=/builder/home/.pack"
+    args:
+      - build
+      - gcr.io/$PROJECT_ID/oos-frontend:$TAG_NAME
+      - --builder=paketobuildpacks/builder:base
+      - --buildpack=paketo-buildpacks/nginx
+      - --buildpack=paketo-community/staticfile
+      - --path=dist/
+      - --publish
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - beta
+      - run
+      - deploy
+      - frontend
+      - --image
+      - gcr.io/$PROJECT_ID/oos-frontend:$TAG_NAME
+      - --region
+      - $_REGION
+      - --platform
+      - managed
+      - --allow-unauthenticated
+      - --service-account
+      - $_SERVICE_ACCOUNT
+      - --cpu=1
+      - --memory=128Mi
+      - --max-instances=4
+      - --concurrency=40
+      # Disable http2 because prod will be http1.1 for now
+      - --no-use-http2
+  # Clean old versions except previous Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - $(yes | gcloud run revisions delete --platform managed --region $_REGION `gcloud run revisions list --service frontend --platform managed --region $_REGION --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`) || exit 0

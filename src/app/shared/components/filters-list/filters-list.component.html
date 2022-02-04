@@ -1,0 +1,33 @@
+<div class="filters-wrapper">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
+      <mat-icon class="matFilter">delete_forever</mat-icon>
+      Очистити Фільтри
+    </button>
+    <ng-container *ngIf="(isMobileScreen$ | async)">
+      <button mat-button (click)="changeView()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </ng-container>
+  </div>
+  <app-category-check-box [categoryCheckBox]="categoryCheckBox"></app-category-check-box>
+  <app-age-filter [ageFilter]="ageFilter"></app-age-filter>
+  <app-working-hours [workingHours]="workingHours"></app-working-hours>
+  <app-price-filter [priceFilter]="priceFilter"></app-price-filter>
+  <!-- <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+    <p class=" filter-text">Набір</p>
+    <mat-checkbox color="primary" [formControl]="OpenRecruitmentControl">
+      Лише з відкритим відбором
+    </mat-checkbox>
+    <mat-checkbox color="primary" [formControl]="ClosedRecruitmentControl">
+      Закритий відбір
+    </mat-checkbox>
+  </div> TODO: second release-->
+  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+    <p class=" filter-text">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</p>
+    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl">
+      Наявні
+    </mat-checkbox>
+  </div>
+
+</div>

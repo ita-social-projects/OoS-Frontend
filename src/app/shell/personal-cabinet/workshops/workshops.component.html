@@ -1,0 +1,61 @@
+<div *ngIf="(role === Role.provider) then isProvider; else isParent"></div>
+
+<ng-template #isProvider>
+  <div class="add-wrapper">
+    <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
+    <a [routerLink]="['/create-workshop', '']"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  </div>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="(workshops$ | async)?.length then ProviderWorkshops;"></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #isParent>
+  <ng-container *ngIf="(applications$ | async)?.length then ParentWorkshops; else isEmptyList;"></ng-container>
+</ng-template>
+
+<ng-template #ProviderWorkshops>
+  <div class="card-wrapper">
+    <app-workshop-card class="card" *ngFor="let workshop of workshops$ | async" [workshop]="workshop"
+      [isMainPage]="false" [userRoleView]="Role.provider" [pendingApplications]="applications"
+      (deleteWorkshop)="onDelete($event)">
+    </app-workshop-card>
+  </div>
+</ng-template>
+
+<ng-template #ParentWorkshops>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Активні">
+      <ng-container
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.Pending , applicationStatus.Approved, applicationStatus.AcceptedForSelection] }">
+      </ng-container>
+    </mat-tab>
+    <mat-tab label="Неактивні">
+      <ng-container
+        *ngTemplateOutlet="ParentApplications; context:{$implicit: applications$ | async  | applicationFilter : [applicationStatus.Rejected, applicationStatus.Left] }">
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noParentWorkshops"></app-no-result-card>
+</ng-template>
+
+<ng-template #ParentApplications let-applications>
+  <ng-container *ngIf="applications?.length else isEmptyList;">
+    <div *ngFor="let child of (childrenCards$ | async)?.entities">
+      <div *ngIf="isApplications(applications, child)">
+        <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth
+          | date: constants.SHORT_DATE_FORMAT }})</h3>
+        <div class="card-wrapper">
+          <app-workshop-card class="card" *ngFor="let application of applications | applicationChildFilter : child"
+            [workshop]="application.workshop" [isMainPage]="false" [userRoleView]="Role.parent"
+            [application]="application" (leaveWorkshop)="onLeaveWorkshops($event)">
+          </app-workshop-card>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</ng-template>

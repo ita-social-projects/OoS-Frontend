@@ -1,0 +1,74 @@
+@import "src/app/shared/styles/validation-form.scss";
+@import "src/app/shared/styles/buttons.scss";
+
+.days-toggle{
+  min-width: 200px;
+  &-invalid{
+    border-radius: 21px;
+    outline: none;
+    border: 1px solid #C72A21;
+  }
+}
+.toggle{
+    height: 40px;
+    flex-grow: 1;
+    box-sizing: border-box;
+    border: 1px solid #EBEBEB;
+    background: #FFFFFF;
+    &-selected{
+      background: rgba(56, 73, 249, 0.07);
+      border: 1px solid #3849F9;
+    }
+    &:first-child{
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+    }
+    &:last-child{
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+    }
+    &:hover{
+      cursor: pointer;
+      opacity: 0.8;
+    }
+  }
+.input{
+    border: 1px solid #E3E3E3;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding:0.5rem;
+    max-width: max-content;
+    height: 40px;
+    align-items: center;
+    text-align: center;
+}
+.text{
+  font-family: Open Sans;
+  font-weight: 700;
+  color: #AAAAAA;
+  padding: 5px;
+}
+.mat-icon-delete{
+  color:#3849F9;
+  &:hover{
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
+
+.btn{
+  min-width: 150px;
+}
+::ng-deep .mat-toolbar.mat-primary{
+  background-color: #3849F9 !important;
+}
+::ng-deep .timepicker__main-content{
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog>mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
+  justify-content: center;
+  flex-flow: wrap-reverse;
+  row-gap: 1rem;
+}
