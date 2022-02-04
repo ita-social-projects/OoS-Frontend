@@ -164,9 +164,10 @@ $config: mat-typography-config(
 }
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
   border-color: #3849F9 !important;
+  border-width: 5px;
 }
 .mat-radio-button.mat-primary .mat-radio-inner-circle {
-  background-color: #3849F9 !important;
+  background-color: #ffffff !important;
 }
 .mat-card-image:first-child{
   margin-top: 1rem !important;

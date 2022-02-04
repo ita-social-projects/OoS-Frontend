@@ -36,6 +36,7 @@
     width: 35%;
     min-width: 182px;
     padding: 0.1rem 1rem;
+    margin: 5px 0;
     }
 
     &-age{
@@ -196,4 +197,8 @@ button:focus {
     border-radius: 0;
     padding: 0;
   }
+}
+
+.addChild {
+  margin: 2rem 0;
 }

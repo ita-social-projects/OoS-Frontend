@@ -15,9 +15,12 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../create-form/create-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-create-child',
@@ -40,7 +43,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     private fb: FormBuilder,
     store: Store,
     route: ActivatedRoute,
-    navigationBarService: NavigationBarService) {
+    navigationBarService: NavigationBarService,
+    private matDialog: MatDialog) {
     super(store, route, navigationBarService);
   }
 
@@ -90,13 +94,38 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      lastName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX), 
+        Validators.minLength(1), 
+        Validators.maxLength(30)
+      ]),
+      firstName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(1), 
+        Validators.maxLength(30)
+      ]),
+      middleName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(1), 
+        Validators.maxLength(30)
+      ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
-      placeOfStudy: new FormControl('')
+      placeOfLiving: new FormControl('', [
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(10), 
+        Validators.maxLength(256)
+      ]),
+      certificateOfBirth: new FormControl(''),
+      placeOfStudy: new FormControl('', [
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(10), 
+        Validators.maxLength(256)
+      ])
     });
 
     this.subscribeOnDirtyForm(childFormGroup);
@@ -121,9 +150,26 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * @param index
    */
   onDeleteForm(index: number): void {
-    this.ChildrenFormArray.removeAt(index);
-  }
+    const status: string = this.ChildrenFormArray.controls[index].status;
+    const isTouched: boolean = this.ChildrenFormArray.controls[index].touched;
 
+    if(status !== 'INVALID' || isTouched) {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: ModalConfirmationType.deleteChild,
+        property: ''
+      }
+    });
+   
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.ChildrenFormArray.removeAt(index);;
+    });
+    } else {
+      this.ChildrenFormArray.removeAt(index);
+    }   
+  }
+  
   /**
    * This method create or edit Child and distpatch CreateChild action
    */
