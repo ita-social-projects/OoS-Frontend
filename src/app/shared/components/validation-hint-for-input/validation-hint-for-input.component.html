@@ -6,7 +6,7 @@
 <ng-container *ngIf = "type === 'validTextField' && forbiddenCharacter && invalid; then incorrectTextField"></ng-container>
 <ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
 <ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
-<ng-container *ngIf = "type === 'validDate' && invalid; then incorrectDateField"></ng-container>
+<ng-container *ngIf = "type === 'validDateFormat' && invalid; then incorrectDateField"></ng-container>
 
 <ng-template #requiredInput>
   <small appValidationMessageStyling>
