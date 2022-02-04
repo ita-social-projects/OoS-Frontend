@@ -59,18 +59,25 @@ export class CreateTeacherComponent implements OnInit {
    * @param index: number
    */
   onDeleteForm(index: number): void {
-    debugger
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
-      data: {
-        type: ModalConfirmationType.deleteTeacher,
-        property: ''
-      }
-    });
-   
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.TeacherFormArray.removeAt(index);
-    });    
+    const status: string = this.TeacherFormArray.controls[index].status;
+    const isTouched: boolean = this.TeacherFormArray.controls[index].touched;
+
+    if(status !== 'INVALID' || isTouched) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: '330px',
+        data: {
+          type: ModalConfirmationType.deleteTeacher,
+          property: ''
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result && this.TeacherFormArray.removeAt(index);
+      });  
+    }
+    else {
+      this.TeacherFormArray.removeAt(index);
+    } 
   }
 
 }
