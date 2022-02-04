@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
+import { Constants } from 'src/app/shared/constants/constants'
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-child-form',
@@ -17,11 +19,15 @@ export class ChildFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
-  today: Date = new Date();
+  maxDate: Date;
+  minDate: Date;
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.minDate = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
+    this.maxDate = Util.getMaxBirthDate();
+  }
 
   delete(): void {
     this.deleteForm.emit(this.index);
