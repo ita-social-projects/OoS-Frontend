@@ -23,7 +23,8 @@ describe('CreateChildComponent', () => {
         MatIconModule,
         RouterTestingModule,
         HttpClientTestingModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatDialogModule
       ],
       declarations: [
         CreateChildComponent,
