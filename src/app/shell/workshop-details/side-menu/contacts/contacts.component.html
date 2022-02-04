@@ -3,8 +3,8 @@
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
     <span fxLayout="row wrap" fxLayoutAlign="start">
-      <span>{{workshop.address.city}}</span>
-      <span>{{workshop.address.street}}</span>
+      <span>{{workshop.address.city}}, </span>
+      <span>{{workshop.address.street}}, </span>
       <span>{{workshop.address.buildingNumber}}</span>
     </span>
   </p>
@@ -17,7 +17,7 @@
   </p> TODO: add for the second release -->
 
   <p *ngIf="workshop.phone" class="contact-info">
-    <mat-icon class="card_icon">call</mat-icon><a href="tel:+380{{workshop.phone}}">+380{{workshop.phone}}</a>
+    <mat-icon class="card_icon">call</mat-icon><a href="tel:{{constants.PHONE_PREFIX}}{{workshop.phone}}">{{constants.PHONE_PREFIX}}{{workshop.phone}}</a>
   </p>
 
   <p *ngIf="workshop.email" class="contact-info">

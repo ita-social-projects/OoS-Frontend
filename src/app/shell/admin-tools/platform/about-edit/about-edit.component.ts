@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil, takeWhile } from 'rxjs/operators';
+import { takeUntil, takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { AboutPortal } from 'src/app/shared/models/aboutPortal.model';
+import { AboutPortal, AboutPortalItem } from 'src/app/shared/models/aboutPortal.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { UpdateInfoAboutPortal } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
@@ -21,7 +21,13 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 })
 export class AboutEditComponent implements OnInit, OnDestroy {
 
-  AboutFormArray = new FormArray([]);
+  AboutPortalItemArray = new FormArray([]);
+
+  amountOfSections = 0;
+
+  isActiveHeaderInfoButton = false;
+
+  AboutFormGroup: FormGroup;
 
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
@@ -41,13 +47,24 @@ export class AboutEditComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
+    this.AboutFormGroup = this.fb.group({
+      image: new FormControl(''),
+      title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
+    });
+
     this.aboutPortal$
     .pipe(
-      filter((aboutPortal: AboutPortal) => !!aboutPortal),
       takeUntil(this.destroy$),
     ).subscribe((aboutPortal: AboutPortal) => {
         this.infoAboutPortal = aboutPortal;
-        (this.infoAboutPortal) ? this.AboutFormArray.push(this.newForm(this.infoAboutPortal)) : this.AboutFormArray.push(this.newForm());
+        if (this.infoAboutPortal) {
+          this.infoAboutPortal.aboutPortalItems
+          .forEach((item) => this.AboutPortalItemArray.push(this.newForm(item)));
+          this.AboutFormGroup.controls['title'].setValue(this.infoAboutPortal.title);
+          this.amountOfSections = this.infoAboutPortal.aboutPortalItems.length;
+        } else {
+          this.AboutPortalItemArray.push(this.newForm());
+        } 
       });
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: NavBarName.AdminTools, isActive: false, disable: false },
@@ -59,12 +76,10 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(aboutPortal?: AboutPortal): FormGroup {
+  private newForm(aboutPortalItem?: AboutPortalItem): FormGroup {
     const aboutEditFormGroup = this.fb.group({
-      image: new FormControl(''),
-      title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
       sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH), Validators.required]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH)]),
     });
 
     aboutEditFormGroup.valueChanges
@@ -75,7 +90,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
         this.store.dispatch(new MarkFormDirty(true));
       });
 
-      aboutPortal && aboutEditFormGroup.patchValue(aboutPortal, { emitEvent: false });
+      aboutPortalItem && aboutEditFormGroup.patchValue(aboutPortalItem, { emitEvent: false });
 
       return aboutEditFormGroup;
   }
@@ -84,7 +99,8 @@ export class AboutEditComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
    addAboutForm(): void {
-    this.AboutFormArray.push(this.newForm());
+    this.amountOfSections++;
+    this.AboutPortalItemArray.push(this.newForm());
   }
 
   /**
@@ -92,26 +108,30 @@ export class AboutEditComponent implements OnInit, OnDestroy {
    * @param index
    */
    onDeleteForm(index: number): void {
-    this.AboutFormArray.removeAt(index);
+    this.amountOfSections--;
+    this.AboutPortalItemArray.removeAt(index);
   }
 
   onSubmit(): void {
-    if (this.AboutFormArray.invalid) {
-      this.checkValidationAboutFormArray();
+    if (this.AboutPortalItemArray.invalid) {
+      this.checkValidationAboutFormArray(this.AboutPortalItemArray);
+    } else if (this.AboutFormGroup.invalid) {
+      this.checkValidation(this.AboutFormGroup);
     } else {
-      this.AboutFormArray.controls.forEach((form: FormGroup) => {
-        const aboutPortal: AboutPortal = new AboutPortal(form.value);
-        this.store.dispatch(new UpdateInfoAboutPortal(aboutPortal));
+      let aboutPortalItemArray = [];
+      this.AboutPortalItemArray.controls.forEach((form: FormGroup) => {
+        aboutPortalItemArray.push(new AboutPortalItem(form.value))
       });
+      const aboutPortal: AboutPortal = new AboutPortal(this.AboutFormGroup.value.title, aboutPortalItemArray);
+      this.store.dispatch(new UpdateInfoAboutPortal(aboutPortal));
     }
   }
-
   /**
-   * This method marks each control of form in the array of forms in AboutFormArray as touched
+   * This method marks each control of form in the array of forms in formArray as touched
    */
-   private checkValidationAboutFormArray(): void {
-    Object.keys(this.AboutFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.AboutFormArray.get(key));
+   private checkValidationAboutFormArray(formArray: FormArray): void {
+    Object.keys(formArray.controls).forEach(key => {
+      this.checkValidation(<FormGroup>formArray.get(key));
     });
   }
 

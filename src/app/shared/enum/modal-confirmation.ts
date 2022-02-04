@@ -10,7 +10,7 @@ export enum ModalConfirmationType {
   rejectApplication = 'rejectApplication',
 }
 export enum ModalConfirmationTitle {
-  delete = 'ВИДАЛИТИ ГУРТОК?',
+  delete = 'ВИДАЛИТИ ГУРТОК',
   deleteChild = 'ВИЛУЧИТИ ДАНІ ПРО ДИТИНУ?',
   deleteTeacher = 'ВИЛУЧИТИ ДАНІ ПРО ВЧИТЕЛЯ',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',

@@ -4,14 +4,15 @@ import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
 import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, GetFilteredWorkshops, SetFirstPage } from 'src/app/shared/store/filter.actions';
+import { FilterChange, GetFilteredWorkshops, PageChange, SetFirstPage } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
-import { Router, ActivatedRoute, Params, UrlSegment } from '@angular/router';
+import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 enum ViewType {
   map = 'map',
@@ -42,7 +43,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
   public filtersList;
-  public currentPage;
+  public currentPage: PaginationElement;
   public order;
 
   isMobileScreen: boolean;
@@ -68,6 +69,16 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe((params: Params) => {
         this.currentView = params.param;
       });
+
+    this.router.events
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event: NavigationStart) => {
+        if (event.navigationTrigger === 'popstate') {
+          this.store.dispatch(new GetFilteredWorkshops(this.currentView !== this.viewType.map))
+            .pipe(takeUntil(this.destroy$))
+            .subscribe();
+        }
+      })
 
     this.store.dispatch([
       new AddNavPath(this.navigationBarService.creatOneNavPath(
@@ -99,18 +110,17 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.order = order;
       })
 
-      this.isMobileScreen$
+    this.isMobileScreen$
       .pipe(
         takeUntil(this.destroy$)
       ).subscribe((isMobile) => {
         this.isMobileScreen = isMobile;
       })
 
-      this.route.url
+    this.route.url
       .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
-        this.isHidden = item.path === 'map' ? false : true; 
+        this.isHidden = item.path === 'map' ? false : true;
       }));
-
   }
 
   viewHandler(value: ViewType): void {
@@ -122,6 +132,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   filterHandler(): void {
     (!this.isMobileScreen) ? (this.isFiltersVisible = !this.isFiltersVisible) : this.store.dispatch(new FiltersSidenavToggle());
   }
+
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());

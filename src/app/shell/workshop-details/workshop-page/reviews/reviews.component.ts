@@ -79,7 +79,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         filter((rating: Rate[]) => !!rating?.length),
         takeUntil(this.destroy$),
       ).subscribe((rating: Rate[]) => {
-        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent.id);
+        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent?.id);
       });
   }
 

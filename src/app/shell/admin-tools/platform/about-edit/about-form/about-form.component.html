@@ -1,18 +1,5 @@
-<form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step"
+<form [formGroup]="AboutItemFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step"
 [ngClass]="(aboutFormAmount > 1) ? 'step-border' : ''">
-
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <label class="step-label"> Заголовок </label>
-    <i class="material-icons status-info-icon" (click)="isActiveHeaderInfoButton=!isActiveHeaderInfoButton"
-    [ngClass]="isActiveHeaderInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-  </div>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title">
-  </mat-form-field>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched"
-    [forbiddenCharacter]="AboutFormGroup.get('title').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
 
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва розділу </label>
@@ -23,14 +10,14 @@
     <input matInput class="step-input" type="text" formControlName="sectionName">
   </mat-form-field>
   <app-validation-hint-for-input type="validTextField"
-    [invalid]="AboutFormGroup.get('sectionName').invalid && AboutFormGroup.get('sectionName').touched"
-    [forbiddenCharacter]="AboutFormGroup.get('sectionName').errors?.pattern?.requiredPattern">
+    [invalid]="AboutItemFormGroup.get('sectionName').invalid && AboutItemFormGroup.get('sectionName').touched"
+    [forbiddenCharacter]="AboutItemFormGroup.get('sectionName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
   <div class="step-label-combined">
     <label class="step-label"> Опис <span class="step-required">*</span></label>
     <label class="step-characters-count">
-      {{AboutFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}</label>
+      {{AboutItemFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}</label>
   </div>
   <mat-form-field appearance="none">
     <div class="wrapper-border">
@@ -39,10 +26,10 @@
     </div>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
-    [invalid]="AboutFormGroup.get('description').invalid && AboutFormGroup.get('description').touched">
+    [invalid]="AboutItemFormGroup.get('description').invalid && AboutItemFormGroup.get('description').touched">
   </app-validation-hint-for-input>
   <div fxLayout="row" fxLayoutAlign="center" *ngIf="aboutFormAmount > 1">
-    <button class="btn-reset" type="reset" mat-button (click)="delete()">
+    <button class="btn-reset" type="reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані
     </button>
   </div>
