@@ -6,6 +6,7 @@
 <ng-container *ngIf = "type === 'validTextField' && forbiddenCharacter && invalid; then incorrectTextField"></ng-container>
 <ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
 <ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
+<ng-container *ngIf = "type === 'validDate' && invalid; then incorrectDateField"></ng-container>
 
 <ng-template #requiredInput>
   <small appValidationMessageStyling>
@@ -34,6 +35,12 @@
 <ng-template #incorrectTextField>
   <small appValidationMessageStyling>
     "Перевірте введені данні. <br> Використовуйте будь ласка тільки кирилицю та символи ( ' - )"
+  </small> 
+</ng-template>
+
+<ng-template #incorrectDateField>
+  <small appValidationMessageStyling>
+    "Перевірте введені данні. <br> Використовуйте дд.мм.рррр формат. Наприклад 20.10.2000"
   </small> 
 </ng-template>
 
