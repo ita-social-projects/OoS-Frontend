@@ -58,11 +58,10 @@ export class ApplicationService {
   }
 
   secondsToDh(seconds: number): string {
-    seconds = Number(seconds);
     const d = Math.floor(seconds / (3600*24));
     const h = Math.floor(seconds % (3600*24) / 3600);        
-    let dDisplay;
-    let hDisplay;
+    let dDisplay: string;
+    let hDisplay: string;
     if(d > 0) {
       switch(d) {
         case 1: dDisplay = d + " день ";
