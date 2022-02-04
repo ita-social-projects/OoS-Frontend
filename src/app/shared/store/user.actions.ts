@@ -5,7 +5,6 @@ import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { PaginationElement } from '../models/paginationElement.model';
-import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
