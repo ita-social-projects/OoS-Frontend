@@ -74,7 +74,7 @@
     [invalid]="ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').dirty && ChildFormGroup.get('dateOfBirth').touched"
     [minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">
   </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="minMaxDate"
+  <app-validation-hint-for-input type="outOfRangeDate"
     [minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">
   </app-validation-hint-for-input>
 

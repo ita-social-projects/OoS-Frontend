@@ -7,7 +7,7 @@
 <ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
 <ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
 <ng-container *ngIf = "type === 'validDateFormat' && invalid && !minMaxDate; then incorrectDateField"></ng-container>
-<ng-container *ngIf = "type === 'minMaxDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
+<ng-container *ngIf = "type === 'outOfRangeDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
 <ng-container *ngIf = "type === 'validLength' && (minLength || maxLength) && invalid; then invalidLength"></ng-container>
 
 
