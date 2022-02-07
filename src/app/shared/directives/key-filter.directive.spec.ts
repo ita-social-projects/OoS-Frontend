@@ -1,10 +1,10 @@
-import { DateOnlyDirective } from './date-only.directive';
+import { KeyFilterDirective } from './key-filter.directive';
 
 const elRefMock = { nativeElement: document.createElement('input') };
 
-describe('DateOnlyDirective', () => {
+describe('KeyFilterDirective', () => {
   it('should create an instance', () => {
-    const directive = new DateOnlyDirective(elRefMock);
+    const directive = new KeyFilterDirective(elRefMock);
     expect(directive).toBeTruthy();
   });
 });

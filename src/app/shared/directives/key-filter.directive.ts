@@ -1,9 +1,11 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appDateOnly]'
+  selector: '[appKeyFilter]'
 })
-export class DateOnlyDirective {
+export class KeyFilterDirective {
+
+  @Input() appKeyFilter: RegExp;
 
   constructor(private el: ElementRef) { }
 
@@ -11,7 +13,7 @@ export class DateOnlyDirective {
 
     const initValue = this.el.nativeElement.value;
 
-    this.el.nativeElement.value = initValue.replace(/[^0-9./-]*/g, '');
+    this.el.nativeElement.value = initValue.replace(this.appKeyFilter, '');
     if (initValue !== this.el.nativeElement.value) {
       event.stopPropagation();
     }

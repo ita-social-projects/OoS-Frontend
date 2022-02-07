@@ -52,7 +52,7 @@ import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-fi
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { DateOnlyDirective } from './directives/date-only.directive';
+import { KeyFilterDirective } from './directives/key-filter.directive';
 
 @NgModule({
   declarations: [
@@ -101,7 +101,7 @@ import { DateOnlyDirective } from './directives/date-only.directive';
     SidenavFiltersComponent,
     RejectModalWindowComponent,
     ImageCarouselComponent,
-    DateOnlyDirective,
+    KeyFilterDirective,
   ],
   imports: [
     MaterialModule,
@@ -160,7 +160,7 @@ import { DateOnlyDirective } from './directives/date-only.directive';
     WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
-    DateOnlyDirective
+    KeyFilterDirective
   ]
 })
 export class SharedModule { }
