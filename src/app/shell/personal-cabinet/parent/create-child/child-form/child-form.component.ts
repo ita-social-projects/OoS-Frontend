@@ -4,6 +4,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { Constants } from 'src/app/shared/constants/constants'
 import { Util } from 'src/app/shared/utils/utils';
+import { DATE_REGEX } from 'src/app/shared/constants/regex-constants'
 
 @Component({
   selector: 'app-child-form',
@@ -19,6 +20,7 @@ export class ChildFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
+  dateFilter: RegExp;
   maxDate: Date;
   minDate: Date;
 
@@ -27,6 +29,7 @@ export class ChildFormComponent implements OnInit {
   ngOnInit(): void {
     this.minDate = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
     this.maxDate = Util.getMaxBirthDate();
+    this.dateFilter = DATE_REGEX;
   }
 
   delete(): void {
