@@ -6,8 +6,10 @@
 <ng-container *ngIf = "type === 'validTextField' && forbiddenCharacter && invalid; then incorrectTextField"></ng-container>
 <ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
 <ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
-<ng-container *ngIf = "type === 'validDateFormat' && invalid; then incorrectDateField"></ng-container>
+<ng-container *ngIf = "type === 'validDateFormat' && invalid && !minMaxDate; then incorrectDateField"></ng-container>
+<ng-container *ngIf = "type === 'minMaxDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
 <ng-container *ngIf = "type === 'validLength' && (minLength || maxLength) && invalid; then invalidLength"></ng-container>
+
 
 <ng-template #requiredInput>
   <small appValidationMessageStyling>
@@ -42,6 +44,12 @@
 <ng-template #incorrectDateField>
   <small appValidationMessageStyling>
     "Перевірте введені данні. <br> Використовуйте дд.мм.рррр формат. Наприклад 20.10.2010"
+  </small> 
+</ng-template>
+
+<ng-template #incorrectMinMaxDate>
+  <small appValidationMessageStyling>
+    "Перевірте введені данні. <br> Дата народження виходить за межі допустимих"
   </small> 
 </ng-template>
 

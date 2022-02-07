@@ -71,7 +71,11 @@
     [invalid]="ChildFormGroup.get('dateOfBirth').pristine && ChildFormGroup.get('dateOfBirth').touched">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validDateFormat"
-    [invalid]="ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').dirty && ChildFormGroup.get('dateOfBirth').touched">
+    [invalid]="ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').dirty && ChildFormGroup.get('dateOfBirth').touched"
+    [minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="minMaxDate"
+    [minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">
   </app-validation-hint-for-input>
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
