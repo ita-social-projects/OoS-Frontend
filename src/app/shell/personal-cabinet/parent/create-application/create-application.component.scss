@@ -13,3 +13,25 @@
 .application-workshop{
   margin: 0 1rem;
 }
+
+.application-wrapper {
+  padding-right: 3rem;
+  padding-left: 3rem;
+}
+.wrapper-check-box {
+  padding: 0 50px; 
+}
+
+@media (max-width: 750px) {
+  .application-wrapper {
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    .step {
+      max-width: none;
+    }
+  }
+  .wrapper-check-box {
+    padding: 0; 
+  }
+}
