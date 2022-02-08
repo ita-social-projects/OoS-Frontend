@@ -20,16 +20,13 @@ export class ChildFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
-  dateFilter: RegExp;
-  maxDate: Date;
-  minDate: Date;
+  dateFilter: RegExp = DATE_REGEX;
+  maxDate: Date = Util.getMaxBirthDate();
+  minDate: Date = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
 
   constructor() { }
 
   ngOnInit(): void {
-    this.minDate = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
-    this.maxDate = Util.getMaxBirthDate();
-    this.dateFilter = DATE_REGEX;
   }
 
   delete(): void {
