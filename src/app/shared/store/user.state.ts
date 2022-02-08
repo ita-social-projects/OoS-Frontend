@@ -334,6 +334,7 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: payload.error.status === 429 
       ? `Перевищено ліміт заявок. Спробуйте ще раз через ${this.applicationService.secondsToDh(payload.headers.get('retry-after'))}`           
       : 'На жаль виникла помилка',
+      additionalInfo: '',
       type: 'error'}));      
   }
 

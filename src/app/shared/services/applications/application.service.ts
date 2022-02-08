@@ -59,7 +59,7 @@ export class ApplicationService {
 
   secondsToDh(seconds: number): string {
     const d = Math.floor(seconds / (3600*24));
-    const h = Math.ceil(seconds % (3600*24) / 3600);        
+    const h = Math.floor(seconds % (3600*24) / 3600);        
     let dDisplay: string;
     let hDisplay: string;
     if(d > 0) {

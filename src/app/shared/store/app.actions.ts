@@ -16,7 +16,7 @@ export class ActivateEditMode {
 }
 export class ShowMessageBar {
   static readonly type = '[app] show message bar';
-  constructor(public payload: { message: string, type: string }) { }
+  constructor(public payload: { message: string, additionalInfo?: string, type: string }) { }
 }
 
 export class ToggleMobileScreen {
