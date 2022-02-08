@@ -1,8 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-  <span fxLayout="row" fxLayoutAlign="center center">
+  <span fxLayout="row" fxLayoutAlign="center start">
     <mat-icon fxLayout="row" fxLayoutAlign="center center" class="icon">{{messageType}}</mat-icon>
-    {{data.message}} <br>
-    <p class="additionalInfo">{{data.additionalInfo}}</p>
+    {{data.message}}
   </span>
   <div (click)="onClose()">
     <mat-icon class="action">close</mat-icon>

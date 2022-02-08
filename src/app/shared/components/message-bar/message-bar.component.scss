@@ -39,14 +39,14 @@
 }
 ::ng-deep .error{
   background: #F8E4DD;
+  .icon{    
+    border: solid 1px #ff5252;
+    color: #ff5252;
+  }
 }
 ::ng-deep .warningBlue{
   background:#E1F1F9;
 }
 ::ng-deep .warningYellow{
   background:#FFBD00 30%;
-}
-
-.additionalInfo {
-  
 }
