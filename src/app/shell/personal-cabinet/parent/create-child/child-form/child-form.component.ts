@@ -14,6 +14,7 @@ export class ChildFormComponent implements OnInit {
   @Input() index: number;
   @Input() childrenAmount: number;
   @Input() socialGroups: SocialGroup[];
+  // @Input() lastName: string;
 
   @Output() deleteForm = new EventEmitter();
 
