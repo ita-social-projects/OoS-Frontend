@@ -97,6 +97,9 @@
     margin: 1vw;
     width: 90vw;
   }
+  :host.application-workshop .horizontal {
+    width: auto;
+  }
   .horizontal-card {
     max-width: 100%;
     padding: 0.5rem;
