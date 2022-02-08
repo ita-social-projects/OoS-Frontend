@@ -34,6 +34,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
+  isEmpty = false;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -68,6 +69,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+
+    this.ChildrenFormArray.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => {      
+      this.isEmpty = !Boolean(val[0].lastName) || !Boolean(val[0].firstName);
+    });
+
   }
 
   addNavPath(): void {
