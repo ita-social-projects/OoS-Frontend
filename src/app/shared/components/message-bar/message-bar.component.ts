@@ -17,7 +17,7 @@ export class MessageBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.messageType = messageType[this.data.type];
+    this.messageType = messageType[this.data.type];          
   }
 
   onClose(): void {

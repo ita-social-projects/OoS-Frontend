@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { strict } from 'assert';
 import { ActivateEditMode, MarkFormDirty, SetLocation, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
@@ -52,7 +53,9 @@ export class AppState {
   }
 
   @Action(ShowMessageBar)
-  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void { }
+  showMessageBar({ getState, setState, patchState }: StateContext<any>, { payload }: ShowMessageBar): void { 
+    patchState({ message: payload.message, type: payload.type, info: payload.info })
+   }
 
   @Action(ToggleMobileScreen)
   ToggleMobileScreen({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {

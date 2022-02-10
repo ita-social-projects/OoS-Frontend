@@ -61,7 +61,7 @@ export class ApplicationService {
     const d = Math.floor(seconds / (3600*24));
     const h = Math.floor(seconds % (3600*24) / 3600);        
     let dDisplay: string;
-    let hDisplay: string;
+    let hDisplay;
     if(d > 0) {
       switch(d) {
         case 1: dDisplay = d + " день ";
@@ -77,16 +77,16 @@ export class ApplicationService {
     };
 
     if(h > 0) {
-      switch(h) {
-        case 21:
-        case 1: hDisplay = history + " годину";
+      switch(h) {        
+        case 1:
+        case 21: hDisplay = h + " годину";
         break;
         case 2:
-        case 3:
+        case 3:        
+        case 4:
         case 22:
         case 23:
-        case 24:
-        case 4: hDisplay = h + " години";
+        case 24: hDisplay = h + " години";
         break;
         default: hDisplay = h + " годин";            
       }

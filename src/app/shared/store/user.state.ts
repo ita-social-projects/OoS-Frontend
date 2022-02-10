@@ -332,10 +332,10 @@ export class UserState {
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
     throwError(payload);    
     dispatch(new ShowMessageBar({ message: payload.error.status === 429 
-      ? `Перевищено ліміт заявок. Спробуйте ще раз через ${this.applicationService.secondsToDh(payload.headers.get('retry-after'))}
-        Користувач може подати не більше 2-х заяв в тиждень на людину`           
+      ? `Перевищено ліміт заявок. Спробуйте ще раз через ${this.applicationService.secondsToDh(payload.headers.get('retry-after'))}`           
       : 'На жаль виникла помилка',      
-      type: 'error'}));      
+      type: 'error', 
+      info: 'Користувач може подати не більше 2-х заяв в тиждень на людину'}));      
   }
 
   @Action(OnCreateApplicationSuccess)
