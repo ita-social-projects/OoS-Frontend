@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { strict } from 'assert';
 import { ActivateEditMode, MarkFormDirty, SetLocation, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
@@ -10,6 +9,7 @@ export interface AppStateModel {
   isDirtyForm: boolean;
   isEditMode: boolean;
   isMobileScreen: undefined | boolean;
+  info: string
 }
 
 @State<AppStateModel>({
@@ -20,7 +20,8 @@ export interface AppStateModel {
     lat: null,
     isDirtyForm: false,
     isEditMode: false,
-    isMobileScreen: undefined
+    isMobileScreen: undefined,
+    info: ''
   }
 })
 @Injectable()
@@ -53,9 +54,9 @@ export class AppState {
   }
 
   @Action(ShowMessageBar)
-  showMessageBar({ getState, setState, patchState }: StateContext<any>, { payload }: ShowMessageBar): void { 
-    patchState({ message: payload.message, type: payload.type, info: payload.info })
-   }
+  showMessageBar({ patchState }: StateContext<AppStateModel>, { payload }: ShowMessageBar): void { 
+    patchState({ info: payload.info })
+  }
 
   @Action(ToggleMobileScreen)
   ToggleMobileScreen({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
