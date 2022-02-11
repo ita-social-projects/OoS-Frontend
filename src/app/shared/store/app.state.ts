@@ -8,8 +8,7 @@ export interface AppStateModel {
   lat: number | null;
   isDirtyForm: boolean;
   isEditMode: boolean;
-  isMobileScreen: undefined | boolean;
-  info: string
+  isMobileScreen: undefined | boolean;  
 }
 
 @State<AppStateModel>({
@@ -20,8 +19,7 @@ export interface AppStateModel {
     lat: null,
     isDirtyForm: false,
     isEditMode: false,
-    isMobileScreen: undefined,
-    info: ''
+    isMobileScreen: undefined    
   }
 })
 @Injectable()
@@ -54,8 +52,7 @@ export class AppState {
   }
 
   @Action(ShowMessageBar)
-  showMessageBar({ patchState }: StateContext<AppStateModel>, { payload }: ShowMessageBar): void { 
-    patchState({ info: payload.info })
+  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void {     
   }
 
   @Action(ToggleMobileScreen)

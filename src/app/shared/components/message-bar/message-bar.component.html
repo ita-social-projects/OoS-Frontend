@@ -3,7 +3,7 @@
     <mat-icon fxLayout="row" fxLayoutAlign="center center" class="icon">{{messageType}}</mat-icon>
     <div>
       {{data.message}}           
-      <p *ngIf='data.type === "error"' class="info">Користувач може подати не більше 2-х заяв в тиждень на людину</p>
+      <p *ngIf='data.type === "error"' class="info">{{data.info}}</p>
     </div>
   </span>
   <div (click)="onClose()">

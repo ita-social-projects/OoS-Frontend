@@ -7,7 +7,7 @@ import { messageType } from '../../enum/messageBar';
   templateUrl: './message-bar.component.html',
   styleUrls: ['./message-bar.component.scss']
 })
-export class MessageBarComponent implements OnInit {   
+export class MessageBarComponent implements OnInit {
 
   messageType: string = messageType[messageType.success];  
 
