@@ -134,6 +134,17 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none">
   </mat-form-field>
+  <app-validation-hint-for-input type="validBirthCertificate"
+    [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
+    [forbiddenCharacter]="ChildFormGroup.get('certificateOfBirth').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validLength"
+    [minLength]="ChildFormGroup.get('certificateOfBirth').errors?.minlength"
+    [maxLength]="ChildFormGroup.get('certificateOfBirth').errors?.maxlength"
+    [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
+    [minCharachters]="10"
+    [maxCharachters]="20">
+  </app-validation-hint-for-input>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1" class="addChild">
     <button class="btn-reset" mat-button (click)="delete()">
