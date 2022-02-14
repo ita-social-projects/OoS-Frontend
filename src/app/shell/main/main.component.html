@@ -5,11 +5,18 @@
       {{ isMobile ? 'Всі' : 'Переглянути всі' }} <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
-  <div class="card-wrapper">
-    <app-category-card class="card" *ngFor="let direction of topDirections$ | async " [direction]="direction.direction"
-      [workshopsCount]="direction.workshopsCount">
-    </app-category-card>
-  </div>
+
+  <ng-container *ngIf="!(isLoadingResultPage$ | async) && !(isLoadingMetaData$ | async)">
+    <ng-container *ngIf="(topDirections$ | async)?.length then topDirections; else emptyData"></ng-container>
+  </ng-container> 
+
+  <ng-template #topDirections>
+    <div class="card-wrapper">
+      <app-category-card class="card" *ngFor="let direction of topDirections$ | async " [direction]="direction.direction"
+        [workshopsCount]="direction.workshopsCount">
+      </app-category-card>
+    </div>
+  </ng-template>
 
   <div class="main-header">
     <h3>Найпопулярніші гуртки</h3>
@@ -18,7 +25,7 @@
     </a>
   </div>
   <ng-container *ngIf="!(isLoadingResultPage$ | async) && !(isLoadingMetaData$ | async)">
-    <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyTopWorkshops"></ng-container>
+    <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyData"></ng-container>
   </ng-container> 
   <ng-template #topWorkshops>
     <div class="card-wrapper">
@@ -27,7 +34,7 @@
       </app-workshop-card>
     </div>
   </ng-template>
-  <ng-template #emptyTopWorkshops>
+  <ng-template #emptyData>
     <div class="empty-list-wrapper">
       <p class="text">За результатами нічого не знайдено</p>
     </div>
