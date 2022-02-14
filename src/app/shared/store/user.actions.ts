@@ -107,7 +107,7 @@ export class CreateApplication {
 }
 export class OnCreateApplicationFail {
   static readonly type = '[user] create Application fail';
-  constructor(public payload: Error) { }
+  constructor(public payload) { }
 }
 export class OnCreateApplicationSuccess {
   static readonly type = '[user] create Application success';

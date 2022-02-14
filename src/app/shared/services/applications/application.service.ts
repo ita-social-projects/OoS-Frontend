@@ -54,7 +54,7 @@ export class ApplicationService {
    * @param Workshop Workshop
    */
   createApplication(application: Application): Observable<object> {
-    return this.http.post('/api/v1/Application/Create', application);
+    return this.http.post('/api/v1/Application/Create', application, {observe: 'response'});
   }
 
   /**
