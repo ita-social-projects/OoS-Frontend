@@ -1,0 +1,37 @@
+  <div class="users-wrapper">
+
+    <div class="search-area">
+      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">      
+        <mat-icon class="search-icon" style="transform: rotate(90deg)" >search</mat-icon>
+        <mat-form-field floatLabel=never appearance="none">
+          <input matInput (keyup)="onSearch($event)" type="text" class="search" placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="tab-wrapper">
+      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+        <mat-tab label="Усі">
+          <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
+          </ng-container>
+        </mat-tab>
+        <mat-tab label="Заступник">
+          <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
+          </ng-container>
+        </mat-tab>
+        <mat-tab label="Адміністратор">
+          <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
+          </ng-container>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+  </div>
+
+
+<ng-template #UsersListFull let-filterValue>
+  <app-users-list [users]="providerAdmins" [filterValue]="filterValue"></app-users-list>
+</ng-template>
+<ng-template #UsersListFiltered let-filterValue>
+  <app-users-list [users]="filterProviderAdmins" [filterValue]="filterValue"></app-users-list>
+</ng-template>
