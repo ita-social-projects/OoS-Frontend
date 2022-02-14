@@ -4,7 +4,7 @@
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">      
         <mat-icon class="search-icon" style="transform: rotate(90deg)" >search</mat-icon>
         <mat-form-field floatLabel=never appearance="none">
-          <input matInput (keyup)="onSearch($event)" type="text" class="search" placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
+          <input matInput [formControl]="filter" type="text" class="search" placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
         </mat-form-field>
       </div>
     </div>

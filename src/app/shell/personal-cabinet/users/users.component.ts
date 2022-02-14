@@ -1,6 +1,9 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 export interface ProviderAdmins {
   name: string;
@@ -21,16 +24,29 @@ const DATA_MOCK: ProviderAdmins[] = [
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   providerAdmins = DATA_MOCK;
   filterProviderAdmins: Array<object> = [];
+  filter = new FormControl('');
   filterValue: string;
-
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() {}
 
   ngOnInit(): void {
+    this.filter.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(200),
+        distinctUntilChanged()
+      ).subscribe((val) => {
+        if (val) {
+          this.filterValue = val;
+        } else {
+          this.filterValue = '';
+        }
+      });
   }
 
   /**
@@ -39,14 +55,10 @@ export class UsersComponent implements OnInit {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterProviderAdmins = this.providerAdmins.filter(user => user.role === event.tab.textLabel);
-    this.filterValue = '';
+    this.filter.reset();
   }
 
-  /**
-   * This method get search input value
-   * @param event: Event
-   */
-  onSearch(event: Event): void {
-    this.filterValue = (event.target as HTMLInputElement).value;
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }
