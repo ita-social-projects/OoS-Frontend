@@ -73,7 +73,7 @@ import {
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
-
+import { Util } from '../utils/utils';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -332,7 +332,7 @@ export class UserState {
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
     throwError(payload);    
     dispatch(new ShowMessageBar({ message: payload.error.status === 429 
-      ? `Перевищено ліміт заявок. Спробуйте ще раз через ${this.applicationService.secondsToDh(payload.headers.get('retry-after'))}`           
+      ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(payload.headers.get('retry-after'))}`           
       : 'На жаль виникла помилка',      
       type: 'error', 
       info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : ''}));      
