@@ -81,13 +81,16 @@ export class UserWorkshopService {
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imageIds'];
+    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imageIds', 'coverImageId'];
     const imageFiles = 'imageFiles';
+    const coverImage = 'coverImage';
 
     Object.keys(workshop).forEach((key: string) => {
 
       if (workshop.imageFiles && (key === imageFiles)) {
         workshop.imageFiles.forEach((file: File) => formData.append(imageFiles, file));
+      } else if (workshop.coverImage && (key === coverImage)) {
+        formData.append(coverImage, workshop.coverImage[0])
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(workshop[key]));
       } else {

@@ -28,13 +28,15 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
+  @Input() coverImageIdFormControl: FormControl;
   @Input() label: string;
 
   constructor() { }
 
   ngOnInit(): void {
     this.onResize(window);
-    (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
+    ((this.imageIdsFormControl && this.imageIdsFormControl.value.length) ||
+    (this.coverImageIdFormControl && this.coverImageIdFormControl.value.length)) && this.activateEditMode();
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
