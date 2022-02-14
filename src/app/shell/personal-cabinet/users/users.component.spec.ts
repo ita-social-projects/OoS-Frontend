@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -18,7 +19,8 @@ describe('UsersComponent', () => {
         MatTabsModule,
         MatMenuModule,
         MatIconModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatInputModule,
 
       ],
       declarations: [
