@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -21,6 +22,7 @@ describe('UsersComponent', () => {
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
+        BrowserAnimationsModule
 
       ],
       declarations: [
