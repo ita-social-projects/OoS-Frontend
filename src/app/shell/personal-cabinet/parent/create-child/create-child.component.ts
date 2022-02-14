@@ -15,7 +15,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NAME_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,6 +34,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
+  isEmpty = false;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -68,6 +69,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+
+    this.ChildrenFormArray.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => {      
+      this.isEmpty = !Boolean(val[0].lastName) || !Boolean(val[0].firstName);
+    });
+
   }
 
   addNavPath(): void {
@@ -96,19 +104,19 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     const childFormGroup = this.fb.group({
       lastName: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX), 
+        Validators.pattern(NAME_REGEX), 
         Validators.minLength(1), 
         Validators.maxLength(30)
       ]),
       firstName: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(1), 
         Validators.maxLength(30)
       ]),
       middleName: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(1), 
         Validators.maxLength(30)
       ]),
