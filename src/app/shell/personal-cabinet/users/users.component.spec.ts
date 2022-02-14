@@ -1,16 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UsersComponent } from './users.component';
-import { StatusInfoCardComponent } from 'src/app/shared/components/status-info-card/status-info-card.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxsModule, Store } from '@ngxs/store';
-import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
+import { NgxsModule} from '@ngxs/store';
 import { Component, Input } from '@angular/core';
-import { Application } from 'src/app/shared/models/application.model';
-import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -21,18 +16,14 @@ describe('UsersComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
         MatTabsModule,
-        MatDialogModule,
-        MatMenuModule
+        MatMenuModule,
+        MatIconModule,
+        MatFormFieldModule
 
       ],
       declarations: [
         UsersComponent,
-        InfoBoxHostDirective,
-        MockApplicationCardComponent,
-        ApplicationChildFilterPipe,
-        MockWorkshopChekcboxDropdownComponent,
-        StatusInfoCardComponent,
-        NoResultCardComponent
+        MockUsersListComponent
       ],
     })
       .compileComponents();
@@ -49,18 +40,10 @@ describe('UsersComponent', () => {
   });
 });
 @Component({
-  selector: 'app-application-card',
+  selector: 'app-users-list',
   template: ''
 })
-class MockApplicationCardComponent {
-  @Input() application: Application;
-  @Input() userRole: string;
-}
-
-@Component({
-  selector: 'app-workshop-checkbox-dropdown',
-  template: ''
-})
-class MockWorkshopChekcboxDropdownComponent {
-  @Input() workshops: Workshop[];
+class MockUsersListComponent {
+  @Input() users: Array<object>;
+  @Input() filterValue: string;
 }
