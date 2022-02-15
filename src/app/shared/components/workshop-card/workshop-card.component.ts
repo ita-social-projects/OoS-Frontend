@@ -15,6 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workshop-card',
@@ -62,6 +63,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  authServer: string = environment.serverUrl;
+  imgUrl = `/api/v1/PublicImage/`;
+  coverImageId: string = '';
+  coverImageUrl: string = '';
+
   constructor(
     private store: Store,
     public dialog: MatDialog) { }
@@ -77,6 +83,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
       .subscribe((role: string) => this.role = role);
+
+    this.getCoverImageUrl();
   }
 
   onDelete(): void {
@@ -114,6 +122,16 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  getCoverImageUrl(): void {
+    if (this.workshop.coverImageId) {
+      console.log('coverImageId: ', this.workshop.coverImageId);
+      this.coverImageUrl = this.authServer + this.imgUrl + this.workshop.coverImageId;
+    } else {
+      this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
+    }
+    console.log('coverImageUrl: ', this.coverImageUrl);
   }
 
 }
