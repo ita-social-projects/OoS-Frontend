@@ -24,13 +24,13 @@ export class FooterComponent implements OnInit, OnDestroy {
       .subscribe((payload) => this.showSnackBar(payload.payload));
   }
 
-  showSnackBar({ message, type }): void {
+  showSnackBar({ message, type, info }): void {
     this.snackBar.openFromComponent(MessageBarComponent, {
       duration: 5000,
       verticalPosition: 'top',
       horizontalPosition: 'center',
       panelClass: type,
-      data: { message, type },
+      data: { message, type, info },
     });
   }
 
