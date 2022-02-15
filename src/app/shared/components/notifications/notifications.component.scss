@@ -1,0 +1,29 @@
+.notification {
+  height: 35px;
+  line-height: 35px;
+  font-weight: bold;
+}
+
+.title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  padding: 0 1rem 1rem 0;
+}
+:host::ng-deep mat-icon {
+  font-size: 30px;
+
+  .mat-badge-content {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    display: block;
+    background-color: #F5BC4A;
+  }
+}
+.arrow{
+  color: #3849F9;
+  font-size: 16px;
+  margin-left: 1rem;
+}

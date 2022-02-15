@@ -1,0 +1,11 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
+  <mat-icon>notifications_none</mat-icon>
+</button>
+<span *ngIf="notificationsAmount$ | async as notificationsAmount">
+  <mat-icon [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
+</span>
+<mat-menu #menu="matMenu" class="notification" fxLayout="column" fxLayoutAlign="start start">
+  <h3 class="title">СПОВІЩЕННЯ</h3>
+  <span fxLayout="row wrap" fxLayoutAlign="start start">1 нова заявка очікує підтвердження <mat-icon class="arrow">
+      arrow_forward</mat-icon></span>
+</mat-menu>
