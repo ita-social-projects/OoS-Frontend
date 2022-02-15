@@ -126,12 +126,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   getCoverImageUrl(): void {
     if (this.workshop.coverImageId) {
-      console.log('coverImageId: ', this.workshop.coverImageId);
       this.coverImageUrl = this.authServer + this.imgUrl + this.workshop.coverImageId;
     } else {
       this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
     }
-    console.log('coverImageUrl: ', this.coverImageUrl);
   }
 
 }

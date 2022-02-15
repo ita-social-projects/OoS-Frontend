@@ -12,6 +12,7 @@
         <mat-card-header>
           <mat-card-title [matTooltip]="workshop.title" showTooltipIfTruncated matTooltipClass="tooltip"
             [matTooltipPosition]="below" class="card-title">{{workshop.title}}</mat-card-title>
+            <img mat-card-image [src]="categoryIcons[workshop.directionId]" >
         </mat-card-header>
 
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between">

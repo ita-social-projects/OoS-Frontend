@@ -2,9 +2,9 @@
   width: 300px;
   min-height: 410px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 
   &-title {
@@ -68,13 +68,12 @@
     font-size: 13px;
     line-height: 18px;
     color: #333333;
-    margin: 0.3rem;
+    margin: 0.3rem 0;
     padding: 0;
     min-width: 0;
 
     &_label{
       margin: 0;
-      width: 200px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -104,6 +103,13 @@
     }
   }
 }
+.wrap-for-details {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
 .card-footer {
   display: flex;
   flex-direction: row-reverse;
@@ -114,7 +120,6 @@
   width: 110px;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
   .mat-icon {
     font-size: 16px;
     width: 16px;
@@ -182,14 +187,10 @@
 .mat-card {
   padding: 0;
 }
-.mat-card-content {
-  margin: 0 1.5rem !important;
-}
 .mat-card-footer {
-  margin: 1.5rem 1.5rem 0 1.5rem !important;
+  margin: 0 !important;
 }
 .mat-card-header {
-  margin: 0 1rem !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -197,16 +198,25 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 200px;
     height: 20px;
+    margin: 0;
   }
   img {
+    width: 30px;
+    height: 30px;
     margin-block-end: auto;
   }
 }
+::ng-deep .mat-card-header-text {
+  width: 100%;
+  margin: 0!important;
+}
 .mat-card-image {
   width: 100%;
-  margin: 1rem;
+  margin: 0;
+  height: 185px;
+  object-fit: cover;
+  object-position: top;
 }
 .actions {
   position: absolute;
