@@ -84,7 +84,7 @@
     </p>
   </div>
 
-  <p class="card_text">
+  <p *ngIf="!isHorizontalView" class="card_text">
     <mat-icon class="card_icon">star</mat-icon> {{ workshop.rating }}
   </p>
   <div class="card_text">
@@ -92,10 +92,10 @@
     <p class="card_text_label" [matTooltip]="workshop.providerTitle" showTooltipIfTruncated matTooltipClass="tooltip"
       [matTooltipPosition]="below">{{ workshop.providerTitle }}</p>
   </div>
-  <p class="card_text" *ngIf="ownershipType">
+  <p class="card_text" *ngIf="ownershipType && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon> Форма власності: {{ ownershipType }}
   </p>
-  <p class="card_text" [ngClass]="isCreateApplicationView ? 'hide': ''">
+  <p class="card_text" [ngClass]="isMainPage && isHorizontalView ? 'hide': ''">
     <mat-icon class="card_icon">person</mat-icon>{{ workshop.minAge }} - {{ workshop.maxAge }} років
   </p>
   <p class="card_text" *ngIf="!workshop.price">
