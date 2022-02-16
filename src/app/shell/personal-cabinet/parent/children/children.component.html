@@ -1,9 +1,16 @@
 <div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
-  <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>
-  <a [routerLink]="['/create-child', '']"><button 
+  <div>
+    <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>  
+    <span *ngIf="(childrenCards$ | async)?.totalAmount >= 20" class="text">Можливо додати не більш, ніж 20 дітей</span></div>
+  <a *ngIf="(childrenCards$ | async)?.totalAmount < 20" [routerLink]="['/create-child', '']">    
+    <button 
+    class="btn" 
+    mat-raised-button    
+  >Додати дитину</button></a>
+  <a *ngIf="(childrenCards$ | async)?.totalAmount >= 20"><button 
     class="btn" 
     mat-raised-button
-    [disabled]="(childrenCards$ | async)?.totalAmount > 19"
+    [disabled]="(childrenCards$ | async)?.totalAmount >= 20"
   >Додати дитину</button></a>
 </div>
 
