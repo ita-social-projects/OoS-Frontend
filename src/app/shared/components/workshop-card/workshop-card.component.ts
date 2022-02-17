@@ -11,7 +11,7 @@ import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
@@ -60,6 +60,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
+  @Select(UserState.selectedWorkshop) 
+  workshop$: Observable<Workshop>;
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -73,7 +75,18 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.ownershipType = OwnershipTypeUkr[this.workshop.providerOwnership];
+    if (!this.workshop) {
+      this.workshop$.pipe(
+        filter((workshop: Workshop) => !!workshop),
+        takeUntil(this.destroy$))
+        .subscribe((workshop: Workshop) => {
+          this.workshop = workshop;
+          this.getCoverImageUrl();
+        });
+    } else {
+      this.getCoverImageUrl();
+    }
+    this.ownershipType = OwnershipTypeUkr[this.workshop?.providerOwnership];
     this.favoriteWorkshops$
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites: Favorite[]) => {
@@ -83,8 +96,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
       .subscribe((role: string) => this.role = role);
-
-    this.getCoverImageUrl();
   }
 
   onDelete(): void {
