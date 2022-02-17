@@ -1,9 +1,10 @@
-.notification {
-  height: 35px;
+.container{
+  min-height: 35px;
+  max-height: 400px;
+  width: 270px;
   line-height: 35px;
   font-weight: bold;
 }
-
 .title {
   font-style: normal;
   font-weight: bold;
@@ -22,8 +23,13 @@
     background-color: #F5BC4A;
   }
 }
-.arrow{
+.icon{
   color: #3849F9;
   font-size: 16px;
+  font-weight: bold;
   margin-left: 1rem;
+  &:hover{
+    cursor: pointer;
+    opacity: 0.5;
+  }
 }

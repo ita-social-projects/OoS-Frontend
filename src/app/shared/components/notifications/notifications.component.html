@@ -1,11 +1,41 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" class="pointer">
+<button mat-icon-button [matMenuTriggerFor]="menu" (click)="getNotifications()" class="pointer">
   <mat-icon>notifications_none</mat-icon>
 </button>
 <span *ngIf="notificationsAmount$ | async as notificationsAmount">
   <mat-icon [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
 </span>
-<mat-menu #menu="matMenu" class="notification" fxLayout="column" fxLayoutAlign="start start">
-  <h3 class="title">СПОВІЩЕННЯ</h3>
-  <span fxLayout="row wrap" fxLayoutAlign="start start">1 нова заявка очікує підтвердження <mat-icon class="arrow">
-      arrow_forward</mat-icon></span>
+<mat-menu #menu="matMenu">
+  <div class="container">
+    <h3 class="title">СПОВІЩЕННЯ</h3>
+    <ng-container *ngIf="notificationsData$ | async as notificationsData">
+      <ng-container *ngIf="notificationsData.notificationsGrouped.length">
+        <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap"
+          fxLayoutAlign="space-between center">
+          У вас {{notifications.amount}} нових заявок<mat-icon class="icon" (click)="onReadGroup(notifications)">
+            arrow_forward</mat-icon>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="notificationsData.notifications.length">
+        <div *ngFor="let notification of notificationsData.notifications">
+          <span fxLayout="row wrap" fxLayoutAlign="space-between center">{{notification.text}}<mat-icon class="icon"
+              (click)="onReadSingle(notification)">
+              delete
+            </mat-icon></span>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
 </mat-menu>
+
+<ng-template #Notifications let-notificationsData>
+
+  <!-- -->
+  <!--  -->
+
+
+</ng-template>
+
+<ng-template #isEmptyList>
+  <span fxLayout="row wrap" fxLayoutAlign="start start">У вас немає нових повідомлень</span>
+</ng-template>

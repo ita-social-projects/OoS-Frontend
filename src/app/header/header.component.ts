@@ -15,6 +15,7 @@ import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
+import { NotificationsState } from '../shared/store/notifications.state';
 
 @Component({
   selector: 'app-header',
@@ -37,6 +38,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
   isLoadingMetaData$: Observable<boolean>;
+  @Select(NotificationsState.isLoading)
+  isLoadingNotifications$: Observable<boolean>;
+
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
@@ -49,6 +53,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
   isLoadingMetaData: boolean;
+  isLoadingNotifications: boolean;
   isMobile: boolean;
   navigationPaths: Navigation[];
 
@@ -63,31 +68,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SidenavToggle());
   }
 
-  ngOnInit(): void {  
-    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$])
-    .pipe(takeUntil(this.destroy$), delay(0))
-    .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet]) => {
-      this.isLoadingResultPage = isLoadingResult;
-      this.isLoadingMetaData = isLoadingMeta;
-      this.isLoadingCabinet = isLoadingCabinet;
-    });
+  ngOnInit(): void {
+    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$, this.isLoadingNotifications$])
+      .pipe(takeUntil(this.destroy$), delay(0))
+      .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet, isLoadingNotifications]) => {
+        this.isLoadingResultPage = isLoadingResult;
+        this.isLoadingMetaData = isLoadingMeta;
+        this.isLoadingCabinet = isLoadingCabinet;
+        this.isLoadingNotifications = isLoadingNotifications;
+      });
 
     combineLatest([this.isMobileScreen$, this.navigationPaths$])
-    .pipe(takeUntil(this.destroy$), delay(0))
-    .subscribe(([isMobile, navigationPaths]) => {
-      this.isMobile = isMobile;
-      this.navigationPaths = navigationPaths;
-    })
-  
+      .pipe(takeUntil(this.destroy$), delay(0))
+      .subscribe(([isMobile, navigationPaths]) => {
+        this.isMobile = isMobile;
+        this.navigationPaths = navigationPaths;
+      })
+
     this.store.dispatch(new CheckAuth());
 
     this.user$.pipe(
       filter((user) => !!user),
       takeUntil(this.destroy$)
     )
-    .subscribe(item => {
-      this.userShortName = item.lastName + ' ' + (item.firstName).slice(0,1) + '.' + (item.middleName).slice(0,1) + '.';
-    })
+      .subscribe(item => {
+        this.userShortName = item.lastName + ' ' + (item.firstName).slice(0, 1) + '.' + (item.middleName).slice(0, 1) + '.';
+      })
   }
 
   logout(): void {
