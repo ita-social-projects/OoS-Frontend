@@ -6,3 +6,10 @@ export interface ProviderAdmin {
   phone: string,
   isDeputy: boolean,
 }
+
+export interface ProviderAdminTable {
+  pib: string,
+  email: string,
+  phone: string,
+  deputy: string,
+}
