@@ -54,6 +54,7 @@ import { ImageCarouselComponent } from './components/image-carousel/image-carous
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { MatTableModule } from '@angular/material/table';
+import { KeyFilterDirective } from './directives/key-filter.directive';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { MatTableModule } from '@angular/material/table';
     RejectModalWindowComponent,
     ImageCarouselComponent,
     UsersListComponent,
+    KeyFilterDirective,
   ],
   imports: [
     MaterialModule,
@@ -162,7 +164,8 @@ import { MatTableModule } from '@angular/material/table';
     WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
-    UsersListComponent
+    UsersListComponent,
+    KeyFilterDirective,
   ]
 })
 export class SharedModule { }
