@@ -2,11 +2,11 @@
     class="mat-elevation-z8">
 
   <!-- Name Column -->
-  <ng-container matColumnDef="name">
+  <ng-container matColumnDef="pib">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
       ПІБ
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.pib}} </td>
   </ng-container>
 
   <!-- Email Column -->
@@ -26,11 +26,11 @@
   </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="role">
+    <ng-container matColumnDef="isDeputy">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
         Тип користувача
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.isDeputy}} </td>
     </ng-container>
 
 
