@@ -15,11 +15,11 @@
           <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
           </ng-container>
         </mat-tab>
-        <mat-tab label="Заступник">
+        <mat-tab label="{{providerAdminRole.isDeputy}}">
           <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
           </ng-container>
         </mat-tab>
-        <mat-tab label="Адміністратор">
+        <mat-tab label="{{providerAdminRole.isNotDeputy}}">
           <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
           </ng-container>
         </mat-tab>
@@ -30,7 +30,7 @@
 
 
 <ng-template #UsersListFull let-filterValue>
-  <app-users-list [users]="testAdmins" [filterValue]="filterValue"></app-users-list>
+  <app-users-list [users]="providerAdmins" [filterValue]="filterValue"></app-users-list>
 </ng-template>
 <ng-template #UsersListFiltered let-filterValue>
   <app-users-list [users]="filterProviderAdmins" [filterValue]="filterValue"></app-users-list>
