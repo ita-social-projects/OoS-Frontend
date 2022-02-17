@@ -23,8 +23,8 @@ export class Constants {
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
-
-  static readonly ITEMS_PER_PAGE = 8;
+    
+  static readonly ITEMS_PER_PAGE = 2 * Math.floor(window.innerWidth/(332)); 
 
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
