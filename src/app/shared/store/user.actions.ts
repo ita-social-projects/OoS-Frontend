@@ -209,3 +209,7 @@ export class ResetSelectedWorkshop {
   static readonly type = '[user] reset selected workshop';
   constructor() { }
 }
+export class GetAllProviderAdmins {
+  static readonly type = '[user] get all users ProviderAdmins';
+  constructor() { }
+}
