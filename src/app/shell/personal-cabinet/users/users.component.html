@@ -15,11 +15,11 @@
           <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
           </ng-container>
         </mat-tab>
-        <mat-tab label="Заступник">
+        <mat-tab label="{{providerAdminRole.isDeputy}}">
           <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
           </ng-container>
         </mat-tab>
-        <mat-tab label="Адміністратор">
+        <mat-tab label="{{providerAdminRole.isNotDeputy}}">
           <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
           </ng-container>
         </mat-tab>
