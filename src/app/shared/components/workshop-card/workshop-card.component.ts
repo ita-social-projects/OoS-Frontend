@@ -61,7 +61,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   role$: Observable<string>;
   @Select(UserState.selectedWorkshop) 
-  workshop$: Observable<Workshop>;
+  workshop$: Observable<WorkshopCard>;
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -77,9 +77,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!this.workshop) {
       this.workshop$.pipe(
-        filter((workshop: Workshop) => !!workshop),
+        filter((workshop: WorkshopCard) => !!workshop),
         takeUntil(this.destroy$))
-        .subscribe((workshop: Workshop) => {
+        .subscribe((workshop: WorkshopCard) => {
           this.workshop = workshop;
           this.getCoverImageUrl();
         });

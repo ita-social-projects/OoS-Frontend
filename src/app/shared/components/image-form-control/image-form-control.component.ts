@@ -35,8 +35,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   ngOnInit(): void {
     this.onResize(window);
-    ((this.imageIdsFormControl && this.imageIdsFormControl.value.length) ||
-    (this.coverImageIdFormControl && this.coverImageIdFormControl.value.length)) && this.activateEditMode();
+    (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
+    (this.coverImageIdFormControl && this.coverImageIdFormControl.value.length) && this.activateCoverEditMode();
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -90,6 +90,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     this.imageIdsFormControl.value.forEach((imageId) => {
       this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + imageId}`, null))
     })
+  }
+  activateCoverEditMode(): void {
+    this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + this.coverImageIdFormControl.value}`, null))
   }
 
   onChange = (array: File[]): void => { }
