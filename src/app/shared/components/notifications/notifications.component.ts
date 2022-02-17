@@ -1,8 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { NotificationTypeUkr } from '../../enum/enumUA/notifications';
+import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationType } from '../../enum/notifications';
 import { NotificationsAmount, Notifications, NotificationGrouped, Notification } from '../../models/notifications.model';
 import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../store/notifications.actions';
@@ -16,10 +15,10 @@ import { NotificationsState } from '../../store/notifications.state';
 export class NotificationsComponent implements OnInit, OnDestroy {
 
   readonly notificationType = NotificationType;
-  readonly notificationTypeUkr = NotificationTypeUkr;
 
   @Select(NotificationsState.notificationsAmount)
   notificationsAmount$: Observable<NotificationsAmount>;
+  notificationsAmount: number;
   @Select(NotificationsState.notifications)
   notificationsData$: Observable<Notifications>
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -30,10 +29,16 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
+    this.notificationsAmount$.pipe(
+      takeUntil(this.destroy$),
+      filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
+    ).subscribe((notificationsAmount: NotificationsAmount) => this.notificationsAmount = notificationsAmount.amount);
   }
 
   getNotifications(): void {
-    this.store.dispatch(new GetAllUsersNotificationsGrouped());
+    if (this.notificationsAmount) {
+      this.store.dispatch(new GetAllUsersNotificationsGrouped());
+    }
   }
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
@@ -48,5 +53,4 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }
