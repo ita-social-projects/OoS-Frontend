@@ -15,6 +15,7 @@ export class ValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() forbiddenCharacter: string;
+  @Input() minMaxDate: boolean;
 
   constructor() {
 

@@ -26,6 +26,30 @@ export class Util {
   }
 
   /**
+   * This method returns min birth date
+   * @param maxAge number
+   * @returns Date
+   */
+     public static getMinBirthDate(maxAge: number): Date {
+      const today = new Date();
+      let minBirthDate = new Date();
+
+      minBirthDate.setFullYear(today.getFullYear() - maxAge);
+  
+      return minBirthDate;
+    }
+
+  /**
+   * This method returns max birth date
+   * @returns Date
+   */
+   public static getMaxBirthDate(): Date {
+    const today = new Date();
+
+    return today;
+  }
+
+  /**
    * This method returns declension for Child's age in years
    * @param year Child's age in years
    * @returns string
