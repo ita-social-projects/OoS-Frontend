@@ -110,7 +110,7 @@
     [minLength]="ChildFormGroup.get('placeOfLiving').errors?.minlength"
     [maxLength]="ChildFormGroup.get('placeOfLiving').errors?.maxlength"
     [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
-    [minCharachters]="10"
+    [minCharachters]="1"
     [maxCharachters]="256">
   </app-validation-hint-for-input>
 
@@ -126,7 +126,7 @@
     [minLength]="ChildFormGroup.get('placeOfStudy').errors?.minlength"
     [maxLength]="ChildFormGroup.get('placeOfStudy').errors?.maxlength"
     [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
-    [minCharachters]="10"
+    [minCharachters]="1"
     [maxCharachters]="256">
   </app-validation-hint-for-input>
 
