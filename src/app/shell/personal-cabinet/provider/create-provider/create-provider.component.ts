@@ -55,7 +55,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
-    
+        
   }
 
   ngAfterViewInit(): void {
