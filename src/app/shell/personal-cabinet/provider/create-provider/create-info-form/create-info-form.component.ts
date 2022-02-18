@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { DATE_REGEX, TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-create-info-form',
@@ -21,10 +22,13 @@ export class CreateInfoFormComponent implements OnInit {
   readonly providerTypeUkr = ProviderTypeUkr;
 
   InfoFormGroup: FormGroup;
-  today: Date = new Date();
 
   @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();
+
+  dateFilter: RegExp = DATE_REGEX;
+  maxDate: Date = Util.getMaxBirthDate();
+  minDate: Date = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
 
   constructor(private formBuilder: FormBuilder) {
     this.InfoFormGroup = this.formBuilder.group({
