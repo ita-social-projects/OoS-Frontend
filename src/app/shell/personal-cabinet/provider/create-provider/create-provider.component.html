@@ -19,6 +19,7 @@
           <button class="btn" 
             mat-raised-button matStepperNext 
             (click)="checkValidation(InfoFormGroup)"
+            [disabled]="InfoFormGroup.get('fullTitle').value === ''"
           >Далі</button>
         </div>
       </mat-step>
