@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatMenuModule } from '@angular/material/menu';
+import { NgxsModule } from '@ngxs/store';
 
 import { NotificationsComponent } from './notifications.component';
 
@@ -8,9 +10,13 @@ describe('NotificationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NotificationsComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+        MatMenuModule
+      ],
+      declarations: [NotificationsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

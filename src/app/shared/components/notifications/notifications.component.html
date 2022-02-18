@@ -6,9 +6,13 @@
 </span>
 <mat-menu #menu="matMenu">
   <div class="container">
-    <h3 class="title">СПОВІЩЕННЯ</h3>
-    <ng-conatiner *ngIf="notificationsAmount then Notifications; else isEmptyList">
-    </ng-conatiner>
+    <ng-container *ngIf="notificationsData$ | async as notificationsData">
+      <h3 class="title">СПОВІЩЕННЯ</h3>
+      <ng-conatiner *ngIf="notificationsAmount; else isEmptyList">
+        <ng-container *ngTemplateOutlet="Notifications; context:{$implicit: notificationsData }">
+        </ng-container>
+      </ng-conatiner>
+    </ng-container>
   </div>
 </mat-menu>
 
@@ -16,22 +20,20 @@
   <span fxLayout="row wrap" fxLayoutAlign="start start">У вас немає нових повідомлень</span>
 </ng-template>
 
-<ng-template #Notifications>
-  <ng-container *ngIf="notificationsData$ | async as notificationsData">
-    <ng-container *ngIf="notificationsData.notificationsGrouped.length">
-      <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap"
-        fxLayoutAlign="space-between center">
-        У вас {{notifications.amount}} нових заявок<mat-icon class="icon" (click)="onReadGroup(notifications)">
-          arrow_forward</mat-icon>
-      </span>
-    </ng-container>
-    <ng-container *ngIf="notificationsData.notifications.length">
-      <div *ngFor="let notification of notificationsData.notifications">
-        <span fxLayout="row wrap" fxLayoutAlign="space-between center">{{notification.text}}<mat-icon class="icon"
-            (click)="onReadSingle(notification)">
-            delete
-          </mat-icon></span>
-      </div>
-    </ng-container>
+<ng-template #Notifications let-notificationsData>
+  <ng-container *ngIf="notificationsData.notificationsGrouped.length">
+    <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap"
+      fxLayoutAlign="space-between center">{{getDeclensionNewApplication(notifications.amount)}}
+      <mat-icon class="icon" (click)="onReadGroup(notifications)">
+        arrow_forward</mat-icon>
+    </span>
+  </ng-container>
+  <ng-container *ngIf="notificationsData.notifications.length">
+    <div *ngFor="let notification of notificationsData.notifications" matMenuItem disableRipple="true">
+      <span fxLayout="row wrap" fxLayoutAlign="space-between center">{{notification.text}}<mat-icon class="icon"
+          (click)="onReadSingle($event, notification)">
+          highlight_off
+        </mat-icon></span>
+    </div>
   </ng-container>
 </ng-template>

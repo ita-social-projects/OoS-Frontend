@@ -38,8 +38,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
   isLoadingMetaData$: Observable<boolean>;
-  @Select(NotificationsState.isLoading)
-  isLoadingNotifications$: Observable<boolean>;
 
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
@@ -69,13 +67,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$, this.isLoadingNotifications$])
+    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$])
       .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet, isLoadingNotifications]) => {
+      .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet]) => {
         this.isLoadingResultPage = isLoadingResult;
         this.isLoadingMetaData = isLoadingMeta;
         this.isLoadingCabinet = isLoadingCabinet;
-        this.isLoadingNotifications = isLoadingNotifications;
       });
 
     combineLatest([this.isMobileScreen$, this.navigationPaths$])

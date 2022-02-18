@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatMenu } from '@angular/material/menu';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -6,6 +7,7 @@ import { NotificationType } from '../../enum/notifications';
 import { NotificationsAmount, Notifications, NotificationGrouped, Notification } from '../../models/notifications.model';
 import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../store/notifications.actions';
 import { NotificationsState } from '../../store/notifications.state';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-notifications',
@@ -13,9 +15,6 @@ import { NotificationsState } from '../../store/notifications.state';
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-
-  readonly notificationType = NotificationType;
-
   @Select(NotificationsState.notificationsAmount)
   notificationsAmount$: Observable<NotificationsAmount>;
   notificationsAmount: number;
@@ -45,8 +44,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
   }
 
-  onReadSingle(notification: Notification): void {
+  onReadSingle(event: PointerEvent, notification: Notification): void {
     this.store.dispatch(new ReadUsersNotificationById(notification));
+    event.stopPropagation()
+  }
+
+  getDeclensionNewApplication(applicationAmount: number): string {
+    return Util.getDeclensionNewApplication(applicationAmount);
   }
 
   ngOnDestroy(): void {

@@ -10,14 +10,12 @@ import { ShowMessageBar } from "./app.actions";
 import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, OnReadUsersNotificationsFail, OnReadUsersNotificationsByTypeSuccess, ReadUsersNotificationsByType, ReadUsersNotificationById, OnReadUsersNotificationByIdSuccess } from "./notifications.actions";
 
 export interface NotificationsStateModel {
-  isLoading: boolean;
   notificationsAmount: NotificationsAmount;
   notifications: Notifications;
 }
 @State<NotificationsStateModel>({
   name: 'notifications',
   defaults: {
-    isLoading: false,
     notificationsAmount: undefined,
     notifications: undefined,
   }
@@ -25,9 +23,6 @@ export interface NotificationsStateModel {
 
 @Injectable()
 export class NotificationsState {
-  @Selector()
-  static isLoading(state: NotificationsStateModel): boolean { return state.isLoading; }
-
   @Selector()
   static notificationsAmount(state: NotificationsStateModel): NotificationsAmount {
     return state.notificationsAmount;
@@ -44,21 +39,18 @@ export class NotificationsState {
 
   @Action(GetAmountOfNewUsersNotifications)
   getAmountOfNewUsersNotifications({ patchState }: StateContext<NotificationsStateModel>, { }: GetAmountOfNewUsersNotifications): Observable<NotificationsAmount> {
-    patchState({ isLoading: true });
     return this.notificationsService.getAmountOfNewUsersNotifications().pipe(
-      tap((notificationsAmount: NotificationsAmount) => patchState({ notificationsAmount: notificationsAmount, isLoading: false })));
+      tap((notificationsAmount: NotificationsAmount) => patchState({ notificationsAmount: notificationsAmount })));
   }
 
   @Action(GetAllUsersNotificationsGrouped)
   getAllUsersNotificationsGrouped({ patchState }: StateContext<NotificationsStateModel>, { }: GetAmountOfNewUsersNotifications): Observable<Notifications> {
-    patchState({ isLoading: true });
     return this.notificationsService.getAllUsersNotificationsGrouped().pipe(
-      tap((notifications: Notifications) => patchState({ notifications: notifications, isLoading: false })));
+      tap((notifications: Notifications) => patchState({ notifications: notifications })));
   }
 
   @Action(ReadUsersNotificationsByType)
-  readUsersNotificationsByType({ patchState, dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationsByType): Observable<object> {
-    patchState({ isLoading: true });
+  readUsersNotificationsByType({ dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationsByType): Observable<object> {
     return this.notificationsService
       .readUsersNotificationsByType(payload)
       .pipe(
@@ -68,15 +60,13 @@ export class NotificationsState {
   }
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
-  onReadUsersNotificationsByTypeSuccess({ patchState, dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsByTypeSuccess): void {
-    patchState({ isLoading: false });
+  onReadUsersNotificationsByTypeSuccess({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsByTypeSuccess): void {
     dispatch(new GetAmountOfNewUsersNotifications());
     this.router.navigate([`/personal-cabinet/${NotificationType[payload.type]}`]);
   }
 
   @Action(ReadUsersNotificationById)
-  readUsersNotificationsById({ patchState, dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationById): Observable<object> {
-    patchState({ isLoading: true });
+  readUsersNotificationsById({ dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationById): Observable<object> {
     return this.notificationsService
       .readUsersNotificationById(payload)
       .pipe(
@@ -86,15 +76,15 @@ export class NotificationsState {
   }
 
   @Action(OnReadUsersNotificationByIdSuccess)
-  onReadUsersNotificationByIdSuccess({ patchState, dispatch }: StateContext<NotificationsStateModel>, { }: OnReadUsersNotificationByIdSuccess): void {
-    patchState({ isLoading: false });
+  onReadUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>, { }: OnReadUsersNotificationByIdSuccess): void {
     dispatch(new GetAmountOfNewUsersNotifications());
+    dispatch(new GetAllUsersNotificationsGrouped());
+
   }
 
   @Action(OnReadUsersNotificationsFail)
-  onReadUsersNotificationsFail({ dispatch, patchState }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
+  onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
     throwError(payload);
-    patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 }
