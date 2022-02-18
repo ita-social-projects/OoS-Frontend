@@ -42,7 +42,7 @@
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" maxlength="30">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="LegalAddressFormGroup.get('street').errors?.required"
@@ -120,7 +120,7 @@
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" maxlength="30">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ActualAddressFormGroup.get('street').errors?.required"
