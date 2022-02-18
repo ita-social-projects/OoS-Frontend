@@ -80,7 +80,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
           this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
           this.onChange(this.selectedImages);
         } else {
-          this.imageIdsFormControl.value.splice(imageIndex, 1);
+          if (this.imageIdsFormControl) {
+            this.imageIdsFormControl.value.splice(imageIndex, 1);
+          } else {
+            this.coverImageIdFormControl.setValue(null);
+          }
         }
       }
     }
