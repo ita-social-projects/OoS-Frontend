@@ -52,6 +52,9 @@ import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-fi
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { KeyFilterDirective } from './directives/key-filter.directive';
 
 @NgModule({
   declarations: [
@@ -100,6 +103,8 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     SidenavFiltersComponent,
     RejectModalWindowComponent,
     ImageCarouselComponent,
+    UsersListComponent,
+    KeyFilterDirective,
   ],
   imports: [
     MaterialModule,
@@ -110,7 +115,8 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
-    IvyCarouselModule
+    IvyCarouselModule,
+    MatTableModule
   ],
   exports: [
     FiltersListComponent,
@@ -157,7 +163,9 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
-    ImageCarouselComponent
+    ImageCarouselComponent,
+    UsersListComponent,
+    KeyFilterDirective,
   ]
 })
 export class SharedModule { }

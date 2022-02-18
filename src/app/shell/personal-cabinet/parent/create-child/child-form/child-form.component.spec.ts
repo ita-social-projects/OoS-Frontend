@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { Component, Input } from '@angular/core';
+import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
@@ -32,7 +33,8 @@ describe('ChildFormComponent', () => {
       ],
       declarations: [
         ChildFormComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        KeyFilterDirective
       ]
     })
       .compileComponents();
@@ -76,4 +78,5 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number; 
   @Input() maxCharachters: number; 
   @Input() forbiddenCharacter: string;
+  @Input() minMaxDate: boolean;
 }
