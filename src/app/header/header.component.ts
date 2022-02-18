@@ -16,6 +16,7 @@ import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { NotificationsState } from '../shared/store/notifications.state';
+import { FeaturesList } from '../shared/models/featuresList.model';
 
 @Component({
   selector: 'app-header',
@@ -48,6 +49,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
+  @Select(MetaDataState.featuresList)
+  featuresList$: Observable<FeaturesList>;
+
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
   isLoadingMetaData: boolean;

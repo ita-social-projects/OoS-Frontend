@@ -63,7 +63,7 @@
   <div class="authorization">
     <span class="header_menu-button">
 
-      <app-notifications></app-notifications>
+      <app-notifications *ngIf="(featuresList$ | async).release2"></app-notifications>
 
       <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon>account_circle</mat-icon>
