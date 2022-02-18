@@ -54,6 +54,7 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
+  OnGetWorkshopByIdFail,
   GetApplicationsByProviderId,
   GetApplicationsByParentId,
   OnUpdateApplicationSuccess,
@@ -151,14 +152,23 @@ export class UserState {
   ) { }
 
   @Action(GetWorkshopById)
-  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<Workshop> {
+  getWorkshopById({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<object> {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
         tap((workshop: Workshop) => {
           return patchState({ selectedWorkshop: workshop, isLoading: false });
-        }));
+        }),
+        catchError((error: Error) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
+  }
+
+  @Action(OnGetWorkshopByIdFail)
+  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
+    throwError(payload);
+    patchState({ isLoading: false });
+    patchState({ selectedWorkshop: null });
+    dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
   }
 
   @Action(GetProviderById)
