@@ -29,6 +29,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   provider: Provider;
   isAgreed: boolean;
   isNotRobot: boolean;
+  isEmpty: boolean;
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -55,6 +56,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+    
   }
 
   ngAfterViewInit(): void {
