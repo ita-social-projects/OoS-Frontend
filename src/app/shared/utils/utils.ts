@@ -89,7 +89,7 @@ export class Util {
  */
   public static getDeclensionNewApplication(applicationAmount: number): string {
     let lastDigit = applicationAmount % 10;
-    let text = (lastDigit === 1) ? 'нова заявка' : 'нових заявки';
+    let text = (lastDigit === 1) ? 'нова зміна у заявках' : 'нових змін у заявках';
     return `У вас ${applicationAmount} ` + text;
   }
 
