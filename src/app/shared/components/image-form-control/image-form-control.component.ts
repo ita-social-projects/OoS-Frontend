@@ -92,11 +92,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + imageId}`, null))
+      this.decodedImages.push(new DecodedImage(this.authServer + this.imgUrl + imageId, null))
     })
   }
   activateCoverEditMode(): void {
-    this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + this.coverImageIdFormControl.value}`, null))
+    this.decodedImages.push(new DecodedImage(this.authServer + this.imgUrl + this.coverImageIdFormControl.value, null))
   }
 
   onChange = (array: File[]): void => { }
