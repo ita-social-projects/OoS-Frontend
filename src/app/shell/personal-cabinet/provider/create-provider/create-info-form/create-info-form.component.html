@@ -62,14 +62,25 @@
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth">
+    <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" [appKeyFilter]="dateFilter">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <app-validation-hint-for-input type="requiredField"
+  <!-- <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('directorDateOfBirth').invalid && InfoFormGroup.get('directorDateOfBirth').touched">
+  </app-validation-hint-for-input> -->
+  <app-validation-hint-for-input type="requiredField"
+    [invalid]="InfoFormGroup.get('directorDateOfBirth').pristine && InfoFormGroup.get('directorDateOfBirth').touched">
   </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validDateFormat"
+    [invalid]="InfoFormGroup.get('directorDateOfBirth').invalid && InfoFormGroup.get('directorDateOfBirth').dirty && InfoFormGroup.get('directorDateOfBirth').touched"
+    [minMaxDate]="InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMin') || InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMax')">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="outOfRangeDate"
+    [minMaxDate]="InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMin') || InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMax')">
+  </app-validation-hint-for-input>
+
 
   <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}} <span
       class="step-required">*</span></label>
