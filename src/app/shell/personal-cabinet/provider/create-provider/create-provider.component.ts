@@ -138,7 +138,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.subscribeOnDirtyForm(form);
   }
 
-
   /**
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
@@ -149,11 +148,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-  checkEmpty(form: FormGroup) {
-    // return Object.keys(form.controls).forEach(key => form.get(key).value == '' ? true : false)
-    return (form.get('fullTitle').value == '') ? true : false;    
+  checkEmpty(form: FormGroup): boolean {
+    return (form?.value.fullTitle === '') ? true : false;   
   }
-
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
