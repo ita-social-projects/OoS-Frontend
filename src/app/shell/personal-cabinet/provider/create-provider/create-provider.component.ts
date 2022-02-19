@@ -28,8 +28,7 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
   provider: Provider;
   isAgreed: boolean;
-  isNotRobot: boolean;
-  isEmpty: boolean;
+  isNotRobot: boolean;  
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -150,12 +149,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-  checkEmpty(form: FormGroup): boolean {
-    if(form.get('fullTitle').value == '') {
-      return true;
-    } else {
-      return false;
-    }
+  checkEmpty(form: FormGroup) {
+    // return Object.keys(form.controls).forEach(key => form.get(key).value == '' ? true : false)
+    return (form.get('fullTitle').value == '') ? true : false;    
   }
 
   /**
