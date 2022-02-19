@@ -29,6 +29,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   provider: Provider;
   isAgreed: boolean;
   isNotRobot: boolean;
+  isEmpty: boolean;
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -147,6 +148,14 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
+  }
+
+  checkEmpty(form: FormGroup): boolean {
+    if(form.get('fullTitle').value == '') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
