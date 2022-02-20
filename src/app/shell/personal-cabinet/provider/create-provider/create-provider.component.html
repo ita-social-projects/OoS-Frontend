@@ -14,7 +14,7 @@
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
         </div>
@@ -29,7 +29,7 @@
         </app-create-contacts-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext
             (click)="checkValidationContacts(ContactsFormGroup)">Далі</button>
