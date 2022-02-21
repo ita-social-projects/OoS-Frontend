@@ -9,6 +9,7 @@
 <ng-container *ngIf = "type === 'validDateFormat' && invalid && !minMaxDate; then incorrectDateField"></ng-container>
 <ng-container *ngIf = "type === 'outOfRangeDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
 <ng-container *ngIf = "type === 'validLength' && (minLength || maxLength) && invalid; then invalidLength"></ng-container>
+<ng-container *ngIf = "type === 'validBirthCertificate' && forbiddenCharacter && invalid; then invalidBirthCertificate"></ng-container>
 
 
 <ng-template #requiredInput>
@@ -68,5 +69,11 @@
 <ng-template #invalidLength>
   <small appValidationMessageStyling>
     Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів
+  </small>
+</ng-template>
+
+<ng-template #invalidBirthCertificate>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки латиницю, кирилицю, цифри та символи ( ' - №)
   </small>
 </ng-template>
