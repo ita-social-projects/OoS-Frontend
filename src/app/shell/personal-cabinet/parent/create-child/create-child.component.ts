@@ -15,7 +15,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { NAME_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NAME_REGEX, TEXT_WITH_DIGITS_REGEX, BIRTH_CERTIFICATE_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -128,7 +128,11 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         Validators.minLength(10), 
         Validators.maxLength(256)
       ]),
-      certificateOfBirth: new FormControl(''),
+      certificateOfBirth: new FormControl('', [
+        Validators.pattern(BIRTH_CERTIFICATE_REGEX),
+        Validators.minLength(10),
+        Validators.maxLength(20)
+      ]),
       placeOfStudy: new FormControl('', [
         Validators.pattern(TEXT_WITH_DIGITS_REGEX),
         Validators.minLength(10), 
