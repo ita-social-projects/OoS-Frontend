@@ -149,7 +149,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   checkEmpty(form: FormGroup): boolean {
-    return (form?.value.fullTitle === '') ? true : false;   
+    return (form?.value.fullTitle === '');   
   }
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
