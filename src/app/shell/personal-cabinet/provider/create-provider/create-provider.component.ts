@@ -28,7 +28,7 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
   provider: Provider;
   isAgreed: boolean;
-  isNotRobot: boolean;
+  isNotRobot: boolean;  
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -55,6 +55,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+        
   }
 
   ngAfterViewInit(): void {
@@ -137,7 +138,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.subscribeOnDirtyForm(form);
   }
 
-
   /**
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
@@ -148,6 +148,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
+  checkEmpty(form: FormGroup): boolean {
+    return (form?.value.fullTitle === '');   
+  }
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */

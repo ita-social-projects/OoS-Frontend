@@ -15,7 +15,11 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
+          <button class="btn" 
+            mat-raised-button matStepperNext 
+            (click)="checkValidation(InfoFormGroup)"
+            [disabled]="checkEmpty(InfoFormGroup)"
+          >Далі</button>
         </div>
       </mat-step>
 
