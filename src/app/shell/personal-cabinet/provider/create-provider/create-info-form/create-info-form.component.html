@@ -1,6 +1,6 @@
 <form [formGroup]="InfoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
-  <label class="step-label">Форма властності<span class="step-required">*</span></label>
+  <label class="step-label">Форма власності<span class="step-required">*</span></label>
 
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
@@ -49,7 +49,7 @@
 
   <label class="step-label"> ПІБ керівника <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="director" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="director" maxlength="50" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="InfoFormGroup.get('director').errors?.required"
@@ -85,21 +85,13 @@
   <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}} <span
       class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" maxlength="10" appDigitOnly formControlName="edrpouIpn"
+    <input matInput class="step-input" type="text" minlength="10" maxlength="20" formControlName="edrpouIpn"
       autocomplete="none">
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="InfoFormGroup.get('edrpouIpn').errors?.required"
-    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched">
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched"
+    [forbiddenCharacter]="InfoFormGroup.get('edrpouIpn').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="minCharachtersLengthFOP"
-    [minLength]="InfoFormGroup.get('edrpouIpn').errors?.minlength"
-    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched"
-    *ngIf="this.InfoFormGroup.get('type').value === 0"></app-validation-hint-for-input>
-  <app-validation-hint-for-input type="minDigitsLength" [minLength]="InfoFormGroup.get('edrpouIpn').errors?.minlength"
-    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched"
-    [minCharachters]="InfoFormGroup.get('edrpouIpn').errors?.minlength?.requiredLength"
-    *ngIf="this.InfoFormGroup.get('type').value !== 0"></app-validation-hint-for-input>
 
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
@@ -146,7 +138,7 @@
 
   <label class="step-label">Засновник<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="founder" maxlength="30" autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="InfoFormGroup.get('founder').errors?.required"
