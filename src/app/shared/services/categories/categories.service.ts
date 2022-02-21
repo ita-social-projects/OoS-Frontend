@@ -17,8 +17,11 @@ export class CategoriesService {
   getTopDirections(): Observable<Direction[]> {
     return this.http.get<Direction[]>(`/api/v1/Statistic/GetDirections`);
   }
-  createDirection(direction: Direction): Observable<object> {
-    return this.http.post('/api/v1/Direction/Create', direction);
+  createDirection(direction: Direction): Observable<Direction> {
+    return this.http.post<Direction>('/api/v1/Direction/Create', direction);
+  }
+  createDepartment(department: Department): Observable<object> {
+    return this.http.post('/api/v1/Department/Create', department);
   }
   updateDirection(direction: Direction): Observable<object> {
     return this.http.put('/api/v1/Direction/Update', direction);
@@ -27,15 +30,15 @@ export class CategoriesService {
     return this.http.delete(`/api/v1/Direction/Delete/${id}`);
   }
 
-  getDepartmentsBytDirectionId(id: number): Observable<Department[]> {
+  getDepartmentsByDirectionId(id: number): Observable<Department[]> {
     return this.http.get<Department[]>(`/api/v1/Department/GetByDirectionId/${id}`);
   }
 
   getClassByDepartmentId(id: number): Observable<IClass[]> {
     return this.http.get<IClass[]>(`/api/v1/Class/GetByDepartmentId/${id}`);
   }
- 
-  getDirectionById(id: string): Observable<Direction> {
+
+  getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
   }
 }

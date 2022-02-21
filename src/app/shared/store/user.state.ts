@@ -482,9 +482,9 @@ export class UserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-    
-    dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left 
-      ? messageStatus.left 
+
+    dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left
+      ? messageStatus.left
       : messageStatus.approved, type: 'success' }));
     dispatch(new GetApplicationsByParentId(payload.parentId));
   }

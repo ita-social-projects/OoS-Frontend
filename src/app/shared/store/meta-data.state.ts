@@ -146,7 +146,7 @@ export class MetaDataState {
   @Action(GetDepartments)
   getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments): Observable<Department[]> {
     return this.categoriesService
-      .getDepartmentsBytDirectionId(payload)
+      .getDepartmentsByDirectionId(payload)
       .pipe(
         tap((departments: Department[]) => patchState({ departments: departments })
         ))

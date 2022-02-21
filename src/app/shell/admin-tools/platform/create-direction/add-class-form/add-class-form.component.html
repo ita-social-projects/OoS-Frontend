@@ -1,0 +1,41 @@
+<form [formGroup]="classFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Назва напрямку </label>
+    <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
+    [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center" class="department">Name</div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Назва відділення </label>
+    <i class="material-icons status-info-icon" (click)="isActiveDepartmentInfoButton=!isActiveDepartmentInfoButton"
+    [ngClass]="isActiveDepartmentInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+  </div>
+    <div fxLayout="row" fxLayoutAlign="start center" class="direction">Name</div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Назва класу <span class="step-required">*</span></label>
+    <i class="material-icons status-info-icon" (click)="isActiveClassInfoButton=!isActiveClassInfoButton"
+    [ngClass]="isActiveClassInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+  </div>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="className">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="classFormGroup.get('className').errors?.required"
+    [invalid]="classFormGroup.get('className').invalid && classFormGroup.get('className').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="classFormGroup.get('className').invalid && classFormGroup.get('className').touched"
+    [forbiddenCharacter]="classFormGroup.get('className').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <button *ngIf="!editMode" class="btn-add" mat-button (click)="addClass()">
+      <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
+    </button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+        class="btn btn-cancel">Скасувати</button></a>
+    <button class="btn" mat-raised-button matStepperNext (click)="onSubmit">Далі</button>
+  </div>
+
+</form>

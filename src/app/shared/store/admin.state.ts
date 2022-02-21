@@ -4,21 +4,27 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { AboutPortal } from "../models/aboutPortal.model";
-import { Direction } from "../models/category.model";
+import { Department, Direction } from "../models/category.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail,} from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId,} from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
-  directions: Direction;
+  isLoading: boolean;
+  direction: Direction;
   aboutPortal: AboutPortal;
+  departments: Department[];
+  selectedDirection: Direction;
 }
 @State<AdminStateModel>({
   name: 'admin',
   defaults: {
     aboutPortal: null,
-    directions: null,
+    direction: undefined,
+    departments: [],
+    isLoading: false,
+    selectedDirection: null,
   }
 })
 @Injectable()
@@ -26,7 +32,9 @@ export class AdminState {
   @Selector()
   static aboutPortal(state: AdminStateModel): AboutPortal { return state.aboutPortal; }
   @Selector()
-  static directions(state: AdminStateModel): Direction { return state.directions; }
+  static direction(state: AdminStateModel): Direction { return state.direction; }
+  @Selector()
+  static departments(state: AdminStateModel): Department [] { return state.departments; }
 
   constructor(
     private portalService: PortalService,
@@ -93,7 +101,7 @@ export class AdminState {
   @Action(CreateDirection)
   CreateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<object> {
     return this.categoriesService
-      .createDirection(payload)
+    .createDirection(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateDirectionSuccess(res))),
         catchError((error: Error) => of(dispatch(new OnCreateDirectionFail(error))))
@@ -107,11 +115,11 @@ export class AdminState {
   }
 
   @Action(OnCreateDirectionSuccess)
-  OnCreateDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionSuccess): void {
+  OnCreateDirectionSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
+    patchState({direction: payload});
     console.log('Direction is created', payload);
     dispatch(new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/about']);
   }
   @Action(UpdateDirection)
   updateChild({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<object> {
@@ -133,5 +141,47 @@ export class AdminState {
     console.log('Direction is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/about']);
+  }
+  @Action(CreateDepartment)
+  CreateDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDepartment): Observable<object> {
+    return this.categoriesService
+      .createDepartment(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateDepartmentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateDepartmentFail(error))))
+      );
+  }
+
+  @Action(OnCreateDepartmentFail)
+  OnCreateDepartmentFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnCreateDepartmentSuccess)
+  OnCreateDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Department is created', payload);
+    dispatch(new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }));
+  }
+  @Action(GetDirectionById)
+  getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
+    patchState({ isLoading: true });
+    return this.categoriesService
+      .getDirectionById(payload)
+      .pipe(
+        tap((direction: Direction) => {
+          return patchState({ selectedDirection: direction, isLoading: false });
+        }));
+  }
+  @Action(GetDepartmentByDirectionId)
+  getDepartmentByDirectionId({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentByDirectionId): Observable<Department[]> {
+    patchState({ isLoading: true });
+    return this.categoriesService
+      .getDepartmentsByDirectionId(payload)
+      .pipe(
+        tap((department: Department[]) => {
+          return patchState({ departments: department, isLoading: false });
+        }));
   }
 }

@@ -9,6 +9,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { SupportFormComponent } from './support-edit/support-form/support-form.component';
 import { CreateDirectionComponent } from './create-direction/create-direction.component';
+import { AddClassFormComponent } from './create-direction/add-class-form/add-class-form.component';
+import { AddDepartmentFormComponent } from './create-direction/add-department-form/add-department-form.component';
+import { AddDirectionFormComponent } from './create-direction/add-direction-form/add-direction-form.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { CreateDirectionComponent } from './create-direction/create-direction.co
     AboutFormComponent,
     SupportFormComponent,
     CreateDirectionComponent,
+    AddClassFormComponent,
+    AddDepartmentFormComponent,
+    AddDirectionFormComponent,
   ],
   imports: [
     CommonModule,

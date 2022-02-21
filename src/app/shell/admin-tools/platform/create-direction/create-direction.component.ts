@@ -1,46 +1,78 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { createDirectionSteps } from 'src/app/shared/enum/provider';
+import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-create-direction',
   templateUrl: './create-direction.component.html',
-  styleUrls: ['./create-direction.component.scss']
+  styleUrls: ['./create-direction.component.scss'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
+  }]
 })
+
 export class CreateDirectionComponent implements OnInit, OnDestroy {
+  techAdmin: TechAdmin;
 
   directionFormGroup: FormGroup;
+  departmentFormGroup: FormGroup;
+  classFormGroup: FormGroup;
 
   editMode = false;
 
-  isActiveDirectionInfoButton = false;
-  isActiveSectionInfoButton = false;
-  isActiveClassInfoButton = false;
+  @ViewChild('stepper') stepper: MatStepper;
 
   constructor(
-    private fb: FormBuilder,
-    private store: Store,
-    private navigationBarService: NavigationBarService) {
+    private route: ActivatedRoute,
+    private store: Store,) {
 
-      this.directionFormGroup = this.fb.group({
-        image: new FormControl(''),
-        directionName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-        sectionName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-        className: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      });
     }
 
   ngOnInit(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.AdminTools, isActive: false, disable: false },
-      { name: NavBarName.Platform, isActive: false, disable: false },
-      { name: NavBarName.Direction, isActive: false, disable: true }
-    )));
+
   }
+  ngAfterViewInit(): void {
+    if (this.editMode) {
+      this.route.params.subscribe((params: Params) => {
+        this.stepper.selectedIndex = +createDirectionSteps[params.param];
+      });
+    }
+  }
+
+    /**
+   * This method receives a form from create-info child component and assigns to the Info FormGroup
+   * @param FormGroup form
+   */
+     //onReceiveDirectionFormGroup(form: FormGroup): void {
+     // this.directionFormGroup = form;
+   // }
+
+        /**
+   * This method receives a form from create-info child component and assigns to the Info FormGroup
+   * @param FormGroup form
+   */
+   //      onReceiveDepartmentFormGroup(form: FormGroup): void {
+    //      this.departmentFormGroup = form;
+    //    }
+
+            /**
+   * This method receives a form from create-info child component and assigns to the Info FormGroup
+   * @param FormGroup form
+   */
+    // onReceiveClassFormGroup(form: FormGroup): void {
+    //  this.classFormGroup = form;
+   // }
 
   onSubmit(): void { }
 

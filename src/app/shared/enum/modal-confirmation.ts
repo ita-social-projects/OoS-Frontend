@@ -8,10 +8,14 @@ export enum ModalConfirmationType {
   createApplication = 'createApplication',
   approveApplication = 'approveApplication',
   rejectApplication = 'rejectApplication',
+  createDirection = 'createDirection',
+  createDepartment = 'createDepartment',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
-  deleteDirection ='ВИДАЛИТИ НАПРЯМОК?',
+  deleteDirection = 'ВИДАЛИТИ НАПРЯМОК?',
+  createDirection = 'CТВОРИТИ НАПРЯМОК?',
+  createDepartment = 'CТВОРИТИ ВІДДІЛЕННЯ?',
   deleteChild = 'ВИЛУЧИТИ ДАНІ ПРО ДИТИНУ?',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
   leavePage = 'ЗАЛИШИТИ СТОРІНКУ?',
@@ -23,6 +27,8 @@ export enum ModalConfirmationTitle {
 export enum ModalConfirmationText {
   delete = 'Ви впевнені, що хочете видалити гурток',
   deleteDirection = 'Ви впевнені, що хочете видалити напрямок',
+  createDirection = 'Ви впевнені, що хочете створити напрямок?',
+  createDepartment = 'Ви впевнені, що хочете створити відділення?',
   deleteChild = 'Ви впевнені, що хочете вилучити дані про дитину',
   leaveWorkshop = 'Ви впевнені, що хочете залишити гурток',
   leavePage = 'Ви впевнені, що хочете залишити сторінку?',

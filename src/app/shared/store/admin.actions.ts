@@ -53,3 +53,23 @@ export class OnUpdateDirectionSuccess {
   static readonly type = '[admin] update Direction success';
   constructor(public payload) { }
 }
+export class CreateDepartment {
+  static readonly type = '[admin] create Department';
+  constructor(public payload) { }
+}
+export class OnCreateDepartmentFail {
+  static readonly type = '[admin] create Department fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateDepartmentSuccess {
+  static readonly type = '[admin] create Department success';
+  constructor(public payload) { }
+}
+export class GetDirectionById {
+  static readonly type = '[admin] get Direction By Direction Id';
+  constructor(public payload) { }
+}
+export class GetDepartmentByDirectionId {
+  static readonly type = '[admin] get Department By Direction Id';
+  constructor(public payload) { }
+}

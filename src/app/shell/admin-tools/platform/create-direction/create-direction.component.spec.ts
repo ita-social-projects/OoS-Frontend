@@ -4,9 +4,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
 
 import { CreateDirectionComponent } from './create-direction.component';
 
@@ -24,10 +26,14 @@ describe('CreateDirectionComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        MatStepperModule,
       ],
       declarations: [
         CreateDirectionComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        MockAddDepartmentFormComponent,
+        MockAddDirectionFormComponent,
+        MockAddClassFormComponent
       ]
     })
     .compileComponents();
@@ -61,4 +67,29 @@ class MockValidationHintForInputComponent {
   @Input() isEmptyCheck: boolean;
   @Input() forbiddenCharacter: string;
   @Input() directionFormGroup: FormGroup;
+  @Input() classFormGroup: FormGroup;
+  @Input() departmentFormGroup: FormGroup;
+}
+@Component({
+  selector: 'app-add-direction-form',
+  template: ''
+})
+class MockAddDirectionFormComponent {
+  @Input() admin: TechAdmin;
+}
+
+@Component({
+  selector: 'app-add-department-form',
+  template: ''
+})
+class MockAddDepartmentFormComponent {
+  @Input() admin: TechAdmin;
+}
+
+@Component({
+  selector: 'app-add-class-form',
+  template: ''
+})
+class MockAddClassFormComponent {
+  @Input() admin: TechAdmin;
 }
