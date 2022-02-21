@@ -1,9 +1,8 @@
 <div class="create-form" *ngIf="(editMode && provider) || !editMode">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ ЗАКЛАД' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ'}}</h3>
-      <p class="wrapper-text">Ви завжди можете додати цю інформацію
-        у вашому особистому кабінеті</p>
+      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАННЯ ЗАКЛАДУ' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ'}}</h3>
+      <p class="wrapper-text">Додайте свій заклад всього у 3 кроки</p>
     </div>
 
     <mat-horizontal-stepper #stepper [linear]="!editMode">
@@ -16,7 +15,11 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
+          <button class="btn" 
+            mat-raised-button matStepperNext 
+            (click)="checkValidation(InfoFormGroup)"
+            [disabled]="checkEmpty(InfoFormGroup)"
+          >Далі</button>
         </div>
       </mat-step>
 
