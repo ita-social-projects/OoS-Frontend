@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { Host, Self, Optional } from '@angular/core';
-import { CarouselComponent } from 'node_modules/angular-responsive-carousel';
+import { CarouselComponent } from 'angular-responsive-carousel';
 
 @Directive({
   selector: '[appCustomCarousel]'
