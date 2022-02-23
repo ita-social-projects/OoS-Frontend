@@ -55,6 +55,8 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { KeyFilterDirective } from './directives/key-filter.directive';
+import { CustomCarouselComponent } from './components/custom-carousel/custom-carousel.component';
+import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 
 @NgModule({
   declarations: [
@@ -105,6 +107,8 @@ import { KeyFilterDirective } from './directives/key-filter.directive';
     ImageCarouselComponent,
     UsersListComponent,
     KeyFilterDirective,
+    CustomCarouselComponent,
+    CustomCarouselDirective,
   ],
   imports: [
     MaterialModule,
@@ -166,6 +170,8 @@ import { KeyFilterDirective } from './directives/key-filter.directive';
     ImageCarouselComponent,
     UsersListComponent,
     KeyFilterDirective,
+    CustomCarouselComponent,
+    CustomCarouselDirective,
   ]
 })
 export class SharedModule { }
