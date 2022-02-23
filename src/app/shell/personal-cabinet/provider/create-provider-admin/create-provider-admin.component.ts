@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -24,7 +24,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
   templateUrl: './create-provider-admin.component.html',
   styleUrls: ['./create-provider-admin.component.scss']
 })
-export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit {
+export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
@@ -88,9 +88,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.isDeputy = (this.params === 'deputy') ? true : false;
   }
 
-  /**
- * This method dispatch store action to create a ProviderAdmin with Form Groups values
- */
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
@@ -104,8 +101,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
         let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.provider.id, this.isDeputy, this.managedWorkshopIds)
         this.store.dispatch(new CreateProviderAdmin(providerAdmin));
       }
-    });
-   
+    });   
   }
 
 }
