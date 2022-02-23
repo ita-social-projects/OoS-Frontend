@@ -16,6 +16,7 @@ import { CreatePhotoFormComponent } from './create-provider/create-photo-form/cr
 import { CreateTeacherComponent } from './create-workshop/create-teacher/create-teacher.component';
 import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-form/teacher-form.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { CreateProviderAdminComponent } from './create-provider-admin/create-provider-admin.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -28,7 +29,8 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
     CreateContactsFormComponent,
     CreatePhotoFormComponent,
     CreateTeacherComponent,
-    TeacherFormComponent
+    TeacherFormComponent,
+    CreateProviderAdminComponent
   ],
   imports: [
     CommonModule,
