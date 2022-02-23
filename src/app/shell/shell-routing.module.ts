@@ -23,6 +23,7 @@ import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
 import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
 import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
+import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -82,6 +83,12 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [CreateProviderGuard],
     canDeactivate: [CreateProviderGuard, CreateGuard]
+  },
+  {
+    path: 'create-provider-admin/:param', component: CreateProviderAdminComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-child/:param', component: CreateChildComponent,
