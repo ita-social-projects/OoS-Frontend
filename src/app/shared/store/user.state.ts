@@ -72,11 +72,14 @@ import {
   GetAllUsersChildren,
   ResetSelectedWorkshop,
   GetAllProviderAdmins,
+  CreateProviderAdmin,
+  OnCreateProviderAdminFail,
+  OnCreateProviderAdminSuccess,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
-import { ProviderAdmin } from '../models/providerAdmin.model';
+import { ProviderAdminBackend } from '../models/providerAdmin.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -88,7 +91,7 @@ export interface UserStateModel {
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
-  providerAdmins: ProviderAdmin[];
+  providerAdmins: ProviderAdminBackend[];
 }
 @State<UserStateModel>({
   name: 'user',
@@ -136,7 +139,7 @@ export class UserState {
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard; }
 
   @Selector()
-  static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
+  static providerAdmins(state: UserStateModel): ProviderAdminBackend[] { return state.providerAdmins; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -205,12 +208,12 @@ export class UserState {
   }
 
   @Action(GetAllProviderAdmins)
-  getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
+  getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdminBackend[]> {
     return this.providerAdminService
       .getAllProviderAdmins()
       .pipe(
         tap(
-          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins })
+          (providerAdmins: ProviderAdminBackend[]) => patchState({ providerAdmins: providerAdmins })
         ))
   }
 
@@ -323,6 +326,7 @@ export class UserState {
       );
   }
 
+
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
@@ -335,6 +339,29 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is created', payload);
     dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
+  }
+
+  @Action(CreateProviderAdmin)
+  createProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProviderAdmin): Observable<object> {
+    return this.providerAdminService
+      .createProviderAdmin(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnCreateProviderAdminFail)
+  onCreateProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка при створенні користувача', type: 'error' }));
+  }
+
+  @Action(OnCreateProviderAdminSuccess)
+  onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
+    dispatch(new MarkFormDirty(false));
+    dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
   }
 
   @Action(CreateApplication)
