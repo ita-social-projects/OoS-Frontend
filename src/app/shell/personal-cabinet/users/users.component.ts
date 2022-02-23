@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { providerAdminRole } from 'src/app/shared/enum/enumUA/provider-admin';
-import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
+import { ProviderAdminBackend, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
 import { GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
@@ -20,16 +20,18 @@ export class UsersComponent implements OnInit, OnDestroy {
   readonly providerAdminRole = providerAdminRole;
 
   @Select(UserState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdmin[]>;
+  providerAdmins$: Observable<ProviderAdminBackend[]>;
   providerAdmins: ProviderAdminTable[];
   filterProviderAdmins: Array<object> = [];
   filter = new FormControl('');
   filterValue: string;
+  btnView: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public store: Store) {}
 
   ngOnInit(): void {
+    this.btnView = providerAdminRole.all;
     this.filter.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
       .subscribe((val) => {
@@ -43,7 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     this.providerAdmins$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((providerAdmins: ProviderAdmin[]) => {
+      .subscribe((providerAdmins: ProviderAdminBackend[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
   }
@@ -52,14 +54,14 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAllProviderAdmins());
   }
 
-  updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
+  updateStructureForTheTable(admins: ProviderAdminBackend[]): ProviderAdminTable[] {
     let updatedAdmins = [];
     admins.forEach((admin) => {
       updatedAdmins.push({
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
         phone: admin.phone,
-        deputy: (admin.isDeputy) ? providerAdminRole.isDeputy : providerAdminRole.isNotDeputy
+        deputy: (admin.isDeputy) ? providerAdminRole.deputy : providerAdminRole.admin
       });
       
     });
@@ -71,6 +73,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    this.btnView = event.tab.textLabel;
     this.filterProviderAdmins = this.providerAdmins.filter(
       (user) => user.deputy === event.tab.textLabel
     );
