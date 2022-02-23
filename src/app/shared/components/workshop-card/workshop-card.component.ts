@@ -11,10 +11,11 @@ import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-workshop-card',
@@ -59,15 +60,33 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
+  @Select(UserState.selectedWorkshop) 
+  workshop$: Observable<WorkshopCard>;
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  authServer: string = environment.serverUrl;
+  imgUrl = `/api/v1/PublicImage/`;
+  coverImageId: string = '';
+  coverImageUrl: string = '';
 
   constructor(
     private store: Store,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.ownershipType = OwnershipTypeUkr[this.workshop.providerOwnership];
+    if (!this.workshop) {
+      this.workshop$.pipe(
+        filter((workshop: WorkshopCard) => !!workshop),
+        takeUntil(this.destroy$))
+        .subscribe((workshop: WorkshopCard) => {
+          this.workshop = workshop;
+          this.getCoverImageUrl();
+        });
+    } else {
+      this.getCoverImageUrl();
+    }
+    this.ownershipType = OwnershipTypeUkr[this.workshop?.providerOwnership];
     this.favoriteWorkshops$
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites: Favorite[]) => {
@@ -114,6 +133,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  getCoverImageUrl(): void {
+    if (this.workshop.coverImageId) {
+      this.coverImageUrl = this.authServer + this.imgUrl + this.workshop.coverImageId;
+    } else {
+      this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
+    }
   }
 
 }

@@ -12,7 +12,7 @@
       <div fxLayout="row" fxLayoutAlign="center">
         <img class="card-image" mat-card-image src="assets/icons/child-{{child.gender}}.png" alt="child-photo">
       </div>
-      <div>
+      <div class="wrap-for-details">
         <mat-card-header>
           <mat-card-title [matTooltip]="childFullName" showTooltipIfTruncated matTooltipClass="tooltip"
             [matTooltipPosition]="below" class="card-title">{{child.lastName}} {{child.firstName}} {{child.middleName}}</mat-card-title>

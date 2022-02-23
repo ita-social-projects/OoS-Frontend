@@ -22,6 +22,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
 
   @Input() workshop: Workshop;
+  @Input() isRelease2: boolean;
   @Output() PassAboutFormGroup = new EventEmitter();
 
   provider: Provider;
@@ -36,6 +37,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
+      coverImage: new FormControl(''),
       title: new FormControl('', Validators.required),
       phone: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -127,6 +129,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
     this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
+    if (this.workshop.coverImageId) {
+      this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control(this.workshop.coverImageId));
+    }
   }
 
   /**

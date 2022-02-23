@@ -11,7 +11,7 @@
           <p class="step-name">Про гурток</p>
         </ng-template>
         <app-create-about-form fxLayout="row" fxLayoutAlign="center center"
-          (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop">
+          (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop" [isRelease2]="isRelease2">
         </app-create-about-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
