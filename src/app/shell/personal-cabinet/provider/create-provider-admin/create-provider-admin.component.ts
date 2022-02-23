@@ -18,6 +18,7 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 
 @Component({
   selector: 'app-create-provider-admin',
@@ -82,7 +83,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   ngOnInit(): void {
     this.determineEditMode();
     this.getProviderWorkshops();
-    this.isDeputy = (this.params === 'deputy') ? true : false;
+    this.isDeputy = (this.params === providerAdminRole.deputy) ? true : false;
   }
 
   onSubmit(): void {

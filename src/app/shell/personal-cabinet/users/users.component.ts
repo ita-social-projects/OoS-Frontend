@@ -4,7 +4,8 @@ import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { providerAdminRole } from 'src/app/shared/enum/enumUA/provider-admin';
+import { providerAdminRoleUkr } from 'src/app/shared/enum/enumUA/provider-admin';
+import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { ProviderAdminBackend, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
 import { GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -17,6 +18,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
+  readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
 
   @Select(UserState.providerAdmins)
@@ -31,7 +33,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(public store: Store) {}
 
   ngOnInit(): void {
-    this.btnView = providerAdminRole.all;
+    this.btnView = providerAdminRoleUkr.all;
     this.filter.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
       .subscribe((val) => {
@@ -61,7 +63,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
         phone: admin.phone,
-        deputy: (admin.isDeputy) ? providerAdminRole.deputy : providerAdminRole.admin
+        deputy: (admin.isDeputy) ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin
       });
       
     });
