@@ -65,16 +65,14 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     )));
   }
 
-  getProvider(): void {
+  getProviderWorkshops(): void {
     this.provider$.pipe(
       filter((provider: Provider) => !!provider),
       takeUntil(this.destroy$)
     ).subscribe((provider: Provider) => {
       this.provider = provider;
+      this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     });
-  }
-  getProviderWorkshops(): void {
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
   }
 
   onWorkshopsSelect(workshopsId: string[]): void {
@@ -83,7 +81,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   ngOnInit(): void {
     this.determineEditMode();
-    this.getProvider();
     this.getProviderWorkshops();
     this.isDeputy = (this.params === 'deputy') ? true : false;
   }
