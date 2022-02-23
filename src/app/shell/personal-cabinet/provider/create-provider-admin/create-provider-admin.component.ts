@@ -15,6 +15,9 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserState } from 'src/app/shared/store/user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-create-provider-admin',
@@ -35,7 +38,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   isDeputy = false;
   managedWorkshopIds: string[];
 
-  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private formBuilder: FormBuilder) {
+  constructor(store: Store,
+    route: ActivatedRoute,
+    navigationBarService: NavigationBarService,
+    private formBuilder: FormBuilder,
+    private matDialog: MatDialog,) {
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
@@ -85,10 +92,20 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
  * This method dispatch store action to create a ProviderAdmin with Form Groups values
  */
   onSubmit(): void {
-    if (!this.ProviderAdminFormGroup.invalid) {
-      let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.provider.id, this.isDeputy, this.managedWorkshopIds)
-      this.store.dispatch(new CreateProviderAdmin(providerAdmin));
-    }    
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: (this.isDeputy) ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.provider.id, this.isDeputy, this.managedWorkshopIds)
+        this.store.dispatch(new CreateProviderAdmin(providerAdmin));
+      }
+    });
+   
   }
 
 }

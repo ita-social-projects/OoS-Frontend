@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +24,7 @@ describe('CreateProviderAdminComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule,
+        MatDialogModule,
         NgxsModule.forRoot([]),
       ],
       declarations: [ 
