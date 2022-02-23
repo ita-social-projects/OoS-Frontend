@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
+import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -29,7 +30,8 @@ describe('CreateInfoFormComponent', () => {
       ],
       declarations: [
         CreateInfoFormComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        KeyFilterDirective
       ]
     })
       .compileComponents();
@@ -59,4 +61,5 @@ class MockValidationHintForInputComponent {
   @Input() minLength: boolean;
   @Input() minCharachters: number; 
   @Input() forbiddenCharacter: string;
+  @Input() minMaxDate: boolean;
 }
