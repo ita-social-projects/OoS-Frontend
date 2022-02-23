@@ -1,32 +1,49 @@
-  <div class="users-wrapper">
+<div class="users-wrapper">
 
-    <div class="search-area">
-      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">      
-        <mat-icon class="search-icon" style="transform: rotate(90deg)" >search</mat-icon>
-        <mat-form-field floatLabel=never appearance="none">
-          <input matInput [formControl]="filter" type="text" class="search" placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
-        </mat-form-field>
-      </div>
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <mat-form-field floatLabel=never appearance="none">
+        <input matInput [formControl]="filter" type="text" class="search"
+          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
+      </mat-form-field>
     </div>
-
-    <div class="tab-wrapper">
-      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-        <mat-tab label="Усі">
-          <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
-          </ng-container>
-        </mat-tab>
-        <mat-tab label="{{providerAdminRole.isDeputy}}">
-          <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
-          </ng-container>
-        </mat-tab>
-        <mat-tab label="{{providerAdminRole.isNotDeputy}}">
-          <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
-          </ng-container>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
+    <ng-template [ngIf]="btnView == providerAdminRole.all">
+      <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
+        Додати <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #add="matMenu" class="header_menu">
+        <a [routerLink]="['/create-provider-admin', 'deputy']"><button mat-menu-item>Заступника директора</button></a>
+        <a [routerLink]="['/create-provider-admin', 'admin']"><button mat-menu-item>Адміністратора гуртка</button></a>
+      </mat-menu>
+    </ng-template>
+    <ng-template [ngIf]="btnView == providerAdminRole.deputy">
+      <a [routerLink]="['/create-provider-admin', 'deputy']"><button class="btn" mat-raised-button>Додати</button></a>
+    </ng-template>
+    <ng-template [ngIf]="btnView == providerAdminRole.admin">
+      <a [routerLink]="['/create-provider-admin', 'admin']"><button class="btn" mat-raised-button>Додати</button></a>
+    </ng-template>
 
   </div>
+
+  <div class="tab-wrapper">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+      <mat-tab label="{{providerAdminRole.all}}">
+        <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{providerAdminRole.deputy}}">
+        <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{providerAdminRole.admin}}">
+        <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+</div>
 
 
 <ng-template #UsersListFull let-filterValue>

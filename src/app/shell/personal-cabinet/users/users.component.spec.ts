@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -24,8 +25,8 @@ describe('UsersComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        ReactiveFormsModule
-
+        ReactiveFormsModule,
+        RouterTestingModule
       ],
       declarations: [
         UsersComponent,
