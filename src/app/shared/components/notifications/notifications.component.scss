@@ -6,19 +6,17 @@
 }
 :host::ng-deep mat-icon {
   font-size: 30px;
-
-  .badge{
+  .mat-badge-content {
     position: absolute;
     left: -10px;
     top: -10px;
     display: block;
-  }
-  .mat-badge-content {
     background-color: #F5BC4A;
   }
-
-
 }
-.btn-notifications{
+.icon-mobile{
+  top: 10px;
+}
+.full-width{
   width: 100%;
 }
