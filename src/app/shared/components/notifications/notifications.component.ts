@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationType } from '../../enum/notifications';
 import { NotificationsAmount, Notifications, NotificationGrouped, Notification } from '../../models/notifications.model';
+import { AppState } from '../../store/app.state';
 import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../store/notifications.actions';
 import { NotificationsState } from '../../store/notifications.state';
 import { Util } from '../../utils/utils';
@@ -18,8 +19,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   @Select(NotificationsState.notificationsAmount)
   notificationsAmount$: Observable<NotificationsAmount>;
   notificationsAmount: number;
-  @Select(NotificationsState.notifications)
-  notificationsData$: Observable<Notifications>
+  @Select(AppState.isMobileScreen)
+  isMobileScreen$: Observable<boolean>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -28,29 +29,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
-    this.notificationsAmount$.pipe(
-      takeUntil(this.destroy$),
-      filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
-    ).subscribe((notificationsAmount: NotificationsAmount) => this.notificationsAmount = notificationsAmount.amount);
-  }
-
-  getNotifications(): void {
-    if (this.notificationsAmount) {
-      this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    }
-  }
-
-  onReadGroup(notificationsGrouped: NotificationGrouped): void {
-    this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
-  }
-
-  onReadSingle(event: PointerEvent, notification: Notification): void {
-    this.store.dispatch(new ReadUsersNotificationById(notification));
-    event.stopPropagation()
-  }
-
-  getDeclensionNewApplication(applicationAmount: number): string {
-    return Util.getDeclensionNewApplication(applicationAmount);
   }
 
   ngOnDestroy(): void {

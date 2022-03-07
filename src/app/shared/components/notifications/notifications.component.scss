@@ -2,34 +2,23 @@
   min-height: 35px;
   max-height: 400px;
   width: 270px;
-  line-height: 35px;
-  font-weight: bold;
-}
-.title {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 20px;
-  padding: 0 1rem 1rem 0;
+
 }
 :host::ng-deep mat-icon {
   font-size: 30px;
 
-  .mat-badge-content {
+  .badge{
     position: absolute;
     left: -10px;
     top: -10px;
     display: block;
+  }
+  .mat-badge-content {
     background-color: #F5BC4A;
   }
+
+
 }
-.icon{
-  color: #3849F9;
-  font-size: 16px;
-  font-weight: bold;
-  margin-left: 1rem;
-  &:hover{
-    cursor: pointer;
-    opacity: 0.5;
-  }
+.btn-notifications{
+  width: 100%;
 }

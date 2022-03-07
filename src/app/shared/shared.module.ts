@@ -53,6 +53,7 @@ import { RejectModalWindowComponent } from './components/reject-modal-window/rej
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { NotificationsComponent } from './components/notifications/notifications
     RejectModalWindowComponent,
     ImageCarouselComponent,
     NotificationsComponent,
+    NotificationsListComponent,
   ],
   imports: [
     MaterialModule,

@@ -73,6 +73,12 @@
           </button>
         </div>
 
+        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async).release2">
+          <a [routerLink]="'./notifications'" (click)="changeView()" class="">
+            <app-notifications></app-notifications>
+          </a>
+        </div>
+
 
         <hr class="hr-grey">
 
@@ -80,7 +86,8 @@
           <div *ngIf="((user$ | async)?.role !== Role.techAdmin) then UserView; else AdminView"></div>
           <ng-template #UserView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
-            <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'" (click)="changeView()">Інформація про
+            <a [routerLink]="'./personal-cabinet/' + (user$ | async).role + '/info'" (click)="changeView()">Інформація
+              про
               {{roles[(user$ | async).role]}}</a>
             <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
             <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>

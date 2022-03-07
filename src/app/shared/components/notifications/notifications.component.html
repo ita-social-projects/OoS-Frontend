@@ -1,39 +1,21 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" (click)="getNotifications()" class="pointer">
-  <mat-icon>notifications_none</mat-icon>
-</button>
-<span *ngIf="notificationsAmount$ | async">
-  <mat-icon [matBadge]="notificationsAmount" matBadgePosition="before"></mat-icon>
-</span>
-<mat-menu #menu="matMenu">
-  <div class="container">
-    <ng-container *ngIf="notificationsData$ | async as notificationsData">
-      <h3 class="title">СПОВІЩЕННЯ</h3>
-      <ng-conatiner *ngIf="notificationsAmount; else isEmptyList">
-        <ng-container *ngTemplateOutlet="Notifications; context:{$implicit: notificationsData }">
-        </ng-container>
-      </ng-conatiner>
-    </ng-container>
-  </div>
-</mat-menu>
-
-<ng-template #isEmptyList>
-  <span fxLayout="row wrap" fxLayoutAlign="start start">У вас немає нових повідомлень</span>
-</ng-template>
-
-<ng-template #Notifications let-notificationsData>
-  <ng-container *ngIf="notificationsData.notificationsGrouped.length">
-    <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap"
-      fxLayoutAlign="space-between center">{{getDeclensionNewApplication(notifications.amount)}}
-      <mat-icon class="icon" (click)="onReadGroup(notifications)">
-        arrow_forward</mat-icon>
-    </span>
-  </ng-container>
-  <ng-container *ngIf="notificationsData.notifications.length">
-    <div *ngFor="let notification of notificationsData.notifications" matMenuItem disableRipple="true">
-      <span fxLayout="row wrap" fxLayoutAlign="space-between center">{{notification.text}}<mat-icon class="icon"
-          (click)="onReadSingle($event, notification)">
-          highlight_off
-        </mat-icon></span>
+<ng-container *ngIf="!(isMobileScreen$ | async); else isMobileScreen">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>notifications_none</mat-icon>
+  </button>
+  <span *ngIf="notificationsAmount$ | async as notificationsAmount">
+    <mat-icon clas="badge" [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
+  </span>
+  <mat-menu #menu="matMenu">
+    <div class="container">
+      <app-notifications-list></app-notifications-list>
     </div>
-  </ng-container>
+  </mat-menu>
+</ng-container>
+
+<ng-template #isMobileScreen>
+  <div *ngIf="notificationsAmount$ | async as notificationsAmount">
+    <button mat-icon-button fxLayout="row" fxLayoutAlign="space-between" class="btn-notifications">
+      <mat-icon>notifications_none</mat-icon> Сповіщення <mat-icon [matBadge]="notificationsAmount.amount"></mat-icon>
+    </button>
+  </div>
 </ng-template>
