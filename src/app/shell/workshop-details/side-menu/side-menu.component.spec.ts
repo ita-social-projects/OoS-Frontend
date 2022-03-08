@@ -36,7 +36,6 @@ describe('SideMenuComponent', () => {
     spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
