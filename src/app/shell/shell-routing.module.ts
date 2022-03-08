@@ -40,7 +40,8 @@ const routes: Routes = [
   {
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
-    canLoad: [PersonalCabinetGuard]
+    canLoad: [PersonalCabinetGuard],
+    canActivate: [PersonalCabinetGuard]
   },
   {
     path: 'admin-tools', component: AdminToolsComponent,
