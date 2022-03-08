@@ -54,6 +54,8 @@ import { ImageCarouselComponent } from './components/image-carousel/image-carous
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import { KeyFilterDirective } from './directives/key-filter.directive';
 
 @NgModule({
   declarations: [
@@ -104,6 +106,8 @@ import { NotificationsListComponent } from './components/notifications/notificat
     ImageCarouselComponent,
     NotificationsComponent,
     NotificationsListComponent,
+    UsersListComponent,
+    KeyFilterDirective,
   ],
   imports: [
     MaterialModule,
@@ -114,7 +118,7 @@ import { NotificationsListComponent } from './components/notifications/notificat
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
-    IvyCarouselModule
+    IvyCarouselModule,
   ],
   exports: [
     FiltersListComponent,
@@ -162,7 +166,9 @@ import { NotificationsListComponent } from './components/notifications/notificat
     WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    UsersListComponent,
+    KeyFilterDirective,
   ]
 })
 export class SharedModule { }

@@ -1,9 +1,9 @@
 @import "src/app/shared/styles/cards.scss";
 .card-img-full{
-  width: 60%;
+  width: 100%;
 }
 .card-img-mobile{
-  width: 30%;
+  width: 100%;
 }
 .horizontal {
   margin: 0;
@@ -17,6 +17,7 @@
   justify-content: center;
   align-items: center;
   font-weight: 500;
+  margin: 0.3rem 0 0.3rem;
 }
 .action-icon {
   color: #fff;
@@ -43,7 +44,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
 
   background: #FFFFFF;
@@ -58,10 +59,8 @@
     object-position: bottom;
   }
 
-  .mat-card-image {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 0;
+  .wrap-for-details {
+    padding-bottom: 0;
   }
 
   .hide {
@@ -102,7 +101,6 @@
   }
   .horizontal-card {
     max-width: 100%;
-    padding: 0.5rem;
     .card-img{
       flex: 1;
     }
@@ -110,12 +108,22 @@
       flex: 2;
       width: 50%;
     }
+    .wrap-for-details-map {
+      padding: 0.75rem;
+
+      .mat-card-content {
+        margin-bottom: 0.5rem;
+      }
+    }
     .card_text {
       margin: 0;
     }
     .mat-card-image {
-      object-fit: cover;
-      object-position: bottom;
+      height: 150px;
+    }
+    .mat-card-header img {
+      width: 24px;
+      height: 24px;
     }
     .hide {
       display: none;
@@ -127,10 +135,8 @@
       flex-direction: row;
     }
     .card-title, .mat-card-header{
-      width: 150px;
       font-size: 15px;
-      margin-bottom: 0;
-      text-align: center;
+      margin-bottom: 0.2rem;
     }
   }
 }

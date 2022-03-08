@@ -19,7 +19,7 @@ import { CreateApplication, GetAllUsersChildren, GetWorkshopById } from 'src/app
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 
 
 @Component({
@@ -71,7 +71,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .subscribe((val: boolean) => this.isContraindicationAgreed = val);
 
     this.parent$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        filter((parent: Parent) => !!parent),
+        takeUntil(this.destroy$))
       .subscribe((parent: Parent) => {
         this.parent = parent;
         this.store.dispatch(new GetAllUsersChildren());

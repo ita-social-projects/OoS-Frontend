@@ -13,6 +13,7 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
+import { ProviderAdminService } from '../services/provider-admins/provider-admin.service';
 import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
@@ -53,6 +54,7 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
+  OnGetWorkshopByIdFail,
   GetApplicationsByProviderId,
   GetApplicationsByParentId,
   OnUpdateApplicationSuccess,
@@ -70,10 +72,12 @@ import {
   CabinetPageChange,
   GetAllUsersChildren,
   ResetSelectedWorkshop,
+  GetAllProviderAdmins,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
+import { ProviderAdmin } from '../models/providerAdmin.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -85,6 +89,7 @@ export interface UserStateModel {
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
+  providerAdmins: ProviderAdmin[];
 }
 @State<UserStateModel>({
   name: 'user',
@@ -101,6 +106,7 @@ export interface UserStateModel {
       element: 1,
       isActive: true
     },
+    providerAdmins: [],
   }
 })
 @Injectable()
@@ -130,11 +136,15 @@ export class UserState {
   @Selector()
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard; }
 
+  @Selector()
+  static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
+
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
+    private providerAdminService: ProviderAdminService,
     private router: Router,
     private userService: UserService,
     private ratingService: RatingService,
@@ -142,14 +152,23 @@ export class UserState {
   ) { }
 
   @Action(GetWorkshopById)
-  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<Workshop> {
+  getWorkshopById({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<object> {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
         tap((workshop: Workshop) => {
           return patchState({ selectedWorkshop: workshop, isLoading: false });
-        }));
+        }),
+        catchError((error: Error) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
+  }
+
+  @Action(OnGetWorkshopByIdFail)
+  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
+    throwError(payload);
+    patchState({ isLoading: false });
+    patchState({ selectedWorkshop: null });
+    dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
   }
 
   @Action(GetProviderById)
@@ -193,6 +212,16 @@ export class UserState {
         tap((applications: Application[]) => {
           return patchState({ applications: applications, isLoading: false });
         }));
+  }
+
+  @Action(GetAllProviderAdmins)
+  getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
+    return this.providerAdminService
+      .getAllProviderAdmins()
+      .pipe(
+        tap(
+          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins })
+        ))
   }
 
   @Action(GetUsersChildren)

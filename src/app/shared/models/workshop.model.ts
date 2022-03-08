@@ -36,6 +36,8 @@ export class Workshop {
   dateTimeRanges: DateTimeRanges[];
   imageFiles?: File[];
   imageIds?: string[];
+  coverImage?: File[];
+  coverImageId?: string[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     if (id) {
@@ -70,6 +72,12 @@ export class Workshop {
     if (description.imageIds) {
       this.imageIds = description.imageIds;
     }
+    if (about.coverImage.length) {
+      this.coverImage = about.coverImage;
+    }
+    if (about.coverImageId) {
+      this.coverImageId = about.coverImageId;
+    }
   }
 }
 
@@ -87,6 +95,7 @@ export interface WorkshopCard {
   rating: number;
   title: string;
   workshopId: string;
+  coverImageId?: string;
 }
 export interface WorkshopFilterCard {
   totalAmount: number;
