@@ -1,10 +1,10 @@
 <div class="container">
   <ng-container *ngIf=" notificationsData$ | async  as  notificationsData">
     <h3 class="title">СПОВІЩЕННЯ</h3>
-    <ng-conatiner *ngIf="(notificationsAmount$ | async)?.amount; else isEmptyList">
+    <ng-container *ngIf="(notificationsAmount$ | async)?.amount; else isEmptyList">
       <ng-container *ngTemplateOutlet="Notifications; context:{$implicit: notificationsData }">
       </ng-container>
-    </ng-conatiner>
+    </ng-container>
   </ng-container>
 </div>
 
