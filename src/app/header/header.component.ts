@@ -39,7 +39,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
   isLoadingMetaData$: Observable<boolean>;
-
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
@@ -59,10 +58,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isMobile: boolean;
   navigationPaths: Navigation[];
 
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    public store: Store,
+    private store: Store,
     private router: Router) {
   }
 
@@ -91,10 +90,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.user$.pipe(
       filter((user) => !!user),
       takeUntil(this.destroy$)
-    )
-      .subscribe(item => {
-        this.userShortName = item.lastName + ' ' + (item.firstName).slice(0, 1) + '.' + (item.middleName).slice(0, 1) + '.';
-      })
+    ).subscribe((user: User) => {
+      this.userShortName = user.lastName + ' ' + (user.firstName).slice(0, 1) + '.' + (user.middleName).slice(0, 1) + '.';
+    });
   }
 
   logout(): void {

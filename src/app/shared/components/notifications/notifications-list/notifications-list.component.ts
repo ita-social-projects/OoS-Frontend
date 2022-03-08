@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -29,6 +29,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
     ).subscribe((notificationsAmount: NotificationsAmount) => this.notificationsAmount = notificationsAmount.amount);
+
     this.getNotifications();
   }
 
@@ -44,13 +45,12 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   onReadSingle(event: PointerEvent, notification: Notification): void {
     this.store.dispatch(new ReadUsersNotificationById(notification));
-    event.stopPropagation()
+    event.stopPropagation();
   }
 
   getDeclensionNewApplication(applicationAmount: number): string {
     return Util.getDeclensionNewApplication(applicationAmount);
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

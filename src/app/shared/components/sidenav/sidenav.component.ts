@@ -28,7 +28,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
   Role = Role;
   roles = RoleLinks;
   showModalReg = false;
-
   title = 'out-of-school';
   visibleSidenav: boolean;
 

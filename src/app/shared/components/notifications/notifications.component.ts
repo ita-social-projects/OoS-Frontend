@@ -15,24 +15,15 @@ import { Util } from '../../utils/utils';
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent implements OnInit, OnDestroy {
+export class NotificationsComponent implements OnInit {
   @Select(NotificationsState.notificationsAmount)
   notificationsAmount$: Observable<NotificationsAmount>;
-  notificationsAmount: number;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store,
-  ) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
