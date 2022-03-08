@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
-
 import { NotificationsComponent } from './notifications.component';
 
 describe('NotificationsComponent', () => {
@@ -20,7 +19,8 @@ describe('NotificationsComponent', () => {
       declarations: [
         NotificationsComponent,
         MockNotificationsListComponent
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   });
