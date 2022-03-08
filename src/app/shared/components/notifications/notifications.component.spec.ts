@@ -1,4 +1,6 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 
@@ -12,9 +14,13 @@ describe('NotificationsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         NgxsModule.forRoot([]),
-        MatMenuModule
+        MatMenuModule,
+        MatIconModule,
       ],
-      declarations: [NotificationsComponent]
+      declarations: [
+        NotificationsComponent,
+        MockNotificationsListComponent
+      ]
     })
       .compileComponents();
   });
@@ -29,3 +35,8 @@ describe('NotificationsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-notifications-list',
+  template: ''
+})
+class MockNotificationsListComponent { }
