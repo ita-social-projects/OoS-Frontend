@@ -5,9 +5,10 @@ import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { AboutPortal } from "../models/aboutPortal.model";
 import { Department, Direction } from "../models/category.model";
+import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId,} from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, CabinetPageChange,} from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -16,6 +17,7 @@ export interface AdminStateModel {
   aboutPortal: AboutPortal;
   departments: Department[];
   selectedDirection: Direction;
+  currentPage: PaginationElement;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -25,6 +27,10 @@ export interface AdminStateModel {
     departments: [],
     isLoading: false,
     selectedDirection: null,
+    currentPage: {
+      element: 1,
+      isActive: true
+    },
   }
 })
 @Injectable()
@@ -183,5 +189,9 @@ export class AdminState {
         tap((department: Department[]) => {
           return patchState({ departments: department, isLoading: false });
         }));
+  }
+  @Action(CabinetPageChange)
+  pageChange({ patchState }: StateContext<AdminStateModel>, { payload }: CabinetPageChange): void {
+    patchState({ currentPage: payload });
   }
 }

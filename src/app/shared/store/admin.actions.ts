@@ -1,5 +1,6 @@
 import { Direction } from "@angular/cdk/bidi";
 import { AboutPortal } from "../models/aboutPortal.model";
+import { PaginationElement } from "../models/paginationElement.model";
 
 export class GetInfoAboutPortal {
   static readonly type = '[admin] Get Information About Portal';
@@ -72,4 +73,8 @@ export class GetDirectionById {
 export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload) { }
+}
+export class CabinetPageChange {
+  static readonly type = '[filter] Change Page';
+  constructor(public payload: PaginationElement) { }
 }

@@ -51,6 +51,9 @@
         <app-category-card class="card" *ngFor="let direction of directions$ | async" [direction]="direction"
           [isEditMode]="true" (deleteDirection)="onDelete($event)">
         </app-category-card>
+        <app-paginator [totalEntities]="(directions$ | async).totalAmount" [currentPage]="currentPage"
+        (pageChange)="onPageChange($event)">
+       </app-paginator>
       </div>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>

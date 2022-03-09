@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -9,9 +9,11 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
-import { DeleteDirectionById, GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { CabinetPageChange, DeleteDirectionById, GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+
 
 @Component({
   selector: 'app-platform',
@@ -27,7 +29,15 @@ export class PlatformComponent implements OnInit, OnDestroy {
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
+
   tabIndex: number;
+
+
 
   constructor(
     private store: Store,
@@ -45,6 +55,11 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
     this.router.navigate([`admin-tools/platform/${this.adminTabs[event.index]}`]);
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new CabinetPageChange(page));
   }
 
   onDelete(direction: Direction): void {

@@ -30,3 +30,8 @@ export interface IClass {
   description: string;
   departmentId: number;
 }
+
+export interface Directions {
+  totalAmount: number;
+  entities: Direction[];
+}
