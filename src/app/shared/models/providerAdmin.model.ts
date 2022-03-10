@@ -35,6 +35,8 @@ export class ProviderAdmin {
     this.lastName = info.lastName;
     this.providerId = providerId;
     this.isDeputy = isDeputy;
-    this.managedWorkshopIds = (workshopIds) ? workshopIds : [];
+    if (workshopIds?.length) {
+      this.managedWorkshopIds = workshopIds;
+    }
   }
 }
