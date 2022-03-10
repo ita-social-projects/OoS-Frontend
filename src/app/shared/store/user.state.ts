@@ -369,7 +369,6 @@ export class UserState {
 
   @Action(OnCreateProviderAdminSuccess)
   onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
-    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
   }
