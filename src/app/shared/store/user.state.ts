@@ -80,7 +80,7 @@ import {
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
-import { ProviderAdminBackend } from '../models/providerAdmin.model';
+import { ProviderAdmin } from '../models/providerAdmin.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -92,7 +92,7 @@ export interface UserStateModel {
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
-  providerAdmins: ProviderAdminBackend[];
+  providerAdmins: ProviderAdmin[];
 }
 @State<UserStateModel>({
   name: 'user',
@@ -140,7 +140,7 @@ export class UserState {
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard; }
 
   @Selector()
-  static providerAdmins(state: UserStateModel): ProviderAdminBackend[] { return state.providerAdmins; }
+  static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -218,12 +218,12 @@ export class UserState {
   }
 
   @Action(GetAllProviderAdmins)
-  getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdminBackend[]> {
+  getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
     return this.providerAdminService
       .getAllProviderAdmins()
       .pipe(
         tap(
-          (providerAdmins: ProviderAdminBackend[]) => patchState({ providerAdmins: providerAdmins })
+          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins })
         ))
   }
 

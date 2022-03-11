@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProviderAdmin, ProviderAdminBackend } from '../../models/providerAdmin.model';
+import { ProviderAdmin } from '../../models/providerAdmin.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class ProviderAdminService {
   /**
    * This method get all provider Admins
    */
-  getAllProviderAdmins(): Observable<ProviderAdminBackend[]> {
-    return this.http.get<ProviderAdminBackend[]>(
+  getAllProviderAdmins(): Observable<ProviderAdmin[]> {
+    return this.http.get<ProviderAdmin[]>(
       `/api/v1/ProviderAdmin/GetRelatedProviderAdmins`
     );
   }
@@ -26,12 +26,12 @@ export class ProviderAdminService {
   getFilteredProviderAdmins(
     deputyOnly: boolean,
     assistantsOnly: boolean
-  ): Observable<ProviderAdminBackend> {
+  ): Observable<ProviderAdmin> {
     let params = new HttpParams();
     params = params.set('deputyOnly', `${deputyOnly}`);
     params = params.set('assistantsOnly', `${assistantsOnly}`);
 
-    return this.http.get<ProviderAdminBackend>(
+    return this.http.get<ProviderAdmin>(
       `/api/v1/ProviderAdmin/GetFilteredProviderAdmins`,
       { params }
     );

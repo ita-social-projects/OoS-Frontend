@@ -1,17 +1,7 @@
-
-export interface ProviderAdminBackend {
-  firstName: string,
-  lastName: string,
-  middleName: string,
-  email: string,
-  phone: string,
-  isDeputy: boolean,
-}
-
 export interface ProviderAdminTable {
   pib: string,
   email: string,
-  phone: string,
+  phoneNumber: string,
   deputy: string,
 }
 
@@ -23,11 +13,11 @@ export class ProviderAdmin {
   lastName: string;
   email: string;
   phoneNumber: string;
-  providerId: string;
+  providerId?: string;
   isDeputy: string;
-  managedWorkshopIds?: Array<string>;
+  managedWorkshopIds?: string[];
 
-  constructor(info, providerId, isDeputy, workshopIds?: Array<string>) {
+  constructor(info, isDeputy, providerId?, workshopIds?: string[]) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;

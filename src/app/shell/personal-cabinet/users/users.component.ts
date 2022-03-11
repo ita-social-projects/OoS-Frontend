@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { providerAdminRoleUkr } from 'src/app/shared/enum/enumUA/provider-admin';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import { ProviderAdminBackend, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
+import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
 import { GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   readonly providerAdminRole = providerAdminRole;
 
   @Select(UserState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdminBackend[]>;
+  providerAdmins$: Observable<ProviderAdmin[]>;
   providerAdmins: ProviderAdminTable[];
   filterProviderAdmins: Array<object> = [];
   filter = new FormControl('');
@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.btnView = providerAdminRoleUkr.all;
     this.filter.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
-      .subscribe((val) => {
+      .subscribe((val: string) => {
         if (val) {
           this.filterValue = val;
         } else {
@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     this.providerAdmins$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((providerAdmins: ProviderAdminBackend[]) => {
+      .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
   }
@@ -56,13 +56,13 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAllProviderAdmins());
   }
 
-  updateStructureForTheTable(admins: ProviderAdminBackend[]): ProviderAdminTable[] {
+  updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
     let updatedAdmins = [];
     admins.forEach((admin) => {
       updatedAdmins.push({
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phone: admin.phone,
+        phoneNumber: admin.phoneNumber,
         deputy: (admin.isDeputy) ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin
       });
       
