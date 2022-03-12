@@ -123,18 +123,30 @@
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none">
+    <input matInput class="step-input" type="text" maxlength="30" formControlName="website" autocomplete="none">
   </mat-form-field>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="InfoFormGroup.get('website').invalid && InfoFormGroup.get('website').touched"
+    [forbiddenCharacter]="InfoFormGroup.get('website').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none">
+    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook" autocomplete="none">
   </mat-form-field>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="InfoFormGroup.get('facebook').invalid && InfoFormGroup.get('facebook').touched"
+    [forbiddenCharacter]="InfoFormGroup.get('facebook').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none">
+    <input matInput class="step-input" type="text" maxlength="30" formControlName="instagram" autocomplete="none">
   </mat-form-field>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="InfoFormGroup.get('instagram').invalid && InfoFormGroup.get('instagram').touched"
+    [forbiddenCharacter]="InfoFormGroup.get('instagram').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
 
   <label class="step-label">Засновник<span class="step-required">*</span></label>
   <mat-form-field>
