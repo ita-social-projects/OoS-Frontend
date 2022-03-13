@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { DATE_REGEX, EDRPOUIPN_REGEX, TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { DATE_REGEX, EDRPOUIPN_REGEX, TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
@@ -39,9 +39,9 @@ export class CreateInfoFormComponent implements OnInit {
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      website: new FormControl(''),
-      facebook: new FormControl(''),
-      instagram: new FormControl(''),
+      website: new FormControl('', [Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
+      facebook: new FormControl('', [Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
+      instagram: new FormControl('', [Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       founder: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       type: new FormControl(0, Validators.required),
       ownership: new FormControl(0, Validators.required),
