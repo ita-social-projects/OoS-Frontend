@@ -96,11 +96,11 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
         });
     }
   }
-  
+
   /**
    * This method sets focus on input search city
    */
-  setFocus(): void {  
+  setFocus(): void {
     this.searchElement.nativeElement.focus();
   }
 

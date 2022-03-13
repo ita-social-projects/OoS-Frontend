@@ -22,7 +22,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
@@ -30,7 +30,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     });
 
     this.ActualAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
       city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
