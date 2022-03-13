@@ -12,22 +12,6 @@
   cursor: pointer;
 }
 
-.notification {
-  height: 35px;
-  line-height: 35px;
-  font-weight: bold;
-}
-
-.circle-notification {
-  font-size: 10px;
-  color: #F5BC4A;
-}
-
-.btn-notification {
-  font-weight: bold;
-  color: #3849F9;
-}
-
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
@@ -145,18 +129,6 @@
 
       &_account-circle {
         margin: 0 10px;
-
-        ::ng-deep mat-icon {
-          font-size: 30px;
-
-          .mat-badge-content {
-            position: absolute;
-            left: -10px;
-            top: -10px;
-            display: block;
-            background-color: #F5BC4A;
-          }
-        }
       }
     }
 
