@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { NotificationsConstants } from 'src/app/shared/constants/constants';
 import { NotificationGrouped, Notifications, Notification, NotificationsAmount } from 'src/app/shared/models/notifications.model';
 import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from 'src/app/shared/store/notifications.actions';
 import { NotificationsState } from 'src/app/shared/store/notifications.state';
@@ -21,6 +22,9 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notificationsAmount: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  readonly notificationsConstants = NotificationsConstants;
+
+
   constructor(private store: Store) { }
 
   ngOnInit(): void {
@@ -28,9 +32,11 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     this.notificationsAmount$.pipe(
       takeUntil(this.destroy$),
       filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
-    ).subscribe((notificationsAmount: NotificationsAmount) => this.notificationsAmount = notificationsAmount.amount);
+    ).subscribe((notificationsAmount: NotificationsAmount) => {
+      this.notificationsAmount = notificationsAmount.amount;
+      this.getNotifications();
+    });
 
-    this.getNotifications();
   }
 
   private getNotifications(): void {

@@ -91,8 +91,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       filter((user) => !!user),
       takeUntil(this.destroy$)
     ).subscribe((user: User) => {
-      this.userShortName = user.lastName + ' ' + (user.firstName).slice(0, 1) + '.' + (user.middleName).slice(0, 1) + '.';
+      this.userShortName = this.getFullName(user);
     });
+  }
+
+  private getFullName(user: User): string {
+    return user.lastName + ' ' + (user.firstName).slice(0, 1) + '.' + (user.middleName).slice(0, 1) + '.';
   }
 
   logout(): void {
