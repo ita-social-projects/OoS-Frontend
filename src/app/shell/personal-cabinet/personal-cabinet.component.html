@@ -7,7 +7,7 @@
       {{ roles[userRole] | uppercase }}</a>
     <a *ngIf="userRole !== Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">{{ userRole === Role.parent ? 'МОЇ ГУРТКИ' : 'ГУРТКИ' }}</a>
     <a *ngIf="userRole !== Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВИ</a>
-    <a *ngIf="userRole == Role.provider" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./users'">АДМІНІСТРУВАННЯ</a>
+    <a *ngIf="userRole == Role.provider" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./administration'">АДМІНІСТРУВАННЯ</a>
     <a *ngIf="userRole === Role.parent" mat-tab-link [routerLinkActive]="['active']"
       [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
     <!-- <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>  TODO: second release -->
