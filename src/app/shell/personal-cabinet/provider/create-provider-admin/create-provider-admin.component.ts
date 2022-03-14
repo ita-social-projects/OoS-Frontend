@@ -19,6 +19,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-provider-admin',
@@ -47,9 +48,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
-      lastName: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      middleName: new FormControl('', Validators.required),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
     });
