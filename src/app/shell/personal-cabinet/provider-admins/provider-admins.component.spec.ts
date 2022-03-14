@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UsersComponent } from './users.component';
+import { ProviderAdminsComponent } from './provider-admins.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxsModule} from '@ngxs/store';
 import { Component, Input } from '@angular/core';
@@ -11,9 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('ProviderAdminsComponent', () => {
+  let component: ProviderAdminsComponent;
+  let fixture: ComponentFixture<ProviderAdminsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe('UsersComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        UsersComponent,
+        ProviderAdminsComponent,
         MockUsersListComponent
       ],
     })
@@ -37,7 +37,7 @@ describe('UsersComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(ProviderAdminsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

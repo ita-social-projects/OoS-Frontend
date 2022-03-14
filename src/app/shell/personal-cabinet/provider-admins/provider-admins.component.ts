@@ -12,11 +12,11 @@ import { UserState } from 'src/app/shared/store/user.state';
 
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-provider-admins',
+  templateUrl: './provider-admins.component.html',
+  styleUrls: ['./provider-admins.component.scss']
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class ProviderAdminsComponent implements OnInit, OnDestroy {
 
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
