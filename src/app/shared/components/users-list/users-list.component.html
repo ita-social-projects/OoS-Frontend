@@ -22,7 +22,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phone">
       Телефон
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+    <td mat-cell *matCellDef="let element">{{constants.PHONE_PREFIX}}{{element.phoneNumber}} </td>
   </ng-container>
 
   <!-- Name Column -->
