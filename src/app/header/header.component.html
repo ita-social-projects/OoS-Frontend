@@ -109,6 +109,7 @@
             {{roles[(user$ | async).role]}}</button></a>
         <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
         <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
+        <a *ngIf="(user$ | async).role === Role.provider" [routerLink]="'./personal-cabinet/administration'"><button mat-menu-item>Адміністрування</button></a>
         <!-- <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a> -->
         <a *ngIf="(user$ | async).role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
             mat-menu-item>Улюблене</button></a>
