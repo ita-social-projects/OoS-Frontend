@@ -15,9 +15,7 @@ import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
-import { NotificationsState } from '../shared/store/notifications.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
-import { SignalRService } from '../shared/services/signalR/signal-r.service';
 
 @Component({
   selector: 'app-header',
@@ -63,8 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private router: Router,
-    private signalRservice: SignalRService) {
+    private router: Router) {
   }
 
   changeView(): void {
@@ -95,8 +92,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ).subscribe((user: User) => {
       this.userShortName = this.getFullName(user);
     });
-
-    this.signalRservice.startConnection();
   }
 
   private getFullName(user: User): string {
