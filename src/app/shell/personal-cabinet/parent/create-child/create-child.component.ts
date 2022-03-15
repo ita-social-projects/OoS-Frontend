@@ -1,4 +1,4 @@
-import { Component, Output, OnDestroy, OnInit } from '@angular/core';
+import { Component, Output, OnDestroy, OnInit, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -52,7 +52,10 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    console.log('childrenAmount', this.childrenAmount);
+
+    this.diff = 20 - this.childrenAmount;
+    console.log('diff', this.childrenAmount);
+    
     
     this.determineEditMode();
     this.addNavPath();
@@ -80,7 +83,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
             this.isEmpty = !(val[0].lastName) || !(val[0].firstName);
           });          
           
-        }
+        }        
         
         addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
@@ -225,4 +228,5 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       form.get(key).markAsTouched();
     });
   }
+  
 }
