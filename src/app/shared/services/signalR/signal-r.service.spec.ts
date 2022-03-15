@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { CheckSessionService } from 'angular-auth-oidc-client/lib/iframe/check-session.service';
 
 import { SignalRService } from './signal-r.service';
 
@@ -13,7 +14,8 @@ describe('SignalRService', () => {
         NgxsModule.forRoot([]),
       ],
       providers: [
-        OidcSecurityService
+        OidcSecurityService,
+        CheckSessionService
       ]
     });
     service = TestBed.inject(SignalRService);
