@@ -24,6 +24,8 @@ import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit
 import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
 import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
+import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
+import { IsMobileGuard } from './is-mobile.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -39,7 +41,8 @@ const routes: Routes = [
   {
     path: 'personal-cabinet', component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
-    canLoad: [PersonalCabinetGuard]
+    canLoad: [PersonalCabinetGuard],
+    canActivate: [PersonalCabinetGuard]
   },
   {
     path: 'admin-tools', component: AdminToolsComponent,
@@ -61,6 +64,12 @@ const routes: Routes = [
   {
     path: 'admin-tools/platform/directions/create',
     component: CreateDirectionComponent
+  },
+  {
+    path: 'notifications',
+    component: NotificationsListComponent,
+    canLoad: [PersonalCabinetGuard, IsMobileGuard],
+    canActivate: [IsMobileGuard]
   },
   {
     path: 'workshop-details/:id', component: WorkshopDetailsComponent,

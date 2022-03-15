@@ -22,22 +22,22 @@ describe('RejectModalWindowComponent', () => {
         MatInputModule,
         BrowserAnimationsModule
       ],
-      declarations: [ 
+      declarations: [
         RejectModalWindowComponent,
         MockValidationHintForInputComponent
-       ],
+      ],
       providers: [
-        {provide: MatDialogRef, close: (dialogResult: any) => { }},
-        {provide: MatDialog, useValue: {}}
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RejectModalWindowComponent);
     component = fixture.componentInstance;
-    component.ReasonFormControl= new FormControl({value: 'Reason', disabled: true}, Validators.required)
+    component.ReasonFormControl = new FormControl({ value: 'Reason', disabled: true }, Validators.required)
     component.modalTitle = '';
     component.modalDescription = '';
     fixture.detectChanges();
