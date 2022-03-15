@@ -14,8 +14,8 @@
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
-      <button *ngIf="ChildrenFormArray.controls.length < 1; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
-        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину {{maxLength}}
+      <button *ngIf="ChildrenFormArray.controls.length <= 2; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
+        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
       <ng-template #noMoreChildren>
         <p>Можливо додати не більш, ніж 20 дітей</p>

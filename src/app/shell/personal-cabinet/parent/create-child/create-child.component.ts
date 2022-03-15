@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Output, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -29,15 +29,14 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
+  @Output() childrenAmount: number;
   child: Child;  
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
   isEmpty = false;  
-  maxLength;
-  totalChildren;
-  filledForm;
+  diff: number;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -53,9 +52,10 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   }
 
   ngOnInit(): void {
+    console.log('childrenAmount', this.childrenAmount);
+    
     this.determineEditMode();
     this.addNavPath();
-
     
     if (!this.editMode) {      
       this.ChildrenFormArray.push(this.newForm());
@@ -77,8 +77,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         this.ChildrenFormArray.valueChanges.pipe(
           takeUntil(this.destroy$),
           ).subscribe((val: boolean) => {      
-            this.isEmpty = !Boolean(val[0].lastName) || !Boolean(val[0].firstName);
-          });
+            this.isEmpty = !(val[0].lastName) || !(val[0].firstName);
+          });          
           
         }
         
@@ -159,8 +159,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method create new FormGroup add new FormGroup to the FormArray
    */
   addChild(): void {
-    this.maxLength = this.ChildrenFormArray.length;
-    console.log('maxLength', this.maxLength);
     this.ChildrenFormArray.push(this.newForm());    
   }
 
@@ -203,10 +201,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       } else {
         this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
           const child: Child = new Child(form.value, parent.id);
-          this.store.dispatch(new CreateChildren(child));
-          // this.totalChildren = this.ChildrenFormArray.length;
-          // console.log('totalChildren', this.totalChildren);
-                            
+          this.store.dispatch(new CreateChildren(child));                            
         });
       }
     }
