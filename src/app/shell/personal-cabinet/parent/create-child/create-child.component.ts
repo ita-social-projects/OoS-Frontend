@@ -29,12 +29,15 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  child: Child;
+  child: Child;  
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
-  isEmpty = false;
+  isEmpty = false;  
+  maxLength;
+  totalChildren;
+  filledForm;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -53,32 +56,33 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.determineEditMode();
     this.addNavPath();
 
-    if (!this.editMode) {
+    
+    if (!this.editMode) {      
       this.ChildrenFormArray.push(this.newForm());
     }
-
+    
     this.socialGroups$
-      .pipe(
-        takeUntil(this.destroy$),
+    .pipe(
+      takeUntil(this.destroy$),
       ).subscribe((socialGroups: SocialGroup[]) => {
         if (socialGroups.length === 0) {
           this.store.dispatch(new GetSocialGroup());
         }
       });
-
-    this.AgreementFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => this.isAgreed = val);
-
-    this.ChildrenFormArray.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => {      
-      this.isEmpty = !Boolean(val[0].lastName) || !Boolean(val[0].firstName);
-    });
-
-  }
-
-  addNavPath(): void {
+      
+      this.AgreementFormControl.valueChanges.pipe(
+        takeUntil(this.destroy$),
+        ).subscribe((val: boolean) => this.isAgreed = val);
+        
+        this.ChildrenFormArray.valueChanges.pipe(
+          takeUntil(this.destroy$),
+          ).subscribe((val: boolean) => {      
+            this.isEmpty = !Boolean(val[0].lastName) || !Boolean(val[0].firstName);
+          });
+          
+        }
+        
+        addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: NavBarName.PersonalCabinetParent, path: '/personal-cabinet/parent/info', isActive: false, disable: false },
       { name: this.editMode ? NavBarName.EditInformationAboutChild : NavBarName.AddInformationAboutChild, isActive: false, disable: true },
@@ -142,6 +146,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     this.subscribeOnDirtyForm(childFormGroup);
 
+
     if (this.editMode) {
       child.socialGroupId = child.socialGroupId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
       childFormGroup.patchValue(child, { emitEvent: false });
@@ -154,7 +159,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method create new FormGroup add new FormGroup to the FormArray
    */
   addChild(): void {
-    this.ChildrenFormArray.push(this.newForm());
+    this.maxLength = this.ChildrenFormArray.length;
+    console.log('maxLength', this.maxLength);
+    this.ChildrenFormArray.push(this.newForm());    
   }
 
   /**
@@ -197,6 +204,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
           const child: Child = new Child(form.value, parent.id);
           this.store.dispatch(new CreateChildren(child));
+          // this.totalChildren = this.ChildrenFormArray.length;
+          // console.log('totalChildren', this.totalChildren);
+                            
         });
       }
     }
