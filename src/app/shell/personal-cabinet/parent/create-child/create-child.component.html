@@ -4,7 +4,7 @@
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
       <p class="wrapper-text" *ngIf="!editMode">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю
         інформацію
-        у вашому особистому кабінеті.</p>
+        у вашому особистому кабінеті. </p>
     </div>
 
     <ng-container>
@@ -14,7 +14,7 @@
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
-      <button *ngIf="ChildrenFormArray.controls.length < 2; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
+      <button *ngIf="ChildrenFormArray.controls.length < 20 - (childrenCards$ | async)?.totalAmount; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
       <ng-template #noMoreChildren>

@@ -1,11 +1,11 @@
-import { Component, Output, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Child } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
@@ -21,6 +21,7 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-create-child',
@@ -29,17 +30,18 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Output() childrenAmount: number;
   child: Child;  
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
   isEmpty = false;  
-  diff: number;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
+
+  @Select(UserState.children)
+  childrenCards$: Observable<ChildCards[]>
 
   constructor(
     private childrenService: ChildrenService,
@@ -51,12 +53,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     super(store, route, navigationBarService);
   }
 
-  ngOnInit(): void {
-
-    this.diff = 20 - this.childrenAmount;
-    console.log('diff', this.childrenAmount);
-    
-    
+  ngOnInit(): void {      
     this.determineEditMode();
     this.addNavPath();
     
@@ -71,7 +68,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         if (socialGroups.length === 0) {
           this.store.dispatch(new GetSocialGroup());
         }
-      });
+      });      
       
       this.AgreementFormControl.valueChanges.pipe(
         takeUntil(this.destroy$),
@@ -82,8 +79,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
           ).subscribe((val: boolean) => {      
             this.isEmpty = !(val[0].lastName) || !(val[0].firstName);
           });          
-          
-        }        
+        }
         
         addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
