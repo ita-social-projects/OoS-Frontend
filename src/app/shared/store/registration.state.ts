@@ -16,6 +16,7 @@ import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { Observable } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
+import { SignalRService } from '../services/signalR/signal-r.service';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   user: User;
@@ -79,12 +80,13 @@ export class RegistrationState {
     private providerService: ProviderService,
     private parentService: ParentService,
     private techAdminService: TechAdminService,
-    private router: Router
+    private router: Router,
+    private signalRservice: SignalRService
   ) { }
 
   @Action(Login)
   Login({ }: StateContext<RegistrationStateModel>, { payload }: Login): void {
-    this.oidcSecurityService.authorize({ customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture'), 'ProviderRegistration': payload}});
+    this.oidcSecurityService.authorize({ customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture'), 'ProviderRegistration': payload } });
   }
 
   @Action(Logout)
@@ -124,6 +126,7 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
+    this.signalRservice.startConnection();
 
     (state.user.isRegistered) ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
   }
@@ -140,7 +143,7 @@ export class RegistrationState {
           tap(
             (parent: Parent) => patchState({ parent: parent })
           ));
-    } 
+    }
     if (state.user.role === Role.techAdmin) {
       return this.techAdminService
         .getProfile()
