@@ -15,10 +15,6 @@
     line-height: 20px;
   }
 
-  &-image {
-    max-width: 50%;
-  }
-
   &_category {
     width: 30px;
     height: 30px;
@@ -212,9 +208,12 @@
   margin: 0!important;
 }
 .mat-card-image {
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
   margin: 0;
-  height: 187px;
   object-fit: cover;
   object-position: top;
 }

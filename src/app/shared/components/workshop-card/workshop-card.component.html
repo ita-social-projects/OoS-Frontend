@@ -6,14 +6,15 @@
     <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
       <div [ngClass]="isCreateApplicationView ? 'card-img card-img-full card-img-mobile': 'card-img card-img-full'"
         fxLayout="row" fxLayoutAlign="center">
-        <img mat-card-image [src]="coverImageUrl" alt="{{workshop?.title}}">
+        <img mat-card-image [src]="coverImageUrl" alt="{{workshop?.title}}"
+          [ngClass]="{'card-img-mobile': workshop.coverImageId}">
       </div>
       <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
         <mat-card-header>
           <mat-card-title [matTooltip]="workshop?.title" showTooltipIfTruncated matTooltipClass="tooltip"
             [matTooltipPosition]="below" class="card-title">{{workshop?.title}}</mat-card-title>
-            <img mat-card-image [src]="categoryIcons[workshop?.directionId]"
-            [ngClass]="isCreateApplicationView ? 'card-img-mobile': ''" >
+          <img mat-card-image [src]="categoryIcons[workshop?.directionId]"
+            [ngClass]="isCreateApplicationView ? 'card-img-mobile': ''">
         </mat-card-header>
 
         <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
