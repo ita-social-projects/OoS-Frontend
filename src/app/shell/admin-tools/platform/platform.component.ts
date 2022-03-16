@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Direction } from 'src/app/shared/models/category.model';
+import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { CabinetPageChange, DeleteDirectionById, GetFilteredDirections, GetInfoAboutPortal, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
@@ -31,8 +31,8 @@ export class PlatformComponent implements OnInit, OnDestroy {
   isResultPage = false;
   Name: string;
 
-  @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
+  @Select(AdminState.filteredDirections)
+  filteredDirections$: Observable<DirectionsFilter>;
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;

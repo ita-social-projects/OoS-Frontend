@@ -31,7 +31,7 @@ export class CategoriesService {
 
   getFilteredDirections(filters: AdminStateModel): Observable<DirectionsFilter> {
     const options = { params: this.setParams(filters) };
-    return this.http.get<DirectionsFilter>('/api/v1/Workshop/GetByFilter', options);
+    return this.http.get<DirectionsFilter>('/api/v1/Direction/GetByFilter', options);
   }
 
   getDirections(): Observable<Direction[]> {
