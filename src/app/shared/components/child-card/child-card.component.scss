@@ -13,4 +13,20 @@
     max-width: 235px;
     width: 100%;
   }
-} 
+}
+.workshop-list{
+  color: #3849F9;
+  text-overflow: ellipsis;
+  max-height: 85px;
+  overflow: scroll;
+  .item{
+    margin: 1rem 0 0 2rem;
+    &:last-child{
+      margin-bottom: 0;
+    }
+    &:hover{
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+}

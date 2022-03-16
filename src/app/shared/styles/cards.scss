@@ -1,6 +1,6 @@
 .card {
   width: 300px;
-  min-height: 410px;
+  height: 410px;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -36,21 +36,6 @@
       margin: 1rem;
       font-size: 1rem;
       line-height: 1rem;
-    }
-  }
-
-  &-list {
-    color: #3849F9;
-    margin: 1rem 0 1rem 2rem;
-    padding: 0;
-  }
-  &-list-workshop{
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    &:hover {
-      cursor: pointer;
     }
   }
 
