@@ -72,7 +72,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     this.ChildrenFormArray.valueChanges.pipe(
       takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => this.isEmpty = !val[0].lastName || !val[0].firstName || !val[0].middleName);
+    ).subscribe((val: FormGroup) => 
+      this.isEmpty = !val[0].lastName || !val[0].firstName || !val[0].middleName || !val[0].dateOfBirth);
   }
 
   addNavPath(): void {
