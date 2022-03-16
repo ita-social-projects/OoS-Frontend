@@ -35,7 +35,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
-  isEmpty = false;  
+  isEmpty = false;
+  childrenMaxAmount = Constants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;

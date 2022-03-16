@@ -14,7 +14,7 @@
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
-      <button *ngIf="ChildrenFormArray.controls.length < 20 - (childrenCards$ | async)?.totalAmount; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
+      <button *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
       <ng-template #noMoreChildren>
