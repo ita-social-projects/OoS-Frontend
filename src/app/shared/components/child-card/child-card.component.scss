@@ -21,6 +21,9 @@
   overflow: scroll;
   .item{
     margin: 1rem 0 0 2rem;
+    &:last-child{
+      margin-bottom: 0;
+    }
     &:hover{
       cursor: pointer;
       opacity: 0.5;
