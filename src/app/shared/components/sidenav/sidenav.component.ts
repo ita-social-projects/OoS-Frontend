@@ -5,7 +5,9 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
+import { FeaturesList } from '../../models/featuresList.model';
 import { User } from '../../models/user.model';
+import { MetaDataState } from '../../store/meta-data.state';
 import { SidenavToggle } from '../../store/navigation.actions';
 import { NavigationState } from '../../store/navigation.state';
 import { Login, Logout } from '../../store/registration.actions';
@@ -26,7 +28,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
   Role = Role;
   roles = RoleLinks;
   showModalReg = false;
-
   title = 'out-of-school';
   visibleSidenav: boolean;
 
@@ -36,6 +37,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<string>;
+  @Select(MetaDataState.featuresList)
+  featuresList$: Observable<FeaturesList>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
