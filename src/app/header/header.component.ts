@@ -15,7 +15,6 @@ import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
-import { NotificationsState } from '../shared/store/notifications.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
 
 @Component({

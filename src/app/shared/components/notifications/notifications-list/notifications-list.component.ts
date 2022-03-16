@@ -36,7 +36,6 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
       this.notificationsAmount = notificationsAmount.amount;
       this.getNotifications();
     });
-
   }
 
   private getNotifications(): void {
