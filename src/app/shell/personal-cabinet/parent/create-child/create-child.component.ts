@@ -30,7 +30,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  child: Child;  
+  child: Child;
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
@@ -77,7 +77,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         this.ChildrenFormArray.valueChanges.pipe(
           takeUntil(this.destroy$),
           ).subscribe((val: boolean) => {      
-            this.isEmpty = !(val[0].lastName) || !(val[0].firstName);
+            this.isEmpty = !val[0].lastName || !val[0].firstName;
           });          
         }
         

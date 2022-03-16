@@ -35,10 +35,8 @@
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="'/personal-cabinet/parent/info'"><button mat-raised-button
           class="btn btn-cancel">СКАСУВАТИ</button></a>
-      <button *ngIf='!editMode' [disabled]="(!isAgreed)" class="btn" mat-button type="submit"
+      <button *ngIf='!editMode' [disabled]="!isAgreed || isEmpty" class="btn" mat-button type="submit"
         (click)="onSubmit()">ЗБЕРЕГТИ</button>
-      <button *ngIf='editMode' [disabled]="isEmpty" class="btn" mat-button type="submit"
-      (click)="onSubmit()">ЗБЕРЕГТИ</button>
     </div>
 
   </div>
