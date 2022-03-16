@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -10,7 +11,8 @@ import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { CabinetPageChange, DeleteDirectionById, GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
+import { CabinetPageChange, DeleteDirectionById, GetFilteredDirections, GetInfoAboutPortal, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
@@ -25,9 +27,16 @@ export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
 
+  searchValue = new FormControl('', [Validators.maxLength(200)]);
+  isResultPage = false;
+  Name: string;
+
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(AdminState.searchQuery)
+  searchQuery$: Observable<string>;
+  
 
 
   currentPage: PaginationElement = {
@@ -36,6 +45,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   };
 
   tabIndex: number;
+  
 
 
 
@@ -44,13 +54,27 @@ export class PlatformComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private matDialog: MatDialog) { }
+    
 
   ngOnInit(): void {
-    this.store.dispatch(new GetDirections());
+    this.store.dispatch(new GetFilteredDirections());
     this.store.dispatch(new GetInfoAboutPortal());
     this.route.params.pipe(
       takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = +this.adminTabs[params.index])
+      .subscribe((params: Params) => this.tabIndex = +this.adminTabs[params.index]);
+
+      this.searchValue.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: string) => {
+        this.Name = val;
+        if (val.length === 0) {
+          this.store.dispatch(new SetSearchQueryValue(''));
+        }
+      });
+
+    this.searchQuery$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
   }
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
@@ -79,5 +103,8 @@ export class PlatformComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+  onSearch(): void {
+    this.store.dispatch(new SetSearchQueryValue(this.Name || ''));
   }
 }

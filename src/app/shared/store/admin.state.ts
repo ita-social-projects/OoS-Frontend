@@ -4,11 +4,11 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { AboutPortal } from "../models/aboutPortal.model";
-import { Department, Direction } from "../models/category.model";
+import { Department, Direction, DirectionsFilter } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, CabinetPageChange,} from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, CabinetPageChange, SetFirstPage, SetSearchQueryValue, GetFilteredDirections, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -18,6 +18,8 @@ export interface AdminStateModel {
   departments: Department[];
   selectedDirection: Direction;
   currentPage: PaginationElement;
+  searchQuery: string;
+  filteredDirections: DirectionsFilter;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -27,6 +29,8 @@ export interface AdminStateModel {
     departments: [],
     isLoading: false,
     selectedDirection: null,
+    searchQuery: '',
+    filteredDirections: undefined,
     currentPage: {
       element: 1,
       isActive: true
@@ -35,12 +39,18 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
+  adminStateModel: any;
   @Selector()
   static aboutPortal(state: AdminStateModel): AboutPortal { return state.aboutPortal; }
   @Selector()
   static direction(state: AdminStateModel): Direction { return state.direction; }
   @Selector()
   static departments(state: AdminStateModel): Department [] { return state.departments; }
+  @Selector()
+  static searchQuery(state: AdminStateModel): string { return state.searchQuery }
+  @Selector()
+  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections };
+
 
   constructor(
     private portalService: PortalService,
@@ -194,4 +204,24 @@ export class AdminState {
   pageChange({ patchState }: StateContext<AdminStateModel>, { payload }: CabinetPageChange): void {
     patchState({ currentPage: payload });
   }
+  @Action(SetFirstPage)
+  setFirstPage({ patchState }: StateContext<AdminStateModel>) {
+    patchState({ currentPage: { element: 1, isActive: true } });
+  }
+  @Action(SetSearchQueryValue)
+  setSearchQueryValue({ patchState }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
+    patchState({ searchQuery: payload });
+  }
+
+  @Action(GetFilteredDirections)
+  getFilteredDIrection({ patchState, getState }: StateContext<AdminStateModel>, {  }: GetFilteredDirections) {
+    patchState({ isLoading: true });
+    const state: AdminStateModel = getState();
+
+    return this.categoriesService
+      .getFilteredDirections( state )
+      .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
+      () => patchState({ isLoading: false })));
+}
+  
 }
