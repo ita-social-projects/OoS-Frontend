@@ -42,7 +42,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   socialGroups$: Observable<SocialGroup[]>;
 
   @Select(UserState.children)
-  childrenCards$: Observable<ChildCards[]>
+  childrenCards$!: Observable<ChildCards[]>
 
   constructor(
     private childrenService: ChildrenService,
