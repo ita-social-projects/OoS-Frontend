@@ -69,20 +69,19 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         if (socialGroups.length === 0) {
           this.store.dispatch(new GetSocialGroup());
         }
-      });      
-      
-      this.AgreementFormControl.valueChanges.pipe(
-        takeUntil(this.destroy$),
-        ).subscribe((val: boolean) => this.isAgreed = val);
-        
-        this.ChildrenFormArray.valueChanges.pipe(
-          takeUntil(this.destroy$),
-          ).subscribe((val: boolean) => {      
-            this.isEmpty = !val[0].lastName || !val[0].firstName || !val[0].middleName;
-          });          
-        }
-        
-        addNavPath(): void {
+      });
+
+    this.AgreementFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => this.isAgreed = val);
+
+    this.ChildrenFormArray.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: FormGroup) => 
+      this.isEmpty = !val[0].lastName || !val[0].firstName || !val[0].middleName || !val[0].dateOfBirth);
+  }
+
+  addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
       { name: NavBarName.PersonalCabinetParent, path: '/personal-cabinet/parent/info', isActive: false, disable: false },
       { name: this.editMode ? NavBarName.EditInformationAboutChild : NavBarName.AddInformationAboutChild, isActive: false, disable: true },
