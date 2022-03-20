@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { providerAdminRoleUkr } from 'src/app/shared/enum/enumUA/provider-admin';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
 import { GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
@@ -20,7 +21,10 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
 
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
+  readonly noProviderAdmins = NoResultsTitle.noProviderAdmins;
 
+  @Select(UserState.isLoading)
+  isLoadingCabinet$: Observable<boolean>;
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
   providerAdmins: ProviderAdminTable[];

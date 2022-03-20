@@ -219,11 +219,12 @@ export class UserState {
 
   @Action(GetAllProviderAdmins)
   getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
+    patchState({ isLoading: true });
     return this.providerAdminService
       .getAllProviderAdmins()
       .pipe(
         tap(
-          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins })
+          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins, isLoading: false })
         ))
   }
 
