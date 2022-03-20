@@ -45,10 +45,20 @@
 
 </div>
 
-
 <ng-template #UsersListFull let-filterValue>
-  <app-users-list [users]="providerAdmins" [filterValue]="filterValue"></app-users-list>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="providerAdmins?.length else isEmptyList;">
+      <app-users-list [users]="providerAdmins" [filterValue]="filterValue"></app-users-list>
+    </ng-container>
+  </ng-container>  
 </ng-template>
+
 <ng-template #UsersListFiltered let-filterValue>
-  <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue"></app-users-list>
+  <ng-container *ngIf="filterProviderAdmins?.length else isEmptyList;">
+    <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue"></app-users-list>
+  </ng-container>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noProviderAdmins"></app-no-result-card>
 </ng-template>

@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 describe('ProviderAdminsComponent', () => {
   let component: ProviderAdminsComponent;
@@ -30,7 +31,8 @@ describe('ProviderAdminsComponent', () => {
       ],
       declarations: [
         ProviderAdminsComponent,
-        MockUsersListComponent
+        MockUsersListComponent,
+        NoResultCardComponent
       ],
     })
       .compileComponents();

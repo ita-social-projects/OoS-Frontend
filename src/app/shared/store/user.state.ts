@@ -219,11 +219,12 @@ export class UserState {
 
   @Action(GetAllProviderAdmins)
   getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
+    patchState({ isLoading: true });
     return this.providerAdminService
       .getAllProviderAdmins()
       .pipe(
         tap(
-          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins })
+          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins, isLoading: false })
         ))
   }
 
@@ -371,6 +372,7 @@ export class UserState {
   onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/administration']);
   }
 
   @Action(CreateApplication)
