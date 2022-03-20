@@ -371,6 +371,7 @@ export class UserState {
   onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/administration']);
   }
 
   @Action(CreateApplication)
