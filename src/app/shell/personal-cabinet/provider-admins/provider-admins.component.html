@@ -27,7 +27,7 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab label="{{providerAdminRoleUkr.all}}">
         <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
         </ng-container>
@@ -50,5 +50,5 @@
   <app-users-list [users]="providerAdmins" [filterValue]="filterValue"></app-users-list>
 </ng-template>
 <ng-template #UsersListFiltered let-filterValue>
-  <app-users-list [users]="filterProviderAdmins" [filterValue]="filterValue"></app-users-list>
+  <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue"></app-users-list>
 </ng-template>
