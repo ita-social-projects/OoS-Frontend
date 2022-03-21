@@ -130,7 +130,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.workshop.price && this.priceRadioBtn.setValue(true);
     this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
     if (this.workshop.coverImageId) {
-      this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control(this.workshop.coverImageId));
+      this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control([this.workshop.coverImageId]));
     }
   }
 
