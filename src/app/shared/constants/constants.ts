@@ -9,6 +9,7 @@ import { WorkingDaysToggleValue } from '../models/workingHours.model';
 export class Constants {
   static readonly CLASS_AMOUNT_MIN = 1;
   static readonly CLASS_AMOUNT_MAX = 7;
+  static readonly CHILDREN_AMOUNT_MAX = 20;
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
   static readonly BIRTH_AGE_MAX = 120;

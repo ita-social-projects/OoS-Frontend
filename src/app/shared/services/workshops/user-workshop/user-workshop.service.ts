@@ -74,23 +74,19 @@ export class UserWorkshopService {
    */
 
   deleteWorkshop(id: string): Observable<object> {
-    return this.isRelease2 
-    ? this.http.delete(`/api/v2/Workshop/Delete/${id}`) 
-    : this.http.delete(`/api/v1/Workshop/Delete/${id}`);
-  }  
+    return this.isRelease2
+      ? this.http.delete(`/api/v2/Workshop/Delete/${id}`)
+      : this.http.delete(`/api/v1/Workshop/Delete/${id}`);
+  }
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imageIds'];
-    const imageFiles = 'imageFiles';
-    const coverImage = 'coverImage';
+    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imageIds',];
+    const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(workshop).forEach((key: string) => {
-
-      if (workshop.imageFiles && (key === imageFiles)) {
-        workshop.imageFiles.forEach((file: File) => formData.append(imageFiles, file));
-      } else if (workshop.coverImage && (key === coverImage)) {
-        formData.append(coverImage, workshop.coverImage[0])
+      if (imageFiles.includes(key)) {
+        workshop[key].forEach((file: File) => formData.append(key, file));
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(workshop[key]));
       } else {
