@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { environment } from 'src/environments/environment';
+import { Constants } from '../../constants/constants';
 
 @Component({
   selector: 'app-workshop-card',
@@ -26,14 +27,16 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
+  readonly ownershipTypeUkr = OwnershipTypeUkr;
+
   readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
-  public below = 'below';
+
+  categoryIcons = CategoryIcons;
+  below = 'below';
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
   pendingApplicationAmount: number;
-  ownershipType: string;
 
   @Input() workshop: WorkshopCard;
   @Input() userRoleView: string;
@@ -66,7 +69,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   authServer: string = environment.serverUrl;
-  imgUrl = `/api/v1/PublicImage/`;
   coverImageUrl: string = '';
 
   constructor(
@@ -85,14 +87,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     } else {
       this.getCoverImageUrl();
     }
-    this.ownershipType = OwnershipTypeUkr[this.workshop?.providerOwnership];
+
     this.favoriteWorkshops$
       .pipe(takeUntil(this.destroy$))
       .subscribe((favorites: Favorite[]) => {
         this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
+        this.isFavorite = !!this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
       });
-    this.isFavorite = !!this.favoriteWorkshopId;
     this.role$.pipe(takeUntil(this.destroy$))
       .subscribe((role: string) => this.role = role);
   }
@@ -136,12 +137,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   getCoverImageUrl(): void {
     if (this.workshop.coverImageId) {
-      this.coverImageUrl = this.authServer + this.imgUrl + this.workshop.coverImageId;
+      this.coverImageUrl = this.authServer + Constants.IMG_URL + this.workshop.coverImageId;
     } else {
       this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
     }
+    console.log(this.coverImageUrl)
+    // return this.coverImageUrl;
   }
-
 }
 
 @Component({

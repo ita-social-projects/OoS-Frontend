@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { UserState } from 'src/app/shared/store/user.state';
 import { filter, takeUntil } from 'rxjs/operators';
 import { imgPath } from 'src/app/shared/models/carousel.model';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-workshop-page',
@@ -25,14 +26,13 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   public categoryIcons = CategoryIcons;
   selectedIndex: number;
-  
+
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   authServer: string = environment.serverUrl;
-  imgUrl = `/api/v1/PublicImage/`;
   images: imgPath[] = [];
 
   constructor(private route: ActivatedRoute) { }
@@ -53,7 +53,7 @@ export class WorkshopPageComponent implements OnInit, OnDestroy {
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
       this.images = this.workshop.imageIds.map((imgId) => {
-        return { path: this.authServer + this.imgUrl + imgId };
+        return { path: this.authServer + Constants.IMG_URL + imgId };
       });
     } else {
       this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];

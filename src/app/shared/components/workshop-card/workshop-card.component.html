@@ -1,37 +1,31 @@
-<mat-card [class.horizontal]="isHorizontalView">
-  <div>
-    <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
-    </ng-container>
+<mat-card>
+  <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
+  </ng-container>
 
-    <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
-      <div [ngClass]="isCreateApplicationView ? 'card-img card-img-full card-img-mobile': 'card-img card-img-full'"
-        fxLayout="row" fxLayoutAlign="center">
-        <img mat-card-image [src]="coverImageUrl" alt="{{workshop?.title}}"
-          [ngClass]="{'card-img-mobile': workshop.coverImageId}">
-      </div>
-      <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
-        <mat-card-header>
-          <mat-card-title [matTooltip]="workshop?.title" showTooltipIfTruncated matTooltipClass="tooltip"
-            [matTooltipPosition]="below" class="card-title">{{workshop?.title}}</mat-card-title>
-          <img mat-card-image [src]="categoryIcons[workshop?.directionId]"
-            [ngClass]="{'card-img-mobile':isCreateApplicationView}">
-        </mat-card-header>
+  <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
+    <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
+      <img [ngClass]="{'card-img-full': workshop.coverImageId}" mat-card-image [src]="coverImageUrl"
+        alt="{{workshop?.title}}">
+    </div>
+    <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
+      <mat-card-header>
+        <mat-card-title [matTooltip]="workshop?.title" showTooltipIfTruncated matTooltipClass="tooltip"
+          [matTooltipPosition]="below" class="card-title">{{workshop?.title}}</mat-card-title>
+        <img mat-card-image [src]="categoryIcons[workshop?.directionId]">
+      </mat-card-header>
 
-        <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
-          <ng-container
-            *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
-          </ng-container>
+      <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+        <ng-container
+          *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
+        </ng-container>
+      </mat-card-content>
 
-        </mat-card-content>
-
-        <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
-          <a class="more-details" [routerLink]="['/workshop-details',workshop?.workshopId ]">
-            <span class="card_link">Детальніше</span>
-            <mat-icon>arrow_forward</mat-icon>
-          </a>
-        </mat-card-footer>
-
-      </div>
+      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
+        <a class="more-details" [routerLink]="['/workshop-details',workshop?.workshopId ]">
+          <span class="card_link">Детальніше</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card-footer>
     </div>
   </div>
 </mat-card>
@@ -96,7 +90,8 @@
       [matTooltipPosition]="below">{{ workshop?.providerTitle }}</p>
   </div>
   <p class="card_text" *ngIf="ownershipType && !isHorizontalView">
-    <mat-icon class="card_icon">account_balance</mat-icon> Форма власності: {{ ownershipType }}
+    <mat-icon class="card_icon">account_balance</mat-icon> Форма власності: {{
+    ownershipTypeUkr[workshop.providerOwnership] }}
   </p>
   <p class="card_text" [ngClass]="isMainPage && isHorizontalView ? 'hide': ''">
     <mat-icon class="card_icon">person</mat-icon>{{ workshop?.minAge }} - {{ workshop?.maxAge }} років

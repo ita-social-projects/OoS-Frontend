@@ -53,7 +53,7 @@ export class Constants {
   };
 
   static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
-
+  static readonly IMG_URL = '/api/v1/PublicImage/';
 }
 
 export class PaginationConstants {
