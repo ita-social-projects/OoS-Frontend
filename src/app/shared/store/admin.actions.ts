@@ -74,12 +74,12 @@ export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload) { }
 }
-export class CabinetPageChange {
+export class PageChange {
   static readonly type = '[admin] Change Page';
   constructor(public payload: PaginationElement) { }
 }
-export class SetFirstPage {
-  static readonly type = '[admin] Set First Page';
+export class FilterChange {
+  static readonly type = '[admin] Filter Change';
   constructor() { }
 }
 export class SetSearchQueryValue {
@@ -88,6 +88,11 @@ export class SetSearchQueryValue {
 }
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
-  constructor( ) { }
+  constructor() { }
 }
+export class FilterClear {
+  static readonly type = '[filter] Filter Clear';
+  constructor() { }
+}
+
 

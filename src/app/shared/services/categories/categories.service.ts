@@ -17,8 +17,8 @@ export class CategoriesService {
 
     if (filters.searchQuery) {
       params = params.set('Name', filters.searchQuery);
-    } 
-    
+    }
+
     if (filters.currentPage) {
       const size: number = Constants.ITEMS_PER_PAGE;
       const from: number = size * (+filters.currentPage.element - 1);

@@ -17,15 +17,15 @@
     [ngClass]="isActiveClassInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="className">
+    <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="classFormGroup.get('className').errors?.required"
-    [invalid]="classFormGroup.get('className').invalid && classFormGroup.get('className').touched">
+    [isEmptyCheck]="classFormGroup.get('title').errors?.required"
+    [invalid]="classFormGroup.get('title').invalid && classFormGroup.get('title').touched">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validTextField"
-    [invalid]="classFormGroup.get('className').invalid && classFormGroup.get('className').touched"
-    [forbiddenCharacter]="classFormGroup.get('className').errors?.pattern?.requiredPattern">
+    [invalid]="classFormGroup.get('title').invalid && classFormGroup.get('title').touched"
+    [forbiddenCharacter]="classFormGroup.get('title').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
   <div fxLayout="column" fxLayoutAlign="center center">
     <button *ngIf="!editMode" class="btn-add" mat-button (click)="addClass()">

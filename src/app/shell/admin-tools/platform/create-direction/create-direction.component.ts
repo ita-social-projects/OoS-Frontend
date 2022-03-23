@@ -42,6 +42,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
   }
+  
   ngAfterViewInit(): void {
     if (this.editMode) {
       this.route.params.subscribe((params: Params) => {

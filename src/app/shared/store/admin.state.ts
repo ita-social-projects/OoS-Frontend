@@ -8,7 +8,7 @@ import { Department, Direction, DirectionsFilter } from "../models/category.mode
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, CabinetPageChange, SetFirstPage, SetSearchQueryValue, GetFilteredDirections, } from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetFirstPage, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, ResetSelectedDirection, FilterClear, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -49,7 +49,11 @@ export class AdminState {
   @Selector()
   static searchQuery(state: AdminStateModel): string { return state.searchQuery }
   @Selector()
-  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections };
+  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections }
+  @Selector()
+  static currentPage(state: AdminStateModel): {} { return state.currentPage };
+  @Selector()
+  static isLoading(state: AdminStateModel): boolean { return state.isLoading };
 
 
   constructor(
@@ -200,28 +204,43 @@ export class AdminState {
           return patchState({ departments: department, isLoading: false });
         }));
   }
-  @Action(CabinetPageChange)
-  pageChange({ patchState }: StateContext<AdminStateModel>, { payload }: CabinetPageChange): void {
-    patchState({ currentPage: payload });
-  }
-  @Action(SetFirstPage)
-  setFirstPage({ patchState }: StateContext<AdminStateModel>) {
-    patchState({ currentPage: { element: 1, isActive: true } });
-  }
+
+
   @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
+  setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
     patchState({ searchQuery: payload });
+    dispatch(new FilterChange());
   }
 
+  @Action(FilterChange)
+  filterChange({ }: StateContext<AdminStateModel>, { }: FilterChange) { }
+
+
   @Action(GetFilteredDirections)
-  getFilteredDIrection({ patchState, getState }: StateContext<AdminStateModel>, {  }: GetFilteredDirections) {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
     patchState({ isLoading: true });
     const state: AdminStateModel = getState();
 
     return this.categoriesService
-      .getFilteredDirections( state )
+      .getFilteredDirections( state)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
-      () => patchState({ isLoading: false })));
-}
-  
+      () => patchState({ isLoading: false, selectedDirection: null })));
+  }
+
+    @Action(PageChange)
+    pageChange({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: PageChange): void {
+      patchState({ currentPage: payload });
+      dispatch(new GetFilteredDirections());
+    }
+    @Action(FilterClear)
+  FilterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
+    patchState({
+      searchQuery: '',
+      currentPage: {
+        element: 1,
+        isActive: true
+      }
+    });
+  }
+
 }
