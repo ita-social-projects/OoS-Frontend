@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Constants } from '../../constants/constants';
 import { Teacher } from '../../models/teacher.model';
 
 @Component({
@@ -7,11 +8,11 @@ import { Teacher } from '../../models/teacher.model';
   styleUrls: ['./teacher-card.component.scss']
 })
 export class TeacherCardComponent implements OnInit {
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
   @Input() teacher: Teacher;
 
   teacherFullName: string;
-  below = 'below';
 
   constructor() {
   }

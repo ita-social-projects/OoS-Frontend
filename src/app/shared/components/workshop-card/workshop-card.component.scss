@@ -90,18 +90,13 @@
 }
 
 @media (max-width: 750px) {
-  .card-img-mobile{
-    display: none !important;
-  }
-  .horizontal {
-    margin: 1vw;
-    width: 90vw;
-  }
   :host.application-workshop .horizontal {
     width: auto;
   }
   .horizontal-card {
     max-width: 100%;
+    margin: 1vw;
+    width: 90vw;
     .card-img{
       flex: 1;
     }
@@ -121,6 +116,7 @@
     }
     .mat-card-image {
       height: 150px;
+      width: 150px;
     }
     .mat-card-header img {
       width: 24px;
