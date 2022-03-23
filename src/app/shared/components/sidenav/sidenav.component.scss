@@ -14,8 +14,6 @@
 }
 
 @media(max-width: 750px) {
-
-
   .header_login {
     position: relative;
     bottom: 5px;
@@ -79,28 +77,7 @@
       vertical-align: middle;
     }
 
-    &-notification {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      padding: 7px 0 7px 15px;
-
-      &-badge {
-        background-color: orange;
-        border-radius: 45%;
-        padding: 1px 5px 0 5px;
-        color: white;
-        font-size: 10px;
-      }
-
-      &-item {
-        display: inline-block;
-        padding-right: 10px;
-      }
-    }
-
     &-language {
-      padding: 7px 0;
       ::ng-deep .mat-select-value-text {
         color: black !important;
       }
@@ -110,20 +87,12 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding-bottom: 12px;
+      padding: 0 1rem;
       &>a {
-        padding-left: 15px;
-        padding-top: 10px;
-        padding-bottom: 4px;
+        padding: 0.5rem 0;
       }
-      button {
-        background-color: white !important;
-        border: none;
-        font-family: Innerspace;
-        font-size: 13px;
-        font-weight: bold;
-        color: black;
-        padding: 12px 0 4px 15px
+      &>.notif{
+        padding: 0;
       }
     }
   }
@@ -137,19 +106,7 @@
     width: 100%;
     margin: 0
   }
-
-  .mobile-sidenav-info{
-    padding: 14px 0 14px 15px;
-      font-family: Innerspace;
-      font-size: 13px;
-      font-weight: bold;
-      color: black;
-
-    &-support {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-    }
-  }
-
+}
+.full-width{
+  width: 100%;
 }

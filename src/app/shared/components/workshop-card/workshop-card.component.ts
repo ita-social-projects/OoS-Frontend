@@ -60,14 +60,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
-  @Select(UserState.selectedWorkshop) 
+  @Select(UserState.selectedWorkshop)
   workshop$: Observable<WorkshopCard>;
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   authServer: string = environment.serverUrl;
   imgUrl = `/api/v1/PublicImage/`;
-  coverImageId: string = '';
   coverImageUrl: string = '';
 
   constructor(

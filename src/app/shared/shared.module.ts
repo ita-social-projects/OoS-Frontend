@@ -52,8 +52,9 @@ import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-fi
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
-import { MatTableModule } from '@angular/material/table';
 import { KeyFilterDirective } from './directives/key-filter.directive';
 import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 
@@ -104,6 +105,8 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
     SidenavFiltersComponent,
     RejectModalWindowComponent,
     ImageCarouselComponent,
+    NotificationsComponent,
+    NotificationsListComponent,
     UsersListComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
@@ -118,7 +121,6 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
     NgxSliderModule,
     NgxMatTimepickerModule,
     IvyCarouselModule,
-    MatTableModule
   ],
   exports: [
     FiltersListComponent,
@@ -166,6 +168,7 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
     WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
+    NotificationsComponent,
     UsersListComponent,
     KeyFilterDirective,
     CustomCarouselDirective,

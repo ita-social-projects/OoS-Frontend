@@ -4,8 +4,8 @@
     освітніх послуг
   </mat-checkbox>
 
-  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фонове зображення'" formControlName="coverImage"
-  [coverImageIdFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фонове зображення'"
+    formControlName="coverImage" [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
 
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>

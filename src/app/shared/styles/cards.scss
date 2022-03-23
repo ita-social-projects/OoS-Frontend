@@ -15,10 +15,6 @@
     line-height: 20px;
   }
 
-  &-image {
-    max-width: 50%;
-  }
-
   &_category {
     width: 30px;
     height: 30px;
@@ -40,21 +36,6 @@
       margin: 1rem;
       font-size: 1rem;
       line-height: 1rem;
-    }
-  }
-
-  &-list {
-    color: #3849F9;
-    margin: 1rem 0 1rem 2rem;
-    padding: 0;
-  }
-  &-list-workshop{
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    &:hover {
-      cursor: pointer;
     }
   }
 
@@ -212,9 +193,12 @@
   margin: 0!important;
 }
 .mat-card-image {
-  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
   margin: 0;
-  height: 187px;
   object-fit: cover;
   object-position: top;
 }
