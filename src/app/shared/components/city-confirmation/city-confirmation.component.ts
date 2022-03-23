@@ -10,17 +10,16 @@ import { SetFocusOnCityField } from '../../store/app.actions';
   styleUrls: ['./city-confirmation.component.scss']
 })
 export class CityConfirmationComponent implements OnInit {
-  city!: string;
+  city;
 
   constructor(public store: Store) { }
 
   ngOnInit() {
     this.city = JSON.parse(localStorage.getItem('cityConfirmation') as string);
+    console.log('this.city', this.city);    
   }
 
   confirmCity(): void {
-    localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));
-
     // localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));
     this.store.dispatch(new ConfirmCity(false));
   }
