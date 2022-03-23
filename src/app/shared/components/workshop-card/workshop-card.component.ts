@@ -33,7 +33,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   private readonly authServer: string = environment.serverUrl;
 
-  favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
   pendingApplicationAmount: number;
@@ -125,10 +124,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   private getData(): void {
     this.favoriteWorkshops$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((favorites: Favorite[]) => {
-        this.favoriteWorkshops = favorites;
-        this.isFavorite = !!this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((favorites: Favorite[]) => !!favorites)
+      ).subscribe((favorites: Favorite[]) => {
+        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshop.workshopId);
       });
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => this.role = role);
     this.getCoverImageUrl();
