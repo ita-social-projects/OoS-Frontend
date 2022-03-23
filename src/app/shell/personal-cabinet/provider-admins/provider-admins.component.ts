@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { providerAdminRoleUkr } from 'src/app/shared/enum/enumUA/provider-admin';
+import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
@@ -28,13 +29,17 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
   providerAdmins: ProviderAdminTable[];
-  filterProviderAdmins: Array<object> = [];
+  filteredProviderAdmins: Array<object> = [];
   filter = new FormControl('');
   filterValue: string;
   btnView: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  tabIndex: number;
 
-  constructor(public store: Store) {}
+  constructor(
+    public store: Store,
+    private router: Router,
+    private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.btnView = providerAdminRoleUkr.all;
@@ -53,12 +58,28 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
+        this.filterProviderAdmins();
       });
+    this.route.params.pipe(
+      takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
+        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params.param);
+        this.btnView = providerAdminRoleUkr[params.param];
+      })
   }
 
   getAllProviderAdmins(): void {
     this.store.dispatch(new GetAllProviderAdmins());
   }
+  filterProviderAdmins(): void {
+    this.route.params.pipe(
+      takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
+        this.filteredProviderAdmins = this.providerAdmins.filter(
+          (user) => user.deputy === providerAdminRoleUkr[params.param]
+        );
+      })
+    }
 
   updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
     let updatedAdmins = [];
@@ -80,10 +101,9 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.btnView = event.tab.textLabel;
-    this.filterProviderAdmins = this.providerAdmins.filter(
-      (user) => user.deputy === event.tab.textLabel
-    );
+    this.filterProviderAdmins();
     this.filter.reset();
+    this.router.navigate(['../', providerAdminRoleUkrReverse[event.tab.textLabel]], {relativeTo: this.route});
   }
 
   ngOnDestroy(): void {
