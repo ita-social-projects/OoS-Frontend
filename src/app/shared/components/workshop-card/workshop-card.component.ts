@@ -24,19 +24,21 @@ import { Constants } from '../../constants/constants';
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-
   readonly Role: typeof Role = Role;
+  readonly categoryIcons = CategoryIcons;
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
-  categoryIcons = CategoryIcons;
-  below = 'below';
+  private readonly authServer: string = environment.serverUrl;
+
   favoriteWorkshops: Favorite[];
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
   pendingApplicationAmount: number;
+  role: string;
+  coverImageUrl: string;
 
   @Input() workshop: WorkshopCard;
   @Input() userRoleView: string;
@@ -46,7 +48,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isCreateApplicationView = false;
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
-    if (applications) {
+    if (applications?.length) {
       this.pendingApplicationAmount = applications.filter((application: Application) => {
         return (application.workshopId === this.workshop.workshopId && application.status === ApplicationStatus.Pending);
       }).length;
@@ -54,7 +56,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       this.pendingApplicationAmount = 0;
     }
   };
-
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
@@ -65,11 +66,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   role$: Observable<string>;
   @Select(UserState.selectedWorkshop)
   workshop$: Observable<WorkshopCard>;
-  role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  authServer: string = environment.serverUrl;
-  coverImageUrl: string = '';
 
   constructor(
     private store: Store,
@@ -82,20 +79,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$))
         .subscribe((workshop: WorkshopCard) => {
           this.workshop = workshop;
-          this.getCoverImageUrl();
+          this.getData();
         });
     } else {
-      this.getCoverImageUrl();
+      this.getData();
     }
-
-    this.favoriteWorkshops$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((favorites: Favorite[]) => {
-        this.favoriteWorkshops = favorites;
-        this.isFavorite = !!this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
-      });
-    this.role$.pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => this.role = role);
   }
 
   onDelete(): void {
@@ -135,16 +123,26 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  getCoverImageUrl(): void {
+  private getData(): void {
+    this.favoriteWorkshops$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((favorites: Favorite[]) => {
+        this.favoriteWorkshops = favorites;
+        this.isFavorite = !!this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
+      });
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => this.role = role);
+    this.getCoverImageUrl();
+  }
+
+  private getCoverImageUrl(): void {
     if (this.workshop.coverImageId) {
       this.coverImageUrl = this.authServer + Constants.IMG_URL + this.workshop.coverImageId;
     } else {
       this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
     }
-    console.log(this.coverImageUrl)
-    // return this.coverImageUrl;
   }
 }
+
 
 @Component({
   selector: 'app-workshop-dialog',

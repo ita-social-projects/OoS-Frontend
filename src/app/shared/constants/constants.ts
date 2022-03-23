@@ -38,10 +38,8 @@ export class Constants {
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
-
-  static WorkingDaysValues: any;
-
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
 
   static readonly KIEV: City = {
     district: 'м.Київ',
@@ -52,8 +50,8 @@ export class Constants {
     region: 'м.Київ',
   };
 
-  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
   static readonly IMG_URL = '/api/v1/PublicImage/';
+  static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
 }
 
 export class PaginationConstants {

@@ -10,7 +10,7 @@
     <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
       <mat-card-header>
         <mat-card-title [matTooltip]="workshop?.title" showTooltipIfTruncated matTooltipClass="tooltip"
-          [matTooltipPosition]="below" class="card-title">{{workshop?.title}}</mat-card-title>
+          [matTooltipPosition]="tooltipPosition" class="card-title">{{workshop?.title}}</mat-card-title>
         <img mat-card-image [src]="categoryIcons[workshop?.directionId]">
       </mat-card-header>
 
@@ -87,7 +87,7 @@
   <div class="card_text">
     <mat-icon class="card_icon">home</mat-icon>
     <p class="card_text_label" [matTooltip]="workshop?.providerTitle" showTooltipIfTruncated matTooltipClass="tooltip"
-      [matTooltipPosition]="below">{{ workshop?.providerTitle }}</p>
+      [matTooltipPosition]="tooltipPosition">{{ workshop?.providerTitle }}</p>
   </div>
   <p class="card_text" *ngIf="ownershipType && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon> Форма власності: {{
@@ -107,7 +107,8 @@
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>
     <p class="card_text_label" [matTooltip]="workshop?.address.city + ', ' + workshop?.address.street + ', ' +
-      workshop?.address.buildingNumber" showTooltipIfTruncated matTooltipClass="tooltip" [matTooltipPosition]="below">
+      workshop?.address.buildingNumber" showTooltipIfTruncated matTooltipClass="tooltip"
+      [matTooltipPosition]="tooltipPosition">
       {{workshop?.address.city}},
       {{workshop?.address.street}}, {{workshop?.address.buildingNumber}}</p>
   </div>
