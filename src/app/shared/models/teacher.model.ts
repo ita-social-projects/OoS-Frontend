@@ -6,6 +6,8 @@ export class Teacher {
   dateOfBirth?: Date;
   description?: string;
   image?: string;
+  avatarImageId?: string;
+  avatarImage?: File[];
 
   constructor(info) {
     this.firstName = info.firstName;
@@ -13,5 +15,9 @@ export class Teacher {
     this.middleName = info.middleName;
     this.dateOfBirth = info.dateOfBirth;
     this.description = info.description;
+    this.avatarImage = info.avatarImage;
+    if (info.avatarImageId) {
+      this.avatarImageId = info.avatarImageId;
+    }
   }
 }
