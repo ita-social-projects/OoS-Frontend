@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmCity } from '../../store/filter.actions';
 import { SetFocusOnCityField } from '../../store/app.actions';
+import { City } from '../../models/city.model';
 
 @Component({
   selector: 'app-city-confirmation',
@@ -10,16 +11,20 @@ import { SetFocusOnCityField } from '../../store/app.actions';
   styleUrls: ['./city-confirmation.component.scss']
 })
 export class CityConfirmationComponent implements OnInit {
-  city;
+  city: City = JSON.parse(localStorage.getItem('cityConfirmation') as string);
 
   constructor(public store: Store) { }
 
   ngOnInit() {
     this.city = JSON.parse(localStorage.getItem('cityConfirmation') as string);
-    console.log('this.city', this.city);    
   }
 
   confirmCity(): void {
+    if (this.city === Constants.KIEV) {
+      localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));    
+    } else {
+      localStorage.setItem('cityConfirmation', JSON.stringify(this.city as City));
+    }    
     // localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));
     this.store.dispatch(new ConfirmCity(false));
   }
@@ -27,5 +32,4 @@ export class CityConfirmationComponent implements OnInit {
   changeCity(): void {
     this.store.dispatch([new ConfirmCity(false), new SetFocusOnCityField()]);
   }
-
 }
