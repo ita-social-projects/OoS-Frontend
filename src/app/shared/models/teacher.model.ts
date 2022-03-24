@@ -3,7 +3,7 @@ export class Teacher {
   firstName: string;
   lastName: string;
   middleName: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | string;
   description?: string;
   image?: string;
   avatarImageId?: string;
@@ -13,9 +13,9 @@ export class Teacher {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    this.dateOfBirth = info.dateOfBirth;
+    this.dateOfBirth = new Date(info.dateOfBirth).toISOString();
     this.description = info.description;
-    this.avatarImage = info.avatarImage;
+    this.avatarImage = info.avatarImage[0];
     if (info.avatarImageId) {
       this.avatarImageId = info.avatarImageId;
     }
