@@ -65,4 +65,7 @@ export class CategoriesService {
   getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
   }
+  createClass(iClass: IClass): Observable<object> {
+    return this.http.post('/api/v1/Class/CreateMultiple', iClass);
+  }
 }

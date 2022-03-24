@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,7 @@ describe('AddClassFormComponent', () => {
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         AddDepartmentFormComponent,
         MockValidationHintForInputComponent,

@@ -4,7 +4,7 @@ import { AdminToolsRoutingModule } from './admin-tools-routing.module';
 import { PlatformComponent } from './platform/platform.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DirectionsComponent } from './platform/directions/directions.component';
+import { DirectionsComponent } from './platform/create-direction/directions/directions.component';
 
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -29,6 +29,7 @@ describe('PlatformComponent', () => {
         NoopAnimationsModule,
         MatDialogModule,
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PlatformComponent,
         MockAllCategoriesCardComponent,

@@ -145,6 +145,7 @@ export class MetaDataState {
 
   @Action(GetDepartments)
   getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments): Observable<Department[]> {
+    patchState({ isLoading: true })
     return this.categoriesService
       .getDepartmentsByDirectionId(payload)
       .pipe(

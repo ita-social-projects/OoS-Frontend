@@ -27,15 +27,4 @@
     [invalid]="classFormGroup.get('title').invalid && classFormGroup.get('title').touched"
     [forbiddenCharacter]="classFormGroup.get('title').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
-  <div fxLayout="column" fxLayoutAlign="center center">
-    <button *ngIf="!editMode" class="btn-add" mat-button (click)="addClass()">
-      <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
-    </button>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-    <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-        class="btn btn-cancel">Скасувати</button></a>
-    <button class="btn" mat-raised-button matStepperNext (click)="onSubmit">Далі</button>
-  </div>
-
 </form>

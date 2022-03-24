@@ -1,5 +1,6 @@
 import { Direction } from "@angular/cdk/bidi";
 import { AboutPortal } from "../models/aboutPortal.model";
+import { IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 
 export class GetInfoAboutPortal {
@@ -72,7 +73,7 @@ export class GetDirectionById {
 }
 export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
-  constructor(public payload) { }
+  constructor(public payload: number) { }
 }
 export class PageChange {
   static readonly type = '[admin] Change Page';
@@ -93,6 +94,18 @@ export class GetFilteredDirections {
 export class FilterClear {
   static readonly type = '[filter] Filter Clear';
   constructor() { }
+}
+export class CreateClass {
+  static readonly type = '[admin] create Children';
+  constructor(public payload) { }
+}
+export class OnCreateClassFail {
+  static readonly type = '[admin] create Children fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateClassSuccess {
+  static readonly type = '[admin] create Children success';
+  constructor(public payload) { }
 }
 
 

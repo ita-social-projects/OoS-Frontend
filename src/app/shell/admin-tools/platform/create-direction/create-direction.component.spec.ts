@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,6 +28,7 @@ describe('CreateDirectionComponent', () => {
         RouterTestingModule,
         MatStepperModule,
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         CreateDirectionComponent,
         MockValidationHintForInputComponent,

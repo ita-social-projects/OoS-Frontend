@@ -24,12 +24,20 @@
 
       </mat-step>
 
-      <mat-step [stepControl]="classFormGroup">
+      <mat-step [ClassFormGroup]="form" [stepControl]="classFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Клас</p>
         </ng-template>
         <app-add-class-form>
         </app-add-class-form>
+        <button class="btn-add" mat-button (click)="addClass()">
+          <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
+        </button>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-raised-button matStepperNext (click)="onSubmit()">Зберігти</button>
+        </div>
       </mat-step>
 
     </mat-horizontal-stepper>
