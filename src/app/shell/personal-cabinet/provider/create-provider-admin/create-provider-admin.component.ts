@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CreateFormComponent } from '../../create-form/create-form.component';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
@@ -18,10 +16,9 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { createProviderAdminSteps, providerAdminRole } from 'src/app/shared/enum/provider-admin';
+import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { MatStepper } from '@angular/material/stepper';
-import { createProviderSteps } from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-create-provider-admin',
@@ -75,10 +72,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
-      { name: NavBarName.CreateProviderAdmin, isActive: false, disable: true }
-    )));
   }
 
   getProviderWorkshops(): void {
@@ -96,7 +89,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   ngOnInit(): void {
-    this.determineEditMode();
     this.getProviderWorkshops();
     this.isDeputy = (this.params === providerAdminRole.deputy) ? true : false;
 
@@ -113,14 +105,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     ).subscribe((val) => {
       this.isEmpty = !Boolean(val.lastName) || !Boolean(val.firstName) || !Boolean(val.phoneNumber) || !Boolean(val.email);
     });
-  }
 
-  ngAfterViewInit(): void {
-    if (this.editMode) {
-      this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +createProviderAdminSteps[params.param];
-      });
-    }
   }
 
   
@@ -130,9 +115,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
   }
 
-  // checkEmpty(form: FormGroup): boolean {
-  //   return (form?.value.lastName === '');
-  // }
 
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {

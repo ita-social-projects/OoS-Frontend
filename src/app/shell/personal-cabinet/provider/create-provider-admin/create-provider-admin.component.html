@@ -112,7 +112,7 @@
 
 
 
-    <mat-horizontal-stepper #stepper [linear]="!editMode">
+    <mat-horizontal-stepper #stepper >
 
       <mat-step [stepControl]="InfoFormGroup">
 
@@ -238,7 +238,7 @@
           </ng-container>
         </form>
 
-        <div *ngIf="!editMode" fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
+        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю згоду на обробку персональних даних</mat-checkbox>
           <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">Я не робот</mat-checkbox>
         </div>
@@ -247,14 +247,11 @@
           <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
-            [disabled]="(!isAgreed || !isNotRobot) && !editMode">Зберегти</button>
+            [disabled]="(!isAgreed || !isNotRobot)">Зберегти</button>
         </div>        
       </mat-step>
 
     </mat-horizontal-stepper>
-
-
-
 
   </div>
 
