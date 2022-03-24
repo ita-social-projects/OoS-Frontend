@@ -106,6 +106,10 @@
     
         </form>
 
+        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
+          <p class="personal-info">Додаючи користувача я погоджуюсь з Правилами користування та надаю Згоду на обробку персональних даних</p>
+        </div>
+
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
@@ -131,8 +135,7 @@
         </form>
 
         <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
-          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я надаю згоду на обробку персональних даних</mat-checkbox>
-          <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">Я не робот</mat-checkbox>
+          <p class="personal-info">Додаючи користувача я погоджуюсь з Правилами користування та надаю Згоду на обробку персональних даних</p>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
