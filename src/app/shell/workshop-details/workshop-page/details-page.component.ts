@@ -14,11 +14,11 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
-  selector: 'app-workshop-page',
-  templateUrl: './workshop-page.component.html',
-  styleUrls: ['./workshop-page.component.scss'],
+  selector: 'app-details-page',
+  templateUrl: './details-page.component.html',
+  styleUrls: ['./details-page.component.scss'],
 })
-export class WorkshopPageComponent implements OnInit, OnDestroy {
+export class DetailsPageComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
   @Input() provider: Provider;
   @Input() providerWorkshops: WorkshopCard[];

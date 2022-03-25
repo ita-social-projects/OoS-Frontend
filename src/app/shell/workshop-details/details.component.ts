@@ -17,11 +17,11 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-workshop-details',
-  templateUrl: './workshop-details.component.html',
-  styleUrls: ['./workshop-details.component.scss']
+  selector: 'app-details',
+  templateUrl: './details.component.html',
+  styleUrls: ['./details.component.scss']
 })
-export class WorkshopDetailsComponent implements OnInit, OnDestroy {
+export class DetailsComponent implements OnInit, OnDestroy {
 
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
@@ -48,7 +48,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentUrl = this.router.url;
     this.previousUrl = null;
-    
+
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {

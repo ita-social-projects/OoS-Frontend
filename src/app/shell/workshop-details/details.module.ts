@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { WorkshopPageComponent } from './workshop-page/workshop-page.component';
+import { DetailsPageComponent } from './workshop-page/details-page.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { WorkshopDetailsComponent } from './workshop-details.component';
+import { DetailsComponent } from './details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { RouterModule } from '@angular/router';
@@ -18,8 +18,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
-    WorkshopDetailsComponent,
-    WorkshopPageComponent,
+    DetailsComponent,
+    DetailsPageComponent,
     SideMenuComponent,
     WorkshopAboutComponent,
     ProviderAboutComponent,
@@ -40,4 +40,4 @@ import { SharedModule } from 'src/app/shared/shared.module';
   providers: [
   ]
 })
-export class WorkshopDetailsModule { }
+export class DetailsModule { }

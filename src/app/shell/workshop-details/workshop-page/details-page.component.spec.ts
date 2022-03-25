@@ -1,6 +1,6 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkshopPageComponent } from './workshop-page.component';
+import { DetailsPageComponent } from './details-page.component';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, Provider } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -11,8 +11,8 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NgxsModule } from '@ngxs/store';
 
 describe('WorkshopPageComponent', () => {
-  let component: WorkshopPageComponent;
-  let fixture: ComponentFixture<WorkshopPageComponent>;
+  let component: DetailsPageComponent;
+  let fixture: ComponentFixture<DetailsPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -26,7 +26,7 @@ describe('WorkshopPageComponent', () => {
         NgxsModule.forRoot([]),
       ],
       declarations: [
-        WorkshopPageComponent,
+        DetailsPageComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,
         MockReviewsComponent,
@@ -41,7 +41,7 @@ describe('WorkshopPageComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkshopPageComponent);
+    fixture = TestBed.createComponent(DetailsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
