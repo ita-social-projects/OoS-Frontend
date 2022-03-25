@@ -52,10 +52,18 @@ export class CreateTeacherComponent implements OnInit {
     });
 
     if (teacher) {
-      teacherFormGroup.patchValue(teacher, { emitEvent: false });
-      teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
+      this.activateEditMode(teacherFormGroup, teacher);
     }
     return teacherFormGroup;
+  }
+
+  /**
+    * This method fills inputs with information of edited teachers
+    */
+  private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
+    teacherFormGroup.patchValue(teacher, { emitEvent: false });
+    teacherFormGroup.addControl('teacherId', this.fb.control([teacher.id]));
+    teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
   }
 
   /**
