@@ -25,11 +25,9 @@ export class TeacherCardComponent implements OnInit {
   }
 
   private getCoverImageUrl(): void {
-    if (this.teacher.avatarImageId) {
-      this.coverImageUrl = environment.serverUrl + Constants.IMG_URL + this.teacher.avatarImageId;
-    } else {
-      this.coverImageUrl = 'assets/icons/teacher.png';
-    }
+    this.coverImageUrl = this.teacher.avatarImageId ?
+      environment.serverUrl + Constants.IMG_URL + this.teacher.avatarImageId :
+      'assets/icons/teacher.png';
   }
 
 }
