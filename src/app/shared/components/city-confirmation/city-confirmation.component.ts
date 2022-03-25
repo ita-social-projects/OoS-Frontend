@@ -20,12 +20,9 @@ export class CityConfirmationComponent implements OnInit {
   }
 
   confirmCity(): void {
-    if (this.city === Constants.KIEV) {
-      localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));    
-    } else {
-      localStorage.setItem('cityConfirmation', JSON.stringify(this.city as City));
-    }    
-    // localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));
+    this.city.name !== 'Київ' 
+      ? localStorage.setItem('cityConfirmation', JSON.stringify(this.city)) 
+      : localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV))
     this.store.dispatch(new ConfirmCity(false));
   }
 
