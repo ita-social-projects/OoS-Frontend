@@ -15,6 +15,7 @@ import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { Rate } from 'src/app/shared/models/rating';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Location } from '@angular/common';
+import { EntityType } from 'src/app/shared/enum/role';
 
 @Component({
   selector: 'app-details',
@@ -22,19 +23,15 @@ import { Location } from '@angular/common';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(UserState.selectedProvider) provider$: Observable<Provider>;
   @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.role) role$: Observable<string>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  workshop: Workshop;
-  ratings: Rate[];
-  workshopId: string;
-  previousUrl: string;
-  currentUrl: string;
+  data: Workshop | Provider;
+  dataId: string;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -46,53 +43,93 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.currentUrl = this.router.url;
-    this.previousUrl = null;
-
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.previousUrl = this.currentUrl;
-        this.currentUrl = this.router.url;
-        this.store.dispatch(new GetWorkshopById(params.id)).subscribe(() => {
-          this.workshop$.pipe(
-            filter((workshop: Workshop) => {
-              if (workshop) {
-                return true;
-              } else {
-                if (this.currentUrl !== this.previousUrl && this.previousUrl) {
-                  this.router.navigate([this.previousUrl]);
-                } else {
-                  this.location.back();
-                }
-                return false;
-              }
-            }),
-            takeUntil(this.destroy$)
-          ).subscribe((workshop: Workshop) => {
-            this.workshop = workshop;
-            this.workshopId = workshop.id;
-            this.store.dispatch(new GetProviderById(workshop.providerId));
-            this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
-            this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-              { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-              { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
-            )));
-          });
-        })
-        this.store.dispatch(new GetRateByEntityId('workshop', params.id));
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        this.dataId = params.id;
+        this.router.url.includes(EntityType.workshop) ?
+          this.getWorkshop() :
+          this.getProvider();
       });
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  /**
+  * This method get Workshop by Id, set ROutingParameters, set subscripbtion for rating action change;
+  */
+
+  private getWorkshop(): void {
+    this.store.dispatch(new GetWorkshopById(this.dataId));
+
+    this.workshop$.pipe(
+      takeUntil(this.destroy$),
+      filter((workshop: Workshop) => {
+        if (!workshop) {
+          this.setRouterParameters();
+        }
+        return !!workshop;
+      })
+    ).subscribe((workshop: Workshop) => this.getWorkshopData(workshop));
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
+      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.data.id)));
+  }
 
+  private getProvider(): void {
+    this.store.dispatch(new GetProviderById(this.dataId));
+
+    this.provider$.pipe(
+      takeUntil(this.destroy$),
+      filter((provider: Provider) => !!provider)
+    ).subscribe((provider: Provider) => this.getProviderData(provider));
+  }
+
+  /**
+  * This method detects if the workshop url was changed and navigatesl
+  */
+  private setRouterParameters(): void {
+    let currentUrl = this.router.url;
+    let previousUrl = null;
+
+    previousUrl = currentUrl;
+    currentUrl = this.router.url;
+
+    (currentUrl !== previousUrl && previousUrl) ?
+      this.router.navigate([previousUrl]) :
+      this.location.back();
+  }
+
+  /**
+  * This method get Workshop Data (provider, workshops, ratings) and set navigation path
+  */
+  private getWorkshopData(workshop: Workshop): void {
+    this.data = workshop;
+    this.store.dispatch(new GetProviderById(workshop.providerId));
+    this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
+    this.store.dispatch(new GetRateByEntityId(EntityType.workshop, workshop.id));
+    this.store.dispatch(new AddNavPath(
+      this.navigationBarService.creatNavPaths(
+        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+        { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
+      )));
+  }
+  /**
+  * This method get Provider Data (provider, workshops, ratings) and set navigation path
+  */
+  private getProviderData(provider: Provider): void {
+    this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
+    this.store.dispatch(new GetRateByEntityId(EntityType.provider, provider.id));
+    this.store.dispatch(new AddNavPath(
+      this.navigationBarService.creatNavPaths(
+        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+        { name: this.store.selectSnapshot(UserState.selectedProvider).fullTitle, isActive: false, disable: true },
+      )));
   }
 
   ngOnDestroy(): void {

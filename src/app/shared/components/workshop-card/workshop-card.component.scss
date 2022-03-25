@@ -40,7 +40,10 @@
     color: #C72A21;
   }
 }
-
+.provider-link:hover {
+    opacity: 0.5;
+    color: #3849F9;
+}
 .horizontal-card {
   display: flex;
   flex-direction: row;
