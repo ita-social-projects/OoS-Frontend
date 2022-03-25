@@ -96,7 +96,6 @@ export class UserWorkshopService {
           Object.keys(workshop.teachers[i]).forEach((teacherKey: string) => {
             formData.append(`${teachers}[${i}].${teacherKey}`, workshop.teachers[i][teacherKey]);
           });
-
         }
       } else {
         formData.append(key, workshop[key]);

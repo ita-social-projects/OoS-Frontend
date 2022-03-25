@@ -5,7 +5,6 @@ export class Teacher {
   middleName: string;
   dateOfBirth?: Date | string;
   description?: string;
-  image?: string;
   avatarImageId?: string;
   avatarImage?: File[];
 
