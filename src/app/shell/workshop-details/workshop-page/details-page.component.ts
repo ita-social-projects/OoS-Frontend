@@ -19,21 +19,20 @@ import { Constants } from 'src/app/shared/constants/constants';
   styleUrls: ['./details-page.component.scss'],
 })
 export class DetailsPageComponent implements OnInit, OnDestroy {
-  @Input() workshop: Workshop;
+  readonly Role: typeof Role = Role;
+
   @Input() provider: Provider;
+  @Input() data: Workshop | Provider;
   @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
-  readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
+
+  categoryIcons = CategoryIcons;
   selectedIndex: number;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  images: imgPath[] = [];
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
-
-  destroy$: Subject<boolean> = new Subject<boolean>();
-
-  authServer: string = environment.serverUrl;
-  images: imgPath[] = [];
 
   constructor(private route: ActivatedRoute) { }
 
@@ -53,7 +52,7 @@ export class DetailsPageComponent implements OnInit, OnDestroy {
   private getWorkshopImages(): void {
     if (this.workshop?.imageIds.length) {
       this.images = this.workshop.imageIds.map((imgId) => {
-        return { path: this.authServer + Constants.IMG_URL + imgId };
+        return { path: environment.serverUrl + Constants.IMG_URL + imgId };
       });
     } else {
       this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];

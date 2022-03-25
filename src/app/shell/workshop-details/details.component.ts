@@ -57,10 +57,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
       behavior: 'smooth'
     });
   }
+
   /**
   * This method get Workshop by Id, set ROutingParameters, set subscripbtion for rating action change;
   */
-
   private getWorkshop(): void {
     this.store.dispatch(new GetWorkshopById(this.dataId));
 
@@ -81,9 +81,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
       .subscribe(() => this.store.dispatch(new GetWorkshopById(this.data.id)));
   }
 
+  /**
+   * This method get provider by Id
+   */
   private getProvider(): void {
     this.store.dispatch(new GetProviderById(this.dataId));
-
     this.provider$.pipe(
       takeUntil(this.destroy$),
       filter((provider: Provider) => !!provider)
@@ -111,24 +113,28 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private getWorkshopData(workshop: Workshop): void {
     this.data = workshop;
     this.store.dispatch(new GetProviderById(workshop.providerId));
-    this.store.dispatch(new GetWorkshopsByProviderId(workshop.providerId));
     this.store.dispatch(new GetRateByEntityId(EntityType.workshop, workshop.id));
-    this.store.dispatch(new AddNavPath(
-      this.navigationBarService.creatNavPaths(
-        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-        { name: this.store.selectSnapshot(UserState.selectedWorkshop).title, isActive: false, disable: true },
-      )));
+    this.getEntityData(workshop.providerId, this.store.selectSnapshot(UserState.selectedWorkshop).title);
+
   }
   /**
   * This method get Provider Data (provider, workshops, ratings) and set navigation path
   */
   private getProviderData(provider: Provider): void {
-    this.store.dispatch(new GetWorkshopsByProviderId(provider.id));
+    this.data = provider;
     this.store.dispatch(new GetRateByEntityId(EntityType.provider, provider.id));
+    this.getEntityData(provider.id, this.store.selectSnapshot(UserState.selectedProvider).fullTitle);
+  }
+
+  /**
+  * This method get entityt data (provider Wworkshops and set navigation path);
+  */
+  getEntityData(providerId: string, title: string): void {
+    this.store.dispatch(new GetWorkshopsByProviderId(providerId));
     this.store.dispatch(new AddNavPath(
       this.navigationBarService.creatNavPaths(
         { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-        { name: this.store.selectSnapshot(UserState.selectedProvider).fullTitle, isActive: false, disable: true },
+        { name: title, isActive: false, disable: true },
       )));
   }
 
