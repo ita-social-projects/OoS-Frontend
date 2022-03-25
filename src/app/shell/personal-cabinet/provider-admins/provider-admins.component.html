@@ -54,7 +54,7 @@
 </ng-template>
 
 <ng-template #UsersListFiltered let-filterValue>
-  <ng-container *ngIf="filterProviderAdmins?.length else isEmptyList;">
+  <ng-container *ngIf="filteredProviderAdmins?.length else isEmptyList;">
     <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue"></app-users-list>
   </ng-container>
 </ng-template>
