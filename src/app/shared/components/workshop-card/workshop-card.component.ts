@@ -124,7 +124,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       });
   }
 
-  setCoverImage(workshop: WorkshopCard): void {
+  private setCoverImage(workshop: WorkshopCard): void {
     workshop['_meta'] = workshop.coverImageId ?
       environment.serverUrl + Constants.IMG_URL + workshop.coverImageId :
       this.categoryIcons[workshop.directionId];
