@@ -128,6 +128,7 @@
     [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
     [minCharachters]="1"
     [maxCharachters]="256">
+    [minCharachters]="10" [maxCharachters]="256">
   </app-validation-hint-for-input>
 
   <label class="step-label">Серія та номер свідоцтва про народження</label>
@@ -142,8 +143,7 @@
     [minLength]="ChildFormGroup.get('certificateOfBirth').errors?.minlength"
     [maxLength]="ChildFormGroup.get('certificateOfBirth').errors?.maxlength"
     [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
-    [minCharachters]="10"
-    [maxCharachters]="20">
+    [minCharachters]="10" [maxCharachters]="20">
   </app-validation-hint-for-input>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1" class="addChild">
