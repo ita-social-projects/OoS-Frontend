@@ -36,10 +36,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   isFavorite: boolean;
   favoriteWorkshopId: Favorite;
   pendingApplicationAmount: number;
-  role: string;
-  coverImageUrl: string;
+  workshopData: WorkshopCard;
 
-  @Input() workshop: WorkshopCard;
+  @Input() set workshop(workshop: WorkshopCard) {
+    workshop['_meta'] = workshop.coverImageId ?
+      this.authServer + Constants.IMG_URL + workshop.coverImageId :
+      this.categoryIcons[workshop.directionId];
+    this.workshopData = workshop;
+  };
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
@@ -130,16 +134,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       ).subscribe((favorites: Favorite[]) => {
         this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshop.workshopId);
       });
-    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => this.role = role);
-    this.getCoverImageUrl();
-  }
-
-  private getCoverImageUrl(): void {
-    if (this.workshop.coverImageId) {
-      this.coverImageUrl = this.authServer + Constants.IMG_URL + this.workshop.coverImageId;
-    } else {
-      this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
-    }
   }
 }
 
