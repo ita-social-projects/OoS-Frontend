@@ -53,7 +53,7 @@ export class CreateTeacherComponent implements OnInit {
 
     if (teacher) {
       teacherFormGroup.patchValue(teacher, { emitEvent: false });
-      teacher?.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
+      teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
     }
     return teacherFormGroup;
   }
