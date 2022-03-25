@@ -62,8 +62,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   role$: Observable<string>;
   role: string;
-  @Select(UserState.selectedWorkshop)
-  workshop$: Observable<WorkshopCard>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
