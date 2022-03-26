@@ -1,4 +1,4 @@
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { delay, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
@@ -12,9 +12,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
-import { Rate } from 'src/app/shared/models/rating';
 import { AppState } from 'src/app/shared/store/app.state';
-import { Location } from '@angular/common';
 import { EntityType } from 'src/app/shared/enum/role';
 
 @Component({
@@ -29,8 +27,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.role) role$: Observable<string>;
 
-  data: Workshop | Provider;
-  dataId: string;
+  workshop: Workshop;
+  provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -39,53 +37,48 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     public navigationBarService: NavigationBarService,
     private actions$: Actions,
-    private location: Location,
   ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.dataId = params.id;
         this.router.url.includes(EntityType.workshop) ?
-          this.getWorkshop() :
-          this.getProvider();
-      });
+          this.getWorkshop(params.id) :
+          this.getProvider(params.id);
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
   }
 
   /**
-  * This method get Workshop by Id, set ROutingParameters, set subscripbtion for rating action change;
+  * This method get Workshop by Id, set subscripbtion for rating action change;
   */
-  private getWorkshop(): void {
-    this.store.dispatch(new GetWorkshopById(this.dataId));
+  private getWorkshop(workshopId: string): void {
+    this.store.dispatch(new GetWorkshopById(workshopId));
 
-    this.workshop$.pipe(
-      takeUntil(this.destroy$),
-      filter((workshop: Workshop) => {
-        if (!workshop) {
-          this.setRouterParameters();
-        }
-        return !!workshop;
-      })
-    ).subscribe((workshop: Workshop) => this.getWorkshopData(workshop));
+    this.workshop$
+      .pipe(
+        filter((workshop: Workshop) => !!workshop),
+        takeUntil(this.destroy$),
+        delay(0))
+      .subscribe((workshop: Workshop) => this.getWorkshopData(workshop));
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.data.id)));
+      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
   }
 
   /**
    * This method get provider by Id
    */
-  private getProvider(): void {
-    this.store.dispatch(new GetProviderById(this.dataId));
+  private getProvider(providerId: string): void {
+    this.store.dispatch(new GetProviderById(providerId));
     this.provider$.pipe(
       takeUntil(this.destroy$),
       filter((provider: Provider) => !!provider)
@@ -93,35 +86,23 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method detects if the workshop url was changed and navigatesl
-  */
-  private setRouterParameters(): void {
-    let currentUrl = this.router.url;
-    let previousUrl = null;
-
-    previousUrl = currentUrl;
-    currentUrl = this.router.url;
-
-    (currentUrl !== previousUrl && previousUrl) ?
-      this.router.navigate([previousUrl]) :
-      this.location.back();
-  }
-
-  /**
   * This method get Workshop Data (provider, workshops, ratings) and set navigation path
   */
   private getWorkshopData(workshop: Workshop): void {
-    this.data = workshop;
+    this.workshop = workshop;
     this.store.dispatch(new GetProviderById(workshop.providerId));
     this.store.dispatch(new GetRateByEntityId(EntityType.workshop, workshop.id));
     this.getEntityData(workshop.providerId, this.store.selectSnapshot(UserState.selectedWorkshop).title);
-
+    this.provider$.pipe(
+      takeUntil(this.destroy$),
+      filter((provider: Provider) => !!provider)
+    ).subscribe((provider: Provider) => this.provider = provider);
   }
   /**
   * This method get Provider Data (provider, workshops, ratings) and set navigation path
   */
   private getProviderData(provider: Provider): void {
-    this.data = provider;
+    this.provider = provider;
     this.store.dispatch(new GetRateByEntityId(EntityType.provider, provider.id));
     this.getEntityData(provider.id, this.store.selectSnapshot(UserState.selectedProvider).fullTitle);
   }
