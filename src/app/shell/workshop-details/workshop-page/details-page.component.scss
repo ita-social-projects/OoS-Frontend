@@ -30,7 +30,7 @@
       font-size: 20px;
     }
   }
-  .workshop {
+  .details {
     &-wrapper{
       margin: 0 2rem 2rem 2rem;
     }
@@ -39,7 +39,6 @@
       width: 3rem;
       padding: 1rem;
     }
-
     &-link {
       display: flex;
       flex-direction: row;
@@ -52,6 +51,7 @@
     }
   }
 }
+
 :host ::ng-deep .mat-tab-label-content, .nav, .icon-text {
   font-family: Innerspace;
   font-style: normal;
