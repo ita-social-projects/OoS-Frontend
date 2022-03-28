@@ -28,7 +28,7 @@ describe('DetailsComponent', () => {
       declarations: [
         DetailsComponent,
         MockSideMenuComponent,
-        MockWorkshopPageComponent
+        MockDetailsPageComponent
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     })
@@ -50,10 +50,10 @@ describe('DetailsComponent', () => {
 });
 
 @Component({
-  selector: 'app-workshop-page',
+  selector: 'app-details-page',
   template: ''
 })
-class MockWorkshopPageComponent {
+class MockDetailsPageComponent {
   @Input() workshop: Workshop;
   @Input() providerData: Provider;
   @Input() providerWorkshops: Workshop[];

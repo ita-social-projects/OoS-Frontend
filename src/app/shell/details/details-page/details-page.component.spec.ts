@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NgxsModule } from '@ngxs/store';
 
-describe('WorkshopPageComponent', () => {
+describe('DetailsPageComponent', () => {
   let component: DetailsPageComponent;
   let fixture: ComponentFixture<DetailsPageComponent>;
 
