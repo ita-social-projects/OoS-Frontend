@@ -37,7 +37,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     RouterModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [
-  ]
+  providers: []
 })
 export class DetailsModule { }
