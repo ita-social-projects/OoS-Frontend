@@ -91,7 +91,6 @@
   }
   .horizontal-card {
     max-width: 100%;
-    margin: 1vw;
     width: 90vw;
     .card-img{
       flex: 1;
@@ -115,8 +114,8 @@
       width: 150px;
     }
     .mat-card-header img {
-      width: 24px;
-      height: 24px;
+      width: 21px;
+      height: 21px;
     }
     .hide {
       display: none;
@@ -129,7 +128,6 @@
     }
     .card-title, .mat-card-header{
       font-size: 15px;
-      margin-bottom: 0.2rem;
     }
   }
 }

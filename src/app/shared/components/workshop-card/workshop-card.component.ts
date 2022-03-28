@@ -31,15 +31,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
-  private readonly authServer: string = environment.serverUrl;
-
   isFavorite: boolean;
-  favoriteWorkshopId: Favorite;
   pendingApplicationAmount: number;
-  role: string;
-  coverImageUrl: string;
+  workshopData: WorkshopCard;
 
-  @Input() workshop: WorkshopCard;
+  @Input() set workshop(workshop: WorkshopCard) {
+    this.setCoverImage(workshop);
+  };
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
@@ -48,8 +46,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
     if (applications?.length) {
-      this.pendingApplicationAmount = applications.filter((application: Application) => {
-        return (application.workshopId === this.workshop.workshopId && application.status === ApplicationStatus.Pending);
+      applications.filter((application: Application) => {
+        return (application.workshopId === this.workshopData.workshopId && application.status === ApplicationStatus.Pending);
       }).length;
     } else {
       this.pendingApplicationAmount = 0;
@@ -63,8 +61,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
-  @Select(UserState.selectedWorkshop)
-  workshop$: Observable<WorkshopCard>;
+  role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -72,17 +69,12 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if (!this.workshop) {
-      this.workshop$.pipe(
-        filter((workshop: WorkshopCard) => !!workshop),
-        takeUntil(this.destroy$))
-        .subscribe((workshop: WorkshopCard) => {
-          this.workshop = workshop;
-          this.getData();
-        });
-    } else {
-      this.getData();
-    }
+    this.role$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((role: string) => {
+        this.role = role;
+        (this.role === Role.parent) && this.getFavoriteWorkshops();
+      })
   }
 
   onDelete(): void {
@@ -122,24 +114,21 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  private getData(): void {
+  private getFavoriteWorkshops(): void {
     this.favoriteWorkshops$
       .pipe(
         takeUntil(this.destroy$),
         filter((favorites: Favorite[]) => !!favorites)
       ).subscribe((favorites: Favorite[]) => {
-        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshop.workshopId);
+        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
       });
-    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => this.role = role);
-    this.getCoverImageUrl();
   }
 
-  private getCoverImageUrl(): void {
-    if (this.workshop.coverImageId) {
-      this.coverImageUrl = this.authServer + Constants.IMG_URL + this.workshop.coverImageId;
-    } else {
-      this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
-    }
+  private setCoverImage(workshop: WorkshopCard): void {
+    workshop['_meta'] = workshop.coverImageId ?
+      environment.serverUrl + Constants.IMG_URL + workshop.coverImageId :
+      this.categoryIcons[workshop.directionId];
+    this.workshopData = workshop;
   }
 }
 
