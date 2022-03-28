@@ -49,7 +49,7 @@
               {{roles[user.role]}}</a>
             <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
             <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
-            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/administration'" (click)="changeView()">Адміністрування</a>
+            <a *ngIf="(user$ | async).role === Role.provider" [routerLink]="'./personal-cabinet/administration/all'" (click)="changeView()">Адміністрування</a>
             <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
             <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
               (click)="changeView()">Улюблене</a>
