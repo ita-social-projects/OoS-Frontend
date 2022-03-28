@@ -16,6 +16,7 @@ export class CreateTeacherComponent implements OnInit {
 
   TeacherFormArray: FormArray = new FormArray([]);
   @Input() teachers: Teacher[];
+  @Input() isRelease2: boolean;
   @Output() passTeacherFormArray = new EventEmitter();
 
   constructor(private fb: FormBuilder, private matDialog: MatDialog) { }
@@ -42,7 +43,7 @@ export class CreateTeacherComponent implements OnInit {
    */
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
-      img: new FormControl(''),
+      avatarImage: new FormControl(''),
       lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
@@ -50,8 +51,19 @@ export class CreateTeacherComponent implements OnInit {
       description: new FormControl('', Validators.required),
     });
 
-    teacher && teacherFormGroup.patchValue(teacher, { emitEvent: false });
+    if (teacher) {
+      this.activateEditMode(teacherFormGroup, teacher);
+    }
     return teacherFormGroup;
+  }
+
+  /**
+    * This method fills inputs with information of edited teachers
+    */
+  private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
+    teacherFormGroup.patchValue(teacher, { emitEvent: false });
+    teacherFormGroup.addControl('teacherId', this.fb.control([teacher.id]));
+    teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
   }
 
   /**
@@ -62,7 +74,7 @@ export class CreateTeacherComponent implements OnInit {
     const status: string = this.TeacherFormArray.controls[index].status;
     const isTouched: boolean = this.TeacherFormArray.controls[index].touched;
 
-    if(status !== 'INVALID' || isTouched) {
+    if (status !== 'INVALID' || isTouched) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: {
@@ -73,11 +85,11 @@ export class CreateTeacherComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result: boolean) => {
         result && this.TeacherFormArray.removeAt(index);
-      });  
+      });
     }
     else {
       this.TeacherFormArray.removeAt(index);
-    } 
+    }
   }
 
 }

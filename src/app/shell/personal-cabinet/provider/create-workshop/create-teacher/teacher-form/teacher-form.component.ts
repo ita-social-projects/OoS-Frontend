@@ -16,6 +16,8 @@ export class TeacherFormComponent implements OnInit {
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
+  @Input() isRelease2: boolean;
+
   @Output() deleteForm = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {

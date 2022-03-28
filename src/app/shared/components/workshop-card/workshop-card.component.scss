@@ -1,8 +1,4 @@
 @import "src/app/shared/styles/cards.scss";
-.card-img-full{
-  width: 100%;
-  max-height: 185px;
-}
 .card-img-mobile{
   width: 100%;
 }
@@ -59,10 +55,10 @@
     display: flex;
     max-width: 100% !important;
     min-width: inherit;
+    height: min-content;
     object-fit: cover;
     object-position: bottom;
   }
-
   .wrap-for-details {
     padding-bottom: 0;
   }
