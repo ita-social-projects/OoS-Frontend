@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NgxsModule } from '@ngxs/store';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 describe('DetailsPageComponent', () => {
@@ -26,6 +27,7 @@ describe('DetailsPageComponent', () => {
         MatChipsModule,
         IvyCarouselModule,
         NgxsModule.forRoot([]),
+        BrowserAnimationsModule
       ],
       declarations: [
         DetailsPageComponent,
