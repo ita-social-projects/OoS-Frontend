@@ -1,11 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CreateFormComponent } from '../../create-form/create-form.component';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -20,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-create-provider-admin',
@@ -32,6 +31,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   provider$: Observable<Provider>;
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
+  @ViewChild('stepper') stepper: MatStepper;
   
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
@@ -39,6 +39,17 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   params = this.route.snapshot.paramMap.get('param');
   isDeputy = false;
   managedWorkshopIds: string[];
+  isAgreed: boolean;
+  isNotRobot: boolean;
+  isEmpty = true;
+
+  InfoFormGroup: FormGroup;
+  AccessFormGroup: FormGroup;
+
+  RobotFormControl = new FormControl(false);
+  AgreementFormControl = new FormControl(false);
+
+
 
   constructor(store: Store,
     route: ActivatedRoute,
@@ -61,10 +72,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
-      { name: NavBarName.CreateProviderAdmin, isActive: false, disable: true }
-    )));
   }
 
   getProviderWorkshops(): void {
@@ -82,10 +89,32 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   ngOnInit(): void {
-    this.determineEditMode();
     this.getProviderWorkshops();
     this.isDeputy = (this.params === providerAdminRole.deputy) ? true : false;
+
+    this.RobotFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => this.isNotRobot = val);
+
+    this.AgreementFormControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => this.isAgreed = val);
+
+    this.ProviderAdminFormGroup.valueChanges.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val) => {
+      this.isEmpty = !Boolean(val.lastName) || !Boolean(val.firstName) || !Boolean(val.phoneNumber) || !Boolean(val.email);
+    });
+
   }
+
+  
+  checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach(key => {
+      form.get(key).markAsTouched();
+    });
+  }
+
 
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
