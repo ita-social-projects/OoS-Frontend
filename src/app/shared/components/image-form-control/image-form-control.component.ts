@@ -24,7 +24,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   decodedImages: DecodedImage[] = [];
   touched = false;
   disabled = false;
-  authServer: string = environment.serverUrl;
 
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
@@ -88,9 +87,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(this.authServer + Constants.IMG_URL + imageId, null))
+      this.decodedImages.push(new DecodedImage(environment.serverUrl + Constants.IMG_URL + imageId, null))
     })
-    console.log(this.decodedImages)
   }
 
   onChange = (array: File[]): void => { }

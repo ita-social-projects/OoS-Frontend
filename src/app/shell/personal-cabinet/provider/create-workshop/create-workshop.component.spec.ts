@@ -77,4 +77,5 @@ class MockCreateAddressComponent {
 })
 class MockCreateTeacherComponent {
   @Input() teachers: Teacher[];
+  @Input() isRelease2: boolean;
 }
