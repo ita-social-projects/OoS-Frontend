@@ -22,7 +22,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     private router: Router,
   ) { }
 
-  searchValue = new FormControl('', [Validators.maxLength(200)]);
+  searchValue = new FormControl('', [Validators.maxLength(256)]);
   isResultPage = false;
   searchedText: string;
 
@@ -50,7 +50,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
+      .subscribe((text: string) => this.searchValue.setValue(text, { emitEvent: false }));
   }
 
   onSearch(): void {

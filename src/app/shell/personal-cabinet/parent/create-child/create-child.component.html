@@ -4,7 +4,7 @@
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
       <p class="wrapper-text" *ngIf="!editMode">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю
         інформацію
-        у вашому особистому кабінеті.</p>
+        у вашому особистому кабінеті. </p>
     </div>
 
     <ng-container>
@@ -14,9 +14,12 @@
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
-      <button class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid || ChildrenFormArray.length > 21">
+      <button *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
+      <ng-template #noMoreChildren>
+        <p>Можливо додати не більш, ніж {{childrenMaxAmount}} дітей</p>
+      </ng-template>
     </div>
 
     <div [ngClass]="{'hidden': editMode}" class="step" fxLayout="row" fxLayoutAlign="start center">
@@ -32,10 +35,10 @@
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="'/personal-cabinet/parent/info'"><button mat-raised-button
           class="btn btn-cancel">СКАСУВАТИ</button></a>
-      <button *ngIf='!editMode' [disabled]="(!isAgreed && !editMode)" class="btn" mat-button type="submit"
-        (click)="onSubmit()">ЗБЕРЕГТИ</button>
+      <button *ngIf='!editMode' [disabled]="!isAgreed || isEmpty" class="btn" mat-button type="submit"
+        (click)="onSubmit()">ЗБЕРЕГТИ</button>  
       <button *ngIf='editMode' [disabled]="isEmpty" class="btn" mat-button type="submit"
-      (click)="onSubmit()">ЗБЕРЕГТИ</button>
+        (click)="onSubmit()">ЗБЕРЕГТИ</button>
     </div>
 
   </div>

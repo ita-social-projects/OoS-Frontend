@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Child } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { ChildrenService } from 'src/app/shared/services/children/children.service';
@@ -21,6 +21,7 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-create-child',
@@ -35,9 +36,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   AgreementFormControl = new FormControl(false);
   isAgreed = false;
   isEmpty = false;
+  childrenMaxAmount = Constants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
+
+  @Select(UserState.children)
+  childrenCards$!: Observable<ChildCards[]>
 
   constructor(
     private childrenService: ChildrenService,
@@ -49,17 +54,17 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     super(store, route, navigationBarService);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {      
     this.determineEditMode();
     this.addNavPath();
-
-    if (!this.editMode) {
+    
+    if (!this.editMode) {      
       this.ChildrenFormArray.push(this.newForm());
     }
-
+    
     this.socialGroups$
-      .pipe(
-        takeUntil(this.destroy$),
+    .pipe(
+      takeUntil(this.destroy$),
       ).subscribe((socialGroups: SocialGroup[]) => {
         if (socialGroups.length === 0) {
           this.store.dispatch(new GetSocialGroup());
@@ -72,10 +77,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     this.ChildrenFormArray.valueChanges.pipe(
       takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => {      
-      this.isEmpty = !Boolean(val[0].lastName) || !Boolean(val[0].firstName);
-    });
-
+    ).subscribe((val: FormGroup) => 
+      this.isEmpty = !val[0].lastName || !val[0].firstName || !val[0].middleName || !val[0].dateOfBirth);
   }
 
   addNavPath(): void {
@@ -142,6 +145,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     this.subscribeOnDirtyForm(childFormGroup);
 
+
     if (this.editMode) {
       child.socialGroupId = child.socialGroupId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
       childFormGroup.patchValue(child, { emitEvent: false });
@@ -154,7 +158,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method create new FormGroup add new FormGroup to the FormArray
    */
   addChild(): void {
-    this.ChildrenFormArray.push(this.newForm());
+    this.ChildrenFormArray.push(this.newForm());    
   }
 
   /**
@@ -196,7 +200,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       } else {
         this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
           const child: Child = new Child(form.value, parent.id);
-          this.store.dispatch(new CreateChildren(child));
+          this.store.dispatch(new CreateChildren(child));                            
         });
       }
     }
@@ -220,4 +224,5 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       form.get(key).markAsTouched();
     });
   }
+  
 }
