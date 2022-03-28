@@ -129,6 +129,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       environment.serverUrl + Constants.IMG_URL + workshop.coverImageId :
       this.categoryIcons[workshop.directionId];
     this.workshopData = workshop;
+    console.log(this.workshopData)
   }
 }
 
