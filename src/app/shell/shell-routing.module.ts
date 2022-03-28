@@ -24,7 +24,7 @@ import { SupportEditComponent } from './admin-tools/platform/support-edit/suppor
 import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
 import { IsMobileGuard } from './is-mobile.guard';
-import { DetailsComponent } from './workshop-details/details.component';
+import { DetailsComponent } from './details/details.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -72,11 +72,11 @@ const routes: Routes = [
   },
   {
     path: 'details/workshop/:id', component: DetailsComponent,
-    loadChildren: () => import('./workshop-details/details.module').then(m => m.DetailsModule),
+    loadChildren: () => import('./details/details.module').then(m => m.DetailsModule),
   },
   {
     path: 'details/provider/:id', component: DetailsComponent,
-    loadChildren: () => import('./workshop-details/details.module').then(m => m.DetailsModule),
+    loadChildren: () => import('./details/details.module').then(m => m.DetailsModule),
   },
   {
     path: 'create-workshop/:param', component: CreateWorkshopComponent,
