@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
-import { EntityType, Role } from 'src/app/shared/enum/role';
+import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { AppState } from 'src/app/shared/store/app.state';

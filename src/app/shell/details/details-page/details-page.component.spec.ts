@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DetailsPageComponent } from './details-page.component';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, Provider } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,6 +9,8 @@ import { Teacher } from '../../../shared/models/teacher.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NgxsModule } from '@ngxs/store';
+import { Provider } from 'src/app/shared/models/provider.model';
+
 
 describe('DetailsPageComponent', () => {
   let component: DetailsPageComponent;
@@ -44,6 +46,8 @@ describe('DetailsPageComponent', () => {
     fixture = TestBed.createComponent(DetailsPageComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
+    component.provider = {} as Provider;
+
     fixture.detectChanges();
   });
 
