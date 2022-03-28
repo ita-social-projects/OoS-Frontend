@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { FeaturesList } from '../../models/featuresList.model';
@@ -30,6 +30,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   showModalReg = false;
   title = 'out-of-school';
   visibleSidenav: boolean;
+  user: User;
 
   @Select(NavigationState.sidenavOpenTrue)
   sidenavOpenTrue$: Observable<boolean>;
@@ -57,6 +58,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible);
+      this.user$.pipe(
+        filter((user) => !!user),
+        takeUntil(this.destroy$)
+      ).subscribe((user: User) => {
+        this.user = user;
+      });
   }
 
   login(): void {
