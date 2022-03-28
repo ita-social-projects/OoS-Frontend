@@ -68,3 +68,20 @@ position: relative;
     min-width: inherit;
     padding: 0;
   }
+
+  @media (max-width: 1200px) {
+    .search-area {
+      position: static;
+      margin-bottom: 1rem;
+      justify-content: space-between;
+
+      .mat-menu-panel.header_menu {
+        background-color: #fff;
+      }
+
+      .mat-menu-item {
+        color: rgba(0,0,0,.87);
+      }
+      
+    }
+  }

@@ -5,110 +5,148 @@
       <p class="wrapper-text">Дані для входу будуть надіслані на Емейл користувача для логування в систему. </p>
     </div>
 
-    <form [formGroup]="ProviderAdminFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step form">
+    <mat-horizontal-stepper #stepper >
 
-      <label class="step-label">Прізвище<span class="step-required">*</span></label>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
-      </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="ProviderAdminFormGroup.get('lastName').errors?.required"
-        [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validTextField"
-        [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
-        [forbiddenCharacter]="ProviderAdminFormGroup.get('lastName').errors?.pattern?.requiredPattern">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validLength"
-        [minLength]="ProviderAdminFormGroup.get('lastName').errors?.minlength"
-        [maxLength]="ProviderAdminFormGroup.get('lastName').errors?.maxlength"
-        [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
-        [minCharachters]="1" [maxCharachters]="30">
-      </app-validation-hint-for-input>
+      <mat-step [stepControl]="InfoFormGroup">
 
-      <label class="step-label">Ім'я<span class="step-required">*</span></label>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
-      </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="ProviderAdminFormGroup.get('firstName').errors?.required"
-        [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validTextField"
-        [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
-        [forbiddenCharacter]="ProviderAdminFormGroup.get('firstName').errors?.pattern?.requiredPattern">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validLength"
-        [minLength]="ProviderAdminFormGroup.get('firstName').errors?.minlength"
-        [maxLength]="ProviderAdminFormGroup.get('firstName').errors?.maxlength"
-        [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
-        [minCharachters]="1" [maxCharachters]="30">
-      </app-validation-hint-for-input>
+        <ng-template matStepLabel>
+          <p class="step-name">Особиста інформація</p>
+        </ng-template>
 
-      <label class="step-label">По-батькові<span class="step-required">*</span></label>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
-      </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="ProviderAdminFormGroup.get('middleName').errors?.required"
-        [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validTextField"
-        [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
-        [forbiddenCharacter]="ProviderAdminFormGroup.get('middleName').errors?.pattern?.requiredPattern">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validLength"
-        [minLength]="ProviderAdminFormGroup.get('middleName').errors?.minlength"
-        [maxLength]="ProviderAdminFormGroup.get('middleName').errors?.maxlength"
-        [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
-        [minCharachters]="1" [maxCharachters]="30">
-      </app-validation-hint-for-input>
 
-      <label class="step-label"> Телефон <span class="step-required">*</span></label>
-      <mat-form-field>
-        <div fxLayout='row' fxLayoutAlign='start'>
-          <span class="step-text">{{constants.PHONE_PREFIX}}</span>
-          <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-            ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+        <form [formGroup]="ProviderAdminFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step form">
+
+          <label class="step-label">Прізвище<span class="step-required">*</span></label>
+          <mat-form-field>
+            <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
+          </mat-form-field>
+          <app-validation-hint-for-input type="requiredEmptyField"
+            [isEmptyCheck]="ProviderAdminFormGroup.get('lastName').errors?.required"
+            [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validTextField"
+            [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
+            [forbiddenCharacter]="ProviderAdminFormGroup.get('lastName').errors?.pattern?.requiredPattern">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validLength"
+            [minLength]="ProviderAdminFormGroup.get('lastName').errors?.minlength"
+            [maxLength]="ProviderAdminFormGroup.get('lastName').errors?.maxlength"
+            [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
+            [minCharachters]="1" [maxCharachters]="30">
+          </app-validation-hint-for-input>
+    
+          <label class="step-label">Ім'я<span class="step-required">*</span></label>
+          <mat-form-field>
+            <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
+          </mat-form-field>
+          <app-validation-hint-for-input type="requiredEmptyField"
+            [isEmptyCheck]="ProviderAdminFormGroup.get('firstName').errors?.required"
+            [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validTextField"
+            [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
+            [forbiddenCharacter]="ProviderAdminFormGroup.get('firstName').errors?.pattern?.requiredPattern">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validLength"
+            [minLength]="ProviderAdminFormGroup.get('firstName').errors?.minlength"
+            [maxLength]="ProviderAdminFormGroup.get('firstName').errors?.maxlength"
+            [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
+            [minCharachters]="1" [maxCharachters]="30">
+          </app-validation-hint-for-input>
+    
+          <label class="step-label">По-батькові<span class="step-required">*</span></label>
+          <mat-form-field>
+            <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
+          </mat-form-field>
+          <app-validation-hint-for-input type="requiredEmptyField"
+            [isEmptyCheck]="ProviderAdminFormGroup.get('middleName').errors?.required"
+            [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validTextField"
+            [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
+            [forbiddenCharacter]="ProviderAdminFormGroup.get('middleName').errors?.pattern?.requiredPattern">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validLength"
+            [minLength]="ProviderAdminFormGroup.get('middleName').errors?.minlength"
+            [maxLength]="ProviderAdminFormGroup.get('middleName').errors?.maxlength"
+            [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
+            [minCharachters]="1" [maxCharachters]="30">
+          </app-validation-hint-for-input>
+    
+          <label class="step-label"> Телефон <span class="step-required">*</span></label>
+          <mat-form-field>
+            <div fxLayout='row' fxLayoutAlign='start'>
+              <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
+                ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+            </div>
+          </mat-form-field>
+          <app-validation-hint-for-input type="requiredEmptyField"
+            [isEmptyCheck]="ProviderAdminFormGroup.get('phoneNumber').errors?.required"
+            [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="minDigitsLength"
+            [minLength]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength"
+            [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched"
+            [minCharachters]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
+          </app-validation-hint-for-input>
+    
+          <label class="step-label"> Емейл <span class="step-required">*</span></label>
+          <mat-form-field>
+            <input matInput class="step-input" type="email" formControlName="email">
+          </mat-form-field>
+          <app-validation-hint-for-input type="requiredEmptyField"
+            [isEmptyCheck]="ProviderAdminFormGroup.get('email').errors?.required"
+            [invalid]="ProviderAdminFormGroup.get('email').invalid && ProviderAdminFormGroup.get('email').touched">
+          </app-validation-hint-for-input>
+          <app-validation-hint-for-input type="validEmail"
+            [isEmailCheck]="ProviderAdminFormGroup.get('email').errors?.email"
+            [invalid]="ProviderAdminFormGroup.get('email').invalid && ProviderAdminFormGroup.get('email').touched">
+          </app-validation-hint-for-input>
+    
+        </form>
+
+        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
+          <p class="personal-info">Додаючи користувача я погоджуюсь з <a href="/info/about" class="about-link"><strong>Правилами користування</strong></a> та надаю Згоду на обробку персональних даних</p>
         </div>
-      </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="ProviderAdminFormGroup.get('phoneNumber').errors?.required"
-        [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="minDigitsLength"
-        [minLength]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength"
-        [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched"
-        [minCharachters]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
-      </app-validation-hint-for-input>
 
-      <label class="step-label"> Емейл <span class="step-required">*</span></label>
-      <mat-form-field>
-        <input matInput class="step-input" type="email" formControlName="email">
-      </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="ProviderAdminFormGroup.get('email').errors?.required"
-        [invalid]="ProviderAdminFormGroup.get('email').invalid && ProviderAdminFormGroup.get('email').touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validEmail"
-        [isEmailCheck]="ProviderAdminFormGroup.get('email').errors?.email"
-        [invalid]="ProviderAdminFormGroup.get('email').invalid && ProviderAdminFormGroup.get('email').touched">
-      </app-validation-hint-for-input>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" 
+            mat-raised-button matStepperNext 
+            (click)="checkValidation(ProviderAdminFormGroup)"
+            [disabled]="isEmpty"
+          >Далі</button>
+        </div>
 
-      <ng-container *ngIf="(!isDeputy)">
-        <label class="step-label"> Гуртки <span class="step-required">*</span></label>
-        <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)" [dropdownContainerClass]="'create-admin'">
-        </app-workshop-checkbox-dropdown>
-      </ng-container>
+      </mat-step>
 
-    </form>
+      <mat-step [stepControl]="ProviderAdminFormGroup">
+        <ng-template matStepLabel>
+          <p class="step-name">Керування доступами</p>
+        </ng-template>
+        <form fxLayout='column' fxLayoutAlign='center space-between' class="step form">
+          <ng-container *ngIf="(!isDeputy)">
+            <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span class="step-required">*</span></label>
+            <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)" [dropdownContainerClass]="'create-admin'">
+            </app-workshop-checkbox-dropdown>
+          </ng-container>
+        </form>
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/personal-cabinet/administration'"><button mat-raised-button
-          class="btn btn-cancel">СКАСУВАТИ</button></a>
-      <button [disabled]="!ProviderAdminFormGroup.valid" class="btn" mat-button type="submit"
-        (click)="onSubmit()">ЗБЕРЕГТИ</button>
-    </div>
+        <div fxLayout='column' fxLayoutAlign='start start' class="wrapper-check-box step">
+          <p class="personal-info">Додаючи користувача я погоджуюсь з <a href="/info/about" class="about-link"><strong>Правилами користування</strong></a> та надаю Згоду на обробку персональних даних</p>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-button type="submit" (click)="onSubmit()"
+            [disabled]="false">Зберегти</button>
+        </div>        
+      </mat-step>
+
+    </mat-horizontal-stepper>
 
   </div>
 
