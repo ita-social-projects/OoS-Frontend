@@ -18,7 +18,7 @@ export class CityConfirmationComponent {
   confirmCity(): void {
     this.city.name === 'Київ' 
       ? localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV)) 
-      : localStorage.setItem('cityConfirmation', JSON.stringify(this.city))
+      : localStorage.setItem('cityConfirmation', JSON.stringify(this.city as City))
     this.store.dispatch(new ConfirmCity(false));
   }
 
