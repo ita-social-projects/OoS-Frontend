@@ -13,7 +13,7 @@ const MockUser = {
   role: '',
 };
 
-describe('WorkshopDetailsComponent', () => {
+describe('DetailsComponent', () => {
   let component: DetailsComponent;
   let fixture: ComponentFixture<DetailsComponent>;
   let store: Store;
