@@ -43,6 +43,7 @@ describe('WorkshopPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DetailsPageComponent);
     component = fixture.componentInstance;
+    component.workshop = {} as Workshop;
     fixture.detectChanges();
   });
 
