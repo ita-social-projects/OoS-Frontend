@@ -55,7 +55,8 @@
         <ng-template matStepLabel>
           <p class="step-name">Викладачі</p>
         </ng-template>
-        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers">
+        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers"
+          [isRelease2]="isRelease2">
         </app-create-teacher>
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">

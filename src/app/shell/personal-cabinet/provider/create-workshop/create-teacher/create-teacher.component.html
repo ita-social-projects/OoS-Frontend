@@ -2,7 +2,7 @@
   <ng-container>
     <app-teacher-form *ngFor="let form of TeacherFormArray.controls" [TeacherFormGroup]="form"
       [index]="TeacherFormArray.controls.indexOf(form)" [teacherAmount]="TeacherFormArray.controls.length"
-      (deleteForm)="onDeleteForm($event)">
+      [isRelease2]="isRelease2" (deleteForm)="onDeleteForm($event)">
     </app-teacher-form>
   </ng-container>
   <button class="btn-add" mat-button (click)="onAddTeacher()">
