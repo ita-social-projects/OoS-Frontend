@@ -19,7 +19,7 @@
 
   <!-- Phone Column -->
   <ng-container matColumnDef="phone">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phone">
+    <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
       Телефон
     </th>
     <td mat-cell *matCellDef="let element">{{constants.PHONE_PREFIX}}{{element.phoneNumber}} </td>
@@ -56,7 +56,7 @@
 
   <!-- Name Column -->
   <ng-container matColumnDef="actions" sticky>
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by actions">
+    <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions">
 
     </th>
     <td mat-cell *matCellDef="let user">
