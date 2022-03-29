@@ -1,8 +1,8 @@
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-    class="mat-elevation-z8">
+  class="mat-elevation-z8">
 
   <!-- Name Column -->
-  <ng-container matColumnDef="pib">
+  <ng-container matColumnDef="pib" sticky>
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
       ПІБ
     </th>
@@ -22,17 +22,40 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phone">
       Телефон
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+    <td mat-cell *matCellDef="let element">{{constants.PHONE_PREFIX}}{{element.phoneNumber}} </td>
   </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="deputy">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
-        Тип користувача
-      </th>
-      <td mat-cell *matCellDef="let element"> {{element.deputy}} </td>
-    </ng-container>
+  <!-- Name Column -->
+  <ng-container matColumnDef="place">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by place">
+      Населений пункт
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.place || ''}} </td>
+  </ng-container>
 
+  <!-- Name Column -->
+  <ng-container matColumnDef="deputy">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
+      Роль
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.deputy}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+      Статус
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.status || 'Очікує логування'}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="actions" sticky>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by actions">
+
+    </th>
+    <td mat-cell *matCellDef="let element"> {{'...'}} </td>
+  </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

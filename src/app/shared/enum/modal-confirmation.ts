@@ -8,6 +8,8 @@ export enum ModalConfirmationType {
   createApplication = 'createApplication',
   approveApplication = 'approveApplication',
   rejectApplication = 'rejectApplication',
+  createProviderAdmin = 'createProviderAdmin',
+  createProviderAdminDeputy = 'createProviderAdminDeputy',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК',
@@ -18,6 +20,8 @@ export enum ModalConfirmationTitle {
   createApplication = 'ПОДАТИ ЗАЯВКУ?',
   approveApplication = 'ЗАРАХУВАТИ',
   rejectApplication = 'ВІДМОВИТИ',
+  createProviderAdmin = 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА',
+  createProviderAdminDeputy = 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА',
 }
 
 export enum ModalConfirmationText {
@@ -30,4 +34,6 @@ export enum ModalConfirmationText {
   createApplication = 'Ви впевнені, що хочете подати заявку у гурток',
   approveApplication = 'Ви впевнені, що хочете перевести заявку в статус "Зарахувати"?',
   rejectApplication = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?',
+  createProviderAdmin = 'Ви впевнені, що хочете додати адміністратора гуртка?',
+  createProviderAdminDeputy = 'Ви впевнені, що хочете додати заступника директора?',
 }

@@ -1,4 +1,6 @@
 @import "src/app/shared/styles/navigation-tabs.scss";
+@import "src/app/shared/styles/buttons.scss";
+@import "src/app/shared/styles/list-wrappers.scss";
 
 .users-wrapper {
 position: relative;
@@ -65,4 +67,21 @@ position: relative;
   :host ::ng-deep .mat-stroked-button {
     min-width: inherit;
     padding: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .search-area {
+      position: static;
+      margin-bottom: 1rem;
+      justify-content: space-between;
+
+      .mat-menu-panel.header_menu {
+        background-color: #fff;
+      }
+
+      .mat-menu-item {
+        color: rgba(0,0,0,.87);
+      }
+      
+    }
   }

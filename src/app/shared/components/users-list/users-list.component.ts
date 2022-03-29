@@ -1,7 +1,8 @@
-import {LiveAnnouncer} from '@angular/cdk/a11y';
-import {AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Constants } from 'src/app/shared/constants/constants';
 
 /**
  * @title Table with sorting
@@ -16,7 +17,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @Input() users: Array<object>;
   @Input() filterValue: string;
 
-  
+  readonly constants: typeof Constants = Constants;  
   displayedColumns: string[];
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
@@ -25,7 +26,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
-      this.displayedColumns = ['pib', 'email', 'phone', 'deputy'];
+      this.displayedColumns = ['pib', 'email', 'phone', 'place', 'deputy', 'status', 'actions'];
       this.dataSource = new MatTableDataSource(this.users);
   }
 

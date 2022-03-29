@@ -73,6 +73,9 @@ import {
   GetAllUsersChildren,
   ResetSelectedWorkshop,
   GetAllProviderAdmins,
+  CreateProviderAdmin,
+  OnCreateProviderAdminFail,
+  OnCreateProviderAdminSuccess,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -216,11 +219,12 @@ export class UserState {
 
   @Action(GetAllProviderAdmins)
   getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
+    patchState({ isLoading: true });
     return this.providerAdminService
       .getAllProviderAdmins()
       .pipe(
         tap(
-          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins })
+          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins, isLoading: false })
         ))
   }
 
@@ -333,6 +337,7 @@ export class UserState {
       );
   }
 
+
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
@@ -345,6 +350,29 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is created', payload);
     dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
+  }
+
+  @Action(CreateProviderAdmin)
+  createProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProviderAdmin): Observable<object> {
+    return this.providerAdminService
+      .createProviderAdmin(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnCreateProviderAdminFail)
+  onCreateProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка при створенні користувача', type: 'error' }));
+  }
+
+  @Action(OnCreateProviderAdminSuccess)
+  onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/administration/all']);
   }
 
   @Action(CreateApplication)
