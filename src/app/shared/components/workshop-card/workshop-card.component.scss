@@ -1,7 +1,4 @@
 @import "src/app/shared/styles/cards.scss";
-.card-img-full{
-  width: 100%;
-}
 .card-img-mobile{
   width: 100%;
 }
@@ -55,10 +52,10 @@
     display: flex;
     max-width: 100% !important;
     min-width: inherit;
+    height: min-content;
     object-fit: cover;
     object-position: bottom;
   }
-
   .wrap-for-details {
     padding-bottom: 0;
   }
@@ -89,18 +86,12 @@
 }
 
 @media (max-width: 750px) {
-  .card-img-mobile{
-    display: none !important;
-  }
-  .horizontal {
-    margin: 1vw;
-    width: 90vw;
-  }
   :host.application-workshop .horizontal {
     width: auto;
   }
   .horizontal-card {
     max-width: 100%;
+    width: 90vw;
     .card-img{
       flex: 1;
     }
@@ -120,10 +111,11 @@
     }
     .mat-card-image {
       height: 150px;
+      width: 150px;
     }
     .mat-card-header img {
-      width: 24px;
-      height: 24px;
+      width: 21px;
+      height: 21px;
     }
     .hide {
       display: none;
@@ -136,7 +128,6 @@
     }
     .card-title, .mat-card-header{
       font-size: 15px;
-      margin-bottom: 0.2rem;
     }
   }
 }

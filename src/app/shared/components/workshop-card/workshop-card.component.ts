@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { environment } from 'src/environments/environment';
+import { Constants } from '../../constants/constants';
 
 @Component({
   selector: 'app-workshop-card',
@@ -23,19 +24,20 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
+  readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
-  public below = 'below';
-  favoriteWorkshops: Favorite[];
-  isFavorite: boolean;
-  favoriteWorkshopId: Favorite;
-  pendingApplicationAmount: number;
-  ownershipType: string;
+  readonly categoryIcons = CategoryIcons;
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
-  @Input() workshop: WorkshopCard;
+  isFavorite: boolean;
+  pendingApplicationAmount: number;
+  workshopData: WorkshopCard;
+
+  @Input() set workshop(workshop: WorkshopCard) {
+    this.setCoverImage(workshop);
+  };
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
@@ -43,15 +45,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isCreateApplicationView = false;
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
-    if (applications) {
-      this.pendingApplicationAmount = applications.filter((application: Application) => {
-        return (application.workshopId === this.workshop.workshopId && application.status === ApplicationStatus.Pending);
+    if (applications?.length) {
+      applications.filter((application: Application) => {
+        return (application.workshopId === this.workshopData.workshopId && application.status === ApplicationStatus.Pending);
       }).length;
     } else {
       this.pendingApplicationAmount = 0;
     }
   };
-
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
@@ -60,42 +61,20 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
-  @Select(UserState.selectedWorkshop) 
-  workshop$: Observable<WorkshopCard>;
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  authServer: string = environment.serverUrl;
-  imgUrl = `/api/v1/PublicImage/`;
-  coverImageId: string = '';
-  coverImageUrl: string = '';
 
   constructor(
     private store: Store,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    if (!this.workshop) {
-      this.workshop$.pipe(
-        filter((workshop: WorkshopCard) => !!workshop),
-        takeUntil(this.destroy$))
-        .subscribe((workshop: WorkshopCard) => {
-          this.workshop = workshop;
-          this.getCoverImageUrl();
-        });
-    } else {
-      this.getCoverImageUrl();
-    }
-    this.ownershipType = OwnershipTypeUkr[this.workshop?.providerOwnership];
-    this.favoriteWorkshops$
+    this.role$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((favorites: Favorite[]) => {
-        this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
-      });
-    this.isFavorite = !!this.favoriteWorkshopId;
-    this.role$.pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => this.role = role);
+      .subscribe((role: string) => {
+        this.role = role;
+        (this.role === Role.parent) && this.getFavoriteWorkshops();
+      })
   }
 
   onDelete(): void {
@@ -135,15 +114,24 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  getCoverImageUrl(): void {
-    if (this.workshop.coverImageId) {
-      this.coverImageUrl = this.authServer + this.imgUrl + this.workshop.coverImageId;
-    } else {
-      this.coverImageUrl = this.categoryIcons[this.workshop.directionId];
-    }
+  private getFavoriteWorkshops(): void {
+    this.favoriteWorkshops$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((favorites: Favorite[]) => !!favorites)
+      ).subscribe((favorites: Favorite[]) => {
+        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+      });
   }
 
+  private setCoverImage(workshop: WorkshopCard): void {
+    workshop['_meta'] = workshop.coverImageId ?
+      environment.serverUrl + Constants.IMG_URL + workshop.coverImageId :
+      this.categoryIcons[workshop.directionId];
+    this.workshopData = workshop;
+  }
 }
+
 
 @Component({
   selector: 'app-workshop-dialog',

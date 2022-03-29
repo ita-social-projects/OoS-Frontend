@@ -1,8 +1,9 @@
 <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
   [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
-  <p class="step-name__xs">Про гурток</p>
-  <!-- <app-image-form-control [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="img"></app-image-form-control>
-  TODO: Second release -->
+
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="avatarImage"
+    [imageIdsFormControl]="TeacherFormGroup.get('avatarImageId')">
+  </app-image-form-control>
 
   <label class="step-label"> Призвіще <span class="step-required">*</span></label>
   <mat-form-field>

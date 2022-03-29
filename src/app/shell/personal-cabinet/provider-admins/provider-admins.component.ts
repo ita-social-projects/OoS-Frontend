@@ -69,7 +69,6 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
         this.filterProviderAdmins();
       });
-
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe((params: Params) => {
@@ -88,7 +87,6 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   getAllProviderAdmins(): void {
     this.store.dispatch(new GetAllProviderAdmins());
   }
-
   filterProviderAdmins(): void {
     this.route.params.pipe(
       takeUntil(this.destroy$))

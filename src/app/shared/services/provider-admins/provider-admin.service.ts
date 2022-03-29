@@ -7,7 +7,7 @@ import { ProviderAdmin } from '../../models/providerAdmin.model';
   providedIn: 'root',
 })
 export class ProviderAdminService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * This method get all provider Admins

@@ -1,5 +1,5 @@
 export enum ApplicationTitles {
-  Pending = 'Очікує підтвердження',
+  Pending = 'Очікують підтвердження',
   AcceptedForSelection = 'Прийнято до конкурсного відбору',
   Approved = 'Зараховано',
   Rejected = 'Відмовлено',
@@ -7,7 +7,7 @@ export enum ApplicationTitles {
 }
 
 export enum ApplicationTitlesReverse {
-  'Очікує підтвердження' = 'Pending',
+  'Очікують підтвердження' = 'Pending',
   'Прийнято до конкурсного відбору' = 'AcceptedForSelection',
   'Зараховано' = 'Approved',
   'Відмовлено' = 'Rejected',

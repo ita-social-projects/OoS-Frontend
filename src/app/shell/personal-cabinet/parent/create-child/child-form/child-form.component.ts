@@ -26,8 +26,7 @@ export class ChildFormComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   delete(): void {
     this.deleteForm.emit(this.index);

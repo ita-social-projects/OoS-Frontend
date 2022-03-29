@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Constants } from '../../constants/constants';
 import { DecodedImage } from '../../models/image.model';
 @Component({
   selector: 'app-image-form-control',
@@ -23,12 +24,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   decodedImages: DecodedImage[] = [];
   touched = false;
   disabled = false;
-  authServer: string = environment.serverUrl;
-  imgUrl = `/api/v1/PublicImage/`;
 
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
-  @Input() coverImageIdFormControl: FormControl;
   @Input() label: string;
 
   constructor() { }
@@ -36,7 +34,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   ngOnInit(): void {
     this.onResize(window);
     (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
-    (this.coverImageIdFormControl && this.coverImageIdFormControl.value.length) && this.activateCoverEditMode();
   }
   /**
    * This methods adds files from input to the list of selected files and pass them to imageDecoder
@@ -82,8 +79,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         } else {
           if (this.imageIdsFormControl) {
             this.imageIdsFormControl.value.splice(imageIndex, 1);
-          } else {
-            this.coverImageIdFormControl.setValue(null);
           }
         }
       }
@@ -92,11 +87,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(this.authServer + this.imgUrl + imageId, null))
+      this.decodedImages.push(new DecodedImage(environment.serverUrl + Constants.IMG_URL + imageId, null))
     })
-  }
-  activateCoverEditMode(): void {
-    this.decodedImages.push(new DecodedImage(this.authServer + this.imgUrl + this.coverImageIdFormControl.value, null))
   }
 
   onChange = (array: File[]): void => { }
