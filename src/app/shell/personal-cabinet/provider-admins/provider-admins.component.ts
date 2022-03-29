@@ -108,7 +108,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         email: admin.email,
         phoneNumber: admin.phoneNumber,
         isDeputy: admin.isDeputy,
-        status: admin.status
+        status: admin.accountStatus
       });
       
     });

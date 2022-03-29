@@ -3,7 +3,8 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleCh
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
-import { providerAdminRoleUkr } from '../../enum/enumUA/provider-admin';
+import { providerAdminRoleUkr, ProviderAdminTitles } from '../../enum/enumUA/provider-admin';
+import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
 import { ProviderAdminTable } from '../../models/providerAdmin.model';
 
 /**
@@ -23,6 +24,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   readonly constants: typeof Constants = Constants;
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
+  readonly providerAdminTitles = ProviderAdminTitles;
+  readonly providerAdminStatus = ProviderAdminStatus;
+  readonly providerAdminIcons = ProviderAdminIcons;
   displayedColumns: string[];
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 

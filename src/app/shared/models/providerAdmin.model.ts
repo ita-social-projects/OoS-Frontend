@@ -18,9 +18,9 @@ export class ProviderAdmin {
   providerId?: string;
   isDeputy: string;
   managedWorkshopIds?: string[];
-  status?: string;
+  accountStatus?: string;
 
-  constructor(info, isDeputy, providerId?, workshopIds?: string[], status?) {
+  constructor(info, isDeputy, providerId?, workshopIds?: string[], accountStatus?) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;
@@ -31,6 +31,6 @@ export class ProviderAdmin {
     if (workshopIds?.length) {
       this.managedWorkshopIds = workshopIds;
     }
-    this.status = status;
+    this.accountStatus = accountStatus;
   }
 }

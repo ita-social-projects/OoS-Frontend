@@ -9,3 +9,9 @@ export enum providerAdminRoleUkrReverse {
   'Адміністратор гуртка' = 'admin',
   'Усі' = 'all'
 }
+
+export enum ProviderAdminTitles {
+  NeverLogged = 'Очікує логування',
+  Accepted = 'Підтвердженно',
+  Blocked = 'Заблоковано'
+}
