@@ -118,6 +118,30 @@ export class OnCreateProviderAdminSuccess {
   static readonly type = '[user] create Provider Admin success';
   constructor(public payload) { }
 }
+export class BlockProviderAdminById {
+  static readonly type = '[user] block Provider Admin';
+  constructor(public payload) { }
+}
+export class OnBlockProviderAdminSuccess {
+  static readonly type = '[user] block Provider Admin success';
+  constructor(public payload) { }
+}
+export class OnBlockProviderAdminFail {
+  static readonly type = '[user] block Provider Admin fail';
+  constructor(public payload) { }
+}
+export class DeleteProviderAdminById {
+  static readonly type = '[user] delete Provider Admin';
+  constructor(public payload) { }
+}
+export class OnDeleteProviderAdminSuccess {
+  static readonly type = '[user] delete Provider Admin success';
+  constructor(public payload) { }
+}
+export class OnDeleteProviderAdminFail {
+  static readonly type = '[user] delete Provider Admin fail';
+  constructor(public payload) { }
+}
 export class CreateApplication {
   static readonly type = '[user] create Application';
   constructor(public payload: Application) { }

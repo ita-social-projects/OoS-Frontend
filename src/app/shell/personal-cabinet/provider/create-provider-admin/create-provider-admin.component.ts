@@ -90,7 +90,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   ngOnInit(): void {
     this.getProviderWorkshops();
-    this.isDeputy = (this.params === providerAdminRole.deputy) ? true : false;
+    this.isDeputy = (this.params === providerAdminRole.deputy);
 
     this.RobotFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
@@ -103,9 +103,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.ProviderAdminFormGroup.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val) => {
-      this.isEmpty = !Boolean(val.lastName) || !Boolean(val.firstName) || !Boolean(val.phoneNumber) || !Boolean(val.email);
+      this.isEmpty = (!val.lastName || !val.firstName || !val.phoneNumber || !val.email);
     });
-
   }
 
   

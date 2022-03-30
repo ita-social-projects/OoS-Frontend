@@ -1,15 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
-import { GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 
@@ -29,6 +34,9 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
   providerAdmins: ProviderAdminTable[];
+  @Select(RegistrationState.provider)
+  provider$: Observable<Provider>;
+  provider: Provider;
   filteredProviderAdmins: Array<object> = [];
   filter = new FormControl('');
   filterValue: string;
@@ -39,7 +47,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   constructor(
     public store: Store,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.btnView = providerAdminRoleUkr.all;
@@ -65,7 +74,12 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       .subscribe((params: Params) => {
         this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params.param);
         this.btnView = providerAdminRoleUkr[params.param];
-      })
+      });
+
+      this.provider$.pipe(
+        filter((provider: Provider) => !!provider),
+        takeUntil(this.destroy$)
+      ).subscribe((provider: Provider) => this.provider = provider);
   }
 
   getAllProviderAdmins(): void {
@@ -76,7 +90,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.filteredProviderAdmins = this.providerAdmins.filter(
-          (user) => user.deputy === providerAdminRoleUkr[params.param]
+          (user) => user.isDeputy === (params.param === 'deputy')
         );
       })
     }
@@ -85,10 +99,12 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     let updatedAdmins = [];
     admins.forEach((admin) => {
       updatedAdmins.push({
+        id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
         phoneNumber: admin.phoneNumber,
-        deputy: (admin.isDeputy) ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin
+        isDeputy: admin.isDeputy,
+        status: admin.accountStatus
       });
       
     });
@@ -105,6 +121,40 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     this.filter.reset();
     this.router.navigate(['../', providerAdminRoleUkrReverse[event.tab.textLabel]], {relativeTo: this.route});
   }
+
+  /**
+   * This method delete provider Admin By Id
+   */
+   onDelete(user): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: (user.deputy) ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        property: user.pib
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteProviderAdminById({userId: user.id, providerId: this.provider.id}));
+    });
+  }
+
+  /**
+   * This method block provider Admin By Id
+   */
+   onBlock(user): void {
+   const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+     width: '330px',
+     data: {
+       type: (user.deputy) ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
+       property: user.pib
+     }
+   });
+
+   dialogRef.afterClosed().subscribe((result: boolean) => {
+     result && this.store.dispatch(new BlockProviderAdminById({userId: user.id, providerId: this.provider.id}));
+   });
+ }
 
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
