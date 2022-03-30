@@ -28,6 +28,7 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
   provider: Provider;
   isAgreed: boolean;
+  // isEmpty: boolean;
   isNotRobot: boolean;  
 
   InfoFormGroup: FormGroup;
@@ -55,6 +56,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+
+    // this.InfoFormGroup.valueChanges.pipe(
+    //   takeUntil(this.destroy$),
+    // ).subscribe((val: FormGroup) => this.isEmpty = !val[0].shortTitle || !val[0].fullTitle);
         
   }
 
@@ -149,7 +154,14 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   checkEmpty(form: FormGroup): boolean {
-    return (form?.value.fullTitle === '');   
+    return (form?.value.fullTitle === '' 
+      || form?.value.shortTitle === ''
+      || form?.value.director === ''
+      || form?.value.directorDateOfBirth === ''
+      || form?.value.edrpouIpn === ''
+      || form?.value.phoneNumber === ''
+      || form?.value.email === ''
+      || form?.value.founder === '');   
   }
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched

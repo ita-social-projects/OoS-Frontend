@@ -132,7 +132,8 @@
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook" autocomplete="none">
+    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook" 
+      autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="validTextField"
     [invalid]="InfoFormGroup.get('facebook').invalid && InfoFormGroup.get('facebook').touched"
