@@ -1,8 +1,11 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
+import { providerAdminRoleUkr, ProviderAdminTitles } from '../../enum/enumUA/provider-admin';
+import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
+import { ProviderAdminTable } from '../../models/providerAdmin.model';
 
 /**
  * @title Table with sorting
@@ -16,8 +19,14 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   @Input() users: Array<object>;
   @Input() filterValue: string;
+  @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
+  @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
 
-  readonly constants: typeof Constants = Constants;  
+  readonly constants: typeof Constants = Constants;
+  readonly providerAdminRoleUkr = providerAdminRoleUkr;
+  readonly providerAdminTitles = ProviderAdminTitles;
+  readonly providerAdminStatus = ProviderAdminStatus;
+  readonly providerAdminIcons = ProviderAdminIcons;
   displayedColumns: string[];
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
@@ -26,7 +35,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
-      this.displayedColumns = ['pib', 'email', 'phone', 'place', 'deputy', 'status', 'actions'];
+      this.displayedColumns = ['pib', 'email', 'phone', 'place', 'isDeputy', 'status', 'actions'];
       this.dataSource = new MatTableDataSource(this.users);
   }
 
@@ -53,5 +62,13 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  onDelete(user: ProviderAdminTable): void {
+    this.deleteAdmin.emit(user);
+  }
+
+  onBlock(user: ProviderAdminTable): void {
+    this.blockAdmin.emit(user);
   }
 }
