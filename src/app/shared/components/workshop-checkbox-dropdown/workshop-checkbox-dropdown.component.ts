@@ -16,6 +16,7 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workshops: WorkshopCard[];
+  @Input() dropdownContainerClass: string;
   @Output() workshopCheck = new EventEmitter<string[]>();
 
   constructor() { }
