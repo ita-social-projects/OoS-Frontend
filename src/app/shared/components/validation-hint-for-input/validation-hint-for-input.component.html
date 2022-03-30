@@ -6,6 +6,11 @@
 <ng-container *ngIf = "type === 'validTextField' && forbiddenCharacter && invalid; then incorrectTextField"></ng-container>
 <ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
 <ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
+<ng-container *ngIf = "type === 'validDateFormat' && invalid && !minMaxDate; then incorrectDateField"></ng-container>
+<ng-container *ngIf = "type === 'outOfRangeDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
+<ng-container *ngIf = "type === 'validLength' && (minLength || maxLength) && invalid; then invalidLength"></ng-container>
+<ng-container *ngIf = "type === 'validBirthCertificate' && forbiddenCharacter && invalid; then invalidBirthCertificate"></ng-container>
+
 
 <ng-template #requiredInput>
   <small appValidationMessageStyling>
@@ -33,18 +38,42 @@
 
 <ng-template #incorrectTextField>
   <small appValidationMessageStyling>
-    "Перевірте введені данні. <br> Використовуйте будь ласка тільки кирилицю та символи ( ' - )"
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю та символи ( ' - )
+  </small> 
+</ng-template>
+
+<ng-template #incorrectDateField>
+  <small appValidationMessageStyling>
+    Перевірте введені данні. <br> Використовуйте дд.мм.рррр формат. Наприклад 20.10.2010
+  </small> 
+</ng-template>
+
+<ng-template #incorrectMinMaxDate>
+  <small appValidationMessageStyling>
+    Перевірте введені данні. <br> Дата народження виходить за межі допустимих
   </small> 
 </ng-template>
 
 <ng-template #incorrectAddressField>
   <small appValidationMessageStyling>
-    "Перевірте введені данні. <br> Використовуйте будь ласка тільки кирилицю, цифри та символи ( ' - )"
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю, цифри та символи ( ' - )
   </small> 
 </ng-template>
 
 <ng-template #incorrectBuildingNumberField>
   <small appValidationMessageStyling>
-    "Перевірте введені данні. <br> Використовуйте будь ласка тільки кирилицю, цифри та символи ( ' - / , . )"
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю, цифри та символи ( ' - / , . )
   </small> 
+</ng-template>
+
+<ng-template #invalidLength>
+  <small appValidationMessageStyling>
+    Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів
+  </small>
+</ng-template>
+
+<ng-template #invalidBirthCertificate>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки латиницю, кирилицю, цифри та символи ( ` ' - №)
+  </small>
 </ng-template>

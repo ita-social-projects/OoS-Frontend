@@ -11,6 +11,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { Component } from '@angular/core';
 
 describe('SidenavComponent', () => {
   let component: SidenavComponent;
@@ -31,9 +32,11 @@ describe('SidenavComponent', () => {
         MatSidenavModule,
         BrowserAnimationsModule,
       ],
-      declarations: [ SidenavComponent ]
+      declarations: [
+        SidenavComponent,
+        MockSideNavNotificationsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -46,3 +49,8 @@ describe('SidenavComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-notifications',
+  template: ''
+})
+class MockSideNavNotificationsComponent { }

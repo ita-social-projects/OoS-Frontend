@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
-import { emit } from 'process';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
@@ -17,6 +16,8 @@ export class TeacherFormComponent implements OnInit {
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
+  @Input() isRelease2: boolean;
+
   @Output() deleteForm = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {

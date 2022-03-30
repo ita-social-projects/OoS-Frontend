@@ -4,4 +4,5 @@ export enum NoResultsTitle {
   noParentWorkshops = 'Тут буде відображатися інформація про гуртки, секцію фбо школу для навчання. Ще жодної заяви на гурток не подано.',
   noFavoriteWorkshops = 'Улюблених гуртків поки немає',
   noDirections = 'За результатами нічого не знайдено',
+  noProviderAdmins = 'Користувачів поки немає',
 }

@@ -1,0 +1,23 @@
+<ng-container *ngIf="!(isMobileScreen$ | async); else isMobileScreen">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>notifications_none</mat-icon>
+  </button>
+  <span *ngIf="notificationsAmount$ | async as notificationsAmount">
+    <mat-icon [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
+  </span>
+  <mat-menu #menu="matMenu">
+    <div class="container">
+      <app-notifications-list></app-notifications-list>
+    </div>
+  </mat-menu>
+</ng-container>
+
+<ng-template #isMobileScreen>
+  <div *ngIf="notificationsAmount$ | async as notificationsAmount" fxLayout="row" fxLayoutAlign="space-between center"
+    class="full-width">
+    <button mat-icon-button fxLayout="row" fxLayoutAlign="space-between" class="btn-notifications">
+      <mat-icon>notifications_none</mat-icon> Сповіщення
+    </button>
+    <mat-icon [matBadge]="notificationsAmount.amount" class="icon-mobile"></mat-icon>
+  </div>
+</ng-template>

@@ -24,6 +24,8 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeUk from '@angular/common/locales/uk';
 import { AdminState } from './shared/store/admin.state';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { NotificationsState } from './shared/store/notifications.state';
 
 registerLocaleData(localeUk);
 
@@ -46,7 +48,8 @@ registerLocaleData(localeUk);
       RegistrationState,
       UserState,
       AdminState,
-      NavigationState
+      NavigationState,
+      NotificationsState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -60,7 +63,8 @@ registerLocaleData(localeUk);
     RegistrationModule,
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'uk' }
+    { provide: LOCALE_ID, useValue: 'uk' },
+    { provide: MAT_SELECT_CONFIG, useValue: { overlayPanelClass: 'custom-overlay-panel' } },
   ],
   bootstrap: [AppComponent]
 })

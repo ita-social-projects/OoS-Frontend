@@ -12,22 +12,6 @@
   cursor: pointer;
 }
 
-.notification {
-  height: 35px;
-  line-height: 35px;
-  font-weight: bold;
-}
-
-.circle-notification {
-  font-size: 10px;
-  color: #F5BC4A;
-}
-
-.btn-notification {
-  font-weight: bold;
-  color: #3849F9;
-}
-
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
@@ -62,7 +46,7 @@
 
   &_secondary {
     background: #3849F9;
-    max-height: 83px;
+    max-height: 92px;
     box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
   }
 
@@ -145,18 +129,6 @@
 
       &_account-circle {
         margin: 0 10px;
-
-        ::ng-deep mat-icon {
-          font-size: 30px;
-
-          .mat-badge-content {
-            position: absolute;
-            left: -10px;
-            top: -10px;
-            display: block;
-            background-color: #F5BC4A;
-          }
-        }
       }
     }
 
@@ -194,7 +166,8 @@
   .mat-menu-item {
     height: 35px;
     line-height: 35px;
-    font-weight: bold;
+    font-weight: 600;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -245,7 +218,7 @@
 
 .progress-bar {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   z-index: 999;
 }
 

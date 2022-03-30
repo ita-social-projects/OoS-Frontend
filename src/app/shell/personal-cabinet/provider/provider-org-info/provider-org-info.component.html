@@ -11,7 +11,7 @@
       <mat-tab-group (selectedTabChange)="onTabChanged($event)">
 
         <mat-tab label="Інформація про заклад">
-          <h5>Форма властності</h5>
+          <h5>Форма власності</h5>
           <p>{{ownershipTypeUkr[this.provider.ownership]}}</p>
           <h5>Тип організації</h5>
           <p>{{providerTypeUkr[this.provider.type]}}</p>
@@ -26,16 +26,22 @@
           <h5>ЄДРПОУ/ІПН</h5>
           <p>{{provider.edrpouIpn}}</p>
           <h5>Телефон</h5>
-          <p>{{provider.phoneNumber}}</p>
+          <p>{{constants.PHONE_PREFIX}}{{provider.phoneNumber}}</p>
           <h5>Емейл</h5>
           <p>{{provider.email}}</p>
-          <h5>Вебсайт</h5>
+          <h5>Засновник</h5>
+          <p>{{provider.founder}}</p>
+          <h5 *ngIf='provider.website'>Вебсайт</h5>
           <p>{{provider.website}}</p>
+          <h5 *ngIf='provider.facebook'>Facebook</h5>
+          <p>{{provider.facebook}}</p>
+          <h5 *ngIf='provider.instagram'>Instagram</h5>
+          <p>{{provider.instagram}}</p>
         </mat-tab>
 
         <mat-tab label="Контакти">
 
-          <div class="border">
+          <div class="legal-address-wrapper">
             <h3>Юридична адреса</h3>
             <ng-container *ngIf="provider.legalAddress then LegalAddress"></ng-container>
           </div>
@@ -57,7 +63,7 @@
         <mat-tab label="Опис">
           <h5>Статус</h5>
           <p class="description">{{this.currentStatus}}</p>
-          <h5>Опис</h5>
+          <h5>Про заклад</h5>
           <p class="description">{{provider.description}}</p>
         </mat-tab>
 

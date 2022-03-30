@@ -37,3 +37,7 @@ mat-form-field mat-label {
 :host ::ng-deep .mat-form-field-underline {
   height: 0;
 }
+
+::ng-deep .custom-overlay-panel .application-dropdown {
+  max-width: 180px;
+}

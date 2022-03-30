@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
+import { ChildCards } from 'src/app/shared/models/child.model';
+
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -23,7 +25,8 @@ describe('CreateChildComponent', () => {
         MatIconModule,
         RouterTestingModule,
         HttpClientTestingModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatDialogModule
       ],
       declarations: [
         CreateChildComponent,
@@ -51,4 +54,5 @@ class MockChildFormComponent {
   @Input() index: number;
   @Input() childrenAmount: number;
   @Input() socialGroups: SocialGroup[];
+  @Input() childrenCards: ChildCards[];
 }

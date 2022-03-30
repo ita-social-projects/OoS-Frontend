@@ -27,6 +27,7 @@ import { InfoComponent } from './info/info.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
+import { IsMobileGuard } from './is-mobile.guard';
 @NgModule({
   declarations: [
     MainComponent,
@@ -57,6 +58,7 @@ import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
     ProviderGuard,
     ParentGuard,
     CreateProviderGuard,
+    IsMobileGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },

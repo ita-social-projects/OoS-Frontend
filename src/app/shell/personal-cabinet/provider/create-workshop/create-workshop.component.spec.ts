@@ -51,6 +51,7 @@ describe('CreateWorkshopComponent', () => {
 })
 class MockCreateAboutFormComponent {
   @Input() workshop: Workshop;
+  @Input() isRelease2: boolean;
 }
 
 @Component({
@@ -76,4 +77,5 @@ class MockCreateAddressComponent {
 })
 class MockCreateTeacherComponent {
   @Input() teachers: Teacher[];
+  @Input() isRelease2: boolean;
 }

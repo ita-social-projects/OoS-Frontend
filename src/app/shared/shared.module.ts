@@ -52,6 +52,11 @@ import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-fi
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import { KeyFilterDirective } from './directives/key-filter.directive';
+import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 
 @NgModule({
   declarations: [
@@ -100,6 +105,11 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     SidenavFiltersComponent,
     RejectModalWindowComponent,
     ImageCarouselComponent,
+    NotificationsComponent,
+    NotificationsListComponent,
+    UsersListComponent,
+    KeyFilterDirective,
+    CustomCarouselDirective,
   ],
   imports: [
     MaterialModule,
@@ -110,7 +120,7 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
-    IvyCarouselModule
+    IvyCarouselModule,
   ],
   exports: [
     FiltersListComponent,
@@ -157,7 +167,11 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
-    ImageCarouselComponent
+    ImageCarouselComponent,
+    NotificationsComponent,
+    UsersListComponent,
+    KeyFilterDirective,
+    CustomCarouselDirective,
   ]
 })
 export class SharedModule { }

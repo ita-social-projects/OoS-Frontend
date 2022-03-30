@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
+import { AboutPortal } from 'src/app/shared/models/aboutPortal.model';
 import { GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { GetDirections } from 'src/app/shared/store/meta-data.actions';
@@ -28,6 +29,9 @@ export class PlatformComponent implements OnInit, OnDestroy {
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @Select(AdminState.aboutPortal)
+  aboutPortal$: Observable<AboutPortal>;
 
 
   tabIndex: number;

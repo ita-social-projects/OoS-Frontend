@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 
 
 @Component({
@@ -13,9 +16,10 @@ export class CreateTeacherComponent implements OnInit {
 
   TeacherFormArray: FormArray = new FormArray([]);
   @Input() teachers: Teacher[];
+  @Input() isRelease2: boolean;
   @Output() passTeacherFormArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     if (this.teachers?.length) {
@@ -39,7 +43,7 @@ export class CreateTeacherComponent implements OnInit {
    */
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
-      img: new FormControl(''),
+      avatarImage: new FormControl(''),
       lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
@@ -47,8 +51,19 @@ export class CreateTeacherComponent implements OnInit {
       description: new FormControl('', Validators.required),
     });
 
-    teacher && teacherFormGroup.patchValue(teacher, { emitEvent: false });
+    if (teacher) {
+      this.activateEditMode(teacherFormGroup, teacher);
+    }
     return teacherFormGroup;
+  }
+
+  /**
+    * This method fills inputs with information of edited teachers
+    */
+  private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
+    teacherFormGroup.patchValue(teacher, { emitEvent: false });
+    teacherFormGroup.addControl('teacherId', this.fb.control([teacher.id]));
+    teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
   }
 
   /**
@@ -56,6 +71,25 @@ export class CreateTeacherComponent implements OnInit {
    * @param index: number
    */
   onDeleteForm(index: number): void {
-    this.TeacherFormArray.removeAt(index);
+    const status: string = this.TeacherFormArray.controls[index].status;
+    const isTouched: boolean = this.TeacherFormArray.controls[index].touched;
+
+    if (status !== 'INVALID' || isTouched) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: '330px',
+        data: {
+          type: ModalConfirmationType.deleteTeacher,
+          property: ''
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result && this.TeacherFormArray.removeAt(index);
+      });
+    }
+    else {
+      this.TeacherFormArray.removeAt(index);
+    }
   }
+
 }

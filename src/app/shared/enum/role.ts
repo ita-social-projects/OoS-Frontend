@@ -13,6 +13,6 @@ export enum cardType {
 }
 
 export enum RoleLinks {
-  provider = 'організацію',
+  provider = 'заклад',
   parent = 'дитину'
 }

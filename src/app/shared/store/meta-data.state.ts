@@ -33,6 +33,7 @@ import {
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
 import { ProviderService } from '../services/provider/provider.service';
+import { environment } from 'src/environments/environment';
 
 export interface MetaDataStateModel {
   directions: Direction[];
@@ -238,7 +239,10 @@ export class MetaDataState {
     return this.featureManagementService
       .getFeaturesList()
       .pipe(
-        tap((featuresList: FeaturesList) => patchState({ featuresList: { release1: true, release2: true, release3: false } })
+        tap((featuresList: FeaturesList) => 
+        patchState(environment.production 
+          ? { featuresList: featuresList } 
+          : { featuresList: { release1: true, release2: true, release3: false } })
         ))
   }
 

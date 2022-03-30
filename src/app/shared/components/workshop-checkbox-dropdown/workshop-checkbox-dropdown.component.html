@@ -1,7 +1,7 @@
 <mat-form-field class="dropdown-wrapper">
   <mat-label class="label" [ngClass]="{'disabled-field': workshops?.length < 1}">Усі гуртки</mat-label>
   <mat-select [disabled]="workshops?.length < 1" [formControl]="workshopControl" multiple class="dropdown" disableOptionCentering
-    panelClass="dropdown-panel">
+    panelClass="dropdown-panel application-dropdown {{ dropdownContainerClass }}">
     <mat-select-trigger>
       <div *ngIf="workshopControl.value?.length">
         <span *ngIf="workshopControl.value?.length > 1"> {{workshopControl.value?.length}} гуртків вибрано </span>

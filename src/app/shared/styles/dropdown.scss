@@ -1,6 +1,6 @@
 ::ng-deep .dropdown-option{
   .mat-option-text{
-    font-family: Open Sans;
+    font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -43,7 +43,10 @@
   box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11)!important;
   border-radius: 10px;
   position: relative;
-  top:2.5rem;
   height: fit-content;
   max-height: 250px;
+}
+
+::ng-deep .custom-overlay-panel {
+  transform: translate(-16px, 2.5rem) !important;
 }

@@ -1,9 +1,8 @@
 <div class="create-form" *ngIf="(editMode && provider) || !editMode">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ ЗАКЛАД' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ'}}</h3>
-      <p class="wrapper-text">Ви завжди можете додати цю інформацію
-        у вашому особистому кабінеті</p>
+      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАННЯ ЗАКЛАДУ' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ'}}</h3>
+      <p class="wrapper-text">Додайте свій заклад всього у 3 кроки</p>
     </div>
 
     <mat-horizontal-stepper #stepper [linear]="!editMode">
@@ -14,9 +13,13 @@
         <app-create-info-form (passInfoFormGroup)="onReceiveInfoFormGroup($event)" [provider]="provider">
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)">Далі</button>
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
+              class="btn btn-cancel">СКАСУВАТИ</button></a>
+          <button class="btn" 
+            mat-raised-button matStepperNext 
+            (click)="checkValidation(InfoFormGroup)"
+            [disabled]="checkEmpty(InfoFormGroup)"
+          >ДАЛІ</button>
         </div>
       </mat-step>
 
@@ -28,11 +31,11 @@
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)" [provider]="provider">
         </app-create-contacts-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
+          <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
+              class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-raised-button matStepperNext
-            (click)="checkValidationContacts(ContactsFormGroup)">Далі</button>
+            (click)="checkValidationContacts(ContactsFormGroup)">ДАЛІ</button>
         </div>
       </mat-step>
 
@@ -53,11 +56,11 @@
           </mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+              class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
-            [disabled]="(!isAgreed || !isNotRobot) && !editMode">Завершити</button>
+            [disabled]="(!isAgreed || !isNotRobot) && !editMode">ЗБЕРЕГТИ</button>
         </div>
       </mat-step>
 

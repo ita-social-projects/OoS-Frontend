@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { DATE_REGEX, EDRPOUIPN_REGEX, TEXT_REGEX, TEXT_WITH_DIGITS_REGEX, WEB_INST_FB_REGEX } from 'src/app/shared/constants/regex-constants';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-create-info-form',
@@ -21,23 +22,26 @@ export class CreateInfoFormComponent implements OnInit {
   readonly providerTypeUkr = ProviderTypeUkr;
 
   InfoFormGroup: FormGroup;
-  today: Date = new Date();
 
   @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();
+
+  dateFilter: RegExp = DATE_REGEX;
+  maxDate: Date = Util.getMaxBirthDate();
+  minDate: Date = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
 
   constructor(private formBuilder: FormBuilder) {
     this.InfoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', Validators.required),
       shortTitle: new FormControl('', Validators.required),
-      edrpouIpn: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      edrpouIpn: new FormControl('', [Validators.required, Validators.pattern(EDRPOUIPN_REGEX)]),
       director: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      website: new FormControl(''),
-      facebook: new FormControl(''),
-      instagram: new FormControl(''),
+      website: new FormControl('', [Validators.pattern(WEB_INST_FB_REGEX)]),
+      facebook: new FormControl('', [Validators.pattern(WEB_INST_FB_REGEX)]),
+      instagram: new FormControl('', [Validators.pattern(WEB_INST_FB_REGEX)]),
       founder: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       type: new FormControl(0, Validators.required),
       ownership: new FormControl(0, Validators.required),

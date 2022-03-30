@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
+import { Teacher } from 'src/app/shared/models/teacher.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
@@ -72,21 +73,30 @@ export class UserWorkshopService {
    * This method delete workshop by Workshop id
    * @param id: string
    */
+
   deleteWorkshop(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Workshop/Delete/${id}`);
+    return this.isRelease2
+      ? this.http.delete(`/api/v2/Workshop/Delete/${id}`)
+      : this.http.delete(`/api/v1/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'teachers', 'keywords', 'imageIds'];
-    const imageFiles = 'imageFiles';
+    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds',];
+    const imageFiles = ['imageFiles', 'coverImage'];
+    const teachers = 'teachers';
 
     Object.keys(workshop).forEach((key: string) => {
-
-      if (workshop.imageFiles && (key === imageFiles)) {
-        workshop.imageFiles.forEach((file: File) => formData.append(imageFiles, file));
+      if (imageFiles.includes(key)) {
+        workshop[key].forEach((file: File) => formData.append(key, file));
       } else if (formNames.includes(key)) {
         formData.append(key, JSON.stringify(workshop[key]));
+      } else if (key === teachers) {
+        for (let i = 0; i < workshop.teachers.length; i++) {
+          Object.keys(workshop.teachers[i]).forEach((teacherKey: string) => {
+            formData.append(`${teachers}[${i}].${teacherKey}`, workshop.teachers[i][teacherKey]);
+          });
+        }
       } else {
         formData.append(key, workshop[key]);
       }
@@ -94,5 +104,4 @@ export class UserWorkshopService {
 
     return formData;
   }
-
 }
