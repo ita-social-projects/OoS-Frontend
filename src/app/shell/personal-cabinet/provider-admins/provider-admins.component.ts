@@ -92,7 +92,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.filteredProviderAdmins = this.providerAdmins.filter(
-          (user) => user.isDeputy === !!(params.param === 'deputy')
+          (user) => user.isDeputy === (params.param === 'deputy')
         );
       })
     }
