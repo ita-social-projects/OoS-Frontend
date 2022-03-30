@@ -15,9 +15,10 @@ export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   department: Department;
+  iClass: IClass[];
+  classes: IClass[];
   aboutPortal: AboutPortal;
   departments: Department[];
-  classes: IClass[];
   selectedDirection: Direction;
   currentPage: PaginationElement;
   searchQuery: string;
@@ -29,8 +30,9 @@ export interface AdminStateModel {
     aboutPortal: null,
     direction: undefined,
     department: undefined,
-    departments: [],
+    iClass: [],
     classes: [],
+    departments: [],
     isLoading: false,
     selectedDirection: null,
     searchQuery: '',
@@ -53,7 +55,7 @@ export class AdminState {
   @Selector()
   static departments(state: AdminStateModel): Department [] { return state.departments; }
   @Selector()
-  static classes(state: AdminStateModel): IClass [] { return state.classes; }
+  static class(state: AdminStateModel): IClass [] { return state.iClass; }
   @Selector()
   static searchQuery(state: AdminStateModel): string { return state.searchQuery }
   @Selector()
@@ -123,7 +125,7 @@ export class AdminState {
   OnDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionSuccess): void {
     console.log('Direction is deleted', payload);
     dispatch(new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/about']);
+    this.router.navigate(['/admin-tools/platform/directions']);
   }
 
   @Action(CreateDirection)
@@ -211,11 +213,13 @@ export class AdminState {
   }
 
   @Action(OnCreateClassSuccess)
-  onCreateChildrenSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateClassSuccess): void {
+  onCreateClassSuccess({ dispatch,patchState }: StateContext<AdminStateModel>, { payload }: OnCreateClassSuccess): void {
     dispatch(new MarkFormDirty(false));
+    patchState({iClass: payload});
     console.log('Class is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Дитина успішно зареєстрована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/parent/info']);
+    dispatch(new ShowMessageBar({ message: 'Клас успішно створенний', type: 'success' }));
+    this.router.navigate(['/admin-tools/platform/directions']);
+    this.getFilteredDirections;
   }
   @Action(GetDirectionById)
   getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {

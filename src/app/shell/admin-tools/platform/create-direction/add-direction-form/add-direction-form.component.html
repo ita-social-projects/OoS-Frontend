@@ -15,6 +15,7 @@
     [invalid]="directionFormGroup.get('title').invalid && directionFormGroup.get('title').touched"
     [forbiddenCharacter]="directionFormGroup.get('title').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
+  <div class="photo-subheader">Додайте зображення натистувши на “+”. </div>
   <div fxLayout="row" fxLayoutAlign="center center" class="footer">
     <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
         class="btn btn-cancel">Скасувати</button></a>

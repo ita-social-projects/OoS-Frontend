@@ -6,13 +6,18 @@
 .activeInfoBtn {
   color: #3849f9;
 }
-
 .inactiveInfoBtn {
   color: #AAAAAA;
 }
-
 .status-info-icon {
   cursor: pointer;
   margin: auto 0.5rem;
   font-size: 16px;
+}
+.photo-subheader {
+  font-weight: normal;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
+  margin-bottom:0.3rem;
+  color: #AAAAAA;
 }

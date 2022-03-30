@@ -84,7 +84,7 @@ export class MetaDataState {
 
   @Selector()
   static classes(state: MetaDataStateModel): IClass[] { return state.classes; }
-
+  
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups; }
 

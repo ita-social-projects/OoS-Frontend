@@ -1,11 +1,8 @@
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -13,7 +10,6 @@ import { Direction } from 'src/app/shared/models/category.model';
 import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
 import { CreateDirection } from 'src/app/shared/store/admin.actions';
 import { AdminStateModel } from 'src/app/shared/store/admin.state';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
   selector: 'app-add-direction-form',
@@ -26,17 +22,9 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 })
 export class AddDirectionFormComponent implements OnInit {
 
-  @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-
-
+  @Input() admin: TechAdmin;
   isActiveDirectionInfoButton = false;
   AdminStateModel: AdminStateModel;
-  direction: Direction;
-
-
-  @Input() admin: TechAdmin;
   directionFormGroup: FormGroup;
 
   constructor(
@@ -51,7 +39,6 @@ export class AddDirectionFormComponent implements OnInit {
 
   ngOnInit(): void {
     (this.admin) && this.directionFormGroup.patchValue(this.admin, { emitEvent: false });
-
   }
 
   onSubmit(): void {
@@ -72,17 +59,11 @@ export class AddDirectionFormComponent implements OnInit {
   }
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
   checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
   }
-
 }
 
 

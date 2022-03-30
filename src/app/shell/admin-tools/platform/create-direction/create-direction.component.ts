@@ -6,19 +6,15 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { createDirectionSteps } from 'src/app/shared/enum/provider';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { CreateClass, GetDepartmentByDirectionId, GetDirectionById } from 'src/app/shared/store/admin.actions';
+import { CreateClass } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetDepartments, GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-create-direction',
@@ -32,63 +28,51 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 
 export class CreateDirectionComponent implements OnInit, OnDestroy {
 
-  directionFormGroup: FormGroup;
-  departmentFormGroup: FormGroup;
-  classFormGroup: FormGroup;
+  @Select(AdminState.direction)
+  direction$: Observable<Direction>;
+  direction: Direction;
+  @Select(AdminState.department)
+  department$: Observable<Department>;
+  department: Department;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  //directionFormGroup: FormGroup;
+  //departmentFormGroup: FormGroup;
   editMode = false;
 
   @ViewChild('stepper') stepper: MatStepper;
 
-  ClassFormArray: FormArray = new FormArray([]);
-  iClass: IClass;
-
-  @Select(MetaDataState.classes)
-  iClasses$: Observable<IClass[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  admin: TechAdmin;
-  @Input() department: Department;
-  direction: Direction;
+    ClassFormArray: FormArray = new FormArray([]);
+    iClass: IClass[];
+    @Input() classes: IClass[];
 
 
-  constructor(private fb: FormBuilder,
+    isActiveDepartmentInfoButton = false;
+    isActiveDirectionInfoButton = false;
+    isActiveClassInfoButton = false;
+
+    departmentFormGroup: FormGroup;
+    directionFormGroup: FormGroup;
+    ClassFormGroup: FormGroup;
+
+   constructor(
+    private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
     private matDialog: MatDialog,) { }
 
     ngOnInit(): void {
-      //this.store.dispatch(new GetDepartments());
-      (this.admin) && this.classFormGroup.patchValue(this.admin, { emitEvent: false });
-      //this.passDepartmentFormGroup.emit(this.departmentFormGroup);
-  
+      this.ClassFormArray.push(this.newForm());
+      this.direction$.pipe(takeUntil(this.destroy$),filter((direction: Direction)=>!!direction)).subscribe((direction: Direction)=>this.direction = direction);
+      this.department$.pipe(takeUntil(this.destroy$),filter((department: Department)=>!!department)).subscribe((department: Department)=>this.department = department);
     }
 
-  /**
-   * This method add new FormGroup to teh FormArray
-   */
-   addClass(): void {
-    this.ClassFormArray.push(this.newForm());
-  }
-
-  /**
-   * This method create new FormGroup
-   * @param FormArray: array
-   */
-  newForm(iClass?: IClass): FormGroup {
-    const classFormGroup = this.fb.group({
-      title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-    });
-
-    iClass && classFormGroup.patchValue(iClass, { emitEvent: false });
-    return classFormGroup;
-  }
-
-  /**
-   * This method delete form from teh FormArray by index
-   * @param index: number
-   */
-  onDeleteForm(index: number): void {
-    this.ClassFormArray.removeAt(index);
-  }
+    private newForm( ): FormGroup {
+      const ClassFormGroup = this.fb.group({
+        title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      });
+      return ClassFormGroup;
+    }
 
   ngAfterViewInit(): void {
     if (this.editMode) {
@@ -96,21 +80,37 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
         this.stepper.selectedIndex = +createDirectionSteps[params.param];
       });
     }
+    }
+
+  addClass(): void {
+    this.ClassFormArray.push(this.newForm());
+  }
+
+  onDeleteForm(indexClass: number): void {
+    this.ClassFormArray.removeAt(indexClass);
   }
 
   onSubmit(): void {
     if (this.ClassFormArray.invalid) {
       this.checkValidationClass();
     } else {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: '330px',
+        data: {
+          type: ModalConfirmationType.createClass,
+        }
+      });
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+      const classes: IClass[] = [];
       const department = this.store.selectSnapshot<Department>(AdminState.department);
-        this.ClassFormArray.controls.forEach((form: FormGroup) => {
-          const iClass: IClass = new IClass(form.value, department.id);
-          this.store.dispatch(new CreateClass(iClass));
-        });
+
+      this.ClassFormArray.controls.forEach((form: FormGroup) =>
+        classes.push(new IClass(form.value, department.id))
+        );
+        result && this.store.dispatch(new CreateClass(classes));
+      });
     }
-    
   }
-  
 
     checkValidationClass(): void {
     Object.keys(this.ClassFormArray.controls).forEach(key => {
@@ -125,5 +125,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

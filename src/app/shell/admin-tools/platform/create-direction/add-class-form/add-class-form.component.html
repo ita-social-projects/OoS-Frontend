@@ -1,16 +1,4 @@
-<form [formGroup]="classFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <label class="step-label"> Назва напрямку </label>
-    <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
-    [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start center" class="department">Name</div>
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <label class="step-label"> Назва відділення </label>
-    <i class="material-icons status-info-icon" (click)="isActiveDepartmentInfoButton=!isActiveDepartmentInfoButton"
-    [ngClass]="isActiveDepartmentInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-  </div>
-    <div fxLayout="row" fxLayoutAlign="start center" class="direction">Name</div>
+<form [formGroup]="ClassFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step" [ngClass]="(classAmount>1) ? 'step-border' : ''">
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва класу <span class="step-required">*</span></label>
     <i class="material-icons status-info-icon" (click)="isActiveClassInfoButton=!isActiveClassInfoButton"
@@ -20,11 +8,16 @@
     <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="classFormGroup.get('title').errors?.required"
-    [invalid]="classFormGroup.get('title').invalid && classFormGroup.get('title').touched">
+    [isEmptyCheck]="ClassFormGroup.get('title').errors?.required"
+    [invalid]="ClassFormGroup.get('title').invalid && ClassFormGroup.get('title').touched">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validTextField"
-    [invalid]="classFormGroup.get('title').invalid && classFormGroup.get('title').touched"
-    [forbiddenCharacter]="classFormGroup.get('title').errors?.pattern?.requiredPattern">
+    [invalid]="ClassFormGroup.get('title').invalid && ClassFormGroup.get('title').touched"
+    [forbiddenCharacter]="ClassFormGroup.get('title').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
+  <div fxLayout='row' fxLayoutAlign='center' *ngIf="classAmount > 1">
+    <button class="btn-reset" type="reset" mat-button (click)="delete()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити клас
+    </button>
+  </div>
 </form>

@@ -20,7 +20,7 @@ export class CategoriesService {
     }
 
     if (filters.currentPage) {
-      const size: number = Constants.ITEMS_PER_PAGE;
+      const size: number = Constants.ITEMS_PER_PAGE_DIR;
       const from: number = size * (+filters.currentPage.element - 1);
 
       params = params.set('Size', size.toString());
@@ -65,7 +65,7 @@ export class CategoriesService {
   getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
   }
-  createClass(iClass: IClass): Observable<object> {
-    return this.http.post('/api/v1/Class/CreateMultiple', iClass);
+  createClass(classes: IClass[]): Observable<IClass[]> {
+    return this.http.post<IClass[]>('/api/v1/Class/CreateMultiple', classes);
   }
 }

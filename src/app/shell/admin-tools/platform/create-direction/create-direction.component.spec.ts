@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
-
 import { CreateDirectionComponent } from './create-direction.component';
 
 describe('CreateDirectionComponent', () => {
@@ -56,7 +55,6 @@ describe('CreateDirectionComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
 @Component({
   selector: 'app-validation-hint-for-input',
   template: ''
@@ -76,7 +74,6 @@ class MockValidationHintForInputComponent {
   template: ''
 })
 class MockAddDirectionFormComponent {
-  @Input() admin: TechAdmin;
 }
 
 @Component({
@@ -84,7 +81,6 @@ class MockAddDirectionFormComponent {
   template: ''
 })
 class MockAddDepartmentFormComponent {
-  @Input() admin: TechAdmin;
 }
 
 @Component({
@@ -92,5 +88,4 @@ class MockAddDepartmentFormComponent {
   template: ''
 })
 class MockAddClassFormComponent {
-  @Input() admin: TechAdmin;
 }

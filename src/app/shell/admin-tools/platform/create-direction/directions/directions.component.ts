@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -46,8 +44,6 @@ export class DirectionsComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private route: ActivatedRoute,
-    private router: Router,
     private actions$: Actions,
     private matDialog: MatDialog) { }
 

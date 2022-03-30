@@ -15,6 +15,8 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
+  @Input() totalEntitiesDir: number;
+
   @Output() pageChange = new EventEmitter<PaginationElement>();
 
   constructor() { }
@@ -91,7 +93,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   private getTotalPageAmount(): number {
-    return Math.ceil(this.totalEntities / this.size);
+    return Math.ceil(this.totalEntities / this.size)|| Math.ceil(this.totalEntitiesDir / this.size);
   }
 
   private createDisplayedPageList(startPage: number): PaginationElement[] {
