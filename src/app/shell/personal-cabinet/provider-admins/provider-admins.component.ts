@@ -79,9 +79,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       this.provider$.pipe(
         filter((provider: Provider) => !!provider),
         takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => {
-        this.provider = provider;
-      });
+      ).subscribe((provider: Provider) => this.provider = provider);
   }
 
   getAllProviderAdmins(): void {
