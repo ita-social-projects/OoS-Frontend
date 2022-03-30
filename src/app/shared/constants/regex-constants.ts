@@ -9,4 +9,5 @@ export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’-]*$/;
 export const BIRTH_CERTIFICATE_REGEX: RegExp = /^[A-Za-zА-Яа-яЇїІіЄєЁёҐґ'’\s\d-№]*$/;
 
 export const EDRPOUIPN_REGEX: RegExp = /^[A-Za-zА-Яа-я\s\d-№\/-]*$/;
+export const WEB_INST_FB_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’.,\d\/-]*$/;
 
