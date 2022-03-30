@@ -14,12 +14,12 @@
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+              class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" 
             mat-raised-button matStepperNext 
             (click)="checkValidation(InfoFormGroup)"
             [disabled]="checkEmpty(InfoFormGroup)"
-          >Далі</button>
+          >ДАЛІ</button>
         </div>
       </mat-step>
 
@@ -31,11 +31,11 @@
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)" [provider]="provider">
         </app-create-contacts-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+              class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-raised-button matStepperNext
-            (click)="checkValidationContacts(ContactsFormGroup)">Далі</button>
+            (click)="checkValidationContacts(ContactsFormGroup)">ДАЛІ</button>
         </div>
       </mat-step>
 
@@ -56,11 +56,11 @@
           </mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+          <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+              class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
-            [disabled]="(!isAgreed || !isNotRobot) && !editMode">Завершити</button>
+            [disabled]="(!isAgreed || !isNotRobot) && !editMode">ЗБЕРЕГТИ</button>
         </div>
       </mat-step>
 
