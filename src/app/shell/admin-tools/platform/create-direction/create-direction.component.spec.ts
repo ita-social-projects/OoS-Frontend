@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +27,7 @@ describe('CreateDirectionComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         MatStepperModule,
+        MatDialogModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [

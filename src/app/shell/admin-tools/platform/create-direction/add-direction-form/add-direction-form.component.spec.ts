@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +24,7 @@ describe('AddDirectionFormComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
+        MatDialogModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
       ],
