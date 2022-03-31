@@ -10,10 +10,8 @@ import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { AboutPortal } from 'src/app/shared/models/aboutPortal.model';
-import { GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
+import { GetFilteredDirections, GetInfoAboutPortal } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 
 @Component({
@@ -26,23 +24,20 @@ export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
 
+  @Select(AdminState.aboutPortal)
+  aboutPortal$: Observable<AboutPortal>;
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Select(AdminState.aboutPortal)
-  aboutPortal$: Observable<AboutPortal>;
-
-
+  @Input() direction: Direction;
   tabIndex: number;
-
 
   constructor(
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
     private matDialog: MatDialog) { }
-
 
   ngOnInit(): void {
     this.store.dispatch(new GetInfoAboutPortal());

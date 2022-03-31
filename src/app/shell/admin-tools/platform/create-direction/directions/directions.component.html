@@ -1,4 +1,4 @@
-<div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+<div *ngIf="direction" class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
   <div class="search shadow">
     <mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
       <input type="text" maxlength="200" [formControl]="searchValue" matInput placeholder="Введіть назву напрямку"
@@ -9,14 +9,18 @@
   </div>
   <a routerLink="./create"><button class="btn" mat-raised-button>Додати напрямок</button></a>
 </div>
-<div class="card-wrapper" *ngIf="(filteredDirections$ | async); else isEmptyList">
+<ng-container *ngIf="(filteredDirections$ | async); else isEmptyList">
+<div class="card-wrapper">
   <app-category-card class="card" *ngFor="let direction of (filteredDirections$ | async)?.entities " [direction]="direction"
    (deleteDirection)="onDelete($event)">
   </app-category-card>
 </div>
-  <app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage"
-  (pageChange)="onPageChange($event)">
- </app-paginator>
+<app-paginator  [totalEntitiesDir]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage"
+(pageChange)="onPageChange($event)">
+</app-paginator>
+</ng-container>
+
+
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noDirections"></app-no-result-card>
 </ng-template>

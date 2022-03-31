@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
 import { City } from '../models/city.model';
@@ -25,8 +26,7 @@ export class Constants {
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
-
-  static readonly ITEMS_PER_PAGE_DIR = 10;
+  static readonly ITEMS_PER_PAGE_DIR =10;
   static readonly ITEMS_PER_PAGE = 2 * Math.floor(window.innerWidth / (332));
 
   static readonly RATE_ONE_STAR = 1;
