@@ -1,3 +1,4 @@
+import { CdkStepperModule } from '@angular/cdk/stepper';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -5,9 +6,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { Department, Direction } from 'src/app/shared/models/category.model';
 
 import { AddDepartmentFormComponent } from './add-department-form.component';
 
@@ -24,10 +27,13 @@ describe('AddClassFormComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        BrowserAnimationsModule,
         MatDialogModule,
+        BrowserAnimationsModule,
         NgxsModule.forRoot([]),
-      ],
+        MatStepperModule,
+        NoopAnimationsModule,
+        CdkStepperModule,
+       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         AddDepartmentFormComponent,
@@ -62,4 +68,9 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() forbiddenCharacter: string;
   @Input() isEmptyCheck: boolean;
+  @Input() direction: Direction;
+  @Input() department: Department;
+  @Input() directionFormGroup: FormGroup;
+  @Input() classFormGroup: FormGroup;
+  @Input() departmentFormGroup: FormGroup;
 }

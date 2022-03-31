@@ -1,6 +1,7 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -8,6 +9,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { Direction } from 'leaflet';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 import { DirectionsComponent } from './directions.component';
 
@@ -26,10 +29,13 @@ describe('DirectionsComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         MatStepperModule,
+        MatDialogModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         DirectionsComponent,
+        MockListChildCardPaginatorComponent,
+        MockAllCategoriesCardComponent,
       ]
     })
     .compileComponents();
@@ -45,3 +51,18 @@ describe('DirectionsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-category-card',
+  template: ''
+})
+class MockAllCategoriesCardComponent {
+  @Input() direction: Direction;
+}
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListChildCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+}

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
@@ -28,6 +28,7 @@ describe('CreateDirectionComponent', () => {
         RouterTestingModule,
         MatStepperModule,
         MatDialogModule,
+        NoopAnimationsModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
