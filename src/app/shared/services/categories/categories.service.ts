@@ -44,8 +44,8 @@ export class CategoriesService {
   createDirection(direction: Direction): Observable<Direction> {
     return this.http.post<Direction>('/api/v1/Direction/Create', direction);
   }
-  createDepartment(department: Department): Observable<object> {
-    return this.http.post('/api/v1/Department/Create', department);
+  createDepartment(department: Department): Observable<Department> {
+    return this.http.post<Department>('/api/v1/Department/Create', department);
   }
   updateDirection(direction: Direction): Observable<object> {
     return this.http.put('/api/v1/Direction/Update', direction);

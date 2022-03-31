@@ -11,7 +11,6 @@ import { DirectionsComponent } from './platform/create-direction/directions/dire
   declarations: [
     PlatformComponent,
     DirectionsComponent,
-
   ],
   imports: [
     CommonModule,

@@ -46,8 +46,3 @@ export enum createProviderSteps {
   'description'
 }
 
-export enum createDirectionSteps {
-  'direction',
-  'department',
-  'class'
-}

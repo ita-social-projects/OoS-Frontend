@@ -6,11 +6,12 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { dispatch } from 'rxjs/internal/observable/pairs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { createDirectionSteps } from 'src/app/shared/enum/provider';
+import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
 import { CreateClass } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
@@ -36,33 +37,29 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   department: Department;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  //directionFormGroup: FormGroup;
-  //departmentFormGroup: FormGroup;
   editMode = false;
 
   @ViewChild('stepper') stepper: MatStepper;
 
-    ClassFormArray: FormArray = new FormArray([]);
-    iClass: IClass[];
-    @Input() classes: IClass[];
+  ClassFormArray: FormArray = new FormArray([]);
+  @Input() classes: IClass[];
 
+  isActiveDepartmentInfoButton = false;
+  isActiveDirectionInfoButton = false;
+  isActiveClassInfoButton = false;
 
-    isActiveDepartmentInfoButton = false;
-    isActiveDirectionInfoButton = false;
-    isActiveClassInfoButton = false;
+  departmentFormGroup: FormGroup;
+  directionFormGroup: FormGroup;
+  ClassFormGroup: FormGroup;
 
-    departmentFormGroup: FormGroup;
-    directionFormGroup: FormGroup;
-    ClassFormGroup: FormGroup;
-
-   constructor(
+  constructor(
     private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
     private matDialog: MatDialog,) { }
 
     ngOnInit(): void {
-      this.ClassFormArray.push(this.newForm());
+      this.addClass();
       this.direction$.pipe(takeUntil(this.destroy$),filter((direction: Direction)=>!!direction)).subscribe((direction: Direction)=>this.direction = direction);
       this.department$.pipe(takeUntil(this.destroy$),filter((department: Department)=>!!department)).subscribe((department: Department)=>this.department = department);
     }
@@ -102,12 +99,12 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe((result: boolean) => {
       const classes: IClass[] = [];
-      const department = this.store.selectSnapshot<Department>(AdminState.department);
+      const department = result && this.store.selectSnapshot<Department>(AdminState.department);
 
       this.ClassFormArray.controls.forEach((form: FormGroup) =>
         classes.push(new IClass(form.value, department.id))
         );
-        result && this.store.dispatch(new CreateClass(classes));
+        this.store.dispatch(new CreateClass(classes));
       });
     }
   }

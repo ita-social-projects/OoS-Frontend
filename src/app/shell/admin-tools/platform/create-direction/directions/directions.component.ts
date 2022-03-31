@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -17,7 +17,7 @@ import { AdminState } from 'src/app/shared/store/admin.state';
   templateUrl: './directions.component.html',
   styleUrls: ['./directions.component.scss']
 })
-export class DirectionsComponent implements OnInit {
+export class DirectionsComponent implements OnInit, OnDestroy {
 
   readonly noDirections = NoResultsTitle.noDirections;
   searchValue = new FormControl('', [Validators.maxLength(200)]);
@@ -26,10 +26,8 @@ export class DirectionsComponent implements OnInit {
 
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
-
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;
-
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;
 
@@ -50,7 +48,6 @@ export class DirectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch([new FilterClear(), new GetFilteredDirections(), ]);
-
       this.searchValue.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: string) => {
@@ -68,6 +65,7 @@ export class DirectionsComponent implements OnInit {
       .pipe(
         debounceTime(1000),
         distinctUntilChanged(),
+        startWith(''),
         takeUntil(this.destroy$))
         .subscribe(() => this.store.dispatch([
           new GetFilteredDirections(),
@@ -75,7 +73,6 @@ export class DirectionsComponent implements OnInit {
   }
 
   onSearch(): void {
-
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
 

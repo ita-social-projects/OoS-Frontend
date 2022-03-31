@@ -3,7 +3,6 @@ export class Direction {
   title: string;
   description: string;
 
-
   constructor(info, id?) {
     this.id = id;
     this.title = info.title;

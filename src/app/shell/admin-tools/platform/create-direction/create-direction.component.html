@@ -38,7 +38,7 @@
         </div>
         <ng-container>
         <app-add-class-form *ngFor="let form of ClassFormArray.controls" [ClassFormGroup]="form"
-        [indexClass]="ClassFormArray.controls.indexOf(form)" [classAmount]="ClassFormArray.controls.length" [direction]="direction" [department]="department"
+        [indexClass]="ClassFormArray.controls.indexOf(form)" [classAmount]="ClassFormArray.controls.length" [department]="department"
         (deleteForm)="onDeleteForm($event)">
         </app-add-class-form>
         </ng-container>

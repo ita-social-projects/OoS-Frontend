@@ -11,7 +11,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
-  @Input() totalEntitiesDir: number;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
 

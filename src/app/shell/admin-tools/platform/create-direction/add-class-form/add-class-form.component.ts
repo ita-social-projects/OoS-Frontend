@@ -22,7 +22,7 @@ export class AddClassFormComponent implements OnInit {
   ngOnInit(): void {
    }
 
-   delete(): void {
+   onDelete(): void {
     this.deleteForm.emit(this.indexClass);
   }
 

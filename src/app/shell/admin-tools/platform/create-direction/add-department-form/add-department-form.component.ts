@@ -34,8 +34,7 @@ export class AddDepartmentFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.departmentFormGroup.invalid) {
@@ -48,8 +47,8 @@ export class AddDepartmentFormComponent implements OnInit {
        }
      });
      dialogRef.afterClosed().subscribe((result: boolean) => {
-      const department = new Department(this.departmentFormGroup.value, this.direction.id);
-       result && this.store.dispatch(new CreateDepartment(department));
+      const department = result && new Department(this.departmentFormGroup.value, this.direction.id);
+       this.store.dispatch(new CreateDepartment(department));
        this._stepper.next();
      })
    }

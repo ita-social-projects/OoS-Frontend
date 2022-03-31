@@ -15,7 +15,6 @@ export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   department: Department;
-  iClass: IClass[];
   classes: IClass[];
   aboutPortal: AboutPortal;
   departments: Department[];
@@ -30,7 +29,6 @@ export interface AdminStateModel {
     aboutPortal: null,
     direction: undefined,
     department: undefined,
-    iClass: [],
     classes: [],
     departments: [],
     isLoading: false,
@@ -55,13 +53,11 @@ export class AdminState {
   @Selector()
   static departments(state: AdminStateModel): Department [] { return state.departments; }
   @Selector()
-  static class(state: AdminStateModel): IClass [] { return state.iClass; }
+  static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
   @Selector()
-  static searchQuery(state: AdminStateModel): string { return state.searchQuery }
+  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
   @Selector()
-  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections }
-  @Selector()
-  static currentPage(state: AdminStateModel): {} { return state.currentPage };
+  static currentPage(state: AdminStateModel): {} { return state.currentPage; };
   @Selector()
   static isLoading(state: AdminStateModel): boolean { return state.isLoading };
 
@@ -93,20 +89,20 @@ export class AdminState {
   }
 
   @Action(OnUpdateInfoAboutPortalFail)
-  OnUpdateInfoAboutPortalFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalFail): void {
+  onUpdateInfoAboutPortalFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnUpdateInfoAboutPortalSuccess)
-  OnUpdateInfoAboutPortalSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalSuccess): void {
+  onUpdateInfoAboutPortalSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/about']);
   }
 
   @Action(DeleteDirectionById)
-  DeleteDirectionById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDirectionById): Observable<object> {
+  deleteDirectionById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDirectionById): Observable<object> {
     return this.categoriesService
       .deleteDirection(payload)
       .pipe(
@@ -116,20 +112,20 @@ export class AdminState {
   }
 
   @Action(OnDeleteDirectionFail)
-  OnDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
+  onDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnDeleteDirectionSuccess)
-  OnDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionSuccess): void {
+  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionSuccess): void {
     console.log('Direction is deleted', payload);
     dispatch(new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/directions']);
   }
 
   @Action(CreateDirection)
-  CreateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<object> {
+  createDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<object> {
     return this.categoriesService
     .createDirection(payload)
       .pipe(
@@ -139,20 +135,20 @@ export class AdminState {
   }
 
   @Action(OnCreateDirectionFail)
-  OnCreateDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionFail): void {
+  onCreateDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateDirectionSuccess)
-  OnCreateDirectionSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionSuccess): void {
+  onCreateDirectionSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
     patchState({direction: payload});
     console.log('Direction is created', payload);
     dispatch(new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }));
   }
   @Action(UpdateDirection)
-  updateChild({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<object> {
+  updateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<object> {
     return this.categoriesService
       .updateDirection(payload)
       .pipe(
@@ -173,7 +169,7 @@ export class AdminState {
     this.router.navigate(['/admin-tools/platform/about']);
   }
   @Action(CreateDepartment)
-  CreateDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDepartment): Observable<object> {
+  createDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDepartment): Observable<object> {
     return this.categoriesService
       .createDepartment(payload)
       .pipe(
@@ -183,13 +179,13 @@ export class AdminState {
   }
 
   @Action(OnCreateDepartmentFail)
-  OnCreateDepartmentFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentFail): void {
+  onCreateDepartmentFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(OnCreateDepartmentSuccess)
-  OnCreateDepartmentSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentSuccess): void {
+  onCreateDepartmentSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentSuccess): void {
     dispatch(new MarkFormDirty(false));
     patchState({department: payload});
     console.log('Department is created', payload);
@@ -197,7 +193,7 @@ export class AdminState {
   }
 
   @Action(CreateClass)
-  CreateClass({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateClass): Observable<object> {
+  createClass({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateClass): Observable<object> {
     return this.categoriesService
       .createClass(payload)
       .pipe(
@@ -215,7 +211,7 @@ export class AdminState {
   @Action(OnCreateClassSuccess)
   onCreateClassSuccess({ dispatch,patchState }: StateContext<AdminStateModel>, { payload }: OnCreateClassSuccess): void {
     dispatch(new MarkFormDirty(false));
-    patchState({iClass: payload});
+    patchState({classes: payload});
     console.log('Class is created', payload);
     dispatch(new ShowMessageBar({ message: 'Клас успішно створенний', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/directions']);
@@ -242,7 +238,6 @@ export class AdminState {
         }));
   }
 
-
   @Action(SetSearchQueryValue)
   setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
     patchState({ searchQuery: payload });
@@ -257,7 +252,6 @@ export class AdminState {
   getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
     patchState({ isLoading: true });
     const state: AdminStateModel = getState();
-
     return this.categoriesService
       .getFilteredDirections( state)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
@@ -269,8 +263,9 @@ export class AdminState {
       patchState({ currentPage: payload });
       dispatch(new GetFilteredDirections());
     }
+
     @Action(FilterClear)
-  FilterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
+    filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
     patchState({
       searchQuery: '',
       currentPage: {
@@ -279,5 +274,4 @@ export class AdminState {
       }
     });
   }
-
 }

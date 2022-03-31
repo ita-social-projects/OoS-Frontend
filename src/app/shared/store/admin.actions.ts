@@ -1,6 +1,5 @@
-import { Direction } from "@angular/cdk/bidi";
 import { AboutPortal } from "../models/aboutPortal.model";
-import { Department, IClass } from "../models/category.model";
+import { Department, Direction, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 
 export class GetInfoAboutPortal {
@@ -45,7 +44,7 @@ export class OnCreateDirectionSuccess {
 }
 export class UpdateDirection {
   static readonly type = '[admin] update Direction';
-  constructor(public payload) { }
+  constructor(public payload: Direction) { }
 }
 export class OnUpdateDirectionFail {
   static readonly type = '[admin] update Direction fail';

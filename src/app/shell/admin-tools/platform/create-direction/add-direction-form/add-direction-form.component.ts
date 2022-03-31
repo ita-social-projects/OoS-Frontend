@@ -37,9 +37,7 @@ export class AddDirectionFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    (this.admin) && this.directionFormGroup.patchValue(this.admin, { emitEvent: false });
-  }
+  ngOnInit(): void { }
 
   onSubmit(): void {
    if (this.directionFormGroup.invalid) {
@@ -53,7 +51,7 @@ export class AddDirectionFormComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
      const direction = new Direction(this.directionFormGroup.value);
-      result && this.store.dispatch(new CreateDirection(direction));
+     result && this.store.dispatch(new CreateDirection(direction));
       this._stepper.next();
     })
   }
