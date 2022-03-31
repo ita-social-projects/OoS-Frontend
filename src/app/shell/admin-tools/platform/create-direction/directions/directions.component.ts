@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
@@ -24,7 +24,8 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   searchValue = new FormControl('', [Validators.maxLength(200)]);
   DirectionsPage = true;
   searchedText: string;
-
+  
+  @Input() direction: Direction;
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
   @Select(AdminState.searchQuery)
