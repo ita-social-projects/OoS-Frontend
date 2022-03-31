@@ -76,6 +76,12 @@ import {
   CreateProviderAdmin,
   OnCreateProviderAdminFail,
   OnCreateProviderAdminSuccess,
+  DeleteProviderAdminById,
+  OnDeleteProviderAdminFail,
+  OnDeleteProviderAdminSuccess,
+  BlockProviderAdminById,
+  OnBlockProviderAdminFail,
+  OnBlockProviderAdminSuccess,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -373,6 +379,50 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
     this.router.navigate(['/personal-cabinet/administration/all']);
+  }
+
+  @Action(BlockProviderAdminById)
+  blockProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: BlockProviderAdminById): Observable<object> {
+    return this.providerAdminService
+      .blockProviderAdmin(payload.userId, payload.providerId)
+      .pipe(
+        tap((res) => dispatch(new OnBlockProviderAdminSuccess(payload))),
+        catchError((error: Error) => of(dispatch(new OnBlockProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnBlockProviderAdminFail)
+  onBlockProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnBlockProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnBlockProviderAdminSuccess)
+  onBlockProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnBlockProviderAdminSuccess): void {
+    dispatch(new ShowMessageBar({ message: `Дякуємо! користувача заблоковано!`, type: 'success' }));
+    dispatch(new GetAllProviderAdmins());
+  }
+
+  @Action(DeleteProviderAdminById)
+  deleteProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteProviderAdminById): Observable<object> {
+    return this.providerAdminService
+      .deleteProviderAdmin(payload.userId, payload.providerId)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteProviderAdminSuccess(payload))),
+        catchError((error: Error) => of(dispatch(new OnDeleteProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnDeleteProviderAdminFail)
+  onDeleteProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnDeleteProviderAdminSuccess)
+  onDeleteProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteProviderAdminSuccess): void {
+    dispatch(new ShowMessageBar({ message: `Дякуємо! користувача видалено!`, type: 'success' }));
+    dispatch(new GetAllProviderAdmins());
   }
 
   @Action(CreateApplication)
