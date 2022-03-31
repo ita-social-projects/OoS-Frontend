@@ -48,14 +48,18 @@
 <ng-template #UsersListFull let-filterValue>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="providerAdmins?.length else isEmptyList;">
-      <app-users-list [users]="providerAdmins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)" (blockAdmin)="onBlock($event)"></app-users-list>
+      <app-users-list [users]="providerAdmins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+        (blockAdmin)="onBlock($event)"></app-users-list>
     </ng-container>
-  </ng-container>  
+  </ng-container>
 </ng-template>
 
 <ng-template #UsersListFiltered let-filterValue>
-  <ng-container *ngIf="filteredProviderAdmins?.length else isEmptyList;">
-    <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)" (blockAdmin)="onBlock($event)"></app-users-list>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="filteredProviderAdmins?.length else isEmptyList;">
+      <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+        (blockAdmin)="onBlock($event)"></app-users-list>
+    </ng-container>
   </ng-container>
 </ng-template>
 
