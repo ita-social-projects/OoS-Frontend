@@ -70,7 +70,8 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
         this.ActualAddressFormGroup.enable();
         this.ActualAddressFormGroup.markAsUntouched();
         this.setValidators();
-        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id').setValue(this.provider.actualAddress.id);
+        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id')
+          .setValue(this.provider.actualAddress.id);
       }
     });
   }
@@ -84,7 +85,8 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       : Validators.pattern(TEXT_REGEX);
 
     Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
-      this.ActualAddressFormGroup.get(formControlTitle).setValidators([addValidator(formControlTitle), Validators.required]);
+      this.ActualAddressFormGroup.get(formControlTitle)
+        .setValidators([addValidator(formControlTitle), Validators.required]);
     });    
   }
 
