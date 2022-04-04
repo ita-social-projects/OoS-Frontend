@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from '../../constants/constants';
+import { Constants, PaginationConstants } from '../../constants/constants';
 import { IClass, Department, Direction, DirectionsFilter } from '../../models/category.model';
 import { AdminStateModel } from '../../store/admin.state';
 
@@ -20,7 +20,7 @@ export class CategoriesService {
     }
 
     if (filters.currentPage) {
-      const size: number = Constants.ITEMS_PER_PAGE_DIR;
+      const size: number = PaginationConstants.ITEMS_PER_PAGE_TEN;
       const from: number = size * (+filters.currentPage.element - 1);
 
       params = params.set('Size', size.toString());

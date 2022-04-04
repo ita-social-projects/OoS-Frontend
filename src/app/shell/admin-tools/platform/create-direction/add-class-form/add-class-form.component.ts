@@ -6,7 +6,7 @@ import {  FormGroup } from '@angular/forms';
   templateUrl: './add-class-form.component.html',
   styleUrls: ['./add-class-form.component.scss']
 })
-export class AddClassFormComponent implements OnInit {
+export class AddClassFormComponent {
 
   @Input() ClassFormGroup: FormGroup;
   @Input() indexClass: number;
@@ -19,13 +19,9 @@ export class AddClassFormComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-   }
-
    onDelete(): void {
     this.deleteForm.emit(this.indexClass);
   }
-
 }
 
 

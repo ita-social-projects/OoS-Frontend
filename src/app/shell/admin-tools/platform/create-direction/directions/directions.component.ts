@@ -5,6 +5,7 @@ import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
@@ -19,36 +20,32 @@ import { FilterState } from 'src/app/shared/store/filter.state';
   styleUrls: ['./directions.component.scss']
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
-
-  readonly noDirections = NoResultsTitle.noDirections;
-  searchValue = new FormControl('', [Validators.maxLength(200)]);
-  DirectionsPage = true;
-  searchedText: string;
-  
   @Input() direction: Direction;
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  readonly noDirections = NoResultsTitle.noDirections;
+  readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
+
+  searchValue = new FormControl('', [Validators.maxLength(200)]);
+  searchedText: string;
+  isEditMode: true;
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
-
-  tabIndex: number;
 
   constructor(
     private store: Store,
     private actions$: Actions,
     private matDialog: MatDialog) { }
 
-
   ngOnInit(): void {
-    this.store.dispatch([new FilterClear(), new GetFilteredDirections(), ]);
-      this.searchValue.valueChanges
+    this.store.dispatch([new FilterClear(), new GetFilteredDirections()]);
+    this.searchValue.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: string) => {
         this.searchedText = val;
@@ -61,15 +58,13 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
 
-      this.actions$.pipe(ofAction(FilterChange))
+    this.actions$.pipe(ofAction(FilterChange))
       .pipe(
         debounceTime(1000),
         distinctUntilChanged(),
         startWith(''),
-        takeUntil(this.destroy$))
-        .subscribe(() => this.store.dispatch([
-          new GetFilteredDirections(),
-        ]));
+        takeUntil(this.destroy$)
+      ).subscribe(() => this.store.dispatch(new GetFilteredDirections()));
   }
 
   onSearch(): void {

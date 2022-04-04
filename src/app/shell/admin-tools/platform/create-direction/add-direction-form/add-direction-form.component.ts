@@ -20,9 +20,8 @@ import { AdminStateModel } from 'src/app/shared/store/admin.state';
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class AddDirectionFormComponent implements OnInit {
+export class AddDirectionFormComponent {
 
-  @Input() admin: TechAdmin;
   isActiveDirectionInfoButton = false;
   AdminStateModel: AdminStateModel;
   directionFormGroup: FormGroup;
@@ -36,8 +35,6 @@ export class AddDirectionFormComponent implements OnInit {
       title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
     });
   }
-
-  ngOnInit(): void { }
 
   onSubmit(): void {
    if (this.directionFormGroup.invalid) {
@@ -54,10 +51,10 @@ export class AddDirectionFormComponent implements OnInit {
      result && this.store.dispatch(new CreateDirection(direction));
       this._stepper.next();
     })
-  }
+   }
   }
 
-  checkValidation(form: FormGroup): void {
+  private checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });

@@ -14,7 +14,7 @@ import { CreateDepartment } from 'src/app/shared/store/admin.actions';
   templateUrl: './add-department-form.component.html',
   styleUrls: ['./add-department-form.component.scss']
 })
-export class AddDepartmentFormComponent implements OnInit {
+export class AddDepartmentFormComponent {
 
   @Input() direction: Direction;
 
@@ -34,8 +34,6 @@ export class AddDepartmentFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   onSubmit(): void {
     if (this.departmentFormGroup.invalid) {
      this.checkValidation(this.departmentFormGroup);
@@ -51,13 +49,13 @@ export class AddDepartmentFormComponent implements OnInit {
        this.store.dispatch(new CreateDepartment(department));
        this._stepper.next();
      })
-   }
+    }
    }
 
   checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
-  }
+   }
   }
 

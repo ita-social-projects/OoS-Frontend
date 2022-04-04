@@ -37,7 +37,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   department: Department;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  editMode = false;
+  editMode = true;
 
   @ViewChild('stepper') stepper: MatStepper;
 

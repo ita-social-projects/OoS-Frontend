@@ -11,7 +11,7 @@ import { SetDirections } from '../../store/filter.actions';
 })
 export class CategoryCardComponent implements OnInit {
   @Input() workshopsCount: number;
-  @Input() isEditMode: boolean;
+  @Input() isEditMode: true;
   @Input() direction: Direction;
   @Input() icons: {};
   @Output() deleteDirection = new EventEmitter<Direction>();
