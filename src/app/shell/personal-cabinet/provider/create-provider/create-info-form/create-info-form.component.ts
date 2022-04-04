@@ -3,11 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Constants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-<<<<<<< HEAD
-import { DATE_REGEX, EDRPOUIPN_REGEX, FOUNDER_REGEX, TEXT_REGEX, WEB_INST_FB_REGEX } from 'src/app/shared/constants/regex-constants';
-=======
 import { DATE_REGEX, EDRPOUIPN_REGEX, FOUNDER_REGEX, NAME_REGEX, TEXT_REGEX, TEXT_WITH_DIGITS_REGEX, WEB_INST_FB_REGEX } from 'src/app/shared/constants/regex-constants';
->>>>>>> 513ea612c6bbccdcd5bcffb1efd08918166f54cb
 import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
