@@ -148,21 +148,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-    checkEmpty(form: FormGroup) {
-    return !form?.value.fullTitle 
-      || !form?.value.shortTitle
-      || !form?.value.director
-      || !form?.value.directorDateOfBirth
-      || !form?.value.edrpouIpn
-      || !form?.value.phoneNumber
-      || ! form?.value.email
-      || !form?.value.founder
+  checkEmpty(form: FormGroup): boolean {      
+    return Object.keys(form.controls)
+      .filter(key => !form.get(key).value && form.get(key).status !== 'VALID').length > 0;
   }
-
-
-  // checkEmpty(form: FormGroup) {      
-  //   return Object?.values(form?.controls).filter(el => (el?.value === '' && el?.status !== 'VALID')).length > 0;
-  // }
 
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
