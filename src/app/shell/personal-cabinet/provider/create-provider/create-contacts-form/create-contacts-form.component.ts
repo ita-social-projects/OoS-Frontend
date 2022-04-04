@@ -70,7 +70,8 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
         this.ActualAddressFormGroup.enable();
         this.ActualAddressFormGroup.markAsUntouched();
         this.setValidators();
-        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id').setValue(this.provider.actualAddress.id);
+        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id')
+          .setValue(this.provider.actualAddress.id);
       }
     });
   }
@@ -78,11 +79,15 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   * This method add validators to teh form-group when actual address is not teh same as legal address
   */
   private setValidators(): void {
-    const addValidator = (formControlTitle: string) => (formControlTitle !== 'buildingNumber') ? Validators.pattern(TEXT_REGEX) : Validators.pattern(TEXT_WITH_DIGITS_REGEX);
+    const addValidator = (formControlTitle: string) => (formControlTitle === 'buildingNumber' 
+      || formControlTitle === 'street') 
+      ? Validators.pattern(TEXT_WITH_DIGITS_REGEX) 
+      : Validators.pattern(TEXT_REGEX);
 
     Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
-      this.ActualAddressFormGroup.get(formControlTitle).setValidators([addValidator(formControlTitle), Validators.required]);
-    });
+      this.ActualAddressFormGroup.get(formControlTitle)
+        .setValidators([addValidator(formControlTitle), Validators.required]);
+    });    
   }
 
   ngOnDestroy(): void {
