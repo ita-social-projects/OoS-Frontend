@@ -149,17 +149,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   checkEmpty(form: FormGroup) {
-    console.log(form?.controls);  
-    return !form?.value.fullTitle 
-      || !form?.value.shortTitle
-      || !form?.value.director
-      || !form?.value.directorDateOfBirth
-      || !form?.value.edrpouIpn
-      || !form?.value.phoneNumber
-      || ! form?.value.email
-      || !form?.value.founder
+    console.log(form?.controls);   
+    return Object.values(form?.controls).filter(el => (el.value === '' && el.status !== 'VALID')).length > 0;
   }
-
 
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
