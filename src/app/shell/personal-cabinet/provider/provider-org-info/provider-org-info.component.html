@@ -31,12 +31,12 @@
           <p>{{provider.email}}</p>
           <h5>Засновник</h5>
           <p>{{provider.founder}}</p>
-          <h5>Вебсайт</h5>
-          <p>{{provider.website || 'Не вказано'}}</p>
-          <h5>Facebook</h5>
-          <p>{{provider.facebook || 'Не вказано'}}</p>
-          <h5>Instagram</h5>
-          <p>{{provider.instagram || 'Не вказано'}}</p>
+          <h5 *ngIf='provider.website'>Веб сайт</h5>
+          <p>{{provider.website}}</p>
+          <h5 *ngIf='provider.facebook'>Facebook</h5>
+          <p>{{provider.facebook}}</p>
+          <h5 *ngIf='provider.instagram'>Instagram</h5>
+          <p>{{provider.instagram}}</p>
         </mat-tab>
 
         <mat-tab label="Контакти">
