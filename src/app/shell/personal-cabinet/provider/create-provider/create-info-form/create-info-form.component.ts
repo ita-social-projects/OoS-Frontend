@@ -32,8 +32,8 @@ export class CreateInfoFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.InfoFormGroup = this.formBuilder.group({
-      fullTitle: new FormControl('', Validators.required),
-      shortTitle: new FormControl('', Validators.required),
+      fullTitle: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      shortTitle: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       edrpouIpn: new FormControl('', [Validators.required, Validators.pattern(EDRPOUIPN_REGEX)]),
       director: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       directorDateOfBirth: new FormControl('', Validators.required),
