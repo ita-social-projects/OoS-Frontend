@@ -1,25 +1,25 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { DetailsPageComponent } from './details-page/details-page.component';
+import { InformationPageComponent } from './information-page/information-page.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { DetailsComponent } from './details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { RouterModule } from '@angular/router';
-import { WorkshopAboutComponent } from './details-page/workshop-about/workshop-about.component';
-import { ProviderAboutComponent } from './details-page/provider-about/provider-about.component';
-import { WorkshopTeachersComponent } from './details-page/workshop-teachers/workshop-teachers.component';
-import { ReviewsComponent } from './details-page/reviews/reviews.component';
+import { WorkshopAboutComponent } from './information-page/workshop-about/workshop-about.component';
+import { ProviderAboutComponent } from './information-page/provider-about/provider-about.component';
+import { WorkshopTeachersComponent } from './information-page/workshop-teachers/workshop-teachers.component';
+import { ReviewsComponent } from './information-page/reviews/reviews.component';
 import { CommonModule } from '@angular/common';
 import { ActionsComponent } from './side-menu/actions/actions.component';
 import { ContactsComponent } from './side-menu/contacts/contacts.component';
 import { ScheduleComponent } from './side-menu/schedule/schedule.component';
-import { AllProviderWorkshopsComponent } from './details-page/all-provider-workshops/all-provider-workshops.component';
+import { AllProviderWorkshopsComponent } from './information-page/all-provider-workshops/all-provider-workshops.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
     DetailsComponent,
-    DetailsPageComponent,
+    InformationPageComponent,
     SideMenuComponent,
     WorkshopAboutComponent,
     ProviderAboutComponent,

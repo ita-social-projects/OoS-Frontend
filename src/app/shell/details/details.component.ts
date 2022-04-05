@@ -30,6 +30,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   workshop: Workshop;
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  entityType: EntityType;
 
   constructor(
     private store: Store,
@@ -43,29 +44,45 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe(params => {
-        this.router.url.includes(EntityType.workshop) ?
-          this.getWorkshop(params.id) :
-          this.getProvider(params.id);
+        this.entityType = this.router.url.includes(EntityType.workshop) ?
+          EntityType.workshop :
+          EntityType.provider;
+
+        this.getEntity(params.id);
 
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
       });
+
+    this.setDataDubscribtion();
   }
 
-  /**
-  * This method get Workshop by Id, set subscripbtion for rating action change;
-  */
-  private getWorkshop(workshopId: string): void {
-    this.store.dispatch(new GetWorkshopById(workshopId));
-
+  private setDataDubscribtion(): void {
     this.workshop$
       .pipe(
         filter((workshop: Workshop) => !!workshop),
         takeUntil(this.destroy$),
         delay(0))
-      .subscribe((workshop: Workshop) => this.getWorkshopData(workshop));
+      .subscribe((workshop: Workshop) => {
+        if (this.entityType === EntityType.workshop) {
+          this.workshop = workshop;
+          this.getWorkshopData(workshop);
+        } else {
+          this.workshop = null;
+        }
+      });
+
+    this.provider$.pipe(
+      takeUntil(this.destroy$),
+      filter((provider: Provider) => !!provider)
+    ).subscribe((provider: Provider) => {
+      this.provider = provider;
+      if (this.entityType === EntityType.provider) {
+        this.getProviderData(provider);
+      }
+    });
 
     this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
@@ -75,34 +92,26 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method get provider by Id
-   */
-  private getProvider(providerId: string): void {
-    this.store.dispatch(new GetProviderById(providerId));
-    this.provider$.pipe(
-      takeUntil(this.destroy$),
-      filter((provider: Provider) => !!provider)
-    ).subscribe((provider: Provider) => this.getProviderData(provider));
+  * This method get Workshop by Id, set subscripbtion for rating action change;
+  */
+  private getEntity(id: string): void {
+    this.entityType === EntityType.workshop ?
+      this.store.dispatch(new GetWorkshopById(id)) :
+      this.store.dispatch(new GetProviderById(id));
   }
 
   /**
   * This method get Workshop Data (provider, workshops, ratings) and set navigation path
   */
   private getWorkshopData(workshop: Workshop): void {
-    this.workshop = workshop;
     this.store.dispatch(new GetProviderById(workshop.providerId));
     this.store.dispatch(new GetRateByEntityId(EntityType.workshop, workshop.id));
     this.getEntityData(workshop.providerId, this.store.selectSnapshot(UserState.selectedWorkshop).title);
-    this.provider$.pipe(
-      takeUntil(this.destroy$),
-      filter((provider: Provider) => !!provider)
-    ).subscribe((provider: Provider) => this.provider = provider);
   }
   /**
   * This method get Provider Data (provider, workshops, ratings) and set navigation path
   */
   private getProviderData(provider: Provider): void {
-    this.provider = provider;
     this.store.dispatch(new GetRateByEntityId(EntityType.provider, provider.id));
     this.getEntityData(provider.id, this.store.selectSnapshot(UserState.selectedProvider).fullTitle);
   }

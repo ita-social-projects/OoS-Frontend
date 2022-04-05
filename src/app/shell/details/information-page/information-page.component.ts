@@ -11,13 +11,14 @@ import { environment } from 'src/environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { imgPath } from 'src/app/shared/models/carousel.model';
 import { Constants } from 'src/app/shared/constants/constants';
+import { ImagesService } from 'src/app/shared/services/images/images.service';
 
 @Component({
-  selector: 'app-details-page',
-  templateUrl: './details-page.component.html',
-  styleUrls: ['./details-page.component.scss'],
+  selector: 'app-information-page',
+  templateUrl: './information-page.component.html',
+  styleUrls: ['./information-page.component.scss'],
 })
-export class DetailsPageComponent implements OnInit, OnDestroy {
+export class InformationPageComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   readonly categoryIcons = CategoryIcons;
   readonly constants: typeof Constants = Constants;
@@ -27,7 +28,7 @@ export class DetailsPageComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
   @Input() set providerData(provider: Provider) {
     this.provider = provider;
-    this.setCarouselImages();
+    this.setCoverImage();
   };
 
   provider: Provider;
@@ -37,24 +38,19 @@ export class DetailsPageComponent implements OnInit, OnDestroy {
 
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private imagesService: ImagesService) { }
 
   ngOnInit(): void {
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.selectedIndex = 0));
-    this.setCarouselImages();
   }
 
-  private setCarouselImages(): void {
+  private setCoverImage(): void {
     const enityty = this.workshop ? this.workshop : this.provider;
-    if (enityty.imageIds?.length) {
-      this.images = enityty.imageIds.map((imgId: string) => {
-        return { path: environment.serverUrl + Constants.IMG_URL + imgId };
-      });
-    } else {
-      this.images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
-    }
+    this.images = this.imagesService.setCarouselImages(enityty);
   }
 
   ngOnDestroy(): void {

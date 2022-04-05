@@ -50,7 +50,7 @@ describe('DetailsComponent', () => {
 });
 
 @Component({
-  selector: 'app-details-page',
+  selector: 'app-information-page',
   template: ''
 })
 class MockDetailsPageComponent {

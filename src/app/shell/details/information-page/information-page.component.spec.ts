@@ -1,6 +1,6 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsPageComponent } from './details-page.component';
+import { InformationPageComponent } from './information-page.component';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -13,9 +13,9 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
-describe('DetailsPageComponent', () => {
-  let component: DetailsPageComponent;
-  let fixture: ComponentFixture<DetailsPageComponent>;
+describe('InformationPageComponent', () => {
+  let component: InformationPageComponent;
+  let fixture: ComponentFixture<InformationPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('DetailsPageComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
-        DetailsPageComponent,
+        InformationPageComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,
         MockReviewsComponent,
@@ -45,7 +45,7 @@ describe('DetailsPageComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DetailsPageComponent);
+    fixture = TestBed.createComponent(InformationPageComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
     component.provider = {} as Provider;
