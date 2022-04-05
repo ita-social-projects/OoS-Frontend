@@ -33,7 +33,7 @@
 
   <label class="step-label"> Повна назва організації <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none" maxlength="60">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('fullTitle').invalid && InfoFormGroup.get('fullTitle').touched">
@@ -41,7 +41,7 @@
 
   <label class="step-label"> Скорочена назва організації <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none" maxlength="60">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('shortTitle').invalid && InfoFormGroup.get('shortTitle').touched">
