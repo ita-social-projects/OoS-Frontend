@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UsersComponent } from './users.component';
+import { ProviderAdminsComponent } from './provider-admins.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgxsModule} from '@ngxs/store';
 import { Component, Input } from '@angular/core';
@@ -9,10 +9,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('ProviderAdminsComponent', () => {
+  let component: ProviderAdminsComponent;
+  let fixture: ComponentFixture<ProviderAdminsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,19 +27,21 @@ describe('UsersComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        ReactiveFormsModule
-
+        ReactiveFormsModule,
+        RouterTestingModule,
+        MatDialogModule,
       ],
       declarations: [
-        UsersComponent,
-        MockUsersListComponent
+        ProviderAdminsComponent,
+        MockUsersListComponent,
+        NoResultCardComponent
       ],
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(ProviderAdminsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

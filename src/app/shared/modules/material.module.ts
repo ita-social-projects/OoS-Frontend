@@ -24,6 +24,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 @NgModule({
   exports: [
     MatTooltipModule,
@@ -52,7 +53,8 @@ import { MatTableModule } from '@angular/material/table';
     MatCheckboxModule,
     MatRadioModule,
     MatProgressBarModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule
   ]
 })
 export class MaterialModule { }

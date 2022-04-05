@@ -8,7 +8,7 @@
 }
 
 .all-categories-full-search-bar-wrap {
-  max-width: 378px;
+  max-width: 420px;
   width: 100%;
 
   .search {
@@ -22,7 +22,7 @@
 
 :host ::ng-deep app-full-search-bar {
   min-width: 300px;
-  max-width: 378px;
+  max-width: 420px;
   width: 100%;
 
   app-searchbar {
