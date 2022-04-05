@@ -24,7 +24,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   @Select(UserState.selectedProvider) provider$: Observable<Provider>;
-  @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.role) role$: Observable<string>;
 
   workshop: Workshop;

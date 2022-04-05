@@ -3,7 +3,7 @@
   fxLayoutGap.gt-md="2rem">
 
   <app-information-page class="workshop-page-wrap" [workshop]="workshop" [providerData]="provider"
-    [providerWorkshops]="workshops$ | async" [role]="role$ | async">
+    [role]="role$ | async">
   </app-information-page>
 
   <app-side-menu *ngIf="workshop" [workshop]="workshop" [role]="role$ | async">

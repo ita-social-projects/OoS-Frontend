@@ -23,7 +23,7 @@
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="ІНШІ ГУРТКИ ШКОЛИ">
-        <app-all-provider-workshops [providerWorkshops]="providerWorkshops" [role]="role">
+        <app-all-provider-workshops [workshop]="workshop" [role]="role">
         </app-all-provider-workshops>
       </mat-tab>
       <mat-tab class="label" label="ВІДГУКИ" *ngIf="workshop">

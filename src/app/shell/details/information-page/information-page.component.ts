@@ -7,7 +7,6 @@ import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { AppState } from 'src/app/shared/store/app.state';
-import { environment } from 'src/environments/environment';
 import { takeUntil } from 'rxjs/operators';
 import { imgPath } from 'src/app/shared/models/carousel.model';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -23,7 +22,6 @@ export class InformationPageComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly constants: typeof Constants = Constants;
 
-  @Input() providerWorkshops: WorkshopCard[];
   @Input() role: string;
   @Input() workshop: Workshop;
   @Input() set providerData(provider: Provider) {
