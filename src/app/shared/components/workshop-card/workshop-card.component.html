@@ -21,7 +21,7 @@
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
-        <a class="more-details" [routerLink]="['/details/workshop',workshopData?.workshopId ]">
+        <a class="more-details" [routerLink]="['/details/workshop',workshopData.workshopId ]">
           <span class="card_link">Детальніше</span>
           <mat-icon>arrow_forward</mat-icon>
         </a>
@@ -84,7 +84,7 @@
     <mat-icon class="card_icon">star</mat-icon> {{ workshopData.rating }}
   </p>
 
-  <a [routerLink]="['/details/provider',workshop?.providerId ]" fxLayout="row" fxLayoutAlign="start center">
+  <a [routerLink]="['/details/provider',workshop.providerId ]" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="card_icon">home</mat-icon>
     <p class="card_text_label" [matTooltip]="workshopData.providerTitle" showTooltipIfTruncated
       matTooltipClass="tooltip" [matTooltipPosition]="tooltipPosition">{{ workshopData.providerTitle }}</p>
