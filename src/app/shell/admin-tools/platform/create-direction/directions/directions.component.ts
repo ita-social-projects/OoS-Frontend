@@ -12,7 +12,6 @@ import { Direction, DirectionsFilter } from 'src/app/shared/models/category.mode
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, PageChange, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { FilterState } from 'src/app/shared/store/filter.state';
 
 @Component({
   selector: 'app-directions',

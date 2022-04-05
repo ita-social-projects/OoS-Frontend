@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
@@ -71,6 +72,7 @@ class MockValidationHintForInputComponent {
   @Input() directionFormGroup: FormGroup;
   @Input() classFormGroup: FormGroup;
   @Input() departmentFormGroup: FormGroup;
+  @Input() router: Router;
 }
 @Component({
   selector: 'app-add-direction-form',

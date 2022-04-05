@@ -12,7 +12,7 @@
 <ng-container *ngIf="(filteredDirections$ | async); else isEmptyList" >
 <div class="card-wrapper">
   <app-category-card class="card" *ngFor="let direction of (filteredDirections$ | async)?.entities " [direction]="direction"
-   (deleteDirection)="onDelete($event)">
+   (deleteDirection)="onDelete($event)" [isEditMode]="true">
   </app-category-card>
 </div>
 <app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"

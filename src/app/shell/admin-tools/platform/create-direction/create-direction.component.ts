@@ -3,10 +3,9 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { dispatch } from 'rxjs/internal/observable/pairs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
@@ -56,6 +55,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
+    private router: Router,
     private matDialog: MatDialog,) { }
 
     ngOnInit(): void {
@@ -98,6 +98,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
         }
       });
       dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
       const classes: IClass[] = [];
       const department = result && this.store.selectSnapshot<Department>(AdminState.department);
 
@@ -105,10 +106,13 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
         classes.push(new IClass(form.value, department.id))
         );
         this.store.dispatch(new CreateClass(classes));
-      });
+      } else {
+        this.router.navigate([`/admin-tools/platform/directions`]);
+       }
+     });
     }
-  }
-
+   }
+     
     checkValidationClass(): void {
     Object.keys(this.ClassFormArray.controls).forEach(key => {
       this.checkValidation(<FormGroup>this.ClassFormArray.get(key));
