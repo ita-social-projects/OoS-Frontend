@@ -1,8 +1,6 @@
 <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва напрямку <span class="step-required">*</span></label>
-    <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
-    [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">

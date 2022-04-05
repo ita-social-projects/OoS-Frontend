@@ -1,14 +1,10 @@
 <form *ngIf="direction" [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва напряму </label>
-    <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
-    [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
     <div fxLayout="row" fxLayoutAlign="start center" class="direction">{{ direction.title }}</div>
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва відділення <span class="step-required">*</span></label>
-    <i class="material-icons status-info-icon" (click)="isActiveDepartmentInfoButton=!isActiveDepartmentInfoButton"
-    [ngClass]="isActiveDepartmentInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">

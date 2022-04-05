@@ -13,10 +13,6 @@ export class AddClassFormComponent {
   @Input() classAmount: number;
   @Output() deleteForm = new EventEmitter();
 
-  isActiveClassInfoButton = false;
-  isActiveDepartmentInfoButton = false;
-  isActiveDirectionInfoButton = false;
-
   constructor() { }
 
    onDelete(): void {

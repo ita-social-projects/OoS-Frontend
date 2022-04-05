@@ -43,10 +43,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   ClassFormArray: FormArray = new FormArray([]);
   @Input() classes: IClass[];
 
-  isActiveDepartmentInfoButton = false;
-  isActiveDirectionInfoButton = false;
-  isActiveClassInfoButton = false;
-
   departmentFormGroup: FormGroup;
   directionFormGroup: FormGroup;
   ClassFormGroup: FormGroup;
@@ -69,14 +65,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
         title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       });
       return ClassFormGroup;
-    }
-
-  ngAfterViewInit(): void {
-    if (this.editMode) {
-      this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +createDirectionSteps[params.param];
-      });
-    }
     }
 
   addClass(): void {

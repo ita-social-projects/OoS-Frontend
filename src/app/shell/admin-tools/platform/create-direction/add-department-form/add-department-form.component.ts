@@ -21,8 +21,6 @@ export class AddDepartmentFormComponent {
 
   departmentFormGroup: FormGroup;
   directionFormGroup: FormGroup;
-  isActiveDepartmentInfoButton = false;
-  isActiveDirectionInfoButton = false;
   department: Department;
 
   constructor(

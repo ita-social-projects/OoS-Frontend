@@ -25,14 +25,10 @@
         <div *ngIf="direction && department" fxLayout="column" fxLayoutAlign="center space-between" class="step">
         <div fxLayout="row" fxLayoutAlign="start center">
           <label class="step-label"> Назва напрямку </label>
-          <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
-          [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
         </div>
         <div fxLayout="row" fxLayoutAlign="start center" class="department">{{direction.title}}</div>
         <div fxLayout="row" fxLayoutAlign="start center">
           <label class="step-label"> Назва відділення </label>
-          <i class="material-icons status-info-icon" (click)="isActiveDepartmentInfoButton=!isActiveDepartmentInfoButton"
-          [ngClass]="isActiveDepartmentInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
         </div>
           <div fxLayout="row" fxLayoutAlign="start center" class="direction">{{department.title}}</div>
         </div>

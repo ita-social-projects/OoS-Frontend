@@ -22,7 +22,6 @@ import { AdminStateModel } from 'src/app/shared/store/admin.state';
 })
 export class AddDirectionFormComponent {
 
-  isActiveDirectionInfoButton = false;
   AdminStateModel: AdminStateModel;
   directionFormGroup: FormGroup;
 

@@ -1,8 +1,6 @@
 <form [formGroup]="ClassFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step" [ngClass]="{'step-border': classAmount>1}">
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва класу <span class="step-required">*</span></label>
-    <i class="material-icons status-info-icon" (click)="isActiveClassInfoButton=!isActiveClassInfoButton"
-    [ngClass]="isActiveClassInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">
