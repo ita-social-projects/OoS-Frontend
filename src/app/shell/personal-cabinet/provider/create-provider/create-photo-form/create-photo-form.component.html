@@ -15,11 +15,18 @@
   <label class="step-label"> Опис <span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
     <div class="wrapper-border">
-      <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-        formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+      <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
+        formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
     </div>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched">
   </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validLength"
+  [minLength]="PhotoFormGroup.get('description').errors?.minlength"
+  [maxLength]="PhotoFormGroup.get('description').errors?.maxlength"
+  [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched"
+  [minCharachters]="3"
+  [maxCharachters]="constants.MAX_DESCRIPTION_ABOUT_LENGTH">
+</app-validation-hint-for-input>
 </form>
