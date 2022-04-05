@@ -11,8 +11,11 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <label class="step-label"> Опис <span class="step-required">*</span></label>
+  <div class="step-label-combined">
+    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-characters-count">
+    {{PhotoFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
+  </div>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
     <div class="wrapper-border">
       <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
