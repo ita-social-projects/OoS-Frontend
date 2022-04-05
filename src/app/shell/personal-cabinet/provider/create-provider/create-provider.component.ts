@@ -148,9 +148,14 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-  checkEmpty(form: FormGroup): boolean {      
-    return Object.keys(form.controls)
-      .filter(key => !form.get(key).value && form.get(key).status !== 'VALID').length > 0;
+  checkEmpty(form: FormGroup) { 
+    let res = [];     
+    for (let el in form?.controls) {
+      if (!form.get(el).value && form.get(el).status !== 'VALID') {
+        res.push(el)
+      }
+    }
+    return res.length > 0;
   }
 
   /**
