@@ -4,6 +4,7 @@
 <ng-container *ngIf = "type === 'minDigitsLength' && minLength && invalid; then notEnoughDigits"></ng-container>
 <ng-container *ngIf = "type === 'minCharachtersLengthFOP' && minLength && invalid; then notEnoughCharactersFOP"></ng-container>
 <ng-container *ngIf = "type === 'validTextField' && forbiddenCharacter && invalid; then incorrectTextField"></ng-container>
+<ng-container *ngIf = "type === 'validTextFieldWithSymbols' && forbiddenCharacter && invalid; then incorrectTextFieldWithSymbols"></ng-container>
 <ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
 <ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
 <ng-container *ngIf = "type === 'validDateFormat' && invalid && !minMaxDate; then incorrectDateField"></ng-container>
@@ -39,6 +40,11 @@
 <ng-template #incorrectTextField>
   <small appValidationMessageStyling>
     Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю та символи ( ' - )
+  </small> 
+</ng-template>
+<ng-template #incorrectTextFieldWithSymbols>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Не використовуйте, будь ласка, спец. символи
   </small> 
 </ng-template>
 
