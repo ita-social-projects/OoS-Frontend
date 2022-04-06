@@ -33,7 +33,6 @@ export class AllProviderWorkshopsComponent implements OnInit {
         } else {
           this.workshops = workshops;
         }
-
       })
   }
   ngOnDestroy(): void {
