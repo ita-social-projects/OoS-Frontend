@@ -29,15 +29,15 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab label="{{providerAdminRoleUkr.all}}">
-        <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue }">
+        <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue, users: providerAdmins.all }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{providerAdminRoleUkr.deputy}}">
-        <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
+        <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue, users: providerAdmins.deputy}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{providerAdminRoleUkr.admin}}">
-        <ng-container *ngTemplateOutlet="UsersListFiltered; context:{ $implicit: filterValue }">
+        <ng-container *ngTemplateOutlet="UsersListFull; context:{ $implicit: filterValue, users: providerAdmins.admin}">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -45,19 +45,10 @@
 
 </div>
 
-<ng-template #UsersListFull let-filterValue>
+<ng-template #UsersListFull let-filterValue let-users="users">
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="providerAdmins?.length else isEmptyList;">
-      <app-users-list [users]="providerAdmins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
-        (blockAdmin)="onBlock($event)"></app-users-list>
-    </ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #UsersListFiltered let-filterValue>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="filteredProviderAdmins?.length else isEmptyList;">
-      <app-users-list [users]="filteredProviderAdmins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+    <ng-container *ngIf="users?.length else isEmptyList;">
+      <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
         (blockAdmin)="onBlock($event)"></app-users-list>
     </ng-container>
   </ng-container>
