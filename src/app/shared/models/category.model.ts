@@ -7,7 +7,6 @@ export class Direction {
     this.id = id;
     this.title = info.title;
     this.description = info.title;
-
   }
 }
 

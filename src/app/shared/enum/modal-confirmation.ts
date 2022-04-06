@@ -1,6 +1,5 @@
 export enum ModalConfirmationType {
   delete = 'delete',
-
   deleteDirection = 'deleteDirection',
   deleteTeacher = 'deleteTeacher',
   deleteProviderAdmin = 'deleteProviderAdmin',
