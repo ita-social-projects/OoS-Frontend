@@ -50,6 +50,7 @@ describe('InformationPageComponent', () => {
     component.workshop = {} as Workshop;
     component.provider = {} as Provider;
 
+
     fixture.detectChanges();
   });
 
