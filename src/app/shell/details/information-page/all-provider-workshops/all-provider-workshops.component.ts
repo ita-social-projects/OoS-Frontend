@@ -12,12 +12,14 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./all-provider-workshops.component.scss']
 })
 export class AllProviderWorkshopsComponent implements OnInit {
-
   readonly Role = Role;
+
   @Input() role: string;
   @Input() workshop: Workshop;
 
-  @Select(UserState.workshops) workshops$: Observable<WorkshopCard[]>;
+  @Select(UserState.workshops)
+  workshops$: Observable<WorkshopCard[]>;
+
   workshops: WorkshopCard[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
