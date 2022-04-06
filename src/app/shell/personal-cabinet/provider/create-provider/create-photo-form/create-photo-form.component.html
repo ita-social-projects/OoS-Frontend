@@ -22,6 +22,10 @@
   <app-validation-hint-for-input type="requiredField"
   [invalid]="PhotoFormGroup.get('description').errors?.required && PhotoFormGroup.get('description').touched">    
   </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextFieldWithSymbols"
+    [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched"
+    [forbiddenCharacter]="PhotoFormGroup.get('description').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validLength"
     [minLength]="PhotoFormGroup.get('description').errors?.minlength"
     [maxLength]="PhotoFormGroup.get('description').errors?.maxlength"
