@@ -33,11 +33,11 @@
         </ng-container>
       </mat-tab>
       <mat-tab label="{{providerAdminRoleUkr.deputy}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins | providerAdminsFilter:'deputy'}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins | providerAdminsFilter : 'deputy'}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{providerAdminRoleUkr.admin}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins  | providerAdminsFilter:'admin'}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins | providerAdminsFilter : 'admin'}">
         </ng-container>
       </mat-tab>
     </mat-tab-group>

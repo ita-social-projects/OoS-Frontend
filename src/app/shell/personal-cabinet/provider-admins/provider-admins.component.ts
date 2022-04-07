@@ -31,7 +31,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
-  providerAdmins: ProviderAdminTable[];
+  providerAdmins: ProviderAdminTable[] = [];
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
