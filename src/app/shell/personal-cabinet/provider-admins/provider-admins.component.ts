@@ -31,7 +31,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
-  providerAdmins = { all: [], deputy: [], admin: [] };
+  providerAdmins: ProviderAdminTable[];
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
@@ -64,14 +64,14 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     this.providerAdmins$
       .pipe(takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
-        this.providerAdmins.all = this.updateStructureForTheTable(providerAdmins);
-        this.providerAdmins.deputy = [];
-        this.providerAdmins.admin = [];
-        this.providerAdmins.all.forEach((user) =>
-          user.isDeputy
-            ? this.providerAdmins.deputy.push(user)
-            : this.providerAdmins.admin.push(user)
-        );
+        this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
+        // this.providerAdmins.deputy = [];
+        // this.providerAdmins.admin = [];
+        // this.providerAdmins.all.forEach((user) =>
+        //   user.isDeputy
+        //     ? this.providerAdmins.deputy.push(user)
+        //     : this.providerAdmins.admin.push(user)
+        // );
       });
     this.route.params
       .pipe(takeUntil(this.destroy$))

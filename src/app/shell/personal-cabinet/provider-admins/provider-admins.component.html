@@ -29,15 +29,15 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab label="{{providerAdminRoleUkr.all}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins.all }">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{providerAdminRoleUkr.deputy}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins.deputy}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins | providerAdminsFilter:'deputy'}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{providerAdminRoleUkr.admin}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins.admin}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins  | providerAdminsFilter:'admin'}">
         </ng-container>
       </mat-tab>
     </mat-tab-group>

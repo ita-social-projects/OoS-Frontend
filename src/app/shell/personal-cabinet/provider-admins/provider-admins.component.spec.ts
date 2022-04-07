@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ProviderAdminsFilterPipe } from 'src/app/shared/pipes/provider-admins-filter.pipe';
 
 describe('ProviderAdminsComponent', () => {
   let component: ProviderAdminsComponent;
@@ -34,7 +35,8 @@ describe('ProviderAdminsComponent', () => {
       declarations: [
         ProviderAdminsComponent,
         MockUsersListComponent,
-        NoResultCardComponent
+        NoResultCardComponent,
+        ProviderAdminsFilterPipe,
       ],
     })
       .compileComponents();
