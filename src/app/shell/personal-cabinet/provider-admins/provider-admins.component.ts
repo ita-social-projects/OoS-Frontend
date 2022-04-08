@@ -65,13 +65,6 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
-        // this.providerAdmins.deputy = [];
-        // this.providerAdmins.admin = [];
-        // this.providerAdmins.all.forEach((user) =>
-        //   user.isDeputy
-        //     ? this.providerAdmins.deputy.push(user)
-        //     : this.providerAdmins.admin.push(user)
-        // );
       });
     this.route.params
       .pipe(takeUntil(this.destroy$))
