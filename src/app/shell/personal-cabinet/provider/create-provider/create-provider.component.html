@@ -17,7 +17,7 @@
               class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" 
             mat-raised-button matStepperNext 
-            (click)="checkValidation(InfoFormGroup)"
+            (click)="checkValidation(InfoFormGroup)"            
             [disabled]="checkEmpty(InfoFormGroup)"
           >ДАЛІ</button>
         </div>
@@ -35,7 +35,8 @@
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-raised-button matStepperNext
-            (click)="checkValidationContacts(ContactsFormGroup)">ДАЛІ</button>
+            (click)="checkValidationContacts(ContactsFormGroup)"
+            [disabled]="checkEmpty(ContactsFormGroup)">ДАЛІ</button>
         </div>
       </mat-step>
 
