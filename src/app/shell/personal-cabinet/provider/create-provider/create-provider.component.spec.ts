@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('CreateProviderComponent', () => {
@@ -52,6 +52,7 @@ describe('CreateProviderComponent', () => {
 })
 class MockCreateContactsFormComponent {
   @Input() provider: Provider;
+  @Input() ContactsFormGroup: FormGroup;
 }
 
 @Component({
@@ -60,6 +61,7 @@ class MockCreateContactsFormComponent {
 })
 class MockCreateInfoComponent {
   @Input() provider: Provider;
+  @Input() InfoFormGroup: FormGroup;
 }
 
 @Component({
@@ -68,4 +70,5 @@ class MockCreateInfoComponent {
 })
 class MockCreatePhotoFormComponent {
   @Input() provider: Provider;
+  @Input() PhotoFormGroup: FormGroup;
 }
