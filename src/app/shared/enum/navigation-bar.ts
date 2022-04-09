@@ -19,5 +19,6 @@ export enum NavBarName {
   Platform = 'Портал',
   NewWorkshop = 'Новий гурток',
   EditWorkshop = 'Редагування гуртка',
-  CreateProviderAdmin = 'Створення користувача'
+  CreateProviderAdmin = 'Створення користувача',
+  Rules = 'Правила Користування'
 }

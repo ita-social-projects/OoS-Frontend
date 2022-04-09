@@ -26,6 +26,7 @@ import { CreateDirectionComponent } from './admin-tools/platform/create-directio
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
 import { IsMobileGuard } from './is-mobile.guard';
+import { RulesComponent } from './info/rules/rules.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
       { path: 'support', component: SupportComponent },
+      { path: 'rules', component: RulesComponent },
     ]
   },
   {
