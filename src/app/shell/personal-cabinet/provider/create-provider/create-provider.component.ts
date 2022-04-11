@@ -151,15 +151,13 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   checkEmpty(form: FormGroup) { 
     let res = [];     
     for (let el in form?.controls) {
-      if ((!form.get(el).value 
-        && form.get(el).status !== 'VALID')
-        || (form?.get(el).value.street === ''
-        || form?.get(el).value.buildingNumber === ''
-        || form?.get(el).value.city === ''
-        || form?.get(el).value.district === ''
-        || form?.get(el).value.region === '')
-      ) {
+      if (!form.get(el).value && form.get(el).status !== 'VALID') {
         res.push(el);
+      }
+      for (let elem in form?.get(el).value) {
+        if (form?.get(el).value[elem] === '') {
+          res.push(el);
+        }
       }
     }
     return res.length > 0;
