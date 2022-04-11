@@ -17,7 +17,7 @@
 .application-info-description-card {
   color: #aaaaaa;
 }
-.Approved {
+.Approved, .Studying {
   color: #199953;
 }
 .Pending {
@@ -27,9 +27,11 @@
   color: #27a3ff;
 }
 .Rejected,
-.Left,
 .Blocked {
   color: #c72a21;
+}
+.Finished, .Left {
+  color: #888888;
 }
 
 .application-info-span {
