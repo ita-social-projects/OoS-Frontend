@@ -1,6 +1,6 @@
 <form [formGroup]="InfoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
-  <label class="step-label">Форма власності<span class="step-required">*</span></label>
+  <label class="step-label">Форма власності <span class="step-required">*</span></label>
 
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
@@ -16,7 +16,7 @@
     [invalid]="InfoFormGroup.get('ownership').invalid && InfoFormGroup.get('ownership').touched">
   </app-validation-hint-for-input>
 
-  <label class="step-label">Тип організації<span class="step-required">*</span></label>
+  <label class="step-label">Тип організації <span class="step-required">*</span></label>
 
   <mat-form-field floatLabel="never">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
@@ -60,7 +60,7 @@
     [forbiddenCharacter]="InfoFormGroup.get('director').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
-  <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
+  <label class="step-label">Дата народження керівника <span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
     <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" [appKeyFilter]="dateFilter">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -80,10 +80,8 @@
   <app-validation-hint-for-input type="outOfRangeDate"
     [minMaxDate]="InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMin') || InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMax')">
   </app-validation-hint-for-input>
-
-
-  <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}}<span
-      class="step-required">*</span></label>
+  <label class="step-label"> {{InfoFormGroup.get('type').value === 0 ? "ІПН" : "ЄДПРОУ"}} <span
+      class="step-required"> *</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" minlength="10" maxlength="20" formControlName="edrpouIpn"
       autocomplete="none">
@@ -132,7 +130,8 @@
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook" autocomplete="none">
+    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook"
+      autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="validTextField"
     [invalid]="InfoFormGroup.get('facebook').invalid && InfoFormGroup.get('facebook').touched"
@@ -148,7 +147,7 @@
     [forbiddenCharacter]="InfoFormGroup.get('instagram').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
 
-  <label class="step-label">Засновник<span class="step-required">*</span></label>
+  <label class="step-label">Засновник <span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="founder" maxlength="30" autocomplete="none">
   </mat-form-field>
