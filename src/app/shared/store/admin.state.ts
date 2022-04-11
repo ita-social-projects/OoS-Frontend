@@ -161,6 +161,7 @@ export class AdminState {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
+  
   @Action(OnUpdateDirectionSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
@@ -168,6 +169,7 @@ export class AdminState {
     dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/about']);
   }
+
   @Action(CreateDepartment)
   createDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDepartment): Observable<object> {
     return this.categoriesService
@@ -217,16 +219,16 @@ export class AdminState {
     this.router.navigate(['/admin-tools/platform/directions']);
     this.getFilteredDirections;
   }
+
   @Action(GetDirectionById)
   getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
     patchState({ isLoading: true });
     return this.categoriesService
       .getDirectionById(payload)
       .pipe(
-        tap((direction: Direction) => {
-          return patchState({ selectedDirection: direction, isLoading: false });
-        }));
+        tap((direction: Direction) =>  patchState({ selectedDirection: direction, isLoading: false })));
   }
+
   @Action(GetDepartmentByDirectionId)
   getDepartmentByDirectionId({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentByDirectionId): Observable<Department[]> {
     patchState({ isLoading: true });

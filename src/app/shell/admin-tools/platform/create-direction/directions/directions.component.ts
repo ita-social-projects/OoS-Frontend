@@ -54,16 +54,18 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       });
 
     this.searchQuery$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+      debounceTime(1000),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
 
     this.actions$.pipe(ofAction(FilterChange))
       .pipe(
         debounceTime(1000),
         distinctUntilChanged(),
-        startWith(''),
-        takeUntil(this.destroy$)
-      ).subscribe(() => this.store.dispatch(new GetFilteredDirections()));
+        takeUntil(this.destroy$))
+      .subscribe(() => this.store.dispatch(new GetFilteredDirections()));
   }
 
   onSearch(): void {
