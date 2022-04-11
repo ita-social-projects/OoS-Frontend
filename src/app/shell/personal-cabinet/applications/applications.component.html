@@ -40,10 +40,6 @@
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Blocked]}}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
-        </ng-container>
-      </mat-tab>
     </mat-tab-group>
   </div>
 </ng-template>
