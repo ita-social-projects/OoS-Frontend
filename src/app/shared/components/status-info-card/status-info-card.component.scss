@@ -74,6 +74,14 @@
     padding-right: 5px;
   }
 }
+
+.application-info-description {
+  .Approved, .Pending, .StudyingForYears, .AcceptedForSelection, .Rejected, .Completed, .Left {
+    color: black;
+  }
+
+}
+
 .application-info-menu-title {
   font-size: 18px;
   font-weight: bold;
