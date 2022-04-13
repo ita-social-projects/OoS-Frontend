@@ -46,7 +46,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
     if (applications?.length) {
-      applications.filter((application: Application) => {
+      this.pendingApplicationAmount = applications.filter((application: Application) => {
         return (application.workshopId === this.workshopData.workshopId && application.status === ApplicationStatus.Pending);
       }).length;
     } else {
