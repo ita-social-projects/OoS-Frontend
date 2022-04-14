@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkshopDetailsComponent } from './workshop-details.component';
+import { DetailsComponent } from './details.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../shared/models/workshop.model';
@@ -13,9 +13,9 @@ const MockUser = {
   role: '',
 };
 
-describe('WorkshopDetailsComponent', () => {
-  let component: WorkshopDetailsComponent;
-  let fixture: ComponentFixture<WorkshopDetailsComponent>;
+describe('DetailsComponent', () => {
+  let component: DetailsComponent;
+  let fixture: ComponentFixture<DetailsComponent>;
   let store: Store;
 
   beforeEach(async () => {
@@ -26,9 +26,9 @@ describe('WorkshopDetailsComponent', () => {
         FlexLayoutModule
       ],
       declarations: [
-        WorkshopDetailsComponent,
+        DetailsComponent,
         MockSideMenuComponent,
-        MockWorkshopPageComponent
+        MockDetailsPageComponent
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     })
@@ -39,7 +39,7 @@ describe('WorkshopDetailsComponent', () => {
     store = TestBed.inject(Store);
     spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
 
-    fixture = TestBed.createComponent(WorkshopDetailsComponent);
+    fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -50,12 +50,12 @@ describe('WorkshopDetailsComponent', () => {
 });
 
 @Component({
-  selector: 'app-workshop-page',
+  selector: 'app-information-page',
   template: ''
 })
-class MockWorkshopPageComponent {
+class MockDetailsPageComponent {
   @Input() workshop: Workshop;
-  @Input() provider: Provider;
+  @Input() providerData: Provider;
   @Input() providerWorkshops: Workshop[];
   @Input() role: string;
 }
