@@ -4,6 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
+import { TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
@@ -33,7 +34,7 @@ export class CreatePhotoFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: new FormControl('', Validators.required),
+      description: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX)]),
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE),
     });
   }
