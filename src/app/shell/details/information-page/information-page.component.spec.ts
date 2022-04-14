@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkshopPageComponent } from './workshop-page.component';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, Provider } from '@angular/core';
+import { InformationPageComponent } from './information-page.component';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
@@ -9,10 +9,13 @@ import { Teacher } from '../../../shared/models/teacher.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NgxsModule } from '@ngxs/store';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('WorkshopPageComponent', () => {
-  let component: WorkshopPageComponent;
-  let fixture: ComponentFixture<WorkshopPageComponent>;
+
+describe('InformationPageComponent', () => {
+  let component: InformationPageComponent;
+  let fixture: ComponentFixture<InformationPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,9 +27,10 @@ describe('WorkshopPageComponent', () => {
         MatChipsModule,
         IvyCarouselModule,
         NgxsModule.forRoot([]),
+        BrowserAnimationsModule
       ],
       declarations: [
-        WorkshopPageComponent,
+        InformationPageComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,
         MockReviewsComponent,
@@ -41,8 +45,12 @@ describe('WorkshopPageComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkshopPageComponent);
+    fixture = TestBed.createComponent(InformationPageComponent);
     component = fixture.componentInstance;
+    component.workshop = {} as Workshop;
+    component.provider = {} as Provider;
+
+
     fixture.detectChanges();
   });
 

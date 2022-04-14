@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AllProviderWorkshopsComponent } from './all-provider-workshops.component';
 
@@ -9,6 +10,9 @@ describe('AllProviderWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
       declarations: [
         AllProviderWorkshopsComponent,
         MockProviderWorkshopCardComponent]
