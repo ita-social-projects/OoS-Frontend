@@ -46,7 +46,7 @@ export class AddDepartmentFormComponent {
      });
      dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-      const department = result && new Department(this.departmentFormGroup.value, this.direction.id);
+      const department = new Department(this.departmentFormGroup.value, this.direction.id);
        this.store.dispatch(new CreateDepartment(department));
        this._stepper.next();
       } else {

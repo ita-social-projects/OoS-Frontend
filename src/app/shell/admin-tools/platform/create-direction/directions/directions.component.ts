@@ -45,8 +45,12 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch([new FilterClear(), new GetFilteredDirections()]);
     this.searchValue.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: string) => {
+        .pipe(
+          takeUntil(this.destroy$),
+          debounceTime(1000),
+          distinctUntilChanged(),
+          startWith(''),
+        ).subscribe((val: string) => {
         this.searchedText = val;
         if (val.length === 0) {
           this.store.dispatch(new SetSearchQueryValue(''));

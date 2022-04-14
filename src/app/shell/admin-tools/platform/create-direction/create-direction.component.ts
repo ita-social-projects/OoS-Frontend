@@ -88,7 +88,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
       const classes: IClass[] = [];
-      const department = result && this.store.selectSnapshot<Department>(AdminState.department);
+      const department = this.store.selectSnapshot<Department>(AdminState.department);
 
       this.ClassFormArray.controls.forEach((form: FormGroup) =>
         classes.push(new IClass(form.value, department.id))
@@ -100,7 +100,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
      });
     }
    }
-     
+
     checkValidationClass(): void {
     Object.keys(this.ClassFormArray.controls).forEach(key => {
       this.checkValidation(<FormGroup>this.ClassFormArray.get(key));
