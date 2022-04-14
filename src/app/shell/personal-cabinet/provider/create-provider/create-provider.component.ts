@@ -152,7 +152,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     let res = [];     
     for (let el in form?.controls) {
       if ((!form.get(el).value && form.get(el).status !== 'VALID')
-        || Object.values(form?.get(el).value).some(el => el === '')) {
+        || Object.values(form.get(el).value).some(el => el === '')) {
         res.push(el);
       }      
     }
