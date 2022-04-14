@@ -16,3 +16,8 @@ export enum RoleLinks {
   provider = 'заклад',
   parent = 'дитину'
 }
+
+export enum EntityType {
+  provider = 'provider',
+  workshop = 'workshop',
+}
