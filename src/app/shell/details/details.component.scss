@@ -1,15 +1,10 @@
-@media(max-width: 1280px) {
-  app-workshop-page {
-    width: 100%;
-  }
-}
-
 @media(max-width: 750px) {
-  app-workshop-page {
+  .wrapper {
     margin-top: 20px;
   }
 }
 
 .workshop-page-wrap{
   overflow: hidden;
+  width: 100%;
 }
