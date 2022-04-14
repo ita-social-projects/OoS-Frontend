@@ -28,6 +28,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 import { IsMobileGuard } from './is-mobile.guard';
+import { RulesComponent } from './info/rules/rules.component';
 @NgModule({
   declarations: [
     MainComponent,
@@ -41,6 +42,7 @@ import { IsMobileGuard } from './is-mobile.guard';
     AboutComponent,
     SupportComponent,
     InfoComponent,
+    RulesComponent,
   ],
   imports: [
     CommonModule,
