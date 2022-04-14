@@ -6,11 +6,11 @@
       </app-workshop-card>
     </div>
   </ng-container>
-</ng-container>
-<ng-container *ngIf="workshops$ | async">
-  <app-paginator [totalEntities]="(workshops$ | async).totalAmount" [currentPage]="currentPage"
-    (pageChange)="onPageChange($event)">
-  </app-paginator>
+  <ng-container *ngIf="workshops$ | async">
+    <app-paginator [totalEntities]="(workshops$ | async).totalAmount" [currentPage]="currentPage"
+      (pageChange)="onPageChange($event)">
+    </app-paginator>
+  </ng-container>
 </ng-container>
 
 <ng-template #isEmptyList>
