@@ -18,15 +18,15 @@ export class CreatePhotoFormComponent implements OnInit {
 
   readonly constants: typeof Constants = Constants;
 
+  @Select(MetaDataState.institutionStatuses)
+  institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   PhotoFormGroup: FormGroup;
   descriptionFormGroup: FormControl = new FormControl('', Validators.required);
   @Input() provider: Provider;
 
-
   @Output() passPhotoFormGroup = new EventEmitter();
-
 
   constructor(private formBuilder: FormBuilder, private store: Store ) {
     this.PhotoFormGroup = this.formBuilder.group({
