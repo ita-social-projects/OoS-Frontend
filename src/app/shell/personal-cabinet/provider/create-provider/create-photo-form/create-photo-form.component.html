@@ -12,9 +12,10 @@
     </mat-select>
   </mat-form-field>
   <div class="step-label-combined">
-    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-label"> Опис<span class="step-required">*</span></label>
     <label class="step-characters-count">
-      {{descriptionLength}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
+      {{descriptionFormGroup.value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}
+    </label>
   </div>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
     <div class="wrapper-border">

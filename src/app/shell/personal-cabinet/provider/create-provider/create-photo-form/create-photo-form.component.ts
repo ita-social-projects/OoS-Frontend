@@ -21,6 +21,7 @@ export class CreatePhotoFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   PhotoFormGroup: FormGroup;
+  descriptionFormGroup: FormControl = new FormControl('', Validators.required);
   descriptionLength = 0;
   @Input() provider: Provider;
 
@@ -31,7 +32,7 @@ export class CreatePhotoFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private store: Store ) {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: new FormControl('', Validators.required),
+      description: this.descriptionFormGroup,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE),
     }); 
       this.PhotoFormGroup.get('description').valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: string)=>this.descriptionLength = value.length);
