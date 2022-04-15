@@ -74,10 +74,10 @@ export class Workshop {
     if (description.disabilityOptionsDesc) {
       this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     }
-    if (description.imageFiles.length) {
+    if (description.imageFiles?.length) {
       this.imageFiles = description.imageFiles;
     }
-    if (description.imageIds) {
+    if (description.imageIds?.length) {
       this.imageIds = description.imageIds;
     }
     if (about.coverImage?.length) {

@@ -238,10 +238,10 @@ export class MetaDataState {
     return this.featureManagementService
       .getFeaturesList()
       .pipe(
-        tap((featuresList: FeaturesList) => 
-        patchState(environment.production 
-          ? { featuresList: featuresList } 
-          : { featuresList: { release1: true, release2: true, release3: false } })
+        tap((featuresList: FeaturesList) =>
+          patchState(environment.production
+            ? { featuresList: featuresList }
+            : { featuresList: { release1: true, release2: false, release3: false } })
         ))
   }
 
