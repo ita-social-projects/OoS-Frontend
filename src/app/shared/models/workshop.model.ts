@@ -57,7 +57,9 @@ export class Workshop {
     this.facebook = about.facebook;
     this.instagram = about.instagram;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.disabilityOptionsDesc = description.disabilityOptionsDesc;
+    if (description.disabilityOptionsDesc) {
+      this.disabilityOptionsDesc = description.disabilityOptionsDesc;
+    }
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
