@@ -24,6 +24,10 @@
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
         </ng-container>
       </mat-tab>
+      <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
+        </ng-container>
+      </mat-tab> TODO: display when functionality is ready -->
       <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
