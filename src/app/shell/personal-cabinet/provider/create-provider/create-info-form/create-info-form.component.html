@@ -33,7 +33,7 @@
 
   <label class="step-label"> Повна назва організації<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none" maxlength="60">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('fullTitle').invalid && InfoFormGroup.get('fullTitle').touched">
@@ -41,7 +41,7 @@
 
   <label class="step-label"> Скорочена назва організації<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none" maxlength="60">
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="InfoFormGroup.get('shortTitle').invalid && InfoFormGroup.get('shortTitle').touched">
@@ -80,8 +80,6 @@
   <app-validation-hint-for-input type="outOfRangeDate"
     [minMaxDate]="InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMin') || InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMax')">
   </app-validation-hint-for-input>
-
-
   <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}}<span
       class="step-required">*</span></label>
   <mat-form-field>
@@ -132,7 +130,8 @@
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook" autocomplete="none">
+    <input matInput class="step-input" type="text" maxlength="30" formControlName="facebook"
+      autocomplete="none">
   </mat-form-field>
   <app-validation-hint-for-input type="validTextField"
     [invalid]="InfoFormGroup.get('facebook').invalid && InfoFormGroup.get('facebook').touched"

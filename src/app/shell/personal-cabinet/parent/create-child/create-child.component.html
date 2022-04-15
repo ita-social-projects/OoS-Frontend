@@ -2,7 +2,8 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
-      <p class="wrapper-text" *ngIf="!editMode">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю
+      <p class="wrapper-text" *ngIf="!editMode">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете
+        додати цю
         інформацію
         у вашому особистому кабінеті. </p>
     </div>
@@ -14,7 +15,9 @@
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
-      <button *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren" class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
+      <button
+        *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
+        class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
       <ng-template #noMoreChildren>
@@ -27,7 +30,7 @@
       </mat-checkbox>
       <p class="agreement">Додаючи дані про
         дитину
-        я погоджуюсь з <a class="link">Правилами користування </a>
+        я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
         та надаю згоду на обробку персональних даних
       </p>
     </div>
@@ -35,9 +38,10 @@
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="'/personal-cabinet/parent/info'"><button mat-raised-button
           class="btn btn-cancel">СКАСУВАТИ</button></a>
-      <button *ngIf='!editMode' [disabled]="!isAgreed || isEmpty" class="btn" mat-button type="submit"
-        (click)="onSubmit()">ЗБЕРЕГТИ</button>  
+
       <button *ngIf='editMode' [disabled]="isEmpty" class="btn" mat-button type="submit"
+        (click)="onSubmit()">ЗБЕРЕГТИ</button>
+      <button *ngIf='!editMode' [disabled]="isEmpty || !isAgreed" class="btn" mat-button type="submit"
         (click)="onSubmit()">ЗБЕРЕГТИ</button>
     </div>
 

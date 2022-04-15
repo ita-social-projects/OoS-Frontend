@@ -4,6 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
+import { TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
@@ -23,7 +24,7 @@ export class CreatePhotoFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   PhotoFormGroup: FormGroup;
-  descriptionFormGroup: FormControl = new FormControl('', Validators.required);
+  descriptionFormGroup: FormControl = new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX)]);
   @Input() provider: Provider;
 
   @Output() passPhotoFormGroup = new EventEmitter();

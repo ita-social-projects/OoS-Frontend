@@ -17,14 +17,12 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
-
 @Component({
   selector: 'app-provider-admins',
   templateUrl: './provider-admins.component.html',
-  styleUrls: ['./provider-admins.component.scss']
+  styleUrls: ['./provider-admins.component.scss'],
 })
 export class ProviderAdminsComponent implements OnInit, OnDestroy {
-
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noProviderAdmins;
@@ -33,11 +31,10 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
-  providerAdmins: ProviderAdminTable[];
+  providerAdmins: ProviderAdminTable[] = [];
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
-  filteredProviderAdmins: Array<object> = [];
   filter = new FormControl('');
   filterValue: string;
   btnView: string;
@@ -48,7 +45,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     public store: Store,
     private router: Router,
     private route: ActivatedRoute,
-    private matDialog: MatDialog) {}
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.btnView = providerAdminRoleUkr.all;
@@ -67,33 +65,27 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
-        this.filterProviderAdmins();
       });
-    this.route.params.pipe(
-      takeUntil(this.destroy$))
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params.param);
+        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(
+          params.param
+        );
         this.btnView = providerAdminRoleUkr[params.param];
       });
 
-      this.provider$.pipe(
+    this.provider$
+      .pipe(
         filter((provider: Provider) => !!provider),
         takeUntil(this.destroy$)
-      ).subscribe((provider: Provider) => this.provider = provider);
+      )
+      .subscribe((provider: Provider) => (this.provider = provider));
   }
 
   getAllProviderAdmins(): void {
     this.store.dispatch(new GetAllProviderAdmins());
   }
-  filterProviderAdmins(): void {
-    this.route.params.pipe(
-      takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.filteredProviderAdmins = this.providerAdmins.filter(
-          (user) => user.isDeputy === (params.param === 'deputy')
-        );
-      })
-    }
 
   updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
     let updatedAdmins = [];
@@ -104,9 +96,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         email: admin.email,
         phoneNumber: admin.phoneNumber,
         isDeputy: admin.isDeputy,
-        status: admin.accountStatus
+        status: admin.accountStatus,
       });
-      
     });
     return updatedAdmins;
   }
@@ -117,44 +108,62 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.btnView = event.tab.textLabel;
-    this.filterProviderAdmins();
     this.filter.reset();
-    this.router.navigate(['../', providerAdminRoleUkrReverse[event.tab.textLabel]], {relativeTo: this.route});
+    this.router.navigate(
+      ['../', providerAdminRoleUkrReverse[event.tab.textLabel]],
+      { relativeTo: this.route }
+    );
   }
 
   /**
    * This method delete provider Admin By Id
    */
-   onDelete(user): void {
+  onDelete(user): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
-        type: (user.deputy) ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
-        property: user.pib
-      }
+        type: user.deputy
+          ? ModalConfirmationType.deleteProviderAdminDeputy
+          : ModalConfirmationType.deleteProviderAdmin,
+        property: user.pib,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteProviderAdminById({userId: user.id, providerId: this.provider.id}));
+      result &&
+        this.store.dispatch(
+          new DeleteProviderAdminById({
+            userId: user.id,
+            providerId: this.provider.id,
+          })
+        );
     });
   }
 
   /**
    * This method block provider Admin By Id
    */
-   onBlock(user): void {
-   const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-     width: '330px',
-     data: {
-       type: (user.deputy) ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
-       property: user.pib
-     }
-   });
+  onBlock(user): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: '330px',
+      data: {
+        type: user.deputy
+          ? ModalConfirmationType.blockProviderAdminDeputy
+          : ModalConfirmationType.blockProviderAdmin,
+        property: user.pib,
+      },
+    });
 
-   dialogRef.afterClosed().subscribe((result: boolean) => {
-     result && this.store.dispatch(new BlockProviderAdminById({userId: user.id, providerId: this.provider.id}));
-   });
- }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result &&
+        this.store.dispatch(
+          new BlockProviderAdminById({
+            userId: user.id,
+            providerId: this.provider.id,
+          })
+        );
+    });
+  }
 
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();

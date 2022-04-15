@@ -57,6 +57,8 @@ import { NotificationsListComponent } from './components/notifications/notificat
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { KeyFilterDirective } from './directives/key-filter.directive';
 import { CustomCarouselDirective } from './directives/custom-carousel.directive';
+import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
+import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -110,6 +112,8 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
     UsersListComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
+    PhoneTransformPipe,
+    ProviderAdminsFilterPipe,
   ],
   imports: [
     MaterialModule,
@@ -172,6 +176,8 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
     UsersListComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
+    PhoneTransformPipe,
+    ProviderAdminsFilterPipe,
   ]
 })
 export class SharedModule { }
