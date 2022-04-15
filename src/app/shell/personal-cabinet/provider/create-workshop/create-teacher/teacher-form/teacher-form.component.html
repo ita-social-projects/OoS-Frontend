@@ -60,11 +60,9 @@
       {{TeacherFormGroup.get('description').value.length}}/{{constants.MAX_TEACHER_DESCRIPTION_LENGTH }}</label>
   </div>
   <mat-form-field appearance="none">
-    <div class="wrapper-border">
-      <textarea matInput class="step-textarea step-input-field"
-        placeholder="Максимум {{constants.MAX_TEACHER_DESCRIPTION_LENGTH}} символів" formControlName="description"
-        maxlength="{{constants.MAX_TEACHER_DESCRIPTION_LENGTH}}"></textarea>
-    </div>
+    <textarea matInput class="step-textarea "
+      placeholder="Максимум {{constants.MAX_TEACHER_DESCRIPTION_LENGTH}} символів" formControlName="description"
+      maxlength="{{constants.MAX_TEACHER_DESCRIPTION_LENGTH}}"></textarea>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="TeacherFormGroup.get('description').invalid && TeacherFormGroup.get('description').touched">
