@@ -52,19 +52,18 @@
         Я(моя дитина) не маю противопоказів щодо відвідування гуртока/секції/класу
       </mat-checkbox>
       <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
-        Я погоджуюсь з <a class="link">Правилами користування </a>
+        Я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
         та надаю згоду на обробку персональних даних
       </mat-checkbox>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="['/workshop-details', workshopId]"><button class="btn btn-cancel" mat-raised-button>Скасувати</button></a>
-      <button class="btn" mat-button type="submit" 
-        [disabled]="!isAttendAgreed || 
-                    !isContraindicationAgreed || 
-                    !isParentAgreed || 
-                    !selectedChild "
-        (click)="onSubmit()">Відправити</button>
+      <a [routerLink]="['/workshop-details', workshopId]"><button class="btn btn-cancel"
+          mat-raised-button>Скасувати</button></a>
+      <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
+                    !isContraindicationAgreed ||
+                    !isParentAgreed ||
+                    !selectedChild " (click)="onSubmit()">Відправити</button>
     </div>
   </div>
 </div>

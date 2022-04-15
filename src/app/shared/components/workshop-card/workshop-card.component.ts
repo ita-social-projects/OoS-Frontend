@@ -13,10 +13,10 @@ import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
-import { environment } from 'src/environments/environment';
 import { Constants } from '../../constants/constants';
+import { ImagesService } from '../../services/images/images.service';
+import { CategoryIcons } from '../../enum/category-icons';
 
 @Component({
   selector: 'app-workshop-card',
@@ -28,15 +28,16 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationStatus = ApplicationStatus;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly Role: typeof Role = Role;
-  readonly categoryIcons = CategoryIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  readonly categoryIcons = CategoryIcons;
 
   isFavorite: boolean;
   pendingApplicationAmount: number;
   workshopData: WorkshopCard;
 
   @Input() set workshop(workshop: WorkshopCard) {
-    this.setCoverImage(workshop);
+    this.workshopData = workshop;
+    this.imagesService.setWorkshopCoverImage(workshop);
   };
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
@@ -46,7 +47,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
     if (applications?.length) {
-      applications.filter((application: Application) => {
+      this.pendingApplicationAmount = applications.filter((application: Application) => {
         return (application.workshopId === this.workshopData.workshopId && application.status === ApplicationStatus.Pending);
       }).length;
     } else {
@@ -66,7 +67,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private imagesService: ImagesService) { }
 
   ngOnInit(): void {
     this.role$
@@ -122,13 +124,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       ).subscribe((favorites: Favorite[]) => {
         this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
       });
-  }
-
-  private setCoverImage(workshop: WorkshopCard): void {
-    workshop['_meta'] = workshop.coverImageId ?
-      environment.serverUrl + Constants.IMG_URL + workshop.coverImageId :
-      this.categoryIcons[workshop.directionId];
-    this.workshopData = workshop;
   }
 }
 
