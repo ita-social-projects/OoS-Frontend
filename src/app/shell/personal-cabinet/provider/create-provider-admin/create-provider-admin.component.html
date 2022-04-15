@@ -5,9 +5,9 @@
       <p class="wrapper-text">Дані для входу будуть надіслані на Емейл користувача для логування в систему. </p>
     </div>
 
-    <mat-horizontal-stepper #stepper [linear]="!editMode">
+    <mat-horizontal-stepper #stepper>
 
-      <mat-step [stepControl]="ProviderAdminFormGroup">
+      <mat-step [stepControl]="InfoFormGroup">
 
         <ng-template matStepLabel>
           <p class="step-name">Особиста інформація</p>
