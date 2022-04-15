@@ -22,7 +22,6 @@ export class CreatePhotoFormComponent implements OnInit {
 
   PhotoFormGroup: FormGroup;
   descriptionFormGroup: FormControl = new FormControl('', Validators.required);
-  descriptionLength = 0;
   @Input() provider: Provider;
 
 
@@ -35,8 +34,6 @@ export class CreatePhotoFormComponent implements OnInit {
       description: this.descriptionFormGroup,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE),
     }); 
-      this.PhotoFormGroup.get('description').valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: string)=>this.descriptionLength = value.length);
-
   }
 
   ngOnInit(): void {
@@ -47,7 +44,6 @@ export class CreatePhotoFormComponent implements OnInit {
 
   private activateEditMode(): void {
   this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
-  this.descriptionLength = this.PhotoFormGroup.get('description').value.length;
   this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
 }
 
