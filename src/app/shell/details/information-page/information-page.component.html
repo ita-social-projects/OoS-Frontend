@@ -79,12 +79,13 @@
     <span class="icon-text">
       <mat-icon class="icon">location_on</mat-icon>
       <span fxLayout="row wrap" fxLayoutAlign="start">
-        <span>{{provider.actualAddress.city}}, </span>
-        <span>{{provider.actualAddress.street}}, </span>
-        <span>{{provider.actualAddress.buildingNumber}}</span>
+        <span>{{address.city}},</span>
+        <span>{{address.street}}, </span>
+        <span>{{address.buildingNumber}}</span>
       </span>
     </span>
   </div>
+
   <span class="icon-text" *ngIf="provider.website">
     <mat-icon class="icon">language</mat-icon>
     <a [href]="provider.website">{{provider.website}}</a>
