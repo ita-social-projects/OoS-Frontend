@@ -11,6 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 import { imgPath } from 'src/app/shared/models/carousel.model';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
+import { Address } from 'src/app/shared/models/address.model';
 
 @Component({
   selector: 'app-information-page',
@@ -25,14 +26,18 @@ export class InformationPageComponent implements OnInit, OnDestroy {
   @Input() role: string;
   @Input() workshop: Workshop;
   @Input() set providerData(provider: Provider) {
-    this.provider = provider;
+    this.address = provider.actualAddress
+      ? provider.actualAddress
+      : provider.legalAddress;
     this.setCoverImage();
+    this.provider = provider;
   };
 
   provider: Provider;
   selectedIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: imgPath[] = [];
+  address: Address;
 
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
