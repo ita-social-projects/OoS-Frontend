@@ -29,8 +29,8 @@ export class InformationPageComponent implements OnInit, OnDestroy {
     this.address = provider.actualAddress
       ? provider.actualAddress
       : provider.legalAddress;
-    this.setCoverImage();
     this.provider = provider;
+    this.setCoverImage();
   };
 
   provider: Provider;
