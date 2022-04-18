@@ -1,5 +1,6 @@
 export class Teacher {
   id?: string;
+  workshopId?: string;
   firstName: string;
   lastName: string;
   middleName: string;
