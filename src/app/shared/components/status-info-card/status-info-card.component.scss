@@ -17,7 +17,7 @@
 .application-info-description-card {
   color: #aaaaaa;
 }
-.Approved {
+.Approved, .StudyingForYears {
   color: #199953;
 }
 .Pending {
@@ -27,9 +27,11 @@
   color: #27a3ff;
 }
 .Rejected,
-.Left,
 .Blocked {
   color: #c72a21;
+}
+.Completed, .Left {
+  color: #888888;
 }
 
 .application-info-span {
@@ -72,6 +74,14 @@
     padding-right: 5px;
   }
 }
+
+.application-info-description {
+  .Approved, .Pending, .StudyingForYears, .AcceptedForSelection, .Rejected, .Completed, .Left {
+    color: black;
+  }
+
+}
+
 .application-info-menu-title {
   font-size: 18px;
   font-weight: bold;
