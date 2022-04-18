@@ -4,7 +4,6 @@ import { ResultComponent } from './result/result.component';
 import { Routes, RouterModule } from '@angular/router';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
-import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { CreateWorkshopComponent } from './personal-cabinet/provider/create-workshop/create-workshop.component';
 import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { CreateProviderComponent } from './personal-cabinet/provider/create-provider/create-provider.component';
@@ -26,6 +25,8 @@ import { CreateDirectionComponent } from './admin-tools/platform/create-directio
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
 import { IsMobileGuard } from './is-mobile.guard';
+import { RulesComponent } from './info/rules/rules.component';
+import { DetailsComponent } from './details/details.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
       { path: 'support', component: SupportComponent },
+      { path: 'rules', component: RulesComponent },
     ]
   },
   {
@@ -72,8 +74,12 @@ const routes: Routes = [
     canActivate: [IsMobileGuard]
   },
   {
-    path: 'workshop-details/:id', component: WorkshopDetailsComponent,
-    loadChildren: () => import('./workshop-details/workshop-details.module').then(m => m.WorkshopDetailsModule),
+    path: 'details/workshop/:id', component: DetailsComponent,
+    loadChildren: () => import('./details/details.module').then(m => m.DetailsModule),
+  },
+  {
+    path: 'details/provider/:id', component: DetailsComponent,
+    loadChildren: () => import('./details/details.module').then(m => m.DetailsModule),
   },
   {
     path: 'create-workshop/:param', component: CreateWorkshopComponent,

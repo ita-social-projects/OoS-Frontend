@@ -1,0 +1,11 @@
+<div *ngIf="provider" class="wrapper" [fxLayout]="(isMobileScreen$ | async) ? 'column': 'row'"
+  [fxLayout.lt-lg]="(isMobileScreen$ | async) ? 'column' : 'row wrap'" fxLayoutAlign="center space-between"
+  fxLayoutGap.gt-md="2rem">
+
+  <app-information-page class="workshop-page-wrap" [workshop]="workshop" [providerData]="provider"
+    [role]="role$ | async">
+  </app-information-page>
+
+  <app-side-menu *ngIf="workshop" [workshop]="workshop" [role]="role$ | async">
+  </app-side-menu>
+</div>
