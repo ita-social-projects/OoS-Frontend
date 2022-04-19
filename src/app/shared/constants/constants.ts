@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
 import { City } from '../models/city.model';
@@ -25,8 +26,6 @@ export class Constants {
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
-
-  static readonly ITEMS_PER_PAGE = 2 * Math.floor(window.innerWidth / (332));
 
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
@@ -59,7 +58,9 @@ export class PaginationConstants {
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
   static readonly PAGINATION_DOTS = '...';
   static readonly PAGINATION_SHIFT_DELTA = 3;
-}
+  static readonly ITEMS_PER_PAGE_TEN = 10;
+  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332))
+};
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {
   parse: {

@@ -1,8 +1,11 @@
 
 @import "src/app/shared/styles/card-wrapper.scss";
+@import "src/app/shared/styles/list-wrappers.scss";
 @import "src/app/shared/styles/config.scss";
 @import "src/app/shared/styles/navigation-tabs.scss";
 @import "src/app/shared/styles/buttons.scss";
+@import "src/app/shared/styles/pagination.scss";
+
 .wrapper{
   p {
     font-family: Open Sans;
@@ -10,10 +13,6 @@
     font-weight: normal;
     font-size: 13px;
     line-height: 18px;
-    white-space: break-spaces;
-  }
-  h4 {
-    margin-bottom: 20px;
   }
 }
 
@@ -24,6 +23,11 @@
 
 .support-title {
   margin-bottom: 1rem;
+}
+
+.config-button {
+  font-weight: 300;
+  font-family:Open Sans;
 }
 
 .config-support p {
