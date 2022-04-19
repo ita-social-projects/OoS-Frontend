@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { WorkingDaysValues } from 'src/app/shared/constants/constants';
+import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
 @Component({
@@ -9,6 +11,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 
 export class WorkshopAboutComponent {
   @Input() workshop: Workshop;
+  days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
 
   workshopDetailsMock = {
     description: 'Бальні танці — різновид парних танців, упорядкованих та кодифікованих для спортивних змагань.',
