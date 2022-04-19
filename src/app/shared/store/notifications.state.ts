@@ -34,7 +34,6 @@ export class NotificationsState {
 
   constructor(
     private notificationsService: NotificationsService,
-    private router: Router,
   ) { }
 
   @Action(GetAmountOfNewUsersNotifications)
@@ -62,7 +61,6 @@ export class NotificationsState {
   @Action(OnReadUsersNotificationsByTypeSuccess)
   onReadUsersNotificationsByTypeSuccess({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsByTypeSuccess): void {
     dispatch(new GetAmountOfNewUsersNotifications());
-    this.router.navigate([`/personal-cabinet/${NotificationType[payload.type]}/${[payload.groupedData]}`]);
   }
 
   @Action(ReadUsersNotificationById)
