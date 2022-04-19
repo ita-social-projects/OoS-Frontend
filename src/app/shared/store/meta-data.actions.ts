@@ -63,3 +63,4 @@ export class GetFeaturesList {
   static readonly type = '[meta-data] Get features list';
   constructor() { }
 }
+

@@ -11,6 +11,8 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
+  @Input() itemsPerPage: number = this.constants.ITEMS_PER_PAGE_DEFAULT;
+
   @Output() pageChange = new EventEmitter<PaginationElement>();
 
   carouselPageList: PaginationElement[] = [];
@@ -57,7 +59,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   private getTotalPageAmount(): number {
-    return Math.ceil(this.totalEntities / Constants.ITEMS_PER_PAGE);
+    return Math.ceil(this.totalEntities / this.itemsPerPage);
   }
 
   private createDisplayedPageList(): PaginationElement[] {

@@ -1,0 +1,21 @@
+<form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Назва напрямку <span class="step-required">*</span></label>
+  </div>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="title">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="directionFormGroup.get('title').errors?.required"
+    [invalid]="directionFormGroup.get('title').invalid && directionFormGroup.get('title').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="directionFormGroup.get('title').invalid && directionFormGroup.get('title').touched"
+    [forbiddenCharacter]="directionFormGroup.get('title').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+  <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+        class="btn btn-cancel">Скасувати</button></a>
+    <button class="btn" (click)="onSubmit()" mat-raised-button>Далі</button>
+  </div>
+</form>

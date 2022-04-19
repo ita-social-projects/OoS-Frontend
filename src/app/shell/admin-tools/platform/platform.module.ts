@@ -9,6 +9,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { SupportFormComponent } from './support-edit/support-form/support-form.component';
 import { CreateDirectionComponent } from './create-direction/create-direction.component';
+import { AddClassFormComponent } from './create-direction/add-class-form/add-class-form.component';
+import { AddDepartmentFormComponent } from './create-direction/add-department-form/add-department-form.component';
+import { AddDirectionFormComponent } from './create-direction/add-direction-form/add-direction-form.component';
+import { DirectionsComponent } from './create-direction/directions/directions.component';
+import { AdminToolsModule } from '../admin-tools.module';
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +22,19 @@ import { CreateDirectionComponent } from './create-direction/create-direction.co
     SupportEditComponent,
     AboutFormComponent,
     SupportFormComponent,
-    CreateDirectionComponent 
+    CreateDirectionComponent,
+    AddClassFormComponent,
+    AddDepartmentFormComponent,
+    AddDirectionFormComponent,
+
   ],
   imports: [
     CommonModule,
     FlexLayoutModule,
     SharedModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    AdminToolsModule,
   ]
 })
 export class PlatformModule { }

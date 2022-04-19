@@ -1,46 +1,48 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatStepperModule } from '@angular/material/stepper';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Direction } from 'src/app/shared/models/category.model';
-import { PlatformComponent } from './platform.component';
+import { Direction } from 'leaflet';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
-describe('PlatformComponent', () => {
-  let component: PlatformComponent;
-  let fixture: ComponentFixture<PlatformComponent>;
+import { DirectionsComponent } from './directions.component';
+
+describe('DirectionsComponent', () => {
+  let component: DirectionsComponent;
+  let fixture: ComponentFixture<DirectionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([]),
-        RouterTestingModule,
-        MatTabsModule,
         MatIconModule,
-        MatButtonModule,
+        NgxsModule.forRoot([]),
+        ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        NoopAnimationsModule,
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        MatStepperModule,
         MatDialogModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
-        PlatformComponent,
+        DirectionsComponent,
+        MockListChildCardPaginatorComponent,
         MockAllCategoriesCardComponent,
-        MockAllCategoriesSearchbarComponent
       ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlatformComponent);
+    fixture = TestBed.createComponent(DirectionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -55,11 +57,12 @@ describe('PlatformComponent', () => {
 })
 class MockAllCategoriesCardComponent {
   @Input() direction: Direction;
-  @Input() isEditMode: boolean;
 }
-
 @Component({
-  selector: 'app-full-search-bar',
+  selector: 'app-paginator',
   template: ''
 })
-class MockAllCategoriesSearchbarComponent {}
+class MockListChildCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+}
