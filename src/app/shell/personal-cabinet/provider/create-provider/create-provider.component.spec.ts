@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateProviderComponent } from './create-provider.component';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
   let fixture: ComponentFixture<CreateProviderComponent>;
+  let fb: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,7 +39,17 @@ describe('CreateProviderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateProviderComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fb = TestBed.inject(FormBuilder)
+    
+    component.InfoFormGroup = fb.group({
+      fullTitle: new FormControl(''),
+    });
+    component.LegalAddressFormGroup = fb.group({
+      fullTitle: new FormControl(''),
+    });
+    component.ActualAddressFormGroup = fb.group({
+      fullTitle: new FormControl(''),
+    });
   });
 
   it('should create', () => {
@@ -52,6 +63,7 @@ describe('CreateProviderComponent', () => {
 })
 class MockCreateContactsFormComponent {
   @Input() provider: Provider;
+  @Input() ContactsFormGroup;
 }
 
 @Component({
@@ -60,6 +72,7 @@ class MockCreateContactsFormComponent {
 })
 class MockCreateInfoComponent {
   @Input() provider: Provider;
+  @Input() InfoFormGroup;
 }
 
 @Component({
