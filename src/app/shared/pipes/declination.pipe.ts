@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { More, One, Two } from '../enum/enumUA/declination';
+import { FirstCase, SecondCase, ThirdCase } from '../enum/enumUA/declination';
 
 @Pipe({
   name: 'declination'
@@ -7,16 +7,15 @@ import { More, One, Two } from '../enum/enumUA/declination';
 export class DeclinationPipe implements PipeTransform {
 
   transform(quantity: number, word: string): string {
-    switch (quantity) {
-      case 1:
-        return One[word]
-        break;
-      case 2: 
-        return Two[word]
-        break;
-      default:
-        return `${quantity} ${More[word]}`;
-    }
+
+    const lastDigit = +(quantity.toString().slice(-1));
+    let declination = word;
+
+    if (lastDigit === 1) declination = FirstCase[word]
+    else if (lastDigit >= 2 && lastDigit <= 4) declination = SecondCase[word]
+    else declination = ThirdCase[word]
+    
+    return `${quantity} ${declination}`
   }
 
 }
