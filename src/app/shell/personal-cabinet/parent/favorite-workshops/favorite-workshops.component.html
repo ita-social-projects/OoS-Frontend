@@ -4,7 +4,7 @@
       [isMainPage]="false" [userRoleView]="Role.unauthorized">
     </app-workshop-card>
   </div>
-  <app-paginator [totalEntities]="(favoriteWorkshopsCard$ | async).length" [currentPage]="currentPage"
+  <app-paginator [totalEntities]="(favoriteWorkshopsCard$ | async).length" [currentPage]="currentPage" 
     (pageChange)="onPageChange($event)">
   </app-paginator>
 </ng-container>

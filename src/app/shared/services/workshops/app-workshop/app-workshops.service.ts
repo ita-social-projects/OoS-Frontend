@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { Ordering } from 'src/app/shared/enum/ordering';
 import { Direction } from 'src/app/shared/models/category.model';
 
@@ -13,7 +13,7 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
 
   dataUrlMock = '/assets/mock-org-cards.json';
-  size: number = Constants.ITEMS_PER_PAGE;
+  size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
 
   constructor(private http: HttpClient) { }
 
@@ -84,7 +84,7 @@ export class AppWorkshopsService {
       params = params.set('Size', '100');
       params = params.set('From', '0');
     } else if (filters.currentPage) {
-      const size: number = Constants.ITEMS_PER_PAGE;
+      const size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
       const from: number = size * (+filters.currentPage.element - 1);
 
       params = params.set('Size', size.toString());

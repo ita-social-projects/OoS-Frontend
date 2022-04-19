@@ -1,4 +1,4 @@
-import { Constants } from './../../shared/constants/constants';
+import { PaginationConstants } from './../../shared/constants/constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -53,14 +53,14 @@ export class MainComponent implements OnInit, OnDestroy {
         .pipe(
           filter(([city, favorite]) => (!!city && !!favorite?.length) || (favorite === null)),
           takeUntil(this.destroy$))
-        .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+        .subscribe(() => this.store.dispatch(new GetTopWorkshops(PaginationConstants.ITEMS_PER_PAGE_DEFAULT)));
     }
     else {
       this.city$
         .pipe(
           filter(city => !!city),
           takeUntil(this.destroy$))
-        .subscribe(() => this.store.dispatch(new GetTopWorkshops(Constants.ITEMS_PER_PAGE)));
+        .subscribe(() => this.store.dispatch(new GetTopWorkshops(PaginationConstants.ITEMS_PER_PAGE_DEFAULT)));
     }
   }
 

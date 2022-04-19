@@ -1,56 +1,57 @@
+import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
-import { CreateDirectionComponent } from './create-direction.component';
+import { Department, Direction } from 'src/app/shared/models/category.model';
 
-describe('CreateDirectionComponent', () => {
-  let component: CreateDirectionComponent;
-  let fixture: ComponentFixture<CreateDirectionComponent>;
+import { AddDepartmentFormComponent } from './add-department-form.component';
+
+describe('AddClassFormComponent', () => {
+  let component: AddDepartmentFormComponent;
+  let fixture: ComponentFixture<AddDepartmentFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatIconModule,
-        NgxsModule.forRoot([]),
+        FormsModule,
+        RouterTestingModule,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        BrowserAnimationsModule,
-        RouterTestingModule,
-        MatStepperModule,
+        MatIconModule,
         MatDialogModule,
+        BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
+        MatStepperModule,
         NoopAnimationsModule,
-      ],
+        CdkStepperModule,
+       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
-        CreateDirectionComponent,
+        AddDepartmentFormComponent,
         MockValidationHintForInputComponent,
-        MockAddDepartmentFormComponent,
-        MockAddDirectionFormComponent,
-        MockAddClassFormComponent
-      ]
+      ],
+      providers: [
+        { provide: CdkStepper, }
+      ],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateDirectionComponent);
+    fixture = TestBed.createComponent(AddDepartmentFormComponent);
     component = fixture.componentInstance;
-    component.directionFormGroup = new FormGroup({
-      image: new FormControl(''),
-      directionName: new FormControl('', [Validators.required]),
-      sectionName: new FormControl('', [Validators.required]),
-      className: new FormControl('', [Validators.required]),
+    component.departmentFormGroup = new FormGroup({
+      title: new FormControl(''),
     });
     fixture.detectChanges();
   });
@@ -67,30 +68,15 @@ describe('CreateDirectionComponent', () => {
 class MockValidationHintForInputComponent {
   @Input() type: string;
   @Input() invalid: boolean;
-  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
+  @Input() minCharachters: number;
   @Input() forbiddenCharacter: string;
+  @Input() isEmptyCheck: boolean;
+  @Input() direction: Direction;
+  @Input() department: Department;
   @Input() directionFormGroup: FormGroup;
   @Input() classFormGroup: FormGroup;
   @Input() departmentFormGroup: FormGroup;
+  @Input() _stepper: CdkStepper;
   @Input() router: Router;
-}
-@Component({
-  selector: 'app-add-direction-form',
-  template: ''
-})
-class MockAddDirectionFormComponent {
-}
-
-@Component({
-  selector: 'app-add-department-form',
-  template: ''
-})
-class MockAddDepartmentFormComponent {
-}
-
-@Component({
-  selector: 'app-add-class-form',
-  template: ''
-})
-class MockAddClassFormComponent {
 }
