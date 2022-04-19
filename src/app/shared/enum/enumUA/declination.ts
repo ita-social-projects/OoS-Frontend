@@ -1,19 +1,19 @@
-export enum FirstCase {
-  'відгук' = 'відгук',
-  'заява' = 'заява',
-  'гурток' = 'гурток',
+export enum Review {
+  'відгук',
+  'відгуки',
+  'відгуків',
 }
 
-export enum SecondCase {
-  'відгук' = 'відгуки',
-  'заява' = 'заяви',
-  'гурток' = 'гуртки',
+export enum Application {
+  'заява',
+  'заяви',
+  'заяв',
 }
 
-export enum ThirdCase {
-  'відгук' = 'відгуків',
-  'заява' = 'заяв',
-  'гурток' = 'гуртків',
+export enum Workshop {
+  'гуртки',
+  'гуртків',
+  'гурток',
 }
 
 export enum Words {
