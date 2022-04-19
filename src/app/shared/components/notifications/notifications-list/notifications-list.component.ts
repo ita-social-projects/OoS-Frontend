@@ -53,10 +53,6 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  getDeclensionNewApplication(applicationAmount: number): string {
-    return Util.getDeclensionNewApplication(applicationAmount);
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -15,12 +15,12 @@
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-      <mat-tab label="Усі">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+      <mat-tab label="{{applicationTitles.All}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
+      <mat-tab label="{{applicationTitles.Pending}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
         </ng-container>
       </mat-tab>
@@ -28,15 +28,15 @@
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
         </ng-container>
       </mat-tab> TODO: display when functionality is ready -->
-      <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
+      <mat-tab label="{{applicationTitles.Approved}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
+      <mat-tab label="{{applicationTitles.Rejected}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
+      <mat-tab label="{{applicationTitles.Left}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
@@ -70,7 +70,8 @@
 
 
         <ng-template #ChildApplication>
-          <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
+          <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{
+            child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
           <ng-container
             *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
           </ng-container>

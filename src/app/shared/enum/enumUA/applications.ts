@@ -1,14 +1,16 @@
 export enum ApplicationTitles {
+  All = 'Усі',
   Pending = 'Очікують підтвердження',
-  AcceptedForSelection = 'Прийнято до конкурсного відбору',
-  StudyingForYears = 'Навчається 1-11 років',
   Approved = 'Зараховано',
   Rejected = 'Відмовлено',
   Left = 'Гурток залишено',
+  AcceptedForSelection = 'Прийнято до конкурсного відбору',
+  StudyingForYears = 'Навчається 1-11 років',
   Completed = 'Навчання завершено'
 }
 
 export enum ApplicationTitlesReverse {
+  'Усі' = 'All',
   'Очікують підтвердження' = 'Pending',
   'Прийнято до конкурсного відбору' = 'AcceptedForSelection',
   'Навчається 1-11 років' = 'StudyingForYears',

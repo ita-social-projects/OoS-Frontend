@@ -39,4 +39,11 @@ export class NotificationsService {
   readUsersNotificationById(notification: Notification): Observable<Object> {
     return this.http.put<Object>(`/api/v1/Notification/Read/${notification.id}`, notification);
   }
+
+  /**
+   * This method get all notifications
+   */
+  getAllUsersNotifications(): Observable<Notifications> {
+    return this.http.get<Notifications>(`/api/v1/Notification/GetAllUsersNotifications`);
+  }
 }
