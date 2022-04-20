@@ -15,6 +15,7 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
 
 
 @Component({
@@ -44,29 +45,22 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     store: Store,
     private infoBoxService: InfoBoxService,
     matDialog: MatDialog,
-    private actions$: Actions,
+    actions$: Actions,
     private router: Router,
     private route: ActivatedRoute,) {
-    super(store, matDialog);
+    super(store, matDialog, actions$);
   }
 
   ngOnInit(): void {
     this.getUserData();
-
-    this.actions$.pipe(ofAction(UpdateApplication))
-      .pipe(
-        takeUntil(this.destroy$))
-      .subscribe(() => {
-        if (this.role === Role.provider) {
-          this.getProviderApplications(this.providerApplicationParams);
-        } else {
-          this.getParentApplications();
-        }
-      });
-
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params.param));
+
+    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
+      .pipe(
+        takeUntil(this.destroy$))
+      .subscribe(() => this.role === Role.provider ? this.getProviderApplications(this.providerApplicationParams) : this.getParentApplications());
   }
 
   init(): void {

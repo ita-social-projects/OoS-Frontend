@@ -1,21 +1,21 @@
-import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
-import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
-import { ChildCards } from 'src/app/shared/models/child.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { ApplicationStatus } from './../../../shared/enum/applications';
+import { ApplicationTitles } from './../../../shared/enum/enumUA/applications';
+import { Role } from './../../..//shared/enum/role';
+import { Application } from './../../..//shared/models/application.model';
+import { ChildCards } from './../../..//shared/models/child.model';
+import { Parent } from './../../..//shared/models/parent.model';
+import { Provider } from './../../..//shared/models/provider.model';
+import { User } from './../../../shared/models/user.model';
+import { WorkshopCard } from './../../../shared/models/workshop.model';
+import { RegistrationState } from './../../../shared/store/registration.state';
+import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from './../../../shared/store/user.actions';
+import { UserState } from './../../../shared/store/user.state';
 
 @Component({
   selector: 'app-cabinet-data',
@@ -51,7 +51,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   applications: Application[];
   childrenCards: ChildCards;
 
-  constructor(public store: Store, public matDialog: MatDialog) { }
+  constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }
 
   ngOnInit(): void { }
 
