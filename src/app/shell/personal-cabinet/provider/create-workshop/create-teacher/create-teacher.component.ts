@@ -62,7 +62,7 @@ export class CreateTeacherComponent implements OnInit {
     */
   private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
-    teacherFormGroup.addControl('teacherId', this.fb.control([teacher.id]));
+    teacherFormGroup.addControl('teacherId', this.fb.control(teacher.id));
     teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
   }
 

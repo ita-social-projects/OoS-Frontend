@@ -1,9 +1,9 @@
   <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{adminTabsUkr.about}}"> 
+    <mat-tab label="{{adminTabsUkr.about}}">
       <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
         <div class="config">
           <a routerLink="./edit" class="config_edit-icon">
-            <button mat-button class="config-button">
+            <button mat-button>
               <mat-icon>edit</mat-icon>Редагувати
             </button>
           </a>
@@ -16,28 +16,15 @@
               <p>{{portalItem.description}}</p>
             </div>
           </ng-container>
-        </div> 
+        </div>
       </div>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
-    <mat-tab label="{{adminTabsUkr.directions}}"> 
-      <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <div class="search shadow">
-          <mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
-            <input type="text" maxlength="200" matInput placeholder="Введіть назву напрямку">
-            <mat-icon class="icon" style="transform: rotate(90deg)">search</mat-icon>
-          </mat-form-field>
-        </div>
-        <a routerLink="./create"><button class="btn" mat-raised-button>Додати напрямок</button></a>
-      </div>
-      <div class="card-wrapper">
-        <app-category-card class="card" *ngFor="let direction of directions$ | async" [direction]="direction"
-          [isEditMode]="true">
-        </app-category-card>
-      </div>
+    <mat-tab label="{{adminTabsUkr.directions}}">
+      <app-directions></app-directions>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>
-    <mat-tab label="{{adminTabsUkr.support}}"> 
+    <mat-tab label="{{adminTabsUkr.support}}">
 
       <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
         <div class="config config-support">

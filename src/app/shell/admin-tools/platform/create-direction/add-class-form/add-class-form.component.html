@@ -1,0 +1,21 @@
+<form [formGroup]="ClassFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step" [ngClass]="{'step-border': classAmount>1}">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <label class="step-label"> Назва класу <span class="step-required">*</span></label>
+  </div>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="title">
+  </mat-form-field>
+  <app-validation-hint-for-input type="requiredEmptyField"
+    [isEmptyCheck]="ClassFormGroup.get('title').errors?.required"
+    [invalid]="ClassFormGroup.get('title').invalid && ClassFormGroup.get('title').touched">
+  </app-validation-hint-for-input>
+  <app-validation-hint-for-input type="validTextField"
+    [invalid]="ClassFormGroup.get('title').invalid && ClassFormGroup.get('title').touched"
+    [forbiddenCharacter]="ClassFormGroup.get('title').errors?.pattern?.requiredPattern">
+  </app-validation-hint-for-input>
+  <div fxLayout='row' fxLayoutAlign='center' *ngIf="classAmount > 1">
+    <button class="btn-reset" type="reset" mat-button (click)="onDelete()">
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити клас
+    </button>
+  </div>
+</form>

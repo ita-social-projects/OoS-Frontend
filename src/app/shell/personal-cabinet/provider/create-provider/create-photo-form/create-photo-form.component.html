@@ -4,7 +4,8 @@
 
   <label class="step-label">Статус</label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="institutionStatusId">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+      formControlName="institutionStatusId">
       <mat-option [value]="0" class="dropdown-option"> Відсутній </mat-option>
       <mat-option *ngFor="let status of (institutionStatuses$ | async)" [value]="status.id" class="dropdown-option">
         {{status.name}}
@@ -18,23 +19,19 @@
     </label>
   </div>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-    <div class="wrapper-border">
-      <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
-        formControlName="description" minlength="3" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
-    </div>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
+      formControlName="description" minlength="3" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
-  [invalid]="PhotoFormGroup.get('description').errors?.required && PhotoFormGroup.get('description').touched">    
+    [invalid]="PhotoFormGroup.get('description').errors?.required && PhotoFormGroup.get('description').touched">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validTextFieldWithSymbols"
     [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched"
     [forbiddenCharacter]="PhotoFormGroup.get('description').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="PhotoFormGroup.get('description').errors?.minlength"
+  <app-validation-hint-for-input type="validLength" [minLength]="PhotoFormGroup.get('description').errors?.minlength"
     [maxLength]="PhotoFormGroup.get('description').errors?.maxlength"
     [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched"
-    [minCharachters]="3"
-    [maxCharachters]="constants.MAX_DESCRIPTION_ABOUT_LENGTH">
+    [minCharachters]="3" [maxCharachters]="constants.MAX_DESCRIPTION_ABOUT_LENGTH">
   </app-validation-hint-for-input>
 </form>

@@ -5,7 +5,7 @@
         [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
       </app-workshop-card>
     </div>
-    <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage"
+    <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage" 
       (pageChange)="onPageChange($event)">
     </app-paginator>
   </div>
