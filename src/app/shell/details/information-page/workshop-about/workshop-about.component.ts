@@ -12,7 +12,11 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 
 export class WorkshopAboutComponent {
   readonly workingDays = WorkingDays;
-  @Input() workshop: Workshop;
+  @Input() workshop!: Workshop;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
-
+ 
+  isSelected() {
+    let i = this.workshop.dateTimeRanges[0].workdays.map(el => this.workingDays[el.toLowerCase()]);
+    console.log(i);    
+  }
 }

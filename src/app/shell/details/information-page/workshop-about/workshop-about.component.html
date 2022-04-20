@@ -7,15 +7,20 @@
   <h5> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </h5>
   <p> {{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'Відсутні' }} </p>
 
-  <!-- <h5>Дні/Години</h5>
+  <h5>Дні/Години</h5>
   <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem' 
     fxLayout.xs="column" fxLayoutAlign.xs="center start">    
     <div fxLayout='row' fxLayoutAlign='space-between'>
+      <!-- <div *ngFor="let day of days" class="toggle" fxLayout='row' 
+        fxLayoutAlign='center center'  
+        [ngClass]="day.value == workingDays[workshop.dateTimeRanges[0].workdays[0] | lowercase]
+          ? 'toggle-selected' : ''">
+        {{day.value}}
+      </div> -->
       <div *ngFor="let day of days" class="toggle" fxLayout='row' 
-        fxLayoutAlign='center center' 
-        [ngClass]="(workshop.dateTimeRanges[0].workdays[0] == 'Monday') 
-          ? 'toggle-selected' : '' "
-        >
+        fxLayoutAlign='center center'  
+        [ngClass]="day.value == workingDays[workshop.dateTimeRanges[0].workdays[0] | lowercase]
+          ? 'toggle-selected' : ''">
         {{day.value}}
       </div>
     </div>
@@ -25,23 +30,7 @@
       <p class="text">До</p>
       <p class="time">{{workshop.dateTimeRanges[0].endTime}}</p>
     </div>
-  </div> -->
+    {{ workingDays[workshop.dateTimeRanges[0].workdays[0] | lowercase] }}
+  </div>  
 
-  <h5>Дні/Години</h5>
-  <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem' 
-    fxLayout.xs="column" fxLayoutAlign.xs="center start">    
-    <div fxLayout='row' fxLayoutAlign='space-between'>
-      <div *ngFor="let day of workshop.dateTimeRanges[0].workdays" class="toggle" fxLayout='row' 
-        fxLayoutAlign='center center'>
-        {{workingDays[day | lowercase]}}
-      </div>
-    </div>
-    <div fxLayout='row' fxLayoutAlign='center center'>
-      <p class="text">Від</p>
-      <p class="time">{{workshop.dateTimeRanges[0].startTime}}</p>
-      <p class="text">До</p>
-      <p class="time">{{workshop.dateTimeRanges[0].endTime}}</p>
-    </div>
-  </div>
-  {{workshop.dateTimeRanges | json}}
 </div>
