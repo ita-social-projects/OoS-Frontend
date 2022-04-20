@@ -81,7 +81,7 @@ export class Workshop {
       this.imageIds = description.imageIds;
     }
     if (about.coverImage?.length) {
-      this.coverImage = about.coverImage[0];
+      this.coverImage = about.coverImage;
     }
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];

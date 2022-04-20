@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from '../../constants/constants';
+import { PaginationConstants } from '../../constants/constants';
 import { Child, ChildCards } from '../../models/child.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { UserStateModel } from '../../store/user.state';
@@ -17,7 +17,7 @@ export class ChildrenService {
     let params = new HttpParams();
 
     if (state.currentPage) {
-      const size: number = Constants.ITEMS_PER_PAGE;
+      const size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
       const from: number = size * (+state.currentPage.element - 1);
 
       params = params.set('Size', (size).toString());
