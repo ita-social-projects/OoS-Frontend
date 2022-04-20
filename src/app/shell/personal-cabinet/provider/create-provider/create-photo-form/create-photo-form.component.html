@@ -12,8 +12,12 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <label class="step-label"> Опис<span class="step-required">*</span></label>
+  <div class="step-label-combined">
+    <label class="step-label"> Опис<span class="step-required">*</span></label>
+    <label class="step-characters-count">
+      {{descriptionFormGroup.value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}
+    </label>
+  </div>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
     <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
       formControlName="description" minlength="3" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
