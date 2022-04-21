@@ -1,11 +1,10 @@
-
 <form [formGroup]="SupportFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step"
-[ngClass]="(supportFormAmount > 1) ? 'step-border' : ''">
+  [ngClass]="(supportFormAmount > 1) ? 'step-border' : ''">
 
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label">Заголовок</label>
     <i class="material-icons status-info-icon" (click)="isActiveHeaderInfoButton=!isActiveHeaderInfoButton"
-    [ngClass]="isActiveHeaderInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+      [ngClass]="isActiveHeaderInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">
@@ -18,7 +17,7 @@
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label">Назва розділу</label>
     <i class="material-icons status-info-icon" (click)="isActiveSectionInfoButton=!isActiveSectionInfoButton"
-    [ngClass]="isActiveSectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+      [ngClass]="isActiveSectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
   </div>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="sectionName">
@@ -34,10 +33,8 @@
       {{SupportFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}</label>
   </div>
   <mat-form-field appearance="none">
-    <div class="wrapper-border">
-      <textarea matInput class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
+    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
       formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
-    </div>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="SupportFormGroup.get('description').invalid && SupportFormGroup.get('description').touched">

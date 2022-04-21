@@ -85,7 +85,7 @@ export class MetaDataState {
 
   @Selector()
   static classes(state: MetaDataStateModel): IClass[] { return state.classes; }
-
+  
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups; }
 
@@ -146,8 +146,9 @@ export class MetaDataState {
 
   @Action(GetDepartments)
   getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments): Observable<Department[]> {
+    patchState({ isLoading: true })
     return this.categoriesService
-      .getDepartmentsBytDirectionId(payload)
+      .getDepartmentsByDirectionId(payload)
       .pipe(
         tap((departments: Department[]) => patchState({ departments: departments })
         ))
@@ -238,10 +239,10 @@ export class MetaDataState {
     return this.featureManagementService
       .getFeaturesList()
       .pipe(
-        tap((featuresList: FeaturesList) => 
-        patchState(environment.production 
-          ? { featuresList: featuresList } 
-          : { featuresList: { release1: true, release2: true, release3: false } })
+        tap((featuresList: FeaturesList) =>
+          patchState(environment.production
+            ? { featuresList: featuresList }
+            : { featuresList: { release1: true, release2: true, release3: false } })
         ))
   }
 
