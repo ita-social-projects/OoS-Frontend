@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { WorkshopDeclination } from '../../enum/enumUA/declination';
 import { WorkshopCard } from '../../models/workshop.model';
 
 @Component({
@@ -14,6 +15,7 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
   workshopControl = new FormControl();
   workshopsId: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  workshopDeclination = WorkshopDeclination;
 
   @Input() workshops: WorkshopCard[];
   @Input() dropdownContainerClass: string;

@@ -13,7 +13,7 @@ import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@an
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Workshop } from 'src/app/shared/enum/enumUA/declination';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
 
 enum ViewType {
   map = 'map',
@@ -50,7 +50,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   isMobileScreen: boolean;
   isHidden: boolean;
   
-  readonly Workshop = Workshop;
+  readonly WorkshopDeclination = WorkshopDeclination;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event): void {
