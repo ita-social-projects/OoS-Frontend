@@ -11,9 +11,33 @@ export enum Application {
 }
 
 export enum Workshop {
+  'гурток',
   'гуртки',
   'гуртків',
-  'гурток',
+}
+
+export enum Hour {
+  'година',
+  'години',
+  'годин',
+}
+
+export enum Day {
+  'день',
+  'дні',
+  'днів',
+}
+
+export enum Month {
+  'місяць',
+  'місяці',
+  'місяців',
+}
+
+export enum Year {
+  'рік',
+  'роки',
+  'років',
 }
 
 export enum Words {

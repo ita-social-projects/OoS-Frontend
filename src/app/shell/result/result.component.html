@@ -1,7 +1,7 @@
 <div class="view-control-panel" [class.mobile-map-view]="currentView === viewType.map">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
-    <h3 [class.mobile-map-view]="currentView === viewType.map">Знайдено {{(filteredWorkshops$ | async)?.totalAmount ||
-      0}} гуртків</h3>
+    <h3 [class.mobile-map-view]="currentView === viewType.map">Знайдено {{((filteredWorkshops$ | async)?.totalAmount ||
+      0) | declination: Workshop }}</h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
   <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
