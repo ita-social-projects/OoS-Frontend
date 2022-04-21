@@ -80,17 +80,17 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onDelete(): void {
-    this.deleteWorkshop.emit(this.workshop);
+    this.deleteWorkshop.emit(this.workshopData);
   }
 
   onLike(): void {
     const param = new Favorite(
-      this.workshop.workshopId,
+      this.workshopData.workshopId,
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' })
+      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} додано до Улюблених`, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -98,7 +98,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   onDisLike(id: string): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(id),
-      new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' })
+      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }

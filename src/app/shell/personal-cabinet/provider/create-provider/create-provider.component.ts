@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -25,7 +25,7 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   provider: Provider;
   isAgreed: boolean;
   isNotRobot: boolean;  
@@ -41,7 +41,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService) {
+  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private changeDetector : ChangeDetectorRef) {
     super(store, route, navigationBarService);
   }
 
@@ -64,6 +64,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
         this.stepper.selectedIndex = +createProviderSteps[params.param];
       });
     }
+  }
+  ngAfterViewChecked(){
+    this.changeDetector.detectChanges();
   }
 
   setEditMode(): void {
@@ -148,14 +151,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-  checkEmpty(form: FormGroup) { 
-    let res = [];     
-    for (let el in form?.controls) {
-      if (!form.get(el).value && form.get(el).status !== 'VALID') {
-        res.push(el)
-      }
-    }
-    return res.length > 0;
+  checkEmpty(form: FormGroup): boolean {     
+    return Object.keys(form.controls).some((key: string) => (!form.get(key).value
+      && form.get(key).status === 'INVALID' 
+      || Object.values(form.get(key).value).some((val: string) => !val)));       
   }
 
   /**

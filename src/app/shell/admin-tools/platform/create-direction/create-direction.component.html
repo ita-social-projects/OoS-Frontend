@@ -3,65 +3,52 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} НАПРЯМОК</h3>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+    <mat-horizontal-stepper #stepper [linear]="!editMode">
+      <mat-step [stepControl]="directionFormGroup">
+        <ng-template matStepLabel>
+          <p class="step-name">Напрямок</p>
+        </ng-template>
+        <app-add-direction-form>
+        </app-add-direction-form>
+      </mat-step>
+      <mat-step [stepControl]="departmentFormGroup">
+        <ng-template matStepLabel>
+          <p class="step-name">Відділення</p>
+        </ng-template>
+        <app-add-department-form [direction]="direction">
+        </app-add-department-form>
+      </mat-step>
+      <mat-step [stepControl]="ClassFormGroup">
+        <ng-template matStepLabel>
+          <p class="step-name">Клас</p>
+        </ng-template>
+        <div *ngIf="direction && department" fxLayout="column" fxLayoutAlign="center space-between" class="step">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <label class="step-label"> Назва напрямку <span class="step-required">*</span></label>
-          <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
-          [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+          <label class="step-label"> Назва напрямку </label>
         </div>
-        <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="directionName">
-        </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="directionFormGroup.get('directionName').errors?.required"
-          [invalid]="directionFormGroup.get('directionName').invalid && directionFormGroup.get('directionName').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="directionFormGroup.get('directionName').invalid && directionFormGroup.get('directionName').touched"
-          [forbiddenCharacter]="directionFormGroup.get('directionName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
-
+        <div fxLayout="row" fxLayoutAlign="start center" class="department">{{direction.title}}</div>
         <div fxLayout="row" fxLayoutAlign="start center">
-          <label class="step-label"> Назва відділення <span class="step-required">*</span></label>
-          <i class="material-icons status-info-icon" (click)="isActiveSectionInfoButton=!isActiveSectionInfoButton"
-          [ngClass]="isActiveSectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+          <label class="step-label"> Назва відділення </label>
         </div>
-        <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="sectionName">
-        </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="directionFormGroup.get('sectionName').errors?.required"
-          [invalid]="directionFormGroup.get('sectionName').invalid && directionFormGroup.get('sectionName').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="directionFormGroup.get('sectionName').invalid && directionFormGroup.get('sectionName').touched"
-          [forbiddenCharacter]="directionFormGroup.get('sectionName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
-
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <label class="step-label"> Назва класу <span class="step-required">*</span></label>
-          <i class="material-icons status-info-icon" (click)="isActiveClassInfoButton=!isActiveClassInfoButton"
-          [ngClass]="isActiveClassInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+          <div fxLayout="row" fxLayoutAlign="start center" class="direction">{{department.title}}</div>
         </div>
-        <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="className">
-        </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="directionFormGroup.get('className').errors?.required"
-          [invalid]="directionFormGroup.get('className').invalid && directionFormGroup.get('className').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="directionFormGroup.get('className').invalid && directionFormGroup.get('className').touched"
-          [forbiddenCharacter]="directionFormGroup.get('className').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
-      </form>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-          class="btn btn-cancel">Скасувати</button></a>
-      <button [disabled]="!directionFormGroup.valid" class="btn" mat-button type="submit"
-        (click)="onSubmit()">Додати</button>
-    </div>
+        <ng-container>
+        <app-add-class-form *ngFor="let form of ClassFormArray.controls" [ClassFormGroup]="form"
+        [indexClass]="ClassFormArray.controls.indexOf(form)" [classAmount]="ClassFormArray.controls.length" [department]="department"
+        (deleteForm)="onDeleteForm($event)">
+        </app-add-class-form>
+        </ng-container>
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <button class="btn-add" mat-button (click)="addClass()">
+            <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
+          </button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+              class="btn btn-cancel">Скасувати</button></a>
+          <button class="btn" mat-raised-button (click)="onSubmit()">Зберігти</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
   </div>
 </div>

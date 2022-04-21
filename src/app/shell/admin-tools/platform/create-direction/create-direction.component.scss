@@ -2,24 +2,21 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form-wrapper.scss";
 @import "src/app/shared/styles/buttons.scss";
+
 .wrapper{
-  padding: 1rem 5rem;
+  padding: 0rem 0rem;
   margin-bottom: 2rem;
   &-title{
     text-align: center;
   }
 }
 
-.activeInfoBtn {
-  color: #3849f9;
+.direction{
+  color: gray;
+  margin-bottom: 25px;
 }
 
-.inactiveInfoBtn {
-  color: #AAAAAA;
-}
-
-.status-info-icon {
-  cursor: pointer;
-  margin: auto 0.5rem;
-  font-size: 16px;
+.department{
+  color: gray;
+  margin-bottom: 25px;
 }
