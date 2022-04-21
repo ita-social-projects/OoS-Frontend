@@ -11,17 +11,11 @@
   <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem' 
     fxLayout.xs="column" fxLayoutAlign.xs="center start">    
     <div fxLayout='row' fxLayoutAlign='space-between'>
-      <!-- <div *ngFor="let day of days" class="toggle" fxLayout='row' 
-        fxLayoutAlign='center center'  
-        [ngClass]="day.value == workingDays[workshop.dateTimeRanges[0].workdays[0] | lowercase]
-          ? 'toggle-selected' : ''">
-        {{day.value}}
-      </div> -->
       <div *ngFor="let day of days" class="toggle" fxLayout='row' 
-        fxLayoutAlign='center center'  
-        [ngClass]="day.value == workingDays[workshop.dateTimeRanges[0].workdays[0] | lowercase]
-          ? 'toggle-selected' : ''">
-        {{day.value}}
+        fxLayoutAlign='center center'       
+        >
+        <span  [ngClass]="workshop.dateTimeRanges[0].workdays.includes(workingDaysReverse[day.value] | titlecase)
+        ? 'selected' : ''">{{day.value}}</span>
       </div>
     </div>
     <div fxLayout='row' fxLayoutAlign='center center'>
@@ -29,8 +23,6 @@
       <p class="time">{{workshop.dateTimeRanges[0].startTime}}</p>
       <p class="text">До</p>
       <p class="time">{{workshop.dateTimeRanges[0].endTime}}</p>
-    </div>
-    {{ workingDays[workshop.dateTimeRanges[0].workdays[0] | lowercase] }}
+    </div>    
   </div>  
-
 </div>
