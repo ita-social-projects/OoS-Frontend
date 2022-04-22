@@ -4,7 +4,7 @@
     panelClass="dropdown-panel application-dropdown {{ dropdownContainerClass }}">
     <mat-select-trigger>
       <div *ngIf="workshopControl.value?.length">
-        <span *ngIf="workshopControl.value?.length > 1"> {{workshopControl.value?.length}} гуртків вибрано </span>
+        <span *ngIf="workshopControl.value?.length > 1"> {{workshopControl.value?.length | declination: workshopDeclination}} вибрано </span>
         <span *ngIf="workshopControl.value?.length === 1"> {{workshopControl.value[0].title}} </span>
       </div>
     </mat-select-trigger>

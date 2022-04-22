@@ -1,14 +1,14 @@
 <div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
   <div>
-    <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>  
+    <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>
     <span *ngIf="(childrenCards$ | async)?.totalAmount >= 20" class="text">Можливо додати не більш, ніж 20 дітей</span></div>
-  <a *ngIf="(childrenCards$ | async)?.totalAmount < 20" [routerLink]="['/create-child', '']">    
-    <button 
-    class="btn" 
-    mat-raised-button    
+  <a *ngIf="(childrenCards$ | async)?.totalAmount < 20" [routerLink]="['/create-child', '']">
+    <button
+    class="btn"
+    mat-raised-button
   >Додати дитину</button></a>
-  <a *ngIf="(childrenCards$ | async)?.totalAmount >= 20"><button 
-    class="btn" 
+  <a *ngIf="(childrenCards$ | async)?.totalAmount >= 20"><button
+    class="btn"
     mat-raised-button
     [disabled]="(childrenCards$ | async)?.totalAmount >= 20"
   >Додати дитину</button></a>
@@ -23,7 +23,7 @@
         (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
       </app-child-card>
     </div>
-    <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage"
+    <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage" 
       (pageChange)="onPageChange($event)">
     </app-paginator>
   </ng-container>
