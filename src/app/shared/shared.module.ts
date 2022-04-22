@@ -59,6 +59,7 @@ import { KeyFilterDirective } from './directives/key-filter.directive';
 import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
+import { DeclinationPipe } from './pipes/declination.pipe';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
     CustomCarouselDirective,
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
+    DeclinationPipe,
   ],
   imports: [
     MaterialModule,
@@ -178,6 +180,7 @@ import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
     CustomCarouselDirective,
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
+    DeclinationPipe,
   ]
 })
 export class SharedModule { }
