@@ -80,7 +80,7 @@
   <app-validation-hint-for-input type="outOfRangeDate"
     [minMaxDate]="InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMin') || InfoFormGroup.get('directorDateOfBirth').hasError('matDatepickerMax')">
   </app-validation-hint-for-input>
-  <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}}<span
+  <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДРПОУ"}}<span
       class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" minlength="10" maxlength="20" formControlName="edrpouIpn"
