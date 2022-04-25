@@ -16,6 +16,4 @@ export class WorkshopAboutComponent {
   @Input() workshop!: Workshop;
   days: WorkingDaysToggleValue[] = WorkingDaysValues
     .map((value: WorkingDaysToggleValue) => Object.assign({}, value));
- 
-
 }
