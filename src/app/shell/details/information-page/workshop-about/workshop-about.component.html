@@ -8,21 +8,24 @@
   <p> {{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'Відсутні' }} </p>
 
   <h5>Дні/Години</h5>
-  <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem' 
+
+  <div *ngFor="timeRange of workshop.dateTimeRanges; index as i">
+    <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem' 
     fxLayout.xs="column" fxLayoutAlign.xs="center start">    
-    <div fxLayout='row' fxLayoutAlign='space-between'>
-      <div *ngFor="let day of days" class="toggle" fxLayout='row' 
-        fxLayoutAlign='center center'
-        [ngClass]="workshop?.dateTimeRanges[0].workdays.includes(workingDaysReverse[day.value] | titlecase)
-        ? 'toggle-selected' : ''">
-        {{day.value}}
+
+      <div fxLayout='row' fxLayoutAlign='space-between'>
+        <div *ngFor="let day of days" class="toggle" fxLayout='row' 
+          fxLayoutAlign='center center'
+          [ngClass]="workshop.dateTimeRanges[i].workdays.includes(workingDaysReverse[day.value] | titlecase)
+          ? 'toggle-selected' : ''">
+          {{day.value}}
+        </div>
       </div>
-    </div>
-    <div fxLayout='row' fxLayoutAlign='center center'>
-      <p class="text">Від</p>
-      <p class="input">{{workshop.dateTimeRanges[0].startTime}}</p>
-      <p class="text">До</p>
-      <p class="input">{{workshop.dateTimeRanges[0].endTime}}</p>
-    </div>    
-  </div>  
+      <div fxLayout='row' fxLayoutAlign='center center'>
+        <p class="text">Від</p><p class="input">{{workshop.dateTimeRanges[i].startTime}}</p>
+        <p class="text">До</p><p class="input">{{workshop.dateTimeRanges[i].endTime}}</p>
+      </div>    
+    </div>  
+  </div>
+
 </div>
