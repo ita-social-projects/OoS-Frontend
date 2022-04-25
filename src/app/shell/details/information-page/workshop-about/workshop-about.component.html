@@ -16,9 +16,7 @@
       <div fxLayout='row' fxLayoutAlign='space-between'>
         <div *ngFor="let day of days" class="toggle" fxLayout='row' 
           fxLayoutAlign='center center'
-          [ngClass]="timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase)
-          ? 'toggle-selected' : ''"
-        >
+          [ngClass]="{ 'toggle-selected' : timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
           {{day.value}}
         </div>
       </div>
