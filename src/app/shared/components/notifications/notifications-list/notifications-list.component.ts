@@ -9,7 +9,7 @@ import { ApplicationTitles, ApplicationTitlesReverse } from '../../../enum/enumU
 import { NotificationAction, NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
-import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById } from '../../../store/notifications.actions';
+import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
 
@@ -53,7 +53,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   }
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
-    // this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
+    this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
 
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
