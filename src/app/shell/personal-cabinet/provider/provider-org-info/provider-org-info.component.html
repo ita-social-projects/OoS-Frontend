@@ -23,7 +23,7 @@
           <p>{{provider.director}}</p>
           <h5>Дата народження керівника</h5>
           <p>{{provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}</p>
-          <h5>{{provider.type === 0 ? "ІПН" : "ЄДПРОУ"}}</h5>
+          <h5>{{provider.type === 0 ? "ІПН" : "ЄДРПОУ"}}</h5>
           <p>{{provider.edrpouIpn}}</p>
           <h5>Телефон</h5>
           <p>{{constants.PHONE_PREFIX + provider.phoneNumber | phoneTransform }}</p>
