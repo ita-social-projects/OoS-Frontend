@@ -92,8 +92,6 @@
 
 <ng-template #ProviderApplication let-applications>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    {{isLoadingCabinet$ | async}}
-
     <ng-container *ngIf="applications?.length else isEmptyList;">
       <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications}">
       </ng-container>
