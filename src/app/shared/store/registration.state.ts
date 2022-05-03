@@ -122,7 +122,7 @@ export class RegistrationState {
     this.oidcSecurityService.checkAuth().subscribe((auth) => {
       console.log('is authenticated', auth);
       patchState({ isAuthorized: auth });
-      if (auth) {
+      if (auth) {        
         const token = jwt_decode(this.oidcSecurityService.getToken());
         const id = token['sub'];
         const subrole = token['subrole'];
@@ -135,7 +135,7 @@ export class RegistrationState {
         patchState({ role: Role.unauthorized });
       }
     });
-  }
+  }  
 
   @Action(OnAuthFail)
   onAuthFail(): void {
