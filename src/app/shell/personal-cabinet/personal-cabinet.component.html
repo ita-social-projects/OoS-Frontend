@@ -3,8 +3,8 @@
     {{userRole === 'provider' ? providerUserRole[userRole] : providerRole['deputy']}}
   </h1>
 
-  {{userRole}}
-  <!-- {{provider$ | async | json}} -->
+  <!-- {{userRole}} -->
+  {{subrole | async }}
 
   <!-- <h1 class="title">{{userRole === 'provider' ? 'КАБІНЕТ НАДАВАЧА' : userRole === 'admin' ? 'КАБІНЕТ ТЕХ. АДМІНА' : 'КАБІНЕТ КОРИСТУВАЧА'}}</h1> -->
   <nav class="nav" mat-tab-nav-bar>

@@ -15,8 +15,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./personal-cabinet.component.scss'],
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+  @Select(RegistrationState.subrole)
+  subrole: Observable<string | undefined>;
 
   roles = RoleLinks;
   userRole: string;

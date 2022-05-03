@@ -81,6 +81,11 @@ export class RegistrationState {
     return state.role;
   }
 
+  @Selector()
+  static subrole(state: RegistrationStateModel): string | undefined {
+    return state.subrole;
+  }
+
   constructor(
     private oidcSecurityService: OidcSecurityService,
     private snackBar: MatSnackBar,
