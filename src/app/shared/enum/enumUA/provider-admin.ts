@@ -15,3 +15,14 @@ export enum ProviderAdminTitles {
   Accepted = 'Підтвердженно',
   Blocked = 'Заблоковано'
 }
+
+export enum providerUserRole {
+  provider = 'КАБІНЕТ НАДАВАЧА',
+  admin = 'КАБІНЕТ ТЕХ. АДМІНА',
+  user = 'КАБІНЕТ КОРИСТУВАЧА',
+}
+
+export enum providerRole {
+  deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
+  workshopAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
+}

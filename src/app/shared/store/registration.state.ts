@@ -176,28 +176,5 @@ export class RegistrationState {
           );
     }
 
-    // if (state.user.role === Role.parent) {
-    //   return this.parentService
-    //     .getProfile()
-    //     .pipe(
-    //       tap(
-    //         (parent: Parent) => patchState({ parent: parent })
-    //       ));
-    // }
-    // if (state.user.role === Role.techAdmin) {
-    //   return this.techAdminService
-    //     .getProfile()
-    //     .pipe(
-    //       tap(
-    //         (techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })
-    //       ));
-    // } else {
-    //   return this.providerService
-    //     .getProfile()
-    //     .pipe(
-    //       tap(
-    //         (provider: Provider) => patchState({ provider: provider })
-    //       ));
-    // }
   }
 }
