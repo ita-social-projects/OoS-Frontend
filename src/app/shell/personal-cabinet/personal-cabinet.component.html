@@ -1,10 +1,10 @@
 <div class="container">
   <h1 class="title">
-    {{userRole === 'provider' ? providerUserRole[userRole] : providerRole['deputy']}}
+    {{userRole === 'provider' ? providerUserRole[userRole] : providerRole[subrole | async]}}
   </h1>
 
-  <!-- {{userRole}} -->
-  {{subrole | async }}
+  {{userRole}}
+  {{subrole$ | async }}
 
   <!-- <h1 class="title">{{userRole === 'provider' ? 'КАБІНЕТ НАДАВАЧА' : userRole === 'admin' ? 'КАБІНЕТ ТЕХ. АДМІНА' : 'КАБІНЕТ КОРИСТУВАЧА'}}</h1> -->
   <nav class="nav" mat-tab-nav-bar>
