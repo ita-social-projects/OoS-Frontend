@@ -7,9 +7,6 @@
     }}
   </h1>
 
-  {{userRole}} {{ subrole$ | async }}
-
-  <!-- <h1 class="title">{{userRole === 'provider' ? 'КАБІНЕТ НАДАВАЧА' : userRole === 'admin' ? 'КАБІНЕТ ТЕХ. АДМІНА' : 'КАБІНЕТ КОРИСТУВАЧА'}}</h1> -->
   <nav class="nav" mat-tab-nav-bar>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'"
       >ОСОБИСТА ІНФОРМАЦІЯ</a
