@@ -24,5 +24,5 @@ export enum providerUserRole {
 
 export enum providerRole {
   deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
-  workshopAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
+  ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
 }

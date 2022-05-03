@@ -31,6 +31,7 @@ export interface RegistrationStateModel {
   parent: Parent;
   techAdmin: TechAdmin;
   role: string;
+  subrole: string;
 }
 
 @State<RegistrationStateModel>({
@@ -42,6 +43,7 @@ export interface RegistrationStateModel {
     parent: undefined,
     techAdmin: undefined,
     role: Role.unauthorized,
+    subrole: null,
   },
 })
 @Injectable()
@@ -116,8 +118,11 @@ export class RegistrationState {
       console.log('is authenticated', auth);
       patchState({ isAuthorized: auth });
       if (auth) {
-        const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
+        const token = jwt_decode(this.oidcSecurityService.getToken());
+        const id = token['sub'];
+        const subrole = token['subrole'];
         this.userService.getUserById(id).subscribe((user) => {
+          patchState({ subrole: subrole });
           patchState({ user: user });
           dispatch(new CheckRegistration());
         });
@@ -175,6 +180,5 @@ export class RegistrationState {
             tap((provider: Provider) => patchState({ provider: provider }))
           );
     }
-
   }
 }
