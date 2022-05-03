@@ -25,4 +25,5 @@ export enum providerUserRole {
 export enum providerRole {
   deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
   ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
+  None = 'КАБІНЕТ НАДАВАЧА',
 }
