@@ -67,7 +67,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => {
       this.parent = parent;
-      this.store.dispatch(new GetApplicationsByParentId(parent.id));
+      this.store.dispatch(new GetApplicationsByParentId(parent.id, ''));
       this.applications$.pipe(
         filter((applications: Application[]) => !!applications?.length),
         takeUntil(this.destroy$)

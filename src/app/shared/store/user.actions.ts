@@ -25,7 +25,7 @@ export class GetProviderById {
 }
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
-  constructor(public payload: string) { }
+  constructor(public id: string, public status) { }
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';

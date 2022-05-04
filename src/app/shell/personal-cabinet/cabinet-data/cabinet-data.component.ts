@@ -90,8 +90,8 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
-  getParentApplications(): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
+  getParentApplications(status): void {
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, status));
   }
 
   getUsersChildren(): void {

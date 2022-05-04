@@ -41,7 +41,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
       });
     } else {
       this.getAllUsersChildren();
-      this.getParentApplications();
+      this.getParentApplications('');
     }
   }
 

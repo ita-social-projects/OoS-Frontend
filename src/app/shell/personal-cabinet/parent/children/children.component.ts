@@ -34,7 +34,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
 
   init(): void {
     this.getUsersChildren();
-    this.getParentApplications();
+    this.getParentApplications('');
     this.actions$.pipe(ofAction(CabinetPageChange))
       .pipe(
         debounceTime(500),

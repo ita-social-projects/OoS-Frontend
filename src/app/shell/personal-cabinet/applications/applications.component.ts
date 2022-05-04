@@ -57,7 +57,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         if (this.role === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
         } else {
-          this.getParentApplications();
+          this.getParentApplications(this.providerApplicationParams.status);
         }
       });
   }
@@ -69,7 +69,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.activateChildInfoBox();
     } else {
       this.getAllUsersChildren();
-      this.getParentApplications();
+      this.getParentApplications(undefined);
     }
   }
 
@@ -124,6 +124,15 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onTabChange(event: MatTabChangeEvent): void {
     this.providerApplicationParams.status = ApplicationTitlesReverse[event.tab.textLabel];
     this.getProviderApplications(this.providerApplicationParams);
+  }
+
+  /**
+   * This gte the lost of application according to teh selected tab
+   * @param 
+   */
+   onTabChangeParent(event: MatTabChangeEvent): void {
+    const status = ApplicationTitlesReverse[event.tab.textLabel];
+    this.getParentApplications(status);
   }
 
   /**
