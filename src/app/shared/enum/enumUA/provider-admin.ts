@@ -17,7 +17,7 @@ export enum ProviderAdminTitles {
 }
 
 export enum PersonalCabinetTitle {
-  provider = 'КАБІНЕТ НАДАВАЧА',
+  None = 'КАБІНЕТ НАДАВАЧА',
   admin = 'КАБІНЕТ ТЕХ. АДМІНА',
   user = 'КАБІНЕТ КОРИСТУВАЧА',
   deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
