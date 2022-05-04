@@ -6,7 +6,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { providerRole, providerUserRole } from 'src/app/shared/enum/enumUA/provider-admin';
+import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,8 +21,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   roles = RoleLinks;
   userRole: string;
   Role = Role;
-  providerUserRole = providerUserRole;
-  providerRole = providerRole;
+  PersonalCabinetTitle = PersonalCabinetTitle;
 
   constructor(
     private store: Store,

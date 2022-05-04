@@ -1,29 +1,25 @@
 export enum providerAdminRoleUkr {
   deputy = 'Заступник директора',
   admin = 'Адміністратор гуртка',
-  all = 'Усі'
+  all = 'Усі',
 }
 
 export enum providerAdminRoleUkrReverse {
   'Заступник директора' = 'deputy',
   'Адміністратор гуртка' = 'admin',
-  'Усі' = 'all'
+  'Усі' = 'all',
 }
 
 export enum ProviderAdminTitles {
   NeverLogged = 'Очікує логування',
   Accepted = 'Підтвердженно',
-  Blocked = 'Заблоковано'
+  Blocked = 'Заблоковано',
 }
 
-export enum providerUserRole {
+export enum PersonalCabinetTitle {
   provider = 'КАБІНЕТ НАДАВАЧА',
   admin = 'КАБІНЕТ ТЕХ. АДМІНА',
   user = 'КАБІНЕТ КОРИСТУВАЧА',
-}
-
-export enum providerRole {
   deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
   ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
-  None = 'КАБІНЕТ НАДАВАЧА',
 }
