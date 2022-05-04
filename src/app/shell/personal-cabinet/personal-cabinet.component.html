@@ -33,7 +33,7 @@
       >ЗАЯВИ</a
     >
     <a
-      *ngIf="userRole == Role.provider"
+      *ngIf="userRole === Role.provider"
       mat-tab-link
       [routerLinkActive]="['active']"
       [routerLink]="'./administration/all'"
