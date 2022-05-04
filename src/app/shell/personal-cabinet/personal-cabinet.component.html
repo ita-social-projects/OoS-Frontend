@@ -11,40 +11,40 @@
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'"
       >ОСОБИСТА ІНФОРМАЦІЯ</a
     >
-    <ng-container
+    <a
       *ngIf="userRole !== Role.techAdmin"
       mat-tab-link
       [routerLinkActive]="['active']"
       [routerLink]="'./' + userRole + '/' + 'info'"
-      >ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}</ng-container
+      >ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}</a
     >
-    <ng-container
+    <a
       *ngIf="userRole !== Role.techAdmin"
       mat-tab-link
       [routerLinkActive]="['active']"
       [routerLink]="'./workshops'"
-      >{{ userRole === Role.parent ? "МОЇ ГУРТКИ" : "ГУРТКИ" }}</ng-container
+      >{{ userRole === Role.parent ? "МОЇ ГУРТКИ" : "ГУРТКИ" }}</a
     >
-    <ng-container
+    <a
       *ngIf="userRole !== Role.techAdmin"
       mat-tab-link
       [routerLinkActive]="['active']"
       [routerLink]="'./applications'"
-      >ЗАЯВИ</ng-container
+      >ЗАЯВИ</a
     >
-    <ng-container
+    <a
       *ngIf="userRole === Role.provider"
       mat-tab-link
       [routerLinkActive]="['active']"
       [routerLink]="'./administration/all'"
-      >АДМІНІСТРУВАННЯ</ng-container
+      >АДМІНІСТРУВАННЯ</a
     >
-    <ng-container
+    <a
       *ngIf="userRole === Role.parent"
       mat-tab-link
       [routerLinkActive]="['active']"
       [routerLink]="'./parent/favorite'"
-      >УЛЮБЛЕНЕ</ng-container
+      >УЛЮБЛЕНЕ</a
     >
     <!-- <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>  TODO: second release -->
   </nav>
