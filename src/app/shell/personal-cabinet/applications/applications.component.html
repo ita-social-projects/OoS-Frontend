@@ -10,7 +10,7 @@
       <app-status-info-card></app-status-info-card>
     </mat-menu>
 
-    <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)">
+    <app-workshop-checkbox-dropdown [entities]="workshops$ | async" (entityCheck)="onEntitiesSelect($event)">
     </app-workshop-checkbox-dropdown>
   </div>
 
@@ -48,37 +48,7 @@
   <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
 </ng-template>
 
-<ng-template #isParent>
-  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-
-    <!-- <div *ngIf="(childrenCards$| async)?.entities.length && (applications$ | async)?.length; else isEmptyList">
-
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-          (click)=" isActiveInfoButton=!isActiveInfoButton"
-          [ngClass]="isActiveInfoButton?'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-        <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
-          <app-status-info-card></app-status-info-card>
-        </mat-menu>
-      </div>
-
-
-      <div *ngFor="let child of (childrenCards$| async)?.entities">
-
-        <ng-container *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication;">
-        </ng-container>
-
-
-        <ng-template #ChildApplication>
-          <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
-          <ng-container
-            *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
-          </ng-container>
-        </ng-template>
-
-      </div>
-    </div> -->
-    
+<ng-template #isParent>    
     <div class="dropdown">
       <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
         (click)=" isActiveInfoButton=!isActiveInfoButton"
@@ -87,43 +57,19 @@
         <app-status-info-card></app-status-info-card>
       </mat-menu>
   
-      <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)">
+      <app-workshop-checkbox-dropdown [entities]="childrenCards" (entityCheck)="onEntitiesSelect($event)">
       </app-workshop-checkbox-dropdown>
+
     </div>
 
     <div class="tab-wrapper">
-      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChangeParent($event)">
+      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
         <mat-tab label="Усі">
-          <div *ngIf="(childrenCards$| async)?.entities.length && (applications$ | async)?.length; else isEmptyList">
-
-            <!-- <div fxLayout="row" fxLayoutAlign="end center">
-              <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-                (click)=" isActiveInfoButton=!isActiveInfoButton"
-                [ngClass]="isActiveInfoButton?'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-              <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
-                <app-status-info-card></app-status-info-card>
-              </mat-menu>
-            </div> -->
-      
-      
-            <div *ngFor="let child of (childrenCards$| async)?.entities">
-      
-              <ng-container *ngIf="(applications$ | async | applicationChildFilter : child)?.length then ChildApplication;">
-              </ng-container>
-      
-      
-              <ng-template #ChildApplication>
-                <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
-                <ng-container
-                  *ngTemplateOutlet="Applications; context:{$implicit: applications$ | async | applicationChildFilter : child }">
-                </ng-container>
-              </ng-template>
-      
-            </div>
-          </div>
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
           </ng-container>
         </mat-tab>
         <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
@@ -131,21 +77,19 @@
           </ng-container>
         </mat-tab> TODO: display when functionality is ready -->
         <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
           </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
           </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
-          <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
           </ng-container>
         </mat-tab>
       </mat-tab-group>
     </div>
-
-  </ng-container>
 
 </ng-template>
 
@@ -161,6 +105,37 @@
     <ng-container *ngIf="applications?.length else isEmptyList;">
       <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications}">
       </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #ParentApplication let-applications>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="applications?.length else isEmptyList;">
+
+      <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">      
+      
+        <div *ngFor="let child of filteredChildren">
+
+          <ng-container  *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child }">
+          </ng-container>
+  
+  
+          <ng-template #ChildApplication let-childApplications>
+            <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
+            <ng-container *ngIf="childApplications.length; else isEmptyList">
+              <ng-container
+                *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">
+              </ng-container>
+            </ng-container>
+
+
+          </ng-template>
+          
+  
+        </div>
+      </div>
+
     </ng-container>
   </ng-container>
 </ng-template>

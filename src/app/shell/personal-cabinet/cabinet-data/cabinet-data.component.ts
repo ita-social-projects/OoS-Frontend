@@ -8,7 +8,7 @@ import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
-import { ChildCards } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -49,7 +49,9 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   workshops: WorkshopCard[];
   applications: Application[];
-  childrenCards: ChildCards;
+  childrenCards: Child[];
+  // allChildrenCards: ChildCards
+  filteredChildren: Child[]
 
   constructor(public store: Store, public matDialog: MatDialog) { }
 
@@ -84,6 +86,11 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
       filter((applications: Application[]) => !!applications),
       takeUntil(this.destroy$)
     ).subscribe((applications: Application[]) => this.applications = applications);
+
+    this.childrenCards$.pipe(
+      filter((childrenCards: ChildCards) => !!childrenCards),
+      takeUntil(this.destroy$)
+    ).subscribe((childrenCards: ChildCards) => this.filteredChildren = this.childrenCards = childrenCards.entities);
   }
 
   getProviderApplications(providerApplicationParams): void {
@@ -92,6 +99,14 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getParentApplications(status): void {
     this.store.dispatch(new GetApplicationsByParentId(this.parent.id, status));
+  }
+
+  filterChildren(IDs): void {
+    if(IDs.length) {
+      this.filteredChildren = this.childrenCards.filter(item => IDs.includes(item.id));
+    } else {
+      this.filteredChildren = this.childrenCards;
+    }
   }
 
   getUsersChildren(): void {

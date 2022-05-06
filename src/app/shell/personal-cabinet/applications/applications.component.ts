@@ -2,10 +2,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
-import { Child } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
@@ -13,7 +13,7 @@ import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
+import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { Constants } from 'src/app/shared/constants/constants';
 
 
@@ -57,7 +57,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         if (this.role === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
         } else {
-          this.getParentApplications(this.providerApplicationParams.status);
+          this.getParentApplications(undefined);
         }
       });
   }
@@ -122,18 +122,18 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * @param workshopsId: number[]
    */
   onTabChange(event: MatTabChangeEvent): void {
-    this.providerApplicationParams.status = ApplicationTitlesReverse[event.tab.textLabel];
-    this.getProviderApplications(this.providerApplicationParams);
+    const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
+    if (this.role === Role.provider) {
+      this.providerApplicationParams.status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
+      tabLabel : undefined;
+      this.getProviderApplications(this.providerApplicationParams);
+    } else {
+      const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
+      tabLabel : undefined;
+      this.getParentApplications(status);
+    }
   }
 
-  /**
-   * This gte the lost of application according to teh selected tab
-   * @param 
-   */
-   onTabChangeParent(event: MatTabChangeEvent): void {
-    const status = ApplicationTitlesReverse[event.tab.textLabel];
-    this.getParentApplications(status);
-  }
 
   /**
    * This applies selected workshops as filtering parameter to get list of applications
@@ -142,6 +142,19 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onWorkshopsSelect(workshopsId: string[]): void {
     this.providerApplicationParams.workshopsId = workshopsId;
     this.getProviderApplications(this.providerApplicationParams);
+  }
+
+  /**
+ * This applies selected workshops as filtering parameter to get list of applications
+ * @param childrenId: number[]
+ */
+   onEntitiesSelect(IDs: string[]): void {
+      if (this.role === Role.provider) {
+        this.providerApplicationParams.workshopsId = IDs;
+        this.getProviderApplications(this.providerApplicationParams);
+      } else {
+        this.filterChildren(IDs)
+      }
   }
 
   /**

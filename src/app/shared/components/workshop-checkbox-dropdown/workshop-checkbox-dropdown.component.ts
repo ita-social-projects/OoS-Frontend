@@ -1,38 +1,48 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkshopDeclination } from '../../enum/enumUA/declination';
-import { WorkshopCard } from '../../models/workshop.model';
+import { Child } from '../../models/child.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
   styleUrls: ['./workshop-checkbox-dropdown.component.scss']
 })
-export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
+export class WorkshopCheckboxDropdownComponent implements OnInit, OnChanges, OnDestroy {
 
-  workshopControl = new FormControl();
-  workshopsId: string[];
+  entityControl = new FormControl();
+  ids: string[];
+  dropdownEntities = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  workshopDeclination = WorkshopDeclination;
+  Declination = WorkshopDeclination;
 
-  @Input() workshops: WorkshopCard[];
+  @Input() entities: WorkshopCard[] | Child[];
   @Input() dropdownContainerClass: string;
-  @Output() workshopCheck = new EventEmitter<string[]>();
+  @Output() entityCheck = new EventEmitter<string[]>();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.workshopControl.valueChanges
+
+    this.entityControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),
-      ).subscribe((workshops: WorkshopCard[]) => {
-        this.workshopsId = workshops.map((workshop: WorkshopCard) => workshop.workshopId);
-        this.workshopCheck.emit(this.workshopsId);
+      ).subscribe((entities) => {
+        this.ids = entities.map((entity) => entity.workshopId || entity.id);
+        this.entityCheck.emit(this.ids);
       });
+  }
+  ngOnChanges(): void {
+    console.log(this.entities)
+    this.dropdownEntities = [...this.entities];
+    this.dropdownEntities.forEach(entity => {
+      entity.title = entity.firstName || entity.title;
+    });
   }
 
   ngOnDestroy(): void {
