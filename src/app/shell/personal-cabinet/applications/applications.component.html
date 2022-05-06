@@ -122,14 +122,18 @@
   
   
           <ng-template #ChildApplication let-childApplications>
-            <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
-            <ng-container *ngIf="childApplications.length; else isEmptyList">
-              <ng-container
-                *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">
+
+            <ng-container *ngIf="childApplications.length || childrenCards.length !== filteredChildren.length">
+
+              <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
+              <ng-container *ngIf="childApplications.length; else isEmptyList">
+                <ng-container
+                  *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">
+                </ng-container>
               </ng-container>
+              
             </ng-container>
-
-
+            
           </ng-template>
           
   
