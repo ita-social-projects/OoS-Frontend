@@ -114,29 +114,9 @@
     <ng-container *ngIf="applications?.length else isEmptyList;">
 
       <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">      
-      
         <div *ngFor="let child of filteredChildren">
-
-          <ng-container  *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child }">
-          </ng-container>
-  
-  
-          <ng-template #ChildApplication let-childApplications>
-
-            <ng-container *ngIf="childApplications.length || childrenCards.length !== filteredChildren.length">
-
-              <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
-              <ng-container *ngIf="childApplications.length; else isEmptyList">
-                <ng-container
-                  *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">
-                </ng-container>
-              </ng-container>
-              
-            </ng-container>
-            
-          </ng-template>
-          
-  
+          <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child }">
+          </ng-container>  
         </div>
       </div>
 
@@ -144,5 +124,15 @@
   </ng-container>
 </ng-template>
 
+<ng-template #ChildApplication let-childApplications>
+  <ng-container *ngIf="isSelectedChildCheckbox || !isSelectedChildCheckbox && childApplications.length">
+    <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
+    <ng-container *ngIf="childApplications.length; else isEmptyList">
+      <ng-container
+        *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">
+      </ng-container>
+    </ng-container>    
+  </ng-container>  
+</ng-template>
 
 <ng-template appInfoBoxHost></ng-template>

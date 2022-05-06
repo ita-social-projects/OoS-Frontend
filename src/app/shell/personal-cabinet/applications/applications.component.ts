@@ -35,6 +35,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       status: undefined,
       workshopsId: []
     };
+  isSelectedChildCheckbox = false;
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -134,26 +135,17 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     }
   }
 
-
   /**
-   * This applies selected workshops as filtering parameter to get list of applications
-   * @param workshopsId: number[]
-   */
-  onWorkshopsSelect(workshopsId: string[]): void {
-    this.providerApplicationParams.workshopsId = workshopsId;
-    this.getProviderApplications(this.providerApplicationParams);
-  }
-
-  /**
- * This applies selected workshops as filtering parameter to get list of applications
- * @param childrenId: number[]
+ * This applies selected IDs as filtering parameter to get list of applications
+ * @param IDs: string[]
  */
    onEntitiesSelect(IDs: string[]): void {
       if (this.role === Role.provider) {
         this.providerApplicationParams.workshopsId = IDs;
         this.getProviderApplications(this.providerApplicationParams);
       } else {
-        this.filterChildren(IDs)
+        this.isSelectedChildCheckbox = !!IDs.length;
+        this.filteredChildren = this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);
       }
   }
 
