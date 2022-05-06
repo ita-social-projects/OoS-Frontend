@@ -11,6 +11,8 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -22,8 +24,9 @@ describe('ApplicationsComponent', () => {
         NgxsModule.forRoot([]),
         MatTabsModule,
         MatDialogModule,
-        MatMenuModule
-
+        MatMenuModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
       ],
       declarations: [
         ApplicationsComponent,
