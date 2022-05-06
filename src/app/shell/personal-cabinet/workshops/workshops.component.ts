@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
+import { Actions, Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
@@ -24,8 +24,8 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
   readonly constants: typeof Constants = Constants;
 
-  constructor(store: Store, matDialog: MatDialog) {
-    super(store, matDialog);
+  constructor(store: Store, matDialog: MatDialog, actions$: Actions) {
+    super(store, matDialog, actions$);
   }
 
   ngOnInit(): void {

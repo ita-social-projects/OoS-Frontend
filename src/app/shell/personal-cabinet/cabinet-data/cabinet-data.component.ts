@@ -1,7 +1,7 @@
-import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
@@ -53,7 +53,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   // allChildrenCards: ChildCards
   filteredChildren: Child[]
 
-  constructor(public store: Store, public matDialog: MatDialog) { }
+  constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }
 
   ngOnInit(): void { }
 

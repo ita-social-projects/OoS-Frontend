@@ -11,10 +11,11 @@ import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { Constants } from 'src/app/shared/constants/constants';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   readonly constants: typeof Constants = Constants;
 
   isActiveInfoButton = false;
+  tabIndex: number;
   providerApplicationParams: {
     status: string,
     workshopsId: string[]
@@ -44,14 +46,19 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     store: Store,
     private infoBoxService: InfoBoxService,
     matDialog: MatDialog,
-    private actions$: Actions) {
-    super(store, matDialog);
+    actions$: Actions,
+    private router: Router,
+    private route: ActivatedRoute,) {
+    super(store, matDialog, actions$);
   }
 
   ngOnInit(): void {
     this.getUserData();
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params.param));
 
-    this.actions$.pipe(ofAction(UpdateApplication))
+    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
       .pipe(
         takeUntil(this.destroy$))
       .subscribe(() => {
@@ -96,7 +103,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * @param Application event
    */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);    
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -105,7 +112,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * @param Application event
    */
   onReject(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected, application?.rejectionMessage );
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected, application?.rejectionMessage);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -119,7 +126,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   }
 
   /**
-   * This gte the lost of application according to teh selected tab
+   * This method get the list of application according to the selected tab
    * @param workshopsId: number[]
    */
   onTabChange(event: MatTabChangeEvent): void {
@@ -128,11 +135,13 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.providerApplicationParams.status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
       tabLabel : undefined;
       this.getProviderApplications(this.providerApplicationParams);
+      this.router.navigate(['../', tabLabel], { relativeTo: this.route });
     } else {
       const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
       tabLabel : undefined;
       this.getParentApplications(status);
     }
+
   }
 
   /**
@@ -153,7 +162,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
    * @param object : { element: Element, child: Child }
    */
-  onInfoShow({ element, child}: { element: Element, child: Child}): void {
+  onInfoShow({ element, child }: { element: Element, child: Child }): void {
     this.infoBoxService.onMouseOver({ element, child });
   }
 

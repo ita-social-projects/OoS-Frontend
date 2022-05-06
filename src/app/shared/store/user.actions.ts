@@ -23,6 +23,10 @@ export class GetProviderById {
   static readonly type = '[user] get Provider By Provider Id';
   constructor(public payload: string) { }
 }
+export class OnGetProviderByIdFail {
+  static readonly type = '[user] get Provider By Id fail';
+  constructor(public payload: Error) { }
+}
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
   constructor(public id: string, public status) { }

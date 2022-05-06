@@ -1,9 +1,9 @@
-
-
-.container{
+.container {
   line-height: 35px;
   font-weight: bold;
+  cursor: default;
 }
+
 .title {
   font-style: normal;
   font-weight: bold;
@@ -11,12 +11,14 @@
   line-height: 20px;
   padding: 0 1rem 1rem 0;
 }
-.icon{
+
+.icon {
   color: #3849F9;
   font-size: 16px;
   font-weight: bold;
   margin-left: 1rem;
-  &:hover{
+
+  &:hover {
     cursor: pointer;
     opacity: 0.5;
   }
