@@ -17,16 +17,16 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnChanges, OnD
   ids: string[];
   dropdownEntities = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  Declination = WorkshopDeclination;
 
   @Input() entities: WorkshopCard[] | Child[];
   @Input() dropdownContainerClass: string;
+  @Input() declination;
   @Output() entityCheck = new EventEmitter<string[]>();
+  Declination;
 
   constructor() { }
 
   ngOnInit(): void {
-
     this.entityControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -36,14 +36,16 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnChanges, OnD
         this.ids = entities.map((entity) => entity.workshopId || entity.id);
         this.entityCheck.emit(this.ids);
       });
+    this.Declination = this.declination;
   }
   ngOnChanges(): void {
-    console.log(this.entities)
     this.dropdownEntities = [...this.entities];
     this.dropdownEntities.forEach(entity => {
       entity.title = entity.firstName || entity.title;
     });
   }
+
+  getFullName(firstName: string, lastName: string): string {return `${firstName} ${lastName}`};
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

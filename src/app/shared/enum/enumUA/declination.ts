@@ -40,8 +40,15 @@ export enum YearDeclination {
   'років',
 }
 
+export enum ChildDeclination {
+  'дитина',
+  'дитини',
+  'дітей',
+}
+
 export enum Words {
   'review' = 'відгук',
   'application' = 'заява',
   'workshop' = 'гурток',
+  'child' = 'дитина'
 }

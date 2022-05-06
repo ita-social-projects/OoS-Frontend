@@ -10,7 +10,7 @@
       <app-status-info-card></app-status-info-card>
     </mat-menu>
 
-    <app-workshop-checkbox-dropdown [entities]="workshops$ | async" (entityCheck)="onEntitiesSelect($event)">
+    <app-workshop-checkbox-dropdown [entities]="workshops$ | async" [declination]="WorkshopDeclination" (entityCheck)="onEntitiesSelect($event)">
     </app-workshop-checkbox-dropdown>
   </div>
 
@@ -57,7 +57,7 @@
         <app-status-info-card></app-status-info-card>
       </mat-menu>
   
-      <app-workshop-checkbox-dropdown [entities]="childrenCards" (entityCheck)="onEntitiesSelect($event)">
+      <app-workshop-checkbox-dropdown [entities]="childrenCards" [declination]="ChildDeclination" (entityCheck)="onEntitiesSelect($event)">
       </app-workshop-checkbox-dropdown>
 
     </div>
@@ -115,7 +115,7 @@
 
       <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">      
         <div *ngFor="let child of filteredChildren">
-          <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child }">
+          <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child, child: child }">
           </ng-container>  
         </div>
       </div>
@@ -124,7 +124,7 @@
   </ng-container>
 </ng-template>
 
-<ng-template #ChildApplication let-childApplications>
+<ng-template #ChildApplication let-childApplications let-child="child">
   <ng-container *ngIf="isSelectedChildCheckbox || !isSelectedChildCheckbox && childApplications.length">
     <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
     <ng-container *ngIf="childApplications.length; else isEmptyList">

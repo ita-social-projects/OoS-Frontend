@@ -50,7 +50,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   workshops: WorkshopCard[];
   applications: Application[];
   childrenCards: Child[];
-  // allChildrenCards: ChildCards
   filteredChildren: Child[]
 
   constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }

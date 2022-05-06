@@ -16,6 +16,7 @@ import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum
 import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
+import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       workshopsId: []
     };
   isSelectedChildCheckbox = false;
+  ChildDeclination = ChildDeclination;
+  WorkshopDeclination = WorkshopDeclination;
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
