@@ -1,48 +1,52 @@
 <mat-card>
-  <mat-grid-list cols="7" rowHeight="70px">
+  <mat-grid-list cols="7" rowHeight="60px">
     <mat-grid-tile
         *ngFor="let tile of tiles"
         [colspan]="1"
         [rowspan]="1">
-      {{tile.text}}
+      {{tile}}
     </mat-grid-tile>    
   </mat-grid-list>
 
-  <mat-grid-list cols="7" rowHeight="70px" *ngFor="let provider of providers">
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.fullTitle}}
-    </mat-grid-tile>
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.ownership}}
-    </mat-grid-tile>
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.edrpouIpn}}
-    </mat-grid-tile>
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.legalAddress.city}}
-    </mat-grid-tile>
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.legalAddress.street}}
-    </mat-grid-tile>
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.director}}
-    </mat-grid-tile>
-    <mat-grid-tile        
-        [colspan]="1"
-        [rowspan]="1">
-      {{provider.status}}
-    </mat-grid-tile>
-  </mat-grid-list>
+  <mat-card-actions>
+    <mat-grid-list cols="7" rowHeight="40px" *ngFor="let provider of providers">
+      <mat-grid-tile        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.fullTitle}}
+      </mat-grid-tile>
+      <mat-grid-tile        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.ownership}}
+      </mat-grid-tile>
+      <mat-grid-tile        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.edrpouIpn}}
+      </mat-grid-tile>
+      <mat-grid-tile        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.legalAddress.city}}
+      </mat-grid-tile>
+      <mat-grid-tile        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.legalAddress.street}} {{provider.legalAddress.buildingNumber}}
+      </mat-grid-tile>
+      <mat-grid-tile        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.director}}
+      </mat-grid-tile>
+      <mat-grid-tile sticky        
+          [colspan]="1"
+          [rowspan]="1">
+        {{provider.status}}
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-actions>
+
+  
 </mat-card>

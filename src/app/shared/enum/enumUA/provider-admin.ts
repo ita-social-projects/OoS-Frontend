@@ -23,3 +23,13 @@ export enum PersonalCabinetTitle {
   deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
   ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
 }
+
+export enum AdminProviderList {
+  'title' = 'Назва закладу',
+  'ownership' = 'Форма власності',
+  'licence' = 'Ліцензія №',
+  'city' = 'Населений пункт',
+  'address' = 'Адреса',
+  'director' = 'Директор',
+  'status' = 'Статус',
+}
