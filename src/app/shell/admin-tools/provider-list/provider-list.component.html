@@ -1,3 +1,10 @@
-<div class="wrapper">
-  hello
-</div>
+<mat-grid-list cols="7" rowHeight="70px">
+  <mat-grid-tile
+      *ngFor="let tile of tiles"
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color">
+    {{tile.text}}
+  </mat-grid-tile>
+
+</mat-grid-list>
