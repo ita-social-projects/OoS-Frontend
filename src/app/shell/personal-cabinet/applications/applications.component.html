@@ -114,7 +114,7 @@
     <ng-container *ngIf="applications?.length else isEmptyList;">
 
       <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">      
-        <div *ngFor="let child of filteredChildren">
+        <div *ngFor="let child of filteredChildren | applicationChildSorting : applications">
           <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child, child: child }">
           </ng-container>  
         </div>
