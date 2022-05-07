@@ -1,22 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Address } from 'src/app/shared/models/address.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 export interface Tile {
   text: string;
-}
-
-export interface Provider {
-  fullTitle?: string;
-  edrpouIpn?: string;
-  director?: string;
-  phoneNumber?: string;
-  founder?: string;
-  ownership?: string;
-  type?: number;
-  status?: string;
-  legalAddress?: string;
-  city: string
 }
 
 @Component({
@@ -36,31 +22,20 @@ export class ProviderListComponent implements OnInit {
   ];
   providers: Provider[] = [
     {
+      userId: '1',
+      id: '1',
+      shortTitle: '1',
       fullTitle: 'ДНУ ім.Гончара',
       ownership: 'Державна',
       edrpouIpn: '3897653',
-      city: 'Київ',
-      legalAddress: 'вул.Рокосовського 1',
+      legalAddress: {
+        city: 'Київ',
+        street: 'вул.Рокосовського',
+        buildingNumber: '1',
+      },
       director: 'Антонів',
-      status: 'Очікує логування',
-    },
-    {
-      fullTitle: 'ДНУ ім.Гончара',
-      ownership: 'Державна',
-      edrpouIpn: '3897653',
-      city: 'Київ',
-      legalAddress: 'вул.Рокосовського 1',
-      director: 'Антонів',
-      status: 'Очікує логування',
-    },
-    {
-      fullTitle: 'ДНУ ім.Гончара',
-      ownership: 'Державна',
-      edrpouIpn: '3897653',
-      city: 'Київ',
-      legalAddress: 'вул.Рокосовського 1',
-      director: 'Антонів',
-      status: 'Очікує логування',
+      email:'',
+      status: true,
     },
   ];
 
