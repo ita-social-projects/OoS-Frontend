@@ -20,7 +20,7 @@
   </div>
 
   <mat-card>
-    <mat-grid-list cols="7" rowHeight="60px">
+    <mat-grid-list cols="8" rowHeight="60px">
       <mat-grid-tile *ngFor="let tile of tiles" [colspan]="1" [rowspan]="1">
         {{ tile }}
       </mat-grid-tile>
@@ -28,7 +28,7 @@
 
     <mat-card-actions>
       <mat-grid-list
-        cols="7"
+        cols="8"
         rowHeight="40px"
         *ngFor="let provider of providers"
       >
@@ -53,6 +53,11 @@
         </mat-grid-tile>
         <mat-grid-tile sticky [colspan]="1" [rowspan]="1">
           {{ provider.status }}
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-icon>more_vert</mat-icon>
+          <mat-icon>remove_red_eye</mat-icon>
+          <mat-icon>arrow_forward</mat-icon>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-actions>
