@@ -5,8 +5,10 @@
         [colspan]="1"
         [rowspan]="1">
       {{tile.text}}
-    </mat-grid-tile>
+    </mat-grid-tile>    
+  </mat-grid-list>
 
+  <mat-grid-list cols="7" rowHeight="70px">
     <mat-grid-tile
         *ngFor="let provider of providers"
         [colspan]="1"
