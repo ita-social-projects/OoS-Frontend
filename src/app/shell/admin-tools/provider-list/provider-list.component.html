@@ -1,20 +1,22 @@
 <div class="wrapper">
-  <div class="search-area">
-    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-      <mat-icon class="search-icon" style="transform: rotate(90deg)"
-        >search</mat-icon
-      >
-      <mat-form-field floatLabel="never" appearance="none">
-        <input
-          matInput
-          type="text"
-          class="search"
-          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом"
-          #input
-        />
-      </mat-form-field>
+  <div class="wrapper-header">
+    <div class="search-area">
+      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+        <mat-icon class="search-icon" style="transform: rotate(90deg)"
+          >search</mat-icon
+        >
+        <mat-form-field floatLabel="never" appearance="none">
+          <input
+            matInput
+            type="text"
+            class="search"
+            placeholder="Пошук за закладом,ЄДРПО, містом чи статусом"
+            #input
+          />
+        </mat-form-field>
+      </div>
     </div>
-    <button mat-raised-button class="btn">Додати</button>
+    <button class="btn">ДОДАТИ</button>
   </div>
 
   <mat-card>
@@ -52,6 +54,7 @@
         <mat-grid-tile sticky [colspan]="1" [rowspan]="1">
           {{ provider.status }}
         </mat-grid-tile>
+        <hr />
       </mat-grid-list>
     </mat-card-actions>
   </mat-card>

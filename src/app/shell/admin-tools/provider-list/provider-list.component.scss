@@ -1,5 +1,11 @@
 .wrapper {
 }
+.wrapper-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+}
 .search {
   padding-left: 10px;
 }
@@ -25,6 +31,14 @@
 }
 
 .btn {
+  color: white;
   background-color: #3849f9;
-  font-size: 30px;
+  border: 1px solid #3849f9;
+  border-radius: 20px;
+  padding: 3px 25px;
+  width: 149px;
+  box-sizing: border-box;
+  height: 34px;
+  font-weight: 600;
+  font-size: 0.8rem;
 }
