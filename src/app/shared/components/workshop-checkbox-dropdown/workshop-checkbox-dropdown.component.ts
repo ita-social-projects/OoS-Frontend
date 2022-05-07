@@ -11,7 +11,7 @@ import { Workshop, WorkshopCard } from '../../models/workshop.model';
   templateUrl: './workshop-checkbox-dropdown.component.html',
   styleUrls: ['./workshop-checkbox-dropdown.component.scss']
 })
-export class WorkshopCheckboxDropdownComponent implements OnInit, OnChanges, OnDestroy {
+export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 
   entityControl = new FormControl();
   ids: string[];
@@ -37,12 +37,6 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnChanges, OnD
         this.entityCheck.emit(this.ids);
       });
     this.Declination = this.declination;
-  }
-  ngOnChanges(): void {
-    this.dropdownEntities = [...this.entities];
-    this.dropdownEntities.forEach(entity => {
-      entity.title = entity.firstName || entity.title;
-    });
   }
 
   getFullName(firstName: string, lastName: string): string {return `${firstName} ${lastName}`};
