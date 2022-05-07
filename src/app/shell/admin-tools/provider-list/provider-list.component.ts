@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-export interface Tile {  
-  cols: number;
-  rows: number;
+export interface Tile {
   text: string;
 }
 @Component({
@@ -12,13 +10,22 @@ export interface Tile {
 })
 export class ProviderListComponent implements OnInit {
   tiles: Tile[] = [
-    { text: 'Назва закладу', cols: 1, rows: 1 },
-    { text: 'Форма власності', cols: 1, rows: 1 },
-    { text: 'Ліцензія №', cols: 1, rows: 1 },
-    { text: 'Населений пункт', cols: 1, rows: 1 },
-    { text: 'Адреса', cols: 1, rows: 1 },
-    { text: 'Директор', cols: 1, rows: 1 },
-    { text: 'Статус', cols: 1, rows: 1 },
+    { text: 'Назва закладу' },
+    { text: 'Форма власності',  },
+    { text: 'Ліцензія №',  },
+    { text: 'Населений пункт',  },
+    { text: 'Адреса', },
+    { text: 'Директор',  },
+    { text: 'Статус', },
+  ];
+  providers: Tile[] = [
+    { text: 'ДНУ ім.Гончара', },
+    { text: 'Державна', },
+    { text: '3897653', },
+    { text: 'Київ', },
+    { text: 'вул.Рокосовського 1', },
+    { text: 'Антонів', },
+    { text: 'Очікує логування' },
   ];
 
   constructor() {}

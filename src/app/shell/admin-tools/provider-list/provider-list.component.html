@@ -1,10 +1,17 @@
-<mat-grid-list cols="7" rowHeight="70px">
-  <mat-grid-tile
-      *ngFor="let tile of tiles"
-      [colspan]="tile.cols"
-      [rowspan]="tile.rows"
-      [style.background]="tile.color">
-    {{tile.text}}
-  </mat-grid-tile>
+<mat-card>
+  <mat-grid-list cols="7" rowHeight="70px">
+    <mat-grid-tile
+        *ngFor="let tile of tiles"
+        [colspan]="1"
+        [rowspan]="1">
+      {{tile.text}}
+    </mat-grid-tile>
 
-</mat-grid-list>
+    <mat-grid-tile
+        *ngFor="let provider of providers"
+        [colspan]="1"
+        [rowspan]="1">
+      {{provider.text}}
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-card>
