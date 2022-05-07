@@ -8,12 +8,16 @@
     </mat-grid-tile>    
   </mat-grid-list>
 
-  <mat-grid-list cols="7" rowHeight="70px">
-    <mat-grid-tile
-        *ngFor="let provider of providers"
+  <mat-grid-list cols="7" rowHeight="70px" *ngFor="let provider of providers">
+    <mat-grid-tile        
         [colspan]="1"
         [rowspan]="1">
-      {{provider.text}}
+      {{provider.fullTitle}}
+    </mat-grid-tile>
+    <mat-grid-tile        
+        [colspan]="1"
+        [rowspan]="1">
+      {{provider.ownership}}
     </mat-grid-tile>
   </mat-grid-list>
 </mat-card>
