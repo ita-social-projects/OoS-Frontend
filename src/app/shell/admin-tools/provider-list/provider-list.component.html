@@ -1,52 +1,58 @@
-<mat-card>
-  <mat-grid-list cols="7" rowHeight="60px">
-    <mat-grid-tile
-        *ngFor="let tile of tiles"
-        [colspan]="1"
-        [rowspan]="1">
-      {{tile}}
-    </mat-grid-tile>    
-  </mat-grid-list>
+<div class="wrapper">
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)"
+        >search</mat-icon
+      >
+      <mat-form-field floatLabel="never" appearance="none">
+        <input
+          matInput
+          type="text"
+          class="search"
+          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом"
+          #input
+        />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button class="btn">Додати</button>
+  </div>
 
-  <mat-card-actions>
-    <mat-grid-list cols="7" rowHeight="40px" *ngFor="let provider of providers">
-      <mat-grid-tile        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.fullTitle}}
-      </mat-grid-tile>
-      <mat-grid-tile        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.ownership}}
-      </mat-grid-tile>
-      <mat-grid-tile        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.edrpouIpn}}
-      </mat-grid-tile>
-      <mat-grid-tile        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.legalAddress.city}}
-      </mat-grid-tile>
-      <mat-grid-tile        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.legalAddress.street}} {{provider.legalAddress.buildingNumber}}
-      </mat-grid-tile>
-      <mat-grid-tile        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.director}}
-      </mat-grid-tile>
-      <mat-grid-tile sticky        
-          [colspan]="1"
-          [rowspan]="1">
-        {{provider.status}}
+  <mat-card>
+    <mat-grid-list cols="7" rowHeight="60px">
+      <mat-grid-tile *ngFor="let tile of tiles" [colspan]="1" [rowspan]="1">
+        {{ tile }}
       </mat-grid-tile>
     </mat-grid-list>
-  </mat-card-actions>
 
-  
-</mat-card>
+    <mat-card-actions>
+      <mat-grid-list
+        cols="7"
+        rowHeight="40px"
+        *ngFor="let provider of providers"
+      >
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          {{ provider.fullTitle }}
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          {{ provider.ownership }}
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          {{ provider.edrpouIpn }}
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          {{ provider.legalAddress.city }}
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          {{ provider.legalAddress.street }}
+          {{ provider.legalAddress.buildingNumber }}
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1">
+          {{ provider.director }}
+        </mat-grid-tile>
+        <mat-grid-tile sticky [colspan]="1" [rowspan]="1">
+          {{ provider.status }}
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-actions>
+  </mat-card>
+</div>

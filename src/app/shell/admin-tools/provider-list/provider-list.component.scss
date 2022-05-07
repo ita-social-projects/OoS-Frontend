@@ -1,0 +1,30 @@
+.wrapper {
+}
+.search {
+  padding-left: 10px;
+}
+.search-area {
+  display: flex;
+  justify-content: space-between;
+}
+.search-bar {
+  width: 26rem;
+  padding-left: 16px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 60px;
+  margin: 0.125rem 0;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  .mat-form-field {
+    width: 100%;
+  }
+}
+.search-icon {
+  color: #444444;
+}
+
+.btn {
+  background-color: #3849f9;
+  font-size: 30px;
+}
