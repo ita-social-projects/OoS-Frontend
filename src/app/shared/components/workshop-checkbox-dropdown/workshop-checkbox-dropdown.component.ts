@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { WorkshopDeclination } from '../../enum/enumUA/declination';
 import { Child } from '../../models/child.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
+import { WorkshopCard } from '../../models/workshop.model';
 
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
@@ -15,11 +14,9 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 
   entityControl = new FormControl();
   ids: string[];
-  dropdownEntities = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() entities: WorkshopCard[] | Child[];
-  @Input() dropdownContainerClass: string;
   @Input() declination;
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
