@@ -21,15 +21,15 @@ export class ProviderListComponent implements OnInit {
     '',
   ];
 
-  titles = [
-    'title',
-    'ownership',
-    'licence',
-    'city',
-    'address',
-    'director',
-    'status',
-  ];
+  // titles = [
+  //   'title',
+  //   'ownership',
+  //   'licence',
+  //   'city',
+  //   'address',
+  //   'director',
+  //   'status',
+  // ];
 
   providers: Provider[] = [
     {
