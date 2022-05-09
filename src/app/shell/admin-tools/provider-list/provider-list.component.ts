@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { AdminProviderList } from 'src/app/shared/enum/enumUA/provider-admin';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 
 @Component({
   selector: 'app-provider-list',
@@ -9,6 +10,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
 })
 export class ProviderListComponent implements OnInit {
   adminProviderList: AdminProviderList;
+  infoShow = new EventEmitter();
 
   tiles = [
     'Назва закладу',
@@ -21,65 +23,7 @@ export class ProviderListComponent implements OnInit {
     '',
   ];
 
-  // titles = [
-  //   'title',
-  //   'ownership',
-  //   'licence',
-  //   'city',
-  //   'address',
-  //   'director',
-  //   'status',
-  // ];
-
   providers: Provider[] = [
-    {
-      userId: '1',
-      id: '1',
-      shortTitle: '1',
-      fullTitle: 'ДНУ ім.Гончара',
-      ownership: 'Державна',
-      edrpouIpn: '3897653',
-      legalAddress: {
-        city: 'Київ',
-        street: 'вул.Рокосовського',
-        buildingNumber: '1',
-      },
-      director: 'Антонів',
-      email: '',
-      status: true,
-    },
-    {
-      userId: '1',
-      id: '1',
-      shortTitle: '1',
-      fullTitle: 'ДНУ ім.Гончара',
-      ownership: 'Державна',
-      edrpouIpn: '3897653',
-      legalAddress: {
-        city: 'Київ',
-        street: 'вул.Рокосовського',
-        buildingNumber: '1',
-      },
-      director: 'Антонів',
-      email: '',
-      status: true,
-    },
-    {
-      userId: '1',
-      id: '1',
-      shortTitle: '1',
-      fullTitle: 'ДНУ ім.Гончара',
-      ownership: 'Державна',
-      edrpouIpn: '3897653',
-      legalAddress: {
-        city: 'Київ',
-        street: 'вул.Рокосовського',
-        buildingNumber: '1',
-      },
-      director: 'Антонів',
-      email: '',
-      status: true,
-    },
     {
       userId: '1',
       id: '1',
@@ -101,4 +45,7 @@ export class ProviderListComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  onInfoShow(): void {    
+  }
 }

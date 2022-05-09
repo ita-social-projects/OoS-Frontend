@@ -51,12 +51,12 @@
         <mat-grid-tile [colspan]="1" [rowspan]="1">
           {{ provider.director }}
         </mat-grid-tile>
-        <mat-grid-tile sticky [colspan]="1" [rowspan]="1">
+        <mat-grid-tile sticky [colspan]="1" [rowspan]="1" >
           {{ provider.status }}
         </mat-grid-tile>
         <mat-grid-tile>
           <mat-icon>more_vert</mat-icon>
-          <mat-icon>remove_red_eye</mat-icon>
+          <mat-icon (click)="onInfoShow(name, $event)">remove_red_eye</mat-icon>
           <mat-icon>arrow_forward</mat-icon>
         </mat-grid-tile>
       </mat-grid-list>
