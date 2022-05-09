@@ -14,6 +14,7 @@ import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationChildSortingPipe } from 'src/app/shared/pipes/application-child-sorting.pipe';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -67,5 +68,6 @@ class MockApplicationCardComponent {
   template: ''
 })
 class MockWorkshopChekcboxDropdownComponent {
-  @Input() workshops: Workshop[];
+  @Input() entities: Workshop[];
+  @Input() declination: WorkshopDeclination
 }
