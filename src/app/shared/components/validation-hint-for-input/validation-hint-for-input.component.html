@@ -11,6 +11,8 @@
 <ng-container *ngIf = "type === 'outOfRangeDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
 <ng-container *ngIf = "type === 'validLength' && (minLength || maxLength) && invalid; then invalidLength"></ng-container>
 <ng-container *ngIf = "type === 'validBirthCertificate' && forbiddenCharacter && invalid; then invalidBirthCertificate"></ng-container>
+<ng-container *ngIf = "type === 'notExistClass' && forbiddenCharacter && invalid; then notExistClass"></ng-container>
+
 
 
 <ng-template #requiredInput>
@@ -81,5 +83,11 @@
 <ng-template #invalidBirthCertificate>
   <small appValidationMessageStyling>
     Перевірте введені дані. <br> Використовуйте, будь ласка, тільки латиницю, кирилицю, цифри та символи ( ` ' - №)
+  </small>
+</ng-template>
+
+<ng-template #notExistClass>
+  <small appValidationMessageStyling>
+    Такого класу не існує
   </small>
 </ng-template>

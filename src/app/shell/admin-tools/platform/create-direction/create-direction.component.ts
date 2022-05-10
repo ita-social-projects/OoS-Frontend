@@ -36,7 +36,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   department: Department;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  editMode = true;
+  editMode: boolean;
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -59,7 +59,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
       this.direction$.pipe(takeUntil(this.destroy$),filter((direction: Direction)=>!!direction)).subscribe((direction: Direction)=>this.direction = direction);
       this.department$.pipe(takeUntil(this.destroy$),filter((department: Department)=>!!department)).subscribe((department: Department)=>this.department = department);
     }
-
+     
     private newForm( ): FormGroup {
       const ClassFormGroup = this.fb.group({
         title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),

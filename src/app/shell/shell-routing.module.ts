@@ -64,8 +64,12 @@ const routes: Routes = [
     component: SupportEditComponent
   },
   {
-    path: 'admin-tools/platform/directions/create',
+    path: 'admin-tools/platform/directions/create/:param',
     component: CreateDirectionComponent
+  },
+  {
+  path: 'admin-tools/platform/directions/create',
+  component: CreateDirectionComponent
   },
   {
     path: 'notifications',
@@ -86,6 +90,10 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
+  },
+  {
+  path: 'directions/create/:param', component: CreateDirectionComponent,
+  loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
   },
   {
     path: 'create-workshop', component: CreateWorkshopComponent,

@@ -54,6 +54,30 @@ export class OnUpdateDirectionSuccess {
   static readonly type = '[admin] update Direction success';
   constructor(public payload) { }
 }
+export class UpdateDepartment {
+  static readonly type = '[admin] update Department';
+  constructor(public payload: Department) { }
+}
+export class OnUpdateDepartmentFail {
+  static readonly type = '[admin] update Ddepartment fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateDepartmentSuccess {
+  static readonly type = '[admin] update Department success';
+  constructor(public payload) { }
+}
+export class UpdateClass {
+  static readonly type = '[admin] update Class';
+  constructor(public payload: IClass) { }
+}
+export class OnUpdateClassFail {
+  static readonly type = '[admin] update Class fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateClassSuccess {
+  static readonly type = '[admin] update Class success';
+  constructor(public payload) { }
+}
 export class CreateDepartment {
   static readonly type = '[admin] create Department';
   constructor(public payload: Department) { }
@@ -69,6 +93,14 @@ export class OnCreateDepartmentSuccess {
 export class GetDirectionById {
   static readonly type = '[admin] get Direction By Direction Id';
   constructor(public payload) { }
+}
+export class GetDepartmentById {
+  static readonly type = '[admin] get Department By Department Id';
+  constructor(public payload) { }
+}
+export class FilteredDepartmentsList {
+  static readonly type = '[admin] Get list of filtered departments';
+  constructor(public payload: Department[]) { }
 }
 export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';

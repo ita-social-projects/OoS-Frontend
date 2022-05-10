@@ -8,7 +8,7 @@ import { Department, Direction, DirectionsFilter, IClass } from "../models/categ
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, } from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, UpdateDepartment, OnUpdateDepartmentFail, OnUpdateDepartmentSuccess, UpdateClass, OnUpdateClassFail, OnUpdateClassSuccess, GetDepartmentById, FilteredDepartmentsList, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -19,9 +19,11 @@ export interface AdminStateModel {
   aboutPortal: AboutPortal;
   departments: Department[];
   selectedDirection: Direction;
+  selectedDepartment: Department;
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
+  getDepartments: Department[];
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -33,8 +35,10 @@ export interface AdminStateModel {
     departments: [],
     isLoading: false,
     selectedDirection: null,
+    selectedDepartment: null,
     searchQuery: '',
     filteredDirections: undefined,
+    getDepartments: [],
     currentPage: {
       element: 1,
       isActive: true
@@ -56,6 +60,8 @@ export class AdminState {
   static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
   @Selector()
   static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
+  @Selector()
+  static getDepartments(state: AdminStateModel): Department[] { return state.getDepartments; }
   @Selector()
   static currentPage(state: AdminStateModel): {} { return state.currentPage; };
   @Selector()
@@ -157,17 +163,60 @@ export class AdminState {
       );
   }
   @Action(OnUpdateDirectionFail)
-  onUpdateChildfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
+  onUpdateDirectionfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
   
   @Action(OnUpdateDirectionSuccess)
-  onUpdateChildSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
+  onUpdateDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Direction is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/about']);
+    dispatch(new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' }));
+  }
+
+  @Action(UpdateDepartment)
+  updateDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDepartment): Observable<object> {
+    return this.categoriesService
+      .updateDepartment(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateDepartmentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateDepartmentFail(error))))
+      );
+  }
+  @Action(OnUpdateDepartmentFail)
+  onUpdateDepartmentfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+  
+  @Action(OnUpdateDepartmentSuccess)
+  onUpdateDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Department is updated', payload);
+    dispatch(new ShowMessageBar({ message: 'Відділ успішно відредагованний', type: 'success' }));
+  }
+
+  @Action(UpdateClass)
+  updateClass({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateClass): Observable<object> {
+    return this.categoriesService
+      .updateClass(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateClassSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateClassFail(error))))
+      );
+  }
+  @Action(OnUpdateClassFail)
+  onUpdateClassfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateClassFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+  
+  @Action(OnUpdateClassSuccess)
+  onUpdateClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateClassSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Class is updated', payload);
+    dispatch(new ShowMessageBar({ message: 'Клас успішно відредагованний', type: 'success' }));
   }
 
   @Action(CreateDepartment)
@@ -191,7 +240,7 @@ export class AdminState {
     dispatch(new MarkFormDirty(false));
     patchState({department: payload});
     console.log('Department is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }));
+    dispatch(new ShowMessageBar({ message: 'Відділ успішно створенний', type: 'success' }));
   }
 
   @Action(CreateClass)
@@ -228,7 +277,18 @@ export class AdminState {
       .pipe(
         tap((direction: Direction) =>  patchState({ selectedDirection: direction, isLoading: false })));
   }
-
+  @Action(GetDepartmentById)
+  getDepartmentById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentById): Observable<Direction> {
+    patchState({ isLoading: true });
+    return this.categoriesService
+      .getDepartmentById(payload)
+      .pipe(
+        tap((department: Department) =>  patchState({ selectedDepartment: department, isLoading: false })));
+  }
+  @Action(FilteredDepartmentsList)
+  filteredDepartmentsList({ patchState }: StateContext<AdminStateModel>, { payload }: FilteredDepartmentsList): void {
+    patchState({ getDepartments: payload });
+  }
   @Action(GetDepartmentByDirectionId)
   getDepartmentByDirectionId({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentByDirectionId): Observable<Department[]> {
     patchState({ isLoading: true });

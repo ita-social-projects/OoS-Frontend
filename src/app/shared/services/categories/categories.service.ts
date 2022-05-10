@@ -50,6 +50,12 @@ export class CategoriesService {
   updateDirection(direction: Direction): Observable<object> {
     return this.http.put('/api/v1/Direction/Update', direction);
   }
+  updateDepartment(department: Department): Observable<object> {
+    return this.http.put('/api/v1/Department/Update', department);
+  }
+  updateClass(iClass: IClass): Observable<object> {
+    return this.http.put('/api/v1/Class/Update', iClass);
+  }
   deleteDirection(id: number): Observable<object> {
     return this.http.delete(`/api/v1/Direction/Delete/${id}`);
   }
@@ -64,6 +70,9 @@ export class CategoriesService {
 
   getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
+  }
+  getDepartmentById(id: number): Observable<Department> {
+    return this.http.get<Department>(`/api/v1/Department/GetById/${id}`);
   }
   createClass(classes: IClass[]): Observable<IClass[]> {
     return this.http.post<IClass[]>('/api/v1/Class/CreateMultiple', classes);
