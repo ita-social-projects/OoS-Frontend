@@ -8,7 +8,7 @@
         <span *ngIf="entityControl.value?.length === 1"> {{entityControl.value[0].title || entityControl.value[0].firstName}} </span>
       </div>
     </mat-select-trigger>
-    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ entity.firstName ? getFullName(entity.firstName, entity.lastName) : entity.title }}
+    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ getEntityTitle(entity) }}
     </mat-option>
   </mat-select>
 </mat-form-field>

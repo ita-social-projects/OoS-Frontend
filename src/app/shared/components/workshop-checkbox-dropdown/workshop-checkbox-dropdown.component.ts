@@ -36,7 +36,9 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
     this.Declination = this.declination;
   }
 
-  getFullName(firstName: string, lastName: string): string {return `${firstName} ${lastName}`};
+  getEntityTitle(entity): string {
+    return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title
+  };
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
