@@ -51,3 +51,13 @@ export class Provider {
     }
   }
 }
+
+export interface PeriodicElement {
+  title: string;
+  ownership: string;
+  licence: string;
+  city: string;
+  address: string;
+  director: string;
+  status: string;
+}
