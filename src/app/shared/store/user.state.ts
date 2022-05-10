@@ -209,10 +209,10 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, status }: GetApplicationsByParentId): Observable<Application[]> {
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id }: GetApplicationsByParentId): Observable<Application[]> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsByParentId(id, status)
+      .getApplicationsByParentId(id)
       .pipe(
         tap((applications: Application[]) => {
           return patchState({ applications: applications, isLoading: false });
@@ -605,7 +605,7 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left
       ? messageStatus.left
       : messageStatus.approved, type: 'success' }));
-    dispatch(new GetApplicationsByParentId(payload.parentId, payload.status));
+    dispatch(new GetApplicationsByParentId(payload.parentId));
   }
 
   @Action(CreateRating)

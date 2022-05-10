@@ -68,7 +68,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         if (this.role === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
         } else {
-          this.getParentApplications(undefined);
+          this.getParentApplications();
         }
       });
   }
@@ -80,7 +80,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.activateChildInfoBox();
     } else {
       this.getAllUsersChildren();
-      this.getParentApplications(undefined);
+      this.getParentApplications();
     }
   }
 
@@ -136,13 +136,11 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
     if (this.role === Role.provider) {
       this.providerApplicationParams.status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
-      tabLabel : undefined;
+      tabLabel : null;
       this.getProviderApplications(this.providerApplicationParams);
       this.router.navigate(['../', tabLabel], { relativeTo: this.route });
     } else {
-      const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
-      tabLabel : undefined;
-      this.getParentApplications(status);
+      this.getParentApplications();
     }
 
   }
