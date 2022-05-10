@@ -15,6 +15,7 @@ export class ProviderListComponent implements OnInit {
     'address',
     'director',
     'status',
+    'star',
   ];
 
   constructor() {}
