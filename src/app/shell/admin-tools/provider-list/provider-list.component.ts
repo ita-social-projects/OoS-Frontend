@@ -10,6 +10,7 @@ export class ProviderListComponent implements OnInit {
   displayedColumns = [
     'title',
     'ownership',
+    'edrpouIpn',
     'licence',
     'city',
     'address',
