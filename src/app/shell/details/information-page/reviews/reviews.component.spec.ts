@@ -10,6 +10,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ReviewsComponent } from './reviews.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
 
 describe('ReviewsComponent', () => {
   let component: ReviewsComponent;
@@ -29,7 +30,8 @@ describe('ReviewsComponent', () => {
       ],
       declarations: [
         ReviewsComponent,
-        StarsComponent]
+        StarsComponent,
+        DeclinationPipe]
     })
       .compileComponents();
   });
