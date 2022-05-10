@@ -14,6 +14,7 @@ export enum WorkshopDeclination {
   'гурток',
   'гуртки',
   'гуртків',
+  'Гуртки відсутні'
 }
 
 export enum HourDeclination {
@@ -44,6 +45,7 @@ export enum ChildDeclination {
   'дитина',
   'дитини',
   'дітей',
+  'Діти відсутні'
 }
 
 export enum Words {

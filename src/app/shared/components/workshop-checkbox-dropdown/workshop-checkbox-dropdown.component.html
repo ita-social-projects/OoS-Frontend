@@ -1,5 +1,5 @@
 <mat-form-field class="dropdown-wrapper">
-  <mat-label class="label" [ngClass]="{'disabled-field': entities?.length < 1}"> Усі {{entities?.length | declination: Declination }}</mat-label>
+  <mat-label class="label" [ngClass]="{'disabled-field': entities?.length < 1}">{{ getlabelTitle(entities?.length) }}</mat-label>
   <mat-select [disabled]="entities?.length < 1" [formControl]="entityControl" multiple class="dropdown" disableOptionCentering
     panelClass="dropdown-panel application-dropdown ">
     <mat-select-trigger>

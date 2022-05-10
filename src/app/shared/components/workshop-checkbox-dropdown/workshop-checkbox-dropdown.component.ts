@@ -4,11 +4,13 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Child } from '../../models/child.model';
 import { WorkshopCard } from '../../models/workshop.model';
+import { DeclinationPipe } from '../../pipes/declination.pipe';
 
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
-  styleUrls: ['./workshop-checkbox-dropdown.component.scss']
+  styleUrls: ['./workshop-checkbox-dropdown.component.scss'],
+  providers: [DeclinationPipe]
 })
 export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 
@@ -21,7 +23,7 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
 
-  constructor() { }
+  constructor(private declinationPipe: DeclinationPipe) { }
 
   ngOnInit(): void {
     this.entityControl.valueChanges
@@ -39,6 +41,12 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
   getEntityTitle(entity): string {
     return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title
   };
+
+  getlabelTitle(quantity: number): string {
+    const title = this.declinationPipe.transform(quantity, this.Declination);
+    return quantity ? `Усі ${title}` : title
+  };
+  
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
