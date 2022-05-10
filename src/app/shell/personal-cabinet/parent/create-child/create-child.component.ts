@@ -35,7 +35,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed: boolean = false;
-  isEmpty: boolean = true;
   childrenMaxAmount = Constants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
@@ -74,11 +73,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
-
-    this.ChildrenFormArray.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: FormGroup) => 
-      this.isEmpty = Boolean(!val[0].lastName || !val[0].firstName || !val[0].middleName || !val[0].dateOfBirth));
   }
 
   addNavPath(): void {
@@ -90,6 +84,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   setEditMode(): void {
     const childId = this.route.snapshot.paramMap.get('param');
+    this.isAgreed = true;
 
     this.childrenService.getUsersChildById(childId).pipe(
       takeUntil(this.destroy$),

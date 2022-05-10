@@ -41,15 +41,12 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   managedWorkshopIds: string[];
   isAgreed: boolean;
   isNotRobot: boolean;
-  isEmpty = true;
 
   InfoFormGroup: FormGroup;
   AccessFormGroup: FormGroup;
 
   RobotFormControl = new FormControl(false);
   AgreementFormControl = new FormControl(false);
-
-
 
   constructor(store: Store,
     route: ActivatedRoute,
@@ -71,8 +68,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.addNavPath();
   }
 
-  addNavPath(): void {
-  }
+  //TODO: add navigation bar
+  addNavPath(): void { }
 
   getProviderWorkshops(): void {
     this.provider$.pipe(
@@ -99,12 +96,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
-
-    this.ProviderAdminFormGroup.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val) => {
-      this.isEmpty = (!val.lastName || !val.firstName || !val.phoneNumber || !val.email);
-    });
   }
 
   

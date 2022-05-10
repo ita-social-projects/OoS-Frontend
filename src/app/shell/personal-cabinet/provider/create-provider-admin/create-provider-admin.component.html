@@ -116,8 +116,9 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(ProviderAdminFormGroup)"
-            [disabled]="isEmpty">Далі</button>
+          <button class="btn" mat-raised-button matStepperNext 
+            (click)="checkValidation(ProviderAdminFormGroup)"
+            [disabled]="ProviderAdminFormGroup.invalid">Далі</button>
         </div>
 
       </mat-step>
@@ -150,7 +151,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="false">Зберегти</button>
+          <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
         </div>
       </mat-step>
 

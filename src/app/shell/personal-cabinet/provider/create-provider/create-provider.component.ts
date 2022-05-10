@@ -151,12 +151,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-  checkEmpty(form: FormGroup): boolean {     
-    return Object.keys(form.controls).some((key: string) => (!form.get(key).value
-      && form.get(key).status === 'INVALID' 
-      || Object.values(form.get(key).value).some((val: string) => !val)));       
-  }
-
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
