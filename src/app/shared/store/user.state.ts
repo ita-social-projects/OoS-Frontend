@@ -105,18 +105,18 @@ export interface UserStateModel {
   name: 'user',
   defaults: {
     isLoading: false,
-    workshops: [],
+    workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: [],
+    applications: null,
     children: undefined,
-    favoriteWorkshops: [],
-    favoriteWorkshopsCard: [],
+    favoriteWorkshops: null,
+    favoriteWorkshopsCard: null,
     currentPage: {
       element: 1,
       isActive: true
     },
-    providerAdmins: [],
+    providerAdmins: null,
   }
 })
 @Injectable()

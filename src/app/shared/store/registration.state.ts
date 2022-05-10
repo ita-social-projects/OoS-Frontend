@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Login, Logout, CheckAuth, OnAuthFail, CheckRegistration, GetProfile } from './registration.actions';
+import {
+  Login,
+  Logout,
+  CheckAuth,
+  OnAuthFail,
+  CheckRegistration,
+  GetProfile,
+} from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,6 +31,7 @@ export interface RegistrationStateModel {
   parent: Parent;
   techAdmin: TechAdmin;
   role: string;
+  subrole: string;
 }
 
 @State<RegistrationStateModel>({
@@ -34,10 +42,10 @@ export interface RegistrationStateModel {
     provider: undefined,
     parent: undefined,
     techAdmin: undefined,
-    role: Role.unauthorized
-  }
+    role: Role.unauthorized,
+    subrole: null,
+  },
 })
-
 @Injectable()
 export class RegistrationState {
   @Selector()
@@ -73,6 +81,11 @@ export class RegistrationState {
     return state.role;
   }
 
+  @Selector()
+  static subrole(state: RegistrationStateModel): string | undefined {
+    return state.subrole;
+  }
+
   constructor(
     private oidcSecurityService: OidcSecurityService,
     private snackBar: MatSnackBar,
@@ -82,11 +95,17 @@ export class RegistrationState {
     private techAdminService: TechAdminService,
     private router: Router,
     private signalRservice: SignalRService
-  ) { }
+  ) {}
 
   @Action(Login)
-  Login({ }: StateContext<RegistrationStateModel>, { payload }: Login): void {
-    this.oidcSecurityService.authorize({ customParams: { culture: localStorage.getItem('ui-culture'), 'ui-culture': localStorage.getItem('ui-culture'), 'ProviderRegistration': payload } });
+  Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
+    this.oidcSecurityService.authorize({
+      customParams: {
+        culture: localStorage.getItem('ui-culture'),
+        'ui-culture': localStorage.getItem('ui-culture'),
+        ProviderRegistration: payload,
+      },
+    });
   }
 
   @Action(Logout)
@@ -96,23 +115,27 @@ export class RegistrationState {
   }
 
   @Action(CheckAuth)
-  CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService
-      .checkAuth()
-      .subscribe((auth) => {
-        console.log('is authenticated', auth);
-        patchState({ isAuthorized: auth });
-        if (auth) {
-          const id = jwt_decode(this.oidcSecurityService.getToken())['sub'];
-          this.userService.getUserById(id).subscribe(user => {
-            patchState({ user: user });
-            dispatch(new CheckRegistration());
-          });
-        } else {
-          patchState({ role: Role.unauthorized });
-        }
-      });
-  }
+  CheckAuth({
+    patchState,
+    dispatch,
+  }: StateContext<RegistrationStateModel>): void {
+    this.oidcSecurityService.checkAuth().subscribe((auth) => {
+      console.log('is authenticated', auth);
+      patchState({ isAuthorized: auth });
+      if (auth) {        
+        const token = jwt_decode(this.oidcSecurityService.getToken());
+        const id = token['sub'];
+        const subrole = token['subrole'];
+        this.userService.getUserById(id).subscribe((user) => {
+          patchState({ subrole: subrole });
+          patchState({ user: user });
+          dispatch(new CheckRegistration());
+        });
+      } else {
+        patchState({ role: Role.unauthorized });
+      }
+    });
+  }  
 
   @Action(OnAuthFail)
   onAuthFail(): void {
@@ -124,40 +147,43 @@ export class RegistrationState {
   }
 
   @Action(CheckRegistration)
-  checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
+  checkRegistration({
+    dispatch,
+    getState,
+  }: StateContext<RegistrationStateModel>): void {
     const state = getState();
     this.signalRservice.startConnection();
 
-    (state.user.isRegistered) ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
+    state.user.isRegistered
+      ? dispatch(new GetProfile())
+      : this.router.navigate(['/create-provider', '']);
   }
 
   @Action(GetProfile)
-  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, { }: GetProfile): Observable<Parent> | Observable<Provider> {
+  getProfile(
+    { patchState, getState }: StateContext<RegistrationStateModel>,
+    {}: GetProfile
+  ): Observable<Parent> | Observable<Provider> {
     const state = getState();
     patchState({ role: state.user.role });
 
-    if (state.user.role === Role.parent) {
-      return this.parentService
-        .getProfile()
-        .pipe(
-          tap(
-            (parent: Parent) => patchState({ parent: parent })
-          ));
-    }
-    if (state.user.role === Role.techAdmin) {
-      return this.techAdminService
-        .getProfile()
-        .pipe(
-          tap(
-            (techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })
-          ));
-    } else {
-      return this.providerService
-        .getProfile()
-        .pipe(
-          tap(
-            (provider: Provider) => patchState({ provider: provider })
-          ));
+    switch (state.user.role) {
+      case Role.parent:
+        return this.parentService
+          .getProfile()
+          .pipe(tap((parent: Parent) => patchState({ parent: parent })));
+      case Role.techAdmin:
+        return this.techAdminService
+          .getProfile()
+          .pipe(
+            tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin }))
+          );
+      default:
+        return this.providerService
+          .getProfile()
+          .pipe(
+            tap((provider: Provider) => patchState({ provider: provider }))
+          );
     }
   }
 }
