@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { Util } from 'src/app/shared/utils/utils';
@@ -28,5 +28,9 @@ export class ChildFormComponent {
 
   onDelete(): void {
     this.deleteForm.emit(this.index);
+  }
+
+  show(){
+    console.log(this.ChildFormGroup)
   }
 }

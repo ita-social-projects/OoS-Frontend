@@ -1,0 +1,89 @@
+
+
+<!-- <ng-container *ngIf = "type === 'requiredEmptyField' && isEmptyCheck && invalid; then requiredInput"></ng-container>
+<ng-container *ngIf = "type === 'validEmail' && isEmailCheck && invalid; then incorrectEmail"></ng-container>
+<ng-container *ngIf = "type === 'minDigitsLength' && minLength && invalid; then notEnoughDigits"></ng-container>
+<ng-container *ngIf = "type === 'minCharachtersLengthFOP' && minLength && invalid; then notEnoughCharactersFOP"></ng-container>
+<ng-container *ngIf = "type === 'validTextFieldWithSymbols' && forbiddenCharacter && invalid; then incorrectTextFieldWithSymbols"></ng-container>
+<ng-container *ngIf = "type === 'validAddressField' && forbiddenCharacter && invalid; then incorrectAddressField"></ng-container>
+<ng-container *ngIf = "type === 'validBuildingNumberField' && forbiddenCharacter && invalid; then incorrectBuildingNumberField"></ng-container>
+
+<ng-container *ngIf = "type === 'validBirthCertificate' && forbiddenCharacter && invalid; then invalidBirthCertificate"></ng-container> -->
+
+<small appValidationMessageStyling>
+  <ng-container *ngIf = "invalid">
+    <ng-container *ngIf = "required; then requiredInputTmpl"></ng-container>
+    <ng-container *ngIf = "forbiddenCharacters ; then incorrectTextFieldTmpl"></ng-container>
+    <ng-container *ngIf = "invalidLength; then invalidLengthTmpl"></ng-container>
+    <!-- <ng-container *ngIf = "!invalidDateRange; then incorrectDateFieldTmpl"></ng-container> -->
+    <ng-container *ngIf = "invalidDateRange; then incorrectMinMaxDateTmpl"></ng-container>
+  </ng-container>
+</small>
+
+<ng-template #requiredInputTmpl>
+    Це поле є обов'язковим
+</ng-template>
+
+<ng-template #incorrectTextFieldTmpl>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю та символи ( ' - )
+</ng-template>
+
+<ng-template #invalidLengthTmpl>
+    Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів
+</ng-template>
+
+<ng-template #incorrectDateFieldTmpl>
+    Перевірте введені данні. <br> Використовуйте дд.мм.рррр формат. Наприклад 20.10.2010
+</ng-template>
+
+<ng-template #incorrectMinMaxDateTmpl>
+    Перевірте введені данні. <br> Дата народження виходить за межі допустимих
+</ng-template>
+
+<!-- 
+<ng-template #incorrectEmail >
+  <small appValidationMessageStyling>
+    Введіть коректний імейл
+  </small>
+</ng-template>
+
+<ng-template #notEnoughDigits>
+  <small appValidationMessageStyling>
+    Це поле має містити {{minCharachters}} цифр
+  </small>
+</ng-template>
+
+<ng-template #notEnoughCharactersFOP>
+  <small appValidationMessageStyling>
+    Введіть 10 цифр з ІПН. <br> У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр 
+  </small> 
+</ng-template>
+
+
+<ng-template #incorrectTextFieldWithSymbols>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Не використовуйте, будь ласка, спец. символи
+  </small> 
+</ng-template>
+
+
+
+<ng-template #incorrectAddressField>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю, цифри та символи ( ' - )
+  </small> 
+</ng-template>
+
+<ng-template #incorrectBuildingNumberField>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю, цифри та символи ( ' - / , . )
+  </small> 
+</ng-template>
+
+
+
+<ng-template #invalidBirthCertificate>
+  <small appValidationMessageStyling>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, тільки латиницю, кирилицю, цифри та символи ( ` ' - №)
+  </small>
+</ng-template> -->
