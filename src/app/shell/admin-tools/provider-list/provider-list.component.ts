@@ -33,25 +33,4 @@ export class ProviderListComponent implements OnInit {
     this.store.dispatch(new GetAllProviders());
     console.log('providers', this.providers);
   }
-
-  providers$: Provider[] = [
-    {
-      userId: '1',
-      id: '1',
-      shortTitle: '1',
-      fullTitle: 'ДНУ ім.Гончара',
-      ownership: 'Державна',
-      edrpouIpn: '3897653',
-      legalAddress: {
-        city: 'Київ',
-        street: 'вул.Рокосовського',
-        buildingNumber: '1',
-      },
-      director: 'Антонів',
-      email: '',
-      status: true,
-    },
-  ];
-
-  // onInfoShow(): void {}
 }
