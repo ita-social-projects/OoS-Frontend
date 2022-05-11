@@ -15,7 +15,7 @@ export class ProviderService {
    * @param 
    */
   getAllProviders(): Observable<Provider[]> {
-    return this.http.get<Provider[]>(`/api/v1/Provider/Get`);
+    return this.http.get<Provider[]>('/api/v1/Provider/Get');
   }
 
   /**
