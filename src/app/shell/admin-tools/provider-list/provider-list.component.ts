@@ -29,12 +29,15 @@ export class ProviderListComponent implements OnInit {
   @Select(AdminState.providers)
   providers: Observable<Provider[]>;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getAllProviders();
-    console.log('providers', this.providers);
+    this.providers
+      .subscribe((providers: Provider[]) => {
+        this.getAllProviders();
+      });
   }
 
-  getAllProviders(): void {
+  getAllProviders() {
     this.store.dispatch(new GetAllProviders());
   }
 }
