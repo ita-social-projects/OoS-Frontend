@@ -57,14 +57,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
-        const role: string = this.store.selectSnapshot<string>(RegistrationState.role);
-        let status: string = ApplicationTitlesReverse[ApplicationTitles.All];
-
-        if (role === Role.provider) {
-          status = notificationsGrouped.action === NotificationAction.create ? ApplicationStatus.Pending :
-            notificationsGrouped.groupedData;
-        };
-
+        let status: string = ApplicationTitlesReverse[notificationsGrouped.groupedData];
         this.router.navigate([`/personal-cabinet/${NotificationType.Application}/${[status]}`]);
         break;
       case NotificationType.Workshop:
