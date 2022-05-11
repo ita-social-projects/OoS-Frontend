@@ -9,7 +9,7 @@
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="AddressFormGroup.get('street').errors?.required"
@@ -22,7 +22,7 @@
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="AddressFormGroup.get('buildingNumber').errors?.required"

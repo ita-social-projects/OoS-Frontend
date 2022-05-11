@@ -4,6 +4,7 @@ import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
@@ -19,7 +20,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
+  readonly validationConstants: typeof ValidationConstants = ValidationConstants;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -39,7 +41,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup = this.formBuilder.group({
       coverImage: new FormControl(''),
       title: new FormControl('', Validators.required),
-      phone: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
+      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       minAge: new FormControl('', [Validators.required]),
       maxAge: new FormControl('', [Validators.required]),
@@ -72,7 +74,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ).subscribe((isPrice: boolean) => {
         if (isPrice) {
           this.AboutFormGroup.get('price').enable();
-          this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
+          this.AboutFormGroup.get('price').setValue(ValidationConstants.MIN_PRICE);
         } else {
           this.AboutFormGroup.get('price').setValue(0);
           this.AboutFormGroup.get('price').disable();

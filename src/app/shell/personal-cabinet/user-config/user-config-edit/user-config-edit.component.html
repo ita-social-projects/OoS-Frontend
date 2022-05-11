@@ -45,9 +45,9 @@
         <label class="step-label"> Телефон <span class="step-required">*</span></label>
         <mat-form-field>
           <div fxLayout='row' fxLayoutAlign='start center'>
-            <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+            <span class="step-text">{{ phonePrefix }}</span>
             <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-              ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+              ui-hide-group-sep maxlength="{{validationConstants.PHONE_LENGTH}}">
           </div>
         </mat-form-field>
         <app-validation-hint-for-input type="requiredEmptyField"
@@ -57,7 +57,7 @@
         <app-validation-hint-for-input type="minDigitsLength"
           [minLength]="userEditFormGroup.get('phoneNumber').errors?.minlength"
           [invalid]="userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
-          [minCharachters]="userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
+          [minCharachters]="validationConstants.PHONE_LENGTH">
         </app-validation-hint-for-input>
 
       </form>

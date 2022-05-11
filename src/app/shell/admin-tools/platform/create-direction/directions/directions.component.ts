@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,8 +29,9 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   readonly noDirections = NoResultsTitle.noDirections;
   readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
+  readonly validationConstants = ValidationConstants;
 
-  searchValue = new FormControl('', [Validators.maxLength(200)]);
+  searchValue = new FormControl('', [Validators.maxLength(ValidationConstants.MAX_SEARCH_LENGTH_200)]);
   searchedText: string;
   isEditMode: true;
   currentPage: PaginationElement = {

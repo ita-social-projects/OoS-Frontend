@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators, } from '@angular/forms';
@@ -14,8 +15,7 @@ import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/s
 })
 export class PriceFilterComponent implements OnInit, OnDestroy {
 
-  @Input()
-  set priceFilter(filter) {
+  @Input() set priceFilter(filter) {
     const { minPrice, maxPrice, isFree, isPaid } = filter;
     this.minPriceControl.setValue(minPrice, { emitEvent: false });
     this.minValue = minPrice;
@@ -25,16 +25,16 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.isPaidControl.setValue(isPaid, { emitEvent: false });
   };
 
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
 
   isFreeControl = new FormControl(false);
   isPaidControl = new FormControl(false);
 
-  minPriceControl = new FormControl(Constants.MIN_PRICE, [Validators.maxLength(4)]);
-  maxPriceControl = new FormControl(Constants.MAX_PRICE, [Validators.maxLength(4)]);
+  minPriceControl = new FormControl(ValidationConstants.MIN_PRICE, [Validators.maxLength(ValidationConstants.MAX_PRICE_LENGTH)]);
+  maxPriceControl = new FormControl(ValidationConstants.MAX_PRICE, [Validators.maxLength(ValidationConstants.MAX_PRICE_LENGTH)]);
 
-  minValue = Constants.MIN_PRICE;
-  maxValue = Constants.MAX_PRICE;
+  minValue = ValidationConstants.MIN_PRICE;
+  maxValue = ValidationConstants.MAX_PRICE;
   options: Options = this.getSliderOprions(true);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -90,8 +90,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   getSliderOprions(val): Options {
     return {
-      floor: Constants.MIN_PRICE,
-      ceil: Constants.MAX_PRICE,
+      floor: ValidationConstants.MIN_PRICE,
+      ceil: ValidationConstants.MAX_PRICE,
       disabled: val
     }
   }

@@ -1,4 +1,5 @@
 import { map } from 'rxjs/internal/operators/map';
+import { ValidationConstants } from '../constants/validation';
 import { Child } from '../models/child.model';
 
 /**
@@ -30,11 +31,11 @@ export class Util {
    * @param maxAge number
    * @returns Date
    */
-     public static getMinBirthDate(maxAge: number): Date {
+     public static getMinBirthDate(): Date {
       const today = new Date();
       let minBirthDate = new Date();
 
-      minBirthDate.setFullYear(today.getFullYear() - maxAge);
+      minBirthDate.setFullYear(today.getFullYear() - ValidationConstants.BIRTH_AGE_MAX);
   
       return minBirthDate;
     }

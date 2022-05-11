@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appValidationMessageStyling]'
@@ -12,5 +12,4 @@ export class ValidationMessageStyling {
     this.r.setStyle(this.el.nativeElement, 'color', 'red');
     this.r.setStyle(this.el.nativeElement, 'font-size', '10px');
   }
-
 }

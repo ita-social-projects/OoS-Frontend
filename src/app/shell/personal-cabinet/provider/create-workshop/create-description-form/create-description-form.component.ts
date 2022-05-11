@@ -4,15 +4,15 @@ import { Subject } from 'rxjs';
 import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Constants } from 'src/app/shared/constants/constants';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants: typeof ValidationConstants = ValidationConstants;
 
   isDirectionIdMarked = false;
 
@@ -39,7 +39,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
+      description: new FormControl('', [Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500), Validators.required]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       keyWords: new FormControl('', Validators.required),
@@ -78,13 +78,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     if (this.keyWord) {
       const inputKeyWord = this.keyWord.trim().toLowerCase();
       if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
-        if (this.keyWords.length < 5) {
+        if (this.keyWords.length < ValidationConstants.MAX_KEYWORDS_LENGTH) {
           this.keyWords.push(inputKeyWord);
           this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
           this.keyWordsCtrl.setValue(null);
           this.keyWord = '';
         }
-        this.disabledKeyWordsInput = this.keyWords.length >= 5;
+        this.disabledKeyWordsInput = this.keyWords.length >= ValidationConstants.MAX_KEYWORDS_LENGTH;
       }
     }
   }

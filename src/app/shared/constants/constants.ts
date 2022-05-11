@@ -8,38 +8,33 @@ import { WorkingDaysToggleValue } from '../models/workingHours.model';
  * Constants for OutOfSchool
  */
 export class Constants {
-  static readonly CLASS_AMOUNT_MIN = 1;
-  static readonly CLASS_AMOUNT_MAX = 7;
-  static readonly CHILDREN_AMOUNT_MAX = 20;
-  static readonly AGE_MIN = 0;
-  static readonly AGE_MAX = 18;
-  static readonly BIRTH_AGE_MAX = 120;
-  static readonly MIN_PRICE = 1;
-  static readonly MAX_PRICE = 10000;
-  static readonly MIN_TIME = '00:00';
-  static readonly MAX_TIME = '23:59';
-  static readonly MAX_DESCRIPTION_LENGTH = 500;
-  static readonly MAX_DESCRIPTION_ABOUT_LENGTH = 2000;
-  static readonly MAX_KEYWORDS_LENGTH = 5;
-  static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
-  static readonly PHONE_LENGTH = 9;
+  //Placeholders
   static readonly PHONE_PREFIX = '+380';
+  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
+  static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
+
+  //EntityTypes
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
 
+  //Rates
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
   static readonly RATE_THREE_STAR = 3;
   static readonly RATE_FOUR_STAR = 4;
   static readonly RATE_FIVE_STAR = 5;
 
-  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
-  static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
-
+  //Scroll value
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
+
+  //Tooltip
+  static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
+  
+  //ABSENT_VALUE
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
   static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
 
+  //Default city
   static readonly KIEV: City = {
     district: 'м.Київ',
     id: 14446,
@@ -49,8 +44,8 @@ export class Constants {
     region: 'м.Київ',
   };
 
+  //Url's
   static readonly IMG_URL = '/api/v1/PublicImage/';
-  static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
 }
 
 export class PaginationConstants {

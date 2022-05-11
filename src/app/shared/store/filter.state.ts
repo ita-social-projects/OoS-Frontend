@@ -1,7 +1,7 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Constants } from '../constants/constants';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -68,8 +68,8 @@ export interface FilterStateModel {
     workingDays: [],
     isFree: false,
     isPaid: false,
-    maxPrice: Constants.MAX_PRICE,
-    minPrice: Constants.MIN_PRICE,
+    maxPrice: ValidationConstants.MAX_PRICE,
+    minPrice: ValidationConstants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
     city: undefined,
@@ -300,8 +300,8 @@ export class FilterState {
       workingDays: [],
       isFree: false,
       isPaid: false,
-      maxPrice: Constants.MAX_PRICE,
-      minPrice: Constants.MIN_PRICE,
+      maxPrice: ValidationConstants.MAX_PRICE,
+      minPrice: ValidationConstants.MIN_PRICE,
       isOpenRecruitment: false,
       isClosedRecruitment: false,
       searchQuery: '',

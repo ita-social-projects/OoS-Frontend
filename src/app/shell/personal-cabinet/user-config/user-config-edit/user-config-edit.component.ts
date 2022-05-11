@@ -11,6 +11,7 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 
 @Component({
@@ -24,7 +25,9 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   user: User;
 
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
+  readonly validationConstants = ValidationConstants;
+
   readonly role: typeof Role = Role;
   userEditFormGroup: FormGroup;
 
@@ -37,7 +40,7 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
       lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl('', Validators.pattern(TEXT_REGEX)),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
     });
   }
 

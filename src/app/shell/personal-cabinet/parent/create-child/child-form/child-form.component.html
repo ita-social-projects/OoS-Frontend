@@ -3,7 +3,7 @@
 
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ChildFormGroup.get('lastName').errors?.required"
@@ -13,17 +13,19 @@
     [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched"
     [forbiddenCharacter]="ChildFormGroup.get('lastName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
+
   <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('lastName').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('lastName').errors?.maxlength"
+    [minLength]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxLength]="validationConstants.MAX_INPUT_LENGTH_30"
     [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched"
-    [minCharachters]="1"
-    [maxCharachters]="30">
+    [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
+
   </app-validation-hint-for-input>
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ChildFormGroup.get('firstName').errors?.required"
@@ -34,16 +36,16 @@
     [forbiddenCharacter]="ChildFormGroup.get('firstName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('firstName').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('firstName').errors?.maxlength"
+  [minLength]="validationConstants.MIN_INPUT_LENGTH_1"
+  [maxLength]="validationConstants.MAX_INPUT_LENGTH_30"
     [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched"
-    [minCharachters]="1"
-    [maxCharachters]="30">
+    [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
   </app-validation-hint-for-input>
 
   <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField"
     [isEmptyCheck]="ChildFormGroup.get('middleName').errors?.required"
@@ -54,11 +56,11 @@
     [forbiddenCharacter]="ChildFormGroup.get('middleName').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('middleName').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('middleName').errors?.maxlength"
+    [minLength]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxLength]="validationConstants.MAX_INPUT_LENGTH_30"
     [invalid]="ChildFormGroup.get('middleName').invalid && ChildFormGroup.get('middleName').touched"
-    [minCharachters]="1"
-    [maxCharachters]="30">
+    [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
   </app-validation-hint-for-input>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
@@ -100,54 +102,54 @@
 
   <label class="step-label">Місце проживання</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="validAddressField"
     [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
     [forbiddenCharacter]="ChildFormGroup.get('placeOfLiving').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('placeOfLiving').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('placeOfLiving').errors?.maxlength"
+    [minLength]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxLength]="validationConstants.MAX_INPUT_LENGTH_256"
     [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
-    [minCharachters]="1"
-    [maxCharachters]="256">
+    [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_256">
   </app-validation-hint-for-input>
 
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="validAddressField"
     [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
     [forbiddenCharacter]="ChildFormGroup.get('placeOfStudy').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('placeOfStudy').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('placeOfStudy').errors?.maxlength"
+    [minLength]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxLength]="validationConstants.MAX_INPUT_LENGTH_256"
     [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
-    [minCharachters]="1"
-    [maxCharachters]="256">
-    [minCharachters]="10" [maxCharachters]="256">
+    [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_256">
   </app-validation-hint-for-input>
 
   <label class="step-label">Серія та номер свідоцтва про народження</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="validBirthCertificate"
     [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
     [forbiddenCharacter]="ChildFormGroup.get('certificateOfBirth').errors?.pattern?.requiredPattern">
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('certificateOfBirth').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('certificateOfBirth').errors?.maxlength"
+    [minLength]="validationConstants.MIN_INPUT_LENGTH_10"
+    [maxLength]="validationConstants.MAX_INPUT_LENGTH_20"
     [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
-    [minCharachters]="10" [maxCharachters]="20">
+    [minCharachters]="validationConstants.MIN_INPUT_LENGTH_10"
+    [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_20">
   </app-validation-hint-for-input>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1" class="addChild">
-    <button class="btn-reset" mat-button (click)="delete()">
+    <button class="btn-reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину
     </button>
   </div>

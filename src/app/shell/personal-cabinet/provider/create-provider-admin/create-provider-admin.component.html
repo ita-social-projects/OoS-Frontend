@@ -19,7 +19,7 @@
 
           <label class="step-label">Прізвище<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
+            <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue>
           </mat-form-field>
           <app-validation-hint-for-input type="requiredEmptyField"
             [isEmptyCheck]="ProviderAdminFormGroup.get('lastName').errors?.required"
@@ -33,12 +33,13 @@
             [minLength]="ProviderAdminFormGroup.get('lastName').errors?.minlength"
             [maxLength]="ProviderAdminFormGroup.get('lastName').errors?.maxlength"
             [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
-            [minCharachters]="1" [maxCharachters]="30">
+            [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+            [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
           </app-validation-hint-for-input>
 
           <label class="step-label">Ім'я<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
+            <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue>
           </mat-form-field>
           <app-validation-hint-for-input type="requiredEmptyField"
             [isEmptyCheck]="ProviderAdminFormGroup.get('firstName').errors?.required"
@@ -52,12 +53,13 @@
             [minLength]="ProviderAdminFormGroup.get('firstName').errors?.minlength"
             [maxLength]="ProviderAdminFormGroup.get('firstName').errors?.maxlength"
             [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
-            [minCharachters]="1" [maxCharachters]="30">
+            [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+            [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
           </app-validation-hint-for-input>
 
           <label class="step-label">По-батькові<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
+            <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue>
           </mat-form-field>
           <app-validation-hint-for-input type="requiredEmptyField"
             [isEmptyCheck]="ProviderAdminFormGroup.get('middleName').errors?.required"
@@ -71,15 +73,16 @@
             [minLength]="ProviderAdminFormGroup.get('middleName').errors?.minlength"
             [maxLength]="ProviderAdminFormGroup.get('middleName').errors?.maxlength"
             [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
-            [minCharachters]="1" [maxCharachters]="30">
+            [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
+            [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
           </app-validation-hint-for-input>
 
           <label class="step-label"> Телефон <span class="step-required">*</span></label>
           <mat-form-field>
             <div fxLayout='row' fxLayoutAlign='start'>
-              <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+              <span class="step-text">{{ phonePrefix }}</span>
               <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-                ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+                ui-hide-group-sep maxlength="{{validationConstants.PHONE_LENGTH}}">
             </div>
           </mat-form-field>
           <app-validation-hint-for-input type="requiredEmptyField"
@@ -89,12 +92,12 @@
           <app-validation-hint-for-input type="minDigitsLength"
             [minLength]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength"
             [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched"
-            [minCharachters]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
+            [minCharachters]="validationConstants.PHONE_LENGTH">
           </app-validation-hint-for-input>
 
           <label class="step-label"> Емейл <span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="email" formControlName="email">
+            <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
           </mat-form-field>
           <app-validation-hint-for-input type="requiredEmptyField"
             [isEmptyCheck]="ProviderAdminFormGroup.get('email').errors?.required"

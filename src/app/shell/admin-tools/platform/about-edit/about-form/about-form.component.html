@@ -17,11 +17,11 @@
   <div class="step-label-combined">
     <label class="step-label"> Опис <span class="step-required">*</span></label>
     <label class="step-characters-count">
-      {{AboutItemFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}</label>
+      {{AboutItemFormGroup.get('description').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_1000}}</label>
   </div>
   <mat-form-field appearance="none">
-    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
-      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_1000}} символів"
+      formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_1000}}"></textarea>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="AboutItemFormGroup.get('description').invalid && AboutItemFormGroup.get('description').touched">

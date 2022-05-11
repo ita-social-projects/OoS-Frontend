@@ -7,8 +7,8 @@
   
     <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-        <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea step-input-field" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-          [formControl]="ReasonFormControl" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+        <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea step-input-field" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів"
+          [formControl]="ReasonFormControl" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}"></textarea>
     </mat-form-field>
 
     <app-validation-hint-for-input type="requiredField"

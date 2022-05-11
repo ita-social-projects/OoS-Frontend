@@ -9,7 +9,7 @@
 
   <label class="step-label"> Назва <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredField"
     [invalid]="AboutFormGroup.get('title').invalid && AboutFormGroup.get('title').touched">
@@ -18,9 +18,9 @@
   <label class="step-label"> Телефон <span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start center'>
-      <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+      <span class="step-text">{{ phonePrefix }}</span>
       <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly ui-number-mask
-        ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+        ui-hide-group-sep maxlength="{{validationConstants.PHONE_LENGTH}}" appTrimValue>
     </div>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="AboutFormGroup.get('phone').errors?.required"
@@ -28,11 +28,11 @@
   </app-validation-hint-for-input>
   <app-validation-hint-for-input type="minDigitsLength" [minLength]="AboutFormGroup.get('phone').errors?.minlength"
     [invalid]="AboutFormGroup.get('phone').invalid && AboutFormGroup.get('phone').touched"
-    [minCharachters]="AboutFormGroup.get('phone').errors?.minlength?.requiredLength"></app-validation-hint-for-input>
+    [minCharachters]="validationConstants.PHONE_LENGTH"></app-validation-hint-for-input>
 
   <label class="step-label"> Емейл <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="email" formControlName="email">
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
   </mat-form-field>
   <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="AboutFormGroup.get('email').errors?.required"
     [invalid]="AboutFormGroup.get('email').invalid && AboutFormGroup.get('email').touched">
@@ -43,15 +43,15 @@
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue>
   </mat-form-field>
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue>
   </mat-form-field>
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue>
   </mat-form-field>
   <div class="border-bottom"></div>
   <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
@@ -61,8 +61,8 @@
         <p class="step-text">Від</p>
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly
-            maxlength="2" appMinMax [directiveFormControl]="AboutFormGroup.get('minAge')" [min]="constants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : constants.AGE_MAX"
+            maxlength="2" appMinMax [directiveFormControl]="AboutFormGroup.get('minAge')" [min]="validationConstants.AGE_MIN"
+            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
             autocomplete="none">
         </mat-form-field>
       </div>
@@ -76,9 +76,10 @@
         <p class="step-text">До</p>
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly
-            maxlength="2" [directiveFormControl]="AboutFormGroup.get('maxAge')" appMinMax
-            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : constants.AGE_MIN"
-            [max]="constants.AGE_MAX" autocomplete="none">
+            [directiveFormControl]="AboutFormGroup.get('maxAge')" appMinMax
+            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
+            [max]="validationConstants.AGE_MAX" autocomplete="none"
+            maxlength="validationConstants.MAX_AGE_LENGTH">
         </mat-form-field>
 
       </div>
@@ -113,10 +114,12 @@
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign="start center" fxLayout.xs='column' fxLayoutAlign.xs="center start">
       <div fxLayout="row" fxLayoutAlign="center center">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true">
+          <input matInput class="step-input step-input-age"
             appDigitOnly appMinMax formControlName="price" type="number"
-            [directiveFormControl]="AboutFormGroup.get('price')" [min]="constants.MIN_PRICE"
-            [max]="constants.MAX_PRICE">
+            [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
+            [max]="validationConstants.MAX_PRICE"
+            maxlength="validationConstants.MAX_PRICE_LENGTH">
         </mat-radio-button>
         <p class="step-text">грн за</p>
       </div>

@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -35,7 +36,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
+
   params = this.route.snapshot.paramMap.get('param');
   isDeputy = false;
   managedWorkshopIds: string[];
@@ -59,7 +62,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
       middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
     });
   }

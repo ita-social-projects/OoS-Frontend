@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -17,7 +18,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 })
 export class CreatePhotoFormComponent implements OnInit {
 
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;

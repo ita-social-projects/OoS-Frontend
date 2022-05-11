@@ -1,6 +1,7 @@
+import { ValidationConstants } from './../../constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Constants, WorkingDaysValues } from '../../constants/constants';
+import { WorkingDaysValues } from '../../constants/constants';
 import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
 
@@ -10,8 +11,6 @@ import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHour
   styleUrls: ['./working-hours-form.component.scss']
 })
 export class WorkingHoursFormComponent implements OnInit {
-
-  readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
@@ -49,7 +48,7 @@ export class WorkingHoursFormComponent implements OnInit {
   }
 
   getMinTime(): string {
-    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : this.constants.MAX_TIME;
+    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : ValidationConstants.MAX_TIME;
   }
 
   delete(): void {

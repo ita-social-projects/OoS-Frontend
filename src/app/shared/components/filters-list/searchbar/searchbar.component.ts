@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { emit } from 'process';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
@@ -16,13 +17,13 @@ import { NavigationState } from 'src/app/shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-
+  readonly validationConstants = ValidationConstants;
   constructor(
     private store: Store,
     private router: Router,
   ) { }
 
-  searchValue = new FormControl('', [Validators.maxLength(256)]);
+  searchValue = new FormControl('', [Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_256)]);
   isResultPage = false;
   searchedText: string;
 

@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { UserState } from 'src/app/shared/store/user.state';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-create-child',
@@ -35,7 +36,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed: boolean = false;
-  childrenMaxAmount = Constants.CHILDREN_AMOUNT_MAX;
+
+  readonly validationConstants = ValidationConstants;
+  // childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
@@ -103,38 +106,38 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       lastName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX), 
-        Validators.minLength(1), 
-        Validators.maxLength(30)
+        Validators.minLength(ValidationConstants.MIN_INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_30)
       ]),
       firstName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(1), 
-        Validators.maxLength(30)
+        Validators.minLength(ValidationConstants.MIN_INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_30)
       ]),
       middleName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(1), 
-        Validators.maxLength(30)
+        Validators.minLength(ValidationConstants.MIN_INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_30)
       ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
         Validators.pattern(TEXT_WITH_DIGITS_REGEX),
-        Validators.minLength(10), 
-        Validators.maxLength(256)
+        Validators.minLength(ValidationConstants.MIN_INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_256)
       ]),
       certificateOfBirth: new FormControl('', [
         Validators.pattern(BIRTH_CERTIFICATE_REGEX),
-        Validators.minLength(10),
-        Validators.maxLength(20)
+        Validators.minLength(ValidationConstants.MIN_INPUT_LENGTH_10),
+        Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_20)
       ]),
       placeOfStudy: new FormControl('', [
         Validators.pattern(TEXT_WITH_DIGITS_REGEX),
-        Validators.minLength(10), 
-        Validators.maxLength(256)
+        Validators.minLength(ValidationConstants.MIN_INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.MAX_INPUT_LENGTH_256)
       ])
     });
 

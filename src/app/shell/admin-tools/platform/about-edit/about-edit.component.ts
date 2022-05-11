@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -79,7 +80,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   private newForm(aboutPortalItem?: AboutPortalItem): FormGroup {
     const aboutEditFormGroup = this.fb.group({
       sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
-      description: new FormControl('', [Validators.required, Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH)]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_1000)]),
     });
 
     aboutEditFormGroup.valueChanges

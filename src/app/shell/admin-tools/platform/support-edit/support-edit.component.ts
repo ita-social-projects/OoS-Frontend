@@ -1,3 +1,4 @@
+import { ValidationConstants } from './../../../../shared/constants/validation';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -49,7 +50,7 @@ export class SupportEditComponent implements OnInit, OnDestroy {
       image: new FormControl(''),
       title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
       sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH), Validators.required]),
+      description: new FormControl('', [Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500), Validators.required]),
     });
 
     supportEditFormGroup.valueChanges

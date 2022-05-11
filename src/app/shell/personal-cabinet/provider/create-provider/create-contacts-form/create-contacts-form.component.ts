@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -11,6 +12,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./create-contacts-form.component.scss']
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
+  
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Constants } from 'src/app/shared/constants/constants';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-support-form',
@@ -9,7 +9,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 })
 export class SupportFormComponent implements OnInit {
 
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants: typeof ValidationConstants = ValidationConstants;
 
   @Input() SupportFormGroup: FormGroup;
   @Input() index: number;
