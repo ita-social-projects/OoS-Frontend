@@ -6,6 +6,10 @@ export class GetInfoAboutPortal {
   static readonly type = '[admin] Get Information About Portal';
   constructor() { }
 }
+export class GetAllProviders {
+  static readonly type = '[admin] Get all providers';
+  constructor() {}
+}
 export class UpdateInfoAboutPortal {
   static readonly type = '[admin] Update Information About Portal';
   constructor(public payload: AboutPortal) { }
