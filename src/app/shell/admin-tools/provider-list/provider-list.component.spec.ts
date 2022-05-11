@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +18,7 @@ describe('ProviderListComponent', () => {
         RouterTestingModule,
         MatMenuModule,
         MatIconModule,
+        MatFormFieldModule,
       ],
       declarations: [ProviderListComponent],
     }).compileComponents();

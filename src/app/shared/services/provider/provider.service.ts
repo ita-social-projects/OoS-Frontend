@@ -11,7 +11,7 @@ export class ProviderService {
   constructor(private http: HttpClient) {}
 
   /**
-   * This method get Provider from the database
+   * This method get Providers from the database
    * @param 
    */
   getAllProviders(): Observable<Provider[]> {
