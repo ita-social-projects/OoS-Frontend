@@ -30,11 +30,7 @@ export class ProviderListComponent implements OnInit {
   providers: Observable<Provider[]>;
 
   ngOnInit() {
-    this.getAllProviders();
-    this.providers
-      .subscribe((providers: Provider[]) => {
-        this.getAllProviders();
-      });
+    this.getAllProviders(); 
   }
 
   getAllProviders() {
