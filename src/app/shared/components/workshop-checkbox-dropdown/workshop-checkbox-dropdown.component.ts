@@ -43,11 +43,14 @@ export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
   };
 
   getlabelTitle(quantity: number): string {
-    const allChildDeclination = this.Declination[4];
-    const allApplicationsDeclination = this.Declination[1];
+    let allChildrenDeclination, allApplicationsDeclination;
+    if(this.Declination) {
+      allChildrenDeclination = this.Declination[4];
+      allApplicationsDeclination = this.Declination[1];
+    }
+    const allEntities =  allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.declinationPipe.transform(quantity, this.Declination);
-    const allEntities =  allChildDeclination || allApplicationsDeclination;
-    return quantity < 1 ? selectedEntities : `Усі ${allEntities}`
+    return quantity < 1 ? selectedEntities : `Усі ${allEntities}`;
   };
   
 
