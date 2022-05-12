@@ -24,8 +24,8 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
   constructor(
     store: Store,
     matDialog: MatDialog,
-    private actions$: Actions) {
-    super(store, matDialog);
+    actions$: Actions) {
+    super(store, matDialog, actions$);
   }
 
   ngOnInit(): void {
