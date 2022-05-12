@@ -31,8 +31,6 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-
   child: Child;
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);

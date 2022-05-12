@@ -15,10 +15,7 @@ import { Util } from 'src/app/shared/utils/utils';
 export class CreateInfoFormComponent implements OnInit {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly phonePrefix= Constants.PHONE_PREFIX;
-
-  readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
-
+  
   readonly ownershipType = OwnershipType;
   readonly providerType = ProviderType;
 

@@ -12,26 +12,20 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
   <div class="step-label-combined">
     <label class="step-label"> Опис<span class="step-required">*</span></label>
     <label class="step-characters-count">
-      {{descriptionFormGroup.value.length}}/{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}
+      {{descriptionFormGroup.value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
     </label>
   </div>
-  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_ABOUT_LENGTH}} символів"
-      formControlName="description" minlength="3" maxlength="{{constants.MAX_DESCRIPTION_ABOUT_LENGTH}}"></textarea>
+  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none" appTrimValue>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
+      formControlName="description" minlength="3" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}"></textarea>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="PhotoFormGroup.get('description').errors?.required && PhotoFormGroup.get('description').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextFieldWithSymbols"
-    [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched"
-    [forbiddenCharacter]="PhotoFormGroup.get('description').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength" [minLength]="PhotoFormGroup.get('description').errors?.minlength"
-    [maxLength]="PhotoFormGroup.get('description').errors?.maxlength"
-    [invalid]="PhotoFormGroup.get('description').invalid && PhotoFormGroup.get('description').touched"
-    [minCharachters]="3" [maxCharachters]="constants.MAX_DESCRIPTION_ABOUT_LENGTH">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="PhotoFormGroup.get('description')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+  </app-validation-hint>
 </form>

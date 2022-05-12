@@ -13,7 +13,7 @@ export class ValidationConstants {
   //Description length
   static readonly MAX_DESCRIPTION_LENGTH_500 = 500;
   static readonly MAX_DESCRIPTION_LENGTH_300 = 300;
-  static readonly MAX_DESCRIPTION_LENGTH_1000 = 2000;
+  static readonly MAX_DESCRIPTION_LENGTH_2000 = 2000;
 
   //Input Length
   static readonly INPUT_LENGTH_256 = 256;

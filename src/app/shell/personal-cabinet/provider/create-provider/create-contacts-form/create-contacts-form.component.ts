@@ -4,6 +4,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-create-contacts-form',
@@ -22,19 +23,65 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      buildingNumber: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
+      ]),
+      city: new FormControl('', [
+        Validators.required,
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
+      ]),
+      district: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
+      ]),
+      region: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX)
+      ]),
     });
 
     this.ActualAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      buildingNumber: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
+      ]),
+      city: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
+      ]),
+      district: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
+      ]),
+      region: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX)
+      ]),
     });
   }
 
