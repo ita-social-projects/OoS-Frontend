@@ -46,6 +46,4 @@ export class ValidationTextField {
   static readonly CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT = "тільки кирилицю, цифри та символи ( ' - / , . )";
   static readonly CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER = "тільки латиницю, кирилицю, цифри та символи ( ` ' - №)";
   static readonly IPN = "Введіть 10 цифр з ІПН.У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр";
-
-
 }
