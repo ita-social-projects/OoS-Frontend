@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { UserState } from 'src/app/shared/store/user.state';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-create-child',
@@ -30,17 +31,15 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  child: Child;
+  readonly validationConstants = ValidationConstants;
 
+  child: Child;
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed: boolean = false;
-  isEmpty: boolean = true;
-  childrenMaxAmount = Constants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
-
   @Select(UserState.children)
   childrenCards$!: Observable<ChildCards[]>
 
@@ -65,20 +64,12 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.socialGroups$
     .pipe(
       takeUntil(this.destroy$),
-      ).subscribe((socialGroups: SocialGroup[]) => {
-        if (socialGroups.length === 0) {
-          this.store.dispatch(new GetSocialGroup());
-        }
-      });
+      filter((socialGroups)=> !socialGroups)
+      ).subscribe(() =>this.store.dispatch(new GetSocialGroup()));
 
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
-
-    this.ChildrenFormArray.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: FormGroup) => 
-      this.isEmpty = Boolean(!val[0].lastName || !val[0].firstName || !val[0].middleName || !val[0].dateOfBirth));
   }
 
   addNavPath(): void {
@@ -89,6 +80,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   }
 
   setEditMode(): void {
+    this.isAgreed = true
     const childId = this.route.snapshot.paramMap.get('param');
 
     this.childrenService.getUsersChildById(childId).pipe(
@@ -108,38 +100,38 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       lastName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX), 
-        Validators.minLength(1), 
-        Validators.maxLength(30)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       firstName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(1), 
-        Validators.maxLength(30)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       middleName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(1), 
-        Validators.maxLength(30)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
         Validators.pattern(TEXT_WITH_DIGITS_REGEX),
-        Validators.minLength(10), 
-        Validators.maxLength(256)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       certificateOfBirth: new FormControl('', [
         Validators.pattern(BIRTH_CERTIFICATE_REGEX),
-        Validators.minLength(10),
-        Validators.maxLength(20)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_10), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_20)
       ]),
       placeOfStudy: new FormControl('', [
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
-        Validators.minLength(10), 
-        Validators.maxLength(256)
+        Validators.pattern(BIRTH_CERTIFICATE_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ])
     });
 

@@ -5,6 +5,7 @@ import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { Constants } from 'src/app/shared/constants/constants'
 import { Util } from 'src/app/shared/utils/utils';
 import { DATE_REGEX } from 'src/app/shared/constants/regex-constants'
+import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-child-form',
@@ -12,6 +13,9 @@ import { DATE_REGEX } from 'src/app/shared/constants/regex-constants'
   styleUrls: ['./child-form.component.scss'],
 })
 export class ChildFormComponent implements OnInit {
+  readonly validationConstants = ValidationConstants;
+  readonly validationTextField = ValidationTextField;
+  readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
@@ -28,7 +32,7 @@ export class ChildFormComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  delete(): void {
+  onDelete(): void {
     this.deleteForm.emit(this.index);
   }
 }
