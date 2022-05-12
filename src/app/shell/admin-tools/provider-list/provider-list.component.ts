@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { GetAllProviders } from 'src/app/shared/store/admin.actions';
+import { ProviderAdminTitles } from 'src/app/shared/enum/enumUA/provider-admin';
 
 @Component({
   selector: 'app-provider-list',
@@ -25,6 +26,7 @@ export class ProviderListComponent implements OnInit {
   ];
 
   constructor(private store: Store, public providerService: ProviderService) {}
+  providerAdminTitles: ProviderAdminTitles;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
@@ -59,7 +61,7 @@ export class ProviderListComponent implements OnInit {
       id: '4',
       shortTitle: '1',
       fullTitle: 'Школа бальних танців',
-      ownership: 'Державна',
+      ownership: 'State',
       edrpouIpn: '3897653',
       legalAddress: {
         city: 'Київ',
