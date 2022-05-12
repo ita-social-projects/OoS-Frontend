@@ -35,8 +35,12 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id string
    */
-  getApplicationsByParentId(id: string): Observable<Application[]> {
-    return this.http.get<Application[]>(`/api/v1/Application/GetByParentId/${id}`);
+   getApplicationsByParentId(id: string, status): Observable<Application[]> {
+    const options = { params: this.setParams({
+      status: status,
+      workshopsId: []
+    }) };
+    return this.http.get<Application[]>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
 
   /**
