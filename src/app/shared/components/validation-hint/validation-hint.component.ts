@@ -24,7 +24,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
 
   //for Date Format Validation
   @Input() minMaxDate: boolean;
-
+  //for edrpouIpn Validation
+  @Input() edrpouIpn: boolean;
   //for Text Field Validation
   @Input() allowedCharacters: string;
 
