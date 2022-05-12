@@ -94,7 +94,14 @@
       </ng-container>
 
       <ng-container matColumnDef="status" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef>Статус</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by status"
+        >
+          Статус
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.status }}</td>
       </ng-container>
 
