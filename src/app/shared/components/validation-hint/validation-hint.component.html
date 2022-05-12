@@ -1,0 +1,34 @@
+<small appValidationMessageStyling>
+  <ng-container *ngIf = "invalid">
+    <ng-container *ngIf = "required; then requiredInputTmpl"></ng-container>
+    <ng-container *ngIf = "invalidText ; then invalidTextTmpl"></ng-container>
+    <ng-container *ngIf = "invalidLength; then invalidLengthTmpl"></ng-container>
+    <ng-container *ngIf = "minMaxDate && !invalidDateRange; then incorrectDateFieldTmpl"></ng-container>
+    <ng-container *ngIf = "minMaxDate && invalidDateRange; then invalidDateRangeTmpl"></ng-container>
+    <ng-container *ngIf = "invalidEmail; then invalidEmailTmpl"></ng-container>
+  </ng-container>
+</small>
+
+<ng-template #requiredInputTmpl>
+    Це поле є обов'язковим.
+</ng-template>
+
+<ng-template #invalidTextTmpl>
+    Перевірте введені дані. <br> Використовуйте, будь ласка, {{ allowedCharacters }}.
+</ng-template>
+
+<ng-template #invalidLengthTmpl>
+    Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів.
+</ng-template>
+
+<ng-template #incorrectDateFieldTmpl>
+    Перевірте введені данні. <br> Використовуйте "{{ dateFormPlaceholder }}" формат. Наприклад "20/10/2010".
+</ng-template>
+
+<ng-template #invalidDateRangeTmpl>
+    Перевірте введені данні. <br> Дата народження виходить за межі допустимих.
+</ng-template>
+
+<ng-template #invalidEmailTmpl >
+    Введіть коректний імейл.
+</ng-template> 
