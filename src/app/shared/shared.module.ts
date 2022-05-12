@@ -61,6 +61,8 @@ import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
 import { DeclinationPipe } from './pipes/declination.pipe';
 import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
+import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
+import { TrimValueDirective } from './directives/trim-value.directive';
 
 @NgModule({
   declarations: [
@@ -118,6 +120,8 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
     ProviderAdminsFilterPipe,
     DeclinationPipe,
     ApplicationChildSortingPipe,
+    ValidationHintComponent,
+    TrimValueDirective,
   ],
   imports: [
     MaterialModule,
@@ -183,7 +187,9 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
-    ApplicationChildSortingPipe
+    ApplicationChildSortingPipe,
+    ValidationHintComponent,
+    TrimValueDirective
   ]
 })
 export class SharedModule { }
