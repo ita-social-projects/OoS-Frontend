@@ -12,7 +12,6 @@ enum ValidatorsTypes {
 @Component({
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html',
-  styleUrls: ['./validation-hint.component.scss']
 })
 export class ValidationHintComponent implements OnInit, OnDestroy {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
