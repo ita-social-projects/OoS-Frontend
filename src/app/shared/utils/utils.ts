@@ -44,7 +44,7 @@ export class Util {
    * This method returns max birth date
    * @returns Date
    */
-   public static getMaxBirthDate(): Date {
+  public static getMaxBirthDate(): Date {
     const today = new Date();
 
     return today;
@@ -106,16 +106,4 @@ export class Util {
     };
     return dDisplay + hDisplay;
   }
-
-  /**
- * This method returns declension for new application
- * @param applicationAmount
- * @returns string
- */
-  public static getDeclensionNewApplication(applicationAmount: number): string {
-    let lastDigit = applicationAmount % 10;
-    let text = (lastDigit === 1) ? 'нова зміна у заявках' : 'нових змін у заявках';
-    return `У вас ${applicationAmount} ` + text;
-  }
-
 }

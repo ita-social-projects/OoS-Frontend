@@ -11,6 +11,10 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ApplicationChildSortingPipe } from 'src/app/shared/pipes/application-child-sorting.pipe';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -22,14 +26,16 @@ describe('ApplicationsComponent', () => {
         NgxsModule.forRoot([]),
         MatTabsModule,
         MatDialogModule,
-        MatMenuModule
-
+        MatMenuModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
       ],
       declarations: [
         ApplicationsComponent,
         InfoBoxHostDirective,
         MockApplicationCardComponent,
         ApplicationChildFilterPipe,
+        ApplicationChildSortingPipe,
         MockWorkshopChekcboxDropdownComponent,
         StatusInfoCardComponent,
         NoResultCardComponent
@@ -62,5 +68,6 @@ class MockApplicationCardComponent {
   template: ''
 })
 class MockWorkshopChekcboxDropdownComponent {
-  @Input() workshops: Workshop[];
+  @Input() entities: Workshop[];
+  @Input() declination: WorkshopDeclination
 }

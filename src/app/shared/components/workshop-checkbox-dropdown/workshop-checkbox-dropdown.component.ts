@@ -2,38 +2,57 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { WorkshopDeclination } from '../../enum/enumUA/declination';
+import { Child } from '../../models/child.model';
 import { WorkshopCard } from '../../models/workshop.model';
+import { DeclinationPipe } from '../../pipes/declination.pipe';
 
 @Component({
   selector: 'app-workshop-checkbox-dropdown',
   templateUrl: './workshop-checkbox-dropdown.component.html',
-  styleUrls: ['./workshop-checkbox-dropdown.component.scss']
+  styleUrls: ['./workshop-checkbox-dropdown.component.scss'],
+  providers: [DeclinationPipe]
 })
 export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
 
-  workshopControl = new FormControl();
-  workshopsId: string[];
+  entityControl = new FormControl();
+  ids: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  workshopDeclination = WorkshopDeclination;
 
-  @Input() workshops: WorkshopCard[];
-  @Input() dropdownContainerClass: string;
-  @Output() workshopCheck = new EventEmitter<string[]>();
+  @Input() entities: WorkshopCard[] | Child[];
+  @Input() declination;
+  @Output() entityCheck = new EventEmitter<string[]>();
+  Declination;
 
-  constructor() { }
+  constructor(private declinationPipe: DeclinationPipe) { }
 
   ngOnInit(): void {
-    this.workshopControl.valueChanges
+    this.entityControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),
-      ).subscribe((workshops: WorkshopCard[]) => {
-        this.workshopsId = workshops.map((workshop: WorkshopCard) => workshop.workshopId);
-        this.workshopCheck.emit(this.workshopsId);
+      ).subscribe((entities) => {
+        this.ids = entities.map((entity) => entity.workshopId || entity.id);
+        this.entityCheck.emit(this.ids);
       });
+    this.Declination = this.declination;
   }
+
+  getEntityTitle(entity): string {
+    return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title
+  };
+
+  getlabelTitle(quantity: number): string {
+    let allChildrenDeclination, allApplicationsDeclination;
+    if(this.Declination) {
+      allChildrenDeclination = this.Declination[4];
+      allApplicationsDeclination = this.Declination[1];
+    }
+    const allEntities =  allChildrenDeclination || allApplicationsDeclination;
+    const selectedEntities = this.declinationPipe.transform(quantity, this.Declination);
+    return quantity < 1 ? selectedEntities : `Усі ${allEntities}`;
+  };
+  
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

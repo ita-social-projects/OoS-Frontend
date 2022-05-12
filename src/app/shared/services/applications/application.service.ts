@@ -14,7 +14,7 @@ export class ApplicationService {
   private setParams(parameters): HttpParams {
     let params = new HttpParams();
 
-    if (parameters.status !== undefined) {
+    if (parameters.status) {
       params = params.set('Status', parameters.status);
     }
 
@@ -54,7 +54,7 @@ export class ApplicationService {
    * @param Workshop Workshop
    */
   createApplication(application: Application): Observable<object> {
-    return this.http.post('/api/v1/Application/Create', application, {observe: 'response'});
+    return this.http.post('/api/v1/Application/Create', application, { observe: 'response' });
   }
 
   /**
