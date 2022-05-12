@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 
 import { ValidationHintComponent } from './validation-hint.component';
 
@@ -16,6 +17,7 @@ describe('ValidationHintComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ValidationHintComponent);
     component = fixture.componentInstance;
+    component.validationFormControl = new FormControl('');
     fixture.detectChanges();
   });
 
