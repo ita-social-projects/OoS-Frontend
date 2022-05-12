@@ -19,9 +19,9 @@
       {{descriptionFormGroup.value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
     </label>
   </div>
-  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none" appTrimValue>
+  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none" >
     <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
-      formControlName="description" minlength="3" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}"></textarea>
+      formControlName="description" minlength="3" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}" appTrimValue></textarea>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="PhotoFormGroup.get('description')"

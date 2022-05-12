@@ -24,7 +24,7 @@ export enum OwnershipType {
 
 export enum OwnershipTypeUkr {
   State = 'Державна',
-  Common = 'Громадська організація',
+  Common = 'Комунальна',
   Private = 'Приватна',
 }
 

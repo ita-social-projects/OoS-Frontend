@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
@@ -18,7 +17,6 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 })
 export class CreatePhotoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
