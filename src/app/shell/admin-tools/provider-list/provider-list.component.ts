@@ -1,11 +1,14 @@
 import { Provider } from 'src/app/shared/models/provider.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { GetAllProviders } from 'src/app/shared/store/admin.actions';
 import { ProviderAdminTitles } from 'src/app/shared/enum/enumUA/provider-admin';
+import { MatSort, Sort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-provider-list',
@@ -13,8 +16,11 @@ import { ProviderAdminTitles } from 'src/app/shared/enum/enumUA/provider-admin';
   styleUrls: ['./provider-list.component.scss'],
 })
 export class ProviderListComponent implements OnInit {
-  displayedColumns = [
-    'title',
+  @Select(AdminState.providers)
+  providers$: Observable<Provider[]>;
+  
+  displayedColumns: string[] = [
+    'fullTitle',
     'ownership',
     'edrpouIpn',
     'licence',
@@ -24,20 +30,6 @@ export class ProviderListComponent implements OnInit {
     'status',
     'star',
   ];
-
-  constructor(private store: Store, public providerService: ProviderService) {}
-  providerAdminTitles: ProviderAdminTitles;
-
-  @Select(AdminState.providers)
-  providers$: Observable<Provider[]>;
-
-  ngOnInit() {
-    this.getAllProviders();
-  }
-
-  getAllProviders() {
-    this.store.dispatch(new GetAllProviders());
-  }
 
   providers: Provider[] = [
     {
@@ -89,4 +81,34 @@ export class ProviderListComponent implements OnInit {
       status: true,
     },
   ];
+
+  dataSource = new MatTableDataSource(this.providers);
+
+  constructor(
+    private store: Store,
+    public providerService: ProviderService,
+    private _liveAnnouncer: LiveAnnouncer
+  ) {}
+  providerAdminTitles: ProviderAdminTitles;
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngOnInit() {
+    this.getAllProviders();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
+  getAllProviders() {
+    this.store.dispatch(new GetAllProviders());
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 }

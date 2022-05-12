@@ -17,9 +17,16 @@
   </div>
 
   <div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="providers">
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Назва закладу</th>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="fullTitle">
+          <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by fullTitle"
+        >
+          Назва закладу
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.fullTitle }}</td>
       </ng-container>
 
