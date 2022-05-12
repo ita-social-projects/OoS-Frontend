@@ -5,14 +5,11 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationApproved, ApplicationLeft, ApplicationPending, ApplicationRejected } from 'src/app/shared/enum/enumUA/declinations/notification-declination';
 import { NotificationsConstants } from '../../../constants/constants';
-import { ApplicationStatus } from '../../../enum/applications';
-import { ApplicationTitles, ApplicationTitlesReverse } from '../../../enum/enumUA/applications';
-import { NotificationAction, NotificationType } from '../../../enum/notifications';
-import { Role } from '../../../enum/role';
+import { ApplicationTitlesReverse } from '../../../enum/enumUA/applications';
+import { NotificationType } from '../../../enum/notifications';
 import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
 import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
-import { RegistrationState } from '../../../store/registration.state';
 
 @Component({
   selector: 'app-notifications-list',
@@ -29,8 +26,6 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   readonly notificationsConstants = NotificationsConstants;
-  readonly declination = ApplicationPending;
-  // notifications.groupedData
 
 
   constructor(
@@ -89,8 +84,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
       break;
       case 'Left':
         declination = ApplicationLeft;
-        break;
-    
+        break;    
       default:
         declination = ApplicationPending;
         break;
