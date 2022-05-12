@@ -12,6 +12,9 @@ import { ValidationConstants, ValidationTextField } from 'src/app/shared/constan
   styleUrls: ['./create-contacts-form.component.scss']
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
+  readonly validationTextField = ValidationTextField;
+  
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);

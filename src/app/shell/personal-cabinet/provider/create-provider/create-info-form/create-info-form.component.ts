@@ -13,6 +13,8 @@ import { Util } from 'src/app/shared/utils/utils';
   styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit {
+  readonly validationConstants = ValidationConstants;
+  readonly validationTextField = ValidationTextField;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly phonePrefix= Constants.PHONE_PREFIX;
   

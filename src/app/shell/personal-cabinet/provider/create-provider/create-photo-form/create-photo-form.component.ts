@@ -17,8 +17,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
-
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
