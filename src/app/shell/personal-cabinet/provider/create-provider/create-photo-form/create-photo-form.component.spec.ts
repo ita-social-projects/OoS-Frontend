@@ -56,18 +56,15 @@ describe('CreatePhotoFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
-  @Input() maxLength: boolean;
-  @Input() minCharachters: number; 
-  @Input() maxCharachters: number; 
-  @Input() forbiddenCharacter: string;
+  @Input() validationFormControl: FormControl; 
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
+  @Input() allowedCharacters: string;
+  @Input() edrpouIpn: boolean;
 }
