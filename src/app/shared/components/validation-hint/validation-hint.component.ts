@@ -1,6 +1,6 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 
 enum ValidatorsTypes {
@@ -14,62 +14,64 @@ enum ValidatorsTypes {
   styleUrls: ['./validation-hint.component.scss']
 })
 export class ValidationHintComponent implements OnInit, OnDestroy {
+  @Input() validationFormControl: FormControl; //required for validation
 
-  @Input() validationFormControl: FormControl;
+  //for Length Validation
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
 
-  @Input() minCharachters;
-  @Input() maxCharachters;
+  //for Date Format Validation
+  @Input() minMaxDate: boolean;
 
-  forbiddenCharacters: boolean;
+  //for Text Field Validation
+  @Input() allowedCharacters: string;
+
   required: boolean;
   invalid: boolean;
+  invalidText: boolean;
   invalidLength: boolean;
   invalidDateRange: boolean;
+  invalidEmail: boolean;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  allowedSymbold;
-
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(
       debounceTime(200),
       takeUntil(this.destroy$)
     ).subscribe(()=>{
+      //Check is the field valid
       this.invalid = this.validationFormControl.invalid && this.validationFormControl.touched;
 
-      this.checkRequiredValidation();
-      this.checkValidTextField();
-      this.checkValidLength();
-      this.checkValidDateRange();
-      this.checkValidDateRange();
+      //Check is the field required and empty
+      this.required = !!this.validationFormControl.errors?.required && !this.validationFormControl.value;
 
+      //Check Date Picker Format
+      this.minMaxDate && this.checkMatDatePciker();
+
+      //Check errors from validators
+      this.checkValidationErrors(this.validationFormControl.errors);
     })
   }
-  checkRequiredValidation(): void {
-    this.required = !!this.validationFormControl.errors?.required;
+
+  private checkValidationErrors(errors: ValidationErrors): void {
+    this.invalidEmail = !!errors?.email;
+    this.invalidText = !!errors?.pattern?.requiredPattern;
+    this.invalidLength = !!(errors?.maxlength || errors?.minlength);
   }
 
-  checkValidTextField(): void {
-    this.forbiddenCharacters = !!this.validationFormControl.errors?.pattern?.requiredPattern;
-    // this.allowedSymbold = this.validationFormControl.errors?.pattern;
-
-  }
-
-  checkValidLength(): void {
-    this.invalidLength = !!(this.validationFormControl.errors?.maxLength || this.validationFormControl.errors?.minLength);
-  }
-
-  checkValidDateRange(): void {
-    this.invalidDateRange = !!(this.validationFormControl.errors?.matDatepickerMin || this.validationFormControl.errors?.matDatepickerMax);
+  private checkMatDatePciker(): void {
+    this.invalidDateRange = !!(
+        this.validationFormControl.hasError('matDatepickerMin') || 
+        this.validationFormControl.hasError('matDatepickerMax')
+      );
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }
 
-//[minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">

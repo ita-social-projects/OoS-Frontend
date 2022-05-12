@@ -2,11 +2,12 @@
   [ngClass]="(childrenAmount>1) ? 'step-border' : ''">
 
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
-  <mat-form-field (click)="show()">
+  <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('lastName')"
+    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
   </app-validation-hint>
@@ -17,6 +18,7 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('firstName')"
+    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
   </app-validation-hint>
@@ -27,6 +29,7 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('middleName')"
+    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_30">
   </app-validation-hint>
@@ -38,7 +41,9 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="ChildFormGroup.get('dateOfBirth')">
+      [validationFormControl]="ChildFormGroup.get('dateOfBirth')" 
+      minMaxDate="true"
+    >
   </app-validation-hint>
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
@@ -67,6 +72,7 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
+    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_256">
   </app-validation-hint>
@@ -77,6 +83,7 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
+    [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.MIN_INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_256">
   </app-validation-hint>
@@ -87,6 +94,7 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
+    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.MIN_INPUT_LENGTH_10"
     [maxCharachters]="validationConstants.MAX_INPUT_LENGTH_20">
   </app-validation-hint>

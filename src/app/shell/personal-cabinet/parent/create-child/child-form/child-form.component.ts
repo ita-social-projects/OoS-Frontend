@@ -1,3 +1,4 @@
+import { ValidationTextField } from './../../../../../shared/constants/validation';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
@@ -12,6 +13,7 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 export class ChildFormComponent {
   readonly validationConstants = ValidationConstants;
+  readonly validationTextField = ValidationTextField;
 
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
@@ -28,9 +30,5 @@ export class ChildFormComponent {
 
   onDelete(): void {
     this.deleteForm.emit(this.index);
-  }
-
-  show(){
-    console.log(this.ChildFormGroup)
   }
 }
