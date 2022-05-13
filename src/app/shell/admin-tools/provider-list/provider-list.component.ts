@@ -9,6 +9,7 @@ import { ProviderAdminTitles } from 'src/app/shared/enum/enumUA/provider-admin';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
@@ -16,6 +17,8 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./provider-list.component.scss'],
 })
 export class ProviderListComponent implements OnInit {
+  OwnershipTypeUkr: OwnershipTypeUkr;
+
   @Select(AdminState.providers)
   providers$$: Observable<Provider[]>;
 
