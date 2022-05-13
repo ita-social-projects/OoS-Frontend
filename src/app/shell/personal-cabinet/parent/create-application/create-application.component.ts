@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetAllUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetAllUsersChildren, GetStatusForNewApplication, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -32,9 +32,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   readonly CardType = cardType;
 
   @Select(UserState.children) children$: Observable<ChildCards>;
+  @Select(UserState.isAllowNewApplication) isAllowNewApplication$: Observable<boolean>;
   @Select(RegistrationState.user) user$: Observable<User>;
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
+  isAllowNewApplication: boolean;
 
   ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
@@ -96,6 +98,16 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  /**
+   * This method check ability to create new Application
+   */
+  checkAbilityToChildApply(): void {
+    this.store.dispatch(new GetStatusForNewApplication({
+      workshopId: this.workshopId,
+      childId: this.selectedChild.id
+    }))
   }
 
   /**

@@ -83,6 +83,7 @@ import {
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
+  GetStatusForNewApplication,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -100,6 +101,7 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
+  isAllowNewApplication: boolean;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -117,6 +119,7 @@ export interface UserStateModel {
       isActive: true
     },
     providerAdmins: null,
+    isAllowNewApplication: false
   }
 })
 @Injectable()
@@ -148,6 +151,9 @@ export class UserState {
 
   @Selector()
   static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
+
+  @Selector()
+  static isAllowNewApplication(state: UserStateModel): boolean { return state.isAllowNewApplication; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -460,6 +466,16 @@ export class UserState {
     console.log('Application is created', payload);
     dispatch(new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }));
     this.router.navigate(['']);
+  }
+
+  @Action(GetStatusForNewApplication)
+  getStatusForNewApplication({ patchState }: StateContext<UserStateModel>, { payload }: GetStatusForNewApplication): Observable<boolean> {
+    return this.applicationService
+      .getStatusForNewApplication(payload.workshopId, payload.childId)
+      .pipe(
+        tap((status: boolean) => {
+          return patchState({ isAllowNewApplication: status });
+        }));
   }
 
   @Action(DeleteChildById)

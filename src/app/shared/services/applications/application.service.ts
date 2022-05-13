@@ -50,6 +50,20 @@ export class ApplicationService {
   }
 
   /**
+ * This method check if allowed to apply child to the worshop
+ * @param workshopId string
+ * @param childId string
+ */
+   getStatusForNewApplication(workshopId: string, childId: string): Observable<boolean> {
+
+    let params = new HttpParams();
+    params = params.set('childId', childId);
+    params = params.set('workshopId', workshopId);
+
+    return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, { params });
+  }
+
+  /**
    * This method create Application
    * @param Workshop Workshop
    */
