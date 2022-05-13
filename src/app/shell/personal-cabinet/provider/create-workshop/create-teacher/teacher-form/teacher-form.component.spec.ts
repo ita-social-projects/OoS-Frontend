@@ -69,3 +69,4 @@ class MockValidationHintForInputComponent {
   @Input() minMaxDate: boolean;
   @Input() allowedCharacters: string;
 }
+

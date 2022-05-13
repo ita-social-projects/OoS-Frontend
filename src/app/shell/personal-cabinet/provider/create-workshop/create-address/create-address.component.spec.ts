@@ -38,6 +38,7 @@ describe('CreateAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAddressComponent);
     component = fixture.componentInstance;
+    component.AddressFormGroup = new FormGroup({});
     fixture.detectChanges();
   });
 
@@ -68,6 +69,7 @@ class MockValidationHintForInputComponent {
   @Input() minMaxDate: boolean;
   @Input() allowedCharacters: string;
 }
+
 
 @Component({
   selector: 'app-city-autocomplete',

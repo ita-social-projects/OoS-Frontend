@@ -48,6 +48,7 @@ describe('CreateDescriptionFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateDescriptionFormComponent);
     component = fixture.componentInstance;
+    component.DescriptionFormGroup = new FormGroup({});
     fixture.detectChanges();
   });
 
@@ -77,3 +78,4 @@ class MockValidationHintForInputComponent {
   @Input() minMaxDate: boolean;
   @Input() allowedCharacters: string;
 }
+
