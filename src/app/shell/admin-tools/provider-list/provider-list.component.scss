@@ -71,8 +71,7 @@ table {
   width: 800px;
 }
 
-td.mat-cell {
-  width: fit-content;
+td.mat-cell, th.mat-cell {
   padding-right: 10px;
 }
 
