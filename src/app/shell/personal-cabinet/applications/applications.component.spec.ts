@@ -14,7 +14,7 @@ import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationChildSortingPipe } from 'src/app/shared/pipes/application-child-sorting.pipe';
-import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
