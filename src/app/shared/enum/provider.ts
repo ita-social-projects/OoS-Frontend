@@ -46,3 +46,10 @@ export enum createProviderSteps {
   'description'
 }
 
+export enum ProviderWorkshopSameValues {
+  email = 'email',
+  phone = 'phoneNumber',
+  website = 'website',
+  facebook = 'facebook',
+  instagram = 'instagram'
+}
