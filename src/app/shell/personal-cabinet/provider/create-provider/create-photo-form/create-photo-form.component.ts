@@ -24,7 +24,6 @@ export class CreatePhotoFormComponent implements OnInit {
   PhotoFormGroup: FormGroup;
   descriptionFormGroup: FormControl = new FormControl('', [
     Validators.required, 
-    Validators.pattern(TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX),
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
     Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
   ]);
