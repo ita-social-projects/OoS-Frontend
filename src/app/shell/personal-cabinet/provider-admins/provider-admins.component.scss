@@ -11,12 +11,16 @@ position: relative;
 .search {
   padding-left: 10px;
 }
+:host ::ng-deep .mat-form-field-infix {
+  border: none;
+  display: flex;
+}
 .search-area {
   display: flex;
   justify-content: flex-end;
   z-index: 1000;
   position: absolute;
-  right: 12px
+  right: 12px;
 }
 @media (max-width: 1070px) {
   .tab-wrapper {
@@ -62,8 +66,15 @@ position: relative;
     border: none;
     height: 100%;
   }
+  input {
+    font-weight: normal;
+    line-height: 22px;
+    color: #161414;
+    opacity: 0.4;
+    text-overflow: ellipsis;
+  }
   :host ::ng-deep .mat-form-field-wrapper {
-    padding: 0;
+    padding: 0 0.25rem 0 0;
   }
   :host ::ng-deep .mat-form-field-infix {
     border: none;
