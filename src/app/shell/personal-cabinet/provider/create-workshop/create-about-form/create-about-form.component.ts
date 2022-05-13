@@ -86,18 +86,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   private onPriceCtrlInit(): void {
-    const setValue = (price: number, action: string) => {
-      this.AboutFormGroup.get('price')[action]();
-      this.AboutFormGroup.get('price').setValue(price);
-    };
-
     this.priceRadioBtn.valueChanges
       .pipe(
         takeUntil(this.destroy$),
       ).subscribe((isPrice: boolean) => {
-        isPrice ? setValue(ValidationConstants.MIN_PRICE, 'enable') : setValue(0, 'disable');
+        isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
       });
   }
+
+  private setPriceControlValue = (price: number = 0, action: string = 'disable') => {
+    this.AboutFormGroup.get('price')[action]();
+    this.AboutFormGroup.get('price').setValue(price);
+  };
+
   /**
    * This method create new FormGroup add new FormGroup to the FormArray
    */
@@ -138,6 +139,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control([this.workshop.coverImageId]));
+    }
+    if(this.workshop.price){
+      this.setPriceControlValue(this.workshop.price, 'enable');
     }
   }
 

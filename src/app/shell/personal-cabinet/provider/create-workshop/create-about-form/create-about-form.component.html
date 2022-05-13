@@ -51,7 +51,7 @@
     <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="AboutFormGroup.get('website')"
+    [validationFormControl]="AboutFormGroup.get('facebook')"
     [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
@@ -62,7 +62,7 @@
     <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="AboutFormGroup.get('website')"
+    [validationFormControl]="AboutFormGroup.get('instagram')"
     [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
