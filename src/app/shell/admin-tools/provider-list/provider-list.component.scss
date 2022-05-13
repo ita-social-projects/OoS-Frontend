@@ -6,6 +6,9 @@
   justify-content: space-between;
   margin-bottom: 20px;
   align-items: center;
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
 }
 .search {
   padding-left: 10px;
@@ -16,16 +19,12 @@
 }
 .search-bar {
   width: 26rem;
-  padding-left: 16px;
+  padding: 8px 15px;
   background: #ffffff;
   border: 1px solid #ffffff;
   box-sizing: border-box;
   border-radius: 60px;
-  margin: 0.125rem 0;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  .mat-form-field {
-    width: 100%;
-  }
 }
 .search-icon {
   color: #aaaaaa;
@@ -42,6 +41,9 @@
   box-sizing: border-box;
   height: 34px;
   font-weight: 600;
+  @media (max-width: 767px) {
+    margin-top: 15px;
+  }
 
   &:hover {
     background-color: #5866fa;
@@ -69,12 +71,18 @@ table {
   width: 800px;
 }
 
+td.mat-cell {
+  width: fit-content;
+  padding-right: 10px;
+}
+
 td.mat-column-star {
   width: 20px;
   padding-right: 8px;
 }
 
-th.mat-column-position, td.mat-column-position {
+th.mat-column-position,
+td.mat-column-position {
   padding-left: 8px;
 }
 

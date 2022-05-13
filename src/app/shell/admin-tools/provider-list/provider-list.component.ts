@@ -18,7 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ProviderListComponent implements OnInit {
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
-  
+
   displayedColumns: string[] = [
     'fullTitle',
     'ownership',
@@ -27,6 +27,9 @@ export class ProviderListComponent implements OnInit {
     'city',
     'address',
     'director',
+    'email',
+    'website',
+    'shortTitle',
     'status',
     'star',
   ];
@@ -45,8 +48,9 @@ export class ProviderListComponent implements OnInit {
         buildingNumber: '1',
       },
       director: 'Антонів',
-      email: '',
+      email: 'qw@we',
       status: true,
+      website: 'http://localhost:4200/#/admin-tools/provider-list',
     },
     {
       userId: '3',
@@ -63,6 +67,7 @@ export class ProviderListComponent implements OnInit {
       director: 'Ярко',
       email: '',
       status: true,
+      website: 'http://localhost:4200/#/admin-tools/provider-list',
     },
     {
       userId: '2',
@@ -79,6 +84,7 @@ export class ProviderListComponent implements OnInit {
       director: 'Лесів',
       email: '',
       status: true,
+      website: 'http://localhost:4200/#/admin-tools/provider-list',
     },
   ];
 
