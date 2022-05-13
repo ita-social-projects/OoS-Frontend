@@ -1,22 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-
-
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 @Component({
   selector: 'app-create-teacher',
   templateUrl: './create-teacher.component.html',
   styleUrls: ['./create-teacher.component.scss']
 })
 export class CreateTeacherComponent implements OnInit {
-
   TeacherFormArray: FormArray = new FormArray([]);
+
   @Input() teachers: Teacher[];
   @Input() isRelease2: boolean;
+
   @Output() passTeacherFormArray = new EventEmitter();
 
   constructor(private fb: FormBuilder, private matDialog: MatDialog) { }
@@ -24,8 +24,6 @@ export class CreateTeacherComponent implements OnInit {
   ngOnInit(): void {
     if (this.teachers?.length) {
       this.teachers.forEach((teahcer: Teacher) => this.onAddTeacher(teahcer));
-    } else {
-      this.onAddTeacher();
     }
   }
 
@@ -44,11 +42,30 @@ export class CreateTeacherComponent implements OnInit {
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
       avatarImage: new FormControl(''),
-      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      lastName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      firstName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      middleName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(TEXT_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
       dateOfBirth: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300)
+      ]),
     });
 
     if (teacher) {
@@ -71,10 +88,9 @@ export class CreateTeacherComponent implements OnInit {
    * @param index: number
    */
   onDeleteForm(index: number): void {
-    const status: string = this.TeacherFormArray.controls[index].status;
-    const isTouched: boolean = this.TeacherFormArray.controls[index].touched;
+    const  teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
 
-    if (status !== 'INVALID' || isTouched) {
+    if (teacherFormGroup.invalid || teacherFormGroup.touched) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: {
@@ -83,11 +99,8 @@ export class CreateTeacherComponent implements OnInit {
         }
       });
 
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        result && this.TeacherFormArray.removeAt(index);
-      });
-    }
-    else {
+      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
+    } else {
       this.TeacherFormArray.removeAt(index);
     }
   }

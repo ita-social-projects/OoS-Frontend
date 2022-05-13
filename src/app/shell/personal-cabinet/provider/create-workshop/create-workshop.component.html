@@ -66,7 +66,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button [disabled]="(isLoading$ | async)" class="btn" mat-button type="submit"
+          <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
             (click)="onSubmit()">Завершити</button>
         </div>
       </mat-step>

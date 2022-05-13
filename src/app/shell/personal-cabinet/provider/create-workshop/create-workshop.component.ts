@@ -65,15 +65,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit(): void {
-    if (this.TeacherFormArray.invalid) {
-      this.checkTeacherFormArrayValidation();
-    } else {
-      const address: Address = new Address(this.AddressFormGroup.value);
-      const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
-      const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
-      const aboutInfo = this.AboutFormGroup.getRawValue();
-      const descInfo = this.DescriptionFormGroup.getRawValue();
+    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    const address: Address = new Address(this.AddressFormGroup.value);
+    const aboutInfo = this.AboutFormGroup.getRawValue();
+    const descInfo = this.DescriptionFormGroup.getRawValue();
+    const teachers = this.createTeachers();
 
       let workshop: Workshop;
 
@@ -84,7 +80,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
         this.store.dispatch(new CreateWorkshop(workshop));
       }
-    }
   }
 
   /**
@@ -127,12 +122,14 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method create array of teachers
    * @param FormArray formArray
    */
-  private createTeachers(formArray: FormArray): Teacher[] {
+  private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
-    formArray.controls.forEach((form: FormGroup) => {
-      const teacher: Teacher = new Teacher(form.value);
-      teachers.push(teacher);
-    });
+    if(!this.TeacherFormArray.controls) {
+      this.TeacherFormArray.controls.forEach((form: FormGroup) => {
+        const teacher: Teacher = new Teacher(form.value);
+        teachers.push(teacher);
+      });
+    }
     return teachers;
   }
 
@@ -159,10 +156,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     }
   }
 
-  /**
-   * This method marks each control of form in the array of teachers' forms as touched
-   */
-  private checkTeacherFormArrayValidation(): void {
-    Object.keys(this.TeacherFormArray.controls).forEach(key => this.checkValidation(this.TeacherFormArray.get(key) as FormGroup));
-  }
+  // /**
+  //  * This method marks each control of form in the array of teachers' forms as touched
+  //  */
+  // private checkTeacherFormArrayValidation(): void {
+  //   Object.keys(this.TeacherFormArray.controls).forEach(key => this.checkValidation(this.TeacherFormArray.get(key) as FormGroup));
+  // }
 }
