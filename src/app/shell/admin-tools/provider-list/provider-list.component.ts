@@ -30,6 +30,9 @@ export class ProviderListComponent implements OnInit {
     'email',
     'website',
     'shortTitle',
+    'phoneNumber',
+    'founder',
+    'actualAddress',
     'status',
     'star',
   ];
@@ -38,7 +41,7 @@ export class ProviderListComponent implements OnInit {
     {
       userId: '1',
       id: '1',
-      shortTitle: '1',
+      shortTitle: 'dnu',
       fullTitle: 'ДНУ ім.Гончара',
       ownership: 'Державна',
       edrpouIpn: '9897653',
@@ -50,12 +53,19 @@ export class ProviderListComponent implements OnInit {
       director: 'Антонів',
       email: 'qw@we',
       status: true,
-      website: 'http://localhost:4200/#/admin-tools/provider-list',
+      website: 'google.com',
+      phoneNumber: '777777777777777',
+      founder: '',
+      actualAddress: {
+        city: 'Київ',
+        street: 'вул.Фокосовського',
+        buildingNumber: '5',
+      },
     },
     {
       userId: '3',
       id: '4',
-      shortTitle: '1',
+      shortTitle: 'balni dance',
       fullTitle: 'Школа бальних танців',
       ownership: 'State',
       edrpouIpn: '3897653',
@@ -67,7 +77,14 @@ export class ProviderListComponent implements OnInit {
       director: 'Ярко',
       email: '',
       status: true,
-      website: 'http://localhost:4200/#/admin-tools/provider-list',
+      website: 'google.com',
+      phoneNumber: '777777777777777',
+      founder: '',
+      actualAddress: {
+        city: 'Київ',
+        street: 'вул.Фокосовського',
+        buildingNumber: '5',
+      },
     },
     {
       userId: '2',
@@ -84,7 +101,14 @@ export class ProviderListComponent implements OnInit {
       director: 'Лесів',
       email: '',
       status: true,
-      website: 'http://localhost:4200/#/admin-tools/provider-list',
+      website: 'google.com',
+      phoneNumber: '777777777777',
+      founder: '',
+      actualAddress: {
+        city: 'Київ',
+        street: 'вул.Фокосовського',
+        buildingNumber: '5',
+      },
     },
   ];
 
