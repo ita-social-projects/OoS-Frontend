@@ -67,16 +67,12 @@
   overflow: auto;
 }
 
-table {
-  width: 800px;
-}
-
 td.mat-cell, th.mat-cell {
   padding-right: 10px;
 }
 
 td.mat-column-star {
-  width: 20px;
+  width: 18px;
   padding-right: 8px;
 }
 
@@ -93,6 +89,7 @@ td.mat-column-position {
   border-right: 1px solid #e0e0e0;
 }
 
-th.mat-sort-header-sorted {
-  color: black;
-}
+// th.mat-sort-header-sorted {
+//   color: black;
+// }
+
