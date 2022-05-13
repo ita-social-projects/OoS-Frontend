@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAboutFormComponent } from './create-about-form.component';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -67,16 +67,14 @@ describe('CreateAboutFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
+  @Input() validationFormControl: FormControl; 
   @Input() minCharachters: number;
-  @Input() forbiddenCharacter: string;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
+  @Input() allowedCharacters: string;
 }

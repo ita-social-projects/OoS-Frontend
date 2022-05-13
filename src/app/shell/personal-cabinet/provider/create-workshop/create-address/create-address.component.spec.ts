@@ -1,7 +1,7 @@
 import { City } from 'src/app/shared/models/city.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAddressComponent } from './create-address.component';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -57,18 +57,16 @@ class MockMapComponent {
 }
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
+  @Input() validationFormControl: FormControl; 
   @Input() minCharachters: number;
-  @Input() forbiddenCharacter: string;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
+  @Input() allowedCharacters: string;
 }
 
 @Component({
