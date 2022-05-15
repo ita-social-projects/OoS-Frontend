@@ -1,4 +1,4 @@
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -30,7 +30,7 @@ export class AddDepartmentFormComponent {
     private router: Router,
     private formBuilder: FormBuilder) {
     this.departmentFormGroup = this.formBuilder.group({
-     title: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
+     title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
     });
   }
 
