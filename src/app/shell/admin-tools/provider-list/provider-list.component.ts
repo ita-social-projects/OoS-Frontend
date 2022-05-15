@@ -26,7 +26,7 @@ export class ProviderListComponent implements OnInit {
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([null]);
 
   providers: Provider[] = [
     {
@@ -147,8 +147,6 @@ export class ProviderListComponent implements OnInit {
       website: 'http://taniecstudio.pl/',
     },
   ];
-
-  // dataSource = new MatTableDataSource(this.providers);
 
   constructor(
     private store: Store,
