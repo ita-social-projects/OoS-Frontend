@@ -20,7 +20,7 @@ export class ProviderListComponent implements OnInit {
   OwnershipTypeUkr: OwnershipTypeUkr;
 
   @Select(AdminState.providers)
-  providers$$: Observable<Provider[]>;
+  providers$: Observable<Provider[]>;
 
   displayedColumns: string[] = [
     'fullTitle',
@@ -40,7 +40,7 @@ export class ProviderListComponent implements OnInit {
     'star',
   ];
 
-  providers$: Provider[] = [
+  providers: Provider[] = [
     {
       userId: '1',
       actualAddress: {
@@ -160,7 +160,7 @@ export class ProviderListComponent implements OnInit {
     },
   ];
 
-  dataSource = new MatTableDataSource(this.providers$);
+  dataSource = new MatTableDataSource(this.providers);
 
   constructor(
     private store: Store,
