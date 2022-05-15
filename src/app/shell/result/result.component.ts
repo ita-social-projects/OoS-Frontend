@@ -13,7 +13,7 @@ import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@an
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
 enum ViewType {
   map = 'map',
