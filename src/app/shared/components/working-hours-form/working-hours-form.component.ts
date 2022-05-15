@@ -1,11 +1,8 @@
-import { takeUntil } from 'rxjs/operators';
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Constants, WorkingDaysValues } from '../../constants/constants';
-import { ValidationConstants } from '../../constants/validation';
 import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -68,10 +65,5 @@ export class WorkingHoursFormComponent implements OnInit {
         }
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
