@@ -9,7 +9,7 @@ import { ProviderAdminTitles } from 'src/app/shared/enum/enumUA/provider-admin';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { OwnershipUkr } from 'src/app/shared/enum/provider';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
@@ -19,14 +19,14 @@ import { Constants } from 'src/app/shared/constants/constants';
 })
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
-  ownershipTypeUkr: OwnershipTypeUkr;
-  readonly providerAdminTitles: ProviderAdminTitles;
+  readonly OwnershipUkr: OwnershipUkr;
+  // readonly providerAdminTitles: ProviderAdminTitles;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([null]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{} || null]);
 
   providers: Provider[] = [
     {
