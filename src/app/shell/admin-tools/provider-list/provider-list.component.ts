@@ -25,23 +25,8 @@ export class ProviderListComponent implements OnInit {
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
-  displayedColumns: string[] = [
-    'fullTitle',
-    'ownership',
-    'edrpouIpn',
-    'licence',
-    'city',
-    'address',
-    'director',
-    'email',
-    'website',
-    'shortTitle',
-    'phoneNumber',
-    'founder',
-    'actualAddress',
-    'status',
-    'star',
-  ];
+  displayedColumns: string[];
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   providers: Provider[] = [
     {
@@ -163,7 +148,7 @@ export class ProviderListComponent implements OnInit {
     },
   ];
 
-  dataSource = new MatTableDataSource(this.providers);
+  // dataSource = new MatTableDataSource(this.providers);
 
   constructor(
     private store: Store,
@@ -174,6 +159,25 @@ export class ProviderListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllProviders();
+
+    this.displayedColumns = [
+      'fullTitle',
+      'ownership',
+      'edrpouIpn',
+      'licence',
+      'city',
+      'address',
+      'director',
+      'email',
+      'website',
+      'shortTitle',
+      'phoneNumber',
+      'founder',
+      'actualAddress',
+      'status',
+      'star',
+    ];
+    this.dataSource = new MatTableDataSource(this.providers);
   }
 
   ngAfterViewInit() {
