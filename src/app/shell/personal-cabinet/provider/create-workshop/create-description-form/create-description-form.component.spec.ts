@@ -49,8 +49,12 @@ describe('CreateDescriptionFormComponent', () => {
     fixture = TestBed.createComponent(CreateDescriptionFormComponent);
     component = fixture.componentInstance;
     component.DescriptionFormGroup = new FormGroup({
-      disabilityOptionsDesc: new FormControl(''),
+      imageFiles: new FormControl(''),
       description: new FormControl(''),
+      disabilityOptionsDesc: new FormControl(''),
+      head: new FormControl(''),
+      keyWords: new FormControl(''),
+      categories: new FormControl('')
     });
     fixture.detectChanges();
   });

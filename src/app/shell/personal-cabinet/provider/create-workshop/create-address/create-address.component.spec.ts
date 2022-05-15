@@ -40,7 +40,10 @@ describe('CreateAddressComponent', () => {
     fixture = TestBed.createComponent(CreateAddressComponent);
     component = fixture.componentInstance;
     component.AddressFormGroup = new FormGroup({
-      street: new FormControl('')
+      street: new FormControl(''),
+      buildingNumber: new FormControl(''),
+      city: new FormControl(''),
+      longitude: new FormControl(''),
     });
     fixture.detectChanges();
   });

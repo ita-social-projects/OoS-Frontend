@@ -45,7 +45,7 @@ describe('CreateAboutFormComponent', () => {
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
-        MockValidationHintComponent,
+        MockValidationHintAboutComponent,
         MinMaxDirective,
         MockWorkingHours
       ]
@@ -57,7 +57,21 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = { fullTitle: '' } as Provider;
-    component.AboutFormGroup = new FormGroup({});
+    component.AboutFormGroup = new FormGroup({
+      coverImage: new FormControl(''),
+      title: new FormControl(''),
+      phone: new FormControl(''),
+      email: new FormControl(''),
+      minAge: new FormControl(''),
+      maxAge: new FormControl(''),
+      image: new FormControl(''),
+      website: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      price: new FormControl(''),
+      workingHours: new FormControl(''),
+      isPerMonth: new FormControl(''),
+    });
     fixture.detectChanges();
   });
 
@@ -79,7 +93,7 @@ class MockWorkingHours {
   selector: 'app-validation-hint',
   template: ''
 })
-class MockValidationHintComponent {
+class MockValidationHintAboutComponent {
   @Input() validationFormControl: FormControl; //required for validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
