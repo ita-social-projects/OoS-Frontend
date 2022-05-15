@@ -30,7 +30,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
   invalid: boolean;
   invalidSymbols: boolean;
   invalidCharacters: boolean;
-
   invalidLength: boolean;
   invalidDateRange: boolean;
   invalidEmail: boolean;
@@ -70,8 +69,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    this.invalidSymbols = NAME_REGEX.test(requiredPattern);
-    this.invalidCharacters = NO_LATIN_REGEX.test(requiredPattern);
+    this.invalidSymbols = !NAME_REGEX.test(requiredPattern);
+    this.invalidCharacters = !NO_LATIN_REGEX.test(requiredPattern);
   }
 
   private checkMatDatePciker(): void {

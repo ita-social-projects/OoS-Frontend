@@ -7,7 +7,6 @@
     <ng-container *ngIf = "minMaxDate && !invalidDateRange; then incorrectDateFieldTmpl"></ng-container>
     <ng-container *ngIf = "minMaxDate && invalidDateRange; then invalidDateRangeTmpl"></ng-container>
     <ng-container *ngIf = "invalidEmail; then invalidEmailTmpl"></ng-container>
-    <ng-container *ngIf = "edrpouIpn; then invalideEdrpouIpnTmpl"></ng-container>
   </ng-container>
 </small>
 
@@ -16,7 +15,7 @@
 </ng-template>
 
 <ng-template #invalidSymbolsTmpl>
-  Перевірте введені дані, не використовуйте, будь ласка, спец. символи та цифри
+  Перевірте введені дані, використовуйте будь-ласка тільки кирилицю та символи ( ' - )
 </ng-template>
 
 <ng-template #requiredInputTmpl>
