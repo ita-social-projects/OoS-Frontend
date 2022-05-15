@@ -19,6 +19,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { WorkingHoursFormComponent } from 'src/app/shared/components/working-hours-form/working-hours-form.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { Component, Input } from '@angular/core';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -48,7 +49,8 @@ describe('CreateAboutFormComponent', () => {
         ImageFormControlComponent,
         WorkingHoursFormComponent,
         ValidationHintComponent,
-        MinMaxDirective
+        MinMaxDirective,
+        MockWorkingHours
       ]
     })
       .compileComponents();
@@ -66,3 +68,12 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-working-hours-form',
+  template: ''
+})
+class MockWorkingHours {
+  @Input() workingHoursForm: FormGroup;
+  @Input() index: number;
+  @Input() workingHoursAmount: number;
+}
