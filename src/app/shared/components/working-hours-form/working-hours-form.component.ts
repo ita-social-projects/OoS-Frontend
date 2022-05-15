@@ -58,7 +58,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : ValidationConstants.MAX_TIME;
   }
 
-  ondDelete(): void {
+  delete(): void {
     this.deleteWorkingHour.emit(this.workingHoursForm);
   }
 
