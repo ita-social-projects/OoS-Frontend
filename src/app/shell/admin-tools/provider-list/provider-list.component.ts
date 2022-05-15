@@ -21,6 +21,7 @@ export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
 
   OwnershipTypeUkr: OwnershipTypeUkr;
+  providerAdminTitles: ProviderAdminTitles;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
@@ -170,7 +171,6 @@ export class ProviderListComponent implements OnInit {
     public providerService: ProviderService,
     private _liveAnnouncer: LiveAnnouncer
   ) {}
-  providerAdminTitles: ProviderAdminTitles;
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
