@@ -10,6 +10,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
 import { CreateClass } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
