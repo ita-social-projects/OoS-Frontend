@@ -18,18 +18,18 @@
     <div>
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime" autocomplete="none">
-        <app-validation-hint-for-input type="requiredField"
-          [invalid]="workingHoursForm.get('startTime').invalid && workingHoursForm.get('startTime').touched">
-        </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="workingHoursForm.get('startTime').invalid && workingHoursForm.get('startTime').touched">
+      </app-validation-hint-for-input>
     </div>
     <p class="text">До</p>
     <div>
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerEnd" format="24" required formControlName="endTime" [min]="getMinTime()"
         autocomplete="none">
-        <app-validation-hint-for-input type="requiredField"
-          [invalid]="workingHoursForm.get('endTime').invalid && workingHoursForm.get('endTime').touched">
-        </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="requiredField"
+        [invalid]="workingHoursForm.get('endTime').invalid && workingHoursForm.get('endTime').touched">
+      </app-validation-hint-for-input>
     </div>
   </form>
 
