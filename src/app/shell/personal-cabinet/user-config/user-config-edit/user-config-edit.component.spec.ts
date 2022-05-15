@@ -59,7 +59,7 @@ describe('UserConfigEditComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation',
+  selector: 'app-validation-hint',
   template: ''
 })
 
