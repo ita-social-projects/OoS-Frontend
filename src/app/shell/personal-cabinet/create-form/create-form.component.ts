@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
@@ -18,8 +17,6 @@ import { UserState } from 'src/app/shared/store/user.state';
   template: '',
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
   @Select(UserState.isLoading)
