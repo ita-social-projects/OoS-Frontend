@@ -1,3 +1,4 @@
+import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAboutFormComponent } from './create-about-form.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +16,6 @@ import { ImageFormControlComponent } from '../../../../../shared/components/imag
 import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { WorkingHoursFormComponent } from 'src/app/shared/components/working-hours-form/working-hours-form.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
@@ -47,7 +47,7 @@ describe('CreateAboutFormComponent', () => {
         CreateAboutFormComponent,
         ImageFormControlComponent,
         WorkingHoursFormComponent,
-        MockValidationHintForInputComponent,
+        ValidationHintComponent,
         MinMaxDirective
       ]
     })
@@ -58,9 +58,7 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = { fullTitle: '' } as Provider;
-    component.AboutFormGroup = new FormGroup({
-      firstName: new FormControl('')
-    });
+    component.AboutFormGroup = new FormGroup({});
     fixture.detectChanges();
   });
 
@@ -68,15 +66,3 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-@Component({
-  selector: 'app-validation-hint',
-  template: ''
-})
-
-class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
-  @Input() minMaxDate: boolean;
-}
