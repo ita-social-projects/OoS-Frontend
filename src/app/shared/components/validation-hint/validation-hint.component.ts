@@ -69,8 +69,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    this.invalidSymbols = !NAME_REGEX.test(requiredPattern);
-    this.invalidCharacters = !NO_LATIN_REGEX.test(requiredPattern);
+    if(requiredPattern){
+      this.invalidSymbols = !NAME_REGEX.test(requiredPattern);
+      this.invalidCharacters = !NO_LATIN_REGEX.test(requiredPattern);
+    }
   }
 
   private checkMatDatePciker(): void {
