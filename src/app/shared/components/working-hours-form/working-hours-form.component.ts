@@ -1,7 +1,7 @@
 import { takeUntil } from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { WorkingDaysValues } from '../../constants/constants';
+import { Constants, WorkingDaysValues } from '../../constants/constants';
 import { ValidationConstants } from '../../constants/validation';
 import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
@@ -12,13 +12,12 @@ import { Subject } from 'rxjs';
   templateUrl: './working-hours-form.component.html',
   styleUrls: ['./working-hours-form.component.scss']
 })
-export class WorkingHoursFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-  readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+export class WorkingHoursFormComponent implements OnInit {
 
+  readonly constants: typeof Constants = Constants;
+  readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
@@ -31,9 +30,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.workingHoursForm.value?.workdays.length && this.activateEditMode();
 
-    this.workingHoursForm.valueChanges.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((timeRange: DateTimeRanges) => {
+    this.workingHoursForm.valueChanges.subscribe((timeRange: DateTimeRanges) => {
       if (timeRange.startTime > timeRange.endTime && timeRange.endTime) {
         this.workingHoursForm.get('endTime').reset();
       }
@@ -55,11 +52,11 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   getMinTime(): string {
-    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : ValidationConstants.MAX_TIME;
+    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : this.constants.MAX_TIME;
   }
 
   delete(): void {
-    this.deleteWorkingHour.emit(this.workingHoursForm);
+    this.deleteWorkingHour.emit();
   }
 
   activateEditMode(): void {
