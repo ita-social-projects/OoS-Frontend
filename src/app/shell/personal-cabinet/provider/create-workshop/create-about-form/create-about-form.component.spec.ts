@@ -17,7 +17,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
-import { WorkingHoursFormComponent } from 'src/app/shared/components/working-hours-form/working-hours-form.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 
@@ -47,7 +46,6 @@ describe('CreateAboutFormComponent', () => {
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
-        WorkingHoursFormComponent,
         ValidationHintComponent,
         MinMaxDirective,
         MockWorkingHours
