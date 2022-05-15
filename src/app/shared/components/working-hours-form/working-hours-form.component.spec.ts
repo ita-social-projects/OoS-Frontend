@@ -52,12 +52,16 @@ describe('WorkingHoursFormComponent', () => {
   });
 });
 @Component({
-  selector: 'app-validation-hint',
+  selector: 'app-validation-hint-for-input',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
+  @Input() type: string;
+  @Input() invalid: boolean;
+  @Input() isEmailCheck: boolean;
+  @Input() isEmptyCheck: boolean;
+  @Input() minLength: boolean;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
