@@ -1,4 +1,3 @@
-import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAboutFormComponent } from './create-about-form.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,7 +45,7 @@ describe('CreateAboutFormComponent', () => {
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
-        ValidationHintComponent,
+        MockValidationHintComponent,
         MinMaxDirective,
         MockWorkingHours
       ]
@@ -74,4 +73,15 @@ class MockWorkingHours {
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;
+}
+
+@Component({
+  selector: 'app-validation-hint',
+  template: ''
+})
+class MockValidationHintComponent {
+  @Input() validationFormControl: FormControl; //required for validation
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
 }
