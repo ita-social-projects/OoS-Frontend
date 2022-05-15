@@ -73,8 +73,7 @@
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Адреса</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.legalAddress.street }}
-          {{ element.legalAddress.buildingNumber }}
+          {{ element.legalAddress.street }} {{ element.legalAddress.buildingNumber }}
         </td>
       </ng-container>
 
@@ -167,7 +166,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <div style="display: flex">
-            <mat-icon>more_vert</mat-icon>
+            <a [matMenuTriggerFor]="actions"><mat-icon>more_vert</mat-icon></a>
             <mat-icon>remove_red_eye</mat-icon>
             <mat-icon>arrow_forward</mat-icon>
           </div>
