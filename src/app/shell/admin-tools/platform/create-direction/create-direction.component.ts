@@ -1,4 +1,4 @@
-import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -61,7 +61,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
     private newForm( ): FormGroup {
       const ClassFormGroup = this.fb.group({
-        title: new FormControl('', [Validators.required, Validators.pattern(NO_LATIN_REGEX)]),
+        title: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
       });
       return ClassFormGroup;
     }
