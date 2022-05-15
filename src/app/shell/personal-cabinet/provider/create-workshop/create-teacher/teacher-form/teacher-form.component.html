@@ -11,7 +11,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="TeacherFormGroup.get('lastName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -23,7 +22,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="TeacherFormGroup.get('firstName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -34,7 +32,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="TeacherFormGroup.get('middleName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>

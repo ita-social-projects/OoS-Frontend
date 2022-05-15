@@ -1,3 +1,4 @@
+import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,9 +9,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
 import { CreateClass } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
@@ -62,7 +61,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
     private newForm( ): FormGroup {
       const ClassFormGroup = this.fb.group({
-        title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+        title: new FormControl('', [Validators.required, Validators.pattern(NO_LATIN_REGEX)]),
       });
       return ClassFormGroup;
     }

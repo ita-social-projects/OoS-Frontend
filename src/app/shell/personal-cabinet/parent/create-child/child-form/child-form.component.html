@@ -7,7 +7,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('lastName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -18,7 +17,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('firstName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -29,7 +27,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('middleName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -71,7 +68,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
@@ -82,7 +78,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
-    [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
@@ -93,7 +88,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_20">
   </app-validation-hint>

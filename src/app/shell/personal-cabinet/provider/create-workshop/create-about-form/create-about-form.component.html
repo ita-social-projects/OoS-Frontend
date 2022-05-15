@@ -41,7 +41,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AboutFormGroup.get('website')"
-    [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
@@ -52,7 +51,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AboutFormGroup.get('facebook')"
-    [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
@@ -63,7 +61,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AboutFormGroup.get('instagram')"
-    [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>

@@ -8,7 +8,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('district')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>
@@ -19,7 +18,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('city')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>
@@ -30,7 +28,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('region')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN">
   </app-validation-hint>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
@@ -39,7 +36,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('street')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -50,7 +46,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('buildingNumber')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>
@@ -73,7 +68,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ActualAddressFormGroup.get('district')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>
@@ -84,7 +78,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ActualAddressFormGroup.get('city')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>
@@ -95,7 +88,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ActualAddressFormGroup.get('region')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN">
   </app-validation-hint>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
@@ -104,7 +96,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ActualAddressFormGroup.get('street')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -115,7 +106,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ActualAddressFormGroup.get('buildingNumber')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>

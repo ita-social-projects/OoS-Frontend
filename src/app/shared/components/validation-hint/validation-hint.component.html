@@ -1,22 +1,26 @@
 <small appValidationMessageStyling>
   <ng-container *ngIf = "invalid">
     <ng-container *ngIf = "required; then requiredInputTmpl"></ng-container>
-    <ng-container *ngIf = "invalidText ; then invalidTextTmpl"></ng-container>
+    <ng-container *ngIf = "invalidCharacters ; then invalidCharactersTmpl"></ng-container>
+    <ng-container *ngIf = "invalidSymbols ; then invalidSymbolsTmpl"></ng-container>
     <ng-container *ngIf = "invalidLength; then invalidLengthTmpl"></ng-container>
     <ng-container *ngIf = "minMaxDate && !invalidDateRange; then incorrectDateFieldTmpl"></ng-container>
     <ng-container *ngIf = "minMaxDate && invalidDateRange; then invalidDateRangeTmpl"></ng-container>
     <ng-container *ngIf = "invalidEmail; then invalidEmailTmpl"></ng-container>
     <ng-container *ngIf = "edrpouIpn; then invalideEdrpouIpnTmpl"></ng-container>
-
   </ng-container>
 </small>
 
-<ng-template #requiredInputTmpl>
-  Це поле є обов'язковим.
+<ng-template #invalidCharactersTmpl>
+  Перевірте введені дані, використовуйте будь-ласка тільки кирилицю
 </ng-template>
 
-<ng-template #invalidTextTmpl>
-  Перевірте введені дані. <br> Використовуйте, будь ласка, {{ allowedCharacters }}.
+<ng-template #invalidSymbolsTmpl>
+  Перевірте введені дані, не використовуйте, будь ласка, спец. символи та цифри
+</ng-template>
+
+<ng-template #requiredInputTmpl>
+  Це поле є обов'язковим.
 </ng-template>
 
 <ng-template #invalidLengthTmpl>
@@ -34,7 +38,3 @@
 <ng-template #invalidEmailTmpl >
     Введіть коректний імейл.
 </ng-template> 
-
-<ng-template #invalideEdrpouIpnTmpl>
-  Введіть 10 цифр з ІПН. <br> У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр 
-</ng-template>

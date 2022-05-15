@@ -2,10 +2,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { WEB_INST_FB_REGEX } from 'src/app/shared/constants/regex-constants';
-import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
@@ -20,7 +19,6 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix= Constants.PHONE_PREFIX;
@@ -56,15 +54,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       maxAge: new FormControl('', [Validators.required]),
       image: new FormControl(''),
       website: new FormControl('',[
-        Validators.pattern(WEB_INST_FB_REGEX),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
       facebook: new FormControl('', [
-        Validators.pattern(WEB_INST_FB_REGEX),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
       instagram: new FormControl('', [
-        Validators.pattern(WEB_INST_FB_REGEX),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),

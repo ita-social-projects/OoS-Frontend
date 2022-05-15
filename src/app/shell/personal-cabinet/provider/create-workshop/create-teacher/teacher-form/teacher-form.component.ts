@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-teacher-form',
@@ -11,7 +11,6 @@ import { ValidationConstants, ValidationTextField } from 'src/app/shared/constan
 })
 export class TeacherFormComponent {
   readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   
   today: Date = new Date();

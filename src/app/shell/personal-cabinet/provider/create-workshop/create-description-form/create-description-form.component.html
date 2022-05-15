@@ -24,7 +24,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="DescriptionFormGroup.get('head')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_50">
   </app-validation-hint>

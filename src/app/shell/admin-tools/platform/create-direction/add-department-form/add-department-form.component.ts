@@ -1,3 +1,4 @@
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -5,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Department, Direction } from 'src/app/shared/models/category.model';
 import { CreateDepartment } from 'src/app/shared/store/admin.actions';
@@ -30,7 +30,7 @@ export class AddDepartmentFormComponent {
     private router: Router,
     private formBuilder: FormBuilder) {
     this.departmentFormGroup = this.formBuilder.group({
-     title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+     title: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
     });
   }
 

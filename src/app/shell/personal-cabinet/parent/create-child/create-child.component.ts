@@ -15,7 +15,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { NAME_REGEX, TEXT_WITH_DIGITS_REGEX, BIRTH_CERTIFICATE_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -117,17 +117,14 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       certificateOfBirth: new FormControl('', [
-        Validators.pattern(BIRTH_CERTIFICATE_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_10), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_20)
       ]),
       placeOfStudy: new FormControl('', [
-        Validators.pattern(BIRTH_CERTIFICATE_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ])

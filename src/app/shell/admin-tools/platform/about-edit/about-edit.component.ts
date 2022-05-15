@@ -1,10 +1,10 @@
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AboutPortal, AboutPortalItem } from 'src/app/shared/models/aboutPortal.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -49,7 +49,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.AboutFormGroup = this.fb.group({
       image: new FormControl(''),
-      title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
+      title: new FormControl('', [Validators.pattern(NAME_REGEX)]),
     });
 
     this.aboutPortal$
@@ -78,7 +78,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
    */
   private newForm(aboutPortalItem?: AboutPortalItem): FormGroup {
     const aboutEditFormGroup = this.fb.group({
-      sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
+      sectionName: new FormControl('', [Validators.pattern(NAME_REGEX)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH)]),
     });
 

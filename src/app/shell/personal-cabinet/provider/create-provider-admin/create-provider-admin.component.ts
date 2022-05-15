@@ -1,3 +1,4 @@
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -17,7 +18,6 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { MatStepper } from '@angular/material/stepper';
 
 @Component({
@@ -59,9 +59,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
-      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      lastName: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
+      firstName: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
+      middleName: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
     });

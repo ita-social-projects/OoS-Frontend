@@ -1,10 +1,10 @@
+import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-create-contacts-form',
@@ -13,7 +13,6 @@ import { ValidationConstants, ValidationTextField } from 'src/app/shared/constan
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
   
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
@@ -28,62 +27,62 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.LegalAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       buildingNumber: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       city: new FormControl('', [
         Validators.required,
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       district: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       region: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX)
+        Validators.pattern(NO_LATIN_REGEX)
       ]),
     });
 
     this.ActualAddressFormGroup = this.formBuilder.group({
       street: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       buildingNumber: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       city: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       district: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       region: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX)
+        Validators.pattern(NO_LATIN_REGEX)
       ]),
     });
   }
@@ -119,7 +118,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       } else {
         this.ActualAddressFormGroup.enable();
         this.ActualAddressFormGroup.markAsUntouched();
-        this.setValidators();
+        this.setValidators(); //TODO: add validators
         this.provider?.actualAddress && this.ActualAddressFormGroup.get('id')
           .setValue(this.provider.actualAddress.id);
       }
@@ -129,15 +128,10 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   * This method add validators to teh form-group when actual address is not teh same as legal address
   */
   private setValidators(): void {
-    const addValidator = (formControlTitle: string) => (formControlTitle === 'buildingNumber' 
-      || formControlTitle === 'street') 
-      ? Validators.pattern(TEXT_WITH_DIGITS_REGEX) 
-      : Validators.pattern(TEXT_REGEX);
-
-    Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
-      this.ActualAddressFormGroup.get(formControlTitle)
-        .setValidators([addValidator(formControlTitle), Validators.required]);
-    });    
+    // Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
+    //   this.ActualAddressFormGroup.get(formControlTitle)
+    //     .setValidators([Validators.pattern(NO_LATIN_REGEX), Validators.required]);
+    // });    
   }
 
   ngOnDestroy(): void {

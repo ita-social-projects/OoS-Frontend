@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants'
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -44,19 +44,19 @@ export class CreateTeacherComponent implements OnInit {
       avatarImage: new FormControl(''),
       lastName: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       firstName: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       middleName: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),

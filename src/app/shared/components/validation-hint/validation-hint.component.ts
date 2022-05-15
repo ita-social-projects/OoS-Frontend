@@ -3,6 +3,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
+import { NAME_REGEX, NO_LATIN_REGEX } from '../../constants/regex-constants';
 
 enum ValidatorsTypes {
   requiredField,
@@ -24,14 +25,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
 
   //for Date Format Validation
   @Input() minMaxDate: boolean;
-  //for edrpouIpn Validation
-  @Input() edrpouIpn: boolean;
-  //for Text Field Validation
-  @Input() allowedCharacters: string;
 
   required: boolean;
   invalid: boolean;
-  invalidText: boolean;
+  invalidSymbols: boolean;
+  invalidCharacters: boolean;
+
   invalidLength: boolean;
   invalidDateRange: boolean;
   invalidEmail: boolean;
@@ -45,24 +44,34 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
       debounceTime(200),
       takeUntil(this.destroy$)
     ).subscribe(()=>{
+      const errors = this.validationFormControl.errors;
       //Check is the field valid
       this.invalid = this.validationFormControl.invalid && this.validationFormControl.touched;
 
       //Check is the field required and empty
-      this.required = !!(this.validationFormControl.errors?.required && !this.validationFormControl.value);
+      this.required = !!(errors?.required && !this.validationFormControl.value);
 
       //Check Date Picker Format
       this.minMaxDate && this.checkMatDatePciker();
 
       //Check errors from validators
-      this.checkValidationErrors(this.validationFormControl.errors);
+      this.checkValidationErrors(errors);
+
+      //Check errors for invalid text field 
+      this.checkInvalidText(errors);
     })
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    this.invalidText = !!errors?.pattern?.requiredPattern;
     this.invalidLength = !!(errors?.maxlength || errors?.minlength);
+  }
+
+  private checkInvalidText(errors: ValidationErrors): void {
+    const requiredPattern = errors?.pattern?.requiredPattern;
+
+    this.invalidSymbols = NAME_REGEX.test(requiredPattern);
+    this.invalidCharacters = NO_LATIN_REGEX.test(requiredPattern);
   }
 
   private checkMatDatePciker(): void {

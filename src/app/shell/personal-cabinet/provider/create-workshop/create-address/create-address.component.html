@@ -5,7 +5,6 @@
   </app-city-autocomplete>
   <app-validation-hint 
     [validationFormControl]="AddressFormGroup.get('city')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>
@@ -16,7 +15,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AddressFormGroup.get('city')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
@@ -27,7 +25,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AddressFormGroup.get('buildingNumber')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_15">
   </app-validation-hint>

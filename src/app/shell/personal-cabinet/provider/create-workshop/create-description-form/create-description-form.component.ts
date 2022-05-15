@@ -1,10 +1,10 @@
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { TEXT_REGEX, TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX } from 'src/app/shared/constants/regex-constants'
-import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -12,7 +12,6 @@ import { ValidationConstants, ValidationTextField } from 'src/app/shared/constan
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -43,7 +42,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
       head: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_50) 
       ]),

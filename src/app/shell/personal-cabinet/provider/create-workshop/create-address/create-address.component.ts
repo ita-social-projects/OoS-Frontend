@@ -1,3 +1,4 @@
+import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
@@ -5,8 +6,7 @@ import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
-import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-create-address',
@@ -15,7 +15,6 @@ import { ValidationConstants, ValidationTextField } from 'src/app/shared/constan
 })
 export class CreateAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
   
   @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
@@ -31,19 +30,19 @@ export class CreateAddressComponent implements OnInit {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       buildingNumber: new FormControl('', [
         Validators.required, 
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
       city: new FormControl('', [
         Validators.required,
-        Validators.pattern(TEXT_REGEX),
+        Validators.pattern(NO_LATIN_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
       ]),
