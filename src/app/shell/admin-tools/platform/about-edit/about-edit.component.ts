@@ -1,4 +1,4 @@
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -49,7 +49,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.AboutFormGroup = this.fb.group({
       image: new FormControl(''),
-      title: new FormControl('', [Validators.pattern(NAME_REGEX)]),
+      title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
     });
 
     this.aboutPortal$
@@ -78,7 +78,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
    */
   private newForm(aboutPortalItem?: AboutPortalItem): FormGroup {
     const aboutEditFormGroup = this.fb.group({
-      sectionName: new FormControl('', [Validators.pattern(NAME_REGEX)]),
+      sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
       description: new FormControl('', [Validators.required, Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH)]),
     });
 

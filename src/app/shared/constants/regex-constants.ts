@@ -1,7 +1,7 @@
 /**
  * RegExp Constants
  */
-
+ export const TEXT_REGEX: RegExp = /^\S[А-Яа-яЇїІіЄєЁёҐґ'’\s-]*$/;
 //Regex for lastName, firstName, middleName, fullName
 export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’-]*$/;
 //Regex for non-latin characters
