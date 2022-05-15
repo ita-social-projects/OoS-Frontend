@@ -11,7 +11,7 @@
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" maxlength="30" appTrimValue>
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AddressFormGroup.get('city')"
@@ -21,7 +21,7 @@
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" maxlength="15" appTrimValue>
+    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="AddressFormGroup.get('buildingNumber')"
