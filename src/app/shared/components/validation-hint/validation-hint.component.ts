@@ -70,8 +70,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
     if(requiredPattern){
-      this.invalidSymbols = !NAME_REGEX.test(requiredPattern);
-      this.invalidCharacters = !NO_LATIN_REGEX.test(requiredPattern);
+      this.invalidSymbols = NAME_REGEX == requiredPattern;
+      this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     }
   }
 

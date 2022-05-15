@@ -1,4 +1,4 @@
-import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NO_LATIN_REGEX, NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
