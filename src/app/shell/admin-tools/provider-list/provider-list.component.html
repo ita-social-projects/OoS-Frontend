@@ -37,7 +37,7 @@
       <ng-container matColumnDef="ownership">
         <th mat-header-cell *matHeaderCellDef>Форма власності</th>
         <td mat-cell *matCellDef="let element">
-          <span> {{ [element.ownership] }}</span>
+          <span> {{ [element?.ownership] }}</span>
         </td>
       </ng-container>
 

@@ -19,7 +19,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 })
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
-  readonly ownershipTypeUkr: OwnershipTypeUkr;
+  ownershipTypeUkr: OwnershipTypeUkr;
   readonly providerAdminTitles: ProviderAdminTitles;
 
   @Select(AdminState.providers)
