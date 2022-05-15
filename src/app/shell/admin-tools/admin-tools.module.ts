@@ -9,19 +9,13 @@ import { ProviderListComponent } from './provider-list/provider-list.component';
 
 
 @NgModule({
-  declarations: [
-    PlatformComponent,
-    DirectionsComponent,
-    ProviderListComponent,
-  ],
+  declarations: [PlatformComponent, DirectionsComponent, ProviderListComponent],
   imports: [
     CommonModule,
     AdminToolsRoutingModule,
     SharedModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
-  exports: [
-    DirectionsComponent
-  ]
+  exports: [DirectionsComponent, ProviderListComponent],
 })
-export class AdminToolsModule { }
+export class AdminToolsModule {}
