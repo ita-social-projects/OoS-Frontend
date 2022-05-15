@@ -16,7 +16,7 @@ import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum
 import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
-import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declination';
+import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
 
 @Component({
