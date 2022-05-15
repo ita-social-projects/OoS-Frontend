@@ -27,7 +27,7 @@
     <input matInput class="step-input" type="text" formControlName="region" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('region')"
+    [validationFormControl]="LegalAddressFormGroup.get('region')">
   </app-validation-hint>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
@@ -87,7 +87,7 @@
     <input matInput class="step-input" type="text" formControlName="region" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('region')"
+    [validationFormControl]="ActualAddressFormGroup.get('region')">
   </app-validation-hint>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
