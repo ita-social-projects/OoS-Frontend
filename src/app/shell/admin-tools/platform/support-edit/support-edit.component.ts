@@ -1,10 +1,10 @@
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
+import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
@@ -47,8 +47,8 @@ export class SupportEditComponent implements OnInit, OnDestroy {
    private newForm(): FormGroup {
     const supportEditFormGroup = this.fb.group({
       image: new FormControl(''),
-      title: new FormControl('', [Validators.pattern(NAME_REGEX)]),
-      sectionName: new FormControl('', [Validators.pattern(NAME_REGEX)]),
+      title: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
+      sectionName: new FormControl('', [Validators.pattern(TEXT_REGEX)]),
       description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_ABOUT_LENGTH), Validators.required]),
     });
 
