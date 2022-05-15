@@ -58,7 +58,9 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = { fullTitle: '' } as Provider;
-    component.AboutFormGroup = new FormGroup({});
+    component.AboutFormGroup = new FormGroup({
+      firstName: new FormControl('')
+    });
     fixture.detectChanges();
   });
 
