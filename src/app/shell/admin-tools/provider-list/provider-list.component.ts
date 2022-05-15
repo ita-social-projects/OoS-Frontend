@@ -10,6 +10,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-provider-list',
@@ -17,6 +18,8 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
   styleUrls: ['./provider-list.component.scss'],
 })
 export class ProviderListComponent implements OnInit {
+  readonly constants: typeof Constants = Constants;
+
   OwnershipTypeUkr: OwnershipTypeUkr;
 
   @Select(AdminState.providers)
