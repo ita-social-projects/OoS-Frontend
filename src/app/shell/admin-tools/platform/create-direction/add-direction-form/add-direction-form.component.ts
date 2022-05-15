@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
+import { TEXT_REGEX  } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
 import { CreateDirection } from 'src/app/shared/store/admin.actions';
@@ -32,7 +32,7 @@ export class AddDirectionFormComponent {
     private _stepper: CdkStepper,
     private formBuilder: FormBuilder){
     this.directionFormGroup = this.formBuilder.group({
-      title: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
+      title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX )]),
     });
   }
 
