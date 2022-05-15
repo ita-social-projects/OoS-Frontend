@@ -1,3 +1,4 @@
+import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
@@ -38,7 +39,7 @@ describe('CreateDescriptionFormComponent', () => {
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
         ImageFormControlComponent,
-        MockValidationHintForInputComponent
+        ValidationHintComponent
       ],
     })
       .compileComponents();
@@ -47,7 +48,9 @@ describe('CreateDescriptionFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateDescriptionFormComponent);
     component = fixture.componentInstance;
-    component.DescriptionFormGroup = new FormGroup({});
+    component.DescriptionFormGroup = new FormGroup({
+      disabilityOptionsDesc: new FormControl('')
+    });
     fixture.detectChanges();
   });
 
@@ -63,16 +66,5 @@ describe('CreateDescriptionFormComponent', () => {
 class MockCategorySelectComponent {
   @Input() workshop: Workshop;
   @Input() CategoryFormGroup: FormGroup;
-}
-
-@Component({
-  selector: 'app-validation-hint',
-  template: ''
-})
-class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
-  @Input() minMaxDate: boolean;
 }
 

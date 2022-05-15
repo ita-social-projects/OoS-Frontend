@@ -1,3 +1,4 @@
+import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { City } from 'src/app/shared/models/city.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAddressComponent } from './create-address.component';
@@ -28,7 +29,7 @@ describe('CreateAddressComponent', () => {
       declarations: [
         CreateAddressComponent,
         MockMapComponent,
-        MockValidationHintForInputComponent,
+        ValidationHintComponent,
         MockCityAutocompleteComponent
       ]
     })
@@ -38,7 +39,9 @@ describe('CreateAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAddressComponent);
     component = fixture.componentInstance;
-    component.AddressFormGroup = new FormGroup({});
+    component.AddressFormGroup = new FormGroup({
+      street: new FormControl('')
+    });
     fixture.detectChanges();
   });
 
@@ -56,20 +59,6 @@ class MockMapComponent {
   @Input() isCreateWorkShops: boolean;
   @Input() workshops: Workshop[];
 }
-
-@Component({
-  selector: 'app-validation-hint',
-  template: ''
-})
-
-class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
-  @Input() minMaxDate: boolean;
-}
-
-
 @Component({
   selector: 'app-city-autocomplete',
   template: ''
