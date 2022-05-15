@@ -19,9 +19,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 })
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
-
-  OwnershipTypeUkr: OwnershipTypeUkr;
-  providerAdminTitles: ProviderAdminTitles;
+  readonly ownershipTypeUkr: OwnershipTypeUkr;
+  readonly providerAdminTitles: ProviderAdminTitles;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
