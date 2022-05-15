@@ -11,6 +11,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 
 @Component({
@@ -19,13 +20,14 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
   styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent implements OnInit, OnDestroy {
+  readonly role = Role;
+  readonly validationConstants = ValidationConstants;
+  readonly phonePrefix= Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
 
-  readonly constants: typeof Constants = Constants;
-  readonly role: typeof Role = Role;
   userEditFormGroup: FormGroup;
 
   constructor(
@@ -34,10 +36,29 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService) {
 
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(NAME_REGEX)]),
-      middleName: new FormControl('', Validators.pattern(NAME_REGEX)),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
+      lastName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      firstName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      middleName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+      ]),
+      phoneNumber: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(ValidationConstants.PHONE_LENGTH),
+        Validators.maxLength(ValidationConstants.PHONE_LENGTH)
+      ]),
     });
   }
 
