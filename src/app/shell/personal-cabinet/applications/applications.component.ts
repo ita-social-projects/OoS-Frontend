@@ -134,15 +134,15 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
+    const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
+    tabLabel : null;
     if (this.role === Role.provider) {
-      this.providerApplicationParams.status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
-      tabLabel : null;
+      this.providerApplicationParams.status = status;
       this.getProviderApplications(this.providerApplicationParams);
-      this.router.navigate(['../', tabLabel], { relativeTo: this.route });
     } else {
-      this.getParentApplications();
+      this.getParentApplications(status);
     }
-
+    this.router.navigate(['../', tabLabel], { relativeTo: this.route });
   }
 
   /**
