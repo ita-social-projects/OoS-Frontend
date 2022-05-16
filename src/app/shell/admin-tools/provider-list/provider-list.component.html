@@ -167,7 +167,16 @@
           Статус
         </th>
         <td mat-cell *matCellDef="let element">
-          {{ element.status ? "Підтверджено" : "Очікує логування" }}
+          <div class="provider-list-status {{ element.status }}">
+            <span>
+              <i
+                class="status-icon"
+              ></i
+            ></span>
+            <span>{{
+              element.status ? "Підтверджено" : "Очікує логування"
+            }}</span>
+          </div>
         </td>
       </ng-container>
 

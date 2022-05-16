@@ -24,7 +24,7 @@ export class ProviderListComponent implements OnInit {
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([null]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([]);
 
   providers: Provider[] = [
     {
