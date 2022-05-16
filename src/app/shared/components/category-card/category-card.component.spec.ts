@@ -6,6 +6,8 @@ import { Direction } from '../../models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
@@ -20,7 +22,8 @@ describe('CategoryCardComponent', () => {
         RouterTestingModule,
         MatIconModule
       ],
-      declarations: [CategoryCardComponent],
+      declarations: [
+        CategoryCardComponent],
     })
       .compileComponents();
   });
@@ -36,3 +39,4 @@ describe('CategoryCardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
