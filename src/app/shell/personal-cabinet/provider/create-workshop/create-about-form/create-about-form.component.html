@@ -104,7 +104,7 @@
   <label class="step-label">Дні/Години<span class="step-required">*</span></label>
     <ng-container *ngFor="let form of workingHoursFormArray.controls">
       <app-working-hours-form [workingHoursForm]="form" [workingHoursAmount]="workingHoursFormArray.controls.length"
-        [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkingHour)="deleteWorkingHour(form)">
+        [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkingHour)="deleteWorkingHour($event)">
       </app-working-hours-form>
     </ng-container>
 

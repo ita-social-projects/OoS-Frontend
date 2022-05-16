@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from '../../constants/constants';
 import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
@@ -9,10 +11,11 @@ import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHour
   templateUrl: './working-hours-form.component.html',
   styleUrls: ['./working-hours-form.component.scss']
 })
-export class WorkingHoursFormComponent implements OnInit {
-
+export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
 
@@ -26,12 +29,14 @@ export class WorkingHoursFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.workingHoursForm.value?.workdays.length && this.activateEditMode();
-
-    this.workingHoursForm.valueChanges.subscribe((timeRange: DateTimeRanges) => {
-      if (timeRange.startTime > timeRange.endTime && timeRange.endTime) {
-        this.workingHoursForm.get('endTime').reset();
-      }
-    });
+    
+    this.workingHoursForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((timeRange: DateTimeRanges) => {
+        if (timeRange.startTime > timeRange.endTime && timeRange.endTime) {
+          this.workingHoursForm.get('endTime').reset();
+        }
+      });
   }
 
   /**
@@ -53,7 +58,7 @@ export class WorkingHoursFormComponent implements OnInit {
   }
 
   delete(): void {
-    this.deleteWorkingHour.emit();
+    this.deleteWorkingHour.emit(this.index);
   }
 
   activateEditMode(): void {
@@ -65,5 +70,10 @@ export class WorkingHoursFormComponent implements OnInit {
         }
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

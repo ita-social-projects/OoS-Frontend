@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign='start center' fxLayoutGap='1rem' fxLayout.xs="column"
+<div fxLayout="row" fxLayoutAlign='start start' fxLayoutGap='1rem' fxLayout.xs="column"
   fxLayoutAlign.xs="center start">
   <div>
     <div fxLayout='row' fxLayoutAlign='space-between'
@@ -13,7 +13,7 @@
   </div>
 
 
-  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='center center' class="step">
+  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='start start' class="step">
     <p class="text">Від</p>
     <div>
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
@@ -33,7 +33,7 @@
     </div>
   </form>
 
-  <div fxLayout='row' fxLayoutAlign='center center' *ngIf="workingHoursAmount > 1">
+  <div fxLayout='row' fxLayoutAlign='start start' *ngIf="workingHoursAmount > 1">
     <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
   </div>
 </div>

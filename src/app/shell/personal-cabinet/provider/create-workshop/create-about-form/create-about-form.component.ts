@@ -105,8 +105,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method delete FormGroup from the FormArray by index
    * @param index: number
    */
-  deleteWorkingHour(form: FormGroup): void {
-    const index = this.workingHoursFormArray.controls.indexOf(form);
+  deleteWorkingHour(index: number): void {
     this.workingHoursFormArray.removeAt(index);
   }
 
