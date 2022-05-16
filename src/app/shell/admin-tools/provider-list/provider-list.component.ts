@@ -8,8 +8,9 @@ import { GetAllProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { OwnershipUkr } from 'src/app/shared/enum/provider';
 import { Constants } from 'src/app/shared/constants/constants';
+import { ProviderAdminIcons } from 'src/app/shared/enum/provider-admin';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
@@ -18,25 +19,26 @@ import { Constants } from 'src/app/shared/constants/constants';
 })
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
-  readonly OwnershipUkr: OwnershipUkr;
+  readonly providerAdminIcons = ProviderAdminIcons;
+  OwnershipTypeUkr: OwnershipTypeUkr;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   providers: Provider[] = [
     {
       userId: '1',
       actualAddress: {
-        buildingNumber: 'ччччччччччччччч',
-        city: 'ччччччччччччччч',
-        district: 'ччччччччччччччч',
+        buildingNumber: '12',
+        city: 'чччччч',
+        district: 'ччччччч',
         latitude: 0,
         longitude: 0,
-        region: 'чччччччччччччччччччччччччч',
-        street: 'hhhhhhhhhhhmmmmmmmmmmmmmm',
+        region: 'чччччч',
+        street: 'hhhhhh',
       },
       description: 'dance everywhere',
       director: 'смитьб',
@@ -57,7 +59,7 @@ export class ProviderListComponent implements OnInit {
         latitude: 0,
         longitude: 0,
         region: 'дарницький',
-        street: 'сссlllllllllllllllll',
+        street: 'сссlllllllll',
       },
       ownership: 'State',
       phoneNumber: '777777777',
@@ -69,13 +71,13 @@ export class ProviderListComponent implements OnInit {
     {
       userId: '1',
       actualAddress: {
-        buildingNumber: 'ччччччччччччччч',
-        city: 'ччччччччччччччч',
-        district: 'ччччччччччччччч',
+        buildingNumber: '56',
+        city: 'чччччч',
+        district: 'ччччччччч',
         latitude: 0,
         longitude: 0,
-        region: 'чччччччччччччччччччччччччч',
-        street: 'hhhhhhhhhhh',
+        region: 'ччччччч',
+        street: 'hhhhhh',
       },
       description: 'dance everywhere',
       director: 'смитьб',
@@ -108,21 +110,21 @@ export class ProviderListComponent implements OnInit {
     {
       userId: '1',
       actualAddress: {
-        buildingNumber: 'ччччччччччччччч',
-        city: 'ччччччччччччччч',
-        district: 'ччччччччччччччч',
+        buildingNumber: '45',
+        city: 'ччччччч',
+        district: 'чччччччч',
         latitude: 0,
         longitude: 0,
-        region: 'чччччччччччччччччччччччччч',
-        street: 'hhhhhhhhhhh',
+        region: 'чччччччччч',
+        street: 'hhhhhh',
       },
       description: 'dance everywhere',
-      director: 'смитьбjjjjjjjjjjjjjjj',
+      director: 'смитьбjjjjjjj',
       directorDateOfBirth: '1977-01-04T00:00:00',
       edrpouIpn: '77898000',
       email: 'o7@gmail.com',
       facebook: '',
-      founder: 'смитььvvvvvvvvvvvvvvvvvvvvv',
+      founder: 'смитььvvvvvvv',
       fullTitle: 'dance777',
       id: '08d9d5cd-06df-439c-86d6-5df44b635f19',
       instagram: '',

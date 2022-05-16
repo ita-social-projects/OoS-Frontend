@@ -28,12 +28,6 @@ export enum OwnershipTypeUkr {
   Private = 'Приватна',
 }
 
-export enum OwnershipUkr {
-  'State' = 'Державна',
-  'Common' = 'Громадська організація',
-  'Private' = 'Приватна',
-}
-
 export enum WorkshopType {
   Group,
   Section,

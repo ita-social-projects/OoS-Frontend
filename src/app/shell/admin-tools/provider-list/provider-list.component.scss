@@ -67,7 +67,8 @@
   overflow: auto;
 }
 
-td.mat-cell, th.mat-cell {
+td.mat-cell,
+th.mat-cell {
   padding-right: 10px;
 }
 
@@ -76,9 +77,12 @@ td.mat-column-star {
   padding-right: 8px;
 }
 
-th.mat-column-position,
 td.mat-column-position {
   padding-left: 8px;
+}
+
+th.mat-sort-header-content {
+  margin-left: 10px !important;
 }
 
 .mat-table-sticky-border-elem-right {
@@ -94,22 +98,15 @@ td.mat-column-position {
 }
 
 .provider-list-status {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 700;
   font-size: 13px;
+  width: 140px;
+  margin-left: 10px;
 }
-.Accepted {
-  color:#199953;
+.true {
+  color: #199953;
 }
-.NeverLogged {
-  color: #FFBD00;
+.false {
+  color: #ffbd00;
 }
-.Blocked {
-  color: #C72A21;
-}
-.Cancel {
-  color:#3849F9;
-  font-weight: 500;
-}
-
-
