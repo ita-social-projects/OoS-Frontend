@@ -22,8 +22,7 @@ describe('CategoryCardComponent', () => {
         RouterTestingModule,
         MatIconModule
       ],
-      declarations: [
-        CategoryCardComponent],
+      declarations: [CategoryCardComponent],
     })
       .compileComponents();
   });
@@ -39,4 +38,3 @@ describe('CategoryCardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
