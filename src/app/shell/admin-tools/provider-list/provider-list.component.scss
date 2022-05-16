@@ -81,8 +81,8 @@ td.mat-column-position {
   padding-left: 8px;
 }
 
-th.mat-sort-header-content {
-  margin-left: 10px !important;
+::ng-deepth .mat-sort-header-content {
+  margin-left: 10px;
 }
 
 .mat-table-sticky-border-elem-right {
