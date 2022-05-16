@@ -1,42 +1,51 @@
 <div fxLayout="row" fxLayoutAlign='start start' fxLayoutGap='1rem' fxLayout.xs="column"
   fxLayoutAlign.xs="center start">
+
+  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='start start' class="step">
+
   <div>
     <div fxLayout='row' fxLayoutAlign='space-between'
       [ngClass]="!(workingHoursForm.get('workdays').invalid && workingHoursForm.get('workdays').touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
-      <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center'
-        (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
+      <div *ngFor="let day of days" fxLayout='row' fxLayoutAlign='center center'
+        (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle toggle-selected' : 'toggle' ">
         {{day.value}}</div>
     </div>
-    <app-validation-hint-for-input type="requiredField"
-      [invalid]="workingHoursForm.get('workdays').invalid && workingHoursForm.get('workdays').touched">
-    </app-validation-hint-for-input>
+
+    <ng-container 
+      *ngIf="workingHoursForm.get('workdays').invalid && workingHoursForm.get('workdays').touched; then ValidationHintTmpl">
+    </ng-container>
   </div>
 
-
-  <form [formGroup]="workingHoursForm" fxLayout='row' fxLayoutAlign='start start' class="step">
     <p class="text">Від</p>
     <div>
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime" autocomplete="none">
-      <app-validation-hint-for-input type="requiredField"
-        [invalid]="workingHoursForm.get('startTime').invalid && workingHoursForm.get('startTime').touched">
-      </app-validation-hint-for-input>
+      <ng-container 
+        *ngIf="workingHoursForm.get('startTime').invalid && workingHoursForm.get('startTime').touched; then ValidationHintTmpl">
+      </ng-container>
     </div>
+
     <p class="text">До</p>
     <div>
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerEnd" format="24" required formControlName="endTime" [min]="getMinTime()"
         autocomplete="none">
-      <app-validation-hint-for-input type="requiredField"
-        [invalid]="workingHoursForm.get('endTime').invalid && workingHoursForm.get('endTime').touched">
-      </app-validation-hint-for-input>
+        <ng-container 
+          *ngIf="workingHoursForm.get('startTime').invalid && workingHoursForm.get('endTime').touched; then ValidationHintTmpl">
+        </ng-container>
     </div>
   </form>
 
-  <div fxLayout='row' fxLayoutAlign='start start' *ngIf="workingHoursAmount > 1">
+  <div fxLayout='row' fxLayoutAlign='start start' *ngIf="workingHoursAmount">
     <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
   </div>
 </div>
+
+<ng-template #ValidationHintTmpl>
+  <small appValidationMessageStyling>
+    Це поле є обов'язковим. <br>
+  </small>
+</ng-template>
 
 <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
 </ngx-mat-timepicker>

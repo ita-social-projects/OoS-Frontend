@@ -1,7 +1,8 @@
+import { ValidationConstants } from './../../constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { Constants, WorkingDaysValues } from '../../constants/constants';
 import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
 import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
@@ -12,7 +13,6 @@ import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHour
   styleUrls: ['./working-hours-form.component.scss']
 })
 export class WorkingHoursFormComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -29,14 +29,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workingHoursForm.value?.workdays.length && this.activateEditMode();
-    
-    this.workingHoursForm.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((timeRange: DateTimeRanges) => {
-        if (timeRange.startTime > timeRange.endTime && timeRange.endTime) {
-          this.workingHoursForm.get('endTime').reset();
-        }
-      });
   }
 
   /**
@@ -51,10 +43,11 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workingDays.splice(this.workingDays.indexOf(day.value), 1);
     }
     this.workingHoursForm.get('workdays').setValue(this.workingDays);
+    this.workingHoursForm.get('workdays').markAllAsTouched();
   }
 
   getMinTime(): string {
-    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : this.constants.MAX_TIME;
+    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : ValidationConstants.MAX_TIME;
   }
 
   delete(): void {
