@@ -54,7 +54,7 @@ export class ApplicationService {
  * @param workshopId string
  * @param childId string
  */
-   getStatusForNewApplication(workshopId: string, childId: string): Observable<boolean> {
+   getNewApplicationStatus(workshopId: string, childId: string): Observable<boolean> {
 
     let params = new HttpParams();
     params = params.set('childId', childId);

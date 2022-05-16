@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetAllUsersChildren, GetStatusForNewApplication, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetAllUsersChildren, GetNewApplicationStatus, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -32,11 +32,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   readonly CardType = cardType;
 
   @Select(UserState.children) children$: Observable<ChildCards>;
-  @Select(UserState.isAllowNewApplication) isAllowNewApplication$: Observable<boolean>;
+  @Select(UserState.isAllowedNewApplication) isAllowedNewApplication$: Observable<boolean>;
+  isAllowedNewApplication: boolean;
   @Select(RegistrationState.user) user$: Observable<User>;
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
-  isAllowNewApplication: boolean;
 
   ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
@@ -53,6 +53,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
+  isAllowed: boolean = true;
 
   constructor(
     private store: Store,
@@ -81,6 +82,14 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetAllUsersChildren());
       });
 
+    this.isAllowedNewApplication$
+    .pipe(
+      takeUntil(this.destroy$))
+    .subscribe((status: boolean) => {
+      this.isAllowedNewApplication = status;
+      this.isAllowed = this.selectedChild?.id ? this.isAllowedNewApplication : true;
+    });
+
     this.workshopId = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetWorkshopById(this.workshopId));
 
@@ -104,7 +113,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
    * This method check ability to create new Application
    */
   checkAbilityToChildApply(): void {
-    this.store.dispatch(new GetStatusForNewApplication({
+    this.store.dispatch(new GetNewApplicationStatus({
       workshopId: this.workshopId,
       childId: this.selectedChild.id
     }))
