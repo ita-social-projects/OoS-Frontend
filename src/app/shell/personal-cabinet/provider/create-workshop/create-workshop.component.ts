@@ -124,7 +124,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
-    if(!this.TeacherFormArray.controls) {
+    if(this.TeacherFormArray?.controls) {
       this.TeacherFormArray.controls.forEach((form: FormGroup) => {
         const teacher: Teacher = new Teacher(form.value);
         teachers.push(teacher);
