@@ -91,10 +91,13 @@ th.mat-cell {
 
 .provider-list-status {
   font-family: "Open Sans", sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 13px;
   width: 140px;
-  margin-left: 7px;
+  margin-left: 3px;
+}
+.status-title {
+  padding-left: 7px;
 }
 .true {
   color: #199953;
