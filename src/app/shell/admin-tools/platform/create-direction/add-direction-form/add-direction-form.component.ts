@@ -67,7 +67,6 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
     ).subscribe((direction: Direction) => {
       this.direction = direction;
       this.directionFormGroup.patchValue(this.direction, { emitEvent: false });
-      console.log(this.directionFormGroup)
     });
   }
   
@@ -93,11 +92,13 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
             this.store.dispatch(new UpdateDirection(direction)) :
             this.store.dispatch(new CreateDirection(direction));
           
-            this.directionFormGroup.markAsUntouched();
+            this.directionFormGroup.markAsPristine();
+            this._stepper.next(); 
        }
      });
+    } else {
+      this._stepper.next(); 
     }
-    this._stepper.next(); 
   }
 }
 
