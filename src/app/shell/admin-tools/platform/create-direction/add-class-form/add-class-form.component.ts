@@ -55,7 +55,7 @@ export class AddClassFormComponent implements OnInit{
 
   setEditMode(): void {
     const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
-    this.store.dispatch(new GetClasses(this.department.id));
+    //this.store.dispatch(new GetClasses(this.department.id));
     this.setInitialClasses();
     this.onEditOptionCtrlInit();
    }
