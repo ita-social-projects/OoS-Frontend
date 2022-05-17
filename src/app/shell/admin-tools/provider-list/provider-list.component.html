@@ -78,15 +78,14 @@
           Населений пункт
         </th>
         <td mat-cell *matCellDef="let element">
-          {{ element.legalAddress.city | titlecase }}
+          {{ element.legalAddress.city }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Адреса</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.legalAddress.street }}
-          {{ element.legalAddress.buildingNumber }}
+          {{ element.legalAddress.street }} {{ element.legalAddress.buildingNumber }}
         </td>
       </ng-container>
 
