@@ -55,9 +55,7 @@ export interface AdminStateModel {
   direction: Direction;
   department: Department;
   iClass: IClass;
-  classes: IClass[];
   aboutPortal: AboutPortal;
-  departments: Department[];
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
@@ -70,8 +68,6 @@ export interface AdminStateModel {
     direction: null,
     department: null,
     iClass: null,
-    classes: [],
-    departments: [],
     isLoading: false,
     searchQuery: '',
     filteredDirections: undefined,
@@ -93,8 +89,6 @@ export class AdminState {
   static department(state: AdminStateModel): Department { return state.department; }
   @Selector()
   static iClass(state: AdminStateModel): IClass { return state.iClass; }
-  @Selector()
-  static departments(state: AdminStateModel): Department [] { return state.departments; }
   @Selector()
   static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
   @Selector()
@@ -299,16 +293,6 @@ export class AdminState {
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
-  @Action(OnCreateClassSuccess)
-  onCreateClassSuccess({ dispatch,patchState }: StateContext<AdminStateModel>, { payload }: OnCreateClassSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    patchState({classes: payload});
-    console.log('Class is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Клас успішно створенний', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/directions']);
-    this.getFilteredDirections;
-  }
-
   @Action(GetDirectionById)
   getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
     patchState({ isLoading: true });
@@ -328,16 +312,6 @@ export class AdminState {
   @Action(FilteredDepartmentsList)
   filteredDepartmentsList({ patchState }: StateContext<AdminStateModel>, { payload }: FilteredDepartmentsList): void {
     patchState({ getDepartments: payload });
-  }
-  @Action(GetDepartmentByDirectionId)
-  getDepartmentByDirectionId({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentByDirectionId): Observable<Department[]> {
-    patchState({ isLoading: true });
-    return this.categoriesService
-      .getDepartmentsByDirectionId(payload)
-      .pipe(
-        tap((department: Department[]) => {
-          return patchState({ departments: department, isLoading: false });
-        }));
   }
 
   @Action(SetSearchQueryValue)

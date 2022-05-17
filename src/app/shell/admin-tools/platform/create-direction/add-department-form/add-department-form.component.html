@@ -1,4 +1,4 @@
-<form *ngIf="direction" [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+<!-- <form *ngIf="direction" [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <h3 class="step-label"> Назва напрямку: {{direction.title}} </h3>
   
   <ng-container *ngIf="!editMode; else editTmpl">
@@ -70,6 +70,68 @@
       </ng-container>
       </mat-radio-group>
     </ng-template>
-    
-</form>
 
+</form>
+ -->
+ <form *ngIf="direction" [formGroup]="departmentFormGroup">
+ <mat-accordion>
+
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="step-label">
+        Додати новий відділ до напрямку
+      </mat-panel-title>
+      <mat-icon class="mat-icon-add">add</mat-icon>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <input matInput class="step-input" type="text" formControlName="title">
+    </mat-form-field>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="step-label">
+        Редагувати існуюче відділення
+      </mat-panel-title>
+      <mat-icon class="mat-icon-add">edit</mat-icon>
+    </mat-expansion-panel-header>
+
+      
+    <label class="step-label">Виберіть відділення для редагування<span class="step-required">*</span></label>
+    <br>
+      <mat-form-field appearance="none">
+        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+          [formControl]="departmentFormGroup.get('title')" [(ngModel)]="selectedDepartment" name="child" placeholder="Діти">
+          <mat-option *ngFor="let department of (departments$ | async)" [value]="department" class="dropdown-option">
+            {{department.title}}
+          </mat-option>
+        </mat-select>
+
+        <input matInput class="step-input" type="text" formControlName="title" [(ngModel)]="selectedDepartment">
+      </mat-form-field>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="step-label">
+        Видалити існуюче відділення
+      </mat-panel-title>
+      <mat-icon class="mat-icon-add">delete</mat-icon>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
+    </mat-form-field>
+    <mat-datepicker #picker></mat-datepicker>
+
+    <mat-action-row>
+      <button mat-button color="warn" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">End</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+</mat-accordion>
+</form>

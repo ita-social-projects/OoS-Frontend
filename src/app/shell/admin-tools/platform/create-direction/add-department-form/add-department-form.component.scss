@@ -2,6 +2,7 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form-wrapper.scss";
 @import "src/app/shared/styles/buttons.scss";
+@import "src/app/shared/styles/dropdown.scss";
 
 .direction{
   color: gray;
@@ -23,4 +24,11 @@
     min-width:auto;
     line-height: 16px;
   }
+}
+
+.mat-icon-add {
+  vertical-align: middle;
+  height: 26px;
+  font-weight: bold;
+  color : #3849F9;
 }

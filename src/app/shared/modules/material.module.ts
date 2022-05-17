@@ -56,7 +56,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatRadioModule,
     MatProgressBarModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule { }

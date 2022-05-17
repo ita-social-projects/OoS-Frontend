@@ -28,9 +28,13 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
   @Input() direction: Direction;
 
   departmentFormGroup: FormGroup;
-  directionFormGroup: FormGroup
-  classFormGroup: FormGroup
-  
+  // directionFormGroup: FormGroup
+  // classFormGroup: FormGroup
+
+
+  departmentFormControl = new FormControl('');
+  selectedDepartment: Department;
+
   editOptionRadioBtn: FormControl = new FormControl(false);
 
   @Select(MetaDataState.filteredDepartments)
@@ -63,11 +67,10 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
   }
 
   get departmentIdControl(): AbstractControl { return this.departmentFormGroup && this.departmentFormGroup.get('id'); }
-  get classIdControl(): AbstractControl { return this.classFormGroup && this.classFormGroup.get('id'); }
+  // get classIdControl(): AbstractControl { return this.classFormGroup && this.classFormGroup.get('id'); }
 
 
   ngOnInit(): void {
-    console.log('direction',this.direction)
     this.determineEditMode();
   }
 
@@ -80,12 +83,14 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
   }
 
   setEditMode(): void {
-    this.store.dispatch(new GetDepartmentByDirectionId(this.direction.id));
+    this.store.dispatch(new GetDepartments(this.direction.id));
     this.departments$.pipe(
-      takeUntil(this.departments$),
+      takeUntil(this.destroy$),
       filter((departments: Department[])=> !!departments)
-    ).subscribe((departments: Department[]) => this.departments = departments);
-    this.setInitialDepartments();
+    ).subscribe((departments: Department[]) => {
+      this.departments = departments;
+    });
+    // this.setInitialDepartments();
   }
 
   private filterDepartments(value: string): Department[] {
@@ -106,10 +111,10 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
     this.filteredDepartments = this.departments;
   }
 
-  private clearClasses(clearState: boolean = false): void {
-    clearState && this.store.dispatch(new ClearClasses());
-    this.classIdControl.reset();
-  }
+  // private clearClasses(clearState: boolean = false): void {
+  //   clearState && this.store.dispatch(new ClearClasses());
+  //   this.classIdControl.reset();
+  // }
 
   onDelete(): void { }
 
@@ -117,10 +122,10 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
 
   onIClassSelect(workshopsId: number[]): void { }
 
-  onSelectDepartment(department: Department): void {
-    this.clearClasses();
-    this.store.dispatch(new GetClasses(department.id));
-  }
+  // onSelectDepartment(department: Department): void {
+  //   this.clearClasses();
+  //   this.store.dispatch(new GetClasses(department.id));
+  // }
 
   private setInitialDepartments(): void {
     this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
@@ -172,6 +177,20 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
    }
    ngOnDestroy(): void {
     this.destroy$.unsubscribe();
+  }
+
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 }
 
