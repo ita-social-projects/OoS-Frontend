@@ -1,20 +1,17 @@
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { title } from 'process';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
-import { CategoriesService } from 'src/app/shared/services/categories/categories.service';
 import { CreateDirection, GetDirectionById, UpdateDirection } from 'src/app/shared/store/admin.actions';
-import { AdminState, AdminStateModel } from 'src/app/shared/store/admin.state';
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 
 @Component({
