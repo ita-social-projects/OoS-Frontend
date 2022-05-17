@@ -37,6 +37,9 @@ export class IClass {
     this.description = info.title
   }
 }
+export interface IClasses {
+  IclassId: string;
+}
 
 export interface DirectionsFilter {
   totalAmount: number;

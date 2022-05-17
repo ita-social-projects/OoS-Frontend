@@ -15,6 +15,7 @@ export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   department: Department;
+  iClass: IClass;
   classes: IClass[];
   aboutPortal: AboutPortal;
   departments: Department[];
@@ -31,6 +32,7 @@ export interface AdminStateModel {
     aboutPortal: null,
     direction: undefined,
     department: undefined,
+    iClass: undefined,
     classes: [],
     departments: [],
     isLoading: false,
@@ -54,6 +56,8 @@ export class AdminState {
   static direction(state: AdminStateModel): Direction { return state.direction; }
   @Selector()
   static department(state: AdminStateModel): Department { return state.department; }
+  @Selector()
+  static iClass(state: AdminStateModel): IClass { return state.iClass; }
   @Selector()
   static departments(state: AdminStateModel): Department [] { return state.departments; }
   @Selector()
@@ -167,7 +171,7 @@ export class AdminState {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
-  
+
   @Action(OnUpdateDirectionSuccess)
   onUpdateDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
@@ -189,7 +193,7 @@ export class AdminState {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
-  
+
   @Action(OnUpdateDepartmentSuccess)
   onUpdateDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentSuccess): void {
     dispatch(new MarkFormDirty(false));
@@ -211,7 +215,7 @@ export class AdminState {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
-  
+
   @Action(OnUpdateClassSuccess)
   onUpdateClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateClassSuccess): void {
     dispatch(new MarkFormDirty(false));

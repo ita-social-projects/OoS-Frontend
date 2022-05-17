@@ -2,6 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="start center">
     <label class="step-label"> Назва класу <span class="step-required">*</span></label>
   </div>
+  <ng-container *ngIf='!editMode'>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title">
   </mat-form-field>
@@ -18,4 +19,59 @@
       <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити клас
     </button>
   </div>
+</ng-container>
+  <ng-container *ngIf='editMode'>
+    <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
+    fxLayoutAlign='center space-between'>
+
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Додати новий клас</mat-radio-button>
+    <ng-container *ngIf="!editOptionRadioBtn.value">
+      <input matInput class="step-input" type="text" formControlName="title"
+      placeholder="Введіть назву відділення" autocomplete="none">
+    </ng-container>
+
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Редагувати існуючий клас</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
+        formControlName="iClassId" [matAutocomplete]="autoIClass" disableOptionCentering
+        panelClass="dropdown-panel" (click)="getFullIClassList()" autocomplete="off">
+      <mat-autocomplete class="dropdown-panel direction" #autoIClass="matAutocomplete"
+        (optionSelected)="onSelectIClass($event.option.value)" [displayWith]="optionDisplayIClass">
+        <mat-option *ngFor="let iClass of filteredClasses" [value]="iClass" class="dropdown-option">
+          {{ iClass.title }}
+        </mat-option>
+      </mat-autocomplete>
+      <app-validation-hint-for-input type="requiredField"
+      [invalid]="classIdControl.invalid && classIdControl.touched">
+      </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="notExistClass"
+      [invalid]="ClassFormGroup.get('title')===iClass?.title">
+      </app-validation-hint-for-input>
+    </div>
+    <ng-container *ngIf="(classes$ | async)?.length">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <label class="step-label" > Змінити назву класу </label>
+      </div>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="title">
+      </mat-form-field>
+      <app-validation-hint-for-input type="requiredEmptyField"
+        [isEmptyCheck]="ClassFormGroup.get('title').errors?.required">
+      </app-validation-hint-for-input>
+      <app-validation-hint-for-input type="validTextField"
+        [forbiddenCharacter]="ClassFormGroup.get('title').errors?.pattern?.requiredPattern">
+      </app-validation-hint-for-input>
+    </ng-container>
+    </ng-container>
+
+    <mat-radio-button #radio3 name="radioBtn3" [value]="true">Видалити клас</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value">
+
+      <app-classes-check-box-list [classes]="classes$ | async" (iClassCheck)="oniClassSelect($event)"></app-classes-check-box-list>
+    
+  </ng-container>
+  </mat-radio-group>
+</ng-container>
+
 </form>

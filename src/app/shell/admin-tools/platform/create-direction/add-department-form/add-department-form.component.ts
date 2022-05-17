@@ -28,11 +28,14 @@ export class AddDepartmentFormComponent implements OnDestroy{
   departmentFormGroup: FormGroup;
   directionFormGroup: FormGroup
   destroy$: Subject<boolean> = new Subject<boolean>();
-  editOptionRadioBtn: FormControl = new FormControl(false);
+  editOptionRadioBtn: FormControl = new FormControl(false);  
+
+  
   @Input() editMode: boolean;
   @Input() department: Department;
   @Input() CategoryFormGroup: FormGroup;
   @Input() ClassFormGroup: FormGroup;
+  @Input() dropdownContainerClass: string;
 
   @Select(AdminState.department)
   department$: Observable<Department>;
@@ -69,6 +72,7 @@ export class AddDepartmentFormComponent implements OnDestroy{
 
   ngOnInit(): void {   
     this.determineEditMode();
+
   }
 
   setEditMode(): void {
@@ -113,6 +117,10 @@ export class AddDepartmentFormComponent implements OnDestroy{
   }
 
   addDepartment(): void {
+  }
+
+  onIClassSelect(workshopsId: number[]): void {
+  
   }
 
   onSelectDepartment(department: Department): void {

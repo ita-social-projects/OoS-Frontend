@@ -15,6 +15,7 @@ import { AddDirectionFormComponent } from './create-direction/add-direction-form
 import { DirectionsComponent } from './create-direction/directions/directions.component';
 import { AdminToolsModule } from '../admin-tools.module';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { ClassesCheckBoxListComponent } from './create-direction/add-department-form/classes-check-box-list/classes-check-box-list.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/
     AddClassFormComponent,
     AddDepartmentFormComponent,
     AddDirectionFormComponent,
+    ClassesCheckBoxListComponent,
 
   ],
   imports: [

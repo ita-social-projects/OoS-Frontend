@@ -1,0 +1,16 @@
+<div class="list-wrapper">
+<mat-label class="step-label">Усі класи</mat-label>
+
+  <li class=" list" *ngFor="let iClass of classes" [value]="iClass">
+    <mat-checkbox color="primary" (change)="oniClassCheck(iClass, $event )" [checked]="onSelectCheck(iClass)">{{ iClass.title }}
+    </mat-checkbox>
+  </li>
+
+  <div class="del-icon" (click)="onDelete()" fxLayout="row" fxLayoutAlign="centercenter">
+    <button mat-button class="del-button">
+      <mat-icon>delete</mat-icon> відалити {{selectedIClasses?.length}} обрані класи
+    </button>
+  </div>
+  
+
+</div>

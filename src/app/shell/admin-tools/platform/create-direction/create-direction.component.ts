@@ -14,6 +14,7 @@ import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
 import { CreateClass } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
@@ -58,15 +59,30 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
       this.addClass();
       this.direction$.pipe(takeUntil(this.destroy$),filter((direction: Direction)=>!!direction)).subscribe((direction: Direction)=>this.direction = direction);
       this.department$.pipe(takeUntil(this.destroy$),filter((department: Department)=>!!department)).subscribe((department: Department)=>this.department = department);
+      this.determineEditMode();
+
     }
-     
+
     private newForm( ): FormGroup {
       const ClassFormGroup = this.fb.group({
         title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+        classId: new FormControl(''),
+
       });
       return ClassFormGroup;
     }
+    setEditMode(): void {
+      const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
+      this.store.dispatch(new GetDepartments(directionId));
+      console.log(this.department);
+     }
 
+     determineEditMode(): void {
+       this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+       if (this.editMode) {
+         this.setEditMode();
+       }
+     }
   addClass(): void {
     this.ClassFormArray.push(this.newForm());
   }
