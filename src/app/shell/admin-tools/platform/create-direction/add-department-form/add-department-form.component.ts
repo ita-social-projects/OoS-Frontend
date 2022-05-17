@@ -15,9 +15,10 @@ import { CategoriesService } from 'src/app/shared/services/categories/categories
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { CreateDepartment, FilteredDepartmentsList, UpdateDepartment } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { ClearClasses, ClearDepartments, FilteredClassesList, GetClasses, GetDepartments } from 'src/app/shared/store/meta-data.actions';
+import { GetClasses, GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-department-form',
@@ -27,20 +28,6 @@ import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/
 export class AddDepartmentFormComponent  extends CreateFormComponent implements OnInit, OnDestroy {
   @Input() direction: Direction;
 
-  departmentFormGroup: FormGroup;
-  // directionFormGroup: FormGroup
-  // classFormGroup: FormGroup
-
-
-  departmentFormControl = new FormControl('');
-  selectedDepartment: Department;
-
-  editOptionRadioBtn: FormControl = new FormControl(false);
-
-  @Select(MetaDataState.filteredDepartments)
-  filteredDepartments$: Observable<Department[]>;
-  filteredDepartments: Department[];
-
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
   departments: Department[];
@@ -48,6 +35,10 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
   classes: IClass[];
+
+  departmentFormGroup: FormGroup;
+  selectedDepartment: Department;
+  option = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -63,15 +54,29 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
       id: new FormControl(''),
       directionId: new FormControl(''),
       title: new FormControl('', Validators.required),
+      description: new FormControl(''),
     });
+
+    this.classes$.pipe(
+      takeUntil(this.destroy$),
+      filter((classes: IClass[])=> !!classes)
+    ).subscribe((classes: IClass[]) => this.classes = classes);
   }
-
-  get departmentIdControl(): AbstractControl { return this.departmentFormGroup && this.departmentFormGroup.get('id'); }
-  // get classIdControl(): AbstractControl { return this.classFormGroup && this.classFormGroup.get('id'); }
-
 
   ngOnInit(): void {
     this.determineEditMode();
+  }
+
+  onOptionChange(option: number): void {
+    this.option = option;
+    this.departmentFormGroup.reset();
+    this.selectedDepartment = null;
+  }
+
+  onDepartmentSelect(event: MatSelectChange ): void {
+    const department = event.value;
+    this.departmentFormGroup.patchValue(department);
+    this.store.dispatch(new GetClasses(department.id));
   }
 
   addNavPath(): void {
@@ -87,67 +92,14 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
     this.departments$.pipe(
       takeUntil(this.destroy$),
       filter((departments: Department[])=> !!departments)
-    ).subscribe((departments: Department[]) => {
-      this.departments = departments;
-    });
-    // this.setInitialDepartments();
+    ).subscribe((departments: Department[]) => this.departments = departments);
   }
-
-  private filterDepartments(value: string): Department[] {
-    const getDepartments = this.departments
-      .filter((department: Department) => department.title
-        .toLowerCase()
-        .startsWith(value.trim().toLowerCase())
-      )
-      .map((department: Department) => department);
-    return getDepartments;
-  }
-
-  optionDisplayDepartment(department: Department): string {
-    return department && department.title;
-  }
-
-  getFullDepartmentList(): void {
-    this.filteredDepartments = this.departments;
-  }
-
-  // private clearClasses(clearState: boolean = false): void {
-  //   clearState && this.store.dispatch(new ClearClasses());
-  //   this.classIdControl.reset();
-  // }
 
   onDelete(): void { }
 
-  addDepartment(): void { }
-
-  onIClassSelect(workshopsId: number[]): void { }
-
-  // onSelectDepartment(department: Department): void {
-  //   this.clearClasses();
-  //   this.store.dispatch(new GetClasses(department.id));
-  // }
-
-  private setInitialDepartments(): void {
-    this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
-    this.departmentIdControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe((value) => {
-        if (value) {
-          const input = (value?.title) ? value.title : value;
-          this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(input)));
-        } else {
-          this.getFullDepartmentList();
-        }
-      });
-  }
-
   onSubmit(): void {
     if (this.departmentFormGroup.invalid) {
-     this.checkValidation(this.departmentFormGroup);
+    //  this.checkValidation(this.departmentFormGroup);
     } else {
      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
        width: '330px',
@@ -170,28 +122,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
    }
   }
 
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).markAsTouched();
-    });
-   }
-   ngOnDestroy(): void {
-    this.destroy$.unsubscribe();
-  }
-
-  step = 0;
-
-  setStep(index: number) {
-    this.step = index;
-  }
-
-  nextStep() {
-    this.step++;
-  }
-
-  prevStep() {
-    this.step--;
-  }
+  
 }
 
 

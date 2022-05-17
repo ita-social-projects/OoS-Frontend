@@ -4,31 +4,22 @@
 @import "src/app/shared/styles/buttons.scss";
 @import "src/app/shared/styles/dropdown.scss";
 
-.direction{
-  color: gray;
-  margin-bottom: 25px;
-}
-.del-icon {
-  width: 20px;
-  top: 12px;
-  right: 12px;
-  z-index: 2;
-  color : #3849F9;
-  .mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-  }
-  .mat-button {
-    padding: 0px;
-    min-width:auto;
-    line-height: 16px;
-  }
-}
-
 .mat-icon-add {
   vertical-align: middle;
   height: 26px;
   font-weight: bold;
   color : #3849F9;
+}
+.warning {
+  font-size: 14px !important;
+  padding-bottom: 1rem;
+}
+.btn-reset:disabled .mat-icon-delete{
+  color: #9596a5; //TODO: fix button style
+} 
+.expansion-panel {
+  box-shadow: none !important;
+}
+:host ::ng-deep .mat-form-field{
+  display: block !important;
 }

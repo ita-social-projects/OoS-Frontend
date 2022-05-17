@@ -3,18 +3,15 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { CreateClass, GetDirectionById } from 'src/app/shared/store/admin.actions';
+import { CreateClass, GetDirectionById, OnClearCategories } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
@@ -123,6 +120,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new OnClearCategories())
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -8,12 +8,7 @@
     </mat-form-field>
   </ng-container>
 
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button *ngIf="editMode" class="btn" mat-raised-button (click)="onStepBack()">Назад</button>
-      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-        class="btn btn-cancel">Скасувати</button></a>
-        <button class="btn" (click)="onSubmit()" mat-raised-button>Далі</button>
-    </div>
+   
 
 
     <ng-template #editTmpl>
@@ -73,65 +68,92 @@
 
 </form>
  -->
- <form *ngIf="direction" [formGroup]="departmentFormGroup">
- <mat-accordion>
+ <!-- <form *ngIf="direction" [formGroup]="departmentFormGroup">
+ 
+</form> -->
 
-  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title class="step-label">
-        Додати новий відділ до напрямку
-      </mat-panel-title>
-      <mat-icon class="mat-icon-add">add</mat-icon>
-    </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <input matInput class="step-input" type="text" formControlName="title">
-    </mat-form-field>
-  </mat-expansion-panel>
+<ng-container>
+  <form [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+    
+    <mat-accordion>
 
-  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title class="step-label">
-        Редагувати існуюче відділення
-      </mat-panel-title>
-      <mat-icon class="mat-icon-add">edit</mat-icon>
-    </mat-expansion-panel-header>
+      <mat-expansion-panel [expanded]="option === 0" (opened)="onOptionChange(0)" hideToggle class="expansion-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="step-label">
+            Додати новий відділ до напрямку
+          </mat-panel-title>
+          <mat-icon class="mat-icon-add">add</mat-icon>
+        </mat-expansion-panel-header>
+    
+        <mat-form-field fxLayout="column" fxLayoutAlign="center space-between">
+          <input matInput class="step-input" type="text" formControlName="title">
+        </mat-form-field>
+      </mat-expansion-panel>
+    
+      <mat-expansion-panel [expanded]="option === 1" (opened)="onOptionChange(1)" hideToggle class="expansion-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="step-label">
+            Редагувати існуюче відділення
+          </mat-panel-title>
+          <mat-icon class="mat-icon-add">edit</mat-icon>
+        </mat-expansion-panel-header>
+    
+        <ng-container *ngTemplateOutlet="departmentDropdown"></ng-container>
+        <ng-container *ngIf="selectedDepartment">
+          <label class="step-label"> Нова назва відділення.</label>
+          <mat-form-field fxLayout="column" fxLayoutAlign="start space-between">
+            <input matInput class="step-input" type="text" formControlName="title">
+          </mat-form-field>
+          <small appValidationMessageStyling class="warning">Для редагування класів вибраного відділення перейдіть до наступного кроку.</small>
+        </ng-container>
+  
+      </mat-expansion-panel>
+    
+      <mat-expansion-panel [expanded]="option === 2" (opened)="onOptionChange(2)" hideToggle class="expansion-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="step-label">
+            Видалити існуюче відділення
+          </mat-panel-title>
+          <mat-icon class="mat-icon-add">delete</mat-icon>
+        </mat-expansion-panel-header>
+    
+        <ng-container *ngTemplateOutlet="departmentDropdown"></ng-container>
 
-      
-    <label class="step-label">Виберіть відділення для редагування<span class="step-required">*</span></label>
-    <br>
-      <mat-form-field appearance="none">
-        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-          [formControl]="departmentFormGroup.get('title')" [(ngModel)]="selectedDepartment" name="child" placeholder="Діти">
-          <mat-option *ngFor="let department of (departments$ | async)" [value]="department" class="dropdown-option">
+        <ng-container *ngIf="selectedDepartment">
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <small *ngIf="classes?.length" appValidationMessageStyling class="warning">Відділення не може бути видаленим, якщо містить класи. 
+              Видаліть спочатку усі існуючі класи.
+            </small>
+
+            <button class="btn-reset" mat-button (click)="onDelete()" [disabled]="classes?.length">
+              <mat-icon class="mat-icon-delete">delete</mat-icon>Видалити відділення
+            </button>
+          </div>
+        </ng-container>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
+    <ng-template #departmentDropdown>
+      <mat-form-field appearance="none" fxLayoutAlign="start space-between">
+        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" name="department" placeholder="Усі відділення"
+        [formControl]="departmentFormGroup" [(ngModel)]="selectedDepartment" [(value)]="selectedDepartment"  (selectionChange)="onDepartmentSelect($event)">
+          <mat-option *ngFor="let department of departments$ | async" [value]="department" class="dropdown-option">
             {{department.title}}
           </mat-option>
         </mat-select>
-
-        <input matInput class="step-input" type="text" formControlName="title" [(ngModel)]="selectedDepartment">
       </mat-form-field>
+    </ng-template>
 
-  </mat-expansion-panel>
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <button *ngIf="editMode" class="btn" mat-raised-button (click)="onStepBack()">Назад</button>
+      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+        class="btn btn-cancel">Скасувати</button></a>
+        <button class="btn" [disabled]="departmentFormGroup.invalid" (click)="onSubmit()" mat-raised-button>Далі</button>
+    </div>
 
-  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title class="step-label">
-        Видалити існуюче відділення
-      </mat-panel-title>
-      <mat-icon class="mat-icon-add">delete</mat-icon>
-    </mat-expansion-panel-header>
+  </form>
+</ng-container>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
-    </mat-form-field>
-    <mat-datepicker #picker></mat-datepicker>
-
-    <mat-action-row>
-      <button mat-button color="warn" (click)="prevStep()">Previous</button>
-      <button mat-button color="primary" (click)="nextStep()">End</button>
-    </mat-action-row>
-  </mat-expansion-panel>
-
-</mat-accordion>
-</form>

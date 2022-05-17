@@ -18,8 +18,10 @@ export class Department {
   title: string;
   description: string;
 
-  constructor(info, directionId, id?) {
-    this.id = id;
+  constructor(info, directionId) {
+    if(info.id){
+      this.id = info.id;
+    }
     this.directionId = directionId;
     this.title = info.title;
     this.description = info.title;
