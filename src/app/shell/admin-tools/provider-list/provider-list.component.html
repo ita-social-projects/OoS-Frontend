@@ -69,12 +69,7 @@
       </ng-container>
 
       <ng-container matColumnDef="city">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-        >
-          Населений пункт
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Населений пункт</th>
         <td mat-cell *matCellDef="let element">
           {{ element.legalAddress.city }}
         </td>
@@ -83,7 +78,8 @@
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Адреса</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.legalAddress.street }} {{ element.legalAddress.buildingNumber }}
+          {{ element.legalAddress.street }}
+          {{ element.legalAddress.buildingNumber }}
         </td>
       </ng-container>
 
@@ -194,7 +190,11 @@
             <button mat-icon-button (click)="onInfoShow(name, $event)">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
-            <button mat-icon-button><mat-icon>arrow_forward</mat-icon></button>
+            <button
+              mat-icon-button
+            >
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
           </div>
         </td>
       </ng-container>

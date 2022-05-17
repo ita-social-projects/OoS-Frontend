@@ -89,11 +89,15 @@ th.mat-cell {
   display: flex;
 }
 
+.fas {
+  margin-right: 7px;
+}
+
 .provider-list-status {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   font-size: 13px;
-  min-width: 170px;
+  min-width: 177px;
   margin-left: 3px;
 }
 .status-title {
