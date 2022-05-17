@@ -79,7 +79,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: {
-          type: ModalConfirmationType.editDirection,
+          type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection,
         }
       });
       dialogRef.afterClosed().subscribe((result: boolean)  => {
