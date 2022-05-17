@@ -2,10 +2,10 @@ import { ValidationConstants } from './../../constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
-import { Constants, WorkingDaysValues } from '../../constants/constants';
+import { filter } from 'rxjs/operators';
+import { WorkingDaysValues } from '../../constants/constants';
 import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
-import { DateTimeRanges, WorkingDaysToggleValue } from '../../models/workingHours.model';
+import { WorkingDaysToggleValue } from '../../models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -25,9 +25,14 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   @Output() deleteWorkingHour = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+   }
 
   ngOnInit(): void {
+    this.workingHoursForm.valueChanges.pipe(
+      filter(()=> !this.workingHoursForm.get('workdays').touched),
+    ).subscribe(()=>this.workingHoursForm.get('workdays').markAsTouched());
+
     this.workingHoursForm.value?.workdays.length && this.activateEditMode();
   }
 
@@ -42,8 +47,10 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     } else {
       this.workingDays.splice(this.workingDays.indexOf(day.value), 1);
     }
-    this.workingHoursForm.get('workdays').setValue(this.workingDays);
-    this.workingHoursForm.get('workdays').markAllAsTouched();
+
+    const value = this.workingDays.length ? this.workingDays : null;
+    this.workingHoursForm.get('workdays').setValue(value);
+
   }
 
   getMinTime(): string {
@@ -52,6 +59,12 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   delete(): void {
     this.deleteWorkingHour.emit(this.index);
+  }
+
+  onCancel(): void{
+    (<EventEmitter<any>>this.workingHoursForm.get('startTime').statusChanges).emit();
+    (<EventEmitter<any>>this.workingHoursForm.get('endTime').statusChanges).emit();
+
   }
 
   activateEditMode(): void {

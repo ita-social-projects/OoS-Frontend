@@ -10,19 +10,20 @@
         (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle toggle-selected' : 'toggle' ">
         {{day.value}}</div>
     </div>
+    
+    <app-validation-hint
+      [validationFormControl]="workingHoursForm.get('workdays')">
+    </app-validation-hint>
 
-    <ng-container 
-      *ngIf="workingHoursForm.get('workdays').invalid && workingHoursForm.get('workdays').touched; then ValidationHintTmpl">
-    </ng-container>
   </div>
 
     <p class="text">Від</p>
     <div>
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerStart" format="24" required formControlName="startTime" autocomplete="none">
-      <ng-container 
-        *ngIf="workingHoursForm.get('startTime').invalid && workingHoursForm.get('startTime').touched; then ValidationHintTmpl">
-      </ng-container>
+        <app-validation-hint
+        [validationFormControl]="workingHoursForm.get('startTime')">
+      </app-validation-hint>
     </div>
 
     <p class="text">До</p>
@@ -30,9 +31,6 @@
       <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerEnd" format="24" required formControlName="endTime" [min]="getMinTime()"
         autocomplete="none">
-        <ng-container 
-          *ngIf="workingHoursForm.get('startTime').invalid && workingHoursForm.get('endTime').touched; then ValidationHintTmpl">
-        </ng-container>
     </div>
   </form>
 
@@ -53,7 +51,7 @@
 </ngx-mat-timepicker>
 
 <ng-template #btnCancel>
-  <button mat-raised-button class="btn btn-cancel">Скасувати</button>
+  <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
 </ng-template>
 <ng-template #btnConfirm>
   <button class="btn" mat-raised-button>Зберегти</button>
