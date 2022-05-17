@@ -74,7 +74,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     setEditMode(): void {
       const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
       this.store.dispatch(new GetDepartments(directionId));
-      console.log(this.department);
      }
 
      determineEditMode(): void {

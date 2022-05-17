@@ -8,7 +8,45 @@ import { Department, Direction, DirectionsFilter, IClass } from "../models/categ
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, UpdateDepartment, OnUpdateDepartmentFail, OnUpdateDepartmentSuccess, UpdateClass, OnUpdateClassFail, OnUpdateClassSuccess, GetDepartmentById, FilteredDepartmentsList, DeleteClassById, OnDeleteClassSuccess, OnDeleteClassFail, } from "./admin.actions";
+import { 
+  DeleteDirectionById, 
+  GetInfoAboutPortal, 
+  OnDeleteDirectionFail, 
+  OnDeleteDirectionSuccess, 
+  OnUpdateInfoAboutPortalFail, 
+  OnUpdateInfoAboutPortalSuccess, 
+  UpdateInfoAboutPortal,
+  CreateDirection, 
+  OnCreateDirectionFail, 
+  OnCreateDirectionSuccess, 
+  UpdateDirection, 
+  OnUpdateDirectionSuccess, 
+  OnUpdateDirectionFail, 
+  CreateDepartment, 
+  OnCreateDepartmentFail, 
+  OnCreateDepartmentSuccess, 
+  GetDirectionById, 
+  GetDepartmentByDirectionId, 
+  SetSearchQueryValue, 
+  GetFilteredDirections, 
+  PageChange, 
+  FilterChange, 
+  FilterClear, 
+  OnCreateClassFail, 
+  OnCreateClassSuccess, 
+  CreateClass, 
+  UpdateDepartment,
+  OnUpdateDepartmentFail, 
+  OnUpdateDepartmentSuccess, 
+  UpdateClass, 
+  OnUpdateClassFail, 
+  OnUpdateClassSuccess, 
+  GetDepartmentById, 
+  FilteredDepartmentsList, 
+  DeleteClassById, 
+  OnDeleteClassSuccess, 
+  OnDeleteClassFail, 
+} from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -19,8 +57,6 @@ export interface AdminStateModel {
   classes: IClass[];
   aboutPortal: AboutPortal;
   departments: Department[];
-  selectedDirection: Direction;
-  selectedDepartment: Department;
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
@@ -30,14 +66,12 @@ export interface AdminStateModel {
   name: 'admin',
   defaults: {
     aboutPortal: null,
-    direction: undefined,
-    department: undefined,
-    iClass: undefined,
+    direction: null,
+    department: null,
+    iClass: null,
     classes: [],
     departments: [],
     isLoading: false,
-    selectedDirection: null,
-    selectedDepartment: null,
     searchQuery: '',
     filteredDirections: undefined,
     getDepartments: [],
@@ -279,7 +313,7 @@ export class AdminState {
     return this.categoriesService
       .getDirectionById(payload)
       .pipe(
-        tap((direction: Direction) =>  patchState({ selectedDirection: direction, isLoading: false })));
+        tap((direction: Direction) =>  patchState({ direction: direction, isLoading: false })));
   }
   @Action(GetDepartmentById)
   getDepartmentById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentById): Observable<Direction> {
@@ -287,7 +321,7 @@ export class AdminState {
     return this.categoriesService
       .getDepartmentById(payload)
       .pipe(
-        tap((department: Department) =>  patchState({ selectedDepartment: department, isLoading: false })));
+        tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
   @Action(FilteredDepartmentsList)
   filteredDepartmentsList({ patchState }: StateContext<AdminStateModel>, { payload }: FilteredDepartmentsList): void {
@@ -321,7 +355,7 @@ export class AdminState {
     return this.categoriesService
       .getFilteredDirections( state)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
-      () => patchState({ isLoading: false, selectedDirection: null })));
+      () => patchState({ isLoading: false, direction: null })));
   }
 
     @Action(PageChange)

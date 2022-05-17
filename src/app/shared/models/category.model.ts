@@ -4,7 +4,9 @@ export class Direction {
   description: string;
 
   constructor(info, id?) {
+    if(id){
     this.id = id;
+    }
     this.title = info.title;
     this.description = info.title;
   }

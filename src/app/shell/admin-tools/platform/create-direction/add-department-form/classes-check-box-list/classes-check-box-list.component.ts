@@ -39,7 +39,7 @@ export class ClassesCheckBoxListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onDelete(iClass: IClass): void {
+  onDelete(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: '330px',
       data: {
