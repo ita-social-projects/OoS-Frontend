@@ -21,15 +21,13 @@
   <ng-container *ngIf='editMode'>
     <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
     fxLayoutAlign='center space-between'>
-
-    <mat-radio-button #radio1 name="radioBtn1" [value]="'createDepartment'">Додати нове відділення</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value==='createDepartment'">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="'addDepartment'">Додати нове відділення</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value === 'addDepartment'">
       <input matInput class="step-input" type="text" formControlName="title"
       placeholder="Введіть назву відділення" autocomplete="none">
     </ng-container>
-
-    <mat-radio-button #radio2 name="radioBtn2" [value]="'editDepartment'">Редагувати існуюче відділення</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value==='editDepartment'">
+    <mat-radio-button #radio2 name="radioBtn2" [value]="'EditDepartment'">Редагувати існуюче відділення</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value === 'EditDepartment'">
     <div fxLayout="row" fxLayoutAlign="start center">
       <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
         formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
@@ -62,9 +60,8 @@
       </app-validation-hint-for-input>
     </ng-container>
     </ng-container>
-
-    <mat-radio-button #radio3 name="radioBtn3" [value]="'deleteDepartment'">Видалити відділення</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value==='deleteDepartment'">
+    <mat-radio-button #radio3 name="radioBtn3" [value]="'DeleteDepartment'">Видалити відділення</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value === 'DeleteDepartment'">
       <div fxLayout="row" fxLayoutAlign="start center">
         <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
           formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
