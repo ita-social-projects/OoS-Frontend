@@ -1,6 +1,6 @@
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -23,7 +23,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class AddDirectionFormComponent extends CreateFormComponent implements OnDestroy {
+export class AddDirectionFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
   direction: Direction;
