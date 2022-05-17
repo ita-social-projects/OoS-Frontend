@@ -9,7 +9,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ProviderAdminIcons } from 'src/app/shared/enum/provider-admin';
+import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 
 @Component({
@@ -19,7 +19,7 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 })
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
-  readonly providerAdminIcons = ProviderAdminIcons;
+  readonly ProviderListIcons = ProviderListIcons;
   provider: Provider;
   OwnershipTypeUkr: OwnershipTypeUkr;
   infoShow = new EventEmitter();

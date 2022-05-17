@@ -1,7 +1,7 @@
 export enum providerAdminRole {
   all = 'all',
   deputy = 'deputy',
-  admin = 'admin'
+  admin = 'admin',
 }
 
 export enum ProviderAdminStatus {
@@ -14,8 +14,12 @@ export enum ProviderAdminIcons {
   Accepted = 'fas fa-user-check',
   Blocked = 'fas fa-user-times',
 }
+export enum ProviderListIcons {
+  false = 'fas fa-user-clock',
+  true = 'fas fa-user-check',
+}
 export enum createDirectionSteps {
   'direction',
   'department',
-  'class'
+  'class',
 }
