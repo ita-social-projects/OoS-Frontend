@@ -1,5 +1,5 @@
 import { Provider } from 'src/app/shared/models/provider.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -20,7 +20,9 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly providerAdminIcons = ProviderAdminIcons;
+  provider: Provider;
   OwnershipTypeUkr: OwnershipTypeUkr;
+  infoShow = new EventEmitter();
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
@@ -203,5 +205,10 @@ export class ProviderListComponent implements OnInit {
       default:
         return 'Приватна';
     }
+  }
+
+  onInfoShow(element: Element, event): void {
+    this.infoShow.emit({ element, child: this.provider });
+    event.stopPropagation();
   }
 }
