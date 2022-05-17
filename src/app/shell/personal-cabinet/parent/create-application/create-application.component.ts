@@ -33,7 +33,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   @Select(UserState.children) children$: Observable<ChildCards>;
   @Select(UserState.isAllowedNewApplication) isAllowedNewApplication$: Observable<boolean>;
-  isAllowedNewApplication: boolean;
+  isAllowedNewApplication: boolean = true;
   @Select(RegistrationState.user) user$: Observable<User>;
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
@@ -53,7 +53,6 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
-  isAllowed: boolean = true;
 
   constructor(
     private store: Store,
@@ -86,8 +85,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$))
     .subscribe((status: boolean) => {
-      this.isAllowedNewApplication = status;
-      this.isAllowed = this.selectedChild?.id ? this.isAllowedNewApplication : true;
+      this.isAllowedNewApplication = this.selectedChild?.id ? status : true;
     });
 
     this.workshopId = this.route.snapshot.paramMap.get('id');
