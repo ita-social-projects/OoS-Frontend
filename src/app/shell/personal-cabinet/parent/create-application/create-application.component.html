@@ -11,7 +11,7 @@
         <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select (selectionChange)="checkAbilityToChildApply()" disableOptionCentering panelClass="dropdown-panel" class="step-input"
-            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
+          [ngClass]="{'warning': !isAllowedNewApplication}" [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
             <mat-option *ngFor="let child of (children$ | async)?.entities" [value]="child" class="dropdown-option">
               {{child.firstName}} {{child.middleName}} {{child.lastName}}
             </mat-option>
@@ -20,6 +20,10 @@
         <app-validation-hint-for-input type="requiredField"
           [invalid]="ChildFormControl.invalid && ChildFormControl.touched">
         </app-validation-hint-for-input>
+        <small class="hint" [ngClass]="{'hide-message': isAllowedNewApplication}">
+          Для обраної дитини вже існує активна заявка до данного гуртка
+        </small>
+
 
         <div fxLayout="column" fxLayoutAlign="center center">
           <a [routerLink]="['/create-child', '']">
@@ -64,7 +68,7 @@
                     !isContraindicationAgreed ||
                     !isParentAgreed ||
                     !selectedChild ||
-                    !(isAllowNewApplication$ | async) " (click)="onSubmit()">Відправити</button>
+                    !isAllowedNewApplication" (click)="onSubmit()">Відправити</button>
     </div>
   </div>
 </div>

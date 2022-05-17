@@ -83,7 +83,7 @@ import {
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
-  GetStatusForNewApplication,
+  GetNewApplicationStatus,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -101,7 +101,7 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
-  isAllowNewApplication: boolean;
+  isAllowedNewApplication: boolean;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -119,7 +119,7 @@ export interface UserStateModel {
       isActive: true
     },
     providerAdmins: null,
-    isAllowNewApplication: false
+    isAllowedNewApplication: false
   }
 })
 @Injectable()
@@ -153,7 +153,7 @@ export class UserState {
   static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
 
   @Selector()
-  static isAllowNewApplication(state: UserStateModel): boolean { return state.isAllowNewApplication; }
+  static isAllowedNewApplication(state: UserStateModel): boolean { return state.isAllowedNewApplication; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -468,14 +468,13 @@ export class UserState {
     this.router.navigate(['']);
   }
 
-  @Action(GetStatusForNewApplication)
-  getStatusForNewApplication({ patchState }: StateContext<UserStateModel>, { payload }: GetStatusForNewApplication): Observable<boolean> {
+  @Action(GetNewApplicationStatus)
+  getNewApplicationStatus({ patchState }: StateContext<UserStateModel>, { payload }: GetNewApplicationStatus): Observable<boolean> {
     return this.applicationService
-      .getStatusForNewApplication(payload.workshopId, payload.childId)
+      .getNewApplicationStatus(payload.workshopId, payload.childId)
       .pipe(
-        tap((status: boolean) => {
-          return patchState({ isAllowNewApplication: status });
-        }));
+        tap((status: boolean) => patchState({ isAllowedNewApplication: status }))
+        );
   }
 
   @Action(DeleteChildById)

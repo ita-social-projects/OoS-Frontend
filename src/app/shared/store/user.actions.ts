@@ -158,7 +158,7 @@ export class OnCreateApplicationSuccess {
   static readonly type = '[user] create Application success';
   constructor(public payload) { }
 }
-export class GetStatusForNewApplication {
+export class GetNewApplicationStatus {
   static readonly type = '[user] check status for new Application';
   constructor(public payload) { }
 }
