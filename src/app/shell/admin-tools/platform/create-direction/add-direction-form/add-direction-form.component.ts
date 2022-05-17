@@ -99,10 +99,6 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
     }
     this._stepper.next(); 
   }
-
-  ngOnDestroy(): void {
-    this.destroy$.unsubscribe();
-  }
 }
 
 
