@@ -1,17 +1,14 @@
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
-import { CreateDirection, GetDirectionById, UpdateDirection } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
+import { CreateDirection, UpdateDirection } from 'src/app/shared/store/admin.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 
 @Component({
@@ -24,9 +21,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
   }]
 })
 export class AddDirectionFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Select(AdminState.direction)
-  direction$: Observable<Direction>;
-  direction: Direction;
+  @Input() direction: Direction;
 
   directionFormGroup: FormGroup;
 
@@ -39,7 +34,6 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
     navigationBarService: NavigationBarService) {
       
     super(store, route, navigationBarService);
-
     this.directionFormGroup = this.fb.group({
       title: new FormControl('', Validators.required),
       id:  new FormControl('')
@@ -47,7 +41,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
   }
 
   ngOnInit(): void {      
-    this.determineEditMode();
+    this.determineEditMode(); //TODO: move this to abstract create-form component
   }
 
   addNavPath(): void {
@@ -55,16 +49,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
   }
 
   setEditMode(): void {
-    const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
-    this.store.dispatch( new GetDirectionById(directionId));
-
-    this.direction$.pipe(
-      takeUntil(this.destroy$),
-      filter((direction: Direction)=> !!direction)
-    ).subscribe((direction: Direction) => {
-      this.direction = direction;
-      this.directionFormGroup.patchValue(this.direction, { emitEvent: false });
-    });
+    this.directionFormGroup.patchValue(this.direction, { emitEvent: false });
   }
   
   determineEditMode(): void {
@@ -84,7 +69,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
       });
       dialogRef.afterClosed().subscribe((result: boolean)  => {
         if (result) {
-          const direction: Direction = new Direction(this.directionFormGroup.value, this.direction.id);
+          const direction: Direction = new Direction(this.directionFormGroup.value);
           this.editMode ? 
             this.store.dispatch(new UpdateDirection(direction)) :
             this.store.dispatch(new CreateDirection(direction));

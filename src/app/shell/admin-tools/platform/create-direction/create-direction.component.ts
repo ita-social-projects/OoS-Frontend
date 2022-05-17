@@ -12,7 +12,7 @@ import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { CreateClass } from 'src/app/shared/store/admin.actions';
+import { CreateClass, GetDirectionById } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
@@ -32,9 +32,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
   direction: Direction;
-  @Select(AdminState.department)
-  department$: Observable<Department>;
-  department: Department;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   editMode: boolean;
@@ -55,33 +53,37 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     private router: Router,
     private matDialog: MatDialog,) { }
 
-    ngOnInit(): void {
-      this.addClass();
-      this.direction$.pipe(takeUntil(this.destroy$),filter((direction: Direction)=>!!direction)).subscribe((direction: Direction)=>this.direction = direction);
-      this.department$.pipe(takeUntil(this.destroy$),filter((department: Department)=>!!department)).subscribe((department: Department)=>this.department = department);
-      this.determineEditMode();
+  ngOnInit(): void {
+    this.determineEditMode();
 
+    this.addClass();
+
+    this.direction$.pipe(
+      takeUntil(this.destroy$),
+      filter((direction: Direction)=> !!direction)
+    ).subscribe((direction: Direction) => this.direction = direction);
+  }
+
+  private newForm( ): FormGroup {
+    const ClassFormGroup = this.fb.group({
+      title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      classId: new FormControl(''),
+    });
+    return ClassFormGroup;
+  }
+
+  private setEditMode(): void {
+    const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
+    this.store.dispatch( new GetDirectionById(directionId));
+  }
+  
+  private determineEditMode(): void {
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+    if (this.editMode) {
+      this.setEditMode();
     }
+  }
 
-    private newForm( ): FormGroup {
-      const ClassFormGroup = this.fb.group({
-        title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-        classId: new FormControl(''),
-
-      });
-      return ClassFormGroup;
-    }
-    setEditMode(): void {
-      const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
-      this.store.dispatch(new GetDepartments(directionId));
-     }
-
-     determineEditMode(): void {
-       this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
-       if (this.editMode) {
-         this.setEditMode();
-       }
-     }
   addClass(): void {
     this.ClassFormArray.push(this.newForm());
   }
@@ -128,6 +130,8 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new Cle());
+
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

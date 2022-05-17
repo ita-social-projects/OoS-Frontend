@@ -151,4 +151,8 @@ export class OnDeleteClassSuccess {
   constructor(public payload) { }
 }
 
+export class OnClearCategories {
+  static readonly type = '[admin] claer department, direction, class state';
+  constructor( ) { }
+}
 

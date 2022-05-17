@@ -347,7 +347,6 @@ export class AdminState {
   @Action(FilterChange)
   filterChange({ }: StateContext<AdminStateModel>, { }: FilterChange) { }
 
-
   @Action(GetFilteredDirections)
   getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
     patchState({ isLoading: true });

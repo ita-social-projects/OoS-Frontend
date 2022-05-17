@@ -1,16 +1,23 @@
 <form *ngIf="direction" [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <label class="step-label"> Назва напряму </label>
-  </div>
-
-  <ng-container *ngIf='!editMode'>
+  <h3 class="step-label"> Назва напрямку: {{direction.title}} </h3>
+  
+  <ng-container *ngIf="!editMode; else editTmpl">
+    <label class="step-label">Назва нового відділення</label>
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="title">
     </mat-form-field>
- </ng-container>
+  </ng-container>
 
-  <ng-container *ngIf='editMode'>
-    <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <!-- <button class="btn" mat-raised-button (click)="onStepBack()">Назад</button> -->
+      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+        class="btn btn-cancel">Скасувати</button></a>
+        <button class="btn" (click)="onSubmit()" mat-raised-button>Далі</button>
+    </div>
+</form>
+
+<ng-template #editTmpl>
+  <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
     fxLayoutAlign='center space-between'>
     <mat-radio-button #radio1 name="radioBtn1" [value]="'addDepartment'">Додати нове відділення</mat-radio-button>
     <ng-container *ngIf="editOptionRadioBtn.value === 'addDepartment'">
@@ -29,12 +36,6 @@
           {{ department.title }}
         </mat-option>
       </mat-autocomplete>
-      <app-validation-hint-for-input type="requiredField"
-      [invalid]="departmentIdControl.invalid && departmentIdControl.touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="notExistClass"
-      [invalid]="departmentFormGroup.get('title')===department?.title">
-      </app-validation-hint-for-input>
     </div>
     <ng-container *ngIf="(departments$ | async)?.length">
       <div fxLayout="row" fxLayoutAlign="start center">
@@ -43,12 +44,6 @@
       <mat-form-field>
         <input matInput class="step-input" type="text" formControlName="title">
       </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="departmentFormGroup.get('title').errors?.required">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validTextField"
-        [forbiddenCharacter]="departmentFormGroup.get('title').errors?.pattern?.requiredPattern">
-      </app-validation-hint-for-input>
     </ng-container>
     </ng-container>
     <mat-radio-button #radio3 name="radioBtn3" [value]="'DeleteDepartment'">Видалити відділення</mat-radio-button>
@@ -63,12 +58,6 @@
             {{ department.title }}
           </mat-option>
         </mat-autocomplete>
-        <app-validation-hint-for-input type="requiredField"
-        [invalid]="departmentIdControl.invalid && departmentIdControl.touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="notExistClass"
-        [invalid]="departmentFormGroup.get('title')===department?.title">
-        </app-validation-hint-for-input>
       </div>
       <div class="del-icon" (click)="onDelete()">
         <button mat-button class="del-button">
@@ -80,17 +69,5 @@
     </ng-container>
   </ng-container>
   </mat-radio-group>
-</ng-container>
 
-
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-        class="btn btn-cancel">Скасувати</button></a>
-        <button class="btn" (click)="onSubmit()" mat-raised-button>Далі</button>
-    </div>
-</form>
-
-
-
-
-
+</ng-template>
