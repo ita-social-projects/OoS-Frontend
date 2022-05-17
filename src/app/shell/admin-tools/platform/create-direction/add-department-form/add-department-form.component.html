@@ -21,15 +21,15 @@
   <ng-container *ngIf='editMode'>
     <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
     fxLayoutAlign='center space-between'>
-    
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Додати нове відділення</mat-radio-button>
-    <ng-container *ngIf="!editOptionRadioBtn.value">
+
+    <mat-radio-button #radio1 name="radioBtn1" [value]="'createDepartment'">Додати нове відділення</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value==='createDepartment'">
       <input matInput class="step-input" type="text" formControlName="title"
       placeholder="Введіть назву відділення" autocomplete="none">
     </ng-container>
 
-    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Редагувати існуюче відділення</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value">
+    <mat-radio-button #radio2 name="radioBtn2" [value]="'editDepartment'">Редагувати існуюче відділення</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value==='editDepartment'">
     <div fxLayout="row" fxLayoutAlign="start center">
       <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
         formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
@@ -63,8 +63,8 @@
     </ng-container>
     </ng-container>
 
-    <mat-radio-button #radio3 name="radioBtn3" [value]="true">Видалити відділення</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value">
+    <mat-radio-button #radio3 name="radioBtn3" [value]="'deleteDepartment'">Видалити відділення</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value==='deleteDepartment'">
       <div fxLayout="row" fxLayoutAlign="start center">
         <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
           formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
@@ -102,7 +102,7 @@
     </div>
 </form>
 
-  
+
 
 
 

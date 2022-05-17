@@ -138,5 +138,17 @@ export class OnCreateClassSuccess {
   static readonly type = '[admin] create Class success';
   constructor(public payload) { }
 }
+export class DeleteClassById {
+  static readonly type = '[admin] delete Class';
+  constructor(public payload) { }
+}
+export class OnDeleteClassFail {
+  static readonly type = '[admin] delete Class fail';
+  constructor(public payload: Error) { }
+}
+export class OnDeleteClassSuccess {
+  static readonly type = '[admin] delete Class success';
+  constructor(public payload) { }
+}
 
 

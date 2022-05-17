@@ -8,7 +8,7 @@ import { Department, Direction, DirectionsFilter, IClass } from "../models/categ
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, UpdateDepartment, OnUpdateDepartmentFail, OnUpdateDepartmentSuccess, UpdateClass, OnUpdateClassFail, OnUpdateClassSuccess, GetDepartmentById, FilteredDepartmentsList, } from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, UpdateDepartment, OnUpdateDepartmentFail, OnUpdateDepartmentSuccess, UpdateClass, OnUpdateClassFail, OnUpdateClassSuccess, GetDepartmentById, FilteredDepartmentsList, DeleteClassById, OnDeleteClassSuccess, OnDeleteClassFail, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -339,5 +339,26 @@ export class AdminState {
         isActive: true
       }
     });
+  }
+  @Action(DeleteClassById)
+  deleteClassById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteClassById): Observable<object> {
+    return this.categoriesService
+      .DeleteClassById(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteClassSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnDeleteClassFail(error))))
+      );
+  }
+
+  @Action(OnDeleteClassFail)
+  onDeleteClassFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteClassFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnDeleteClassSuccess)
+  onDeleteClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteClassSuccess): void {
+    console.log('Class is deleted', payload);
+    dispatch(new ShowMessageBar({ message: 'Класс видалено!', type: 'success' }));
   }
 }

@@ -24,14 +24,14 @@
     <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
     fxLayoutAlign='center space-between'>
 
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Додати новий клас</mat-radio-button>
-    <ng-container *ngIf="!editOptionRadioBtn.value">
+    <mat-radio-button #radio1 name="radioBtn1" [value]="'createIClass'">Додати новий клас</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value==='createIClass'">
       <input matInput class="step-input" type="text" formControlName="title"
       placeholder="Введіть назву відділення" autocomplete="none">
     </ng-container>
 
-    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Редагувати існуючий клас</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value">
+    <mat-radio-button #radio2 name="radioBtn2" [value]="'editIClass'">Редагувати існуючий клас</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value==='editIClass'">
     <div fxLayout="row" fxLayoutAlign="start center">
       <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
         formControlName="iClassId" [matAutocomplete]="autoIClass" disableOptionCentering
@@ -65,11 +65,11 @@
     </ng-container>
     </ng-container>
 
-    <mat-radio-button #radio3 name="radioBtn3" [value]="true">Видалити клас</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value">
+    <mat-radio-button #radio3 name="radioBtn3" [value]="'deleteIClass'">Видалити клас</mat-radio-button>
+    <ng-container *ngIf="editOptionRadioBtn.value==='deleteIClass'">
 
       <app-classes-check-box-list [classes]="classes$ | async" (iClassCheck)="oniClassSelect($event)"></app-classes-check-box-list>
-    
+
   </ng-container>
   </mat-radio-group>
 </ng-container>

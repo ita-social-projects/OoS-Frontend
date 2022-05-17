@@ -1,6 +1,8 @@
 export enum ModalConfirmationType {
   delete = 'delete',
   deleteDirection = 'deleteDirection',
+  deleteDepartment = 'deleteDepartment',
+  deleteIClass = 'deleteIClass',
   deleteTeacher = 'deleteTeacher',
   deleteProviderAdmin = 'deleteProviderAdmin',
   deleteProviderAdminDeputy = 'deleteProviderAdminDeputy',
@@ -22,6 +24,8 @@ export enum ModalConfirmationType {
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
   deleteDirection = 'ВИДАЛИТИ НАПРЯМОК?',
+  deleteDepartment = 'ВИДАЛИТИ ВІДДІЛ?',
+  deleteIClass = 'ВИДАЛИТИ КЛАС?',
   createDirection = 'CТВОРИТИ НАПРЯМОК?',
   createDepartment = 'CТВОРИТИ ВІДДІЛЕННЯ?',
   createClass = 'CТВОРИТИ КЛАС?',
@@ -43,6 +47,8 @@ export enum ModalConfirmationTitle {
 export enum ModalConfirmationText {
   delete = 'Ви впевнені, що хочете видалити гурток',
   deleteDirection = 'Ви впевнені, що хочете видалити напрямок',
+  deleteDepartment = 'Ви впевнені, що хочете видалити відділ',
+  deleteIClass = 'Ви впевнені, що хочете видалити клас',
   createDirection = 'Ви впевнені, що хочете створити напрямок?',
   createDepartment = 'Ви впевнені, що хочете створити відділення?',
   createClass = 'Ви впевнені, що хочете створити клас?',

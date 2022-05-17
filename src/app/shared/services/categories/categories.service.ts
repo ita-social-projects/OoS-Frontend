@@ -77,4 +77,7 @@ export class CategoriesService {
   createClass(classes: IClass[]): Observable<IClass[]> {
     return this.http.post<IClass[]>('/api/v1/Class/CreateMultiple', classes);
   }
+  DeleteClassById(id: number): Observable<object> {
+    return this.http.delete(`/api/v1/Class/Delete/${id}`);
+  }
 }

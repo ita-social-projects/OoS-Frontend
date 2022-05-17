@@ -28,9 +28,9 @@ export class AddDepartmentFormComponent implements OnDestroy{
   departmentFormGroup: FormGroup;
   directionFormGroup: FormGroup
   destroy$: Subject<boolean> = new Subject<boolean>();
-  editOptionRadioBtn: FormControl = new FormControl(false);  
+  editOptionRadioBtn: FormControl = new FormControl(false);
 
-  
+
   @Input() editMode: boolean;
   @Input() department: Department;
   @Input() CategoryFormGroup: FormGroup;
@@ -70,7 +70,7 @@ export class AddDepartmentFormComponent implements OnDestroy{
   get classIdControl(): AbstractControl { return this.ClassFormGroup && this.ClassFormGroup.get('classId'); }
 
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.determineEditMode();
 
   }
@@ -79,7 +79,6 @@ export class AddDepartmentFormComponent implements OnDestroy{
    const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
    this.store.dispatch(new GetDepartments(directionId));
    this.setInitialDepartments();
-   this.onEditOptionCtrlInit();
    console.log(this.department);
   }
 
@@ -120,7 +119,7 @@ export class AddDepartmentFormComponent implements OnDestroy{
   }
 
   onIClassSelect(workshopsId: number[]): void {
-  
+
   }
 
   onSelectDepartment(department: Department): void {
@@ -128,15 +127,15 @@ export class AddDepartmentFormComponent implements OnDestroy{
     this.store.dispatch(new GetClasses(department.id));
   }
 
-  onEditOptionCtrlInit(): void {
-    this.editOptionRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((editOptionRadioBtn: boolean) => {
-        editOptionRadioBtn ? this.departmentFormGroup.get('editOptionsDesc').enable() : this.departmentFormGroup.get('editOptionsDesc').disable();
-      });
-  }
-  
+//  onEditOptionCtrlInit(): void {
+//    this.editOptionRadioBtn.valueChanges
+//      .pipe(
+//        takeUntil(this.destroy$),
+//      ).subscribe((editOptionRadioBtn: boolean) => {
+  //      editOptionRadioBtn ? this.departmentFormGroup.get('editOptionsDesc').enable() : this.departmentFormGroup.get('editOptionsDesc').disable();
+ //     });
+ // }
+
 
   private setInitialDepartments(): void {
     this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);    this.departments$.subscribe((departments: Department[]) => this.departments = departments);
@@ -190,7 +189,7 @@ export class AddDepartmentFormComponent implements OnDestroy{
     this.destroy$.unsubscribe();
   }
 }
-  
+
 
 
 

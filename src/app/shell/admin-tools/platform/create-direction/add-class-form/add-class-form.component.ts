@@ -57,7 +57,6 @@ export class AddClassFormComponent implements OnInit{
     const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
     //this.store.dispatch(new GetClasses(this.department.id));
     this.setInitialClasses();
-    this.onEditOptionCtrlInit();
    }
 
    determineEditMode(): void {
@@ -98,14 +97,14 @@ export class AddClassFormComponent implements OnInit{
     //this.store.dispatch(new GetClasses(department.id));
   }
 
-  onEditOptionCtrlInit(): void {
-    this.editOptionRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((editOptionRadioBtn: boolean) => {
-        editOptionRadioBtn ? this.ClassFormGroup.get('editOptionsDesc').enable() : this.ClassFormGroup.get('editOptionsDesc').disable();
-      });
-  }
+//  onEditOptionCtrlInit(): void {
+//    this.editOptionRadioBtn.valueChanges
+//      .pipe(
+//        takeUntil(this.destroy$),
+//      ).subscribe((editOptionRadioBtn: boolean) => {
+  //      editOptionRadioBtn ? this.departmentFormGroup.get('editOptionsDesc').enable() : this.departmentFormGroup.get('editOptionsDesc').disable();
+ //     });
+ // }
 
 
   private setInitialClasses(): void {
