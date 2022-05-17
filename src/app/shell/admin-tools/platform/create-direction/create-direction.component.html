@@ -11,14 +11,16 @@
         <ng-template matStepLabel>
           <p class="step-name">Напрямок</p>
         </ng-template>
-        <app-add-direction-form [direction]="direction"></app-add-direction-form>
+        <app-add-direction-form></app-add-direction-form>
       </mat-step>
 
       <mat-step [stepControl]="departmentFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Відділення</p>
         </ng-template>
-        <app-add-department-form [direction]="direction"></app-add-department-form>
+        <ng-container *ngIf="direction$ | async">
+          <app-add-department-form [direction]="direction$ | async"></app-add-department-form>
+        </ng-container>
       </mat-step>
 
       <mat-step [stepControl]="ClassFormGroup">

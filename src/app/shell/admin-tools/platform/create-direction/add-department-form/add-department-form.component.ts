@@ -67,8 +67,8 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
 
 
   ngOnInit(): void {
+    console.log('direction',this.direction)
     this.determineEditMode();
-    console.log(this.direction)
   }
 
   addNavPath(): void {

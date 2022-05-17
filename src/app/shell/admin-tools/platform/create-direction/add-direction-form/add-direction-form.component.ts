@@ -4,12 +4,15 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction } from 'src/app/shared/models/category.model';
 import { CreateDirection, UpdateDirection } from 'src/app/shared/store/admin.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { Observable } from 'rxjs';
+import { AdminState } from 'src/app/shared/store/admin.state';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-direction-form',
@@ -21,8 +24,10 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
   }]
 })
 export class AddDirectionFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Input() direction: Direction;
-
+  @Select(AdminState.direction)
+  direction$: Observable<Direction>;
+  direction: Direction;
+  
   directionFormGroup: FormGroup;
 
   constructor(
@@ -49,7 +54,14 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
   }
 
   setEditMode(): void {
-    this.directionFormGroup.patchValue(this.direction, { emitEvent: false });
+   
+    this.direction$.pipe(
+      takeUntil(this.destroy$),
+      filter((direction: Direction)=> !!direction)
+    ).subscribe((direction: Direction) => {
+      this.direction = direction;
+      this.directionFormGroup.patchValue(this.direction, { emitEvent: false });
+    });
   }
   
   determineEditMode(): void {

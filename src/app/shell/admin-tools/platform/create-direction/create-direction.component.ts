@@ -28,10 +28,8 @@ import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 })
 
 export class CreateDirectionComponent implements OnInit, OnDestroy {
-
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
-  direction: Direction;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -57,11 +55,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     this.determineEditMode();
 
     this.addClass();
-
-    this.direction$.pipe(
-      takeUntil(this.destroy$),
-      filter((direction: Direction)=> !!direction)
-    ).subscribe((direction: Direction) => this.direction = direction);
   }
 
   private newForm( ): FormGroup {
@@ -130,8 +123,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new Cle());
-
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

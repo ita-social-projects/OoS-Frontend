@@ -45,7 +45,8 @@ import {
   FilteredDepartmentsList, 
   DeleteClassById, 
   OnDeleteClassSuccess, 
-  OnDeleteClassFail, 
+  OnDeleteClassFail,
+  OnClearCategories, 
 } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
@@ -209,6 +210,7 @@ export class AdminState {
   @Action(OnUpdateDirectionSuccess)
   onUpdateDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
+    dispatch(new GetDirectionById(payload.id));
     console.log('Direction is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' }));
   }
@@ -393,5 +395,10 @@ export class AdminState {
   onDeleteClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteClassSuccess): void {
     console.log('Class is deleted', payload);
     dispatch(new ShowMessageBar({ message: 'Класс видалено!', type: 'success' }));
+  }
+
+  @Action(OnClearCategories)
+  onClearCategories({ patchState }: StateContext<AdminStateModel>, { }: OnClearCategories): void {
+    patchState({ direction: null, department: null, iClass: null });
   }
 }
