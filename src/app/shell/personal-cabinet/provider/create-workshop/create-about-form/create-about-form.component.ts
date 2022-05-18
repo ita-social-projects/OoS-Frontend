@@ -149,10 +149,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       workdays: new FormControl('', Validators.required),
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
+      id: new FormControl('')
     });
     if (range) {
-      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
-      workingHoursFormGroup.setValue(range);
+      workingHoursFormGroup.patchValue(range);
     }
 
     return workingHoursFormGroup;
