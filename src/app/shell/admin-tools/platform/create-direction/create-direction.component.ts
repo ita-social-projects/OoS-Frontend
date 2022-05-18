@@ -1,3 +1,4 @@
+import { UpdateClass } from './../../../../shared/store/admin.actions';
 import { takeUntil } from 'rxjs/operators';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -33,26 +34,15 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   department$: Observable<Department>;
   department:Department;
 
+  ClassFormArray = new FormArray([]);
   destroy$: Subject<boolean> = new Subject<boolean>();
-
   editMode: boolean;
-
-  @ViewChild('stepper') stepper: MatStepper;
-
-  departmentFormGroup: FormGroup;
-  directionFormGroup: FormGroup;
-  ClassFormGroup: FormGroup;
-  ClassFormArray: FormArray = new FormArray([]);
 
   constructor(
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
-    private matDialog: MatDialog
-  ) { }
-
-  ngOnInit(): void {
-    this.determineEditMode();
+    private matDialog: MatDialog) {    
 
     this.direction$.pipe(
       takeUntil(this.destroy$)
@@ -60,6 +50,10 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     this.department$.pipe(
       takeUntil(this.destroy$)
     ).subscribe((department: Department)=>this.department = department);
+  }
+
+  ngOnInit(): void {
+    this.determineEditMode();
   }
 
   private setEditMode(): void {
@@ -75,40 +69,33 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.ClassFormArray.invalid) {
-      this.checkValidationClass();
-    } else {
+    if(this.ClassFormArray.dirty){
+      const isEditMode= this.ClassFormArray.controls[0].value.id;
+
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: {
-          type: ModalConfirmationType.createClass,
+          type: isEditMode ? ModalConfirmationType.editClass : ModalConfirmationType.createClass,
         }
       });
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-      const classes: IClass[] = [];
-      const department = this.store.selectSnapshot<Department>(AdminState.department);
-
-      this.ClassFormArray.controls.forEach((form: FormGroup) =>
-        classes.push(new IClass(form.value, department.id))
-        );
-        this.store.dispatch(new CreateClass(classes));
-      } else {
-        this.router.navigate([`/admin-tools/platform/directions`]);
-       }
-     });
+      dialogRef.afterClosed().subscribe((result: boolean)  => {
+        if (result) {
+          const classes: IClass[] = this.createClasses();
+          isEditMode ? 
+            this.store.dispatch(new UpdateClass(classes[0])) :
+            this.store.dispatch(new CreateClass(classes));
+          
+            this.router.navigate([`/admin-tools/platform/directions`]);
+        }
+      });
     }
-   }
-
-    checkValidationClass(): void {
-    Object.keys(this.ClassFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.ClassFormArray.get(key));
-    });
   }
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).markAsTouched();
-    });
+
+  createClasses(): IClass[] {
+    const classes: IClass[] = [];
+    this.ClassFormArray.controls
+      .forEach((form: FormGroup) => classes.push(new IClass(form.value, this.department.id)));
+    return classes;
   }
 
   ngOnDestroy(): void {

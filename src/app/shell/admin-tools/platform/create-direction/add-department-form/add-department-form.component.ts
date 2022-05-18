@@ -1,24 +1,20 @@
-import { GetDepartmentByDirectionId, DeleteDepartmentById, GetDepartmentById } from './../../../../../shared/store/admin.actions';
+import { DeleteDepartmentById, GetDepartmentById } from 'src/app//shared/store/admin.actions';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { CategoriesService } from 'src/app/shared/services/categories/categories.service';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { CreateDepartment, FilteredDepartmentsList, UpdateDepartment } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
+import { CreateDepartment, UpdateDepartment } from 'src/app/shared/store/admin.actions';
 import { GetClasses, GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-department-form',

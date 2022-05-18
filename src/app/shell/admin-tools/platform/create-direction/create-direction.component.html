@@ -7,14 +7,14 @@
 
     <mat-horizontal-stepper #stepper [linear]="!editMode">
 
-      <mat-step [stepControl]="directionFormGroup">
+      <mat-step>
         <ng-template matStepLabel>
           <p class="step-name">Напрямок</p>
         </ng-template>
         <app-add-direction-form></app-add-direction-form>
       </mat-step>
 
-      <mat-step [stepControl]="departmentFormGroup">
+      <mat-step>
         <ng-template matStepLabel>
           <p class="step-name">Відділення</p>
         </ng-template>
@@ -25,14 +25,14 @@
         </ng-container>
       </mat-step>
 
-      <mat-step [stepControl]="ClassFormGroup">
+      <mat-step>
         <ng-template matStepLabel>
           <p class="step-name">Клас</p>
         </ng-template>
         
       <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
       <ng-container *ngIf="department">
-        <app-add-class-form [department]="department"></app-add-class-form>
+        <app-add-class-form [department]="department" [classFormArray]="ClassFormArray"></app-add-class-form>
       </ng-container>
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">

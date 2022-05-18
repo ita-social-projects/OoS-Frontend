@@ -3,12 +3,12 @@
 </div>
 
 <ng-template #addNewClassTmpl>
-  <app-new-class-form *ngFor="let form of ClassFormArray.controls" [classFormGroup]="form"
-    [formIndex]="ClassFormArray.controls.indexOf(form)" [classAmount]="ClassFormArray.controls.length"
+  <app-new-class-form *ngFor="let form of classFormArray.controls" [classFormGroup]="form"
+    [formIndex]="classFormArray.controls.indexOf(form)" [classAmount]="classFormArray.controls.length"
     (deleteForm)="onDeleteForm($event)">
   </app-new-class-form>
   <div fxLayout="column" fxLayoutAlign="center center">
-    <button class="btn-add" mat-button (click)="onAddForm()" [disabled]="ClassFormArray.invalid">
+    <button class="btn-add" mat-button (click)="onAddForm()" [disabled]="classFormArray.invalid">
       <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
     </button>
   </div>

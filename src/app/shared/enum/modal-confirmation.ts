@@ -20,6 +20,7 @@ export enum ModalConfirmationType {
   createDepartment = 'createDepartment',
   editDepartment = 'editDepartment',
   createClass = 'createClass',
+  editClass = 'editClass',
   createProviderAdmin = 'createProviderAdmin',
   createProviderAdminDeputy = 'createProviderAdminDeputy',
 }
@@ -33,6 +34,7 @@ export enum ModalConfirmationTitle {
   createDepartment = 'CТВОРИТИ ВІДДІЛЕННЯ?',
   editDepartment = 'РЕДАГУВАТИ ВІДДІЛЕННЯ?',
   createClass = 'CТВОРИТИ КЛАС?',
+  editClass = 'РЕДАГУВАТИ КЛАС?',
   deleteChild = 'ВИЛУЧИТИ ДАНІ ПРО ДИТИНУ?',
   deleteTeacher = 'ВИЛУЧИТИ ДАНІ ПРО ВЧИТЕЛЯ',
   deleteProviderAdmin = 'ВИДАЛИТИ АДМІНІСТРАТОРА ГУРТКА',
@@ -58,6 +60,7 @@ export enum ModalConfirmationText {
   createDepartment = 'Ви впевнені, що хочете створити відділення?',
   editDepartment = 'Ви впевнені, що хочете відредагувати відділення?',
   createClass = 'Ви впевнені, що хочете створити клас?',
+  editClass = 'Ви впевнені, що хочете відредагувати клас?',
   deleteChild = 'Ви впевнені, що хочете вилучити дані про дитину',
   deleteTeacher = 'Ви впевнені, що хочете вилучити дані про вчителя ?',
   deleteProviderAdmin = 'Ви впевнені, що хочете видалити адміністратора гуртка',

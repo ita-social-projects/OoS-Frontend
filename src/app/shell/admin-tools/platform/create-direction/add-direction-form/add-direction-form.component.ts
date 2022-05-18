@@ -54,7 +54,6 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
   }
 
   setEditMode(): void {
-   
     this.direction$.pipe(
       takeUntil(this.destroy$),
       filter((direction: Direction)=> !!direction)

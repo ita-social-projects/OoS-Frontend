@@ -1,5 +1,5 @@
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -19,11 +19,11 @@ import { GetClasses } from 'src/app/shared/store/meta-data.actions';
 })
 export class AddClassFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Input() department: Department;
+  @Input() classFormArray: FormArray;
 
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
 
-  ClassFormArray = new FormArray([]);
   selectedClassFormgroup: FormGroup = this.newForm();
   classSelectControl: FormControl = new FormControl();
 
@@ -60,11 +60,11 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
   }
 
   onDeleteForm(index: number): void {
-    this.ClassFormArray.removeAt(index);
+    this.classFormArray.removeAt(index);
   }
 
   onAddForm(): void {
-    this.ClassFormArray.push(this.newForm());
+    this.classFormArray.push(this.newForm());
   }
 
   onOptionChange(option: number): void {
