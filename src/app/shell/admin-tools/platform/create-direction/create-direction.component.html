@@ -30,17 +30,11 @@
           <p class="step-name">Клас</p>
         </ng-template>
         
-      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-      <ng-container *ngIf="department">
-        <app-add-class-form [department]="department" [classFormArray]="ClassFormArray"></app-add-class-form>
-      </ng-container>
-
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button *ngIf="editMode" class="btn" mat-raised-button matStepperPrevious (click)="onStepBack()">Назад</button>
-          <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button (click)="onSubmit()">Зберігти</button>
-        </div>
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+        <ng-container *ngIf="department">
+          <app-add-class-form [department]="department"></app-add-class-form>
+        </ng-container>
+        
       </mat-step>
 
     </mat-horizontal-stepper>

@@ -34,17 +34,15 @@ export class IClass {
   title: string;
   description: string;
 
- constructor(info, departmentId, id?) {
-    this.id = id,
+ constructor(info, departmentId) {
+    if(info.id){
+      this.id = info.id
+    }
     this.departmentId = departmentId,
     this.title = info.title,
     this.description = info.title
   }
 }
-export interface IClasses {
-  IclassId: string;
-}
-
 export interface DirectionsFilter {
   totalAmount: number;
   entities: Direction[];

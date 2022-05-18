@@ -64,7 +64,7 @@ export class OnUpdateDepartmentFail {
 }
 export class OnUpdateDepartmentSuccess {
   static readonly type = '[admin] update Department success';
-  constructor(public payload) { }
+  constructor(public payload: Department) { }
 }
 export class UpdateClass {
   static readonly type = '[admin] update Class';
@@ -76,7 +76,7 @@ export class OnUpdateClassFail {
 }
 export class OnUpdateClassSuccess {
   static readonly type = '[admin] update Class success';
-  constructor(public payload) { }
+  constructor(public payload: IClass) { }
 }
 export class CreateDepartment {
   static readonly type = '[admin] create Department';
@@ -95,7 +95,7 @@ export class GetDirectionById {
   constructor(public payload) { }
 }
 export class GetDepartmentById {
-  static readonly type = '[admin] get Direction By Direction Id';
+  static readonly type = '[admin] get Department By Department Id';
   constructor(public payload) { }
 }
 export class FilteredDepartmentsList {
@@ -152,7 +152,7 @@ export class OnDeleteDepartmentSuccess {
 }
 export class DeleteClassById {
   static readonly type = '[admin] delete Class';
-  constructor(public payload) { }
+  constructor(public payload: IClass) { }
 }
 export class OnDeleteClassFail {
   static readonly type = '[admin] delete Class fail';
@@ -160,7 +160,7 @@ export class OnDeleteClassFail {
 }
 export class OnDeleteClassSuccess {
   static readonly type = '[admin] delete Class success';
-  constructor(public payload) { }
+  constructor(public payload: IClass) { }
 }
 
 export class OnClearCategories {

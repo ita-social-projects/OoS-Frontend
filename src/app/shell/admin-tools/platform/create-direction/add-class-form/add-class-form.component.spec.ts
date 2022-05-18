@@ -45,9 +45,6 @@ describe('AddClassFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddClassFormComponent);
     component = fixture.componentInstance;
-    component.ClassFormGroup = new FormGroup({
-      title: new FormControl(''),
-    });
     fixture.detectChanges();
   });
 

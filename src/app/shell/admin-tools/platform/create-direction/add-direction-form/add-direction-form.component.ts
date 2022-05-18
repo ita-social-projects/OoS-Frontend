@@ -26,7 +26,6 @@ import { filter, takeUntil } from 'rxjs/operators';
 export class AddDirectionFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
-  direction: Direction;
   
   directionFormGroup: FormGroup;
 
@@ -58,16 +57,8 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
       takeUntil(this.destroy$),
       filter((direction: Direction)=> !!direction)
     ).subscribe((direction: Direction) => {
-      this.direction = direction;
-      this.directionFormGroup.patchValue(this.direction, { emitEvent: false });
+      this.directionFormGroup.patchValue(direction, { emitEvent: false });
     });
-  }
-  
-  determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
-    if (this.editMode) {
-      this.setEditMode();
-    }
   }
 
   onSubmit(): void {

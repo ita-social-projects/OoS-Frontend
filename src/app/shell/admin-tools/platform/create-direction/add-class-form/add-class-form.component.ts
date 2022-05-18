@@ -1,16 +1,20 @@
+import { OnDeleteClassSuccess, OnUpdateClassSuccess } from './../../../../../shared/store/admin.actions';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Observable, of } from 'rxjs';
 import { Department, IClass } from 'src/app/shared/models/category.model';
-import { MatDialog } from '@angular/material/dialog';
-import { CdkStepper } from '@angular/cdk/stepper';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { CdkStepper } from '@angular/cdk/stepper';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { CreateClass, UpdateClass } from 'src/app/shared/store/admin.actions';
+import { catchError, last, take, takeUntil } from 'rxjs/operators';
 import { GetClasses } from 'src/app/shared/store/meta-data.actions';
-
 
 @Component({
   selector: 'app-add-class-form',
@@ -19,11 +23,13 @@ import { GetClasses } from 'src/app/shared/store/meta-data.actions';
 })
 export class AddClassFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Input() department: Department;
-  @Input() classFormArray: FormArray;
+
+  @Output() passClassFormGroup = new EventEmitter();
 
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
 
+  classFormArray: FormArray = new FormArray([]);;
   selectedClassFormgroup: FormGroup = this.newForm();
   classSelectControl: FormControl = new FormControl();
 
@@ -32,6 +38,9 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
 
   constructor(
     private fb: FormBuilder,
+    private _stepper: CdkStepper,
+    private matDialog: MatDialog,
+    private actions$: Actions,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService) {
@@ -43,7 +52,14 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
     this.onAddForm();
   }
 
-  setEditMode(): void { }
+  setEditMode(): void {
+    this.actions$.pipe(ofAction(OnUpdateClassSuccess))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.selectedClass = null;
+        this.selectedClassFormgroup.reset();
+      });
+  }
 
   addNavPath(): void{
     //TODO: add nav path
@@ -69,12 +85,48 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
 
   onOptionChange(option: number): void {
     this.option = option;
-    this.selectedClassFormgroup.reset();
     this.selectedClass = null;
+    this.selectedClassFormgroup.reset();
+    this.classFormArray.reset();
   }
 
   onClassSelect(): void{
     this.selectedClassFormgroup.patchValue(this.classSelectControl.value);
+  }
+
+  onStepBack(): void {
+    this._stepper.previous();
+  }
+
+  onSubmit(): void {
+    if(this.classFormArray.dirty || this.selectedClassFormgroup.dirty){
+      const isEditMode = !!this.selectedClassFormgroup.value.id;
+
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: '330px',
+        data: {
+          type: isEditMode ? ModalConfirmationType.editClass : ModalConfirmationType.createClass,
+        }
+      });
+      dialogRef.afterClosed().subscribe((result: boolean)  => {
+        if(result){
+          isEditMode ? this.updateClass() : this.createClasses();
+        }
+      });
+    }
+  }
+
+  private createClasses(): void {
+    const classes: IClass[] = [];
+    this.classFormArray.controls.forEach((form: FormGroup) => classes.push(new IClass(form.value, this.department.id)));
+  
+    this.store.dispatch(new CreateClass(classes));
+  }
+
+  private updateClass(): void {
+    const iClass: IClass = new IClass(this.selectedClassFormgroup.value, this.department.id);
+ 
+    this.store.dispatch(new UpdateClass(iClass));
   }
 }
 

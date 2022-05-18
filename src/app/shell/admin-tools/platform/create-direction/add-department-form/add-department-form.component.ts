@@ -26,7 +26,6 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
 
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
-  departments: Department[];
 
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
@@ -82,10 +81,6 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
 
   setEditMode(): void {
     this.store.dispatch(new GetDepartments(this.direction.id));
-    this.departments$.pipe(
-      takeUntil(this.destroy$),
-      filter((departments: Department[])=> !!departments)
-    ).subscribe((departments: Department[]) => this.departments = departments);
   }
 
   onDelete(): void {
@@ -109,7 +104,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: '330px',
         data: {
-          type: this.departmentFormGroup.value.id ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection,
+          type: this.departmentFormGroup.value.id ? ModalConfirmationType.editDepartment : ModalConfirmationType.createDepartment,
         }
       });
       dialogRef.afterClosed().subscribe((result: boolean)  => {
@@ -120,6 +115,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
             this.store.dispatch(new CreateDepartment(department));
           
             this.departmentFormGroup.markAsPristine();
+            this.option = null;
             this._stepper.next();
        }
      });

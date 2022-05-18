@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="!editMode || (editMode && direction)">
+<ng-container *ngIf="!editMode || (editMode && (direction$ | async))">
   <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   
     <label class="step-label">{{editMode ? 'Редагувати назву напрямку' : 'Назва нового напрямку'}}

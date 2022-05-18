@@ -33,7 +33,7 @@ export class ClassesCheckBoxListComponent {
       });
       dialogRef.afterClosed().subscribe((result: boolean) => {
         if(result){
-          this.selectedIClasses.forEach((iClass: IClass) => this.store.dispatch(new DeleteClassById(iClass.id)));
+          this.selectedIClasses.forEach((iClass: IClass) => this.store.dispatch(new DeleteClassById(iClass)));
         }
       });
       }

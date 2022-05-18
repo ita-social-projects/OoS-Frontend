@@ -51,7 +51,7 @@ import {
   GetDepartmentById, 
 } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { GetDepartments } from "./meta-data.actions";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
 
 export interface AdminStateModel {
   isLoading: boolean;
@@ -217,7 +217,7 @@ export class AdminState {
     return this.categoriesService
       .updateDepartment(payload)
       .pipe(
-        tap((res) => dispatch(new OnUpdateDepartmentSuccess(res))),
+        tap((department: Department) => dispatch(new OnUpdateDepartmentSuccess(department))),
         catchError((error: Error) => of(dispatch(new OnUpdateDepartmentFail(error))))
       );
   }
@@ -228,9 +228,10 @@ export class AdminState {
   }
 
   @Action(OnUpdateDepartmentSuccess)
-  onUpdateDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentSuccess): void {
+  onUpdateDepartmentSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new GetDepartments(payload.directionId));
+    patchState({ department : payload});
     console.log('Department is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Відділ успішно відредагованний', type: 'success' }));
   }
@@ -240,7 +241,7 @@ export class AdminState {
     return this.categoriesService
       .updateClass(payload)
       .pipe(
-        tap((res) => dispatch(new OnUpdateClassSuccess(res))),
+        tap((iClass: IClass) => dispatch(new OnUpdateClassSuccess(iClass))),
         catchError((error: Error) => of(dispatch(new OnUpdateClassFail(error))))
       );
   }
@@ -253,6 +254,7 @@ export class AdminState {
   @Action(OnUpdateClassSuccess)
   onUpdateClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateClassSuccess): void {
     dispatch(new MarkFormDirty(false));
+    dispatch(new GetClasses(payload.departmentId));
     console.log('Class is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Клас успішно відредагованний', type: 'success' }));
   }
@@ -291,6 +293,14 @@ export class AdminState {
       );
   }
 
+  @Action(OnCreateClassSuccess)
+  onCreateClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateClassSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Class is created', payload);
+    this.router.navigate([`/admin-tools/platform/directions`]);
+    dispatch(new ShowMessageBar({ message: 'Клас успішно створенний', type: 'success' }));
+  }
+
   @Action(OnCreateClassFail)
   onCreateClassFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateClassFail): void {
     throwError(payload);
@@ -307,7 +317,7 @@ export class AdminState {
   }
 
   @Action(GetDepartmentById)
-  getDepartmentById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentById): Observable<Direction> {
+  getDepartmentById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentById): Observable<Department>{
     patchState({ isLoading: true });
     return this.categoriesService
       .getDepartmentById(payload)
@@ -373,16 +383,16 @@ export class AdminState {
 
   @Action(OnDeleteDepartmentSuccess)
   onDeleteDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDepartmentSuccess): void {
-    console.log('Class is deleted', payload);
+    console.log('Department is deleted', payload);
     dispatch(new GetDepartments(payload.directionId));
     dispatch(new ShowMessageBar({ message: 'Відділення видалено!', type: 'success' }));
   }
   @Action(DeleteClassById)
   deleteClassById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteClassById): Observable<object> {
     return this.categoriesService
-      .deleteClassById(payload)
+      .deleteClassById(payload.id)
       .pipe(
-        tap((res) => dispatch(new OnDeleteClassSuccess(res))),
+        tap(() => dispatch(new OnDeleteClassSuccess(payload))),
         catchError((error: Error) => of(dispatch(new OnDeleteClassFail(error))))
       );
   }
@@ -396,6 +406,7 @@ export class AdminState {
   @Action(OnDeleteClassSuccess)
   onDeleteClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteClassSuccess): void {
     console.log('Class is deleted', payload);
+    dispatch(new GetClasses(payload.departmentId)); //TODO: fix teh performance
     dispatch(new ShowMessageBar({ message: 'Класс видалено!', type: 'success' }));
   }
 
