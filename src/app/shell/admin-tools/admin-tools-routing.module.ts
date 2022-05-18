@@ -14,6 +14,13 @@ const routes: Routes = [
     path: 'provider-list',
     component: ProviderListComponent,
   },
+  // {
+  //   path: 'personal-cabinet/provider/info',
+  //   loadChildren: () =>
+  //     import('../personal-cabinet/provider/provider.module').then(
+  //       (m) => m.ProviderModule
+  //     ),
+  // },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
