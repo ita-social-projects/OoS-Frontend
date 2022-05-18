@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +26,7 @@ describe('ProviderListComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
       ],
-      declarations: [ProviderListComponent],
+      declarations: [ProviderListComponent, MockproviderOrgInfoComponent],
     }).compileComponents();
   });
 
@@ -39,4 +40,11 @@ describe('ProviderListComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-provider-org-info',
+  template: '',
+})
+class MockproviderOrgInfoComponent {
+  @Input() providers: Provider[];
+}
 

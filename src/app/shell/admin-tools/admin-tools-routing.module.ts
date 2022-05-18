@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+// import { ProviderOrgInfoComponent } from '../personal-cabinet/provider/provider-org-info/provider-org-info.component';
 import { PlatformComponent } from './platform/platform.component';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 
@@ -15,12 +16,10 @@ const routes: Routes = [
     component: ProviderListComponent,
   },
   // {
-  //   path: 'personal-cabinet/provider/info',
-  //   loadChildren: () =>
-  //     import('../personal-cabinet/provider/provider.module').then(
-  //       (m) => m.ProviderModule
-  //     ),
+  //   path: 'personal-cabinet/provider',
+  //   component: ProviderOrgInfoComponent,
   // },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

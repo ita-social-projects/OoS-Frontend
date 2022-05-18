@@ -7,7 +7,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DirectionsComponent } from './platform/create-direction/directions/directions.component';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 
-
 @NgModule({
   declarations: [PlatformComponent, DirectionsComponent, ProviderListComponent],
   imports: [
@@ -16,6 +15,6 @@ import { ProviderListComponent } from './provider-list/provider-list.component';
     SharedModule,
     FlexLayoutModule,
   ],
-  exports: [DirectionsComponent, ProviderListComponent],
+  exports: [DirectionsComponent],
 })
 export class AdminToolsModule {}

@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-provider-list',
@@ -153,7 +154,8 @@ export class ProviderListComponent implements OnInit {
   constructor(
     private store: Store,
     public providerService: ProviderService,
-    private _liveAnnouncer: LiveAnnouncer
+    private _liveAnnouncer: LiveAnnouncer,
+    route: ActivatedRoute,
   ) {}
   @ViewChild(MatSort) sort: MatSort;
 
@@ -207,8 +209,8 @@ export class ProviderListComponent implements OnInit {
     }
   }
 
-  onInfoShow(element: Element, event): void {
-    this.infoShow.emit({ element, child: this.provider });
-    event.stopPropagation();
-  }
+  // onInfoShow(element: Element, event): void {
+  //   this.infoShow.emit({ element, provider: this.provider });
+  //   event.stopPropagation();
+  // }
 }
