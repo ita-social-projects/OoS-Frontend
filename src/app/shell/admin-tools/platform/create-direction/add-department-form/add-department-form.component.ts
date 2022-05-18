@@ -1,4 +1,4 @@
-import { GetDepartmentByDirectionId, DeleteDepartmentById } from './../../../../../shared/store/admin.actions';
+import { GetDepartmentByDirectionId, DeleteDepartmentById, GetDepartmentById } from './../../../../../shared/store/admin.actions';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -73,6 +73,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
     const department = this.departmentSelectControl.value;
     this.departmentFormGroup.patchValue(department);
     this.store.dispatch(new GetClasses(department.id));
+    this.store.dispatch(new GetDepartmentById(department.id));
   }
 
   addNavPath(): void {

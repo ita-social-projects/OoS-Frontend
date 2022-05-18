@@ -94,6 +94,10 @@ export class GetDirectionById {
   static readonly type = '[admin] get Direction By Direction Id';
   constructor(public payload) { }
 }
+export class GetDepartmentById {
+  static readonly type = '[admin] get Direction By Direction Id';
+  constructor(public payload) { }
+}
 export class FilteredDepartmentsList {
   static readonly type = '[admin] Get list of filtered departments';
   constructor(public payload: Department[]) { }

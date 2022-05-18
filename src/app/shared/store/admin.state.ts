@@ -47,7 +47,8 @@ import {
   OnClearCategories,
   DeleteDepartmentById,
   OnDeleteDepartmentFail,
-  OnDeleteDepartmentSuccess, 
+  OnDeleteDepartmentSuccess,
+  GetDepartmentById, 
 } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { GetDepartments } from "./meta-data.actions";
@@ -303,6 +304,15 @@ export class AdminState {
       .getDirectionById(payload)
       .pipe(
         tap((direction: Direction) =>  patchState({ direction: direction, isLoading: false })));
+  }
+
+  @Action(GetDepartmentById)
+  getDepartmentById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentById): Observable<Direction> {
+    patchState({ isLoading: true });
+    return this.categoriesService
+      .getDepartmentById(payload)
+      .pipe(
+        tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
   @Action(FilteredDepartmentsList)

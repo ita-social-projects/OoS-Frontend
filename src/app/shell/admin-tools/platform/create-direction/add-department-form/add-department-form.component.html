@@ -1,11 +1,10 @@
 
 <form [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  
   <ng-conatiner *ngIf="!editMode; else editTmpl">
     <label class="step-label"> Назва нового відділення <span class="step-required">*</span></label>
-    <mat-form-field>
-      <input matInput class="step-input" type="text" formControlName="title">
-    </mat-form-field>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="title">
+      </mat-form-field>
   </ng-conatiner>
 
   <ng-template #editTmpl>
@@ -18,9 +17,11 @@
           <mat-icon class="mat-icon-add">add</mat-icon>
         </mat-expansion-panel-header>
       
-        <mat-form-field fxLayout="column" fxLayoutAlign="center space-between">
+        <label class="step-label"> Назва нового відділення <span class="step-required">*</span></label>
+        <mat-form-field>
           <input matInput class="step-input" type="text" formControlName="title">
         </mat-form-field>
+
       </mat-expansion-panel>
       
       <mat-expansion-panel [expanded]="option === 1" (opened)="onOptionChange(1)" hideToggle class="expansion-panel">

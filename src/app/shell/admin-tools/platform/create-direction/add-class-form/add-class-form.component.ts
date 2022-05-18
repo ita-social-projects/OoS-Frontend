@@ -1,140 +1,86 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import {  AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
-import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { FilteredClassesList, GetClasses } from 'src/app/shared/store/meta-data.actions';
+import { Department, IClass } from 'src/app/shared/models/category.model';
+import { MatDialog } from '@angular/material/dialog';
+import { CdkStepper } from '@angular/cdk/stepper';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { GetClasses } from 'src/app/shared/store/meta-data.actions';
+
 
 @Component({
   selector: 'app-add-class-form',
   templateUrl: './add-class-form.component.html',
   styleUrls: ['./add-class-form.component.scss']
 })
-export class AddClassFormComponent implements OnInit{
-
-  @Input() ClassFormGroup: FormGroup;
-  @Input() editMode: boolean;
-  @Input() indexClass: number;
-  @Input() classAmount: number;
-  @Input() direction: Direction;
+export class AddClassFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Input() department: Department;
-  @Input() iClass: IClass;
-
-
-  @Output() deleteForm = new EventEmitter();
-  editOptionRadioBtn: FormControl = new FormControl(false);
-
 
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
-  classes: IClass[];
-  @Select(MetaDataState.filteredClasses)
-  filteredClasses$: Observable<IClass[]>;
-  filteredClasses: IClass[];
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  @Select(AdminState.iClass)
-  iClass$: Observable<Department>;
 
+  ClassFormArray = new FormArray([]);
+  selectedClassFormgroup: FormGroup = this.newForm();
+  classSelectControl: FormControl = new FormControl();
+
+  selectedClass: IClass;
+  option = 0;
 
   constructor(
-    private store: Store,
-    private route: ActivatedRoute,
-
-
-  ) { }
-
-  get classIdControl(): AbstractControl { return this.ClassFormGroup && this.ClassFormGroup.get('classId'); }
+    private fb: FormBuilder,
+    private _stepper: CdkStepper,
+    private matDialog: MatDialog,
+    store: Store,
+    route: ActivatedRoute,
+    navigationBarService: NavigationBarService) {
+      
+    super(store, route, navigationBarService);
+  }
 
   ngOnInit(): void {
     this.determineEditMode();
+    this.onAddForm();
   }
 
   setEditMode(): void {
-    const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
-    //this.store.dispatch(new GetClasses(this.department.id));
-    this.setInitialClasses();
-   }
-
-   determineEditMode(): void {
-     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
-     if (this.editMode) {
-       this.setEditMode();
-     }
-   }
-
-   onDelete(): void {
-    this.deleteForm.emit(this.indexClass);
-  }
-  onSelectiClass(iClass: IClass): void {
-    //this.clearClasses();
-    //this.store.dispatch(new GetClasses(department.id));
+    // this.store.dispatch(new GetClasses(this.department.id));
   }
 
-  private filterClasses(value: string): IClass[] {
-    const GetClasses = this.classes
-      .filter((iClass: IClass) => iClass.title
-        .toLowerCase()
-        .startsWith(value.trim().toLowerCase())
-      )
-      .map((iClass: IClass) => iClass);
-    return GetClasses;
+  addNavPath(): void{
+    //TODO: add nav path
   }
-
-  optionDisplayIClass(iClass: IClass): string {
-    return iClass && iClass.title;
-  }
-
-  getFullIClassList(): void {
-    this.filteredClasses = this.classes;
-  }
-
-  onSelectIClass(iClass: IClass): void {
-    //this.clearClasses();
-    //this.store.dispatch(new GetClasses(department.id));
-  }
-
-//  onEditOptionCtrlInit(): void {
-//    this.editOptionRadioBtn.valueChanges
-//      .pipe(
-//        takeUntil(this.destroy$),
-//      ).subscribe((editOptionRadioBtn: boolean) => {
-  //      editOptionRadioBtn ? this.departmentFormGroup.get('editOptionsDesc').enable() : this.departmentFormGroup.get('editOptionsDesc').disable();
- //     });
- // }
-
-
-  private setInitialClasses(): void {
-    this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.filteredClasses = filteredClasses);    this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
-    this.classIdControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(),
-        startWith(''),
-      ).subscribe((value) => {
-        if (value) {
-          const input = (value?.title) ? value.title : value;
-          this.store.dispatch(new FilteredClassesList(this.filterClasses(input)));
-        } else {
-          this.getFullIClassList();
-        }
-      });
-  }
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).markAsTouched();
+   
+  newForm(): FormGroup {
+    const classFormGroup = this.fb.group({
+      id: new FormControl(''),
+      departmentId: new FormControl(''),
+      title: new FormControl('', Validators.required),
+      description: new FormControl(''),
     });
-   }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    return classFormGroup
   }
 
+  onDeleteForm(index: number): void {
+    this.ClassFormArray.removeAt(index);
+  }
+
+  onAddForm(): void {
+    this.ClassFormArray.push(this.newForm());
+  }
+
+  onOptionChange(option: number): void {
+    this.option = option;
+    this.selectedClassFormgroup.reset();
+    this.selectedClass = null;
+  }
+
+  onClassSelect(): void{
+    this.selectedClassFormgroup.patchValue(this.classSelectControl.value);
+  }
 }
 
 

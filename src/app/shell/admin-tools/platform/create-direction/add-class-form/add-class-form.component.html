@@ -1,77 +1,71 @@
-<form [formGroup]="ClassFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step" [ngClass]="{'step-border': classAmount>1}">
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <label class="step-label"> Назва класу <span class="step-required">*</span></label>
-  </div>
-  <ng-container *ngIf='!editMode'>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title">
-  </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ClassFormGroup.get('title').errors?.required"
-    [invalid]="ClassFormGroup.get('title').invalid && ClassFormGroup.get('title').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ClassFormGroup.get('title').invalid && ClassFormGroup.get('title').touched"
-    [forbiddenCharacter]="ClassFormGroup.get('title').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <div fxLayout='row' fxLayoutAlign='center' *ngIf="classAmount > 1">
-    <button class="btn-reset" type="reset" mat-button (click)="onDelete()">
-      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити клас
+<div class="step">
+  <ng-container *ngIf="editMode then editTmpl; else addNewClassTmpl"></ng-container>
+</div>
+
+<ng-template #addNewClassTmpl>
+  <app-new-class-form *ngFor="let form of ClassFormArray.controls" [classFormGroup]="form"
+    [formIndex]="ClassFormArray.controls.indexOf(form)" [classAmount]="ClassFormArray.controls.length"
+    (deleteForm)="onDeleteForm($event)">
+  </app-new-class-form>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <button class="btn-add" mat-button (click)="onAddForm()" [disabled]="ClassFormArray.invalid">
+      <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
     </button>
   </div>
-</ng-container>
-  <ng-container *ngIf='editMode'>
-    <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
-    fxLayoutAlign='center space-between'>
+</ng-template>
 
-    <mat-radio-button #radio1 name="radioBtn1" [value]="'createIClass'">Додати новий клас</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value==='createIClass'">
-      <input matInput class="step-input" type="text" formControlName="title"
-      placeholder="Введіть назву відділення" autocomplete="none">
-    </ng-container>
+<ng-template #editTmpl>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="option === 0" (opened)="onOptionChange(0)" hideToggle class="expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="step-label">
+          Додати новий клас до відділу
+        </mat-panel-title>
+        <mat-icon class="mat-icon-add">add</mat-icon>
+      </mat-expansion-panel-header>
+    
+      <ng-container *ngTemplateOutlet="addNewClassTmpl"></ng-container>
 
-    <mat-radio-button #radio2 name="radioBtn2" [value]="'editIClass'">Редагувати існуючий клас</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value==='editIClass'">
-    <div fxLayout="row" fxLayoutAlign="start center">
-      <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
-        formControlName="iClassId" [matAutocomplete]="autoIClass" disableOptionCentering
-        panelClass="dropdown-panel" (click)="getFullIClassList()" autocomplete="off">
-      <mat-autocomplete class="dropdown-panel direction" #autoIClass="matAutocomplete"
-        (optionSelected)="onSelectIClass($event.option.value)" [displayWith]="optionDisplayIClass">
-        <mat-option *ngFor="let iClass of filteredClasses" [value]="iClass" class="dropdown-option">
-          {{ iClass.title }}
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="option === 1" (opened)="onOptionChange(1)" hideToggle class="expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="step-label">
+           Редагувати існуючий клас
+        </mat-panel-title>
+        <mat-icon class="mat-icon-add">edit</mat-icon>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngTemplateOutlet="classDropdown"></ng-container>
+      <form [formGroup]="selectedClassFormgroup" *ngIf="selectedClass">
+        <label class="step-label"> Нова назва клаcу</label>
+        <mat-form-field fxLayout="column" fxLayoutAlign="start space-between">
+          <input matInput class="step-input" type="text" formControlName="title">
+        </mat-form-field>
+      </form>
+  
+    </mat-expansion-panel>
+    
+    <mat-expansion-panel [expanded]="option === 2" (opened)="onOptionChange(2)" hideToggle class="expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="step-label">
+          Видалити існуючий клас
+        </mat-panel-title>
+        <mat-icon class="mat-icon-add">delete</mat-icon>
+      </mat-expansion-panel-header>
+      <app-classes-check-box-list *ngIf="option === 2" [classes]="classes$ | async"></app-classes-check-box-list>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+  <ng-template #classDropdown>
+    <mat-form-field appearance="none" fxLayoutAlign="start space-between">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" name="classes" placeholder="Усі класи"
+      [formControl]="classSelectControl" [(ngModel)]="selectedClass"  (selectionChange)="onClassSelect()">
+        <mat-option *ngFor="let class of classes$ | async" [value]="class" class="dropdown-option">
+          {{class.title}}
         </mat-option>
-      </mat-autocomplete>
-      <app-validation-hint-for-input type="requiredField"
-      [invalid]="classIdControl.invalid && classIdControl.touched">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="notExistClass"
-      [invalid]="ClassFormGroup.get('title')===iClass?.title">
-      </app-validation-hint-for-input>
-    </div>
-    <ng-container *ngIf="(classes$ | async)?.length">
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <label class="step-label" > Змінити назву класу </label>
-      </div>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" formControlName="title">
-      </mat-form-field>
-      <app-validation-hint-for-input type="requiredEmptyField"
-        [isEmptyCheck]="ClassFormGroup.get('title').errors?.required">
-      </app-validation-hint-for-input>
-      <app-validation-hint-for-input type="validTextField"
-        [forbiddenCharacter]="ClassFormGroup.get('title').errors?.pattern?.requiredPattern">
-      </app-validation-hint-for-input>
-    </ng-container>
-    </ng-container>
-
-    <mat-radio-button #radio3 name="radioBtn3" [value]="'deleteIClass'">Видалити клас</mat-radio-button>
-    <ng-container *ngIf="editOptionRadioBtn.value==='deleteIClass'">
-
-      <app-classes-check-box-list [classes]="classes$ | async" (iClassCheck)="oniClassSelect($event)"></app-classes-check-box-list>
-
-  </ng-container>
-  </mat-radio-group>
-</ng-container>
-
-</form>
+      </mat-select>
+    </mat-form-field>
+  </ng-template>
+</ng-template>

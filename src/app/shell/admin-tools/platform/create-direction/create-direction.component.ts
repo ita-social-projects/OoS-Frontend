@@ -1,3 +1,4 @@
+import { takeUntil } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -27,13 +28,16 @@ import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 export class CreateDirectionComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
+  direction: Direction;
+  @Select(AdminState.department)
+  department$: Observable<Department>;
+  department:Department;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   editMode: boolean;
 
   @ViewChild('stepper') stepper: MatStepper;
-
 
   departmentFormGroup: FormGroup;
   directionFormGroup: FormGroup;
@@ -50,6 +54,13 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.determineEditMode();
+
+    this.direction$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((direction: Direction)=>this.direction = direction);
+    this.department$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((department: Department)=>this.department = department);
   }
 
   private setEditMode(): void {
