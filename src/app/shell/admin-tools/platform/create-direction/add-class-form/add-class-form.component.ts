@@ -28,16 +28,13 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
   classSelectControl: FormControl = new FormControl();
 
   selectedClass: IClass;
-  option = 0;
+  option: number;
 
   constructor(
     private fb: FormBuilder,
-    private _stepper: CdkStepper,
-    private matDialog: MatDialog,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService) {
-      
     super(store, route, navigationBarService);
   }
 
@@ -46,15 +43,13 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
     this.onAddForm();
   }
 
-  setEditMode(): void {
-    // this.store.dispatch(new GetClasses(this.department.id));
-  }
+  setEditMode(): void { }
 
   addNavPath(): void{
     //TODO: add nav path
   }
    
-  newForm(): FormGroup {
+  private newForm(): FormGroup {
     const classFormGroup = this.fb.group({
       id: new FormControl(''),
       departmentId: new FormControl(''),

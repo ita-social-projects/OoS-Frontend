@@ -14,7 +14,7 @@ import { AddDepartmentFormComponent } from './create-direction/add-department-fo
 import { AddDirectionFormComponent } from './create-direction/add-direction-form/add-direction-form.component';
 import { AdminToolsModule } from '../admin-tools.module';
 import { NewClassFormComponent } from './create-direction/add-class-form/new-class-form/new-class-form.component';
-import { ClassesCheckBoxListComponent } from './create-direction/add-department-form/classes-check-box-list/classes-check-box-list.component';
+import { ClassesCheckBoxListComponent } from './create-direction/add-class-form/classes-check-box-list/classes-check-box-list.component';
 
 @NgModule({
   declarations: [

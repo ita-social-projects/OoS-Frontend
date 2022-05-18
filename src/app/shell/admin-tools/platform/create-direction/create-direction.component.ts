@@ -1,5 +1,5 @@
 import { takeUntil } from 'rxjs/operators';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,13 +44,12 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
   ClassFormGroup: FormGroup;
   ClassFormArray: FormArray = new FormArray([]);
 
-
   constructor(
-    private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
-    private matDialog: MatDialog,) { }
+    private matDialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.determineEditMode();

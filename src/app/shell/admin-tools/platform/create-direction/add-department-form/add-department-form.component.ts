@@ -39,7 +39,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
   departmentSelectControl: FormControl = new FormControl();
 
   selectedDepartment: Department;
-  option = 0;
+  option: number;
 
   constructor(
     private fb: FormBuilder,
