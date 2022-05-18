@@ -71,13 +71,14 @@ export class CategoriesService {
   getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
   }
-  getDepartmentById(id: number): Observable<Department> {
-    return this.http.get<Department>(`/api/v1/Department/GetById/${id}`);
-  }
+  
   createClass(classes: IClass[]): Observable<IClass[]> {
     return this.http.post<IClass[]>('/api/v1/Class/CreateMultiple', classes);
   }
-  DeleteClassById(id: number): Observable<object> {
+  deleteDepartmentById(id: number): Observable<object> {
+    return this.http.delete(`/api/v1/Department/Delete/${id}`);
+  }
+  deleteClassById(id: number): Observable<object> {
     return this.http.delete(`/api/v1/Class/Delete/${id}`);
   }
 }

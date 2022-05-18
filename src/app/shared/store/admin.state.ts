@@ -26,7 +26,6 @@ import {
   OnCreateDepartmentFail, 
   OnCreateDepartmentSuccess, 
   GetDirectionById, 
-  GetDepartmentByDirectionId, 
   SetSearchQueryValue, 
   GetFilteredDirections, 
   PageChange, 
@@ -41,14 +40,17 @@ import {
   UpdateClass, 
   OnUpdateClassFail, 
   OnUpdateClassSuccess, 
-  GetDepartmentById, 
   FilteredDepartmentsList, 
   DeleteClassById, 
   OnDeleteClassSuccess, 
   OnDeleteClassFail,
-  OnClearCategories, 
+  OnClearCategories,
+  DeleteDepartmentById,
+  OnDeleteDepartmentFail,
+  OnDeleteDepartmentSuccess, 
 } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import { GetDepartments } from "./meta-data.actions";
 
 export interface AdminStateModel {
   isLoading: boolean;
@@ -227,6 +229,7 @@ export class AdminState {
   @Action(OnUpdateDepartmentSuccess)
   onUpdateDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentSuccess): void {
     dispatch(new MarkFormDirty(false));
+    dispatch(new GetDepartments(payload.directionId));
     console.log('Department is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Відділ успішно відредагованний', type: 'success' }));
   }
@@ -301,14 +304,7 @@ export class AdminState {
       .pipe(
         tap((direction: Direction) =>  patchState({ direction: direction, isLoading: false })));
   }
-  @Action(GetDepartmentById)
-  getDepartmentById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDepartmentById): Observable<Direction> {
-    patchState({ isLoading: true });
-    return this.categoriesService
-      .getDepartmentById(payload)
-      .pipe(
-        tap((department: Department) =>  patchState({ department: department, isLoading: false })));
-  }
+
   @Action(FilteredDepartmentsList)
   filteredDepartmentsList({ patchState }: StateContext<AdminStateModel>, { payload }: FilteredDepartmentsList): void {
     patchState({ getDepartments: payload });
@@ -349,10 +345,32 @@ export class AdminState {
       }
     });
   }
+  @Action(DeleteDepartmentById)
+  deleteDepartmentById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDepartmentById): Observable<object> {
+    return this.categoriesService
+      .deleteDepartmentById(payload.id)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteDepartmentSuccess(payload))),
+        catchError((error: Error) => of(dispatch(new OnDeleteClassFail(error))))
+      );
+  }
+
+  @Action(OnDeleteDepartmentFail)
+  onDeleteDepartmentFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDepartmentFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnDeleteDepartmentSuccess)
+  onDeleteDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDepartmentSuccess): void {
+    console.log('Class is deleted', payload);
+    dispatch(new GetDepartments(payload.directionId));
+    dispatch(new ShowMessageBar({ message: 'Відділення видалено!', type: 'success' }));
+  }
   @Action(DeleteClassById)
   deleteClassById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteClassById): Observable<object> {
     return this.categoriesService
-      .DeleteClassById(payload)
+      .deleteClassById(payload)
       .pipe(
         tap((res) => dispatch(new OnDeleteClassSuccess(res))),
         catchError((error: Error) => of(dispatch(new OnDeleteClassFail(error))))

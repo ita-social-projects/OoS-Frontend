@@ -28,18 +28,12 @@
           <p class="step-name">Клас</p>
         </ng-template>
 
-        <app-add-class-form *ngFor="let form of ClassFormArray.controls" [ClassFormGroup]="form"
+        <!-- <app-add-class-form *ngFor="let form of ClassFormArray.controls" [ClassFormGroup]="form"
           [indexClass]="ClassFormArray.controls.indexOf(form)" [classAmount]="ClassFormArray.controls.length" [department]="department"
           (deleteForm)="onDeleteForm($event)">
-        </app-add-class-form>
+        </app-add-class-form> -->
 
-        <ng-container *ngIf='!editMode'>
-          <div fxLayout="column" fxLayoutAlign="center center">
-            <button class="btn-add" mat-button (click)="addClass()">
-              <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один клас
-            </button>
-          </div>
-        </ng-container>
+       
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button

@@ -1,83 +1,15 @@
-<!-- <form *ngIf="direction" [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <h3 class="step-label"> Назва напрямку: {{direction.title}} </h3>
+
+<form [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   
-  <ng-container *ngIf="!editMode; else editTmpl">
-    <label class="step-label">Назва нового відділення</label>
+  <ng-conatiner *ngIf="!editMode; else editTmpl">
+    <label class="step-label"> Назва нового відділення <span class="step-required">*</span></label>
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="title">
     </mat-form-field>
-  </ng-container>
+  </ng-conatiner>
 
-   
-
-
-    <ng-template #editTmpl>
-      <mat-radio-group color="primary" fxLayout='column' [formControl]="editOptionRadioBtn"
-        fxLayoutAlign='center space-between'>
-        <mat-radio-button #radio1 name="radioBtn1" [value]="'addDepartment'">Додати нове відділення</mat-radio-button>
-        <ng-container *ngIf="editOptionRadioBtn.value === 'addDepartment'">
-          <input matInput class="step-input" type="text" formControlName="title"
-          placeholder="Введіть назву відділення" autocomplete="none">
-        </ng-container>
-        <mat-radio-button #radio2 name="radioBtn2" [value]="'EditDepartment'">Редагувати існуюче відділення</mat-radio-button>
-        <ng-container *ngIf="editOptionRadioBtn.value === 'EditDepartment'">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
-            formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
-            panelClass="dropdown-panel" (click)="getFullDepartmentList()" autocomplete="off">
-          <mat-autocomplete class="dropdown-panel direction" #autoDepartment="matAutocomplete"
-            (optionSelected)="onSelectDepartment($event.option.value)" [displayWith]="optionDisplayDepartment">
-            <mat-option *ngFor="let department of filteredDepartments" [value]="department" class="dropdown-option">
-              {{ department.title }}
-            </mat-option>
-          </mat-autocomplete>
-        </div>
-        <ng-container *ngIf="(departments$ | async)?.length">
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <label class="step-label" > Змінити назву відділення </label>
-          </div>
-          <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="title">
-          </mat-form-field>
-        </ng-container>
-        </ng-container>
-        <mat-radio-button #radio3 name="radioBtn3" [value]="'DeleteDepartment'">Видалити відділення</mat-radio-button>
-        <ng-container *ngIf="editOptionRadioBtn.value === 'DeleteDepartment'">
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput type="text" formControlName="editOptionsDesc" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
-              formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
-              panelClass="dropdown-panel" (click)="getFullDepartmentList()" autocomplete="off">
-            <mat-autocomplete class="dropdown-panel direction" #autoDepartment="matAutocomplete"
-              (optionSelected)="onSelectDepartment($event.option.value)" [displayWith]="optionDisplayDepartment">
-              <mat-option *ngFor="let department of filteredDepartments" [value]="department" class="dropdown-option">
-                {{ department.title }}
-              </mat-option>
-            </mat-autocomplete>
-          </div>
-          <div class="del-icon" (click)="onDelete()">
-            <button mat-button class="del-button">
-              <mat-icon>delete</mat-icon> відалити відділення
-            </button>
-          </div>
-          <ng-container *ngIf="(classes$ | async)?.length">
-          <app-classes-check-box-list [classes]="classes$ | async" (iClassCheck)="oniClassSelect($event)"></app-classes-check-box-list>
-        </ng-container>
-      </ng-container>
-      </mat-radio-group>
-    </ng-template>
-
-</form>
- -->
- <!-- <form *ngIf="direction" [formGroup]="departmentFormGroup">
- 
-</form> -->
-
-
-<ng-container>
-  <form [formGroup]="departmentFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-    
+  <ng-template #editTmpl>
     <mat-accordion>
-
       <mat-expansion-panel [expanded]="option === 0" (opened)="onOptionChange(0)" hideToggle class="expansion-panel">
         <mat-expansion-panel-header>
           <mat-panel-title class="step-label">
@@ -85,31 +17,31 @@
           </mat-panel-title>
           <mat-icon class="mat-icon-add">add</mat-icon>
         </mat-expansion-panel-header>
-    
+      
         <mat-form-field fxLayout="column" fxLayoutAlign="center space-between">
           <input matInput class="step-input" type="text" formControlName="title">
         </mat-form-field>
       </mat-expansion-panel>
-    
+      
       <mat-expansion-panel [expanded]="option === 1" (opened)="onOptionChange(1)" hideToggle class="expansion-panel">
         <mat-expansion-panel-header>
           <mat-panel-title class="step-label">
-            Редагувати існуюче відділення
+             Редагувати існуюче відділення
           </mat-panel-title>
           <mat-icon class="mat-icon-add">edit</mat-icon>
         </mat-expansion-panel-header>
-    
+      
         <ng-container *ngTemplateOutlet="departmentDropdown"></ng-container>
-        <ng-container *ngIf="selectedDepartment">
+        <ng-container *ngIf="departmentFormGroup.valid">
           <label class="step-label"> Нова назва відділення.</label>
           <mat-form-field fxLayout="column" fxLayoutAlign="start space-between">
             <input matInput class="step-input" type="text" formControlName="title">
           </mat-form-field>
           <small appValidationMessageStyling class="warning">Для редагування класів вибраного відділення перейдіть до наступного кроку.</small>
         </ng-container>
-  
-      </mat-expansion-panel>
     
+      </mat-expansion-panel>
+      
       <mat-expansion-panel [expanded]="option === 2" (opened)="onOptionChange(2)" hideToggle class="expansion-panel">
         <mat-expansion-panel-header>
           <mat-panel-title class="step-label">
@@ -117,43 +49,42 @@
           </mat-panel-title>
           <mat-icon class="mat-icon-add">delete</mat-icon>
         </mat-expansion-panel-header>
-    
+      
         <ng-container *ngTemplateOutlet="departmentDropdown"></ng-container>
-
-        <ng-container *ngIf="selectedDepartment">
+  
+        <ng-container *ngIf="departmentFormGroup.valid">
           <div fxLayout="column" fxLayoutAlign="center center">
-            <small *ngIf="classes?.length" appValidationMessageStyling class="warning">Відділення не може бути видаленим, якщо містить класи. 
+            <small *ngIf="(classes$ | async)?.length" appValidationMessageStyling class="warning">Відділення не може бути видаленим, якщо містить класи. 
               Видаліть спочатку усі існуючі класи.
             </small>
-
-            <button class="btn-reset" mat-button (click)="onDelete()" [disabled]="classes?.length">
+  
+            <button class="btn-reset" mat-button (click)="onDelete()" [disabled]="(classes$ | async)?.length">
               <mat-icon class="mat-icon-delete">delete</mat-icon>Видалити відділення
             </button>
           </div>
         </ng-container>
-
+  
       </mat-expansion-panel>
-
+  
     </mat-accordion>
-
+  
     <ng-template #departmentDropdown>
       <mat-form-field appearance="none" fxLayoutAlign="start space-between">
         <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" name="department" placeholder="Усі відділення"
-        [formControl]="departmentFormGroup" [(ngModel)]="selectedDepartment" [(value)]="selectedDepartment"  (selectionChange)="onDepartmentSelect($event)">
+        [formControl]="departmentSelectControl" [(ngModel)]="selectedDepartment"  (selectionChange)="onDepartmentSelect()">
           <mat-option *ngFor="let department of departments$ | async" [value]="department" class="dropdown-option">
             {{department.title}}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </ng-template>
-
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button *ngIf="editMode" class="btn" mat-raised-button (click)="onStepBack()">Назад</button>
-      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-        class="btn btn-cancel">Скасувати</button></a>
-        <button class="btn" [disabled]="departmentFormGroup.invalid" (click)="onSubmit()" mat-raised-button>Далі</button>
-    </div>
-
-  </form>
-</ng-container>
+  </ng-template>
+  
+  <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+    <button *ngIf="editMode" class="btn" mat-raised-button (click)="onStepBack()">Назад</button>
+    <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
+      class="btn btn-cancel">Скасувати</button></a>
+      <button class="btn" [disabled]="departmentFormGroup.invalid" (click)="onSubmit()" mat-raised-button>Далі</button>
+  </div>
+</form>
 

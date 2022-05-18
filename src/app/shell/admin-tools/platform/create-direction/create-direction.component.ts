@@ -34,12 +34,12 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') stepper: MatStepper;
 
-  ClassFormArray: FormArray = new FormArray([]);
-  @Input() classes: IClass[];
 
   departmentFormGroup: FormGroup;
   directionFormGroup: FormGroup;
   ClassFormGroup: FormGroup;
+  ClassFormArray: FormArray = new FormArray([]);
+
 
   constructor(
     private fb: FormBuilder,
@@ -50,16 +50,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.determineEditMode();
-
-    this.addClass();
-  }
-
-  private newForm( ): FormGroup {
-    const ClassFormGroup = this.fb.group({
-      title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      classId: new FormControl(''),
-    });
-    return ClassFormGroup;
   }
 
   private setEditMode(): void {
@@ -72,14 +62,6 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.setEditMode();
     }
-  }
-
-  addClass(): void {
-    this.ClassFormArray.push(this.newForm());
-  }
-
-  onDeleteForm(indexClass: number): void {
-    this.ClassFormArray.removeAt(indexClass);
   }
 
   onSubmit(): void {
