@@ -51,7 +51,8 @@ export class ProviderListComponent implements OnInit {
       facebook: '',
       founder: 'Іваненко',
       fullTitle: 'dance777',
-      id: '08d9d5cd-06df-439c-86d6-5df44b635f19',
+      id: '08d9d5d0-dafc-4888-8021-8112f3ffda07',
+      // id: '08d9d5cd-06df-439c-86d6-5df44b635f19',
       instagram: '',
       institutionStatusId: null,
       legalAddress: {

@@ -190,12 +190,17 @@
             <button mat-icon-button (click)="onInfoShow(name, $event)">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
-            <a href="#"
+            <!-- <a href="#"
               mat-icon-button
               [routerLink]="['/personal-cabinet/provider/info',element.id ]"
+            > -->
+            <a
+              href="#"
+              mat-icon-button
+              [routerLink]="['/personal-cabinet/provider/info']"
             >
               <mat-icon>arrow_forward</mat-icon>
-          </a>
+            </a>
           </div>
         </td>
       </ng-container>
@@ -204,6 +209,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <app-provider-org-info [provider]="provider"></app-provider-org-info>
+    <!-- <app-provider-org-info [provider]="provider"></app-provider-org-info> -->
   </div>
 </div>
