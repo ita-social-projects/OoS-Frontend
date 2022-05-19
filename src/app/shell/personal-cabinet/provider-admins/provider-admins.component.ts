@@ -62,7 +62,9 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     this.getAllProviderAdmins();
 
     this.providerAdmins$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
+        takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
