@@ -28,7 +28,7 @@ export class ProviderListComponent implements OnInit {
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<Provider[]> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{} || null]);
 
   constructor(
     private store: Store,
@@ -58,7 +58,7 @@ export class ProviderListComponent implements OnInit {
       'star',
     ];
 
-    // this.dataSource = new MatTableDataSource(this.providers$));
+    // this.dataSource = new MatTableDataSource(this.providers$);
   }
 
   ngAfterViewInit() {
