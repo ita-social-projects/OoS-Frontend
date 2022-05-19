@@ -87,7 +87,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(environment.serverUrl + Constants.IMG_URL + imageId, null))
+      this.decodedImages.push(new DecodedImage(environment.storageUrl + Constants.IMG_URL + imageId, null))
     })
   }
 

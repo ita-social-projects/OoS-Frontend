@@ -15,7 +15,7 @@ export class ImagesService {
 
   setWorkshopCoverImage(workshop: WorkshopCard): WorkshopCard {
     workshop['_meta'] = workshop.coverImageId ?
-      environment.serverUrl + Constants.IMG_URL + workshop.coverImageId :
+    environment.storageUrl + Constants.IMG_URL + workshop.coverImageId :
       CategoryIcons[workshop.directionId];
     return workshop;
   }
@@ -25,7 +25,7 @@ export class ImagesService {
 
     if (enityty.imageIds?.length) {
       images = enityty.imageIds.map((imgId: string) => {
-        return { path: environment.serverUrl + Constants.IMG_URL + imgId };
+        return { path: environment.storageUrl + Constants.IMG_URL + imgId };
       });
     } else {
       images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
