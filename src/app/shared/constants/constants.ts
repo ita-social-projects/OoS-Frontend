@@ -50,7 +50,6 @@ export class Constants {
     region: 'м.Київ',
   };
 
-  static readonly IMG_URL = '/api/v1/PublicImage/';
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
 }
 
