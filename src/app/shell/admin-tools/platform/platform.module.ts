@@ -27,9 +27,6 @@ import { DirectionsComponent } from './create-direction/directions/directions.co
     AddClassFormComponent,
     AddDepartmentFormComponent,
     AddDirectionFormComponent,
-    DirectionsComponent,
-    AboutPlatformComponent,
-    SupportPlatformComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +35,8 @@ import { DirectionsComponent } from './create-direction/directions/directions.co
     MaterialModule,
     RouterModule,
     PlatformRoutingModule
+  ],
+  exports: [
   ]
 })
 export class PlatformModule { }
