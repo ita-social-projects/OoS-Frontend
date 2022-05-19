@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +33,7 @@ describe('WorkingHoursFormWrapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkingHoursFormWrapperComponent);
     component = fixture.componentInstance;
+    component.workingHoursFormArray = new FormArray([]);
     fixture.detectChanges();
   });
 
