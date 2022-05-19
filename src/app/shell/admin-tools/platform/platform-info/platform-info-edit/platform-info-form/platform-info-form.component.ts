@@ -11,9 +11,9 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 export class PlatformInfoFormComponent {
   readonly validationConstants = ValidationConstants;
 
-  @Input() AboutItemFormGroup: FormGroup;
+  @Input() PlatformInfoEditFormGroup: FormGroup;
   @Input() index: number;
-  @Input() aboutFormAmount: number;
+  @Input() formAmount: number;
 
   @Output() deleteForm = new EventEmitter();
 

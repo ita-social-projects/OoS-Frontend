@@ -19,10 +19,10 @@ import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/mode
   styleUrls: ['./platform-info-edit.component.scss']
 })
 export class PlatformInfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Select(AdminState.aboutPortal)
-  aboutPortal$: Observable<CompanyInformation>;
+  @Select(AdminState.platformInfo)
+  platformInfo$: Observable<CompanyInformation>;
 
-  AboutPortalItemArray = new FormArray([]);
+  PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('',[Validators.required]);
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -36,31 +36,31 @@ export class PlatformInfoEditComponent extends CreateFormComponent implements On
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-      { name: NavBarName.AdminTools, isActive: false, disable: false },
-      { name: NavBarName.Platform, isActive: false, disable: false },
-      { name: NavBarName.About, isActive: false, disable: true }
-    )));
+    // this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    //   { name: NavBarName.AdminTools, isActive: false, disable: false },
+    //   { name: NavBarName.Platform, isActive: false, disable: false },
+    //   { name: NavBarName.About, isActive: false, disable: true }
+    // ))); TODO: fix navigation path
   }
 
   setEditMode(): void { }
 
   ngOnInit(): void {
-    this.aboutPortal$
+    this.platformInfo$
       .pipe(
         takeUntil(this.destroy$),
-        filter((aboutPortal: CompanyInformation)=> !!aboutPortal))
-      .subscribe((aboutPortal: CompanyInformation) => {
-        aboutPortal.companyInformationItems
-          .forEach((item : СompanyInformationItem) => this.AboutPortalItemArray.push(this.newForm(item)));
+        filter((platformInfo: CompanyInformation)=> !!platformInfo))
+      .subscribe((platformInfo: CompanyInformation) => {
+        platformInfo.companyInformationItems
+          .forEach((item : СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
       });
   }
 
   /**
    * This method creates new FormGroup
    */
-  private newForm(aboutPortalItem?: СompanyInformationItem): FormGroup {
-    const aboutEditFormGroup = this.fb.group({
+  private newForm(platformInfoItem?: СompanyInformationItem): FormGroup {
+    const platformInfoEditFormGroup = this.fb.group({
       sectionName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX)]),
@@ -71,16 +71,16 @@ export class PlatformInfoEditComponent extends CreateFormComponent implements On
       ]),
     });
 
-    aboutPortalItem && aboutEditFormGroup.patchValue(aboutPortalItem, { emitEvent: false });
+    platformInfoItem && platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
 
-    return aboutEditFormGroup;
+    return platformInfoEditFormGroup;
   }
 
   /**
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
-   addAboutForm(): void {
-    this.AboutPortalItemArray.push(this.newForm());
+   onAddForm(): void {
+    this.PlatformInfoItemArray.push(this.newForm());
   }
 
   /**
@@ -88,7 +88,7 @@ export class PlatformInfoEditComponent extends CreateFormComponent implements On
    * @param index
    */
    onDeleteForm(index: number): void {
-    this.AboutPortalItemArray.removeAt(index);
+    this.PlatformInfoItemArray.removeAt(index);
   }
 
   onSubmit(): void {

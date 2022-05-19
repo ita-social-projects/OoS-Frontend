@@ -5,11 +5,11 @@ import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPortalInfo {
   static readonly type = '[admin] Get Information Portal Info';
-  constructor(type: PortalInfoType) { }
+  constructor(public payload: PortalInfoType) { }
 }
 export class UpdatePortalInfo {
   static readonly type = '[admin] Update Information Portal Info';
-  constructor(public payload: CompanyInformation, type: PortalInfoType) { }
+  constructor(public payload: CompanyInformation, public type: PortalInfoType) { }
 }
 export class OnUpdatePortalInfoFail {
   static readonly type = '[admin] update Information Portal Info Fail';

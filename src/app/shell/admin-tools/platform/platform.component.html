@@ -1,13 +1,13 @@
   <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
     <mat-tab label="{{adminTabsUkr.about}}">
-      <app-about-platform [portalInfoType]="portalInfoType.about"></app-about-platform>
+      <app-platform-info [type]="portalInfoType.about"></app-platform-info>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
     <mat-tab label="{{adminTabsUkr.directions}}">
-      <app-directions [portalInfoType]="portalInfoType.about"></app-directions>
+      <app-directions></app-directions>
     </mat-tab>
     <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>
     <mat-tab label="{{adminTabsUkr.support}}">
-      <app-support-platform></app-support-platform>
+      <app-platform-info [type]="portalInfoType.support"></app-platform-info>
     </mat-tab>
   </mat-tab-group>

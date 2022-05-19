@@ -101,10 +101,10 @@ export class AdminState {
   ) { }
 
   @Action(GetPortalInfo)
-  getPortalInfo({ patchState }: StateContext<AdminStateModel>, { type }: GetPortalInfo): Observable<CompanyInformation> {
+  getPortalInfo({ patchState }: StateContext<AdminStateModel>, { payload }: GetPortalInfo): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.portalService
-      .getPortalInfo(type)
+      .getPortalInfo(payload)
       .pipe(
         tap((platformInfo: CompanyInformation) => patchState({ platformInfo: platformInfo, isLoading: false })));
   }

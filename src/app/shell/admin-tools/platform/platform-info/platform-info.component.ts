@@ -7,7 +7,7 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 import { GetPortalInfo } from 'src/app/shared/store/admin.actions';
 
 @Component({
-  selector: 'app-platform-info-platform',
+  selector: 'app-platform-info',
   templateUrl: './platform-info.component.html',
   styleUrls: ['./platform-info.component.scss']
 })
@@ -15,7 +15,7 @@ export class PlatformInfoComponent implements OnInit {
   @Input() type: PortalInfoType;
 
   @Select(AdminState.platformInfo)
-  aboutPortal$: Observable<CompanyInformation>
+  platformInfo$: Observable<CompanyInformation>
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }

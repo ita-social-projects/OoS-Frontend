@@ -1,13 +1,13 @@
 <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
   <div class="config">
-    <a routerLink="edit" class="config_edit-icon" routerLink="./edit">
+    <a routerLink="edit" class="config_edit-icon" [routerLink]="['edit', type ]">
       <button mat-button style="color:#3849F9;">
         <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
       </button>
     </a>
-    <ng-container *ngIf="aboutPortal$ | async as aboutPortal">
-      <h4>{{aboutPortal.title}}</h4>
-      <div *ngFor="let portalItem of aboutPortal.companyInformationItems">
+    <ng-container *ngIf="platformInfo$ | async as platformInfo">
+      <h4>{{platformInfo.title}}</h4>
+      <div *ngFor="let portalItem of platformInfo.companyInformationItems">
         <h5 *ngIf="(portalItem.sectionName)">
           {{portalItem.sectionName}}
         </h5>

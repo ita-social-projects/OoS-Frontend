@@ -29,7 +29,7 @@ import { PlatformInfoEditComponent } from './platform-info/platform-info-edit/pl
     RouterModule,
     PlatformRoutingModule
   ],
-  exports: [
+  exports: [ 
   ]
 })
 export class PlatformModule { }
