@@ -6,11 +6,11 @@ import { AdminState } from 'src/app/shared/store/admin.state';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
-  selector: 'app-about-platform',
-  templateUrl: './about-platform.component.html',
-  styleUrls: ['./about-platform.component.scss']
+  selector: 'app-platform-info-platform',
+  templateUrl: './platform-info.component.html',
+  styleUrls: ['./platform-info.component.scss']
 })
-export class AboutPlatformComponent implements OnInit {
+export class PlatformInfoComponent implements OnInit {
   @Select(AdminState.aboutPortal)
   aboutPortal$: Observable<CompanyInformation>
   destroy$: Subject<boolean> = new Subject<boolean>();

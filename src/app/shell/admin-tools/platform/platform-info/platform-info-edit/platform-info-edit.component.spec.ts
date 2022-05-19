@@ -5,14 +5,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { AboutEditComponent } from './about-edit.component';
+import { PlatformInfoEditComponent } from './platform-info-edit.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('AboutEditComponent', () => {
-  let component: AboutEditComponent;
-  let fixture: ComponentFixture<AboutEditComponent>;
+describe('PlatformInfoEditComponent', () => {
+  let component: PlatformInfoEditComponent;
+  let fixture: ComponentFixture<PlatformInfoEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +27,7 @@ describe('AboutEditComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [ 
-        AboutEditComponent,
+        PlatformInfoEditComponent,
         MockAboutFormComponent,
         MockValidationHintForInputComponent
       ]
@@ -36,7 +36,7 @@ describe('AboutEditComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AboutEditComponent);
+    fixture = TestBed.createComponent(PlatformInfoEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

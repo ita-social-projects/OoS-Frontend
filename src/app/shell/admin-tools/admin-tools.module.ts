@@ -5,15 +5,13 @@ import { PlatformComponent } from './platform/platform.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DirectionsComponent } from './platform/create-direction/directions/directions.component';
-import { AboutPlatformComponent } from './platform/about-platform/about-platform.component';
-import { SupportPlatformComponent } from './platform/support-platform/support-platform.component';
+import { PlatformInfoComponent } from './platform/platform-info/platform-info.component';
 
 @NgModule({
   declarations: [
     PlatformComponent,
     DirectionsComponent,
-    AboutPlatformComponent,
-    SupportPlatformComponent,
+    PlatformInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -23,8 +21,7 @@ import { SupportPlatformComponent } from './platform/support-platform/support-pl
   ],
   exports: [
     DirectionsComponent,
-    AboutPlatformComponent,
-    SupportPlatformComponent,
+    PlatformInfoComponent,
   ]
 })
 export class AdminToolsModule { }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AboutPlatformComponent } from './about-platform.component';
+import { PlatformInfoComponent } from './platform-info.component';
 
-describe('AboutPlatformComponent', () => {
-  let component: AboutPlatformComponent;
-  let fixture: ComponentFixture<AboutPlatformComponent>;
+describe('PlatformInfoComponent', () => {
+  let component: PlatformInfoComponent;
+  let fixture: ComponentFixture<PlatformInfoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AboutPlatformComponent ]
+      declarations: [ PlatformInfoComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AboutPlatformComponent);
+    fixture = TestBed.createComponent(PlatformInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

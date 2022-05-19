@@ -13,10 +13,10 @@
     </app-validation-hint>
     
     <div fxLayout="column" fxLayoutAlign="center center">
-      <app-about-form *ngFor="let form of AboutPortalItemArray.controls" [AboutItemFormGroup]="form"
+      <app-platform-info-form *ngFor="let form of AboutPortalItemArray.controls" [AboutItemFormGroup]="form"
         [index]="AboutPortalItemArray.controls.indexOf(form)" [aboutFormAmount]="AboutPortalItemArray.controls.length"
         (deleteForm)="onDeleteForm($event)">
-      </app-about-form>
+      </app-platform-info-form>
 
       <button *ngIf="AboutPortalItemArray.controls.length < 10" class="btn-add" mat-button (click)="addAboutForm()">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
