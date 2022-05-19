@@ -12,7 +12,7 @@
   <app-validation-hint 
     [validationFormControl]="TeacherFormGroup.get('lastName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
 
@@ -23,7 +23,7 @@
   <app-validation-hint 
     [validationFormControl]="TeacherFormGroup.get('firstName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label"> По-батькові <span class="step-required">*</span></label>
@@ -33,7 +33,7 @@
   <app-validation-hint 
     [validationFormControl]="TeacherFormGroup.get('middleName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>

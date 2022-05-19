@@ -12,7 +12,7 @@ const defaultValidators: ValidatorFn[] = [
   Validators.required, 
   Validators.pattern(NO_LATIN_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-  Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
 ];
 @Component({
   selector: 'app-create-address',

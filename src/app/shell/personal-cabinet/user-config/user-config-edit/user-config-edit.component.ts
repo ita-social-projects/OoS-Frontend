@@ -40,19 +40,19 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       firstName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phoneNumber: new FormControl('', [
         Validators.required, 
