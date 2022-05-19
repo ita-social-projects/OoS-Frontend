@@ -23,15 +23,17 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
+  provider: Provider;
+
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([]);
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     private store: Store,
     public providerService: ProviderService
   ) {}
-  @ViewChild(MatSort) sort: MatSort; 
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.getAllProviders();
@@ -64,6 +66,11 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
 
   getAllProviders() {
     this.store.dispatch(new GetAllProviders());
+  }
+
+  getProviderById(id) {
+    this.providerService.getProviderById(id);
+    console.log('id', id, this.provider);    
   }
 
   announceSortChange(sortState: Sort) {

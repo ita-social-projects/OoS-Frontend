@@ -146,12 +146,12 @@
             <button mat-icon-button>
               <mat-icon>more_vert</mat-icon>
             </button>
-            <button mat-icon-button>
+            <button mat-icon-button (click)="getProviderById(element.id)">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
             <!-- <a href="#"
               mat-icon-button
-              [routerLink]="['/personal-cabinet/provider/info',element.id ]"
+              [routerLink]="['/personal-cabinet/provider/info', element.id ]"
             > -->
             <a href="#" mat-icon-button>
               <mat-icon>arrow_forward</mat-icon>
