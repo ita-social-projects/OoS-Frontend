@@ -10,8 +10,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
-// import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-provider-list',
@@ -21,25 +19,22 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 export class ProviderListComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly ProviderListIcons = ProviderListIcons;
-  OwnershipTypeUkr: OwnershipTypeUkr;
-  provider: Provider;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([]);
 
   constructor(
+    private _liveAnnouncer: LiveAnnouncer,
     private store: Store,
     public providerService: ProviderService,
-    private _liveAnnouncer: LiveAnnouncer
   ) {}
-  @ViewChild(MatSort) sort: MatSort;  
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.getAllProviders();
-
     this.displayedColumns = [
       'fullTitle',
       'ownership',
@@ -57,10 +52,11 @@ export class ProviderListComponent implements OnInit {
       'status',
       'star',
     ];
-    this.providers$.subscribe(providers => {
-      console.log('providers', providers);
+
+    this.providers$.subscribe((providers) => {
       this.dataSource = new MatTableDataSource(providers);
-    })
+      console.log('providers', providers);
+    });
   }
 
   ngAfterViewInit() {
