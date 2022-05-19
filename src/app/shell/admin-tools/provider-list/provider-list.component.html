@@ -38,9 +38,7 @@
       </ng-container>
 
       <ng-container matColumnDef="ownership">
-        <th mat-header-cell *matHeaderCellDef>
-          Форма власності
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Форма власності</th>
         <td mat-cell *matCellDef="let element">
           <span>
             {{ ownershipType(element.ownership) }}
@@ -49,7 +47,14 @@
       </ng-container>
 
       <ng-container matColumnDef="edrpouIpn">
-        <th mat-header-cell *matHeaderCellDef>ЄДРПО</th>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by edrpouIpn"
+        >
+          ЄДРПО
+        </th>
         <td mat-cell *matCellDef="let element">{{ element.edrpouIpn }}</td>
       </ng-container>
 

@@ -1,5 +1,5 @@
 import { Provider } from 'src/app/shared/models/provider.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
   templateUrl: './provider-list.component.html',
   styleUrls: ['./provider-list.component.scss'],
 })
-export class ProviderListComponent implements OnInit {
+export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly constants: typeof Constants = Constants;
   readonly ProviderListIcons = ProviderListIcons;
 
@@ -24,14 +24,14 @@ export class ProviderListComponent implements OnInit {
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
     private store: Store,
-    public providerService: ProviderService,
+    public providerService: ProviderService
   ) {}
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort; 
 
   ngOnInit() {
     this.getAllProviders();
@@ -53,9 +53,8 @@ export class ProviderListComponent implements OnInit {
       'star',
     ];
 
-    this.providers$.subscribe((providers) => {
+    this.providers$.subscribe((providers: Provider[]) => {
       this.dataSource = new MatTableDataSource(providers);
-      console.log('providers', providers);
     });
   }
 
