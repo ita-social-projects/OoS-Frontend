@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -18,7 +18,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { MatStepper } from '@angular/material/stepper';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 const defaultValidators: ValidatorFn[] = [
@@ -33,8 +32,6 @@ const defaultValidators: ValidatorFn[] = [
   styleUrls: ['./create-provider-admin.component.scss']
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @ViewChild('stepper') stepper: MatStepper;
-
   readonly validationConstants = ValidationConstants;
   readonly phonePrefix = Constants.PHONE_PREFIX;
 
