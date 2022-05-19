@@ -53,7 +53,7 @@ export class CreateInfoFormComponent implements OnInit {
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_50) 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [

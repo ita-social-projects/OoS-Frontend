@@ -1,6 +1,6 @@
-import { NO_LATIN_REGEX, NAME_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
@@ -8,6 +8,12 @@ import { City } from 'src/app/shared/models/city.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
+const defaultValidators: ValidatorFn[] = [
+  Validators.required, 
+  Validators.pattern(NO_LATIN_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+];
 @Component({
   selector: 'app-create-address',
   templateUrl: './create-address.component.html',
@@ -28,24 +34,9 @@ export class CreateAddressComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [
-        Validators.required, 
-        Validators.pattern(NO_LATIN_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
-      ]),
-      buildingNumber: new FormControl('', [
-        Validators.required, 
-        Validators.pattern(NO_LATIN_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
-      ]),
-      city: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NO_LATIN_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
-      ]),
+      street: new FormControl('', defaultValidators),
+      buildingNumber: new FormControl('', defaultValidators),
+      city: new FormControl('', defaultValidators),
       longitude: new FormControl(''),
     });
   }

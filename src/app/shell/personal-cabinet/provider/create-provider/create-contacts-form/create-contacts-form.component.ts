@@ -9,7 +9,8 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
   Validators.pattern(NO_LATIN_REGEX),
-  Validators.minLength(ValidationConstants.INPUT_LENGTH_1)
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
 ]
 @Component({
   selector: 'app-create-contacts-form',
@@ -91,11 +92,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   */
   private setDefaultValidators(form: FormGroup): void {
     Object.keys(form.controls).forEach((formControlTitle: string) => {
-      let controlValidators: ValidatorFn[] = (formControlTitle !== 'street') ?
-        [...defaultValidators, Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)] :
-        [...defaultValidators, Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)];
-
-        form.get(formControlTitle).setValidators(controlValidators);
+        form.get(formControlTitle).setValidators(defaultValidators);
     });    
   }
 

@@ -18,10 +18,7 @@ export class ValidationConstants {
   //Input Length
   static readonly INPUT_LENGTH_256 = 256;
   static readonly INPUT_LENGTH_60 = 60;
-  static readonly INPUT_LENGTH_50 = 50;
   static readonly INPUT_LENGTH_30 = 30;
-  static readonly INPUT_LENGTH_20 = 20;
-  static readonly INPUT_LENGTH_15 = 15;
   static readonly INPUT_LENGTH_10 = 10;
   static readonly INPUT_LENGTH_8 = 8;
   static readonly INPUT_LENGTH_3 = 3;
