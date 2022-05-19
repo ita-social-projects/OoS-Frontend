@@ -45,7 +45,7 @@ export class ProviderListComponent implements OnInit {
       'ownership',
       'edrpouIpn',
       'licence',
-      // 'city',
+      'city',
       'address',
       'director',
       'email',
@@ -53,7 +53,7 @@ export class ProviderListComponent implements OnInit {
       'shortTitle',
       'phoneNumber',
       'founder',
-      // 'actualAddress',
+      'actualAddress',
       'status',
       'star',
     ];

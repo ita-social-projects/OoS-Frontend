@@ -13,20 +13,13 @@
         />
       </div>
     </div>
-    <a [routerLink]="['/create-provider']"
-      ><button class="btn">ДОДАТИ</button></a
-    >
+    <a><button class="btn">ДОДАТИ</button></a>
   </div>
 
   <!-- -------------Table------------ -->
 
   <div class="example-container mat-elevation-z8">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      (matSortChange)="announceSortChange($event)"
-    >
+    <table mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="fullTitle">
         <th
           mat-header-cell
@@ -73,12 +66,12 @@
         <td mat-cell *matCellDef="let element"></td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="city">
+      <ng-container matColumnDef="city">
         <th mat-header-cell *matHeaderCellDef>Населений пункт</th>
         <td mat-cell *matCellDef="let element">
           {{ element.legalAddress.city }}
         </td>
-      </ng-container> -->
+      </ng-container>
 
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Адреса</th>
@@ -155,13 +148,12 @@
         <td mat-cell *matCellDef="let element">{{ element.founder }}</td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="actualAddress">
+      <ng-container matColumnDef="actualAddress">
         <th mat-header-cell *matHeaderCellDef>Актуальна адреса</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.actualAddress.city }}, {{ element.actualAddress.street }}
-          {{ element.actualAddress.buildingNumber }}
+          {{ element.actualAddress?.city}}, {{ element.actualAddress?.street}} {{ element.actualAddress?.buildingNumber}}
         </td>
-      </ng-container> -->
+      </ng-container>
 
       <ng-container matColumnDef="status" stickyEnd>
         <th
