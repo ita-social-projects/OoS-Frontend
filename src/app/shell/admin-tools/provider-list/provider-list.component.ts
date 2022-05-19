@@ -23,10 +23,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
-  provider: Provider;
-
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource();
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -70,7 +68,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
 
   getProviderById(id) {
     this.providerService.getProviderById(id);
-    console.log('id', id, this.provider);    
+    console.log('id', id);    
   }
 
   announceSortChange(sortState: Sort) {

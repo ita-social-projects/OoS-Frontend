@@ -153,7 +153,7 @@
               mat-icon-button
               [routerLink]="['/personal-cabinet/provider/info', element.id ]"
             > -->
-            <a href="#" mat-icon-button>
+            <a mat-icon-button>
               <mat-icon>arrow_forward</mat-icon>
             </a>
           </div>
@@ -163,6 +163,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <!-- <app-provider-org-info [provider$]="dataSource"></app-provider-org-info> -->
+    <!-- <app-provider-org-info></app-provider-org-info> -->
   </div>
 </div>
