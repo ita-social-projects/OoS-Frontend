@@ -104,3 +104,8 @@
 .false {
   color: #ffbd00;
 }
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding-left: 24px;
+    padding-right: 24px;
+}
