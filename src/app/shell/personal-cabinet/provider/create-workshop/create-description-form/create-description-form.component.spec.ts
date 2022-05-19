@@ -39,7 +39,7 @@ describe('CreateDescriptionFormComponent', () => {
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
         ImageFormControlComponent,
-        ValidationHintComponent
+        MockValidationHintAboutComponent
       ],
     })
       .compileComponents();
@@ -73,3 +73,13 @@ class MockCategorySelectComponent {
   @Input() CategoryFormGroup: FormGroup;
 }
 
+@Component({
+  selector: 'app-validation-hint',
+  template: ''
+})
+class MockValidationHintAboutComponent {
+  @Input() validationFormControl: FormControl; //required for validation
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
+}
