@@ -8,16 +8,42 @@ import { Department, Direction, DirectionsFilter, IClass } from "../models/categ
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, GetSupportInfoPortal, UpdateSupportInfoPortal, OnUpdateSupportInfoPortalFail, OnUpdateSupportInfoPortalSuccess, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import { 
+  DeleteDirectionById, 
+  OnDeleteDirectionFail, 
+  OnDeleteDirectionSuccess, 
+  CreateDirection, 
+  OnCreateDirectionFail, 
+  OnCreateDirectionSuccess, 
+  UpdateDirection, 
+  OnUpdateDirectionSuccess, 
+  OnUpdateDirectionFail, 
+  CreateDepartment, 
+  OnCreateDepartmentFail, 
+  OnCreateDepartmentSuccess, 
+  GetDirectionById, 
+  GetDepartmentByDirectionId, 
+  SetSearchQueryValue, 
+  GetFilteredDirections, 
+  PageChange, 
+  FilterChange, 
+  FilterClear,
+  OnCreateClassFail, 
+  OnCreateClassSuccess, 
+  CreateClass,
+  GetPortalInfo,
+  UpdatePortalInfo,
+  OnUpdatePortalInfoSuccess,
+  OnUpdatePortalInfoFail,
+} from "./admin.actions";
 
 export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   department: Department;
   classes: IClass[];
-  aboutPortal: CompanyInformation;
-  supportPortal: CompanyInformation;
+  platformInfo: CompanyInformation;
   departments: Department[];
   selectedDirection: Direction;
   currentPage: PaginationElement;
@@ -27,8 +53,7 @@ export interface AdminStateModel {
 @State<AdminStateModel>({
   name: 'admin',
   defaults: {
-    aboutPortal: null,
-    supportPortal: null,
+    platformInfo: null,
     direction: undefined,
     department: undefined,
     classes: [],
@@ -46,10 +71,7 @@ export interface AdminStateModel {
 @Injectable()
 export class AdminState {
   @Selector()
-  static aboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
-
-  @Selector()
-  static supportPortal(state: AdminStateModel): CompanyInformation { return state.supportPortal; }
+  static platformInfo(state: AdminStateModel): CompanyInformation { return state.platformInfo; }
 
   @Selector()
   static direction(state: AdminStateModel): Direction { return state.direction; }
@@ -78,67 +100,36 @@ export class AdminState {
     private router: Router
   ) { }
 
-  @Action(GetInfoAboutPortal)
-  getInfoAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
+  @Action(GetPortalInfo)
+  getPortalInfo({ patchState }: StateContext<AdminStateModel>, { type }: GetPortalInfo): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.portalService
-      .getInfoAboutPortal()
+      .getPortalInfo(type)
       .pipe(
-        tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+        tap((platformInfo: CompanyInformation) => patchState({ platformInfo: platformInfo, isLoading: false })));
   }
 
-  @Action(UpdateInfoAboutPortal)
-  updateInfoAboutPortal({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateInfoAboutPortal): Observable<object> {
+  @Action(UpdatePortalInfo)
+  updatePortalInfo({ dispatch }: StateContext<AdminStateModel>, { payload, type }: UpdatePortalInfo): Observable<object> {
     return this.portalService
-      .updateInfoAboutPortal(payload)
+      .updatePortalInfo(payload, type)
       .pipe(
-        tap((res) => dispatch(new OnUpdateInfoAboutPortalSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateInfoAboutPortalFail(error))))
+        tap((res) => dispatch(new OnUpdatePortalInfoSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdatePortalInfoFail(error))))
       );
   }
 
-  @Action(OnUpdateInfoAboutPortalFail)
-  onUpdateInfoAboutPortalFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalFail): void {
+  @Action(OnUpdatePortalInfoFail)
+  onUpdatePortalInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePortalInfoFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
-  @Action(OnUpdateInfoAboutPortalSuccess)
-  onUpdateInfoAboutPortalSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalSuccess): void {
+  @Action(OnUpdatePortalInfoSuccess)
+  onUpdatePortalInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePortalInfoSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/about']);
-  }
-  @Action(GetSupportInfoPortal)
-  getSupportInfoPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
-    patchState({ isLoading: true });
-    return this.portalService
-      .getSupportInformation()
-      .pipe(
-        tap((supportPortal: CompanyInformation) => patchState({ supportPortal: supportPortal, isLoading: false })));
-  }
-
-  @Action(UpdateSupportInfoPortal)
-  updateSupportInfoPortal({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateSupportInfoPortal): Observable<object> {
-    return this.portalService
-      .updateSupportInformation(payload)
-      .pipe(
-        tap((res) => dispatch(new OnUpdateInfoAboutPortalSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateSupportInfoPortalFail(error))))
-      );
-  }
-
-  @Action(OnUpdateSupportInfoPortalFail)
-  onUpdateSupportInfoPortalFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateSupportInfoPortalFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnUpdateSupportInfoPortalSuccess)
-  OnUpdateSupportInfoPortalSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateSupportInfoPortalSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch(new ShowMessageBar({ message: 'Інформація про підтримку успішно відредагована', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/support']);
   }
 
   @Action(DeleteDirectionById)

@@ -1,37 +1,22 @@
+import { PortalInfoType } from './../enum/portal';
 import { Department, Direction, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 import { CompanyInformation } from "../models/сompanyInformation.model";
 
-export class GetInfoAboutPortal {
-  static readonly type = '[admin] Get Information About Portal';
-  constructor() { }
+export class GetPortalInfo {
+  static readonly type = '[admin] Get Information Portal Info';
+  constructor(type: PortalInfoType) { }
 }
-export class UpdateInfoAboutPortal {
-  static readonly type = '[admin] Update Information About Portal';
-  constructor(public payload: CompanyInformation) { }
+export class UpdatePortalInfo {
+  static readonly type = '[admin] Update Information Portal Info';
+  constructor(public payload: CompanyInformation, type: PortalInfoType) { }
 }
-export class OnUpdateInfoAboutPortalFail {
-  static readonly type = '[admin] update Information About Portal Fail';
+export class OnUpdatePortalInfoFail {
+  static readonly type = '[admin] update Information Portal Info Fail';
   constructor(public payload: Error) { }
 }
-export class OnUpdateInfoAboutPortalSuccess {
-  static readonly type = '[admin] update Information About Portal Success';
-  constructor(public payload) { }
-}
-export class GetSupportInfoPortal {
-  static readonly type = '[admin] Get Support Info Portal';
-  constructor() { }
-}
-export class UpdateSupportInfoPortal {
-  static readonly type = '[admin] Update Support Info Portal';
-  constructor(public payload: CompanyInformation) { }
-}
-export class OnUpdateSupportInfoPortalFail {
-  static readonly type = '[admin] update Support Info Portal Fail';
-  constructor(public payload: Error) { }
-}
-export class OnUpdateSupportInfoPortalSuccess {
-  static readonly type = '[admin] update Support Info Portal Success';
+export class OnUpdatePortalInfoSuccess {
+  static readonly type = '[admin] update Information Portal Info Success';
   constructor(public payload) { }
 }
 export class DeleteDirectionById {

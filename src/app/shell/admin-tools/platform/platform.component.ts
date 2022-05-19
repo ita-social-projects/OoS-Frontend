@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { PortalInfoType } from 'src/app/shared/enum/portal';
 
 @Component({
   selector: 'app-platform',
@@ -14,6 +15,7 @@ import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
+  readonly portalInfoType = PortalInfoType;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
