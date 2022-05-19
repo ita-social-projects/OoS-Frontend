@@ -18,6 +18,22 @@ export class OnUpdateInfoAboutPortalSuccess {
   static readonly type = '[admin] update Information About Portal Success';
   constructor(public payload) { }
 }
+export class GetSupportInfoPortal {
+  static readonly type = '[admin] Get Support Info Portal';
+  constructor() { }
+}
+export class UpdateSupportInfoPortal {
+  static readonly type = '[admin] Update Support Info Portal';
+  constructor(public payload: CompanyInformation) { }
+}
+export class OnUpdateSupportInfoPortalFail {
+  static readonly type = '[admin] update Support Info Portal Fail';
+  constructor(public payload: Error) { }
+}
+export class OnUpdateSupportInfoPortalSuccess {
+  static readonly type = '[admin] update Support Info Portal Success';
+  constructor(public payload) { }
+}
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
   constructor(public payload) { }

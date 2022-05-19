@@ -10,7 +10,7 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
   templateUrl: './about-platform.component.html',
   styleUrls: ['./about-platform.component.scss']
 })
-export class AboutPlatformComponent implements OnInit{
+export class AboutPlatformComponent implements OnInit {
   @Select(AdminState.aboutPortal)
   aboutPortal$: Observable<CompanyInformation>
   destroy$: Subject<boolean> = new Subject<boolean>();
