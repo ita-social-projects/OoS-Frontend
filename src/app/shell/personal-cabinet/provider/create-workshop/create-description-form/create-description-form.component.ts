@@ -39,7 +39,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ]),
-      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
+      disabilityOptionsDesc: new FormControl({ value: '', disabled: true },[
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+      ]),
       head: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
