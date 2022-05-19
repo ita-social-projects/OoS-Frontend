@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 import { WorkingHoursFormWrapperComponent } from './working-hours-form-wrapper.component';
 
@@ -10,7 +11,13 @@ describe('WorkingHoursFormWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WorkingHoursFormWrapperComponent, MockWorkingHours ]
+      imports:[
+        MatIconModule
+      ],
+      declarations: [ 
+        WorkingHoursFormWrapperComponent, 
+        MockWorkingHours 
+      ]
     })
     .compileComponents();
   });
