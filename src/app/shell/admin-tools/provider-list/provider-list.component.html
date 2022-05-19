@@ -21,7 +21,12 @@
   <!-- -------------Table------------ -->
 
   <div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table
+      mat-table
+      [dataSource]="providers$ | async"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+    >
       <ng-container matColumnDef="fullTitle">
         <th
           mat-header-cell
@@ -68,12 +73,12 @@
         <td mat-cell *matCellDef="let element"></td>
       </ng-container>
 
-      <ng-container matColumnDef="city">
+      <!-- <ng-container matColumnDef="city">
         <th mat-header-cell *matHeaderCellDef>Населений пункт</th>
         <td mat-cell *matCellDef="let element">
           {{ element.legalAddress.city }}
         </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Адреса</th>
@@ -150,13 +155,13 @@
         <td mat-cell *matCellDef="let element">{{ element.founder }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="actualAddress">
+      <!-- <ng-container matColumnDef="actualAddress">
         <th mat-header-cell *matHeaderCellDef>Актуальна адреса</th>
         <td mat-cell *matCellDef="let element">
           {{ element.actualAddress.city }}, {{ element.actualAddress.street }}
           {{ element.actualAddress.buildingNumber }}
         </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="status" stickyEnd>
         <th
@@ -187,18 +192,14 @@
             <button mat-icon-button>
               <mat-icon>more_vert</mat-icon>
             </button>
-            <button mat-icon-button (click)="onInfoShow(name, $event)">
+            <button mat-icon-button>
               <mat-icon>remove_red_eye</mat-icon>
             </button>
             <!-- <a href="#"
               mat-icon-button
               [routerLink]="['/personal-cabinet/provider/info',element.id ]"
             > -->
-            <a
-              href="#"
-              mat-icon-button
-              [routerLink]="['/personal-cabinet/provider/info']"
-            >
+            <a href="#" mat-icon-button>
               <mat-icon>arrow_forward</mat-icon>
             </a>
           </div>
@@ -208,7 +209,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-
-    <!-- <app-provider-org-info [provider]="provider"></app-provider-org-info> -->
+    <!-- <app-provider-org-info [provider$]="dataSource"></app-provider-org-info> -->
   </div>
 </div>
