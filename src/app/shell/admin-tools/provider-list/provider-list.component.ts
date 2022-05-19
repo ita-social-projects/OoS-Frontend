@@ -66,9 +66,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new GetAllProviders());
   }
 
-  getProviderById(id) {
+  getProviderById(id, provider) {
     this.providerService.getProviderById(id);
-    console.log('id', id);    
+    console.log('id', id, provider);    
   }
 
   announceSortChange(sortState: Sort) {
