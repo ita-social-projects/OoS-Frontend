@@ -5,4 +5,5 @@ export enum NoResultsTitle {
   noFavoriteWorkshops = 'Улюблених гуртків поки немає',
   noDirections = 'За результатами нічого не знайдено',
   noProviderAdmins = 'Користувачів поки немає',
+  noUsers = 'Користувачів поки немає',
 }

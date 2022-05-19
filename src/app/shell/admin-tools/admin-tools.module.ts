@@ -5,12 +5,14 @@ import { PlatformComponent } from './platform/platform.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DirectionsComponent } from './platform/create-direction/directions/directions.component';
+import { UsersComponent } from './users/users.component';
 
 
 @NgModule({
   declarations: [
     PlatformComponent,
     DirectionsComponent,
+    UsersComponent,
   ],
   imports: [
     CommonModule,

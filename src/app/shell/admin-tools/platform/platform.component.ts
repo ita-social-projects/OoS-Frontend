@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { AboutPortal } from 'src/app/shared/models/aboutPortal.model';
