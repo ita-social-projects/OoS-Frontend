@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-about-form',
   templateUrl: './about-form.component.html',
   styleUrls: ['./about-form.component.scss']
 })
-export class AboutFormComponent implements OnInit {
-
-  readonly constants: typeof Constants = Constants;
+export class AboutFormComponent {
+  readonly validationConstants = ValidationConstants;
 
   @Input() AboutItemFormGroup: FormGroup;
   @Input() index: number;
@@ -17,11 +17,7 @@ export class AboutFormComponent implements OnInit {
 
   @Output() deleteForm = new EventEmitter();
 
-  isActiveSectionInfoButton = false;
-
   constructor() { }
-
-  ngOnInit(): void { }
 
   onDelete(): void {
     this.deleteForm.emit(this.index);

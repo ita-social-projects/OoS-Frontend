@@ -1,6 +1,6 @@
-import { AboutPortal } from "../models/aboutPortal.model";
 import { Department, Direction, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
+import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetInfoAboutPortal {
   static readonly type = '[admin] Get Information About Portal';
@@ -8,7 +8,7 @@ export class GetInfoAboutPortal {
 }
 export class UpdateInfoAboutPortal {
   static readonly type = '[admin] Update Information About Portal';
-  constructor(public payload: AboutPortal) { }
+  constructor(public payload: CompanyInformation) { }
 }
 export class OnUpdateInfoAboutPortalFail {
   static readonly type = '[admin] update Information About Portal Fail';

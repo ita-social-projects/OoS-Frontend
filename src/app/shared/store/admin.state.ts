@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { AboutPortal } from "../models/aboutPortal.model";
+import { CompanyInformation } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
@@ -16,7 +16,7 @@ export interface AdminStateModel {
   direction: Direction;
   department: Department;
   classes: IClass[];
-  aboutPortal: AboutPortal;
+  aboutPortal: CompanyInformation;
   departments: Department[];
   selectedDirection: Direction;
   currentPage: PaginationElement;
@@ -43,49 +43,53 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
-  adminStateModel: any;
   @Selector()
-  static aboutPortal(state: AdminStateModel): AboutPortal { return state.aboutPortal; }
+  static aboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
+
   @Selector()
   static direction(state: AdminStateModel): Direction { return state.direction; }
+
   @Selector()
   static department(state: AdminStateModel): Department { return state.department; }
+
   @Selector()
   static departments(state: AdminStateModel): Department [] { return state.departments; }
+
   @Selector()
   static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
+
   @Selector()
   static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
-  @Selector()
-  static currentPage(state: AdminStateModel): {} { return state.currentPage; };
-  @Selector()
-  static isLoading(state: AdminStateModel): boolean { return state.isLoading };
 
+  @Selector()
+  static currentPage(state: AdminStateModel): {} { return state.currentPage; }
+
+  @Selector()
+  static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
   constructor(
     private portalService: PortalService,
     private categoriesService: CategoriesService,
-    private router: Router,
+    private router: Router
   ) { }
 
   @Action(GetInfoAboutPortal)
-  getInfoAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<AboutPortal> {
+  getInfoAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
     return this.portalService
       .getInfoAboutPortal()
       .pipe(
-        tap((aboutPortal: AboutPortal) => {
-          return patchState({ aboutPortal: aboutPortal });
-        }));
+        tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
   }
 
   @Action(UpdateInfoAboutPortal)
   updateInfoAboutPortal({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateInfoAboutPortal): Observable<object> {
     return this.portalService
-    .updateInfoAboutPortal(payload)
-    .pipe(
-      tap((res) => dispatch(new OnUpdateInfoAboutPortalSuccess(res))),
-      catchError((error: Error) => of(dispatch(new OnUpdateInfoAboutPortalFail(error))))
-    );
+      .updateInfoAboutPortal(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateInfoAboutPortalSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdateInfoAboutPortalFail(error))))
+      );
   }
 
   @Action(OnUpdateInfoAboutPortalFail)

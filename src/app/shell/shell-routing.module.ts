@@ -19,8 +19,8 @@ import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
-import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
-import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
+// import { AboutEditComponent } from './admin-tools/platform/about-platform/about-edit/about-edit.component';
+import { SupportEditComponent } from './admin-tools/platform/support-platform/support-edit/support-edit.component';
 import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
@@ -55,10 +55,10 @@ const routes: Routes = [
     path: 'personal-cabinet/config/edit',
     component: UserConfigEditComponent
   },
-  {
-    path: 'admin-tools/platform/about/edit',
-    component: AboutEditComponent
-  },
+  // {
+  //   path: 'admin-tools/platform/about/edit',
+  //   component: AboutEditComponent
+  // },
   {
     path: 'admin-tools/platform/support/edit',
     component: SupportEditComponent

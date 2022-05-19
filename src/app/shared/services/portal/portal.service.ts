@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AboutPortal } from '../../models/aboutPortal.model';
+import { CompanyInformation } from '../../models/сompanyInformation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +11,17 @@ export class PortalService {
   constructor(private http: HttpClient) { }
 
   /**
+   * This method get information about Portal from the database.
+   */
+   getInfoAboutPortal(): Observable<CompanyInformation> {
+    return this.http.get<CompanyInformation>('/api/v1/AboutPortal/Get');
+  }
+
+  /**
    * This method update information about Portal
    * @param aboutPortal: AboutPortal
    */
-   updateInfoAboutPortal(aboutPortal: AboutPortal): Observable<object> {
-    return this.http.put('/api/v1/AboutPortal/Update', aboutPortal);
-  }
-  /**
-   * This method get information about Portal from the database.
-   */
-   getInfoAboutPortal(): Observable<AboutPortal> {
-    return this.http.get<AboutPortal>('/api/v1/AboutPortal/Get');
+  updateInfoAboutPortal(aboutPortal: CompanyInformation): Observable<CompanyInformation> {
+    return this.http.put<CompanyInformation>('/api/v1/AboutPortal/Update', aboutPortal);
   }
 }

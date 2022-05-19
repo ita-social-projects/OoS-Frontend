@@ -1,0 +1,34 @@
+<div class="create-form">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">РЕДАГУВАННЯ ПРО ПОРТАЛ</h3>
+    </div>
+
+    <label class="step-label"> Заголовок </label>
+    <mat-form-field>
+      <input matInput class="step-input" type="text" formControlName="title" [formControl]="titleFormControl">
+    </mat-form-field>
+    <app-validation-hint 
+      [validationFormControl]="titleFormControl">
+    </app-validation-hint>
+    
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <app-about-form *ngFor="let form of AboutPortalItemArray.controls" [AboutItemFormGroup]="form"
+        [index]="AboutPortalItemArray.controls.indexOf(form)" [aboutFormAmount]="AboutPortalItemArray.controls.length"
+        (deleteForm)="onDeleteForm($event)">
+      </app-about-form>
+
+      <button *ngIf="AboutPortalItemArray.controls.length < 10" class="btn-add" mat-button (click)="addAboutForm()">
+        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+      </button>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <a [routerLink]="'/admin-tools/platform/about'"><button mat-raised-button
+          class="btn btn-cancel">Скасувати</button></a>
+      <button class="btn" mat-button type="submit"[disabled]="AboutPortalItemArray.invalid || titleFormControl.invalid" (click)="onSubmit()">Зберегти</button>
+    </div>
+
+  </div>
+</div>
