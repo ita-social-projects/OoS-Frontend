@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, OnInit, Input } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Application } from 'src/app/shared/models/application.model';
@@ -9,19 +10,20 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './reject-modal-window.component.html',
   styleUrls: ['./reject-modal-window.component.scss'],
 })
-export class RejectModalWindowComponent implements OnInit {
+export class RejectModalWindowComponent {
+  readonly validationConstants= ValidationConstants;
+
   @Input() application: Application;
-  readonly constants: typeof Constants = Constants;
-  ReasonFormControl= new FormControl('', Validators.required);
+
+  ReasonFormControl= new FormControl('', [
+    Validators.required,
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+    Validators.minLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+  ]);
   modalTitle = 'ВІДМОВИТИ';
   modalDescription = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?';
 
-  constructor(
-    private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<RejectModalWindowComponent>
-  ) {}
-
-  ngOnInit(): void {}
+  constructor(public dialogRef: MatDialogRef<RejectModalWindowComponent>) {}
 
   onCancel(): void {
     this.dialogRef.close();
