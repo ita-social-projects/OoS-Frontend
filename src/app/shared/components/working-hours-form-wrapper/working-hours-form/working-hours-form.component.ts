@@ -1,11 +1,11 @@
-import { ValidationConstants } from './../../constants/validation';
+import { ValidationConstants } from '../../../constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { WorkingDaysValues } from '../../constants/constants';
-import { WorkingDaysReverse } from '../../enum/enumUA/working-hours';
-import { WorkingDaysToggleValue } from '../../models/workingHours.model';
+import { WorkingDaysValues } from '../../../constants/constants';
+import { WorkingDaysReverse } from '../../../enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from '../../../models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -19,21 +19,28 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
 
+  workdaysFormControl = new FormControl('');
+  startTimeFormControl = new FormControl('');
+  endTimeFormControl = new FormControl('');
+
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;
 
   @Output() deleteWorkingHour = new EventEmitter();
 
-  constructor() {
-   }
+  constructor() { }
 
   ngOnInit(): void {
-    this.workingHoursForm.valueChanges.pipe(
-      filter(()=> !this.workingHoursForm.get('workdays').touched),
-    ).subscribe(()=>this.workingHoursForm.get('workdays').markAsTouched());
+    this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
+    this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
+    this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
-    this.workingHoursForm.value?.workdays.length && this.activateEditMode();
+    this.workingHoursForm.valueChanges.pipe(
+      filter(()=> !this.workdaysFormControl.touched),
+    ).subscribe(()=> this.workdaysFormControl.markAsTouched());
+
+    this.workdaysFormControl.value.length && this.activateEditMode();
   }
 
   /**
@@ -49,12 +56,13 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     }
 
     const value = this.workingDays.length ? this.workingDays : null;
-    this.workingHoursForm.get('workdays').setValue(value);
+    this.workdaysFormControl.setValue(value);
 
+    console.log(this.workingHoursAmount)
   }
 
   getMinTime(): string {
-    return this.workingHoursForm.get('startTime').value ? this.workingHoursForm.get('startTime').value : ValidationConstants.MAX_TIME;
+    return this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MAX_TIME;
   }
 
   delete(): void {
@@ -62,14 +70,13 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void{
-    (<EventEmitter<any>>this.workingHoursForm.get('startTime').statusChanges).emit();
-    (<EventEmitter<any>>this.workingHoursForm.get('endTime').statusChanges).emit();
-
+    (<EventEmitter<any>>this.startTimeFormControl.statusChanges).emit();
+    (<EventEmitter<any>>this.endTimeFormControl.statusChanges).emit();
   }
 
   activateEditMode(): void {
     this.days.forEach((day: WorkingDaysToggleValue) => {
-      this.workingHoursForm.value.workdays.forEach((workDay: string) => {
+      this.workdaysFormControl.value.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
           day.selected = true;
           this.workingDays.push(day.value);
