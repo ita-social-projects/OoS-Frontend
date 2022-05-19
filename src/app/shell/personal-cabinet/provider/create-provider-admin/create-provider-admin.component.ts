@@ -3,9 +3,9 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateProviderAdmin, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { ProviderAdmin } from 'src/app/shared/models/providerAdmin.model';
@@ -17,62 +17,73 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { MatStepper } from '@angular/material/stepper';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
+const defaultValidators: ValidatorFn[] = [
+  Validators.required, 
+  Validators.pattern(NAME_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+]
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
   styleUrls: ['./create-provider-admin.component.scss']
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper') stepper: MatStepper;
+
+  readonly validationConstants = ValidationConstants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
-  @ViewChild('stepper') stepper: MatStepper;
   
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
-  readonly constants: typeof Constants = Constants;
-  params = this.route.snapshot.paramMap.get('param');
   isDeputy = false;
   managedWorkshopIds: string[];
-  isAgreed: boolean;
-  isNotRobot: boolean;
-  isEmpty = true;
-
-  InfoFormGroup: FormGroup;
-  AccessFormGroup: FormGroup;
-
-  RobotFormControl = new FormControl(false);
-  AgreementFormControl = new FormControl(false);
-
-
 
   constructor(store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
-    private matDialog: MatDialog,) {
+    private matDialog: MatDialog) {
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
-      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      lastName: new FormControl('', defaultValidators),
+      firstName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', defaultValidators),
+      phoneNumber: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(Constants.PHONE_LENGTH),
+        Validators.maxLength(Constants.PHONE_LENGTH)
+      ]),
+      email: new FormControl('', [
+        Validators.required, 
+        Validators.email
+      ]),
     });
+
+    this.isDeputy = (this.route.snapshot.paramMap.get('param') === providerAdminRole.deputy);
+  }
+
+  ngOnInit(): void {
+    if(!this.isDeputy){
+      this.getProviderWorkshops();
+    }
   }
   
   setEditMode(): void {
     this.addNavPath();
   }
 
-  addNavPath(): void {
-  }
+  addNavPath(): void { } //TODO: add nav path
 
   getProviderWorkshops(): void {
     this.provider$.pipe(
@@ -88,32 +99,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.managedWorkshopIds = workshopsId;
   }
 
-  ngOnInit(): void {
-    this.getProviderWorkshops();
-    this.isDeputy = (this.params === providerAdminRole.deputy);
-
-    this.RobotFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => this.isNotRobot = val);
-
-    this.AgreementFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => this.isAgreed = val);
-
-    this.ProviderAdminFormGroup.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val) => {
-      this.isEmpty = (!val.lastName || !val.firstName || !val.phoneNumber || !val.email);
-    });
-  }
-
-  
   checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
   }
-
 
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
