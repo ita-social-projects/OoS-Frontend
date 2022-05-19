@@ -73,7 +73,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.PersonalCabinetParent, path: '/personal-cabinet/parent/info', isActive: false, disable: false },
       { name: this.editMode ? NavBarName.EditInformationAboutChild : NavBarName.AddInformationAboutChild, isActive: false, disable: true },
     )));

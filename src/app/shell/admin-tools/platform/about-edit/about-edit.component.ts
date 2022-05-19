@@ -66,7 +66,7 @@ export class AboutEditComponent implements OnInit, OnDestroy {
           this.AboutPortalItemArray.push(this.newForm());
         } 
       });
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.AdminTools, isActive: false, disable: false },
       { name: NavBarName.Platform, isActive: false, disable: false },
       { name: NavBarName.About, isActive: false, disable: true }
