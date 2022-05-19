@@ -28,14 +28,14 @@ export class ProviderListComponent implements OnInit {
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{} || null]);
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   constructor(
     private store: Store,
     public providerService: ProviderService,
     private _liveAnnouncer: LiveAnnouncer
   ) {}
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;  
 
   ngOnInit() {
     this.getAllProviders();
@@ -57,8 +57,10 @@ export class ProviderListComponent implements OnInit {
       'status',
       'star',
     ];
-
-    // this.dataSource = new MatTableDataSource(this.providers$);
+    this.providers$.subscribe(providers => {
+      console.log('providers', providers);
+      this.dataSource = new MatTableDataSource(providers);
+    })
   }
 
   ngAfterViewInit() {
