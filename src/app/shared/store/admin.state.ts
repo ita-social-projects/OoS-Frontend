@@ -89,7 +89,7 @@ export class AdminState {
     private portalService: PortalService,
     private categoriesService: CategoriesService,
     private router: Router,
-    private providerService: ProviderService,
+    private providerService: ProviderService
   ) {}
 
   @Action(GetInfoAboutPortal)

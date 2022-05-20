@@ -34,7 +34,7 @@
         >
           Назва закладу
         </th>
-        <td mat-cell *matCellDef="let element">{{ element.fullTitle }}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.fullTitle }}</td>
       </ng-container>
 
       <ng-container matColumnDef="ownership">
@@ -149,7 +149,7 @@
             <button mat-icon-button (click)="getProviderById(element.id, element)">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
-            <!-- <a href="#"
+            <!-- <a
               mat-icon-button
               [routerLink]="['/personal-cabinet/provider/info', element.id ]"
             > -->
