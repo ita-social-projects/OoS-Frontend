@@ -9,7 +9,7 @@ import { CreateDirectionComponent } from './create-direction/create-direction.co
 import { AddClassFormComponent } from './create-direction/add-class-form/add-class-form.component';
 import { AddDepartmentFormComponent } from './create-direction/add-department-form/add-department-form.component';
 import { AddDirectionFormComponent } from './create-direction/add-direction-form/add-direction-form.component';
-import { InfoFormComponent } from './platform-info/info-edit/info-edit/platform-info-form.component';
+import { InfoFormComponent } from './platform-info/info-edit/info-edit/info-form.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
 
 @NgModule({
