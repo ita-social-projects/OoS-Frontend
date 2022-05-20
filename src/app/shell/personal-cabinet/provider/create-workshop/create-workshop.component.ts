@@ -57,7 +57,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const workshopId = this.route.snapshot.paramMap.get('param');
     this.userWorkshopService.getWorkshopById(workshopId).pipe(
       takeUntil(this.destroy$),
-    ).subscribe((workshop: Workshop) => this.workshop = workshop);
+    ).subscribe((workshop: Workshop) => this.workshop = workshop);//TODO: move to state actions
   }
 
 

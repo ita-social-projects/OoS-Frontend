@@ -12,6 +12,7 @@ import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
 import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 
 @Component({
   selector: 'app-info-edit',
@@ -56,7 +57,10 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
     this.route.params
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.editTitle = PortalEditTitleUkr[params.param]); 
+      .subscribe((params: Params) => {
+        this.editTitle = PortalEditTitleUkr[params.param];
+        this.store.dispatch(new GetPlatformInfo(params.param)); 
+      }); 
   }
 
   ngOnInit(): void {
