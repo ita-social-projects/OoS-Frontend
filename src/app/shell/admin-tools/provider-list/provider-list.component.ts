@@ -31,7 +31,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     'ownership',
     'edrpouIpn',
     'licence',
-    'city',
+    'legalAddress',
     'address',
     'director',
     'email',
@@ -79,5 +79,5 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-  }  
+  }
 }
