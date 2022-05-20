@@ -12,7 +12,9 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 })
 export class PlatformInfoComponent {
   @Input() type: PlatformInfoType;
-  @Input() platformInfo: CompanyInformation;
+
+  @Select(AdminState.platformInfo)
+  platformInfo$: Observable<CompanyInformation>;
 
   constructor( ) {  }
 }
