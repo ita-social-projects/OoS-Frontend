@@ -68,6 +68,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
 
     this.isDeputy = (this.route.snapshot.paramMap.get('param') === providerAdminRole.deputy);
+
+    this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
   ngOnInit(): void {
