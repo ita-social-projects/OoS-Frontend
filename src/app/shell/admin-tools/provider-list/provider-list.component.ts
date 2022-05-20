@@ -24,7 +24,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   providers$: Observable<Provider[]>;
 
   displayedColumns: string[];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource();
+  dataSource: MatTableDataSource<object>;
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -39,7 +39,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
       'fullTitle',
       'ownership',
       'edrpouIpn',
-      'licence',
+      // 'licence',
       'city',
       'address',
       'director',
@@ -48,12 +48,12 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
       'shortTitle',
       'phoneNumber',
       'founder',
-      'actualAddress',
+      // 'actualAddress',
       'status',
       'star',
     ];
 
-    this.providers$.subscribe((providers: Provider[]) => {
+    this.providers$.subscribe((providers) => {
       this.dataSource = new MatTableDataSource(providers);
     });
   }
