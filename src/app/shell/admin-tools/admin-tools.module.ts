@@ -11,7 +11,7 @@ import { PlatformInfoComponent } from './platform/platform-info/platform-info.co
   declarations: [
     PlatformComponent,
     DirectionsComponent,
-    PlatformInfoComponent,
+    PlatformInfoComponent,//TODO: move to platform module
   ],
   imports: [
     CommonModule,

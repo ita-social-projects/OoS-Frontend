@@ -19,29 +19,20 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
-  readonly platformInfoType = PlatformInfoType;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @Select(AdminState.platformInfo)
-  platformInfo$: Observable<CompanyInformation>;
-  platformInfo: CompanyInformation;
   tabIndex: number;
-  type: PlatformInfoType
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private store: Store) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.route.params
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = +this.adminTabs[params.index]);
-
-      this.store.dispatch(new GetPlatformInfo(PlatformInfoType.about));
-      this.platformInfo$
-        .pipe(filter(( platformInfo: CompanyInformation)=>!!platformInfo))
-        .subscribe(( platformInfo: CompanyInformation)=>this.platformInfo = platformInfo)
+      .subscribe((params: Params) => {
+        this.tabIndex = +this.adminTabs[params.index];
+      });
   }
 
   onSelectedTabChange(event: MatTabChangeEvent): void {

@@ -1,27 +1,24 @@
-[
-  {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "title": "About Portal Info",
-    "companyInformationItems": [
-      {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "sectionName": "Section 1",
-        "description": "Descroption",
-        "companyInformationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-      },
-      {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "sectionName": "Section 2",
-        "description": "Descroption",
-        "companyInformationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-      },
-      {
-        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "sectionName": "Section 3",
-        "description": "Descroption",
-        "companyInformationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-      }
-    ]
-  }
-]
-
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "title": "About Portal Info",
+  "companyInformationItems": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "sectionName": "Section 1",
+      "description": "Descroption",
+      "companyInformationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "sectionName": "Section 2",
+      "description": "Descroption",
+      "companyInformationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "sectionName": "Section 3",
+      "description": "Descroption",
+      "companyInformationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+  ]
+}

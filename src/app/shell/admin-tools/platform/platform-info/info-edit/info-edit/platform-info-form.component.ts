@@ -4,11 +4,11 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
-  selector: 'app-platform-info-form',
-  templateUrl: './platform-info-form.component.html',
-  styleUrls: ['./platform-info-form.component.scss']
+  selector: 'app-info-form',
+  templateUrl: './info-form.component.html',
+  styleUrls: ['./info-form.component.scss']
 })
-export class PlatformInfoFormComponent {
+export class InfoFormComponent {
   readonly validationConstants = ValidationConstants;
 
   @Input() PlatformInfoEditFormGroup: FormGroup;

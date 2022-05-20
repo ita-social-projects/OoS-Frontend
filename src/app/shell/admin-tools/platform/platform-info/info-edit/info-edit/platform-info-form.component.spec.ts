@@ -3,13 +3,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { PlatformInfoFormComponent } from './platform-info-form.component';
+import { InfoFormComponent } from './platform-info-form.component';
 import { Component, Input } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('PlatformInfoFormComponent', () => {
-  let component: PlatformInfoFormComponent;
-  let fixture: ComponentFixture<PlatformInfoFormComponent>;
+describe('InfoFormComponent', () => {
+  let component: InfoFormComponent;
+  let fixture: ComponentFixture<InfoFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,7 +21,7 @@ describe('PlatformInfoFormComponent', () => {
         NoopAnimationsModule
       ],
       declarations: [ 
-        PlatformInfoFormComponent, 
+        InfoFormComponent, 
         MockValidationHintForInputComponent 
       ]
     })
@@ -29,9 +29,9 @@ describe('PlatformInfoFormComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlatformInfoFormComponent);
+    fixture = TestBed.createComponent(InfoFormComponent);
     component = fixture.componentInstance;
-    component.AboutItemFormGroup = new FormGroup({
+    component.PlatformInfoEditFormGroup = new FormGroup({
       sectionName: new FormControl(''),
       description: new FormControl('')
     });

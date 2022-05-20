@@ -1,18 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { PlatformInfoEditComponent } from './platform-info-edit.component';
+import { InfoEditComponent } from './info-edit.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PlatformInfoEditComponent', () => {
-  let component: PlatformInfoEditComponent;
-  let fixture: ComponentFixture<PlatformInfoEditComponent>;
+  let component: InfoEditComponent;
+  let fixture: ComponentFixture<InfoEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +27,7 @@ describe('PlatformInfoEditComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [ 
-        PlatformInfoEditComponent,
+        InfoEditComponent,
         MockAboutFormComponent,
         MockValidationHintForInputComponent
       ]
@@ -36,7 +36,7 @@ describe('PlatformInfoEditComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlatformInfoEditComponent);
+    fixture = TestBed.createComponent(InfoEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -47,7 +47,7 @@ describe('PlatformInfoEditComponent', () => {
 });
 
 @Component({
-  selector: 'app-about-form',
+  selector: 'app-info-form',
   template: ''
 })
 class MockAboutFormComponent {

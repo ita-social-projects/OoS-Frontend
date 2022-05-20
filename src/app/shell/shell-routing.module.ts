@@ -1,3 +1,4 @@
+import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { ResultComponent } from './result/result.component';
@@ -53,10 +54,10 @@ const routes: Routes = [
     path: 'personal-cabinet/config/edit',
     component: UserConfigEditComponent
   },
-  // {
-  //   path: 'admin-tools/platform/platform/edit',
-  //   component: AboutEditComponent
-  // },
+  {
+    path: 'admin-tools/platform/edit/:param',
+    component: InfoEditComponent
+  },
   {
     path: 'admin-tools/platform/directions/create',
     component: CreateDirectionComponent

@@ -14,11 +14,11 @@ import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/
 import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
-  selector: 'app-platform-info-edit',
-  templateUrl: './platform-info-edit.component.html',
-  styleUrls: ['./platform-info-edit.component.scss']
+  selector: 'app-info-edit',
+  templateUrl: './info-edit.component.html',
+  styleUrls: ['./info-edit.component.scss']
 })
-export class PlatformInfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.platformInfo)
   platformInfo$: Observable<CompanyInformation>;
 
