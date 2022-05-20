@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -28,7 +28,7 @@ describe('PlatformInfoEditComponent', () => {
       ],
       declarations: [ 
         InfoEditComponent,
-        MockAboutFormComponent,
+        MockInfoFormComponent,
         MockValidationHintForInputComponent
       ]
     })
@@ -38,6 +38,7 @@ describe('PlatformInfoEditComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InfoEditComponent);
     component = fixture.componentInstance;
+    component.titleFormControl = new FormControl('');
     fixture.detectChanges();
   });
 
@@ -50,17 +51,15 @@ describe('PlatformInfoEditComponent', () => {
   selector: 'app-info-form',
   template: ''
 })
-class MockAboutFormComponent {
-  @Input() AboutItemFormGroup: FormGroup;
+class MockInfoFormComponent {
+  @Input() PlatformInfoEditFormGroup: FormGroup;
   @Input() index: number;
-  @Input() aboutFormAmount: number;
+  @Input() formAmount: number;
 }
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() forbiddenCharacter: string;
+  @Input() validationFormControl: FormControl;
 }
