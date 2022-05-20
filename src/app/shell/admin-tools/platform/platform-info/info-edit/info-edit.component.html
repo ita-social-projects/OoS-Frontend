@@ -1,13 +1,13 @@
 <div class="create-form">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">РЕДАГУВАННЯ ПРО ПОРТАЛ</h3>
+      <h3 class="wrapper-title">РЕДАГУВАННЯ {{editTitle}}</h3>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="center space-between" class="step">
       <label class="step-label"> Заголовок </label>
       <mat-form-field>
-        <input matInput class="step-input" type="text" [formControl]="titleFormControl">
+        <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue>
       </mat-form-field>
       <app-validation-hint 
         [validationFormControl]="titleFormControl">

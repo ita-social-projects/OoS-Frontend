@@ -1,17 +1,17 @@
+import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
+import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 
 @Component({
   selector: 'app-info-edit',
@@ -24,7 +24,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('',[Validators.required]);
-
+  editTitle: PortalEditTitleUkr;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -43,17 +43,24 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     // ))); TODO: fix navigation path
   }
 
-  setEditMode(): void { }
+  setEditMode(): void {
+    this.platformInfo$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((platformInfo: CompanyInformation)=> !!platformInfo))
+    .subscribe((platformInfo: CompanyInformation) => {
+      platformInfo.companyInformationItems
+        .forEach((item : СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
+      this.titleFormControl.setValue(platformInfo.title, { emitEvent: false });
+    });
+
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => this.editTitle = PortalEditTitleUkr[params.param]); 
+  }
 
   ngOnInit(): void {
-    this.platformInfo$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((platformInfo: CompanyInformation)=> !!platformInfo))
-      .subscribe((platformInfo: CompanyInformation) => {
-        platformInfo.companyInformationItems
-          .forEach((item : СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
-      });
+    this.determineEditMode();
   }
 
   /**
@@ -72,6 +79,8 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     });
 
     platformInfoItem && platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
+
+    this.subscribeOnDirtyForm(platformInfoEditFormGroup);
 
     return platformInfoEditFormGroup;
   }

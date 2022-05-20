@@ -3,7 +3,7 @@
 
   <label class="step-label"> Назва розділу </label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="sectionName">
+    <input matInput class="step-input" type="text" formControlName="sectionName" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="PlatformInfoEditFormGroup.get('sectionName')"
@@ -18,7 +18,7 @@
   </div>
   <mat-form-field appearance="none">
     <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
-      formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}"></textarea>
+      formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}" appTrimValue></textarea>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="PlatformInfoEditFormGroup.get('description')"

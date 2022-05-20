@@ -52,11 +52,13 @@ const routes: Routes = [
   },
   {
     path: 'personal-cabinet/config/edit',
-    component: UserConfigEditComponent
+    component: UserConfigEditComponent,
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'admin-tools/platform/edit/:param',
-    component: InfoEditComponent
+    component: InfoEditComponent,
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'admin-tools/platform/directions/create',

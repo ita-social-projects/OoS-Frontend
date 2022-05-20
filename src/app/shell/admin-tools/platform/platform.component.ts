@@ -19,19 +19,27 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
+  readonly platformInfoType = PlatformInfoType;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
+  type: PlatformInfoType;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private store: Store) { }
 
   ngOnInit(): void {
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.tabIndex = +this.adminTabs[params.index];
+
+        this.type = PlatformInfoType[params.index];
+        if(this.type){
+          this.store.dispatch(new GetPlatformInfo(this.type)); //TODO: clarify if the performance is ok
+        }
       });
   }
 

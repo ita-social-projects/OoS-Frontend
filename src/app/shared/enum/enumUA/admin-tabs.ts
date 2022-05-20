@@ -6,6 +6,13 @@ export enum AdminTabsUkr {
   support = 'Підтримка'
 }
 
+export enum PortalEditTitleUkr {
+  AboutPortal = 'ПРО ПОРТАЛ',
+  MainPage = 'ГОЛОВНА СТОРІНКА',
+  LawsAndRegulations = 'НОРМАТИВНО_ПРАВОВІ АКТИ',
+  SupportInformation = 'ПІДТРИМКА'
+}
+
 export enum AdminTabs {
   'about',
   'mainPage',

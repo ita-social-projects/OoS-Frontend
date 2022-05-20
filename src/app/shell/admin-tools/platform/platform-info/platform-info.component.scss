@@ -1,4 +1,9 @@
 @import "src/app/shared/styles/config.scss";
-.config-wrapper {
-  padding-top: 1rem;
+.config {
+  h3 {
+    padding-top: 0.5rem;
+  }
+  &-wrapper {
+    padding-top: 1rem;
+  }
 }
