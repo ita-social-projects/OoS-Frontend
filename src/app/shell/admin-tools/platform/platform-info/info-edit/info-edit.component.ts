@@ -100,19 +100,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.PlatformInfoItemArray.removeAt(index);
   }
 
-  onSubmit(): void {
-
-
-    // let aboutPortalItemArray = [];
-    //   this.AboutPortalItemArray.controls.forEach((form: FormGroup) => {
-    //     const aboutPortal = new CompanyInformationItem(form.value.title, aboutPortalItemArray);
-      
-    //   });
-
-
-    //   this.store.dispatch(new UpdateInfoAboutPortal(aboutPortal));
-    // }
-  }
+  onSubmit(): void { }
   /**
    * This method marks each control of form in the array of forms in formArray as touched
    */
