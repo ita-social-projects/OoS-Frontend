@@ -106,5 +106,12 @@ export class OnCreateClassSuccess {
   static readonly type = '[admin] create Class success';
   constructor(public payload) { }
 }
+export class GetParents {
+  static readonly type = '[admin] Get Parents';
+  constructor() { }
+}
 
-
+export class GetChildren {
+  static readonly type = '[admin] Get Children';
+  constructor() { }
+}

@@ -49,6 +49,17 @@ export class ChildrenService {
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, { params });
   }
 
+    /**
+   * This method get children for Admin
+   */
+  getChildrenForAdmin(): Observable<ChildCards> {
+    let params = new HttpParams();
+    params = params.set('Size', '0');
+    params = params.set('From', '0');
+
+    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, { params });
+  }
+
 
   /**
    * This method create Child

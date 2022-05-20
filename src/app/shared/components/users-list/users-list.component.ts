@@ -35,7 +35,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
-      this.displayedColumns = ['pib', 'email', 'phone', 'place', 'isDeputy', 'status', 'actions'];
+      this.displayedColumns = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
       this.dataSource = new MatTableDataSource(this.users);
   }
 

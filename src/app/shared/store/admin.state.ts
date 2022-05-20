@@ -5,10 +5,14 @@ import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { AboutPortal } from "../models/aboutPortal.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { ChildCards } from "../models/child.model";
 import { PaginationElement } from "../models/paginationElement.model";
+import { Parent } from "../models/parent.model";
 import { CategoriesService } from "../services/categories/categories.service";
+import { ChildrenService } from "../services/children/children.service";
+import { ParentService } from "../services/parent/parent.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, } from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, GetParents, GetChildren, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -22,6 +26,8 @@ export interface AdminStateModel {
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
+  parents: Parent[],
+  children: ChildCards
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -35,6 +41,8 @@ export interface AdminStateModel {
     selectedDirection: null,
     searchQuery: '',
     filteredDirections: undefined,
+    parents: null,
+    children: null,
     currentPage: {
       element: 1,
       isActive: true
@@ -60,11 +68,17 @@ export class AdminState {
   static currentPage(state: AdminStateModel): {} { return state.currentPage; };
   @Selector()
   static isLoading(state: AdminStateModel): boolean { return state.isLoading };
+  @Selector()
+  static parents(state: AdminStateModel): Parent[] { return state.parents };
+  @Selector()
+  static children(state: AdminStateModel): ChildCards { return state.children };
 
 
   constructor(
     private portalService: PortalService,
     private categoriesService: CategoriesService,
+    private parentService: ParentService,
+    private childrenService: ChildrenService,
     private router: Router,
   ) { }
 
@@ -275,5 +289,27 @@ export class AdminState {
         isActive: true
       }
     });
+  }
+
+  @Action(GetParents)
+  getParents({ patchState }: StateContext<AdminStateModel>, { }: GetParents): Observable<Parent[]> {
+    patchState({ isLoading: true });
+    return this.parentService
+      .getParents()
+      .pipe(
+        tap((parents: Parent[]) => {
+          return patchState({ parents: parents, isLoading: false });
+        }));
+  }
+
+  @Action(GetChildren)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+    patchState({ isLoading: true });
+    return this.childrenService
+      .getChildrenForAdmin()
+      .pipe(
+        tap((children: ChildCards) => {
+          return patchState({ children: children, isLoading: false });
+        }));
   }
 }
