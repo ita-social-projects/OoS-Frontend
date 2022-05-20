@@ -26,3 +26,9 @@ export class СompanyInformationItem {
       this.companyInformationId =  info.companyInformationId;
     }
 }
+
+export interface PlatformInfoStateModel {
+  AboutPortal: CompanyInformation;
+  SupportInformation: CompanyInformation;
+  LawsAndRegulations: CompanyInformation;
+}

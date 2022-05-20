@@ -1,15 +1,15 @@
 <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
   <mat-tab label="{{adminTabsUkr.about}}">
-    <app-platform-info [type]="platformInfoType.about"></app-platform-info>
+    <app-platform-info [type]="platformInfoType.AboutPortal" [platformInfo]="aboutPortal"></app-platform-info>
   </mat-tab>
   <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
   <mat-tab label="{{adminTabsUkr.directions}}">
     <app-directions></app-directions>
   </mat-tab>
   <mat-tab label="{{adminTabsUkr.regulations}}">
-    <app-platform-info [type]="platformInfoType.regulations"></app-platform-info>
+    <app-platform-info [type]="platformInfoType.LawsAndRegulations" [platformInfo]="lawsAndRegulations"></app-platform-info>
   </mat-tab>
   <mat-tab label="{{adminTabsUkr.support}}">
-    <app-platform-info [type]="platformInfoType.support"></app-platform-info>
+    <app-platform-info [type]="platformInfoType.SupportInformation" [platformInfo]="supportInformation"></app-platform-info>
   </mat-tab>
 </mat-tab-group>

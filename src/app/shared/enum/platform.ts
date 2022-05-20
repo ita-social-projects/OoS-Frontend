@@ -1,5 +1,5 @@
 export enum PlatformInfoType {
-  about = 'AboutPortal',
-  support = 'SupportInformation',
-  regulations = 'LawsAndRegulations'
+  AboutPortal = 'AboutPortal',
+  SupportInformation = 'SupportInformation',
+  LawsAndRegulations = 'LawsAndRegulations'
 }

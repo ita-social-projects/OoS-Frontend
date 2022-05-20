@@ -1,3 +1,4 @@
+import { PlatformInfoStateModel } from 'src/app/shared/models/сompanyInformation.model';
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
@@ -36,14 +37,20 @@ import {
   UpdatePlatformInfo,
   OnUpdatePlatformInfoSuccess,
   OnUpdatePlatformInfoFail,
+  GetAboutPlatformInfo,
+  GetSupportPlatformInfo,
+  GetRegulationsPlatformInfo,
 } from "./admin.actions";
+import { PlatformInfoType } from "../enum/platform";
 
 export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   department: Department;
   classes: IClass[];
-  platformInfo: CompanyInformation;
+  aboutPortal: CompanyInformation;
+  supportInfo: CompanyInformation;
+  regulations: CompanyInformation;
   departments: Department[];
   selectedDirection: Direction;
   currentPage: PaginationElement;
@@ -53,7 +60,9 @@ export interface AdminStateModel {
 @State<AdminStateModel>({
   name: 'admin',
   defaults: {
-    platformInfo: null,
+    aboutPortal: null,
+    supportInfo: null,
+    regulations: null,
     direction: undefined,
     department: undefined,
     classes: [],
@@ -70,8 +79,11 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
-  @Selector()
-  static platformInfo(state: AdminStateModel): CompanyInformation { return state.platformInfo; }
+  @Selector() static platformInfo(state: AdminStateModel): PlatformInfoStateModel { return {
+    AboutPortal: state.aboutPortal,
+    SupportInformation: state.supportInfo,
+    LawsAndRegulations: state.regulations
+  };}
 
   @Selector()
   static direction(state: AdminStateModel): Direction { return state.direction; }
@@ -101,12 +113,35 @@ export class AdminState {
   ) { }
 
   @Action(GetPlatformInfo)
-  getPlatformInfo({ patchState }: StateContext<AdminStateModel>, { payload }: GetPlatformInfo): Observable<CompanyInformation> {
+  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, { }: GetPlatformInfo): void {
+    dispatch([ new GetAboutPlatformInfo(), new GetSupportPlatformInfo(), new GetRegulationsPlatformInfo()]);
+  }
+
+  @Action(GetAboutPlatformInfo)
+  getAboutPlatformInfo({ patchState }: StateContext<AdminStateModel>, { }: GetAboutPlatformInfo): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(payload)
+      .getPlatformInfo(PlatformInfoType.AboutPortal)
       .pipe(
-        tap((platformInfo: CompanyInformation) => patchState({ platformInfo: platformInfo, isLoading: false })));
+        tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+  }
+
+  @Action(GetSupportPlatformInfo)
+  getSupportPlatformInfo({ patchState }: StateContext<AdminStateModel>, { }: GetSupportPlatformInfo): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.SupportInformation)
+      .pipe(
+        tap((supportInfo: CompanyInformation) => patchState({ supportInfo: supportInfo, isLoading: false })));
+  }
+
+  @Action(GetRegulationsPlatformInfo)
+  getRegulationsPlatformInfo({ patchState }: StateContext<AdminStateModel>, { }: GetRegulationsPlatformInfo): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.LawsAndRegulations)
+      .pipe(
+        tap((regulations: CompanyInformation) => patchState({ regulations: regulations, isLoading: false })));
   }
 
   @Action(UpdatePlatformInfo)

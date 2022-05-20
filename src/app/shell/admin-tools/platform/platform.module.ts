@@ -29,7 +29,6 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
     RouterModule,
     PlatformRoutingModule
   ],
-  exports: [ 
-  ]
+  exports: [ ]
 })
 export class PlatformModule { }

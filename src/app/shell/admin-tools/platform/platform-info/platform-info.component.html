@@ -1,5 +1,5 @@
   <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
-    <ng-container *ngIf="platformInfo$ | async as platformInfo; else noInfoTmpl">
+    <ng-container *ngIf="platformInfo; else noInfoTmpl">
       <div class="config">
         <a routerLink="edit" class="config_edit-icon" [routerLink]="['../edit', type +'/edit' ]">
           <button mat-button style="color:#3849F9;">

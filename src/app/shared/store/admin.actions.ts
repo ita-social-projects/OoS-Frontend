@@ -4,8 +4,20 @@ import { PaginationElement } from "../models/paginationElement.model";
 import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPlatformInfo {
-  static readonly type = '[admin] Get Information Platform Info';
-  constructor(public payload: PlatformInfoType) { }
+  static readonly type = '[admin] Get Platform Information ';
+  constructor() { }
+}
+export class GetAboutPlatformInfo {
+  static readonly type = '[admin] Get About Platform Info';
+  constructor() { }
+}
+export class GetSupportPlatformInfo {
+  static readonly type = '[admin] Get Support Platform Info';
+  constructor() { }
+}
+export class GetRegulationsPlatformInfo {
+  static readonly type = '[admin] Get Regulations Platform Info';
+  constructor() { }
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';

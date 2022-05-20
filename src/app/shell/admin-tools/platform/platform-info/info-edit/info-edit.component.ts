@@ -11,7 +11,7 @@ import { takeUntil, filter, tap } from 'rxjs/operators';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
+import { CompanyInformation, PlatformInfoStateModel, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
 import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 
@@ -22,14 +22,14 @@ import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.platformInfo)
-  platformInfo$: Observable<CompanyInformation>;
+  platformInfo$: Observable<PlatformInfoStateModel>;
   platformInfo: CompanyInformation;
 
   PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('',[Validators.required]);
   editTitle: PortalEditTitleUkr;
   
-  private platformInfoType;
+  private platformInfoType: PlatformInfoType;
 
   constructor(
     store: Store,
@@ -64,11 +64,13 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.platformInfo$
       .pipe(
         takeUntil(this.destroy$),
-        tap((platformInfo: CompanyInformation)=> !platformInfo && this.store.dispatch(new GetPlatformInfo(this.platformInfoType))),
-        filter((platformInfo: CompanyInformation)=> !!platformInfo))
-      .subscribe((platformInfo: CompanyInformation) => {
-        this.titleFormControl.setValue(platformInfo.title, { emitEvent: false });
-        this.platformInfo = platformInfo;
+        tap((platformInfo: PlatformInfoStateModel)=> !platformInfo[this.platformInfoType] && this.store.dispatch(new GetPlatformInfo())),
+        filter((platformInfo: PlatformInfoStateModel)=> !!platformInfo[this.platformInfoType])
+        )
+      .subscribe((platformInfo: PlatformInfoStateModel) => {
+        this.platformInfo = platformInfo[this.platformInfoType];
+
+        this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
         this.platformInfo.companyInformationItems
           .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
       }); 
