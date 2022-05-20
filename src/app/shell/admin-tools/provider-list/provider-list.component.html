@@ -18,7 +18,7 @@
 
   <!-- -------------Table------------ -->
 
-  <div class="example-container mat-elevation-z8">
+  <div [hidden]="!dataSource" class="example-container mat-elevation-z8">
     <table
       mat-table
       [dataSource]="dataSource"
@@ -34,7 +34,7 @@
         >
           Назва закладу
         </th>
-        <td mat-cell *matCellDef="let element">{{ element?.fullTitle }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.fullTitle }}</td>
       </ng-container>
 
       <ng-container matColumnDef="ownership">

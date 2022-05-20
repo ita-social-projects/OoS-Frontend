@@ -10,6 +10,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-provider-list',
@@ -23,8 +24,24 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
-  displayedColumns: string[];
-  dataSource: MatTableDataSource<object>;
+  displayedColumns: string[] = [
+    'fullTitle',
+    'ownership',
+    'edrpouIpn',
+    // 'licence',
+    // 'city',
+    // 'address',
+    'director',
+    'email',
+    'website',
+    'shortTitle',
+    'phoneNumber',
+    'founder',
+    // 'actualAddress',
+    'status',
+    'star',
+  ];
+  dataSource;
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -35,31 +52,15 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getAllProviders();
-    this.displayedColumns = [
-      'fullTitle',
-      'ownership',
-      'edrpouIpn',
-      // 'licence',
-      'city',
-      'address',
-      'director',
-      'email',
-      'website',
-      'shortTitle',
-      'phoneNumber',
-      'founder',
-      // 'actualAddress',
-      'status',
-      'star',
-    ];
-
-    this.providers$.subscribe((providers) => {
-      this.dataSource = new MatTableDataSource(providers);
-    });
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    this.providers$
+      .pipe(filter((providers) => !!providers))
+      .subscribe((providers) => {
+        this.dataSource = new MatTableDataSource(providers);
+        this.dataSource.sort = this.sort;
+      });
   }
 
   getAllProviders() {
@@ -68,7 +69,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
 
   getProviderById(id, provider) {
     this.providerService.getProviderById(id);
-    console.log('id', id, provider);    
+    console.log('id', id, provider);
   }
 
   announceSortChange(sortState: Sort) {
