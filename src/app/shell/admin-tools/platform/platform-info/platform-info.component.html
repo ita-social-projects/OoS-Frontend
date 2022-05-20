@@ -6,9 +6,9 @@
           <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
         </button>
       </a>
-        <h4>{{platformInfo.title}}</h4>
-        <div *ngFor="let portalItem of platformInfo.companyInformationItems">
-          <h5>{{portalItem.sectionName}}</h5>
+        <h3>{{platformInfo.title}}</h3>
+        <div *ngFor="let portalItem of platformInfo.companyInformationItems" class="config-wrapper">
+          <h4>{{portalItem.sectionName}}</h4>
           <p>{{portalItem.description}}</p>
         </div>
     </div>

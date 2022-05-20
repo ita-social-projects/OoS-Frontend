@@ -8,9 +8,6 @@ import { CompanyInformation } from '../../models/сompanyInformation.model';
   providedIn: 'root'
 })
 export class PlatformService {
-
-  mockAboutUrl = 'assets/mock-about-info.json';
-  mockSupportUrl = 'assets/mock-support-info.json';
   url = '`/api/v1/${type}/Get`';
 
   constructor(private http: HttpClient) { }
@@ -19,8 +16,18 @@ export class PlatformService {
    * This method get information about Platform from the database.
    */
    getPlatformInfo(type: PlatformInfoType): Observable<CompanyInformation> {
-    const url = type=== PlatformInfoType.about ? this.mockAboutUrl : this.mockSupportUrl;
-
+    let url;
+     switch(type) {
+      case PlatformInfoType.about:
+        url = 'assets/mock-about-info.json'
+        break;
+      case PlatformInfoType.support:
+        url = 'assets/mock-support-info.json';
+        break;
+      case PlatformInfoType.regulations:
+        url = 'assets/mock-regulations-info.json'
+        break;
+     }
     return this.http.get<CompanyInformation>(url);
   }
 
