@@ -19,13 +19,12 @@ import { Provider } from '../../models/provider.model';
 export class ProviderInfoComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly createProviderSteps = createProviderSteps;
-
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
 
-  @Output() provider: Provider;
+  @Input() provider: Provider;
 
   editLink: string = createProviderSteps[0];
 
