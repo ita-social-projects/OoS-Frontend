@@ -1,13 +1,16 @@
-  <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{adminTabsUkr.about}}">
-      <app-platform-info [type]="portalInfoType.about"></app-platform-info>
-    </mat-tab>
-    <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
-    <mat-tab label="{{adminTabsUkr.directions}}">
-      <app-directions></app-directions>
-    </mat-tab>
-    <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>
-    <mat-tab label="{{adminTabsUkr.support}}">
-      <app-platform-info [type]="portalInfoType.support"></app-platform-info>
-    </mat-tab>
-  </mat-tab-group>
+  
+  <ng-conatiner *ngIf="platformInfo">
+    <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
+      <mat-tab label="{{adminTabsUkr.about}}">
+        <app-platform-info></app-platform-info>
+      </mat-tab>
+      <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
+      <mat-tab label="{{adminTabsUkr.directions}}">
+        <app-directions></app-directions>
+      </mat-tab>
+      <mat-tab label="{{adminTabsUkr.regulations}}"></mat-tab>
+      <mat-tab label="{{adminTabsUkr.support}}">
+        <app-platform-info></app-platform-info>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-conatiner>

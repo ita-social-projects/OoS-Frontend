@@ -1,4 +1,4 @@
-export enum PortalInfoType {
+export enum PlatformInfoType {
   about = 'AboutPortal',
   support = 'SupportInformation'
 }

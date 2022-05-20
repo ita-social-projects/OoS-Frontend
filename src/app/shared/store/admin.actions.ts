@@ -1,22 +1,22 @@
-import { PortalInfoType } from './../enum/portal';
+import { PlatformInfoType } from './../enum/platform';
 import { Department, Direction, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 import { CompanyInformation } from "../models/сompanyInformation.model";
 
-export class GetPortalInfo {
-  static readonly type = '[admin] Get Information Portal Info';
-  constructor(public payload: PortalInfoType) { }
+export class GetPlatformInfo {
+  static readonly type = '[admin] Get Information Platform Info';
+  constructor(public payload: PlatformInfoType) { }
 }
-export class UpdatePortalInfo {
-  static readonly type = '[admin] Update Information Portal Info';
-  constructor(public payload: CompanyInformation, public type: PortalInfoType) { }
+export class UpdatePlatformInfo {
+  static readonly type = '[admin] Update Information Platform Info';
+  constructor(public payload: CompanyInformation, public type: PlatformInfoType) { }
 }
-export class OnUpdatePortalInfoFail {
-  static readonly type = '[admin] update Information Portal Info Fail';
+export class OnUpdatePlatformInfoFail {
+  static readonly type = '[admin] update Information Platform Info Fail';
   constructor(public payload: Error) { }
 }
-export class OnUpdatePortalInfoSuccess {
-  static readonly type = '[admin] update Information Portal Info Success';
+export class OnUpdatePlatformInfoSuccess {
+  static readonly type = '[admin] update Information Platform Info Success';
   constructor(public payload) { }
 }
 export class DeleteDirectionById {

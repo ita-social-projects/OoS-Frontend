@@ -7,7 +7,7 @@ import { CompanyInformation } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
-import { PortalService } from "../services/portal/portal.service";
+import { PlatformService } from "../services/platform/platform.service";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { 
   DeleteDirectionById, 
@@ -32,10 +32,10 @@ import {
   OnCreateClassFail, 
   OnCreateClassSuccess, 
   CreateClass,
-  GetPortalInfo,
-  UpdatePortalInfo,
-  OnUpdatePortalInfoSuccess,
-  OnUpdatePortalInfoFail,
+  GetPlatformInfo,
+  UpdatePlatformInfo,
+  OnUpdatePlatformInfoSuccess,
+  OnUpdatePlatformInfoFail,
 } from "./admin.actions";
 
 export interface AdminStateModel {
@@ -95,38 +95,38 @@ export class AdminState {
   static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
   constructor(
-    private portalService: PortalService,
+    private platformService: PlatformService,
     private categoriesService: CategoriesService,
     private router: Router
   ) { }
 
-  @Action(GetPortalInfo)
-  getPortalInfo({ patchState }: StateContext<AdminStateModel>, { payload }: GetPortalInfo): Observable<CompanyInformation> {
+  @Action(GetPlatformInfo)
+  getPlatformInfo({ patchState }: StateContext<AdminStateModel>, { payload }: GetPlatformInfo): Observable<CompanyInformation> {
     patchState({ isLoading: true });
-    return this.portalService
-      .getPortalInfo(payload)
+    return this.platformService
+      .getPlatformInfo(payload)
       .pipe(
         tap((platformInfo: CompanyInformation) => patchState({ platformInfo: platformInfo, isLoading: false })));
   }
 
-  @Action(UpdatePortalInfo)
-  updatePortalInfo({ dispatch }: StateContext<AdminStateModel>, { payload, type }: UpdatePortalInfo): Observable<object> {
-    return this.portalService
-      .updatePortalInfo(payload, type)
+  @Action(UpdatePlatformInfo)
+  updatePlatformInfo({ dispatch }: StateContext<AdminStateModel>, { payload, type }: UpdatePlatformInfo): Observable<object> {
+    return this.platformService
+      .updatePlatformInfo(payload, type)
       .pipe(
-        tap((res) => dispatch(new OnUpdatePortalInfoSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdatePortalInfoFail(error))))
+        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnUpdatePlatformInfoFail(error))))
       );
   }
 
-  @Action(OnUpdatePortalInfoFail)
-  onUpdatePortalInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePortalInfoFail): void {
+  @Action(OnUpdatePlatformInfoFail)
+  onUpdatePlatformInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
-  @Action(OnUpdatePortalInfoSuccess)
-  onUpdatePortalInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePortalInfoSuccess): void {
+  @Action(OnUpdatePlatformInfoSuccess)
+  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
     this.router.navigate(['/admin-tools/platform/about']);
