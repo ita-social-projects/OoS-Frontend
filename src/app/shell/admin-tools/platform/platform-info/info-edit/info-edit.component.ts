@@ -1,3 +1,4 @@
+import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
@@ -6,7 +7,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, tap } from 'rxjs/operators';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
@@ -22,11 +23,13 @@ import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.platformInfo)
   platformInfo$: Observable<CompanyInformation>;
+  platformInfo: CompanyInformation;
 
   PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('',[Validators.required]);
   editTitle: PortalEditTitleUkr;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  
+  private platformInfoType;
 
   constructor(
     store: Store,
@@ -34,6 +37,21 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     navigationBarService: NavigationBarService,
     private fb: FormBuilder) {
     super(store, route, navigationBarService);
+  }
+
+  ngOnInit(): void {
+    this.route.params
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((params: Params) => this.setInitialData(params));
+  }
+
+  private setInitialData(params: Params): void {
+    this.platformInfoType = params.param.replace("/edit","");
+    this.editTitle = PortalEditTitleUkr[this.platformInfoType];
+    
+
+    this.editMode = params.param.includes('edit');
+    this.editMode ? this.setEditMode() :  this.onAddForm();
   }
 
   addNavPath(): void {
@@ -46,25 +64,16 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   setEditMode(): void {
     this.platformInfo$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((platformInfo: CompanyInformation)=> !!platformInfo))
-    .subscribe((platformInfo: CompanyInformation) => {
-      platformInfo.companyInformationItems
-        .forEach((item : СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
-      this.titleFormControl.setValue(platformInfo.title, { emitEvent: false });
-    });
-
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.editTitle = PortalEditTitleUkr[params.param];
-        this.store.dispatch(new GetPlatformInfo(params.param)); 
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((platformInfo: CompanyInformation)=> !platformInfo && this.store.dispatch(new GetPlatformInfo(this.platformInfoType))),
+        filter((platformInfo: CompanyInformation)=> !!platformInfo))
+      .subscribe((platformInfo: CompanyInformation) => {
+        this.titleFormControl.setValue(platformInfo.title, { emitEvent: false });
+        this.platformInfo = platformInfo;
+        this.platformInfo.companyInformationItems
+          .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
       }); 
-  }
-
-  ngOnInit(): void {
-    this.determineEditMode();
   }
 
   /**
@@ -72,17 +81,19 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    */
   private newForm(platformInfoItem?: СompanyInformationItem): FormGroup {
     const platformInfoEditFormGroup = this.fb.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX)]),
+      sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
     });
+    
+    if (platformInfoItem){
+      platformInfoEditFormGroup.addControl('companyInformationId', this.fb.control(platformInfoItem.companyInformationId));
+      platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
 
-    platformInfoItem && platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
+    }
 
     this.subscribeOnDirtyForm(platformInfoEditFormGroup);
 
@@ -104,23 +115,17 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.PlatformInfoItemArray.removeAt(index);
   }
 
-  onSubmit(): void { }
-  /**
-   * This method marks each control of form in the array of forms in formArray as touched
-   */
-   private checkValidationAboutFormArray(formArray: FormArray): void {
-    Object.keys(formArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>formArray.get(key));
-    });
-  }
+  onSubmit(): void {
+    if(this.PlatformInfoItemArray.valid && this.titleFormControl.valid){
+      const platformInfoItemArray: СompanyInformationItem[] = [];
+      this.PlatformInfoItemArray.controls
+        .forEach((form: FormGroup) => platformInfoItemArray.push(new СompanyInformationItem(form.value)));
+      
+        const platformInfo = this.platformInfo ? 
+          new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id) :
+          new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
 
-  /**
-   * This method receives a form and marks each control of this form as touched
-   * @param FormGroup form
-   */
-   private checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).markAsTouched();
-    });
-  }
+        this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));  
+    }
+   }
 }

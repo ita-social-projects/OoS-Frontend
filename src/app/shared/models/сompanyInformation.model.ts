@@ -15,10 +15,14 @@ export class СompanyInformationItem {
   description: string;
   companyInformationId?: string;
 
-  constructor(info, id?, companyInformationId?) {
-    this.id = id;
+  constructor(info, id?) {
+    
     this.sectionName = info.sectionName;
     this.description = info.description;
-    this.companyInformationId = companyInformationId;
-  }
+    if(id){
+      this.id = id;
+    }
+    if(info.companyInformationId)
+      this.companyInformationId =  info.companyInformationId;
+    }
 }
