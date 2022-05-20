@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
 import { filter } from 'rxjs/operators';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
@@ -20,6 +21,7 @@ import { filter } from 'rxjs/operators';
 export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly constants: typeof Constants = Constants;
   readonly ProviderListIcons = ProviderListIcons;
+  readonly ownershipTypeUkr = OwnershipTypeUkr;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
@@ -67,10 +69,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new GetAllProviders());
   }
 
-  getProviderById(id, provider) {
-    this.providerService.getProviderById(id);
-    console.log('id', id, provider);
-  }
+  // getProviderById(id, provider) {
+  //   this.providerService.getProviderById(id);
+  // }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -78,16 +79,5 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-  }
-
-  ownershipType(ownership: string) {
-    switch (ownership) {
-      case 'State':
-        return 'Державна';
-      case 'Common':
-        return 'Громадська організація';
-      default:
-        return 'Приватна';
-    }
-  }
+  }  
 }
