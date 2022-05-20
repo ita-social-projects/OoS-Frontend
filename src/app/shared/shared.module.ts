@@ -60,6 +60,7 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
 import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
 import { DeclinationPipe } from './pipes/declination.pipe';
+import { ProviderInfoComponent } from './components/provider-info/provider-info.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { DeclinationPipe } from './pipes/declination.pipe';
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
+    ProviderInfoComponent,
   ],
   imports: [
     MaterialModule,
