@@ -48,8 +48,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   private setInitialData(params: Params): void {
     this.platformInfoType = params.param.replace("/edit","");
     this.editTitle = PortalEditTitleUkr[this.platformInfoType];
-    
-
     this.editMode = params.param.includes('edit');
     this.editMode ? this.setEditMode() :  this.onAddForm();
   }
@@ -121,7 +119,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
       this.PlatformInfoItemArray.controls
         .forEach((form: FormGroup) => platformInfoItemArray.push(new СompanyInformationItem(form.value)));
       
-        const platformInfo = this.platformInfo ? 
+        const platformInfo = this.editMode ? 
           new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id) :
           new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
 

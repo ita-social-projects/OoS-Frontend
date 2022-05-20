@@ -1,7 +1,6 @@
   <div class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
-    <div class="config">
-    
-      <ng-container *ngIf="platformInfo$ | async as platformInfo; else noInfoTmpl">
+    <ng-container *ngIf="platformInfo$ | async as platformInfo; else noInfoTmpl">
+      <div class="config">
         <a routerLink="edit" class="config_edit-icon" [routerLink]="['../edit', type +'/edit' ]">
           <button mat-button style="color:#3849F9;">
             <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
@@ -12,17 +11,19 @@
           <h4>{{portalItem.sectionName}}</h4>
           <p>{{portalItem.description}}</p>
         </div>
-      </ng-container>
+      </div>
+    </ng-container>
       
-      <ng-template #noInfoTmpl>
+    <ng-template #noInfoTmpl>
+      <div class="config" fxLayout="column" fxLayoutAlign="center center">
         <a routerLink="edit" class="config_edit-icon" [routerLink]="['../edit', type ]">
           <button mat-button style="color:#3849F9;">
             <mat-icon style="color:#3849F9;">edit</mat-icon>Додати інформацію
           </button>
         </a>
-        <div  class="config-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        <div  class="config-wrapper" >
           <h4>Інформації поки немає</h4>
         </div>
-      </ng-template>
-  </div>
+      </div>
+    </ng-template>
 </div>
