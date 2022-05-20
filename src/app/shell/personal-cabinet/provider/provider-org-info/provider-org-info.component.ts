@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -10,6 +10,7 @@ import {
   ProviderType,
   ProviderTypeUkr,
 } from 'src/app/shared/enum/provider';
+
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ActivateEditMode } from 'src/app/shared/store/app.actions';

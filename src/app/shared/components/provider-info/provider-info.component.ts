@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
@@ -10,6 +10,7 @@ import {
   ProviderTypeUkr,
 } from 'src/app/shared/enum/provider';
 import { Provider } from '../../models/provider.model';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-provider-info',
@@ -24,15 +25,18 @@ export class ProviderInfoComponent implements OnInit {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
 
-  @Input() provider: Provider;
-
   editLink: string = createProviderSteps[0];
+  @Input() provider: Provider;
+  @Input() institutionStatuses;
+  @Output() tabChanged = new EventEmitter();
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  currentStatus: string;
 
   constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.editLink = createProviderSteps[tabChangeEvent.index];
+    this.tabChanged.emit(tabChangeEvent);
   }
 }
