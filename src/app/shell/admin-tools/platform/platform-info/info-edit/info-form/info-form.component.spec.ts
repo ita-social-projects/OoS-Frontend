@@ -49,7 +49,7 @@ describe('InfoFormComponent', () => {
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() forbiddenCharacter: string;
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() validationFormControl: FormControl;
 }
