@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InfoCardComponent } from './info-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxsModule } from '@ngxs/store';
 
 describe('InfoCardComponent', () => {
   let component: InfoCardComponent;
@@ -15,7 +16,8 @@ describe('InfoCardComponent', () => {
         MatIconModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        MatButtonModule
+        MatButtonModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [ InfoCardComponent ]
     })
