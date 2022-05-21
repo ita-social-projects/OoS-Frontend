@@ -18,7 +18,8 @@
 
   <!-- -------------Table------------ -->
 
-  <div [hidden]="!dataSource" class="example-container mat-elevation-z8">
+  <div style="display: flex;">
+    <div [hidden]="!dataSource" class="example-container mat-elevation-z8">
     <table
       mat-table
       [dataSource]="dataSource"
@@ -241,8 +242,14 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>      
     </table>
-    <!-- <app-provider-org-info></app-provider-org-info> -->
+      <!-- <app-provider-info
+        [provider]="element"
+      ></app-provider-info> -->
+    </div>
+    <!-- <div *ngFor="let element of providers$ | async">
+      {{element | json}}
+    </div> -->
   </div>
 </div>

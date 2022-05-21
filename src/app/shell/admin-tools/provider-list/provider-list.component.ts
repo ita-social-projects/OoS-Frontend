@@ -26,6 +26,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
 
+  provider: Provider;
+  open: boolean;
+
   displayedColumns: string[] = [
     'fullTitle',
     'ownership',
@@ -69,9 +72,12 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new GetAllProviders());
   }
 
-  // getProviderById(id, provider) {
-  //   this.providerService.getProviderById(id);
-  // }
+  getProviderById(id, provider) {
+    this.providerService.getProviderById(id);
+    console.log(provider);    
+    this.provider = provider;
+    this.open = true;
+  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
