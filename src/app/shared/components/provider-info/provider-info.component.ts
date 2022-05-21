@@ -1,9 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { createProviderSteps, OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from '../../enum/provider';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
+
+import {
+  createProviderSteps,
+  OwnershipType,
+  OwnershipTypeUkr,
+  ProviderType,
+  ProviderTypeUkr,
+} from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
-import { Subject } from 'rxjs';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-provider-info',
@@ -24,13 +32,17 @@ export class ProviderInfoComponent implements OnInit {
   @Input() institutionStatuses;
   @Output() tabChanged = new EventEmitter();
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
   currentStatus: string;
-  
-  constructor() {}
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
+
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.tabChanged.emit(tabChangeEvent);
+  }
+
+  ActivateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
   }
 }
