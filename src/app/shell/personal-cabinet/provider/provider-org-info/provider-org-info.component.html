@@ -1,6 +1,7 @@
 <ng-container *ngIf="provider$ | async as provider">
   <app-provider-info
     [provider]="provider"
+    [currentStatus]="currentStatus"
     (selectedTabChange)="onTabChanged($event)"
     (click)="ActivateEditMode()"
   ></app-provider-info>
