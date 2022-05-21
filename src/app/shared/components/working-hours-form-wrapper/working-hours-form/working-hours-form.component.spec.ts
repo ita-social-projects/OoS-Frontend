@@ -8,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
-import { MaterialModule } from '../../modules/material.module';
+import { MaterialModule } from '../../../modules/material.module';
 import { Component, Input } from '@angular/core';
 
 describe('WorkingHoursFormComponent', () => {
@@ -52,16 +52,12 @@ describe('WorkingHoursFormComponent', () => {
   });
 });
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
+  @Input() validationFormControl: FormControl; //required for validation
   @Input() minCharachters: number;
-  @Input() forbiddenCharacter: string;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
 }

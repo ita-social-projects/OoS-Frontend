@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAboutFormComponent } from './create-about-form.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -18,6 +18,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -80,13 +81,12 @@ describe('CreateAboutFormComponent', () => {
   });
 });
 @Component({
-  selector: 'app-working-hours-form',
+  selector: 'app-working-hours-form-wrapper',
   template: ''
 })
 class MockWorkingHours {
-  @Input() workingHoursForm: FormGroup;
-  @Input() index: number;
-  @Input() workingHoursAmount: number;
+  @Input() workshop: Workshop;
+  @Input() workingHoursFormArray: FormArray;
 }
 
 @Component({
