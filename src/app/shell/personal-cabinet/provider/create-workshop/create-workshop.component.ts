@@ -155,11 +155,4 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       })
     }
   }
-
-  // /**
-  //  * This method marks each control of form in the array of teachers' forms as touched
-  //  */
-  // private checkTeacherFormArrayValidation(): void {
-  //   Object.keys(this.TeacherFormArray.controls).forEach(key => this.checkValidation(this.TeacherFormArray.get(key) as FormGroup));
-  // }
 }
