@@ -1,5 +1,5 @@
 import { Provider } from 'src/app/shared/models/provider.model';
-import { AfterViewInit, Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -22,6 +22,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly constants: typeof Constants = Constants;
   readonly ProviderListIcons = ProviderListIcons;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
+  @Output() institutionStatuses;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;

@@ -34,7 +34,6 @@ export class ProviderInfoComponent implements OnInit {
   editLink: string = createProviderSteps[0];
 
   @Input() provider: Provider;
-  @Input() institutionStatuses;
   @Output() tabChanged = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
@@ -56,7 +55,7 @@ export class ProviderInfoComponent implements OnInit {
         const provider = this.store.selectSnapshot(RegistrationState.provider);
         this.currentStatus =
           institutionStatuses
-            .find((item) => +item.id === provider.institutionStatusId)
+            .find((item) => +item.id === provider?.institutionStatusId)
             ?.name.toString() ?? 'Відсутній';
       });
   }
