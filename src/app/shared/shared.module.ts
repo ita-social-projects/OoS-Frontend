@@ -178,6 +178,7 @@ import { ProviderInfoComponent } from './components/provider-info/provider-info.
     ImageCarouselComponent,
     NotificationsComponent,
     UsersListComponent,
+    ProviderInfoComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
     PhoneTransformPipe,
