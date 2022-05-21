@@ -117,7 +117,7 @@ import { ProviderInfoComponent } from './components/provider-info/provider-info.
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
-    ProviderInfoComponent,
+    ProviderInfoComponent,    
   ],
   imports: [
     MaterialModule,
