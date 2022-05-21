@@ -249,12 +249,7 @@
       </table>
     </div>
     <div *ngIf="open">
-      {{ provider | json }}
-
-      <!-- <app-provider-info
-      [provider]="element"
-    ></app-provider-info> -->
-    
+      <app-provider-info [provider]="provider"></app-provider-info>
     </div>
   </div>
 </div>

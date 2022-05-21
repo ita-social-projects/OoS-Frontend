@@ -27,7 +27,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   providers$: Observable<Provider[]>;
 
   provider: Provider;
-  open: boolean = false;
+  open: boolean;
 
   displayedColumns: string[] = [
     'fullTitle',
@@ -74,7 +74,6 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
 
   getProviderById(id, provider) {
     this.providerService.getProviderById(id);
-    // console.log(provider);    
     this.provider = provider;
     this.open = true;
   }
