@@ -132,34 +132,4 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     }
     return teachers;
   }
-
-
-  /**
-   * This method receives a form and marks each control of this form as touched
-   * @param FormGroup form
-   */
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach((key: string) => {
-      form.get(key).markAsTouched();
-    });
-    if (form.get('categories')) {
-      Object.keys((this.DescriptionFormGroup.get('categories') as FormGroup).controls).forEach((key: string) => {
-        this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
-      });
-    }
-    if (form.get('workingHours')) {
-      (this.AboutFormGroup.get('workingHours') as FormArray).controls.forEach((form: FormGroup) => {
-        Object.keys(form.controls).forEach((key: string) => {
-          form.get(key).markAsTouched();
-        });
-      })
-    }
-  }
-
-  // /**
-  //  * This method marks each control of form in the array of teachers' forms as touched
-  //  */
-  // private checkTeacherFormArrayValidation(): void {
-  //   Object.keys(this.TeacherFormArray.controls).forEach(key => this.checkValidation(this.TeacherFormArray.get(key) as FormGroup));
-  // }
 }

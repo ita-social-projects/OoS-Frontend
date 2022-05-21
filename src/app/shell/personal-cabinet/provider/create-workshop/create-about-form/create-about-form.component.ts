@@ -7,10 +7,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-
 
 @Component({
   selector: 'app-create-about-form',
@@ -74,7 +72,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.workshop ? this.activateEditMode() : this.addWorkingHours();
+    this.workshop && this.activateEditMode();
   }
 
   /**
@@ -94,21 +92,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup.get('price').setValue(price);
   };
 
-  /**
-   * This method create new FormGroup add new FormGroup to the FormArray
-   */
-  addWorkingHours(range?: DateTimeRanges): void {
-    this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index: number
-   */
-  deleteWorkingHour(form: FormGroup): void {
-    const index = this.workingHoursFormArray.controls.indexOf(form);
-    this.workingHoursFormArray.removeAt(index);
-  }
+  
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked
@@ -132,31 +116,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
-    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control([this.workshop.coverImageId]));
     }
     if(this.workshop.price){
       this.setPriceControlValue(this.workshop.price, 'enable');
     }
-  }
-
-  /**
-  * This method create new FormGroup
-  * @param DateTimeRanges range
-  */
-  private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
-    const workingHoursFormGroup = this.formBuilder.group({
-      workdays: new FormControl('', Validators.required),
-      startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required),
-    });
-    if (range) {
-      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
-      workingHoursFormGroup.setValue(range);
-    }
-
-    return workingHoursFormGroup;
   }
 
   /**

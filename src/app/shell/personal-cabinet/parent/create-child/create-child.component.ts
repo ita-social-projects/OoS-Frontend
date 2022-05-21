@@ -31,15 +31,17 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  child: Child;
-  ChildrenFormArray = new FormArray([]);
-  AgreementFormControl = new FormControl(false);
-  isAgreed: boolean = false;
+  readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
   @Select(UserState.children)
-  childrenCards$!: Observable<ChildCards[]>
+  childrenCards$: Observable<ChildCards[]>
+
+  child: Child;
+  ChildrenFormArray = new FormArray([]);
+  AgreementFormControl = new FormControl(false);
+  isAgreed: boolean = false;
 
   constructor(
     private childrenService: ChildrenService,
@@ -49,25 +51,21 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     navigationBarService: NavigationBarService,
     private matDialog: MatDialog) {
     super(store, route, navigationBarService);
+
+    this.socialGroups$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((socialGroups)=> !socialGroups))
+      .subscribe(() =>this.store.dispatch(new GetSocialGroup()));
   }
 
   ngOnInit(): void {      
     this.determineEditMode();
     this.addNavPath();
     
-    if (!this.editMode) {      
-      this.ChildrenFormArray.push(this.newForm());
+    if (!this.editMode) { 
+      this.ChildrenFormArray.push(this.newForm());     
     }
-    
-    this.socialGroups$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((socialGroups)=> !socialGroups)
-      ).subscribe(() =>this.store.dispatch(new GetSocialGroup()));
-
-    this.AgreementFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => this.isAgreed = val);
   }
 
   addNavPath(): void {
@@ -85,7 +83,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       takeUntil(this.destroy$),
     ).subscribe((child: Child) => {
       this.child = child;
-      this.ChildrenFormArray.push(this.newForm(child));
+      this.ChildrenFormArray.push(this.newForm(child)); //TODO: move to the state actions
     });
   }
 
