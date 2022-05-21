@@ -1,7 +1,7 @@
 <ng-container *ngIf="provider$ | async as provider">
   <app-provider-info [provider]="provider" (selectedTabChange)="onTabChanged($event)"></app-provider-info>
 
-  <div fxLayout="row" fxLayoutAlign="start">
+  <!-- <div fxLayout="row" fxLayoutAlign="start">
     <div class="wrapper">
       <div fxLayout="row" fxLayoutAlign="end">
         <a [routerLink]="['/create-provider', editLink]" class="edit-icon"
@@ -93,7 +93,5 @@
       <h5>Будинок</h5>
       <p>{{ provider.legalAddress.buildingNumber }}</p>
     </ng-template>
-  </div>
+  </div> -->
 </ng-container>
-
-<app-provider-info></app-provider-info>
