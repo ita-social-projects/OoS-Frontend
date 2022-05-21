@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX } from 'src/app/shared/constants/regex-constants';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
@@ -16,15 +15,17 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
-
-  readonly constants: typeof Constants = Constants;
-
+  readonly validationConstants = ValidationConstants;
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   PhotoFormGroup: FormGroup;
-  descriptionFormGroup: FormControl = new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_AND_SYMBOLS_REGEX)]);
+  descriptionFormGroup: FormControl = new FormControl('', [
+    Validators.required, 
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+    Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+  ]);
   @Input() provider: Provider;
 
   @Output() passPhotoFormGroup = new EventEmitter();

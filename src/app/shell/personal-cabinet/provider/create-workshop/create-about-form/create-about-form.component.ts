@@ -2,24 +2,26 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+
+
 @Component({
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
   styleUrls: ['./create-about-form.component.scss'],
-
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
-
+  readonly validationConstants = ValidationConstants;
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix= Constants.PHONE_PREFIX;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -39,18 +41,31 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup = this.formBuilder.group({
       coverImage: new FormControl(''),
       title: new FormControl('', Validators.required),
-      phone: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(Constants.PHONE_LENGTH),
+        Validators.maxLength(Constants.PHONE_LENGTH),
+      ]),
+      email: new FormControl('', [
+        Validators.required, 
+        Validators.email
+      ]),
       minAge: new FormControl('', [Validators.required]),
       maxAge: new FormControl('', [Validators.required]),
       image: new FormControl(''),
-      website: new FormControl(''),
-      facebook: new FormControl(''),
-      instagram: new FormControl(''),
+      website: new FormControl('',[
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+      ]),
+      facebook: new FormControl('', [
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+      ]),
+      instagram: new FormControl('', [
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+      ]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       isPerMonth: new FormControl(false),
-      // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to teh second release
+      // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
@@ -59,7 +74,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.workshop ? this.activateEditMode() : this.addWorkingHours();
+    this.workshop && this.activateEditMode();
   }
 
   /**
@@ -70,56 +85,31 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
       ).subscribe((isPrice: boolean) => {
-        if (isPrice) {
-          this.AboutFormGroup.get('price').enable();
-          this.AboutFormGroup.get('price').setValue(this.constants.MIN_PRICE);
-        } else {
-          this.AboutFormGroup.get('price').setValue(0);
-          this.AboutFormGroup.get('price').disable();
-        }
+        isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
       });
-
-    this.AboutFormGroup.get('price').valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-      ).subscribe((price: number) => this.AboutFormGroup.get('price').setValue(price)
-      );
-  }
-  /**
-   * This method create new FormGroup add new FormGroup to the FormArray
-   */
-  addWorkingHours(range?: DateTimeRanges): void {
-    this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
   }
 
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index: number
-   */
-  deleteWorkingHour(index: number): void {
-    this.workingHoursFormArray.removeAt(index);
-  }
+  private setPriceControlValue = (price: number = 0, action: string = 'disable') => {
+    this.AboutFormGroup.get('price')[action]();
+    this.AboutFormGroup.get('price').setValue(price);
+  };
+
+  
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    this.useProviderInfoCtrl.valueChanges.subscribe((useProviderInfo: boolean) => {
-      if (useProviderInfo) {
-        this.AboutFormGroup.get('email').setValue(this.provider.email);
-        this.AboutFormGroup.get('phone').setValue(this.provider.phoneNumber);
-        this.AboutFormGroup.get('website').setValue(this.provider.website);
-        this.AboutFormGroup.get('facebook').setValue(this.provider.facebook);
-        this.AboutFormGroup.get('instagram').setValue(this.provider.instagram);
-      } else {
-        this.AboutFormGroup.get('email').reset();
-        this.AboutFormGroup.get('phone').reset();
-        this.AboutFormGroup.get('website').reset();
-        this.AboutFormGroup.get('facebook').reset();
-        this.AboutFormGroup.get('instagram').reset();
-      }
-    });
+    const setValue = (value) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = (value) => this.AboutFormGroup.get(value).reset();
+
+    this.useProviderInfoCtrl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((useProviderInfo: boolean) => {
+        for (let value in ProviderWorkshopSameValues ) {
+          useProviderInfo ? setValue(value) : resetValue(value);
+        }
+      });
   }
 
   /**
@@ -128,28 +118,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     this.workshop.price && this.priceRadioBtn.setValue(true);
-    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control([this.workshop.coverImageId]));
     }
-  }
-
-  /**
-  * This method create new FormGroup
-  * @param DateTimeRanges range
-  */
-  private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
-    const workingHoursFormGroup = this.formBuilder.group({
-      workdays: new FormControl('', Validators.required),
-      startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required),
-    });
-    if (range) {
-      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
-      workingHoursFormGroup.setValue(range);
+    if(this.workshop.price){
+      this.setPriceControlValue(this.workshop.price, 'enable');
     }
-
-    return workingHoursFormGroup;
   }
 
   /**

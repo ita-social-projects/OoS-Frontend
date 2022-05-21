@@ -9,6 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Address } from 'src/app/shared/models/address.model';
+import { FormArray, FormGroup } from '@angular/forms';
 
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;
@@ -37,6 +38,11 @@ describe('CreateWorkshopComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateWorkshopComponent);
     component = fixture.componentInstance;
+    component.AboutFormGroup = new FormGroup({});
+    component.AddressFormGroup = new FormGroup({});
+    component.DescriptionFormGroup = new FormGroup({});
+    component.TeacherFormArray = new FormArray([]);
+
     fixture.detectChanges();
   });
 

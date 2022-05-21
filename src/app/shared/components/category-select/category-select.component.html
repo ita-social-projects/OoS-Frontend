@@ -9,9 +9,9 @@
       {{ direction.title }}
     </mat-option>
   </mat-autocomplete>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="directionIdControl.invalid && directionIdControl.touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint
+    [validationFormControl]="directionIdControl">
+  </app-validation-hint>
 
   <ng-container *ngIf="(departments$ | async)?.length">
     <label class="step-label"> Відділ <span class="step-required">*</span></label>
@@ -24,9 +24,9 @@
         {{ department.title }}
       </mat-option>
     </mat-autocomplete>
-    <app-validation-hint-for-input type="requiredField"
-      [invalid]="departmentIdControl.invalid && departmentIdControl.touched">
-    </app-validation-hint-for-input>
+    <app-validation-hint
+      [validationFormControl]="departmentIdControl">
+    </app-validation-hint>
   </ng-container>
 
   <ng-container *ngIf="(classes$ | async)?.length">
@@ -40,8 +40,9 @@
         {{ classItem.title }}
       </mat-option>
     </mat-autocomplete>
-    <app-validation-hint-for-input type="requiredField" [invalid]="classIdControl.invalid && classIdControl.touched">
-    </app-validation-hint-for-input>
+    <app-validation-hint
+      [validationFormControl]="classIdControl">
+    </app-validation-hint>
   </ng-container>
 
 </form>
