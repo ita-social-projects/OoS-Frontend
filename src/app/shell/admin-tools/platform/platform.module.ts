@@ -14,8 +14,8 @@ import { DirectionsComponent } from './create-direction/directions/directions.co
 import { AboutInfoComponent } from './platform-info/about-info.component';
 import { InfoCardComponent } from './platform-info/info-card/info-card.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
-import { SupportInfoComponent } from './platform-info/support-info.component copy';
-import { RegulationsInfoComponent } from './platform-info/regulations-info.component copy';
+import { SupportInfoComponent } from './platform-info/support-info.component';
+import { RegulationsInfoComponent } from './platform-info/regulations-info.component';
 
 @NgModule({
   declarations: [

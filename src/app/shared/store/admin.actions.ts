@@ -7,6 +7,7 @@ export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
   constructor() { }
 }
+
 export class GetAboutPortal {
   static readonly type = '[admin] Get AboutPortal';
   constructor() { }

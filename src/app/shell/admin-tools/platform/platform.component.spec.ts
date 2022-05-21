@@ -32,7 +32,10 @@ describe('PlatformComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PlatformComponent,
-        MockPlatformInfoComponent
+        MockRegulations,
+        MockSupport,
+        MockAbout,
+        MockDirections
       ]
     })
     .compileComponents();
@@ -49,11 +52,24 @@ describe('PlatformComponent', () => {
   });
 });
 @Component({
-  selector: 'app-platform-info',
+  selector: 'app-about-info',
   template: ''
 })
-class MockPlatformInfoComponent {
-  @Input() direction: Direction;
-  @Input() isEditMode: boolean;
-}
+class MockAbout { }
+
+@Component({
+  selector: 'app-support-info',
+  template: ''
+})
+class MockSupport { }
+@Component({
+  selector: 'app-regulations-info',
+  template: ''
+})
+class MockRegulations { }
+@Component({
+  selector: 'app-directions',
+  template: ''
+})
+class MockDirections { }
 

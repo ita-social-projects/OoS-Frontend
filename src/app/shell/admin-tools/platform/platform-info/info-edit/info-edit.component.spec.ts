@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('PlatformInfoEditComponent', () => {
+fdescribe('PlatformInfoEditComponent', () => {
   let component: InfoEditComponent;
   let fixture: ComponentFixture<InfoEditComponent>;
 

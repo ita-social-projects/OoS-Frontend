@@ -1,12 +1,13 @@
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
+
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
@@ -24,10 +25,13 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private store: Store) {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new GetPlatformInfo());
+
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
