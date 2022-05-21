@@ -1,9 +1,8 @@
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { Select } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AdminState } from 'src/app/shared/store/admin.state';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
+import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 
 @Component({
   selector: 'app-platform-info',
@@ -12,9 +11,12 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 })
 export class PlatformInfoComponent {
   @Input() type: PlatformInfoType;
+  @Input() platformInfo: CompanyInformation;
 
-  @Select(AdminState.platformInfo)
-  platformInfo$: Observable<CompanyInformation>;
+  constructor(
 
-  constructor( ) {  }
+    private store: Store) {
+
+      this.store.dispatch(new GetPlatformInfo())// routing fix but performance issue
+  }
 }

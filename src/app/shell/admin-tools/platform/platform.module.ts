@@ -1,4 +1,3 @@
-import { PlatformRoutingModule } from './platform-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
@@ -27,7 +26,6 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
     SharedModule,
     MaterialModule,
     RouterModule,
-    PlatformRoutingModule
   ],
   exports: [ 
   ]

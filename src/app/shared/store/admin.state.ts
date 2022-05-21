@@ -1,9 +1,10 @@
+import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { CompanyInformation } from "../models/сompanyInformation.model";
+import { CompanyInformation, PlatformInfoStateModel } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
@@ -36,14 +37,19 @@ import {
   UpdatePlatformInfo,
   OnUpdatePlatformInfoSuccess,
   OnUpdatePlatformInfoFail,
+  GetAboutPortal,
+  GetSupportInformation,
+  GetLawsAndRegulations,
 } from "./admin.actions";
 
 export interface AdminStateModel {
+  aboutPortal: CompanyInformation,
+  supportInformation: CompanyInformation,
+  lawsAndRegulations: CompanyInformation,
   isLoading: boolean;
   direction: Direction;
   department: Department;
   classes: IClass[];
-  platformInfo: CompanyInformation;
   departments: Department[];
   selectedDirection: Direction;
   currentPage: PaginationElement;
@@ -53,7 +59,9 @@ export interface AdminStateModel {
 @State<AdminStateModel>({
   name: 'admin',
   defaults: {
-    platformInfo: null,
+    aboutPortal: null,
+    supportInformation: null,
+    lawsAndRegulations: null,
     direction: undefined,
     department: undefined,
     classes: [],
@@ -70,43 +78,63 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
-  @Selector()
-  static platformInfo(state: AdminStateModel): CompanyInformation { return state.platformInfo; }
+  @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
 
-  @Selector()
-  static direction(state: AdminStateModel): Direction { return state.direction; }
+  @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation { return state.supportInformation; }
 
-  @Selector()
-  static department(state: AdminStateModel): Department { return state.department; }
+  @Selector() static LawsAndRegulations(state: AdminStateModel): CompanyInformation { return state.lawsAndRegulations; }
 
-  @Selector()
-  static departments(state: AdminStateModel): Department [] { return state.departments; }
+  @Selector() static direction(state: AdminStateModel): Direction { return state.direction; }
 
-  @Selector()
-  static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
+  @Selector() static department(state: AdminStateModel): Department { return state.department; }
 
-  @Selector()
-  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
+  @Selector() static departments(state: AdminStateModel): Department [] { return state.departments; }
 
-  @Selector()
-  static currentPage(state: AdminStateModel): {} { return state.currentPage; }
+  @Selector() static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
 
-  @Selector()
-  static isLoading(state: AdminStateModel): boolean { return state.isLoading }
+  @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
+
+  @Selector() static currentPage(state: AdminStateModel): {} { return state.currentPage; }
+
+  @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
   constructor(
     private platformService: PlatformService,
     private categoriesService: CategoriesService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   @Action(GetPlatformInfo)
-  getPlatformInfo({ patchState }: StateContext<AdminStateModel>, { payload }: GetPlatformInfo): Observable<CompanyInformation> {
+  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {  }: GetPlatformInfo): void {
+    dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
+  }
+
+  @Action(GetAboutPortal)
+  getAboutPortal({ patchState }: StateContext<AdminStateModel>, {  }: GetAboutPortal): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(payload)
+      .getPlatformInfo(PlatformInfoType.AboutPortal)
       .pipe(
-        tap((platformInfo: CompanyInformation) => patchState({ platformInfo: platformInfo, isLoading: false })));
+        tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+  }
+
+  @Action(GetSupportInformation)
+  getSupportInformation({ patchState }: StateContext<AdminStateModel>, {  }: GetSupportInformation): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.SupportInformation)
+      .pipe(
+        tap((supportInformation: CompanyInformation) => patchState({ supportInformation: supportInformation, isLoading: false })));
+  }
+
+  @Action(GetLawsAndRegulations)
+  getLawsAndRegulations({ patchState }: StateContext<AdminStateModel>, {  }: GetLawsAndRegulations): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.LawsAndRegulations)
+      .pipe(
+        tap((lawsAndRegulations: CompanyInformation) => patchState({ lawsAndRegulations: lawsAndRegulations, isLoading: false })));
   }
 
   @Action(UpdatePlatformInfo)
@@ -129,6 +157,7 @@ export class AdminState {
   onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
+
     this.router.navigate(['/admin-tools/platform/about']);
   }
 
@@ -198,7 +227,7 @@ export class AdminState {
     dispatch(new MarkFormDirty(false));
     console.log('Direction is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/about']);
+    this.router.navigate(['/admin-tools/platform/directions']);
   }
 
   @Action(CreateDepartment)

@@ -5,7 +5,19 @@ import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
-  constructor(public payload: PlatformInfoType) { }
+  constructor() { }
+}
+export class GetAboutPortal {
+  static readonly type = '[admin] Get AboutPortal';
+  constructor() { }
+}
+export class GetSupportInformation {
+  static readonly type = '[admin] Get SupportInformation';
+  constructor() { }
+}
+export class GetLawsAndRegulations {
+  static readonly type = '[admin] Get LawsAndRegulations';
+  constructor() { }
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';

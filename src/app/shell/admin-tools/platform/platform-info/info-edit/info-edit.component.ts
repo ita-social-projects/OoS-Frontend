@@ -1,3 +1,4 @@
+import { GetSupportInformation, GetLawsAndRegulations } from './../../../../../shared/store/admin.actions';
 import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
@@ -7,11 +8,11 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter, tap } from 'rxjs/operators';
+import { takeUntil, filter, tap, takeLast } from 'rxjs/operators';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
+import { CompanyInformation, СompanyInformationItem, PlatformInfoStateModel } from 'src/app/shared/models/сompanyInformation.model';
 import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 
@@ -21,15 +22,19 @@ import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Select(AdminState.platformInfo)
-  platformInfo$: Observable<CompanyInformation>;
-  platformInfo: CompanyInformation;
+  @Select(AdminState.AboutPortal)
+  AboutPortal$: Observable<CompanyInformation>;
+  @Select(AdminState.SupportInformation)
+  SupportInformation$: Observable<CompanyInformation>;
+  @Select(AdminState.LawsAndRegulations)
+  LawsAndRegulations$: Observable<CompanyInformation>;
 
   PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('',[Validators.required]);
   editTitle: PortalEditTitleUkr;
+  platformInfo: CompanyInformation;
   
-  private platformInfoType;
+  private platformInfoType: PlatformInfoType;
 
   constructor(
     store: Store,
@@ -37,18 +42,21 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     navigationBarService: NavigationBarService,
     private fb: FormBuilder) {
     super(store, route, navigationBarService);
+
+    
   }
 
   ngOnInit(): void {
     this.route.params
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((params: Params) => this.setInitialData(params));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => this.setInitialData(params));
   }
 
   private setInitialData(params: Params): void {
-    this.platformInfoType = params.param.replace("/edit","");
+    this.editMode = !!params.mode;
+    this.platformInfoType = params.param;
     this.editTitle = PortalEditTitleUkr[this.platformInfoType];
-    this.editMode = params.param.includes('edit');
+
     this.editMode ? this.setEditMode() :  this.onAddForm();
   }
 
@@ -61,17 +69,54 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   }
 
   setEditMode(): void {
-    this.platformInfo$
+    switch(this.platformInfoType) {
+      case PlatformInfoType.AboutPortal:
+        this.getAboutInfo();
+        break;
+      case PlatformInfoType.SupportInformation:
+        this.getSupportInformation();
+        break;
+      case PlatformInfoType.LawsAndRegulations:
+        this.getLawsAndRegulations();
+        break;
+    }
+  }
+
+  getAboutInfo(): void{
+    this.AboutPortal$
       .pipe(
         takeUntil(this.destroy$),
-        tap((platformInfo: CompanyInformation)=> !platformInfo && this.store.dispatch(new GetPlatformInfo(this.platformInfoType))),
-        filter((platformInfo: CompanyInformation)=> !!platformInfo))
-      .subscribe((platformInfo: CompanyInformation) => {
-        this.titleFormControl.setValue(platformInfo.title, { emitEvent: false });
-        this.platformInfo = platformInfo;
-        this.platformInfo.companyInformationItems
-          .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
-      }); 
+        tap((aboutPortal: CompanyInformation)=> !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
+        filter((aboutPortal: CompanyInformation) => !!aboutPortal),
+      )
+      .subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal)); 
+  }
+
+  getSupportInformation(): void{
+    this.SupportInformation$
+    .pipe(
+      takeUntil(this.destroy$),
+      tap((supportInformation: CompanyInformation)=> !supportInformation && this.store.dispatch(new GetPlatformInfo())),
+      filter((supportInformation: CompanyInformation) => !!supportInformation)
+    )
+    .subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation)); 
+  }
+
+  getLawsAndRegulations(): void{
+    this.LawsAndRegulations$
+    .pipe(
+      takeUntil(this.destroy$),
+      tap((lawsAndRegulations: CompanyInformation)=> !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())),
+      filter((lawsAndRegulations: CompanyInformation) => !!lawsAndRegulations)
+    )
+    .subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations)); 
+  }
+
+  setPlatformInfo(platformInfo: CompanyInformation): void {
+    this.platformInfo = platformInfo;
+    this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
+    this.platformInfo.companyInformationItems
+      .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
   }
 
   /**

@@ -56,7 +56,7 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'admin-tools/platform/edit/:param', component: InfoEditComponent,
+    path: 'admin-tools/platform/update/:param/:mode', component: InfoEditComponent,
     loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
     canDeactivate: [CreateGuard]
   },
