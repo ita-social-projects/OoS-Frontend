@@ -8,7 +8,9 @@
       [isRelease2]="isRelease2" (deleteForm)="onDeleteForm($event)">
     </app-teacher-form>
   </ng-container>
-  <button class="btn-add" mat-button (click)="onAddTeacher()">
-    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одного викладача
-  </button>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <button class="btn-add" mat-button (click)="onAddTeacher()" [disabled]="TeacherFormArray.invalid">
+      <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одного викладача
+    </button>
+  </div>
 </div>

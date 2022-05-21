@@ -25,7 +25,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch([
-      new AddNavPath(this.navigationBarService.creatOneNavPath(
+      new AddNavPath(this.navigationBarService.createOneNavPath(
         { name: NavBarName.TopDestination, isActive: false, disable: true }
       )),
       new GetDirections()

@@ -66,7 +66,7 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
     this.user$.subscribe((user: User) => this.user = user);
     this.user && this.userEditFormGroup.patchValue(this.user);
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
         NavBarName.PersonalCabinetProvider : 
         this.role.techAdmin ?

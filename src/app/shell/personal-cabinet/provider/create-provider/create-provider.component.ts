@@ -75,7 +75,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
       { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
