@@ -244,12 +244,13 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>      
     </table>
-      <!-- <app-provider-info
-        [provider]="element"
-      ></app-provider-info> -->
-    </div>
-    <!-- <div *ngFor="let element of providers$ | async">
-      {{element | json}}
-    </div> -->
   </div>
+  <div *ngIf="open">
+    {{provider | json}}
+  </div>
+
+  <!-- <app-provider-info
+    [provider]="element"
+  ></app-provider-info> -->
+</div>
 </div>
