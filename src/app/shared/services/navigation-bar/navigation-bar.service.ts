@@ -15,7 +15,7 @@ export class NavigationBarService {
    * @returns array of Object for navigation :Nav[]
    *
    */
-  creatOneNavPath(navPath: Navigation): Navigation[] {
+  createOneNavPath(navPath: Navigation): Navigation[] {
     return [
       { name: NavBarName.MainPage, path: '/', isActive: true, disable: false },
       navPath];
@@ -27,7 +27,7 @@ export class NavigationBarService {
    * @returns array of two Objects for navigation :Nav[]
    *
    */
-  creatNavPaths(firstNavPath: Navigation, secondNavPath: Navigation, thirdNavPath?: Navigation): Navigation[] {
+  createNavPaths(firstNavPath: Navigation, secondNavPath: Navigation, thirdNavPath?: Navigation): Navigation[] {
     if(thirdNavPath !== undefined) {
     return [
       { name: NavBarName.MainPage, path: '/', isActive: true, disable: false },
