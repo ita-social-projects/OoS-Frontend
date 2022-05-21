@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-org-info',
@@ -14,7 +15,7 @@ export class ProviderOrgInfoComponent implements OnInit {
   provider$: Observable<Provider>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private store: Store) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -23,4 +24,7 @@ export class ProviderOrgInfoComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ActivateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
+  }
 }
