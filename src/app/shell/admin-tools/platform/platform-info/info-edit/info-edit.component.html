@@ -27,7 +27,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/admin-tools/platform/about'"><button mat-raised-button
+      <a [routerLink]="['/admin-tools/platform', platformInfoType]"><button mat-raised-button
           class="btn btn-cancel">Скасувати</button></a>
       <button class="btn" mat-button type="submit"[disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid" (click)="onSubmit()">Зберегти</button>
     </div>

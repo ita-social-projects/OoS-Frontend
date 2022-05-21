@@ -14,10 +14,10 @@ export enum PortalEditTitleUkr {
 }
 
 export enum AdminTabs {
-  'about',
+  'AboutPortal',
   'mainPage',
   'directions',
-  'regulations',
-  'support'
+  'LawsAndRegulations',
+  'SupportInformation'
 }
 

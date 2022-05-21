@@ -7,9 +7,6 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { CompanyInformation,  } from 'src/app/shared/models/сompanyInformation.model';
-
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
@@ -20,13 +17,6 @@ export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
   readonly platformInfoType = PlatformInfoType;
-  
-  @Select(AdminState.AboutPortal)
-  AboutPortal$: Observable<CompanyInformation>;
-  @Select(AdminState.SupportInformation)
-  SupportInformation$: Observable<CompanyInformation>;
-  @Select(AdminState.LawsAndRegulations)
-  LawsAndRegulations$: Observable<CompanyInformation>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
@@ -34,8 +24,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private store: Store) {
+    private router: Router) {
   }
 
   ngOnInit(): void {

@@ -34,16 +34,14 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   editTitle: PortalEditTitleUkr;
   platformInfo: CompanyInformation;
   
-  private platformInfoType: PlatformInfoType;
+  platformInfoType: PlatformInfoType;
 
   constructor(
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
     private fb: FormBuilder) {
-    super(store, route, navigationBarService);
-
-    
+      super(store, route, navigationBarService);
   }
 
   ngOnInit(): void {
@@ -82,43 +80,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     }
   }
 
-  getAboutInfo(): void{
-    this.AboutPortal$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((aboutPortal: CompanyInformation)=> !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
-        filter((aboutPortal: CompanyInformation) => !!aboutPortal),
-      )
-      .subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal)); 
-  }
-
-  getSupportInformation(): void{
-    this.SupportInformation$
-    .pipe(
-      takeUntil(this.destroy$),
-      tap((supportInformation: CompanyInformation)=> !supportInformation && this.store.dispatch(new GetPlatformInfo())),
-      filter((supportInformation: CompanyInformation) => !!supportInformation)
-    )
-    .subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation)); 
-  }
-
-  getLawsAndRegulations(): void{
-    this.LawsAndRegulations$
-    .pipe(
-      takeUntil(this.destroy$),
-      tap((lawsAndRegulations: CompanyInformation)=> !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())),
-      filter((lawsAndRegulations: CompanyInformation) => !!lawsAndRegulations)
-    )
-    .subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations)); 
-  }
-
-  setPlatformInfo(platformInfo: CompanyInformation): void {
-    this.platformInfo = platformInfo;
-    this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
-    this.platformInfo.companyInformationItems
-      .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
-  }
-
   /**
    * This method creates new FormGroup
    */
@@ -146,7 +107,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   /**
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
-   onAddForm(): void {
+  onAddForm(): void {
     this.PlatformInfoItemArray.push(this.newForm());
   }
 
@@ -154,7 +115,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    * This method delete FormGroup from the FormArray by index
    * @param index
    */
-   onDeleteForm(index: number): void {
+  onDeleteForm(index: number): void {
     this.PlatformInfoItemArray.removeAt(index);
   }
 
@@ -164,11 +125,52 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
       this.PlatformInfoItemArray.controls
         .forEach((form: FormGroup) => platformInfoItemArray.push(new СompanyInformationItem(form.value)));
       
-        const platformInfo = this.editMode ? 
-          new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id) :
-          new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
+      const platformInfo = this.editMode ? 
+        new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id) :
+        new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
 
-        this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));  
+      this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));  
     }
-   }
+  }
+
+  private getAboutInfo(): void{
+    this.AboutPortal$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((aboutPortal: CompanyInformation)=> !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
+        filter((aboutPortal: CompanyInformation) => !!aboutPortal),
+      )
+      .subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal)); 
+  }
+
+  private getSupportInformation(): void{
+    this.SupportInformation$
+    .pipe(
+      takeUntil(this.destroy$),
+      tap((supportInformation: CompanyInformation)=> !supportInformation && this.store.dispatch(new GetPlatformInfo())),
+      filter((supportInformation: CompanyInformation) => !!supportInformation)
+    )
+    .subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation)); 
+  }
+
+  private getLawsAndRegulations(): void{
+    this.LawsAndRegulations$
+    .pipe(
+      takeUntil(this.destroy$),
+      tap((lawsAndRegulations: CompanyInformation)=> !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())),
+      filter((lawsAndRegulations: CompanyInformation) => !!lawsAndRegulations)
+    )
+    .subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations)); 
+  }
+
+  /**
+   * This method set portalInfo data for editing
+   * @param platformInfo
+   */ 
+  private setPlatformInfo(platformInfo: CompanyInformation): void {
+    this.platformInfo = platformInfo;
+    this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
+    this.platformInfo.companyInformationItems
+      .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
+  }
 }

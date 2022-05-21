@@ -1,3 +1,4 @@
+import { PlatformModule } from './admin-tools/platform/platform.module';
 import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
@@ -57,7 +58,7 @@ const routes: Routes = [
   },
   {
     path: 'admin-tools/platform/update/:param/:mode', component: InfoEditComponent,
-    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
+    loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
     canDeactivate: [CreateGuard]
   },
   {

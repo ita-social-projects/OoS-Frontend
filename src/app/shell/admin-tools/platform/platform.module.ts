@@ -1,3 +1,4 @@
+import { PlatformComponent } from './platform.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
@@ -9,16 +10,27 @@ import { AddClassFormComponent } from './create-direction/add-class-form/add-cla
 import { AddDepartmentFormComponent } from './create-direction/add-department-form/add-department-form.component';
 import { AddDirectionFormComponent } from './create-direction/add-direction-form/add-direction-form.component';
 import { InfoFormComponent } from './platform-info/info-edit/info-form/info-form.component';
+import { DirectionsComponent } from './create-direction/directions/directions.component';
+import { AboutInfoComponent } from './platform-info/about-info.component';
+import { InfoCardComponent } from './platform-info/info-card/info-card.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
+import { SupportInfoComponent } from './platform-info/support-info.component copy';
+import { RegulationsInfoComponent } from './platform-info/regulations-info.component copy';
 
 @NgModule({
   declarations: [
     InfoFormComponent,
-    InfoEditComponent,
     CreateDirectionComponent,
     AddClassFormComponent,
     AddDepartmentFormComponent,
     AddDirectionFormComponent,
+    DirectionsComponent,
+    InfoCardComponent,
+    AboutInfoComponent,
+    RegulationsInfoComponent,
+    SupportInfoComponent,
+    InfoEditComponent,
+    PlatformComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +40,7 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
     RouterModule,
   ],
   exports: [ 
+    PlatformComponent
   ]
 })
 export class PlatformModule { }
