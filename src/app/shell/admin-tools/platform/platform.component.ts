@@ -11,7 +11,7 @@ import { PlatformInfoType } from 'src/app/shared/enum/platform';
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
-  styles: ['@import "src/app/shared/styles/navigation-tabs.scss"; @import "src/app/shared/styles/buttons.scss";']
+  styleUrls: ['./platform.component.scss']
 })
 
 export class PlatformComponent implements OnInit, OnDestroy {
