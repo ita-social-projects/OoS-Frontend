@@ -8,6 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { Address } from '../../models/address.model';
 import { Provider } from '../../models/provider.model';
 import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
 
@@ -38,6 +39,8 @@ describe('ProviderInfoComponent', () => {
     fixture = TestBed.createComponent(ProviderInfoComponent);
     component = fixture.componentInstance;
     component.provider = {} as Provider;
+    component.provider.actualAddress = {} as Address;
+    component.provider.legalAddress = {} as Address;
     fixture.detectChanges();
   });
 
