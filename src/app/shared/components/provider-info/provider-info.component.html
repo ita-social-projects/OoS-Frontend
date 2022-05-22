@@ -9,6 +9,13 @@
         >
       </div>
     </div>
+    <div *ngIf="close" fxLayout="row" fxLayoutAlign="end">
+      <a class="edit-icon"
+        ><button mat-button>
+          <mat-icon>close</mat-icon>
+        </button></a
+      >
+    </div>
 
     <mat-tab-group (selectedTabChange)="onTabChanged($event)">
       <mat-tab label="Інформація про заклад">
@@ -24,7 +31,9 @@
         <p>{{ provider?.director }}</p>
         <h5>Дата народження керівника</h5>
         <p>
-          {{ provider?.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
+          {{
+            provider?.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT
+          }}
         </p>
         <h5>{{ provider?.type === 0 ? "ІПН" : "ЄДРПОУ" }}</h5>
         <p>{{ provider?.edrpouIpn }}</p>
