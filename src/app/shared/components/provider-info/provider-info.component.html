@@ -9,12 +9,10 @@
         >
       </div>
     </div>
-    <div *ngIf="close" fxLayout="row" fxLayoutAlign="end">
-      <a class="edit-icon"
-        ><button mat-button>
-          <mat-icon>close</mat-icon>
-        </button></a
-      >
+    <div *ngIf="close" fxLayoutAlign="end">
+      <a class="close-icon">
+        <mat-icon>close</mat-icon>
+      </a>
     </div>
 
     <mat-tab-group (selectedTabChange)="onTabChanged($event)">
