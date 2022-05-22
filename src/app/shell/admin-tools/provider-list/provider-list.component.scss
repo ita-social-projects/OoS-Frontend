@@ -48,6 +48,7 @@
 }
 .provider-wrapper {
   display: flex;
+  align-items: baseline;
   @media (max-width: 767px) {
     flex-direction: column;
     .example-container {
