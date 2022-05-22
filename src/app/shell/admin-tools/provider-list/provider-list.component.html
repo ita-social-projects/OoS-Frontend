@@ -73,12 +73,11 @@
           <td mat-cell *matCellDef="let element"></td>
         </ng-container>
 
-        <ng-container matColumnDef="legalAddress">
+        <ng-container matColumnDef="city">
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by legalAddress.city"
+            mat-sort-header            
           >
             Населений пункт
           </th>
@@ -87,12 +86,12 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="address">
+        <ng-container matColumnDef="street">
           <th
             mat-header-cell
             *matHeaderCellDef
             mat-sort-header
-            sortActionDescription="Sort by legalAddress.street"
+            sortActionDescription="Sort by street"
           >
             Адреса
           </th>
@@ -255,7 +254,7 @@
         [provider]="provider"
         [edit]="false"
         [close]="true"
-        (click)="onCloseInfo()"
+        (closeInfo)="onCloseInfo()"
       ></app-provider-info>
     </div>
   </div>

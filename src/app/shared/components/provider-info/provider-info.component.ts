@@ -30,7 +30,6 @@ export class ProviderInfoComponent implements OnInit {
   readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
-
   editLink: string = createProviderSteps[0];
 
   @Input() provider: Provider;

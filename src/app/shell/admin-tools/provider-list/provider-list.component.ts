@@ -4,7 +4,6 @@ import {
   Component,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
@@ -46,8 +45,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     'ownership',
     'edrpouIpn',
     'licence',
-    'legalAddress',
-    'address',
+    'city',
+    'street',
     'director',
     'email',
     'website',
@@ -78,6 +77,17 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource(providers);
         this.dataSource.sort = this.sort;
       });
+
+    // this.dataSource.sortingDataAccessor = (item, property) => {
+    //   switch (property) {
+    //     case 'city':
+    //       return item.legalAddress.city;
+    //     case 'street':
+    //       return item.legalAddress.street;
+    //     default:
+    //       return item[property];
+    //   }
+    // };
   }
 
   getAllProviders() {
@@ -99,6 +109,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   }
 
   onCloseInfo() {
-    this.open = false;
+    this.open = !this.open;
+    console.log('closed');    
   }
 }
