@@ -49,10 +49,10 @@
 .provider-wrapper {
   display: flex;
   align-items: baseline;
-  @media (max-width: 767px) {
+  @media (max-width: 763px) {
     flex-direction: column;
     .example-container {
-      margin-bottom: 15px;
+      margin: 15px;
     }
   }
 }
@@ -69,9 +69,7 @@
 
 .example-container {
   height: 400px;
-  min-width: 45%;
   overflow: auto;
-  margin: 15px auto;
 }
 
 ::ng-deepth .mat-sort-header-content {
