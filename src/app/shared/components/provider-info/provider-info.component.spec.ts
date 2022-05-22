@@ -8,6 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { Provider } from '../../models/provider.model';
 import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
 
 import { ProviderInfoComponent } from './provider-info.component';
@@ -36,6 +37,7 @@ describe('ProviderInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderInfoComponent);
     component = fixture.componentInstance;
+    component.provider = {} as Provider;
     fixture.detectChanges();
   });
 
