@@ -34,7 +34,7 @@ export class SupportEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.SupportFormArray.push(this.newForm());
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.AdminTools, isActive: false, disable: false },
       { name: NavBarName.Platform, isActive: false, disable: false },
       { name: NavBarName.Support, isActive: false, disable: true }

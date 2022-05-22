@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateContactsFormComponent } from './create-contacts-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { MatInputModule } from '@angular/material/input';
@@ -43,16 +43,14 @@ describe('CreateContactsFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent{
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
-  @Input() minCharachters: number; 
-  @Input() forbiddenCharacter: string;
+  @Input() validationFormControl: FormControl; 
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
 }
+  

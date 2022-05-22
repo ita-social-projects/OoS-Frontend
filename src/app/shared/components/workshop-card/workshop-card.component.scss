@@ -1,4 +1,6 @@
 @import "src/app/shared/styles/cards.scss";
+@import "src/app/shared/styles/application-statuses.scss";
+
 .card-img-mobile{
   width: 100%;
 }
@@ -22,20 +24,7 @@
 .favorite-icon {
   color: #ffbd00;
 }
-.parent-status{
-  .Approved{
-    color:#199953
-  }
-  .Pending{
-    color: #FFBD00;
-  }
-  .AcceptedForSelection{
-    color: #27A3FF;
-  }
-  .Rejected, .Left, .Blocked{
-    color: #C72A21;
-  }
-}
+
 .provider-link:hover {
     opacity: 0.5;
     color: #3849F9;

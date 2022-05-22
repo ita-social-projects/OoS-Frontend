@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NotificationsConstants } from 'src/app/shared/constants/constants';
-import { NotificationGrouped, Notifications, Notification, NotificationsAmount } from 'src/app/shared/models/notifications.model';
-import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from 'src/app/shared/store/notifications.actions';
-import { NotificationsState } from 'src/app/shared/store/notifications.state';
-import { Util } from 'src/app/shared/utils/utils';
+import { ApplicationApproved, ApplicationLeft, ApplicationPending, ApplicationRejected } from 'src/app/shared/enum/enumUA/declinations/notification-declination';
+import { NotificationsConstants } from '../../../constants/constants';
+import { ApplicationTitlesReverse } from '../../../enum/enumUA/applications';
+import { NotificationType } from '../../../enum/notifications';
+import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
+import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../../store/notifications.actions';
+import { NotificationsState } from '../../../store/notifications.state';
 
 @Component({
   selector: 'app-notifications-list',
@@ -25,7 +28,10 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly notificationsConstants = NotificationsConstants;
 
 
-  constructor(private store: Store) { }
+  constructor(
+    private store: Store,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
@@ -46,6 +52,17 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
     this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
+
+    switch (NotificationType[notificationsGrouped.type]) {
+      case NotificationType.Application:
+        let status: string = ApplicationTitlesReverse[notificationsGrouped.groupedData];
+        this.router.navigate([`/personal-cabinet/${NotificationType.Application}/${[status]}`]);
+        break;
+      case NotificationType.Workshop:
+        break;
+      case NotificationType.Chat:
+        break;
+    }
   }
 
   onReadSingle(event: PointerEvent, notification: Notification): void {
@@ -53,8 +70,27 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  getDeclensionNewApplication(applicationAmount: number): string {
-    return Util.getDeclensionNewApplication(applicationAmount);
+  defineDeclination(status: string) {
+    let declination;
+    switch (status) {
+      case 'Approved':
+        declination = ApplicationApproved;
+      break;
+      case 'Pending':
+        declination = ApplicationPending;
+      break;
+      case 'Rejected':
+        declination = ApplicationRejected;
+      break;
+      case 'Left':
+        declination = ApplicationLeft;
+        break;    
+      default:
+        declination = ApplicationPending;
+        break;
+    }
+
+    return declination;
   }
 
   ngOnDestroy(): void {

@@ -4,68 +4,53 @@
 
   <label class="step-label">Область<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="district" maxlength="15" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="district" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="LegalAddressFormGroup.get('district').errors?.required"
-    [invalid]="LegalAddressFormGroup.get('district').invalid && LegalAddressFormGroup.get('district').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="LegalAddressFormGroup.get('district').invalid && LegalAddressFormGroup.get('district').touched"
-    [forbiddenCharacter]="LegalAddressFormGroup.get('district').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="LegalAddressFormGroup.get('district')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" maxlength="15" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="LegalAddressFormGroup.get('city').errors?.required"
-    [invalid]="LegalAddressFormGroup.get('city').invalid && LegalAddressFormGroup.get('city').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="LegalAddressFormGroup.get('city').invalid && LegalAddressFormGroup.get('city').touched"
-    [forbiddenCharacter]="LegalAddressFormGroup.get('city').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="LegalAddressFormGroup.get('city')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="region" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="region" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="LegalAddressFormGroup.get('region').errors?.required"
-    [invalid]="LegalAddressFormGroup.get('region').invalid && LegalAddressFormGroup.get('region').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="LegalAddressFormGroup.get('region').invalid && LegalAddressFormGroup.get('region').touched"
-    [forbiddenCharacter]="LegalAddressFormGroup.get('region').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="LegalAddressFormGroup.get('region')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" maxlength="30">
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="LegalAddressFormGroup.get('street').errors?.required"
-    [invalid]="LegalAddressFormGroup.get('street').invalid && LegalAddressFormGroup.get('street').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="LegalAddressFormGroup.get('street').invalid && LegalAddressFormGroup.get('street').touched"
-    [forbiddenCharacter]="LegalAddressFormGroup.get('street').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="LegalAddressFormGroup.get('street')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" maxlength="15">
+    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="LegalAddressFormGroup.get('buildingNumber').errors?.required"
-    [invalid]="LegalAddressFormGroup.get('buildingNumber').invalid && LegalAddressFormGroup.get('buildingNumber').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validBuildingNumberField"
-    [invalid]="LegalAddressFormGroup.get('buildingNumber').invalid && LegalAddressFormGroup.get('buildingNumber').touched"
-    [forbiddenCharacter]="LegalAddressFormGroup.get('buildingNumber').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="LegalAddressFormGroup.get('buildingNumber')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
 </form>
 
@@ -81,66 +66,51 @@
 
   <label class="step-label">Область<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="district" maxlength="15" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="district" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ActualAddressFormGroup.get('district').errors?.required"
-    [invalid]="ActualAddressFormGroup.get('district').invalid && ActualAddressFormGroup.get('district').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ActualAddressFormGroup.get('district').invalid && ActualAddressFormGroup.get('district').touched"
-    [forbiddenCharacter]="ActualAddressFormGroup.get('district').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ActualAddressFormGroup.get('district')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" maxlength="15" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ActualAddressFormGroup.get('city').errors?.required"
-    [invalid]="ActualAddressFormGroup.get('city').invalid && ActualAddressFormGroup.get('city').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ActualAddressFormGroup.get('city').invalid && ActualAddressFormGroup.get('city').touched"
-    [forbiddenCharacter]="ActualAddressFormGroup.get('city').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ActualAddressFormGroup.get('city')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="region" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="region" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ActualAddressFormGroup.get('region').errors?.required"
-    [invalid]="ActualAddressFormGroup.get('region').invalid && ActualAddressFormGroup.get('region').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ActualAddressFormGroup.get('region').invalid && ActualAddressFormGroup.get('region').touched"
-    [forbiddenCharacter]="ActualAddressFormGroup.get('region').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ActualAddressFormGroup.get('region')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Вулиця<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" maxlength="30">
+    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ActualAddressFormGroup.get('street').errors?.required"
-    [invalid]="ActualAddressFormGroup.get('street').invalid && ActualAddressFormGroup.get('street').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ActualAddressFormGroup.get('street').invalid && ActualAddressFormGroup.get('street').touched"
-    [forbiddenCharacter]="ActualAddressFormGroup.get('street').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ActualAddressFormGroup.get('street')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Будинок<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" maxlength="15">
+    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ActualAddressFormGroup.get('buildingNumber').errors?.required"
-    [invalid]="ActualAddressFormGroup.get('buildingNumber').invalid && ActualAddressFormGroup.get('buildingNumber').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validBuildingNumberField"
-    [invalid]="ActualAddressFormGroup.get('buildingNumber').invalid && ActualAddressFormGroup.get('buildingNumber').touched"
-    [forbiddenCharacter]="ActualAddressFormGroup.get('buildingNumber').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ActualAddressFormGroup.get('buildingNumber')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 </form>

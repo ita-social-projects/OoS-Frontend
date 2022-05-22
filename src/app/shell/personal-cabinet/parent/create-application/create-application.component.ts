@@ -86,7 +86,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
       { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
     )));

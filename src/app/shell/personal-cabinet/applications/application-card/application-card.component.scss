@@ -1,4 +1,5 @@
 @import "src/app/shared/styles/buttons.scss";
+@import "src/app/shared/styles/application-statuses.scss";
 
 p {
   margin: 0px;
@@ -78,18 +79,7 @@ p {
   font-weight: 700;
   font-size: 13px;
 }
-.Approved{
-  color:#199953;
-}
-.Pending{
-  color: #FFBD00;
-}
-.AcceptedForSelection{
-  color: #27A3FF;
-}
-.Rejected, .Left, .Blocked{
-  color: #C72A21;
-}
+
 .btn{
   font-family: 'Innerspace';
   font-style: normal;
