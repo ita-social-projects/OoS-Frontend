@@ -26,7 +26,7 @@ describe('ProviderListComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
       ],
-      declarations: [ProviderListComponent, MockproviderOrgInfoComponent],
+      declarations: [ProviderListComponent, MockproviderInfoComponent],
     }).compileComponents();
   });
 
@@ -41,10 +41,10 @@ describe('ProviderListComponent', () => {
   });
 });
 @Component({
-  selector: 'app-provider-org-info',
+  selector: 'app-provider-info',
   template: '',
 })
-class MockproviderOrgInfoComponent {
-  @Input() providers: Provider[];
+class MockproviderInfoComponent {
+  @Input() provider: Provider;
 }
 
