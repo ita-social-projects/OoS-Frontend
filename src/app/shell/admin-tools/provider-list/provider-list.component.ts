@@ -1,5 +1,12 @@
 import { Provider } from 'src/app/shared/models/provider.model';
-import { AfterViewInit, Component, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -11,7 +18,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
 import { filter } from 'rxjs/operators';
-import { createProviderSteps, OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import {
+  createProviderSteps,
+  OwnershipTypeUkr,
+} from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
@@ -86,5 +96,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  onCloseInfo() {
+    this.open = false;
   }
 }

@@ -34,9 +34,10 @@ export class ProviderInfoComponent implements OnInit {
   editLink: string = createProviderSteps[0];
 
   @Input() provider: Provider;
-  @Output() tabChanged = new EventEmitter();
   @Input() edit: boolean;
   @Input() close: boolean;
+  @Output() tabChanged = new EventEmitter();
+  @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
@@ -63,6 +64,10 @@ export class ProviderInfoComponent implements OnInit {
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.tabChanged.emit(tabChangeEvent);
+  }
+
+  onCloseInfo(): void {
+    this.closeInfo.emit();
   }
 
   ActivateEditMode(): void {
