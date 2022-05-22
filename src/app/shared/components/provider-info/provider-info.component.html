@@ -1,11 +1,14 @@
 <div fxLayout="row" fxLayoutAlign="start">
   <div class="wrapper">
-    <div fxLayout="row" fxLayoutAlign="end">
-      <a [routerLink]="['/create-provider', editLink]" class="edit-icon"
-        ><button mat-button (click)="ActivateEditMode()">
-          <mat-icon>edit</mat-icon>Редагувати
-        </button></a>
-    </div>
+    <ng-template [ngIf]="edit">
+      <div fxLayout="row" fxLayoutAlign="end">
+        <a [routerLink]="['/create-provider', editLink]" class="edit-icon"
+          ><button mat-button (click)="ActivateEditMode()">
+            <mat-icon>edit</mat-icon>Редагувати
+          </button></a
+        >
+      </div>
+    </ng-template>
 
     <mat-tab-group (selectedTabChange)="onTabChanged($event)">
       <mat-tab label="Інформація про заклад">

@@ -14,7 +14,6 @@ export class ProviderOrgInfoComponent implements OnInit {
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
   constructor(private store: Store) {}
 
   ngOnDestroy(): void {

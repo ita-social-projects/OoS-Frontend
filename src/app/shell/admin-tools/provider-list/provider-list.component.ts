@@ -25,11 +25,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly createProviderSteps = createProviderSteps;
 
   @Output() institutionStatuses;
-
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
   editLink: string = createProviderSteps[1];
-
   provider: Provider;
   open: boolean;
 

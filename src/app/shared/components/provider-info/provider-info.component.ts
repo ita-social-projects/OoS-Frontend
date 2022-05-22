@@ -35,11 +35,11 @@ export class ProviderInfoComponent implements OnInit {
 
   @Input() provider: Provider;
   @Output() tabChanged = new EventEmitter();
+  @Input() edit;
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
   currentStatus: string;
 
   constructor(private store: Store) {}
