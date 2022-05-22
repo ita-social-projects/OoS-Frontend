@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 import {
   createProviderSteps,
   OwnershipType,
@@ -17,6 +16,7 @@ import { Observable, Subject } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { filter, takeUntil } from 'rxjs/operators';
 import { RegistrationState } from '../../store/registration.state';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-info',

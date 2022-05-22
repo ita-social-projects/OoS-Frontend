@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
 import { filter } from 'rxjs/operators';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { createProviderSteps, OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
@@ -22,10 +22,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly constants: typeof Constants = Constants;
   readonly ProviderListIcons = ProviderListIcons;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
+  readonly createProviderSteps = createProviderSteps;
+
   @Output() institutionStatuses;
 
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
+  editLink: string = createProviderSteps[1];
 
   provider: Provider;
   open: boolean;
