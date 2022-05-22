@@ -1,6 +1,6 @@
 .wrapper {
-  margin: 10px;
-  min-width: 50%;
+  // margin: 10px;
+  // min-width: 50%;
 }
 .wrapper-header {
   display: flex;
@@ -48,6 +48,15 @@
 
   &:hover {
     background-color: #5866fa;
+  }
+}
+.provider-wrapper {
+  display: flex;
+  @media (max-width: 767px) {
+    flex-direction: column;
+    .example-container {
+      margin-bottom: 15px;
+    }
   }
 }
 
@@ -106,9 +115,11 @@
   color: #ffbd00;
 }
 
-th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
-    padding-left: 10px;
-    padding-right: 10px;
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .eye {
   color: #3849f9;
