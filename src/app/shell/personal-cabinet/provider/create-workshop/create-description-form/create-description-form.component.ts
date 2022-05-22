@@ -1,20 +1,17 @@
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Constants } from 'src/app/shared/constants/constants';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
-
-  isDirectionIdMarked = false;
+  readonly validationConstants = ValidationConstants;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -27,21 +24,31 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   DescriptionFormGroup: FormGroup;
 
   keyWordsCtrl: FormControl = new FormControl('', Validators.required);
-  separatorKeysCodes: number[] = [ENTER];
   keyWords: string[] = [];
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-
   disabledKeyWordsInput: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
-      description: new FormControl('', [Validators.maxLength(Constants.MAX_DESCRIPTION_LENGTH), Validators.required]),
-      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }),
-      head: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      description: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+      ]),
+      disabilityOptionsDesc: new FormControl({ value: '', disabled: true },[
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+      ]),
+      head: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
+      ]),
       keyWords: new FormControl('', Validators.required),
       categories: this.formBuilder.group({
         directionId: new FormControl('', Validators.required),
@@ -77,7 +84,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.DescriptionFormGroup.get('keyWords').markAsTouched();
     if (this.keyWord) {
       const inputKeyWord = this.keyWord.trim().toLowerCase();
-      if (this.keyWord.trim() !== '' && !this.keyWords.includes(inputKeyWord)) {
+      if (!!this.keyWord.trim() && !this.keyWords.includes(inputKeyWord)) {
         if (this.keyWords.length < 5) {
           this.keyWords.push(inputKeyWord);
           this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
@@ -98,11 +105,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   onDisabilityOptionCtrlInit(): void {
+    const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
+
     this.disabilityOptionRadioBtn.valueChanges
       .pipe(
         takeUntil(this.destroy$),
       ).subscribe((isDisabilityOptionsDesc: boolean) => {
-        isDisabilityOptionsDesc ? this.DescriptionFormGroup.get('disabilityOptionsDesc').enable() : this.DescriptionFormGroup.get('disabilityOptionsDesc').disable();
+        isDisabilityOptionsDesc ? setAction('enable') : setAction('disable')
       });
 
     this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges

@@ -48,7 +48,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
       { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true })));
   }
@@ -65,15 +65,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method dispatch store action to create a Workshop with Form Groups values
    */
   onSubmit(): void {
-    if (this.TeacherFormArray.invalid) {
-      this.checkTeacherFormArrayValidation();
-    } else {
-      const address: Address = new Address(this.AddressFormGroup.value);
-      const teachers: Teacher[] = this.createTeachers(this.TeacherFormArray);
-      const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-
-      const aboutInfo = this.AboutFormGroup.getRawValue();
-      const descInfo = this.DescriptionFormGroup.getRawValue();
+    const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    const address: Address = new Address(this.AddressFormGroup.value);
+    const aboutInfo = this.AboutFormGroup.getRawValue();
+    const descInfo = this.DescriptionFormGroup.getRawValue();
+    const teachers = this.createTeachers();
 
       let workshop: Workshop;
 
@@ -84,7 +80,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
         workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider);
         this.store.dispatch(new CreateWorkshop(workshop));
       }
-    }
   }
 
   /**
@@ -127,42 +122,14 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method create array of teachers
    * @param FormArray formArray
    */
-  private createTeachers(formArray: FormArray): Teacher[] {
+  private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
-    formArray.controls.forEach((form: FormGroup) => {
-      const teacher: Teacher = new Teacher(form.value);
-      teachers.push(teacher);
-    });
-    return teachers;
-  }
-
-
-  /**
-   * This method receives a form and marks each control of this form as touched
-   * @param FormGroup form
-   */
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach((key: string) => {
-      form.get(key).markAsTouched();
-    });
-    if (form.get('categories')) {
-      Object.keys((this.DescriptionFormGroup.get('categories') as FormGroup).controls).forEach((key: string) => {
-        this.DescriptionFormGroup.get('categories').get(key).markAsTouched();
+    if(this.TeacherFormArray?.controls) {
+      this.TeacherFormArray.controls.forEach((form: FormGroup) => {
+        const teacher: Teacher = new Teacher(form.value);
+        teachers.push(teacher);
       });
     }
-    if (form.get('workingHours')) {
-      (this.AboutFormGroup.get('workingHours') as FormArray).controls.forEach((form: FormGroup) => {
-        Object.keys(form.controls).forEach((key: string) => {
-          form.get(key).markAsTouched();
-        });
-      })
-    }
-  }
-
-  /**
-   * This method marks each control of form in the array of teachers' forms as touched
-   */
-  private checkTeacherFormArrayValidation(): void {
-    Object.keys(this.TeacherFormArray.controls).forEach(key => this.checkValidation(this.TeacherFormArray.get(key) as FormGroup));
+    return teachers;
   }
 }

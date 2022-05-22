@@ -19,91 +19,53 @@
 
           <label class="step-label">Прізвище<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
+            <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue>
           </mat-form-field>
-          <app-validation-hint-for-input type="requiredEmptyField"
-            [isEmptyCheck]="ProviderAdminFormGroup.get('lastName').errors?.required"
-            [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validTextField"
-            [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
-            [forbiddenCharacter]="ProviderAdminFormGroup.get('lastName').errors?.pattern?.requiredPattern">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validLength"
-            [minLength]="ProviderAdminFormGroup.get('lastName').errors?.minlength"
-            [maxLength]="ProviderAdminFormGroup.get('lastName').errors?.maxlength"
-            [invalid]="ProviderAdminFormGroup.get('lastName').invalid && ProviderAdminFormGroup.get('lastName').touched"
-            [minCharachters]="1" [maxCharachters]="30">
-          </app-validation-hint-for-input>
+          <app-validation-hint 
+            [validationFormControl]="ProviderAdminFormGroup.get('lastName')"
+            [minCharachters]="validationConstants.INPUT_LENGTH_1"
+            [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+          </app-validation-hint>
 
           <label class="step-label">Ім'я<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
+            <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue>
           </mat-form-field>
-          <app-validation-hint-for-input type="requiredEmptyField"
-            [isEmptyCheck]="ProviderAdminFormGroup.get('firstName').errors?.required"
-            [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validTextField"
-            [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
-            [forbiddenCharacter]="ProviderAdminFormGroup.get('firstName').errors?.pattern?.requiredPattern">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validLength"
-            [minLength]="ProviderAdminFormGroup.get('firstName').errors?.minlength"
-            [maxLength]="ProviderAdminFormGroup.get('firstName').errors?.maxlength"
-            [invalid]="ProviderAdminFormGroup.get('firstName').invalid && ProviderAdminFormGroup.get('firstName').touched"
-            [minCharachters]="1" [maxCharachters]="30">
-          </app-validation-hint-for-input>
+          <app-validation-hint 
+            [validationFormControl]="ProviderAdminFormGroup.get('firstName')"
+            [minCharachters]="validationConstants.INPUT_LENGTH_1"
+            [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+          </app-validation-hint>
 
           <label class="step-label">По-батькові<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
+            <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue>
           </mat-form-field>
-          <app-validation-hint-for-input type="requiredEmptyField"
-            [isEmptyCheck]="ProviderAdminFormGroup.get('middleName').errors?.required"
-            [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validTextField"
-            [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
-            [forbiddenCharacter]="ProviderAdminFormGroup.get('middleName').errors?.pattern?.requiredPattern">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validLength"
-            [minLength]="ProviderAdminFormGroup.get('middleName').errors?.minlength"
-            [maxLength]="ProviderAdminFormGroup.get('middleName').errors?.maxlength"
-            [invalid]="ProviderAdminFormGroup.get('middleName').invalid && ProviderAdminFormGroup.get('middleName').touched"
-            [minCharachters]="1" [maxCharachters]="30">
-          </app-validation-hint-for-input>
+          <app-validation-hint 
+            [validationFormControl]="ProviderAdminFormGroup.get('middleName')"
+            [minCharachters]="validationConstants.INPUT_LENGTH_1"
+            [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+          </app-validation-hint>
 
           <label class="step-label"> Телефон <span class="step-required">*</span></label>
           <mat-form-field>
             <div fxLayout='row' fxLayoutAlign='start'>
-              <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+              <span class="step-text">{{ phonePrefix }}</span>
               <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-                ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+              ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}">
             </div>
           </mat-form-field>
-          <app-validation-hint-for-input type="requiredEmptyField"
-            [isEmptyCheck]="ProviderAdminFormGroup.get('phoneNumber').errors?.required"
-            [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="minDigitsLength"
-            [minLength]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength"
-            [invalid]="ProviderAdminFormGroup.get('phoneNumber').invalid && ProviderAdminFormGroup.get('phoneNumber').touched"
-            [minCharachters]="ProviderAdminFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
-          </app-validation-hint-for-input>
+          <app-validation-hint 
+            [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')">
+          </app-validation-hint>
 
           <label class="step-label"> Емейл <span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="email" formControlName="email">
+            <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
           </mat-form-field>
-          <app-validation-hint-for-input type="requiredEmptyField"
-            [isEmptyCheck]="ProviderAdminFormGroup.get('email').errors?.required"
-            [invalid]="ProviderAdminFormGroup.get('email').invalid && ProviderAdminFormGroup.get('email').touched">
-          </app-validation-hint-for-input>
-          <app-validation-hint-for-input type="validEmail"
-            [isEmailCheck]="ProviderAdminFormGroup.get('email').errors?.email"
-            [invalid]="ProviderAdminFormGroup.get('email').invalid && ProviderAdminFormGroup.get('email').touched">
-          </app-validation-hint-for-input>
+          <app-validation-hint 
+            [validationFormControl]="ProviderAdminFormGroup.get('email')">
+          </app-validation-hint>
 
         </form>
 
@@ -117,7 +79,7 @@
           <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(ProviderAdminFormGroup)"
-            [disabled]="isEmpty">Далі</button>
+            [disabled]="ProviderAdminFormGroup.invalid">Далі</button>
         </div>
 
       </mat-step>
@@ -127,7 +89,7 @@
           <p class="step-name">Керування доступами</p>
         </ng-template>
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step form">
-          <ng-container *ngIf="(isDeputy) then Deputy; else WorkshopAdmin">
+          <ng-container *ngIf="isDeputy then Deputy; else WorkshopAdmin">
           </ng-container>
           <ng-template #Deputy>
             <label class="step-label">Буде надано доступ до всих гуртків</label>
@@ -150,7 +112,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="false">Зберегти</button>
+          <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
         </div>
       </mat-step>
 

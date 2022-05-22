@@ -5,8 +5,8 @@ export enum NotificationType {
 }
 
 export enum NotificationAction {
-  create = 'create',
-  update = 'update',
-  delete = 'delete',
-  message = 'message'
+  create = 'Create',
+  update = 'Update',
+  delete = 'Delete',
+  message = 'Message'
 }

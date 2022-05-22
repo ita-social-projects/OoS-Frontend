@@ -30,20 +30,20 @@ export class Util {
    * @param maxAge number
    * @returns Date
    */
-     public static getMinBirthDate(maxAge: number): Date {
-      const today = new Date();
-      let minBirthDate = new Date();
+  public static getMinBirthDate(maxAge: number): Date {
+    const today = new Date();
+    let minBirthDate = new Date();
 
-      minBirthDate.setFullYear(today.getFullYear() - maxAge);
-  
-      return minBirthDate;
-    }
+    minBirthDate.setFullYear(today.getFullYear() - maxAge);
+
+    return minBirthDate;
+  }
 
   /**
    * This method returns max birth date
    * @returns Date
    */
-   public static getMaxBirthDate(): Date {
+  public static getMaxBirthDate(): Date {
     const today = new Date();
 
     return today;
@@ -105,16 +105,4 @@ export class Util {
     };
     return dDisplay + hDisplay;
   }
-
-  /**
- * This method returns declension for new application
- * @param applicationAmount
- * @returns string
- */
-  public static getDeclensionNewApplication(applicationAmount: number): string {
-    let lastDigit = applicationAmount % 10;
-    let text = (lastDigit === 1) ? 'нова зміна у заявках' : 'нових змін у заявках';
-    return `У вас ${applicationAmount} ` + text;
-  }
-
 }

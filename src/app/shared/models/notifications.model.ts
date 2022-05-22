@@ -4,7 +4,7 @@ export interface NotificationsAmount {
 export interface Notification {
   id: string;
   userId: string;
-  text: string;
+  data: any;
   type: string;
   action: string;
   createdDateTime: string;
@@ -13,8 +13,10 @@ export interface Notification {
 }
 
 export interface NotificationGrouped {
-  type: string;
+  action: string;
   amount: number;
+  groupedData: string;
+  type: string;
 }
 
 export interface Notifications {

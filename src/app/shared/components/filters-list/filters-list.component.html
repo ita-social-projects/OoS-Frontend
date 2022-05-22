@@ -2,9 +2,9 @@
   <div fxLayout="row" fxLayoutAlign="space-between">
     <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
       <mat-icon class="matFilter">delete_forever</mat-icon>
-      Очистити фільтри
+      Очистити Фільтри
     </button>
-    <ng-container *ngIf="(isMobileScreen$ | async)">
+    <ng-container *ngIf="isMobileScreen$ | async">
       <button mat-button (click)="changeView()">
         <mat-icon>close</mat-icon>
       </button>
@@ -24,10 +24,7 @@
     </mat-checkbox>
   </div> TODO: second release-->
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <p class=" filter-text">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</p>
-    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl">
-      Наявні
-    </mat-checkbox>
+    <p class="filter-text">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</p>
+    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> Наявні </mat-checkbox>
   </div>
-
 </div>

@@ -53,16 +53,12 @@ describe('RejectModalWindowComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
+  @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
-  @Input() forbiddenCharacter: string;
+  @Input() maxCharachters: number;
 }

@@ -22,7 +22,7 @@ const routes: Routes = [
     component: MessagesComponent,
   },
   {
-    path: 'applications',
+    path: 'applications/:param',
     component: ApplicationsComponent,
   },
   {
