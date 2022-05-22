@@ -76,18 +76,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
       .subscribe((providers) => {
         this.dataSource = new MatTableDataSource(providers);
         this.dataSource.sort = this.sort;
-      });
-
-    // this.dataSource.sortingDataAccessor = (item, property) => {
-    //   switch (property) {
-    //     case 'city':
-    //       return item.legalAddress.city;
-    //     case 'street':
-    //       return item.legalAddress.street;
-    //     default:
-    //       return item[property];
-    //   }
-    // };
+      }); 
   }
 
   getAllProviders() {
