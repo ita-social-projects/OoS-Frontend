@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
+import { Component, Input } from '@angular/core';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('ProviderOrgInfoComponent', () => {
   let component: ProviderOrgInfoComponent;
@@ -16,14 +18,14 @@ describe('ProviderOrgInfoComponent', () => {
         NgxsModule.forRoot([]),
         MatIconModule,
         MatTabsModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       declarations: [
         ProviderOrgInfoComponent,
         PhoneTransformPipe,
-      ]
-    })
-    .compileComponents();
+        MockproviderInfoComponent,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -36,3 +38,13 @@ describe('ProviderOrgInfoComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-provider-info',
+  template: '',
+})
+class MockproviderInfoComponent {
+  @Input() provider: Provider;
+  @Input() edit: boolean;
+  @Input() close: boolean;
+  @Input() currentStatus;
+}

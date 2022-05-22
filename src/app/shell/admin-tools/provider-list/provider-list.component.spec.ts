@@ -45,5 +45,7 @@ describe('ProviderListComponent', () => {
 })
 class MockproviderInfoComponent {
   @Input() provider: Provider;
+  @Input() edit: boolean;
+  @Input() close: boolean;
 }
 
