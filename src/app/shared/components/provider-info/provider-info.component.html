@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="start">
   <div class="wrapper">
-    <ng-template [ngIf]="edit">
+    <div *ngIf="edit">
       <div fxLayout="row" fxLayoutAlign="end">
         <a [routerLink]="['/create-provider', editLink]" class="edit-icon"
           ><button mat-button (click)="ActivateEditMode()">
@@ -8,51 +8,51 @@
           </button></a
         >
       </div>
-    </ng-template>
+    </div>
 
     <mat-tab-group (selectedTabChange)="onTabChanged($event)">
       <mat-tab label="Інформація про заклад">
         <h5>Форма власності</h5>
-        <p>{{ ownershipTypeUkr[provider.ownership] }}</p>
+        <p>{{ ownershipTypeUkr[provider?.ownership] }}</p>
         <h5>Тип організації</h5>
-        <p>{{ providerTypeUkr[provider.type] }}</p>
+        <p>{{ providerTypeUkr[provider?.type] }}</p>
         <h5>Повна назва організації</h5>
-        <p>{{ provider.fullTitle }}</p>
+        <p>{{ provider?.fullTitle }}</p>
         <h5>Скорочена назва організації</h5>
-        <p>{{ provider.shortTitle }}</p>
+        <p>{{ provider?.shortTitle }}</p>
         <h5>ПІБ керівника</h5>
-        <p>{{ provider.director }}</p>
+        <p>{{ provider?.director }}</p>
         <h5>Дата народження керівника</h5>
         <p>
-          {{ provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
+          {{ provider?.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
         </p>
-        <h5>{{ provider.type === 0 ? "ІПН" : "ЄДРПОУ" }}</h5>
-        <p>{{ provider.edrpouIpn }}</p>
+        <h5>{{ provider?.type === 0 ? "ІПН" : "ЄДРПОУ" }}</h5>
+        <p>{{ provider?.edrpouIpn }}</p>
         <h5>Телефон</h5>
         <p>
-          {{ constants.PHONE_PREFIX + provider.phoneNumber | phoneTransform }}
+          {{ constants.PHONE_PREFIX + provider?.phoneNumber | phoneTransform }}
         </p>
         <h5>Емейл</h5>
-        <p>{{ provider.email }}</p>
+        <p>{{ provider?.email }}</p>
         <h5>Засновник</h5>
-        <p>{{ provider.founder }}</p>
-        <h5 *ngIf="provider.website">Веб сайт</h5>
-        <p>{{ provider.website }}</p>
-        <h5 *ngIf="provider.facebook">Facebook</h5>
-        <p>{{ provider.facebook }}</p>
-        <h5 *ngIf="provider.instagram">Instagram</h5>
-        <p>{{ provider.instagram }}</p>
+        <p>{{ provider?.founder }}</p>
+        <h5 *ngIf="provider?.website">Веб сайт</h5>
+        <p>{{ provider?.website }}</p>
+        <h5 *ngIf="provider?.facebook">Facebook</h5>
+        <p>{{ provider?.facebook }}</p>
+        <h5 *ngIf="provider?.instagram">Instagram</h5>
+        <p>{{ provider?.instagram }}</p>
       </mat-tab>
 
       <mat-tab label="Контакти">
         <div class="legal-address-wrapper">
           <h3>Юридична адреса</h3>
           <ng-container
-            *ngIf="provider.legalAddress; then LegalAddress"
+            *ngIf="provider?.legalAddress; then LegalAddress"
           ></ng-container>
         </div>
         <h3>Фактична адреса</h3>
-        <ng-container *ngIf="provider.actualAddress; else LegalAddress">
+        <ng-container *ngIf="provider?.actualAddress; else LegalAddress">
           <h5>Область</h5>
           <p>{{ provider.actualAddress.district }}</p>
           <h5>Місто</h5>
@@ -70,21 +70,21 @@
         <h5>Статус</h5>
         <p class="description">{{ this.currentStatus }}</p>
         <h5>Про заклад</h5>
-        <p class="description">{{ provider.description }}</p>
+        <p class="description">{{ provider?.description }}</p>
       </mat-tab>
     </mat-tab-group>
   </div>
 
   <ng-template #LegalAddress>
     <h5>Область</h5>
-    <p>{{ provider.legalAddress.district }}</p>
+    <p>{{ provider?.legalAddress.district }}</p>
     <h5>Місто</h5>
-    <p>{{ provider.legalAddress.city }}</p>
+    <p>{{ provider?.legalAddress.city }}</p>
     <h5>Район</h5>
-    <p>{{ provider.legalAddress.region }}</p>
+    <p>{{ provider?.legalAddress.region }}</p>
     <h5>Вулиця</h5>
-    <p>{{ provider.legalAddress.street }}</p>
+    <p>{{ provider?.legalAddress.street }}</p>
     <h5>Будинок</h5>
-    <p>{{ provider.legalAddress.buildingNumber }}</p>
+    <p>{{ provider?.legalAddress.buildingNumber }}</p>
   </ng-template>
 </div>

@@ -35,7 +35,7 @@ export class ProviderInfoComponent implements OnInit {
 
   @Input() provider: Provider;
   @Output() tabChanged = new EventEmitter();
-  @Input() edit;
+  @Input() edit: boolean;
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
