@@ -13,15 +13,14 @@ export class ValidationConstants {
   //Description length
   static readonly MAX_DESCRIPTION_LENGTH_500 = 500;
   static readonly MAX_DESCRIPTION_LENGTH_300 = 300;
-  static readonly MAX_DESCRIPTION_LENGTH_1000 = 2000;
+  static readonly MAX_DESCRIPTION_LENGTH_2000 = 2000;
 
   //Input Length
   static readonly INPUT_LENGTH_256 = 256;
   static readonly INPUT_LENGTH_60 = 60;
   static readonly INPUT_LENGTH_30 = 30;
-  static readonly INPUT_LENGTH_20 = 20;
-  static readonly INPUT_LENGTH_15 = 15;
   static readonly INPUT_LENGTH_10 = 10;
+  static readonly INPUT_LENGTH_8 = 8;
   static readonly INPUT_LENGTH_3 = 3;
   static readonly INPUT_LENGTH_1 = 1;
 
@@ -38,11 +37,3 @@ export class ValidationConstants {
   //Search
   static readonly MAX_SEARCH_LENGTH_200 = 200;
 }
-
-export class ValidationTextField {
-  static readonly CYRYLIC_APOSTROPHE_HYPEN = "тільки кирилицю та символи ( ' - )";
-  static readonly NO_SPECIAL_SYMBOLS = "Не використовуйте, будь ласка, спец. символи";
-  static readonly CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT = "тільки кирилицю, цифри та символи ( ' - / , . )";
-  static readonly CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER = "тільки латиницю, кирилицю, цифри та символи ( ` ' - №)";
-  static readonly IPN = "Введіть 10 цифр з ІПН.У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр";
-} 

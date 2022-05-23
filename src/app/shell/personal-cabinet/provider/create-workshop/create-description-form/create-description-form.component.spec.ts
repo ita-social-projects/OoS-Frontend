@@ -1,13 +1,13 @@
+import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Component, Input } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,7 +39,7 @@ describe('CreateDescriptionFormComponent', () => {
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
         ImageFormControlComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintAboutComponent
       ],
     })
       .compileComponents();
@@ -48,6 +48,14 @@ describe('CreateDescriptionFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateDescriptionFormComponent);
     component = fixture.componentInstance;
+    component.DescriptionFormGroup = new FormGroup({
+      imageFiles: new FormControl(''),
+      description: new FormControl(''),
+      disabilityOptionsDesc: new FormControl(''),
+      head: new FormControl(''),
+      keyWords: new FormControl(''),
+      categories: new FormControl('')
+    });
     fixture.detectChanges();
   });
 
@@ -66,16 +74,12 @@ class MockCategorySelectComponent {
 }
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
-
-class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
-  @Input() minCharachters: number; 
-  @Input() forbiddenCharacter: string;
+class MockValidationHintAboutComponent {
+  @Input() validationFormControl: FormControl; //required for validation
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
 }

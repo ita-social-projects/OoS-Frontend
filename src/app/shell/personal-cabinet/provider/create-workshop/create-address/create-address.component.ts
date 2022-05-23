@@ -1,24 +1,31 @@
+import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
+const defaultValidators: ValidatorFn[] = [
+  Validators.required, 
+  Validators.pattern(NO_LATIN_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+];
 @Component({
   selector: 'app-create-address',
   templateUrl: './create-address.component.html',
   styleUrls: ['./create-address.component.scss']
 })
 export class CreateAddressComponent implements OnInit {
-
+  readonly validationConstants = ValidationConstants;
+  
   @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
 
   AddressFormGroup: FormGroup;
-  cityValue: FormControl;
   city: string;
 
   @Select(MetaDataState.cities)
@@ -27,18 +34,19 @@ export class CreateAddressComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      latitude: new FormControl(''),
+      street: new FormControl('', defaultValidators),
+      buildingNumber: new FormControl('', defaultValidators),
+      city: new FormControl('', defaultValidators),
       longitude: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
     this.passAddressFormGroup.emit(this.AddressFormGroup);
-    this.address && (this.city = this.address.city);
-    this.address && this.AddressFormGroup.patchValue(this.address, { emitEvent: false });
+    if(this.address){
+      this.city = this.address.city;
+      this.AddressFormGroup.patchValue(this.address, { emitEvent: false });
+    }
   }
 
   onSelectedCity(event: any): void {

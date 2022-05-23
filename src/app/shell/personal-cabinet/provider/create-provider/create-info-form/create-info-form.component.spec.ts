@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateInfoFormComponent } from './create-info-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -49,17 +49,13 @@ describe('CreateInfoFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
-  @Input() minCharachters: number; 
-  @Input() forbiddenCharacter: string;
+  @Input() validationFormControl: FormControl; 
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
 }

@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { Constants } from 'src/app/shared/constants/constants'
 import { Util } from 'src/app/shared/utils/utils';
 import { DATE_REGEX } from 'src/app/shared/constants/regex-constants'
-import { ValidationConstants, ValidationTextField } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-child-form',
@@ -14,7 +13,6 @@ import { ValidationConstants, ValidationTextField } from 'src/app/shared/constan
 })
 export class ChildFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  readonly validationTextField = ValidationTextField;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
   @Input() ChildFormGroup: FormGroup;
