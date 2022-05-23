@@ -13,9 +13,9 @@
         />
       </div>
     </div>
-    <a [routerLink]="['/create-provider', editLink]"
-      ><button class="btn">ДОДАТИ</button></a
-    >
+    <a [routerLink]="['/create-provider', editLink]">
+      <button class="btn">ДОДАТИ</button>
+    </a>
   </div>
 
   <!-- -------------Table------------ -->
@@ -254,7 +254,7 @@
         [provider]="provider"
         [edit]="false"
         [close]="true"
-        (closeInfo)="this.open = !this.open"
+        (closeInfo)="open = !open"
       ></app-provider-info>
     </div>
   </div>
