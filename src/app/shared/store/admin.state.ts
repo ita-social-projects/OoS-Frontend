@@ -186,7 +186,7 @@ export class AdminState {
     dispatch(new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }));
   }
   @Action(UpdateDirection)
-  updateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<object> {
+  updateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<Direction | Observable<void>> {
     return this.categoriesService
       .updateDirection(payload)
       .pipe(
@@ -209,7 +209,7 @@ export class AdminState {
   }
 
   @Action(UpdateDepartment)
-  updateDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDepartment): Observable<object> {
+  updateDepartment({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDepartment): Observable<Department | Observable<void>> {
     return this.categoriesService
       .updateDepartment(payload)
       .pipe(
@@ -233,7 +233,7 @@ export class AdminState {
   }
 
   @Action(UpdateClass)
-  updateClass({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateClass): Observable<object> {
+  updateClass({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateClass): Observable<IClass | Observable<void>> {
     return this.categoriesService
       .updateClass(payload)
       .pipe(
