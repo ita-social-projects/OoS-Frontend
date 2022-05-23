@@ -13,9 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule),
   },
   {
-    path: 'users', component: UsersComponent,
-  },
-  {
     path: 'users/:index', component: UsersComponent,
   }
 ]

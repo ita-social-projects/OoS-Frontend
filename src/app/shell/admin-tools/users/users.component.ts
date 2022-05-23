@@ -21,7 +21,7 @@ import { Util } from 'src/app/shared/utils/utils';
 })
 export class UsersComponent implements OnInit {
 
-  @Select(UserState.isLoading)
+  @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   children$: Observable<ChildCards>;
