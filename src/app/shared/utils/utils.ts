@@ -119,10 +119,10 @@ export class Util {
   users.forEach((user) => {
     updatedUsers.push({
       id: user.id,
-      pib: `${user.lastName} ${user.firstName} ${user.middleName}` || `не вказано`,
-      email: user.email || 'не вказано',
-      place: user.place || 'не вказано',
-      phoneNumber: user.phoneNumber ? `${constants.PHONE_PREFIX} ${user.phoneNumber}` : `не вказано`,
+      pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
+      email: user.email || constants.NO_INFORMATION,
+      place: user.place || constants.NO_INFORMATION,
+      phoneNumber: user.phoneNumber ? `${constants.PHONE_PREFIX} ${user.phoneNumber}` : constants.NO_INFORMATION,
       role: user.parentId ? 'Діти' : 'Батьки',
       status: user.accountStatus || 'Accepted',
     });
