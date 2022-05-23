@@ -1,13 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="start">
   <div class="wrapper">
-    <div *ngIf="edit">
-      <div fxLayout="row" fxLayoutAlign="end">
-        <a [routerLink]="['/create-provider', editLink]" class="edit-icon"
-          ><button mat-button (click)="ActivateEditMode()">
-            <mat-icon>edit</mat-icon>Редагувати
-          </button></a
-        >
-      </div>
+    <div *ngIf="edit" fxLayout="row" fxLayoutAlign="end">
+      <a [routerLink]="['/create-provider', editLink]" class="edit-icon">
+        <button mat-button (click)="ActivateEditMode()">
+          <mat-icon>edit</mat-icon>Редагувати
+        </button>
+      </a>
     </div>
     <div *ngIf="close" fxLayoutAlign="end">
       <a (click)="onCloseInfo($event)" class="close-icon">
@@ -29,9 +27,7 @@
         <p>{{ provider.director }}</p>
         <h5>Дата народження керівника</h5>
         <p>
-          {{
-            provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT
-          }}
+          {{ provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
         </p>
         <h5>{{ provider.type === 0 ? "ІПН" : "ЄДРПОУ" }}</h5>
         <p>{{ provider.edrpouIpn }}</p>
