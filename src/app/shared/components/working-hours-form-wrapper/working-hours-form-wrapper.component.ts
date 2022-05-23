@@ -15,7 +15,7 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.workshop && this.activateEditMode();
+    this.workshop ? this.activateEditMode() : this.addWorkingHours();
   }
 
   private activateEditMode(): void {
