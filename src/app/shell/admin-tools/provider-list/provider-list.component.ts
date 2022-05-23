@@ -39,7 +39,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   providers$: Observable<Provider[]>;
   editLink: string = createProviderSteps[1];
   provider: Provider;
-  open: boolean;
+  isInfoDisplayed: boolean;
 
   displayedColumns: string[] = [
     'fullTitle',
@@ -82,7 +82,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   getProviderById(id, provider) {
     this.providerService.getProviderById(id);
     this.provider = provider;
-    this.open = true;
+    this.isInfoDisplayed = true;
   }
 
   announceSortChange(sortState: Sort): void {

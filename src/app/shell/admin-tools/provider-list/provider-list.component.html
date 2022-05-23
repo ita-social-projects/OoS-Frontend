@@ -235,10 +235,7 @@
               >
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
-              <a
-                mat-icon-button
-                [routerLink]="['/details/provider/', element.id]"
-              >
+              <a mat-icon-button [routerLink]="['/details/provider/', element.id]">
                 <mat-icon>arrow_forward</mat-icon>
               </a>
             </div>
@@ -249,12 +246,12 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-    <div *ngIf="open">
+    <div *ngIf="isInfoDisplayed ">
       <app-provider-info
         [provider]="provider"
         [edit]="false"
         [close]="true"
-        (closeInfo)="open = !open"
+        (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "
       ></app-provider-info>
     </div>
   </div>
