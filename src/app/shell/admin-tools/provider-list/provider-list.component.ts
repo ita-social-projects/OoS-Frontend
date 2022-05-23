@@ -32,7 +32,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly createProviderSteps = createProviderSteps;
 
   @ViewChild(MatSort) sort: MatSort;
+
   @Output() institutionStatuses;
+  
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
   editLink: string = createProviderSteps[1];
@@ -56,7 +58,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     'status',
     'star',
   ];
-  dataSource;
+  dataSource: MatTableDataSource<object>;
 
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
