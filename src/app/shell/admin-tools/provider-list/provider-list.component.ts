@@ -33,6 +33,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly createProviderSteps = createProviderSteps;
 
+  @ViewChild(MatSort) sort: MatSort;
   @Output() institutionStatuses;
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
@@ -64,7 +65,6 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     private store: Store,
     public providerService: ProviderService
   ) {}
-  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.getAllProviders();
