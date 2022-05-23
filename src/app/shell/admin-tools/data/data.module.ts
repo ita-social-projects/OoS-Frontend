@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { MaterialModule } from 'src/app/shared/modules/material.module';
-import { RouterModule } from '@angular/router';
+
+import { DataRoutingModule } from './data-routing.module';
+
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    FlexLayoutModule,
-    SharedModule,
-    MaterialModule,
-    RouterModule,
-  ],
+    DataRoutingModule
+  ]
 })
-export class DataModule {}
+export class DataModule { }
