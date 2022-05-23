@@ -4,7 +4,7 @@
   </app-image-form-control>
 
   <div class="step-label-combined">
-    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-label">Опис<span class="step-required">*</span></label>
     <label class="step-characters-count">
       {{DescriptionFormGroup.get('description').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}</label>
   </div>
@@ -12,17 +12,17 @@
     <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів"
       formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}" appTrimValue></textarea>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="DescriptionFormGroup.get('description')"
     [minCharachters]="validationConstants.INPUT_LENGTH_3"
     [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
   </app-validation-hint>
 
-  <label class="step-label"> Директор <span class="step-required">*</span></label>
+  <label class="step-label">Директор<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
     <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="DescriptionFormGroup.get('head')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
@@ -36,7 +36,7 @@
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
     <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
       placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none" appTrimValue>
-      <app-validation-hint 
+      <app-validation-hint
         [minCharachters]="validationConstants.INPUT_LENGTH_1"
         [maxCharachters]="validationConstants.INPUT_LENGTH_256">
       </app-validation-hint>
@@ -46,7 +46,7 @@
   </app-category-select>
 
   <div class="step-label-combined">
-    <label class="step-label">Ключові слова <span class="step-required">*</span></label>
+    <label class="step-label">Ключові слова<span class="step-required">*</span></label>
     <label class="step-characters-count">{{keyWords.length}}/{{validationConstants.MAX_KEYWORDS_LENGTH}}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()"
@@ -63,7 +63,7 @@
         (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none" appTrimValue>
     </mat-chip-list>
   </div>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="DescriptionFormGroup.get('keyWords')">
   </app-validation-hint>
 </form>

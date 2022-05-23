@@ -5,32 +5,32 @@
     [imageIdsFormControl]="TeacherFormGroup.get('avatarImageId')">
   </app-image-form-control>
 
-  <label class="step-label"> Призвіще <span class="step-required">*</span></label>
+  <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('lastName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
 
-  <label class="step-label"> Ім'я <span class="step-required">*</span></label>
+  <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('firstName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label"> По-батькові <span class="step-required">*</span></label>
+  <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('middleName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
@@ -42,13 +42,13 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" 
+  <app-validation-hint
+    [validationFormControl]="TeacherFormGroup.get('dateOfBirth')"
     minMaxDate="true">
   </app-validation-hint>
 
   <div class="step-label-combined">
-    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-label">Опис<span class="step-required">*</span></label>
     <label class="step-characters-count">
       {{TeacherFormGroup.get('description').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_300 }}</label>
   </div>
@@ -57,7 +57,7 @@
       placeholder="Максимум {{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }} символів" formControlName="description"
       maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}" appTrimValue></textarea>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('description')"
     [minCharachters]="validationConstants.INPUT_LENGTH_3"
     [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
