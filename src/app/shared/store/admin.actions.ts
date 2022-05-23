@@ -164,7 +164,12 @@ export class OnDeleteClassSuccess {
 }
 
 export class OnClearCategories {
-  static readonly type = '[admin] claer department, direction, class state';
+  static readonly type = '[admin] clear department, direction, class state';
+  constructor( ) { }
+}
+
+export class OnClearDepartment {
+  static readonly type = '[admin] clear department state';
   constructor( ) { }
 }
 

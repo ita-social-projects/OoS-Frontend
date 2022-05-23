@@ -43,4 +43,8 @@
 .btn-reset:disabled .mat-icon-delete,
 .btn-add:disabled .mat-icon-add {
   color: #9596a5; //TODO: fix button style
-} 
+}
+.no-info {
+  color: #444444b5;
+  font-weight: bold;
+  }

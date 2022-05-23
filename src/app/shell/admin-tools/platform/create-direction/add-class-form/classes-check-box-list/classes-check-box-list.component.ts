@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { IClass } from 'src/app/shared/models/category.model';
@@ -39,8 +37,8 @@ export class ClassesCheckBoxListComponent {
       }
 
   onClassCheck(event: MatCheckbox, iClass: IClass): void {
-    (event.checked) ? 
-      this.selectedIClasses.push(iClass) : 
+    (event.checked) ?
+      this.selectedIClasses.push(iClass) :
       this.selectedIClasses
         .splice(this.selectedIClasses
         .findIndex((selectedIClasses: IClass) => selectedIClasses.id === iClass.id), 1);

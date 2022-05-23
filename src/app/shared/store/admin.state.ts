@@ -8,47 +8,48 @@ import { Department, Direction, DirectionsFilter, IClass } from "../models/categ
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { 
-  DeleteDirectionById, 
-  GetInfoAboutPortal, 
-  OnDeleteDirectionFail, 
-  OnDeleteDirectionSuccess, 
-  OnUpdateInfoAboutPortalFail, 
-  OnUpdateInfoAboutPortalSuccess, 
+import {
+  DeleteDirectionById,
+  GetInfoAboutPortal,
+  OnDeleteDirectionFail,
+  OnDeleteDirectionSuccess,
+  OnUpdateInfoAboutPortalFail,
+  OnUpdateInfoAboutPortalSuccess,
   UpdateInfoAboutPortal,
-  CreateDirection, 
-  OnCreateDirectionFail, 
-  OnCreateDirectionSuccess, 
-  UpdateDirection, 
-  OnUpdateDirectionSuccess, 
-  OnUpdateDirectionFail, 
-  CreateDepartment, 
-  OnCreateDepartmentFail, 
-  OnCreateDepartmentSuccess, 
-  GetDirectionById, 
-  SetSearchQueryValue, 
-  GetFilteredDirections, 
-  PageChange, 
-  FilterChange, 
-  FilterClear, 
-  OnCreateClassFail, 
-  OnCreateClassSuccess, 
-  CreateClass, 
+  CreateDirection,
+  OnCreateDirectionFail,
+  OnCreateDirectionSuccess,
+  UpdateDirection,
+  OnUpdateDirectionSuccess,
+  OnUpdateDirectionFail,
+  CreateDepartment,
+  OnCreateDepartmentFail,
+  OnCreateDepartmentSuccess,
+  GetDirectionById,
+  SetSearchQueryValue,
+  GetFilteredDirections,
+  PageChange,
+  FilterChange,
+  FilterClear,
+  OnCreateClassFail,
+  OnCreateClassSuccess,
+  CreateClass,
   UpdateDepartment,
-  OnUpdateDepartmentFail, 
-  OnUpdateDepartmentSuccess, 
-  UpdateClass, 
-  OnUpdateClassFail, 
-  OnUpdateClassSuccess, 
-  FilteredDepartmentsList, 
-  DeleteClassById, 
-  OnDeleteClassSuccess, 
+  OnUpdateDepartmentFail,
+  OnUpdateDepartmentSuccess,
+  UpdateClass,
+  OnUpdateClassFail,
+  OnUpdateClassSuccess,
+  FilteredDepartmentsList,
+  DeleteClassById,
+  OnDeleteClassSuccess,
   OnDeleteClassFail,
   OnClearCategories,
   DeleteDepartmentById,
   OnDeleteDepartmentFail,
   OnDeleteDepartmentSuccess,
-  GetDepartmentById, 
+  GetDepartmentById,
+  OnClearDepartment,
 } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { GetClasses, GetDepartments } from "./meta-data.actions";
@@ -62,7 +63,6 @@ export interface AdminStateModel {
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
-  getDepartments: Department[];
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -74,7 +74,6 @@ export interface AdminStateModel {
     isLoading: false,
     searchQuery: '',
     filteredDirections: undefined,
-    getDepartments: [],
     currentPage: {
       element: 1,
       isActive: true
@@ -96,8 +95,6 @@ export class AdminState {
   static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
   @Selector()
   static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
-  @Selector()
-  static getDepartments(state: AdminStateModel): Department[] { return state.getDepartments; }
   @Selector()
   static currentPage(state: AdminStateModel): {} { return state.currentPage; };
   @Selector()
@@ -325,11 +322,6 @@ export class AdminState {
         tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
-  @Action(FilteredDepartmentsList)
-  filteredDepartmentsList({ patchState }: StateContext<AdminStateModel>, { payload }: FilteredDepartmentsList): void {
-    patchState({ getDepartments: payload });
-  }
-
   @Action(SetSearchQueryValue)
   setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
     patchState({ searchQuery: payload });
@@ -413,5 +405,10 @@ export class AdminState {
   @Action(OnClearCategories)
   onClearCategories({ patchState }: StateContext<AdminStateModel>, { }: OnClearCategories): void {
     patchState({ direction: null, department: null, iClass: null });
+  }
+
+  @Action(OnClearDepartment)
+  onClearDepartment({ patchState }: StateContext<AdminStateModel>, { }: OnClearDepartment): void {
+    patchState({ department: null });
   }
 }

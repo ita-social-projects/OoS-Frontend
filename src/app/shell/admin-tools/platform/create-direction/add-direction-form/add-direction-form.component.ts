@@ -26,7 +26,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 export class AddDirectionFormComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
-  
+
   directionFormGroup: FormGroup;
 
   constructor(
@@ -36,7 +36,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService) {
-      
+
     super(store, route, navigationBarService);
     this.directionFormGroup = this.fb.group({
       title: new FormControl('', Validators.required),
@@ -44,7 +44,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
     });
   }
 
-  ngOnInit(): void {      
+  ngOnInit(): void {
     this.determineEditMode(); //TODO: move this to abstract create-form component
   }
 
@@ -72,16 +72,15 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
       dialogRef.afterClosed().subscribe((result: boolean)  => {
         if (result) {
           const direction: Direction = new Direction(this.directionFormGroup.value);
-          this.editMode ? 
+          this.editMode ?
             this.store.dispatch(new UpdateDirection(direction)) :
             this.store.dispatch(new CreateDirection(direction));
-          
+
             this.directionFormGroup.markAsPristine();
-            this._stepper.next(); 
        }
      });
     } else {
-      this._stepper.next(); 
+      this._stepper.next();
     }
   }
 }

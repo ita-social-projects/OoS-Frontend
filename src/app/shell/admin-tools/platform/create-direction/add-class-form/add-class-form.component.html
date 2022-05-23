@@ -1,11 +1,12 @@
 <div class="step">
   <ng-container *ngIf="editMode then editTmpl; else addNewClassTmpl"></ng-container>
 
+  <mat-label *ngIf="!(classes$ | async)?.length && classFormArray.invalid" class="no-class" fxLayout="column" fxLayoutAlign="center center"> Додайте класи, щоб завершити створення напряму. </mat-label>
   <div fxLayout="row" fxLayoutAlign="center center" class="footer">
     <button *ngIf="editMode" class="btn" mat-raised-button (click)="onStepBack()">Назад</button>
     <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
       class="btn btn-cancel">Скасувати</button></a>
-      <button class="btn" (click)="onSubmit()" mat-raised-button>Завершити</button>
+      <button class="btn" (click)="onSubmit()" [disabled]="!(classes$ | async)?.length && classFormArray.invalid" mat-raised-button>Завершити</button>
   </div>
 </div>
 
@@ -30,11 +31,11 @@
         </mat-panel-title>
         <mat-icon class="mat-icon-add">add</mat-icon>
       </mat-expansion-panel-header>
-    
+
       <ng-container *ngTemplateOutlet="addNewClassTmpl"></ng-container>
 
     </mat-expansion-panel>
-    
+
     <mat-expansion-panel [expanded]="option === 1" (opened)="onOptionChange(1)" hideToggle class="expansion-panel">
       <mat-expansion-panel-header>
         <mat-panel-title class="step-label">
@@ -50,9 +51,9 @@
           <input matInput class="step-input" type="text" formControlName="title">
         </mat-form-field>
       </form>
-  
+
     </mat-expansion-panel>
-    
+
     <mat-expansion-panel [expanded]="option === 2" (opened)="onOptionChange(2)" hideToggle class="expansion-panel">
       <mat-expansion-panel-header>
         <mat-panel-title class="step-label">
@@ -66,6 +67,7 @@
   </mat-accordion>
 
   <ng-template #classDropdown>
+    <ng-container *ngIf="(classes$ | async)?.length">
     <mat-form-field appearance="none" fxLayoutAlign="start space-between">
       <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" name="classes" placeholder="Усі класи"
       [formControl]="classSelectControl" [(ngModel)]="selectedClass"  (selectionChange)="onClassSelect()">
@@ -74,5 +76,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+  </ng-container>
+  <ng-container *ngIf="!(classes$ | async)?.length">
+    <mat-label class="no-info">Класів немає</mat-label>
+  </ng-container>
   </ng-template>
 </ng-template>

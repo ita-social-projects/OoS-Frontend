@@ -1,12 +1,12 @@
-import { DeleteDepartmentById, GetDepartmentById } from 'src/app//shared/store/admin.actions';
+import { DeleteDepartmentById, GetDepartmentById, OnClearDepartment, OnCreateDepartmentFail, OnUpdateDepartmentFail } from 'src/app//shared/store/admin.actions';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
@@ -23,12 +23,19 @@ import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/
 })
 export class AddDepartmentFormComponent  extends CreateFormComponent implements OnInit, OnDestroy {
   @Input() direction: Direction;
+  @Input() set department(value: Department) {
+    if(!value){
+      this.departmentFormGroup.reset();
+      this.selectedDepartment = null;
+    }
+  };
 
   @Select(MetaDataState.departments)
   departments$: Observable<Department[]>;
 
   @Select(MetaDataState.classes)
   classes$: Observable<IClass[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   departmentFormGroup: FormGroup;
   departmentSelectControl: FormControl = new FormControl();
@@ -40,10 +47,11 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
     private fb: FormBuilder,
     private _stepper: CdkStepper,
     private matDialog: MatDialog,
+    private actions$: Actions,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService) {
-      
+
     super(store, route, navigationBarService);
 
     this.departmentFormGroup = this.fb.group({
@@ -52,6 +60,12 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
     });
+
+    this.actions$
+      .pipe(
+        ofAction(OnCreateDepartmentFail),
+        takeUntil(this.destroy$))
+      .subscribe(()=> this.departmentFormGroup.reset());
   }
 
   ngOnInit(): void {
@@ -60,8 +74,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
 
   onOptionChange(option: number): void {
     this.option = option;
-    this.departmentFormGroup.reset();
-    this.selectedDepartment = null;
+    this.store.dispatch(new OnClearDepartment());
   }
 
   onDepartmentSelect(): void {
@@ -110,19 +123,23 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
       dialogRef.afterClosed().subscribe((result: boolean)  => {
         if (result) {
           const department: Department = new Department(this.departmentFormGroup.value, this.direction.id);
-          department.id ? 
+          department.id ?
             this.store.dispatch(new UpdateDepartment(department)) :
             this.store.dispatch(new CreateDepartment(department));
-          
+
             this.departmentFormGroup.markAsPristine();
             this.option = null;
-            this._stepper.next();
        }
      });
     } else {
       this._stepper.next();
     }
-  } 
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }
 
 

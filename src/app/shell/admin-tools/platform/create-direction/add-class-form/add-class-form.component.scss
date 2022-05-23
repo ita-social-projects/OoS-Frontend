@@ -14,10 +14,18 @@
 .btn-reset:disabled .mat-icon-delete,
 .btn-add:disabled .mat-icon-add {
   color: #9596a5; //TODO: fix button style
-} 
+}
 .expansion-panel {
   box-shadow: none !important;
 }
 :host ::ng-deep .mat-form-field{
   display: block !important;
+}
+.no-info {
+  color: #444444b5;
+  font-weight: bold;
+}
+.no-class{
+  color: red;
+  padding: 1rem;
 }

@@ -1,4 +1,4 @@
-import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -37,7 +37,10 @@ describe('AddClassFormComponent', () => {
       declarations: [
         AddClassFormComponent,
         MockValidationHintForInputComponent,
-      ]
+      ],
+      providers: [
+        { provide: CdkStepper, }
+      ],
     })
     .compileComponents();
   });

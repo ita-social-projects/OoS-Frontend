@@ -1,18 +1,15 @@
-import { UpdateClass } from 'src/app/shared/store/admin.actions';
+import {  OnCreateDepartmentSuccess, OnCreateDirectionSuccess, OnUpdateDepartmentSuccess, OnUpdateDirectionSuccess } from 'src/app/shared/store/admin.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { CreateClass, GetDirectionById, OnClearCategories } from 'src/app/shared/store/admin.actions';
+import { Department, Direction } from 'src/app/shared/models/category.model';
+import { GetDirectionById, OnClearCategories } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-create-direction',
@@ -25,6 +22,8 @@ import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 })
 
 export class CreateDirectionComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper') stepper: MatStepper;
+
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
   direction: Direction;
@@ -37,7 +36,8 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private route: ActivatedRoute) {    
+    private route: ActivatedRoute,
+    private actions$: Actions) {
 
     this.direction$.pipe(
       takeUntil(this.destroy$),
@@ -45,14 +45,21 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     ).subscribe((direction: Direction)=> this.direction = direction);
     this.department$.pipe(
       takeUntil(this.destroy$),
-      filter((department: Department)=> !!department)
     ).subscribe((department: Department)=> this.department = department);
+    this.actions$.pipe(
+      takeUntil(this.destroy$),
+      ofAction(
+        OnUpdateDepartmentSuccess,
+        OnUpdateDirectionSuccess,
+        OnCreateDepartmentSuccess,
+        OnCreateDirectionSuccess,
+    )).subscribe(()=> this.stepper.next());
   }
 
   ngOnInit(): void {
     this.determineEditMode();
   }
-  
+
   private determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
     if (this.editMode) {

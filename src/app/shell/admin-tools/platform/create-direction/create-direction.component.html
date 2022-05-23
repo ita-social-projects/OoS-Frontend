@@ -21,7 +21,7 @@
 
         <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
         <ng-container *ngIf="direction">
-          <app-add-department-form [direction]="direction"></app-add-department-form>
+          <app-add-department-form [direction]="direction" [department]="department"></app-add-department-form>
         </ng-container>
       </mat-step>
 
@@ -29,12 +29,17 @@
         <ng-template matStepLabel>
           <p class="step-name">Клас</p>
         </ng-template>
-        
+
         <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <ng-container *ngIf="department">
+        <ng-container *ngIf="department; else noSelectedDepartmentTmpl">
           <app-add-class-form [department]="department"></app-add-class-form>
         </ng-container>
-        
+
+        <ng-template #noSelectedDepartmentTmpl>
+          <div class="no-info" fxLayout="column" fxLayoutAlign="center center">
+            <mat-label>Для редагування класів оберіть відділення.</mat-label>
+          </div>
+        </ng-template>
       </mat-step>
 
     </mat-horizontal-stepper>

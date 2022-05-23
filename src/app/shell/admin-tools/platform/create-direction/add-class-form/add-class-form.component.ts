@@ -1,10 +1,10 @@
-import { OnDeleteClassSuccess, OnUpdateClassSuccess } from './../../../../../shared/store/admin.actions';
+import {  OnClearDepartment, OnUpdateClassSuccess } from './../../../../../shared/store/admin.actions';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable, } from 'rxjs';
 import { Department, IClass } from 'src/app/shared/models/category.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
@@ -13,8 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateClass, UpdateClass } from 'src/app/shared/store/admin.actions';
-import { catchError, last, take, takeUntil } from 'rxjs/operators';
-import { GetClasses } from 'src/app/shared/store/meta-data.actions';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-class-form',
@@ -64,7 +63,7 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
   addNavPath(): void{
     //TODO: add nav path
   }
-   
+
   private newForm(): FormGroup {
     const classFormGroup = this.fb.group({
       id: new FormControl(''),
@@ -96,6 +95,7 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
 
   onStepBack(): void {
     this._stepper.previous();
+    this.store.dispatch(new OnClearDepartment());
   }
 
   onSubmit(): void {
@@ -119,13 +119,13 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
   private createClasses(): void {
     const classes: IClass[] = [];
     this.classFormArray.controls.forEach((form: FormGroup) => classes.push(new IClass(form.value, this.department.id)));
-  
+
     this.store.dispatch(new CreateClass(classes));
   }
 
   private updateClass(): void {
     const iClass: IClass = new IClass(this.selectedClassFormgroup.value, this.department.id);
- 
+
     this.store.dispatch(new UpdateClass(iClass));
   }
 }
