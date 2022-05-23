@@ -1,25 +1,22 @@
+import { AdminToolsComponent } from './admin-tools.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminToolsRoutingModule } from './admin-tools-routing.module';
-import { PlatformComponent } from './platform/platform.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DirectionsComponent } from './platform/create-direction/directions/directions.component';
-
 
 @NgModule({
   declarations: [
-    PlatformComponent,
-    DirectionsComponent,
+    AdminToolsComponent
   ],
   imports: [
     CommonModule,
     AdminToolsRoutingModule,
     SharedModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   exports: [
-    DirectionsComponent
+    AdminToolsComponent
   ]
 })
 export class AdminToolsModule { }
