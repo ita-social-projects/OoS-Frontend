@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PortalService } from './portal.service';
+import { PlatformService } from './platform.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('PortalService', () => {
-  let service: PortalService;
+describe('PlatformService', () => {
+  let service: PlatformService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
-    service = TestBed.inject(PortalService);
+    service = TestBed.inject(PlatformService);
   });
 
   it('should be created', () => {

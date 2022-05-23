@@ -32,8 +32,10 @@ describe('PlatformComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PlatformComponent,
-        MockAllCategoriesCardComponent,
-        MockAllCategoriesSearchbarComponent
+        MockRegulations,
+        MockSupport,
+        MockAbout,
+        MockDirections
       ]
     })
     .compileComponents();
@@ -50,16 +52,24 @@ describe('PlatformComponent', () => {
   });
 });
 @Component({
-  selector: 'app-category-card',
+  selector: 'app-about-info',
   template: ''
 })
-class MockAllCategoriesCardComponent {
-  @Input() direction: Direction;
-  @Input() isEditMode: boolean;
-}
+class MockAbout { }
 
 @Component({
-  selector: 'app-full-search-bar',
+  selector: 'app-support-info',
   template: ''
 })
-class MockAllCategoriesSearchbarComponent {}
+class MockSupport { }
+@Component({
+  selector: 'app-regulations-info',
+  template: ''
+})
+class MockRegulations { }
+@Component({
+  selector: 'app-directions',
+  template: ''
+})
+class MockDirections { }
+
