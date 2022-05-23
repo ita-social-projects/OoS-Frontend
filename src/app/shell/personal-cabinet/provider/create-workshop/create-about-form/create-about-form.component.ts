@@ -42,7 +42,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       coverImage: new FormControl(''),
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_60), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
         ]),
       phone: new FormControl('', [
