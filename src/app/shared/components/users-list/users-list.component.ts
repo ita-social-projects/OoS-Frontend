@@ -2,7 +2,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Constants } from 'src/app/shared/constants/constants';
 import { providerAdminRoleUkr, ProviderAdminTitles } from '../../enum/enumUA/provider-admin';
 import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
 import { ProviderAdminTable } from '../../models/providerAdmin.model';
@@ -22,7 +21,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
   @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
 
-  readonly constants: typeof Constants = Constants;
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminTitles = ProviderAdminTitles;
   readonly providerAdminStatus = ProviderAdminStatus;
