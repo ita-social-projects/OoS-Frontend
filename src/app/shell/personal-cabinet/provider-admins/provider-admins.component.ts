@@ -26,7 +26,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class ProviderAdminsComponent implements OnInit, OnDestroy {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
-  readonly noProviderAdmins = NoResultsTitle.noProviderAdmins;
+  readonly noProviderAdmins = NoResultsTitle.noUsers;
   readonly constants: typeof Constants = Constants;
 
   @Select(UserState.isLoading)
