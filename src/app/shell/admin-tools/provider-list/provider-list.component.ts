@@ -93,11 +93,6 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onCloseInfo() {
-    this.open = !this.open;
-    console.log('closed');
-  }
-
   private getAllProviders(): void {
     this.store.dispatch(new GetAllProviders());
   }

@@ -254,7 +254,7 @@
         [provider]="provider"
         [edit]="false"
         [close]="true"
-        (closeInfo)="onCloseInfo()"
+        (closeInfo)="this.open = !this.open"
       ></app-provider-info>
     </div>
   </div>
