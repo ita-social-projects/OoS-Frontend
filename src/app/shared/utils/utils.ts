@@ -1,5 +1,7 @@
 import { map } from 'rxjs/internal/operators/map';
+import { Constants } from '../constants/constants';
 import { Child } from '../models/child.model';
+import { UsersTable } from '../models/usersTable';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -105,4 +107,26 @@ export class Util {
     };
     return dDisplay + hDisplay;
   }
+
+  /**
+   * This method returns updated array structure for the table
+   * @param users Users array of objects
+   * @returns array of objects
+   */
+  public static updateStructureForTheTable(users): UsersTable[] {
+  const constants: typeof Constants = Constants;
+  let updatedUsers = [];
+  users.forEach((user) => {
+    updatedUsers.push({
+      id: user.id,
+      pib: `${user.lastName} ${user.firstName} ${user.middleName}` || `не вказано`,
+      email: user.email || 'не вказано',
+      place: user.place || 'не вказано',
+      phoneNumber: user.phoneNumber ? `${constants.PHONE_PREFIX} ${user.phoneNumber}` : `не вказано`,
+      role: user.parentId ? 'Діти' : 'Батьки',
+      status: user.accountStatus || 'Accepted',
+    });
+  });
+  return updatedUsers;
+}
 }
