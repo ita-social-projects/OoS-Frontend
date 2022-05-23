@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -10,7 +10,7 @@ import { ActivateEditMode } from 'src/app/shared/store/app.actions';
   templateUrl: './provider-org-info.component.html',
   styleUrls: ['./provider-org-info.component.scss'],
 })
-export class ProviderOrgInfoComponent implements OnInit {
+export class ProviderOrgInfoComponent {
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -21,9 +21,6 @@ export class ProviderOrgInfoComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
-  ngOnInit(): void {}
-
   ActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
-  }
-}
+  }}
