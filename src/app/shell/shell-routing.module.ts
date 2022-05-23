@@ -1,3 +1,5 @@
+import { PlatformModule } from './admin-tools/platform/platform.module';
+import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { ResultComponent } from './result/result.component';
@@ -19,8 +21,6 @@ import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
-import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
-import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
 import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
@@ -53,15 +53,13 @@ const routes: Routes = [
   },
   {
     path: 'personal-cabinet/config/edit',
-    component: UserConfigEditComponent
+    component: UserConfigEditComponent,
+    canDeactivate: [CreateGuard]
   },
   {
-    path: 'admin-tools/platform/about/edit',
-    component: AboutEditComponent
-  },
-  {
-    path: 'admin-tools/platform/support/edit',
-    component: SupportEditComponent
+    path: 'admin-tools/platform/update/:param/:mode', component: InfoEditComponent,
+    loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'admin-tools/platform/directions/create',
