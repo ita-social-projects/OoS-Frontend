@@ -15,7 +15,6 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ProviderListIcons } from 'src/app/shared/enum/provider-admin';
 import { filter } from 'rxjs/operators';
 import {
   createProviderSteps,
@@ -29,7 +28,6 @@ import {
 })
 export class ProviderListComponent implements OnInit, AfterViewInit {
   readonly constants: typeof Constants = Constants;
-  readonly ProviderListIcons = ProviderListIcons;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly createProviderSteps = createProviderSteps;
 

@@ -209,9 +209,7 @@
           <td mat-cell *matCellDef="let element">
             <div class="provider-list-status {{ element.status }}">
               <span>
-                <i
-                  class="status-icon {{ ProviderListIcons[element.status] }}"
-                ></i
+                <i class="status-icon {{ element.status ? 'fas fa-user-check' :  'fas fa-user-clock' }}"></i
               ></span>
               <span>{{
                 element.status ? "Підтверджено" : "Очікує підтвердження"
