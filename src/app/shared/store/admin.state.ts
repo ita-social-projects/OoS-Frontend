@@ -40,7 +40,6 @@ import {
   UpdateClass,
   OnUpdateClassFail,
   OnUpdateClassSuccess,
-  FilteredDepartmentsList,
   DeleteClassById,
   OnDeleteClassSuccess,
   OnDeleteClassFail,
@@ -398,7 +397,7 @@ export class AdminState {
   @Action(OnDeleteClassSuccess)
   onDeleteClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteClassSuccess): void {
     console.log('Class is deleted', payload);
-    dispatch(new GetClasses(payload.departmentId)); //TODO: fix teh performance
+    dispatch(new GetClasses(payload.departmentId)); //TODO: fix the performance
     dispatch(new ShowMessageBar({ message: 'Класс видалено!', type: 'success' }));
   }
 

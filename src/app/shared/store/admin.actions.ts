@@ -98,10 +98,6 @@ export class GetDepartmentById {
   static readonly type = '[admin] get Department By Department Id';
   constructor(public payload) { }
 }
-export class FilteredDepartmentsList {
-  static readonly type = '[admin] Get list of filtered departments';
-  constructor(public payload: Department[]) { }
-}
 export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload: number) { }
@@ -162,12 +158,10 @@ export class OnDeleteClassSuccess {
   static readonly type = '[admin] delete Class success';
   constructor(public payload: IClass) { }
 }
-
 export class OnClearCategories {
   static readonly type = '[admin] clear department, direction, class state';
   constructor( ) { }
 }
-
 export class OnClearDepartment {
   static readonly type = '[admin] clear department state';
   constructor( ) { }

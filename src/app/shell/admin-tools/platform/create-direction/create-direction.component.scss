@@ -30,3 +30,6 @@
   min-height: 10rem;
   color: red;
 }
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
+}

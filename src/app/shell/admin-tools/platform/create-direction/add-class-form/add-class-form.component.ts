@@ -129,7 +129,3 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
     this.store.dispatch(new UpdateClass(iClass));
   }
 }
-
-
-
-

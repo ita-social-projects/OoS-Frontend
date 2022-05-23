@@ -11,7 +11,6 @@
 <ng-container *ngIf = "type === 'outOfRangeDate' && minMaxDate; then incorrectMinMaxDate"></ng-container>
 <ng-container *ngIf = "type === 'validLength' && (minLength || maxLength) && invalid; then invalidLength"></ng-container>
 <ng-container *ngIf = "type === 'validBirthCertificate' && forbiddenCharacter && invalid; then invalidBirthCertificate"></ng-container>
-<ng-container *ngIf = "type === 'notExistClass' && forbiddenCharacter && invalid; then notExistClass"></ng-container>
 
 
 
@@ -35,43 +34,43 @@
 
 <ng-template #notEnoughCharactersFOP>
   <small appValidationMessageStyling>
-    Введіть 10 цифр з ІПН. <br> У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр 
-  </small> 
+    Введіть 10 цифр з ІПН. <br> У випадку внесення паспортних даних введіть 2 перші букви кирилиці та 6 цифр або 9 цифр
+  </small>
 </ng-template>
 
 <ng-template #incorrectTextField>
   <small appValidationMessageStyling>
     Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю та символи ( ' - )
-  </small> 
+  </small>
 </ng-template>
 <ng-template #incorrectTextFieldWithSymbols>
   <small appValidationMessageStyling>
     Перевірте введені дані. <br> Не використовуйте, будь ласка, спец. символи
-  </small> 
+  </small>
 </ng-template>
 
 <ng-template #incorrectDateField>
   <small appValidationMessageStyling>
     Перевірте введені данні. <br> Використовуйте дд.мм.рррр формат. Наприклад 20.10.2010
-  </small> 
+  </small>
 </ng-template>
 
 <ng-template #incorrectMinMaxDate>
   <small appValidationMessageStyling>
     Перевірте введені данні. <br> Дата народження виходить за межі допустимих
-  </small> 
+  </small>
 </ng-template>
 
 <ng-template #incorrectAddressField>
   <small appValidationMessageStyling>
     Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю, цифри та символи ( ' - )
-  </small> 
+  </small>
 </ng-template>
 
 <ng-template #incorrectBuildingNumberField>
   <small appValidationMessageStyling>
     Перевірте введені дані. <br> Використовуйте, будь ласка, тільки кирилицю, цифри та символи ( ' - / , . )
-  </small> 
+  </small>
 </ng-template>
 
 <ng-template #invalidLength>
@@ -86,8 +85,3 @@
   </small>
 </ng-template>
 
-<ng-template #notExistClass>
-  <small appValidationMessageStyling>
-    Такого класу не існує
-  </small>
-</ng-template>
