@@ -7,8 +7,7 @@ import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-org-info',
-  templateUrl: './provider-org-info.component.html',
-  styleUrls: ['./provider-org-info.component.scss'],
+  templateUrl: './provider-org-info.component.html',  
 })
 export class ProviderOrgInfoComponent {
   @Select(RegistrationState.provider)

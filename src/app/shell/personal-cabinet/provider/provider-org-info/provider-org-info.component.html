@@ -4,6 +4,6 @@
     [currentStatus]="currentStatus"
     (selectedTabChange)="onTabChanged($event)"
     [edit]="true"
-    (click)="ActivateEditMode()"
+    (onActivateEditMode)="ActivateEditMode()"
   ></app-provider-info>
 </ng-container>

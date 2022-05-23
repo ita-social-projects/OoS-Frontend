@@ -15,14 +15,9 @@ const routes: Routes = [
     path: 'provider-list',
     component: ProviderListComponent,
   },
-  // {
-  //   path: 'personal-cabinet/provider',
-  //   component: ProviderOrgInfoComponent,
-  // },
-
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminToolsRoutingModule { }
+export class AdminToolsRoutingModule {}
