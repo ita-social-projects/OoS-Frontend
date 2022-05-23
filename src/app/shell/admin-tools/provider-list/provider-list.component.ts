@@ -76,11 +76,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
       .subscribe((providers) => {
         this.dataSource = new MatTableDataSource(providers);
         this.dataSource.sort = this.sort;
-      }); 
-  }
-
-  getAllProviders() {
-    this.store.dispatch(new GetAllProviders());
+      });
   }
 
   getProviderById(id, provider) {
@@ -89,7 +85,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
     this.open = true;
   }
 
-  announceSortChange(sortState: Sort) {
+  announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -99,6 +95,10 @@ export class ProviderListComponent implements OnInit, AfterViewInit {
 
   onCloseInfo() {
     this.open = !this.open;
-    console.log('closed');    
+    console.log('closed');
+  }
+
+  private getAllProviders(): void {
+    this.store.dispatch(new GetAllProviders());
   }
 }
