@@ -12,4 +12,12 @@
     <mat-icon>arrow_forward</mat-icon>
   </button>
 
+  <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl"
+  placeholder="Відображати на сторінці">
+    <mat-option value="8" class="dropdown-option"> Відображати 8 </mat-option>
+    <mat-option value="12" selected class="dropdown-option"> Відображати 12 </mat-option>
+    <mat-option value="16" class="dropdown-option"> Відображати 16 </mat-option>
+    <mat-option value="20" class="dropdown-option"> Відображати 20 </mat-option>
+  </mat-select>
+
 </div>
