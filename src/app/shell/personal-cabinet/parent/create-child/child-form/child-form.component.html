@@ -7,9 +7,8 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('lastName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
@@ -18,9 +17,8 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('firstName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">По-батькові<span class="step-required">*</span></label>
@@ -29,9 +27,8 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('middleName')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
@@ -71,7 +68,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
@@ -82,7 +78,6 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
-    [allowedCharacters]="validationTextField.CYRYLIC_LATIN_NUMBERS_APOSTROPHE_HYPEN_NUMBER"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
@@ -93,9 +88,8 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
-    [allowedCharacters]="validationTextField.CYRYLIC_APOSTROPHE_HYPEN_SLASH_COMA_DOT"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_20">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1" class="addChild">

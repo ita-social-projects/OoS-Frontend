@@ -47,7 +47,7 @@ import { StatusInfoCardComponent } from './components/status-info-card/status-in
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
+import { WorkingHoursFormComponent } from './components/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
@@ -63,6 +63,7 @@ import { DeclinationPipe } from './pipes/declination.pipe';
 import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
+import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { TrimValueDirective } from './directives/trim-value.directive';
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
+    WorkingHoursFormWrapperComponent,
   ],
   imports: [
     MaterialModule,
@@ -189,7 +191,8 @@ import { TrimValueDirective } from './directives/trim-value.directive';
     DeclinationPipe,
     ApplicationChildSortingPipe,
     ValidationHintComponent,
-    TrimValueDirective
+    TrimValueDirective,
+    WorkingHoursFormWrapperComponent
   ]
 })
 export class SharedModule { }

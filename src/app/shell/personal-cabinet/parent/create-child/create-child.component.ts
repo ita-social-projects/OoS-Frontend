@@ -15,7 +15,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
-import { NAME_REGEX, TEXT_WITH_DIGITS_REGEX, BIRTH_CERTIFICATE_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,17 +31,17 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
+  readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
+
+  @Select(MetaDataState.socialGroups)
+  socialGroups$: Observable<SocialGroup[]>;
+  @Select(UserState.children)
+  childrenCards$: Observable<ChildCards[]>
 
   child: Child;
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed: boolean = false;
-
-  @Select(MetaDataState.socialGroups)
-  socialGroups$: Observable<SocialGroup[]>;
-  @Select(UserState.children)
-  childrenCards$!: Observable<ChildCards[]>
 
   constructor(
     private childrenService: ChildrenService,
@@ -51,25 +51,21 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     navigationBarService: NavigationBarService,
     private matDialog: MatDialog) {
     super(store, route, navigationBarService);
+
+    this.socialGroups$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((socialGroups)=> !socialGroups))
+      .subscribe(() =>this.store.dispatch(new GetSocialGroup()));
   }
 
   ngOnInit(): void {      
     this.determineEditMode();
     this.addNavPath();
     
-    if (!this.editMode) {      
-      this.ChildrenFormArray.push(this.newForm());
+    if (!this.editMode) { 
+      this.ChildrenFormArray.push(this.newForm());     
     }
-    
-    this.socialGroups$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((socialGroups)=> !socialGroups)
-      ).subscribe(() =>this.store.dispatch(new GetSocialGroup()));
-
-    this.AgreementFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((val: boolean) => this.isAgreed = val);
   }
 
   addNavPath(): void {
@@ -87,7 +83,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       takeUntil(this.destroy$),
     ).subscribe((child: Child) => {
       this.child = child;
-      this.ChildrenFormArray.push(this.newForm(child));
+      this.ChildrenFormArray.push(this.newForm(child)); //TODO: move to the state actions
     });
   }
 
@@ -101,35 +97,32 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         Validators.required, 
         Validators.pattern(NAME_REGEX), 
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       firstName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
-        Validators.pattern(TEXT_WITH_DIGITS_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       certificateOfBirth: new FormControl('', [
-        Validators.pattern(BIRTH_CERTIFICATE_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_10), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_20)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ]),
       placeOfStudy: new FormControl('', [
-        Validators.pattern(BIRTH_CERTIFICATE_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ])

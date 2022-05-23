@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateAboutFormComponent } from './create-about-form.component';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -15,10 +15,10 @@ import { ImageFormControlComponent } from '../../../../../shared/components/imag
 import { MatSelectModule } from '@angular/material/select';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
-import { WorkingHoursFormComponent } from 'src/app/shared/components/working-hours-form/working-hours-form.component';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { Component, Input } from '@angular/core';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -46,9 +46,9 @@ describe('CreateAboutFormComponent', () => {
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
-        WorkingHoursFormComponent,
-        MockValidationHintForInputComponent,
-        MinMaxDirective
+        MockValidationHintAboutComponent,
+        MinMaxDirective,
+        MockWorkingHours
       ]
     })
       .compileComponents();
@@ -58,6 +58,21 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = { fullTitle: '' } as Provider;
+    component.AboutFormGroup = new FormGroup({
+      coverImage: new FormControl(''),
+      title: new FormControl(''),
+      phone: new FormControl(''),
+      email: new FormControl(''),
+      minAge: new FormControl(''),
+      maxAge: new FormControl(''),
+      image: new FormControl(''),
+      website: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      price: new FormControl(''),
+      workingHours: new FormControl(''),
+      isPerMonth: new FormControl(''),
+    });
     fixture.detectChanges();
   });
 
@@ -65,18 +80,22 @@ describe('CreateAboutFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-working-hours-form-wrapper',
   template: ''
 })
+class MockWorkingHours {
+  @Input() workshop: Workshop;
+  @Input() workingHoursFormArray: FormArray;
+}
 
-class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
+@Component({
+  selector: 'app-validation-hint',
+  template: ''
+})
+class MockValidationHintAboutComponent {
+  @Input() validationFormControl: FormControl; //required for validation
   @Input() minCharachters: number;
-  @Input() forbiddenCharacter: string;
+  @Input() maxCharachters: number;
+  @Input() minMaxDate: boolean;
 }
