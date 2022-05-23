@@ -1,4 +1,10 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { UsersComponent } from './users.component';
 
@@ -8,7 +14,16 @@ describe('UsersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UsersComponent ]
+      imports: [
+        NgxsModule.forRoot([]),
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        MatTabsModule,
+        MatIconModule,
+      ],
+      declarations: [ 
+        UsersComponent,
+        MockUsersListComponent, ]
     })
     .compileComponents();
   });
@@ -23,3 +38,12 @@ describe('UsersComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-users-list',
+  template: ''
+})
+class MockUsersListComponent {
+  @Input() users: object[];
+  @Input() filterValue: string;
+}
