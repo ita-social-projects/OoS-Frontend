@@ -7,7 +7,8 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { ChildCards } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { Parent } from 'src/app/shared/models/parent.model';
 import { UsersTable } from 'src/app/shared/models/usersTable';
 import { GetChildren } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
@@ -21,20 +22,20 @@ import { Util } from 'src/app/shared/utils/utils';
 })
 export class UsersComponent implements OnInit {
 
+  readonly userRoleUkr = UserTabsUkr;
+  readonly noUsers = NoResultsTitle.noUsers;
+
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   children$: Observable<ChildCards>;
 
-  readonly userRoleUkr = UserTabsUkr;
-  readonly noUsers = NoResultsTitle.noUsers;
-
   filter = new FormControl('');
   filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
-  allUsers = [];
-  parents = [];
+  allUsers: Parent[] | Child[] = [];
+  parents: Parent[] = [];
   children: UsersTable[];
 
   constructor(
@@ -46,13 +47,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.filter.valueChanges
     .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
-    .subscribe((val: string) => {
-      if (val) {
-        this.filterValue = val;
-      } else {
-        this.filterValue = '';
-      }
-    });
+    .subscribe((val: string) => this.filterValue = val);
 
     this.children$.pipe(
       takeUntil(this.destroy$),
