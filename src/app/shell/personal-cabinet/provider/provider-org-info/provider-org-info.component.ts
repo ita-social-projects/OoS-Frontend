@@ -12,14 +12,10 @@ import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 export class ProviderOrgInfoComponent {
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private store: Store) {}
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
+  constructor(private store: Store) {}
 
   ActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
-  }}
+  }
+}
