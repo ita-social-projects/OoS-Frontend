@@ -5,7 +5,6 @@ import { DataRoutingModule } from './data-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
-import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -16,7 +15,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     DataRoutingModule,
     SharedModule,
     MaterialModule,
-    RouterModule,
     FlexLayoutModule
   ],
   exports: []
