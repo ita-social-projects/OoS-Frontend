@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, EventEmitter } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil } from 'rxjs/operators';
 import { Department, Direction, IClass } from '../../models/category.model';
 import { Workshop } from '../../models/workshop.model';
 import {
@@ -136,8 +136,18 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   onSelectDirection(direction: Direction): void {
     this.clearDepartments(true);
     this.clearClasses(true);
+    this.departmentIdControl.markAsUntouched()
 
     this.store.dispatch(new GetDepartments(direction.id));
+  }
+
+  /**
+   * This method on focus out select the first item from teh dropdown if there is a value in input
+   */
+  onFocusDirectionOut(direction: Direction, value: string): void {
+    if(direction && !!value){
+      this.directionIdControl.setValue(direction);
+    }
   }
 
   /**
@@ -158,10 +168,32 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * This method on focus out select the first item from teh dropdown if there is a value in input
+   */
+  onFocusDepartmentOut(department: Department, value: string): void {
+    if(department && !!value){
+      this.departmentIdControl.setValue(department);
+    } else {
+      (<EventEmitter<any>>this.departmentIdControl.statusChanges).emit();
+    }
+  }
+
+  /**
    * This method sets full list of departments.
    */
   getFullDepartmentList(): void {
     this.filteredDepartments = this.departments;
+  }
+
+  /**
+   * This method on focus out select the first item from teh dropdown if there is a value in input
+   */
+  onFocusClassOut(iClass: IClass, value: string): void {
+    if(iClass && !!value){
+      this.classIdControl.setValue(iClass);
+    } else {
+      (<EventEmitter<any>>this.classIdControl.statusChanges).emit();
+    }
   }
 
   /**
@@ -175,13 +207,17 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    * This method gets the initial of directions and set subscription.
    */
   private setInitialDirestions(): void {
+    this.directionIdControl.valueChanges.pipe(
+      filter(()=> !this.directionIdControl.touched),
+      takeUntil(this.destroy$)
+    ).subscribe(()=> this.directionIdControl.markAsTouched());
+
     this.filteredDirections$.subscribe((filteredDirections: Direction[]) => this.filteredDirections = filteredDirections);
     this.directions$.subscribe((directions: Direction[]) => this.directions = directions);
 
     this.directionIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
         distinctUntilChanged(),
         startWith(''),
       ).subscribe((value) => {
@@ -190,7 +226,6 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
           this.store.dispatch(new FilteredDirectionsList(this.filterDirections(input)));
         } else {
           this.getFullDirectionList();
-          this.clearDirections();
           this.clearDepartments(true);
           this.clearClasses(true);
         }
@@ -203,13 +238,17 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    * This method gets the initial list of departments and set subscription.
    */
   private setInitialDepartments(): void {
+    this.departmentIdControl.valueChanges.pipe(
+      filter(()=> !this.departmentIdControl.touched),
+      takeUntil(this.destroy$)
+    ).subscribe(()=> this.departmentIdControl.markAsTouched());
+
     this.filteredDepartments$.subscribe((filteredDepartments: Department[]) => this.filteredDepartments = filteredDepartments);
     this.departments$.subscribe((departments: Department[]) => this.departments = departments);
 
     this.departmentIdControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
         distinctUntilChanged(),
         startWith(''),
       ).subscribe((value) => {
@@ -218,7 +257,6 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
           this.store.dispatch(new FilteredDepartmentsList(this.filterDepartments(input)));
         } else {
           this.getFullDepartmentList();
-          this.clearDepartments();
           this.clearClasses(true);
         }
       });
@@ -230,6 +268,12 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    * This method gets the initial list of classes and set subscription.
    */
   private setInitialClasses(): void {
+    this.classIdControl.valueChanges.pipe(
+      debounceTime(2000),
+      filter(()=> !this.classIdControl.touched),
+      takeUntil(this.destroy$)
+    ).subscribe(()=> this.classIdControl.markAsTouched());
+
     this.filteredClasses$.subscribe((filteredClasses: IClass[]) => this.filteredClasses = filteredClasses);
     this.classes$.subscribe((classes: IClass[]) => this.classes = classes);
 
@@ -245,7 +289,6 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
           this.store.dispatch(new FilteredClassesList(this.filterClasses(input)));
         } else {
           this.getFullClassList();
-          this.clearClasses();
         }
       });
 
@@ -261,6 +304,8 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    */
   private clearDirections(): void {
     this.directionIdControl.setValue(null);
+    this.directionIdControl.markAsTouched();
+
   }
 
   /**

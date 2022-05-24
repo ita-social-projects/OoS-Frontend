@@ -2,6 +2,7 @@
   <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
   <input matInput type="text" placeholder="Почніть вводити напрямок або виберіть зі списку" class="step-input"
     formControlName="directionId" [matAutocomplete]="auto" disableOptionCentering (click)="getFullDirectionList()"
+    (focusout)="onFocusDirectionOut(filteredDirections[0], $event.target.value)"
     autocomplete="off">
   <mat-autocomplete class="dropdown-panel direction" #auto="matAutocomplete"
     (optionSelected)="onSelectDirection($event.option.value)" [displayWith]="optionDisplayDirection">
@@ -17,7 +18,7 @@
     <label class="step-label"> Відділ <span class="step-required">*</span></label>
     <input matInput type="text" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
       formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
-      panelClass="dropdown-panel" (click)="getFullDepartmentList()" autocomplete="off">
+      panelClass="dropdown-panel" (click)="getFullDepartmentList()" autocomplete="off" (focusout)="onFocusDepartmentOut(filteredDepartments[0], $event.target.value)">
     <mat-autocomplete class="dropdown-panel direction" #autoDepartment="matAutocomplete"
       (optionSelected)="onSelectDepartment($event.option.value)" [displayWith]="optionDisplayDepartment">
       <mat-option *ngFor="let department of filteredDepartments" [value]="department" class="dropdown-option">
@@ -33,7 +34,7 @@
     <label class="step-label"> Клас <span class="step-required">*</span></label>
     <input matInput type="text" placeholder="Почніть вводити клас або виберіть зі списку" class="step-input"
       formControlName="classId" [matAutocomplete]="autoClasses" disableOptionCentering panelClass="dropdown-panel"
-      (click)="getFullClassList()" autocomplete="off">
+      (click)="getFullClassList()" (focusout)="onFocusClassOut(filteredClasses[0], $event.target.value)" autocomplete="off">
     <mat-autocomplete class="dropdown-panel direction" #autoClasses="matAutocomplete"
       [displayWith]="optionDisplayClass">
       <mat-option *ngFor="let classItem of filteredClasses" [value]="classItem" class="dropdown-option">
