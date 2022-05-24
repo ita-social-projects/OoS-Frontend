@@ -1,5 +1,5 @@
-<form class="city-search">
-  <mat-form-field appearance="none">
+<form class="city-search" fxLayout="column" fxLayoutAlign="center space-between">
+  <mat-form-field appearance="none" fxLayout="column" fxLayoutAlign="center space-between">
     <input #search ngClass="{{className}}" type="text" matInput [formControl]="cityFormControl"
       [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
