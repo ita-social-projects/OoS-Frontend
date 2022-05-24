@@ -136,18 +136,27 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   onSelectDirection(direction: Direction): void {
     this.clearDepartments(true);
     this.clearClasses(true);
-    this.departmentIdControl.markAsUntouched()
-
-    this.store.dispatch(new GetDepartments(direction.id));
+    this.getDepartmentsByDirectionId(direction);
   }
 
   /**
    * This method on focus out select the first item from teh dropdown if there is a value in input
    */
   onFocusDirectionOut(direction: Direction, value: string): void {
-    if(direction && !!value){
+    if(direction && !!value && (this.directionIdControl.value.title !== value)){
       this.directionIdControl.setValue(direction);
+      this.getDepartmentsByDirectionId(direction);
+    } else {
+      (<EventEmitter<any>>this.directionIdControl.statusChanges).emit();
     }
+  }
+
+  /**
+   * This method get departments by direction ID and mark department field untouched;
+   */
+  getDepartmentsByDirectionId(direction: Direction): void {
+    this.departmentIdControl.markAsUntouched()
+    this.store.dispatch(new GetDepartments(direction.id));
   }
 
   /**
@@ -163,20 +172,28 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    */
   onSelectDepartment(department: Department): void {
     this.clearClasses(true);
-
-    this.store.dispatch(new GetClasses(department.id));
+    this.getClassesByDepartmentId(department);
   }
 
   /**
    * This method on focus out select the first item from teh dropdown if there is a value in input
    */
   onFocusDepartmentOut(department: Department, value: string): void {
-    if(department && !!value){
+    if(department && !!value && (this.departmentIdControl.value.title !== value)){
       this.departmentIdControl.setValue(department);
+      this.getClassesByDepartmentId(department);
     } else {
       (<EventEmitter<any>>this.departmentIdControl.statusChanges).emit();
     }
   }
+
+  /**
+   * This method get classes by department ID and mark class field untouched;
+   */
+   getClassesByDepartmentId(department: Department): void {
+      this.classIdControl.markAsUntouched()
+      this.store.dispatch(new GetClasses(department.id));
+    }
 
   /**
    * This method sets full list of departments.
@@ -189,7 +206,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    * This method on focus out select the first item from teh dropdown if there is a value in input
    */
   onFocusClassOut(iClass: IClass, value: string): void {
-    if(iClass && !!value){
+    if(iClass && !!value && (this.classIdControl.value.title !== value)){
       this.classIdControl.setValue(iClass);
     } else {
       (<EventEmitter<any>>this.classIdControl.statusChanges).emit();
@@ -300,15 +317,6 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method resets selected value of direction in teh form and input.
-   */
-  private clearDirections(): void {
-    this.directionIdControl.setValue(null);
-    this.directionIdControl.markAsTouched();
-
-  }
-
-  /**
    * This method clears list of departments and reset selected value in teh form and input.
    */
   private clearDepartments(clearState: boolean = false): void {
@@ -328,7 +336,6 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    * This method patches values to the form from the workshop.
    */
   activateEditMode(): void {
-
     this.store.dispatch(new GetDirections())
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
