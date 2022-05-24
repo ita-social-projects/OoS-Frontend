@@ -44,7 +44,6 @@ describe('ProviderOrgInfoComponent', () => {
 })
 class MockproviderInfoComponent {
   @Input() provider: Provider;
-  @Input() edit: boolean;
-  @Input() close: boolean;
+  @Input() canProviderEdit: boolean;
   @Input() currentStatus;
 }

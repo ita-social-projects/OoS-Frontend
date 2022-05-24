@@ -33,7 +33,7 @@ export class ProviderInfoComponent implements OnInit {
   editLink: string = createProviderSteps[0];
 
   @Input() provider: Provider;
-  @Input() edit: boolean;
+  @Input() canProviderEdit: boolean;
   @Input() close: boolean;
   @Output() tabChanged = new EventEmitter();
   @Output() closeInfo = new EventEmitter();

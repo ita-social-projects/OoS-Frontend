@@ -245,7 +245,7 @@
     <div *ngIf="isInfoDisplayed ">
       <app-provider-info
         [provider]="provider"
-        [edit]="false"
+        [canProviderEdit]="false"
         [close]="true"
         (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "
       ></app-provider-info>

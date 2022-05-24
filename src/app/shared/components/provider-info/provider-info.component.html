@@ -1,13 +1,13 @@
 <div fxLayout="row" fxLayoutAlign="start">
   <div class="wrapper">
-    <div *ngIf="edit" fxLayout="row" fxLayoutAlign="end">
+    <div *ngIf="canProviderEdit" fxLayout="row" fxLayoutAlign="end">
       <a [routerLink]="['/create-provider', editLink]" class="edit-icon">
         <button mat-button (click)="ActivateEditMode()">
           <mat-icon>edit</mat-icon>Редагувати
         </button>
       </a>
     </div>
-    <div *ngIf="close" fxLayoutAlign="end">
+    <div *ngIf="!canProviderEdit" fxLayoutAlign="end">
       <a (click)="onCloseInfo()" class="close-icon">
         <mat-icon>close</mat-icon>
       </a>
