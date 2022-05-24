@@ -19,7 +19,7 @@
   <!-- -------------Table------------ -->
 
   <div style="display: flex" class="provider-wrapper">
-    <div class="example-container mat-elevation-z8">
+    <div [hidden]="!dataSource" class="example-container mat-elevation-z8">
       <table
         mat-table
         [dataSource]="dataSource"
