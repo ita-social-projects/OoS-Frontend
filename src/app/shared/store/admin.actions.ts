@@ -7,14 +7,6 @@ export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
   constructor() { }
 }
-export class GetAllProviders {
-  static readonly type = '[admin] Get all providers';
-  constructor() {}
-}
-export class UpdateInfoAboutPortal {
-  static readonly type = '[admin] Update Information About Portal';
-  constructor(public payload: AboutPortal) { }
-}
 
 export class GetAboutPortal {
   static readonly type = '[admin] Get AboutPortal';
@@ -23,6 +15,10 @@ export class GetAboutPortal {
 export class GetSupportInformation {
   static readonly type = '[admin] Get SupportInformation';
   constructor() { }
+}
+export class GetAllProviders {
+  static readonly type = '[admin] Get all providers';
+  constructor() {}
 }
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
@@ -128,5 +124,3 @@ export class OnCreateClassSuccess {
   static readonly type = '[admin] create Class success';
   constructor(public payload) { }
 }
-
-

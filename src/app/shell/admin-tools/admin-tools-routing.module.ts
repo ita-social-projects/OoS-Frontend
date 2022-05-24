@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProviderListComponent } from './data/provider-list/provider-list.component';
 import { PlatformComponent } from './platform/platform.component';
-import { ProviderListComponent } from './provider-list/provider-list.component';
 
 const routes: Routes = [
   {
@@ -13,6 +13,8 @@ const routes: Routes = [
   {
     path: 'provider-list',
     component: ProviderListComponent,
+    loadChildren: () =>
+      import('./data/data.module').then((m) => m.DataModule),
   },
 ];
 @NgModule({

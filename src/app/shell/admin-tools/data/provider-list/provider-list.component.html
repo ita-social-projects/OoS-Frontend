@@ -11,7 +11,7 @@
         />
       </div>
     </div>
-    <a [routerLink]="['/create-provider', editLink]">
+    <a>
       <button class="btn">ДОДАТИ</button>
     </a>
   </div>
@@ -19,7 +19,7 @@
   <!-- -------------Table------------ -->
 
   <div style="display: flex" class="provider-wrapper">
-    <div [hidden]="!dataSource" class="example-container mat-elevation-z8">
+    <div class="example-container mat-elevation-z8">
       <table
         mat-table
         [dataSource]="dataSource"
