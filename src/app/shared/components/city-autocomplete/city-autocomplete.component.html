@@ -1,9 +1,9 @@
 <form class="city-search" fxLayout="column" fxLayoutAlign="center space-between">
   <mat-form-field appearance="none" fxLayout="column" fxLayoutAlign="center space-between">
     <input #search ngClass="{{className}}" type="text" matInput [formControl]="cityFormControl"
-      [matAutocomplete]="auto">
+      [matAutocomplete]="auto" (focusout)="onFocustOut($event.target.value)" appTrimValue>
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
-      (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
+      (optionSelected)="onSelect($event.option.value)" [displayWith]="displayCityName">
       <mat-option [disabled]="!(isCity$ | async)" *ngFor="let city of cities$ | async" [value]="city">
         {{city.name}} <br>
         <span class="city-region">{{city.region}}</span>

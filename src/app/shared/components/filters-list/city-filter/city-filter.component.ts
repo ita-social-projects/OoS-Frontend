@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { City } from 'src/app/shared/models/city.model';
 import { FilterState } from 'src/app/shared/store/filter.state';
-import { SetCity } from '../../../store/filter.actions';
+import { ConfirmCity, SetCity } from '../../../store/filter.actions';
 
 @Component({
   selector: 'app-city-filter',
@@ -21,6 +21,6 @@ export class CityFilterComponent {
 
   onSelectedCity(event): void {
     this.store.dispatch(new SetCity(event));
+    this.store.dispatch(new ConfirmCity(false));
   }
-
 }

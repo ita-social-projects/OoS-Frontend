@@ -28,7 +28,6 @@ import {
   SetMaxAge,
   PageChange,
   ConfirmCity,
-  CleanCity,
   FilterClear,
   SetFirstPage,
   SetIsPaid
@@ -149,20 +148,13 @@ export class FilterState {
   setCity({ patchState, getState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
     const isConfirmCity = getState().isConfirmCity;
     patchState({ city: payload });
-    dispatch(new FilterChange());
     !isConfirmCity && localStorage.setItem('cityConfirmation', JSON.stringify(payload));
-  }
-
-  @Action(CleanCity)
-  cleanCity({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ city: undefined });
+    dispatch(new FilterChange());
   }
 
   @Action(ConfirmCity)
   confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
-    patchState({
-      isConfirmCity: payload
-    });
+    patchState({isConfirmCity: payload});
   }
 
   @Action(SetOrder)

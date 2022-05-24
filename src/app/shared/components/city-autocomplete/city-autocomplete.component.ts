@@ -46,6 +46,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
     this.cities$
       .pipe(
         takeUntil(this.destroy$),
+        filter((cities: City[])=> !!(cities && cities.length))
       ).subscribe((cities) => this.cities = cities);
 
     this.cityFormControl.valueChanges
@@ -73,8 +74,12 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
    * and pass this value to teh parent component
    * @param MatAutocompleteSelectedEvent value
    */
-  onSelect(event: MatAutocompleteSelectedEvent): void {
-    this.selectedCity.emit(event.option.value);
+  onSelect(city: City): void {
+    const setNewCity = !city.name.match(this._InitialCity && "Такого міста немає");
+
+    console.log(setNewCity)
+
+    setNewCity && this.selectedCity.emit(city);
     this.store.dispatch(new ClearCities());
   }
 
@@ -101,7 +106,25 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
    * This method sets focus on input search city
    */
   setFocus(): void {
+    const initialValue =  this.searchElement.nativeElement.value; //initial serach value
+    this.searchElement.nativeElement.value = null;
     this.searchElement.nativeElement.focus();
+    this.searchElement.nativeElement.value = initialValue;
   }
 
+  onFocustOut(value: string): void {
+    const autoCity = this.cities[0];
+
+    const setNewCity = value && !autoCity.name.match(this._InitialCity && "Такого міста немає");
+    console.log(setNewCity)
+
+    if(setNewCity){
+      this.cityFormControl.setValue(autoCity);
+      this.selectedCity.emit(autoCity);
+    } else {
+      this.setInitialCity();
+    }
+    this.store.dispatch(new ClearCities());
+
+  }
 }
