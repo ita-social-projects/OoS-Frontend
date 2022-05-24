@@ -1,9 +1,10 @@
-import { AboutPortal } from "../models/aboutPortal.model";
+import { PlatformInfoType } from './../enum/platform';
 import { Department, Direction, IClass } from "../models/category.model";
 import { PaginationElement } from "../models/paginationElement.model";
+import { CompanyInformation } from "../models/сompanyInformation.model";
 
-export class GetInfoAboutPortal {
-  static readonly type = '[admin] Get Information About Portal';
+export class GetPlatformInfo {
+  static readonly type = '[admin] Get Information Platform Info';
   constructor() { }
 }
 export class GetAllProviders {
@@ -14,12 +15,29 @@ export class UpdateInfoAboutPortal {
   static readonly type = '[admin] Update Information About Portal';
   constructor(public payload: AboutPortal) { }
 }
-export class OnUpdateInfoAboutPortalFail {
-  static readonly type = '[admin] update Information About Portal Fail';
+
+export class GetAboutPortal {
+  static readonly type = '[admin] Get AboutPortal';
+  constructor() { }
+}
+export class GetSupportInformation {
+  static readonly type = '[admin] Get SupportInformation';
+  constructor() { }
+}
+export class GetLawsAndRegulations {
+  static readonly type = '[admin] Get LawsAndRegulations';
+  constructor() { }
+}
+export class UpdatePlatformInfo {
+  static readonly type = '[admin] Update Information Platform Info';
+  constructor(public payload: CompanyInformation, public type: PlatformInfoType) { }
+}
+export class OnUpdatePlatformInfoFail {
+  static readonly type = '[admin] update Information Platform Info Fail';
   constructor(public payload: Error) { }
 }
-export class OnUpdateInfoAboutPortalSuccess {
-  static readonly type = '[admin] update Information About Portal Success';
+export class OnUpdatePlatformInfoSuccess {
+  static readonly type = '[admin] update Information Platform Info Success';
   constructor(public payload) { }
 }
 export class DeleteDirectionById {

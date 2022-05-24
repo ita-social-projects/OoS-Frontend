@@ -3,13 +3,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { InfoFormComponent } from './info-form.component';
 import { Component, Input } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SupportFormComponent } from './support-form.component';
 
-describe('SupportFormComponent', () => {
-  let component: SupportFormComponent;
-  let fixture: ComponentFixture<SupportFormComponent>;
+describe('InfoFormComponent', () => {
+  let component: InfoFormComponent;
+  let fixture: ComponentFixture<InfoFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,19 +21,17 @@ describe('SupportFormComponent', () => {
         NoopAnimationsModule
       ],
       declarations: [ 
-        SupportFormComponent, 
+        InfoFormComponent, 
         MockValidationHintForInputComponent 
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SupportFormComponent);
+    fixture = TestBed.createComponent(InfoFormComponent);
     component = fixture.componentInstance;
-    component.SupportFormGroup = new FormGroup({
-      image: new FormControl(''),
-      title: new FormControl(''),
+    component.PlatformInfoEditFormGroup = new FormGroup({
       sectionName: new FormControl(''),
       description: new FormControl('')
     });
@@ -46,12 +44,12 @@ describe('SupportFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint-for-input',
+  selector: 'app-validation-hint',
   template: ''
 })
 
 class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() forbiddenCharacter: string;
+  @Input() minCharachters: number;
+  @Input() maxCharachters: number;
+  @Input() validationFormControl: FormControl;
 }
