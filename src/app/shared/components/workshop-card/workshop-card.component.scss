@@ -24,7 +24,10 @@
 .favorite-icon {
   color: #ffbd00;
 }
-
+.provider-link {
+  color: #3849F9;
+  margin: 0.3rem 0;
+}
 .provider-link:hover {
     opacity: 0.5;
     color: #3849F9;
@@ -50,6 +53,10 @@
   }
   .wrap-for-details {
     padding-bottom: 0;
+  }
+
+  .wrap-for-details .mat-card-header {
+    margin-bottom: 1rem;
   }
 
   .hide {
