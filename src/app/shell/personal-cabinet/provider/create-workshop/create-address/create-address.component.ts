@@ -42,6 +42,8 @@ export class CreateAddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.AddressFormGroup.valueChanges.subscribe((val)=> console.log(val))
+    
     this.passAddressFormGroup.emit(this.AddressFormGroup);
     if(this.address){
       this.city = this.address.city;
