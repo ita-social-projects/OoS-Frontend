@@ -7,7 +7,7 @@
   <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фонове зображення'"
     formControlName="coverImage" [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
 
-  <label class="step-label"> Назва <span class="step-required">*</span></label>
+  <label class="step-label">Назва<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue>
   </mat-form-field>
@@ -17,7 +17,7 @@
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label"> Телефон <span class="step-required">*</span></label>
+  <label class="step-label">Телефон<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start center'>
       <span class="step-text">{{ phonePrefix }}</span>
@@ -25,15 +25,15 @@
         ui-hide-group-sep  maxlength="{{ validationConstants.PHONE_LENGTH }}">
     </div>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('phone')">
   </app-validation-hint>
 
-  <label class="step-label"> Емейл <span class="step-required">*</span></label>
+  <label class="step-label">Емейл<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('email')">
   </app-validation-hint>
 
@@ -41,7 +41,7 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('website')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
@@ -51,7 +51,7 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('facebook')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
@@ -61,7 +61,7 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('instagram')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
@@ -69,7 +69,7 @@
 
   <div class="border-bottom"></div>
 
-  <label class="step-label"> Вік-дітей <span class="step-required">*</span></label>
+  <label class="step-label">Вік дітей<span class="step-required">*</span></label>
   <div fxLayout='row' fxLayoutAlign='start'>
     <div fxLayout='column' fxLayoutAlign='start start'>
       <div fxLayout='row' fxLayoutAlign='start center'>
@@ -81,7 +81,7 @@
             autocomplete="none">
         </mat-form-field>
       </div>
-      <app-validation-hint 
+      <app-validation-hint
         [validationFormControl]="AboutFormGroup.get('minAge')">
       </app-validation-hint>
     </div>
@@ -96,14 +96,14 @@
             [max]="validationConstants.AGE_MAX" autocomplete="none">
         </mat-form-field>
       </div>
-      <app-validation-hint 
+      <app-validation-hint
         [validationFormControl]="AboutFormGroup.get('maxAge')">
       </app-validation-hint>
     </div>
 
   </div>
 
-  <label class="step-label">Дні/Години<span class="step-required">*</span></label>
+  <label class="step-label">Розклад занять<span class="step-required">*</span></label>
   <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"></app-working-hours-form-wrapper>
 
   <label class="step-label">Вартість<span class="step-required">*</span></label>
@@ -125,7 +125,7 @@
       </mat-button-toggle-group>
     </div>
   </mat-radio-group>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('isPerMonth')">
   </app-validation-hint>
 
