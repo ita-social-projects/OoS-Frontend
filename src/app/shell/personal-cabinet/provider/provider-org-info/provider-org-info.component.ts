@@ -15,7 +15,4 @@ export class ProviderOrgInfoComponent {
 
   constructor(private store: Store) {}
 
-  ActivateEditMode(): void {
-    this.store.dispatch(new ActivateEditMode(true));
-  }
 }

@@ -34,7 +34,6 @@ export class ProviderInfoComponent implements OnInit {
 
   @Input() provider: Provider;
   @Input() canProviderEdit: boolean;
-  @Input() close: boolean;
   @Output() tabChanged = new EventEmitter();
   @Output() closeInfo = new EventEmitter();
 
