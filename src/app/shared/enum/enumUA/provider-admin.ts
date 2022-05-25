@@ -23,3 +23,4 @@ export enum PersonalCabinetTitle {
   deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
   ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
 }
+

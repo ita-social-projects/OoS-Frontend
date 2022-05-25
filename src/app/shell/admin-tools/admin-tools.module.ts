@@ -15,8 +15,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     SharedModule,
     FlexLayoutModule,
   ],
+
   exports: [
     AdminToolsComponent
   ]
 })
-export class AdminToolsModule { }
+export class AdminToolsModule {}
