@@ -35,14 +35,14 @@
         >ЗАЯВИ</a
       >
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider">
+    <!-- <ng-container *ngIf="userRole === Role.provider">
       <a
         mat-tab-link
         [routerLinkActive]="['active']"
         [routerLink]="'./administration/all'"
         >АДМІНІСТРУВАННЯ</a
       >
-    </ng-container>
+    </ng-container> -->
     <ng-container *ngIf="userRole === Role.parent">
       <a
         mat-tab-link
