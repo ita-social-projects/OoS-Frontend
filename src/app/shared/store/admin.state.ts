@@ -6,8 +6,12 @@ import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { CompanyInformation, PlatformInfoStateModel } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { ChildCards } from "../models/child.model";
 import { PaginationElement } from "../models/paginationElement.model";
+import { Parent } from "../models/parent.model";
 import { CategoriesService } from "../services/categories/categories.service";
+import { ChildrenService } from "../services/children/children.service";
+import { ParentService } from "../services/parent/parent.service";
 import { PlatformService } from "../services/platform/platform.service";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { 
@@ -41,6 +45,8 @@ import {
   GetAboutPortal,
   GetSupportInformation,
   GetLawsAndRegulations,
+  GetParents,
+  GetChildren,
 } from "./admin.actions";
 import { Provider } from '../models/provider.model';
 import { ProviderService } from '../services/provider/provider.service';
@@ -58,6 +64,8 @@ export interface AdminStateModel {
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
+  parents: Parent[];
+  children: ChildCards;
   providers: Provider[];
 }
 @State<AdminStateModel>({
@@ -74,6 +82,8 @@ export interface AdminStateModel {
     selectedDirection: null,
     searchQuery: '',
     filteredDirections: undefined,
+    parents: null,
+    children: null,
     currentPage: {
       element: 1,
       isActive: true
@@ -83,6 +93,8 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
+  adminStateModel: any;
+
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
   
   @Selector() static providers(state: AdminStateModel): Provider[] { return state.providers; }
@@ -105,9 +117,15 @@ export class AdminState {
 
   @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
+  @Selector() static parents(state: AdminStateModel): Parent[] { return state.parents };
+  
+  @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
+
   constructor(
     private platformService: PlatformService,
     private categoriesService: CategoriesService,
+    private parentService: ParentService,
+    private childrenService: ChildrenService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private providerService: ProviderService,
@@ -355,5 +373,27 @@ export class AdminState {
         isActive: true
       }
     });
+  }
+
+  @Action(GetParents)
+  getParents({ patchState }: StateContext<AdminStateModel>, { }: GetParents): Observable<Parent[]> {
+    patchState({ isLoading: true });
+    return this.parentService
+      .getParents()
+      .pipe(
+        tap((parents: Parent[]) => {
+          return patchState({ parents: parents, isLoading: false });
+        }));
+  }
+
+  @Action(GetChildren)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+    patchState({ isLoading: true });
+    return this.childrenService
+      .getChildrenForAdmin()
+      .pipe(
+        tap((children: ChildCards) => {
+          return patchState({ children: children, isLoading: false });
+        }));
   }
 }

@@ -1,0 +1,44 @@
+<div class="users-wrapper">
+
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <mat-form-field floatLabel=never appearance="none">
+        <input matInput [formControl]="filter" type="text" class="search"
+          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="tab-wrapper">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+      <mat-tab label="{{userRoleUkr.all}}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: allUsers}">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{userRoleUkr.parent}}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: parents}">
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="{{userRoleUkr.child}}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: children}">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+</div>
+
+<ng-template #UsersList let-filterValue let-users="users">
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="users?.length else isEmptyList;">
+      <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+        (blockAdmin)="onBlock($event)"></app-users-list>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noUsers"></app-no-result-card>
+</ng-template>
