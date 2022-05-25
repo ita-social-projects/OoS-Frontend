@@ -12,6 +12,5 @@ export class ProviderOrgInfoComponent {
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
 
-  constructor(private store: Store) {}
-
+  constructor() {}
 }

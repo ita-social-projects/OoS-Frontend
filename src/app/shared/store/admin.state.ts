@@ -119,12 +119,11 @@ export class AdminState {
   }
 
   @Action(GetAllProviders)
-  getAllProviders({
-    patchState,
-  }: StateContext<AdminStateModel>): Observable<Provider[]> {
+  getAllProviders({ patchState }: StateContext<AdminStateModel>): Observable<Provider[]> {
+    patchState({ isLoading: true });
     return this.providerService.getAllProviders().pipe(
       tap((providers: Provider[]) => {
-        return patchState({ providers: providers });
+        return patchState({ providers: providers, isLoading: false });
       })
     );
   }

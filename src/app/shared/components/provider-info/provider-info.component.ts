@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
-  createProviderSteps,
+  CreateProviderSteps,
   OwnershipType,
   OwnershipTypeUkr,
   ProviderType,
@@ -25,15 +25,15 @@ import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 })
 export class ProviderInfoComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
-  readonly createProviderSteps = createProviderSteps;
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
-  editLink: string = createProviderSteps[0];
+  editLink: string = CreateProviderSteps[0];
 
   @Input() provider: Provider;
-  @Input() canProviderEdit: boolean;
+  @Input() isProviderView: boolean;
+
   @Output() tabChanged = new EventEmitter();
   @Output() closeInfo = new EventEmitter();
 
@@ -50,8 +50,7 @@ export class ProviderInfoComponent implements OnInit {
       .pipe(
         filter((institutionStatuses) => !!institutionStatuses.length),
         takeUntil(this.destroy$)
-      )
-      .subscribe((institutionStatuses) => {
+      ).subscribe((institutionStatuses) => {
         const provider = this.store.selectSnapshot(RegistrationState.provider);
         this.currentStatus =
           institutionStatuses
@@ -68,7 +67,7 @@ export class ProviderInfoComponent implements OnInit {
     this.closeInfo.emit();
   }
 
-  ActivateEditMode(): void {
+  onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
   }
 }

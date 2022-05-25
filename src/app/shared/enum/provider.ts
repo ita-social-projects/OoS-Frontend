@@ -40,7 +40,7 @@ export enum WorkshopTypeUkr {
   'Клас',
 }
 
-export enum createProviderSteps {
+export enum CreateProviderSteps {
   'info',
   'contacts',
   'description'

@@ -19,7 +19,7 @@
   <!-- -------------Table------------ -->
 
   <div style="display: flex" class="provider-wrapper">
-    <div [hidden]="!dataSource" class="example-container mat-elevation-z8">
+    <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
       <table
         mat-table
         [dataSource]="dataSource"
@@ -225,7 +225,7 @@
               </button>
               <button
                 mat-icon-button
-                (click)="getProviderById(element.id, element)"
+                (click)="onViewProviderInfo(element)"
               >
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
@@ -243,7 +243,7 @@
     <div *ngIf="isInfoDisplayed ">
       <app-provider-info
         [provider]="provider"
-        [canProviderEdit]="false"
+        [isProviderView]="false"
         (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "
       ></app-provider-info>
     </div>
