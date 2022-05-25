@@ -49,6 +49,7 @@ export class Constants {
     name: 'Київ',
     region: 'м.Київ',
   };
+  static readonly NO_CITY = 'Такого міста немає';
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
 }

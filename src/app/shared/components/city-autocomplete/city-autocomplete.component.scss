@@ -4,15 +4,17 @@
 :host ::ng-deep .mat-form-field-infix{
   border: none;
 }
-.city-search{
+.city-search {
   position: relative;
   min-width: min-content;
+  text-transform: capitalize;
 }
 .city-filter {
   font-weight: 700;
   font-size: 16px;
   line-height: 22px;
   color: #444444;
+  text-transform: capitalize;
 }
 .create-form {
   font-family: Open Sans;
@@ -20,6 +22,7 @@
   font-weight: normal;
   font-size: 13px;
   line-height: 18px;
+  text-transform: capitalize;
 }
 .mat-option {
   line-height: 20px;
