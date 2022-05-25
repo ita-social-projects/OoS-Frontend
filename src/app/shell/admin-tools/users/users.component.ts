@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,6 @@ import { Parent } from 'src/app/shared/models/parent.model';
 import { UsersTable } from 'src/app/shared/models/usersTable';
 import { GetChildren } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { UserState } from 'src/app/shared/store/user.state';
 import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
@@ -20,8 +19,7 @@ import { Util } from 'src/app/shared/utils/utils';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
-
+export class UsersComponent implements OnInit, OnDestroy {
   readonly userRoleUkr = UserTabsUkr;
   readonly noUsers = NoResultsTitle.noUsers;
 
@@ -46,8 +44,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.filter.valueChanges
-    .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
-    .subscribe((val: string) => this.filterValue = val);
+      .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
+      .subscribe((val: string) => this.filterValue = val);
 
     this.children$.pipe(
       takeUntil(this.destroy$),
@@ -84,6 +82,11 @@ export class UsersComponent implements OnInit {
       ['../', UserTabsUkrReverse[event.tab.textLabel]],
       { relativeTo: this.route }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
 
