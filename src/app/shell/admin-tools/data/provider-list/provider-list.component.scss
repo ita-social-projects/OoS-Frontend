@@ -1,12 +1,16 @@
-.wrapper-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  align-items: center;
-  @media (max-width: 767px) {
-    flex-direction: column;
+.wrapper{
+  margin-bottom: 5rem;
+  &-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
   }
 }
+
 .search {
   padding-left: 10px;
 }
