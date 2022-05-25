@@ -10,12 +10,7 @@ const routes: Routes = [
     loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule),
   },
   {
-    path: 'users/:index', component: UsersComponent,
-    loadChildren: () => import('./data/data.module').then((m) => m.DataModule),
-  },
-  {
-    path: 'provider-list',
-    component: ProviderListComponent,
+    path: 'data',
     loadChildren: () => import('./data/data.module').then((m) => m.DataModule),
   },
 ];
