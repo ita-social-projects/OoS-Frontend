@@ -14,7 +14,7 @@
     <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="AddressFormGroup.get('city')"
+    [validationFormControl]="AddressFormGroup.get('street')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
