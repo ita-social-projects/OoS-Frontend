@@ -60,6 +60,7 @@ import { CustomCarouselDirective } from './directives/custom-carousel.directive'
 import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
 import { DeclinationPipe } from './pipes/declination.pipe';
+import { ProviderInfoComponent } from './components/provider-info/provider-info.component';
 import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
@@ -120,6 +121,7 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
+    ProviderInfoComponent,    
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
@@ -184,6 +186,7 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ImageCarouselComponent,
     NotificationsComponent,
     UsersListComponent,
+    ProviderInfoComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
     PhoneTransformPipe,

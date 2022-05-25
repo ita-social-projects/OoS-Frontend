@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ProviderListComponent } from './provider-list/provider-list.component';
 
+const routes: Routes = [{ path: 'provider-list', component: ProviderListComponent}];
 @NgModule({
-  imports: [],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class DataRoutingModule { }
