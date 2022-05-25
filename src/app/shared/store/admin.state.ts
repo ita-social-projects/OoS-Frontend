@@ -38,6 +38,7 @@ import {
   OnCreateClassSuccess, 
   CreateClass,
   GetPlatformInfo,
+  GetAllProviders,
   UpdatePlatformInfo,
   OnUpdatePlatformInfoSuccess,
   OnUpdatePlatformInfoFail,
@@ -47,6 +48,8 @@ import {
   GetParents,
   GetChildren,
 } from "./admin.actions";
+import { Provider } from '../models/provider.model';
+import { ProviderService } from '../services/provider/provider.service';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -61,8 +64,9 @@ export interface AdminStateModel {
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
-  parents: Parent[],
-  children: ChildCards
+  parents: Parent[];
+  children: ChildCards;
+  providers: Provider[];
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -84,6 +88,7 @@ export interface AdminStateModel {
       element: 1,
       isActive: true
     },
+    providers: null,
   }
 })
 @Injectable()
@@ -91,7 +96,9 @@ export class AdminState {
   adminStateModel: any;
 
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
-
+  
+  @Selector() static providers(state: AdminStateModel): Provider[] { return state.providers; }
+  
   @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation { return state.supportInformation; }
 
   @Selector() static LawsAndRegulations(state: AdminStateModel): CompanyInformation { return state.lawsAndRegulations; }
@@ -120,12 +127,23 @@ export class AdminState {
     private parentService: ParentService,
     private childrenService: ChildrenService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private providerService: ProviderService,
   ) { }
 
   @Action(GetPlatformInfo)
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {  }: GetPlatformInfo): void {
     dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
+  }
+
+  @Action(GetAllProviders)
+  getAllProviders({ patchState }: StateContext<AdminStateModel>): Observable<Provider[]> {
+    patchState({ isLoading: true });
+    return this.providerService.getAllProviders().pipe(
+      tap((providers: Provider[]) => {
+        return patchState({ providers: providers, isLoading: false });
+      })
+    );
   }
 
   @Action(GetAboutPortal)
@@ -136,6 +154,8 @@ export class AdminState {
       .pipe(
         tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
   }
+
+  
 
   @Action(GetSupportInformation)
   getSupportInformation({ patchState }: StateContext<AdminStateModel>, {  }: GetSupportInformation): Observable<CompanyInformation> {

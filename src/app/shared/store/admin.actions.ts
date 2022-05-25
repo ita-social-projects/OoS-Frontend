@@ -16,6 +16,10 @@ export class GetSupportInformation {
   static readonly type = '[admin] Get SupportInformation';
   constructor() { }
 }
+export class GetAllProviders {
+  static readonly type = '[admin] Get all providers';
+  constructor() {}
+}
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
   constructor() { }

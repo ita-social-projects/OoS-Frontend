@@ -18,8 +18,9 @@ import { UsersComponent } from './users/users.component';
     SharedModule,
     FlexLayoutModule,
   ],
+
   exports: [
     AdminToolsComponent
   ]
 })
-export class AdminToolsModule { }
+export class AdminToolsModule {}
