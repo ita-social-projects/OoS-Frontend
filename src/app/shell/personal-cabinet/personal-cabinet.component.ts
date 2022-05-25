@@ -1,5 +1,5 @@
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Role, RoleLinks } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -16,9 +16,10 @@ import { Observable } from 'rxjs';
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.subrole)
-  subrole: Observable<string>;
+  subrole$: Observable<string>;
 
   roles = RoleLinks;
+  subrole: string;
   userRole: string;
   Role = Role;
   PersonalCabinetTitle = PersonalCabinetTitle;
@@ -46,6 +47,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
+    this.subrole$.subscribe((subrole) => this.subrole = subrole)
   }
 
   ngOnDestroy(): void {
