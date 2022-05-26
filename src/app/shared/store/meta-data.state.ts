@@ -166,19 +166,21 @@ export class MetaDataState {
 
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup): Observable<SocialGroup[]> {
+    patchState({ isLoading: true })
     return this.childrenService
       .getSocialGroup()
       .pipe(
-        tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
+        tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups, isLoading: false })
         ))
   }
 
   @Action(GetInstitutionStatus)
   getInstitutionStatus({ patchState }: StateContext<MetaDataStateModel>, { }: GetInstitutionStatus): Observable<InstitutionStatus[]> {
+    patchState({ isLoading: true })
     return this.providerService
       .getInstitutionStatus()
       .pipe(
-        tap((institutionStatuses: InstitutionStatus[]) => patchState({ institutionStatuses: institutionStatuses })
+        tap((institutionStatuses: InstitutionStatus[]) => patchState({ institutionStatuses: institutionStatuses, isLoading: false })
         ))
   }
 
