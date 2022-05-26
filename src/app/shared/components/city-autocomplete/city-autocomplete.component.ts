@@ -106,8 +106,6 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   selectHighlighted(autocomplete: MatAutocomplete): void {
-    if(!autocomplete.options.length || autocomplete.options.first.value.name === Constants.NO_CITY) {
-      this.cityFormControl.setValue(this._InitialCity);
-    }
+    this.cityFormControl.setValue(this._InitialCity);
   }
 }
