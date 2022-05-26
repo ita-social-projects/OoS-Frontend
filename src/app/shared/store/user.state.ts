@@ -82,7 +82,7 @@ import {
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
-  ClearProviderWorkshopDetails,
+  ResetProviderWorkshopDetails,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -669,7 +669,7 @@ export class UserState {
     patchState({ currentPage: payload });
   }
 
-  @Action(ClearProviderWorkshopDetails)
+  @Action(ResetProviderWorkshopDetails)
   clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
     patchState({ selectedWorkshop: null, selectedProvider: null });
   }

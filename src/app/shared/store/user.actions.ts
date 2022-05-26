@@ -255,7 +255,7 @@ export class GetAllProviderAdmins {
   constructor() { }
 }
 
-export class ClearProviderWorkshopDetails {
+export class ResetProviderWorkshopDetails {
   static readonly type = '[user] clear provider and workshop details';
   constructor() { }
 }

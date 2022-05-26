@@ -3,10 +3,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { ClearProviderWorkshopDetails, GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -128,7 +128,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new ClearProviderWorkshopDetails());
+    this.store.dispatch(new ResetProviderWorkshopDetails());
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

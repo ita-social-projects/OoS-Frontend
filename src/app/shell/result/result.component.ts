@@ -11,7 +11,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { ClearProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
+import { ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
@@ -97,7 +97,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch([
         new SetFirstPage(),
-        new ClearProviderWorkshopDetails(),
+        new ResetProviderWorkshopDetails(),
         new GetFilteredWorkshops(this.currentView === this.viewType.map)
       ]));
 
