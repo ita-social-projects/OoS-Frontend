@@ -43,12 +43,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
-      head: new FormControl('', [
-        Validators.required, 
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
-      ]),
       keyWords: new FormControl('', Validators.required),
       categories: this.formBuilder.group({
         directionId: new FormControl('', Validators.required),

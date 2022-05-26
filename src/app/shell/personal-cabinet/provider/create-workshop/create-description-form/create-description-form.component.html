@@ -18,17 +18,6 @@
     [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
   </app-validation-hint>
 
-  <label class="step-label">Директор<span class="step-required">*</span></label>
-  <mat-form-field appearance="none">
-    <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('head')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
   <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column'
     fxLayoutAlign='center space-between'>
