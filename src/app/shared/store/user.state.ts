@@ -71,7 +71,6 @@ import {
   GetUsersChildren,
   CabinetPageChange,
   GetAllUsersChildren,
-  ResetSelectedWorkshop,
   GetAllProviderAdmins,
   CreateProviderAdmin,
   OnCreateProviderAdminFail,
@@ -83,6 +82,7 @@ import {
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
+  ClearProviderWorkshopDetails,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -669,8 +669,8 @@ export class UserState {
     patchState({ currentPage: payload });
   }
 
-  @Action(ResetSelectedWorkshop)
-  ResetSelectedWorkshop({ patchState }: StateContext<UserStateModel>): void {
-    patchState({ selectedWorkshop: null });
+  @Action(ClearProviderWorkshopDetails)
+  clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
+    patchState({ selectedWorkshop: null, selectedProvider: null });
   }
 }
