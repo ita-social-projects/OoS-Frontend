@@ -3,6 +3,7 @@ export enum Role {
   parent = 'parent',
   unauthorized = 'unauthorized',
   techAdmin = 'admin',
+  deputy = 'ProviderDeputy'
 }
 
 export enum cardType {
