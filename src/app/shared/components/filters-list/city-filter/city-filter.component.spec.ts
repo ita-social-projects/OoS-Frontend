@@ -8,13 +8,6 @@ describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
   let fixture: ComponentFixture<CityFilterComponent>;
 
-  @Component({
-    selector: 'app-city-autocomplete',
-    template: '<p>Mock City Autocomplete</p>'
-  })
-  class CityAutocompleteComponent {
-  }
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
