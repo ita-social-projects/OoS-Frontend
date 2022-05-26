@@ -72,7 +72,7 @@ export interface FilterStateModel {
     minPrice: Constants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    city: localStorage.getItem('cityConfirmation') as unknown as City,
+    city: JSON.parse(localStorage.getItem('cityConfirmation')),
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: undefined,
