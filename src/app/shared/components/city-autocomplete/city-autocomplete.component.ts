@@ -105,7 +105,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
     this.searchElement.nativeElement.value = initialValut;
   }
 
-  selectHighlighted(autocomplete: MatAutocomplete): void {
+  onFocusout(): void {
     this.cityFormControl.setValue(this._InitialCity);
   }
 }
