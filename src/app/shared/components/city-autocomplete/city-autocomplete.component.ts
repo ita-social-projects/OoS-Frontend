@@ -21,8 +21,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   _InitialCity: string;
 
   @Output() selectedCity = new EventEmitter();
-  @Input() set InitialCity(value: City) {
-    this._InitialCity = value.name;
+  @Input() set InitialCity(value: string) {
+    this._InitialCity = value;
     this._InitialCity && this.setInitialCity();
   }
   @Input() className: string;
