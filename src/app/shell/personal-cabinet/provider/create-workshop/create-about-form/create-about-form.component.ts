@@ -38,7 +38,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
       coverImage: new FormControl(''),
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
+        ]),
       phone: new FormControl('', [
         Validators.required, 
         Validators.minLength(Constants.PHONE_LENGTH),
