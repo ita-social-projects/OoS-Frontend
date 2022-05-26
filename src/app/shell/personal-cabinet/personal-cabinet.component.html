@@ -35,7 +35,7 @@
         >ЗАЯВИ</a
       >
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider">
+    <ng-container *ngIf="userRole === Role.provider && subrole === 'ProviderDeputy'">
       <a
         mat-tab-link
         [routerLinkActive]="['active']"
