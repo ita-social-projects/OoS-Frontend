@@ -13,8 +13,10 @@
     </div>
 
     <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex">
-      <mat-tab class="label" label="ПРО ГУРТОК" *ngIf="workshop">
-        <app-workshop-about [workshop]="workshop"></app-workshop-about>
+      <mat-tab class="label" label="ПРО ГУРТОК">
+        <ng-container *ngIf="workshop">
+          <app-workshop-about [workshop]="workshop"></app-workshop-about>
+        </ng-container>
       </mat-tab>
       <mat-tab class="label" label="ПРО ЗАКЛАД">
         <app-provider-about [provider]="provider"></app-provider-about>
