@@ -5,8 +5,12 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
+import { GetFilteredDirections } from 'src/app/shared/store/admin.actions';
+import { AdminState } from 'src/app/shared/store/admin.state';
 
 @Component({
   selector: 'app-platform',

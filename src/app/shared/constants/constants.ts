@@ -51,6 +51,7 @@ export class Constants {
   };
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
+  static readonly NO_INFORMATION = `не вказано`;
 }
 
 export class PaginationConstants {
