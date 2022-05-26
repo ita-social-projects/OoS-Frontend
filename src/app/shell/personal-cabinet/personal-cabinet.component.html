@@ -8,48 +8,25 @@
   </h1>
 
   <nav class="nav" mat-tab-nav-bar>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'"
-      >ОСОБИСТА ІНФОРМАЦІЯ</a
-    >
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА ІНФОРМАЦІЯ</a>
     <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a
-        mat-tab-link
-        [routerLinkActive]="['active']"
-        [routerLink]="'./' + userRole + '/' + 'info'"
-        >ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}</a
-      >
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/' + 'info'">
+        ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}
+      </a>
     </ng-container>
     <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a
-        mat-tab-link
-        [routerLinkActive]="['active']"
-        [routerLink]="'./workshops'"
-        >{{ userRole === Role.parent ? "МОЇ ГУРТКИ" : "ГУРТКИ" }}</a
-      >
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">
+        {{ userRole === Role.parent ? "МОЇ ГУРТКИ" : "ГУРТКИ" }}
+      </a>
     </ng-container>
     <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a
-        mat-tab-link
-        [routerLinkActive]="['active']"
-        [routerLink]="'./applications/all'"
-        >ЗАЯВИ</a
-      >
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications/all'">ЗАЯВИ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider && subrole === Role.deputy">
-      <a
-        mat-tab-link
-        [routerLinkActive]="['active']"
-        [routerLink]="'./administration/all'"
-        >АДМІНІСТРУВАННЯ</a
-      >
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./administration/all'">АДМІНІСТРУВАННЯ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.parent">
-      <a
-        mat-tab-link
-        [routerLinkActive]="['active']"
-        [routerLink]="'./parent/favorite'"
-        >УЛЮБЛЕНЕ</a
-      >
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
     </ng-container>
 
     <!-- <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>  TODO: second release -->
