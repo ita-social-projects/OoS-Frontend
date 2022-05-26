@@ -5,9 +5,10 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, last, map, startWith, takeUntil } from 'rxjs/operators';
 import { MetaDataState } from '../../store/meta-data.state';
 import { ClearCities, GetCities } from '../../store/meta-data.actions';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { City } from '../../models/city.model';
 import { SetFocusOnCityField } from '../../store/app.actions';
+import { Constants } from '../../constants/constants';
 
 @Component({
   selector: 'app-city-autocomplete',
@@ -20,8 +21,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   _InitialCity: string;
 
   @Output() selectedCity = new EventEmitter();
-  @Input() set InitialCity(value: string) {
-    this._InitialCity = value;
+  @Input() set InitialCity(value: City) {
+    this._InitialCity = value.name;
     this._InitialCity && this.setInitialCity();
   }
   @Input() className: string;
@@ -87,13 +88,11 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
    * This method set initial city to autocomplete
    */
   setInitialCity(): void {
-    if (this._InitialCity !== 'Такого міста немає') {
+    if (this._InitialCity !== Constants.NO_CITY) {
       this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
-        .pipe(last())
-        .subscribe(() => {
-          this.cities && this.cityFormControl.setValue(this.cities[0]);
-        });
+        .pipe(last(), filter((cities: City[])=> !!cities))
+        .subscribe(()=> this.cityFormControl.setValue(this.cities[0]));
     }
   }
 
@@ -101,7 +100,15 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
    * This method sets focus on input search city
    */
   setFocus(): void {
+    const initialValut = this.searchElement.nativeElement.value;
+    this.searchElement.nativeElement.value = '';
     this.searchElement.nativeElement.focus();
+    this.searchElement.nativeElement.value = initialValut;
   }
 
+  selectHighlighted(autocomplete: MatAutocomplete): void {
+    if(!autocomplete.options.length || autocomplete.options.first.value.name === Constants.NO_CITY) {
+      this.cityFormControl.setValue(this._InitialCity);
+    }
+  }
 }

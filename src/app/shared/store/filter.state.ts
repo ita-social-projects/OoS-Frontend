@@ -31,7 +31,8 @@ import {
   CleanCity,
   FilterClear,
   SetFirstPage,
-  SetIsPaid
+  SetIsPaid,
+  SaveCity
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -72,7 +73,7 @@ export interface FilterStateModel {
     minPrice: Constants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    city: undefined,
+    city:  localStorage.getItem('cityConfirmation') as unknown as City,
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: undefined,
@@ -146,11 +147,9 @@ export class FilterState {
     private appWorkshopsService: AppWorkshopsService) { }
 
   @Action(SetCity)
-  setCity({ patchState, getState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
-    const isConfirmCity = getState().isConfirmCity;
+  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
     patchState({ city: payload });
     dispatch(new FilterChange());
-    !isConfirmCity && localStorage.setItem('cityConfirmation', JSON.stringify(payload));
   }
 
   @Action(CleanCity)
@@ -158,11 +157,18 @@ export class FilterState {
     patchState({ city: undefined });
   }
 
+  @Action(SaveCity)
+  saveCity({ getState }: StateContext<FilterStateModel>, {  }: SaveCity): void {
+    const city = getState().city;
+
+    localStorage.setItem('cityConfirmation', JSON.stringify(city));
+  }
+
   @Action(ConfirmCity)
-  confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
-    patchState({
-      isConfirmCity: payload
-    });
+  confirmCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
+    patchState({ isConfirmCity: payload});
+
+    payload && dispatch(new SaveCity());
   }
 
   @Action(SetOrder)

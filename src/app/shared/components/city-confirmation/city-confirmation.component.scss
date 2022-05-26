@@ -12,29 +12,36 @@
   p {
     text-align: center;
     font-size: 19px;
+    margin-bottom: 0;
     span {
       font-weight: 700;
     }
   }
 
-  &_button {
-  width: auto;
-  margin-top: 25px;
-  .button {
-    color: white;
-    background-color: #3849F9;
-    border: 1px solid #3849F9;
-    box-sizing: border-box;
-    border-radius: 20px;
-    padding: 0 30px;
-    margin: 0 auto;
-    &-change{
-      color: #444444!important;
-      background-color: transparent !important;
-      border-color: #444444!important;
+  .mat-icon {
+    cursor: pointer;
+    &:hover{
+      color: #3849F9;
     }
   }
-  }
+  &_button {
+    width: auto;
+    margin-top: 25px;
+      .button {
+        color: white;
+        background-color: #3849F9;
+        border: 1px solid #3849F9;
+        box-sizing: border-box;
+        border-radius: 20px;
+        padding: 0 30px;
+        margin: 0 auto;
+        &-change{
+          color: #444444!important;
+          background-color: transparent !important;
+          border-color: #444444!important;
+        }
+      }
+    }
 }
 .city-confirmation::before {
     content: "";
