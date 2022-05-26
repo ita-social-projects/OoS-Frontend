@@ -5,11 +5,6 @@ export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: City) { }
 }
-
-export class SaveCity {
-  static readonly type = '[app] Save City to localStorage';
-  constructor() { }
-}
 export class CleanCity {
   static readonly type = '[app] Clean City';
   constructor() { }

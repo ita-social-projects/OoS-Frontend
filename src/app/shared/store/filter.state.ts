@@ -31,8 +31,7 @@ import {
   CleanCity,
   FilterClear,
   SetFirstPage,
-  SetIsPaid,
-  SaveCity
+  SetIsPaid
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -73,7 +72,7 @@ export interface FilterStateModel {
     minPrice: Constants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    city:  localStorage.getItem('cityConfirmation') as unknown as City,
+    city: localStorage.getItem('cityConfirmation') as unknown as City,
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: undefined,
@@ -84,7 +83,7 @@ export interface FilterStateModel {
       element: 1,
       isActive: true
     },
-    isConfirmCity: false,
+    isConfirmCity: true,
   }
 })
 @Injectable()
@@ -149,6 +148,7 @@ export class FilterState {
   @Action(SetCity)
   setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
     patchState({ city: payload });
+    localStorage.setItem('cityConfirmation', JSON.stringify(payload));
     dispatch(new FilterChange());
   }
 
@@ -157,18 +157,9 @@ export class FilterState {
     patchState({ city: undefined });
   }
 
-  @Action(SaveCity)
-  saveCity({ getState }: StateContext<FilterStateModel>, {  }: SaveCity): void {
-    const city = getState().city;
-
-    localStorage.setItem('cityConfirmation', JSON.stringify(city));
-  }
-
   @Action(ConfirmCity)
   confirmCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
     patchState({ isConfirmCity: payload});
-
-    payload && dispatch(new SaveCity());
   }
 
   @Action(SetOrder)
