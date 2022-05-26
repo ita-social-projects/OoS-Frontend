@@ -27,7 +27,6 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   }
   @Input() className: string;
 
-
   cityFormControl = new FormControl();
   cities: City[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
