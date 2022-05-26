@@ -67,7 +67,7 @@
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
-            (click)="onSubmit()">Зберегти</button>
+            (click)="onSubmit()">Зберегти</button> 
         </div>
       </mat-step>
 
