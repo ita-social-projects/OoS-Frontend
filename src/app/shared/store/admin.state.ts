@@ -73,6 +73,7 @@ export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   department: Department;
+  departments: Department[];
   iClass: IClass;
   currentPage: PaginationElement;
   searchQuery: string;
@@ -89,6 +90,7 @@ export interface AdminStateModel {
     lawsAndRegulations: null,
     direction: null,
     department: null,
+    departments: null,
     iClass: null,
     isLoading: false,
     searchQuery: '',
