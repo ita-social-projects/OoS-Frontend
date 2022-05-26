@@ -19,10 +19,10 @@
       <mat-tab class="label" label="ПРО ЗАКЛАД">
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
-      <mat-tab class="label" label="ВЧИТЕЛІ" *ngIf="workshop">
+      <mat-tab class="label" label="ВИКЛАДАЧІ" *ngIf="workshop">
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
-      <mat-tab class="label" label="ІНШІ ГУРТКИ ШКОЛИ">
+      <mat-tab class="label" label="ІНШІ ГУРТКИ ЗАКЛАДУ">
         <app-all-provider-workshops [workshop]="workshop" [role]="role">
         </app-all-provider-workshops>
       </mat-tab>
@@ -51,7 +51,7 @@
 
   <a [routerLink]="['/details/provider',provider.id ]" fxLayout="row" fxLayoutAlign="start center">
     <span class="icon-text details-link">
-      <mat-icon class="card_icon">home</mat-icon>{{ provider.fullTitle }}
+      <mat-icon class="icon">home</mat-icon>{{ provider.fullTitle }}
     </span>
   </a>
 

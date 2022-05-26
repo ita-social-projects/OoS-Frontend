@@ -13,6 +13,7 @@ import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@an
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
 enum ViewType {
   map = 'map',
@@ -48,6 +49,8 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   isMobileScreen: boolean;
   isHidden: boolean;
+  
+  readonly WorkshopDeclination = WorkshopDeclination;
 
   @HostListener('window:resize', ['$event'])
   public onResize(event): void {
@@ -81,7 +84,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       })
 
     this.store.dispatch([
-      new AddNavPath(this.navigationBarService.creatOneNavPath(
+      new AddNavPath(this.navigationBarService.createOneNavPath(
         { name: NavBarName.TopWorkshops, isActive: false, disable: true }
       )),
       new GetFilteredWorkshops(this.currentView === this.viewType.map)

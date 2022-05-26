@@ -1,3 +1,5 @@
+@import "src/app/shared/styles/application-statuses.scss";
+
 .status-menu,
 .application-popup-status,
 .mat-application-menu,
@@ -17,23 +19,6 @@
 .application-info-description-card {
   color: #aaaaaa;
 }
-.Approved, .StudyingForYears {
-  color: #199953;
-}
-.Pending {
-  color: #ffbd00;
-}
-.AcceptedForSelection {
-  color: #27a3ff;
-}
-.Rejected,
-.Blocked {
-  color: #c72a21;
-}
-.Completed, .Left {
-  color: #888888;
-}
-
 .application-info-span {
   background-color: #ffffff !important;
 }

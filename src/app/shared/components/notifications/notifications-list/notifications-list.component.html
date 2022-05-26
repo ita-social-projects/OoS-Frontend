@@ -15,7 +15,7 @@
 <ng-template #Notifications let-notificationsData>
   <ng-container *ngIf="notificationsData.notificationsGrouped.length">
     <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap"
-      fxLayoutAlign="space-between center">{{getDeclensionNewApplication(notifications.amount)}}
+      fxLayoutAlign="space-between center">{{notifications.amount | declination: defineDeclination(notifications.groupedData) }}
       <mat-icon class="icon" (click)="onReadGroup(notifications)">
         arrow_forward</mat-icon>
     </span>

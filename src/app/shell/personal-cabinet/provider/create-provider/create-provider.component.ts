@@ -6,7 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { createProviderSteps } from 'src/app/shared/enum/provider';
+import { CreateProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -61,7 +61,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   ngAfterViewInit(): void {
     if (this.editMode) {
       this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +createProviderSteps[params.param];
+        this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
     }
   }
@@ -75,7 +75,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
       { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
@@ -150,13 +150,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       form.get(key).markAsTouched();
     });
   }
-
-  checkEmpty(form: FormGroup): boolean {     
-    return Object.keys(form.controls).some((key: string) => (!form.get(key).value
-      && form.get(key).status === 'INVALID' 
-      || Object.values(form.get(key).value).some((val: string) => !val)));       
-  }
-
+  
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */

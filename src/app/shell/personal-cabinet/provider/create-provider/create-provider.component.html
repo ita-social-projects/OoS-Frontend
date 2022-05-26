@@ -18,7 +18,7 @@
           <button class="btn" 
             mat-raised-button matStepperNext 
             (click)="checkValidation(InfoFormGroup)"            
-            [disabled]="checkEmpty(InfoFormGroup)"
+            [disabled]="InfoFormGroup.invalid"
           >ДАЛІ</button>
         </div>
       </mat-step>
@@ -36,7 +36,7 @@
               class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-raised-button matStepperNext
             (click)="checkValidationContacts(ContactsFormGroup)"
-            [disabled]="checkEmpty(ContactsFormGroup)">ДАЛІ</button>
+            [disabled]="ContactsFormGroup.invalid">ДАЛІ</button>
         </div>
       </mat-step>
 

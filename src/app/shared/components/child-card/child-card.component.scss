@@ -1,6 +1,10 @@
 @import "src/app/shared/styles/cards.scss";
 .card {
   height: 410px;
+  .img-section {
+    height: 180px;
+    margin: 26px 0;
+  }
 }
 .mat-icon {
   color: #fff;
@@ -19,8 +23,9 @@
 .workshop-list{
   color: #3849F9;
   text-overflow: ellipsis;
-  max-height: 100px;
+  max-height: 64px;
   overflow: scroll;
+  width: 100%;
   .item{
     margin: .5rem 0 0 2rem;
     &:last-child{

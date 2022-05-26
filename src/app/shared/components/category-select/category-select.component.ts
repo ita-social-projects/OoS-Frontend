@@ -260,7 +260,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    * This method resets selected value of direction in teh form and input.
    */
   private clearDirections(): void {
-    this.directionIdControl.reset();
+    this.directionIdControl.setValue(null);
   }
 
   /**
@@ -268,7 +268,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    */
   private clearDepartments(clearState: boolean = false): void {
     clearState && this.store.dispatch(new ClearDepartments());
-    this.departmentIdControl.reset();
+    this.departmentIdControl.setValue(null);
   }
 
   /**
@@ -276,7 +276,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    */
   private clearClasses(clearState: boolean = false): void {
     clearState && this.store.dispatch(new ClearClasses());
-    this.classIdControl.reset();
+    this.classIdControl.setValue(null);
   }
 
   /**

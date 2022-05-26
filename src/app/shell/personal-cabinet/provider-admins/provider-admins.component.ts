@@ -16,6 +16,7 @@ import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/provide
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-provider-admins',
@@ -25,7 +26,8 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class ProviderAdminsComponent implements OnInit, OnDestroy {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
-  readonly noProviderAdmins = NoResultsTitle.noProviderAdmins;
+  readonly noProviderAdmins = NoResultsTitle.noUsers;
+  readonly constants: typeof Constants = Constants;
 
   @Select(UserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
@@ -62,7 +64,9 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     this.getAllProviderAdmins();
 
     this.providerAdmins$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
+        takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
@@ -94,8 +98,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phoneNumber: admin.phoneNumber,
-        isDeputy: admin.isDeputy,
+        phoneNumber: `${this.constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
       });
     });

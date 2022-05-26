@@ -1,21 +1,19 @@
+import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { AboutPortal } from "../models/aboutPortal.model";
+import { CompanyInformation, PlatformInfoStateModel } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { ChildCards } from "../models/child.model";
 import { PaginationElement } from "../models/paginationElement.model";
+import { Parent } from "../models/parent.model";
 import { CategoriesService } from "../services/categories/categories.service";
-import { PortalService } from "../services/portal/portal.service";
 import {
   DeleteDirectionById,
-  GetInfoAboutPortal,
   OnDeleteDirectionFail,
   OnDeleteDirectionSuccess,
-  OnUpdateInfoAboutPortalFail,
-  OnUpdateInfoAboutPortalSuccess,
-  UpdateInfoAboutPortal,
   CreateDirection,
   OnCreateDirectionFail,
   OnCreateDirectionSuccess,
@@ -49,94 +47,167 @@ import {
   OnDeleteDepartmentSuccess,
   GetDepartmentById,
   OnClearDepartment,
+  GetPlatformInfo,
+  GetAllProviders,
+  GetSupportInformation,
+  GetAboutPortal,
+  GetLawsAndRegulations,
+  UpdatePlatformInfo,
+  OnUpdatePlatformInfoSuccess,
+  OnUpdatePlatformInfoFail,
+  GetParents,
+  GetChildren,
 } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { Provider } from '../models/provider.model';
+import { PlatformService } from '../services/platform/platform.service';
+import { ParentService } from '../services/parent/parent.service';
+import { ChildrenService } from '../services/children/children.service';
+import { ProviderService } from '../services/provider/provider.service';
 
 export interface AdminStateModel {
+  aboutPortal: CompanyInformation,
+  supportInformation: CompanyInformation,
+  lawsAndRegulations: CompanyInformation,
   isLoading: boolean;
   direction: Direction;
   department: Department;
   iClass: IClass;
-  aboutPortal: AboutPortal;
   currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
+  parents: Parent[];
+  children: ChildCards;
+  providers: Provider[];
 }
 @State<AdminStateModel>({
   name: 'admin',
   defaults: {
     aboutPortal: null,
+    supportInformation: null,
+    lawsAndRegulations: null,
     direction: null,
     department: null,
     iClass: null,
     isLoading: false,
     searchQuery: '',
     filteredDirections: undefined,
+    parents: null,
+    children: null,
     currentPage: {
       element: 1,
       isActive: true
     },
+    providers: null,
   }
 })
 @Injectable()
 export class AdminState {
   adminStateModel: any;
-  @Selector()
-  static aboutPortal(state: AdminStateModel): AboutPortal { return state.aboutPortal; }
-  @Selector()
-  static direction(state: AdminStateModel): Direction { return state.direction; }
-  @Selector()
-  static department(state: AdminStateModel): Department { return state.department; }
-  @Selector()
-  static iClass(state: AdminStateModel): IClass { return state.iClass; }
-  @Selector()
-  static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
-  @Selector()
-  static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
-  @Selector()
-  static currentPage(state: AdminStateModel): {} { return state.currentPage; };
-  @Selector()
-  static isLoading(state: AdminStateModel): boolean { return state.isLoading };
 
+  @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
+  
+  @Selector() static providers(state: AdminStateModel): Provider[] { return state.providers; }
+  
+  @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation { return state.supportInformation; }
+
+  @Selector() static LawsAndRegulations(state: AdminStateModel): CompanyInformation { return state.lawsAndRegulations; }
+
+  @Selector() static direction(state: AdminStateModel): Direction { return state.direction; }
+
+  @Selector() static department(state: AdminStateModel): Department { return state.department; }
+
+  @Selector() static departments(state: AdminStateModel): Department [] { return state.departments; }
+
+  @Selector() static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
+
+  @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
+
+  @Selector() static currentPage(state: AdminStateModel): {} { return state.currentPage; }
+
+  @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
+
+  @Selector() static parents(state: AdminStateModel): Parent[] { return state.parents };
+  
+  @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
 
   constructor(
-    private portalService: PortalService,
+    private platformService: PlatformService,
     private categoriesService: CategoriesService,
+    private parentService: ParentService,
+    private childrenService: ChildrenService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private providerService: ProviderService,
   ) { }
 
-  @Action(GetInfoAboutPortal)
-  getInfoAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<AboutPortal> {
-    return this.portalService
-      .getInfoAboutPortal()
-      .pipe(
-        tap((aboutPortal: AboutPortal) => {
-          return patchState({ aboutPortal: aboutPortal });
-        }));
+  @Action(GetPlatformInfo)
+  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {  }: GetPlatformInfo): void {
+    dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
   }
 
-  @Action(UpdateInfoAboutPortal)
-  updateInfoAboutPortal({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateInfoAboutPortal): Observable<object> {
-    return this.portalService
-    .updateInfoAboutPortal(payload)
-    .pipe(
-      tap((res) => dispatch(new OnUpdateInfoAboutPortalSuccess(res))),
-      catchError((error: Error) => of(dispatch(new OnUpdateInfoAboutPortalFail(error))))
+  @Action(GetAllProviders)
+  getAllProviders({ patchState }: StateContext<AdminStateModel>): Observable<Provider[]> {
+    patchState({ isLoading: true });
+    return this.providerService.getAllProviders().pipe(
+      tap((providers: Provider[]) => {
+        return patchState({ providers: providers, isLoading: false });
+      })
     );
   }
 
-  @Action(OnUpdateInfoAboutPortalFail)
-  onUpdateInfoAboutPortalFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalFail): void {
+  @Action(GetAboutPortal)
+  getAboutPortal({ patchState }: StateContext<AdminStateModel>, {  }: GetAboutPortal): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.AboutPortal)
+      .pipe(
+        tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+  }
+
+  
+
+  @Action(GetSupportInformation)
+  getSupportInformation({ patchState }: StateContext<AdminStateModel>, {  }: GetSupportInformation): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.SupportInformation)
+      .pipe(
+        tap((supportInformation: CompanyInformation) => patchState({ supportInformation: supportInformation, isLoading: false })));
+  }
+
+  @Action(GetLawsAndRegulations)
+  getLawsAndRegulations({ patchState }: StateContext<AdminStateModel>, {  }: GetLawsAndRegulations): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(PlatformInfoType.LawsAndRegulations)
+      .pipe(
+        tap((lawsAndRegulations: CompanyInformation) => patchState({ lawsAndRegulations: lawsAndRegulations, isLoading: false })));
+  }
+
+  @Action(UpdatePlatformInfo)
+  updatePlatformInfo({ dispatch }: StateContext<AdminStateModel>, { payload, type }: UpdatePlatformInfo): Observable<object> {
+    return this.platformService
+      .updatePlatformInfo(payload, type)
+      .pipe(
+        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(type))),
+        catchError((error: Error) => of(dispatch(new OnUpdatePlatformInfoFail(error))))
+      );
+  }
+
+  @Action(OnUpdatePlatformInfoFail)
+  onUpdatePlatformInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
-  @Action(OnUpdateInfoAboutPortalSuccess)
-  onUpdateInfoAboutPortalSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateInfoAboutPortalSuccess): void {
+  @Action(OnUpdatePlatformInfoSuccess)
+  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/about']);
+
+    this.router.navigate([`/admin-tools/platform/${payload}`]);
   }
 
   @Action(DeleteDirectionById)
@@ -409,5 +480,27 @@ export class AdminState {
   @Action(OnClearDepartment)
   onClearDepartment({ patchState }: StateContext<AdminStateModel>, { }: OnClearDepartment): void {
     patchState({ department: null });
+  };
+
+  @Action(GetParents)
+  getParents({ patchState }: StateContext<AdminStateModel>, { }: GetParents): Observable<Parent[]> {
+    patchState({ isLoading: true });
+    return this.parentService
+      .getParents()
+      .pipe(
+        tap((parents: Parent[]) => {
+          return patchState({ parents: parents, isLoading: false });
+        }));
+  }
+
+  @Action(GetChildren)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+    patchState({ isLoading: true });
+    return this.childrenService
+      .getChildrenForAdmin()
+      .pipe(
+        tap((children: ChildCards) => {
+          return patchState({ children: children, isLoading: false });
+        }));
   }
 }

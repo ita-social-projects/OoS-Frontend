@@ -1,5 +1,5 @@
 <form [formGroup]="CategoryFormGroup" class="wrapper" fxLayout='column' fxLayoutAlign='center space-between'>
-  <label class="step-label"> Напрямок за яким здійснюється навчання <span class="step-required">*</span></label>
+  <label class="step-label">Напрямок за яким здійснюється навчання<span class="step-required">*</span></label>
   <input matInput type="text" placeholder="Почніть вводити напрямок або виберіть зі списку" class="step-input"
     formControlName="directionId" [matAutocomplete]="auto" disableOptionCentering (click)="getFullDirectionList()"
     autocomplete="off">
@@ -9,12 +9,12 @@
       {{ direction.title }}
     </mat-option>
   </mat-autocomplete>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="directionIdControl.invalid && directionIdControl.touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint
+    [validationFormControl]="directionIdControl">
+  </app-validation-hint>
 
   <ng-container *ngIf="(departments$ | async)?.length">
-    <label class="step-label"> Відділ <span class="step-required">*</span></label>
+    <label class="step-label">Відділ/профіль<span class="step-required">*</span></label>
     <input matInput type="text" placeholder="Почніть вводити відділ або виберіть зі списку" class="step-input"
       formControlName="departmentId" [matAutocomplete]="autoDepartment" disableOptionCentering
       panelClass="dropdown-panel" (click)="getFullDepartmentList()" autocomplete="off">
@@ -24,13 +24,13 @@
         {{ department.title }}
       </mat-option>
     </mat-autocomplete>
-    <app-validation-hint-for-input type="requiredField"
-      [invalid]="departmentIdControl.invalid && departmentIdControl.touched">
-    </app-validation-hint-for-input>
+    <app-validation-hint
+      [validationFormControl]="departmentIdControl">
+    </app-validation-hint>
   </ng-container>
 
   <ng-container *ngIf="(classes$ | async)?.length">
-    <label class="step-label"> Клас <span class="step-required">*</span></label>
+    <label class="step-label">Клас<span class="step-required">*</span></label>
     <input matInput type="text" placeholder="Почніть вводити клас або виберіть зі списку" class="step-input"
       formControlName="classId" [matAutocomplete]="autoClasses" disableOptionCentering panelClass="dropdown-panel"
       (click)="getFullClassList()" autocomplete="off">
@@ -40,8 +40,9 @@
         {{ classItem.title }}
       </mat-option>
     </mat-autocomplete>
-    <app-validation-hint-for-input type="requiredField" [invalid]="classIdControl.invalid && classIdControl.touched">
-    </app-validation-hint-for-input>
+    <app-validation-hint
+      [validationFormControl]="classIdControl">
+    </app-validation-hint>
   </ng-container>
 
 </form>

@@ -1,5 +1,7 @@
 import { map } from 'rxjs/internal/operators/map';
+import { Constants } from '../constants/constants';
 import { Child } from '../models/child.model';
+import { UsersTable } from '../models/usersTable';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -30,20 +32,20 @@ export class Util {
    * @param maxAge number
    * @returns Date
    */
-     public static getMinBirthDate(maxAge: number): Date {
-      const today = new Date();
-      let minBirthDate = new Date();
+  public static getMinBirthDate(maxAge: number): Date {
+    const today = new Date();
+    let minBirthDate = new Date();
 
-      minBirthDate.setFullYear(today.getFullYear() - maxAge);
-  
-      return minBirthDate;
-    }
+    minBirthDate.setFullYear(today.getFullYear() - maxAge);
+
+    return minBirthDate;
+  }
 
   /**
    * This method returns max birth date
    * @returns Date
    */
-   public static getMaxBirthDate(): Date {
+  public static getMaxBirthDate(): Date {
     const today = new Date();
 
     return today;
@@ -107,14 +109,24 @@ export class Util {
   }
 
   /**
- * This method returns declension for new application
- * @param applicationAmount
- * @returns string
- */
-  public static getDeclensionNewApplication(applicationAmount: number): string {
-    let lastDigit = applicationAmount % 10;
-    let text = (lastDigit === 1) ? 'нова зміна у заявках' : 'нових змін у заявках';
-    return `У вас ${applicationAmount} ` + text;
-  }
-
+   * This method returns updated array structure for the table
+   * @param users Users array of objects
+   * @returns array of objects
+   */
+  public static updateStructureForTheTable(users): UsersTable[] {
+  const constants: typeof Constants = Constants;
+  let updatedUsers = [];
+  users.forEach((user) => {
+    updatedUsers.push({
+      id: user.id,
+      pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
+      email: user.email || constants.NO_INFORMATION,
+      place: user.place || constants.NO_INFORMATION,
+      phoneNumber: user.phoneNumber ? `${constants.PHONE_PREFIX} ${user.phoneNumber}` : constants.NO_INFORMATION,
+      role: user.parentId ? 'Діти' : 'Батьки',
+      status: user.accountStatus || 'Accepted',
+    });
+  });
+  return updatedUsers;
+}
 }

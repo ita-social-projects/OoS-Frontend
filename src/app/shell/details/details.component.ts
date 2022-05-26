@@ -121,7 +121,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private getEntityData(providerId: string, title: string): void {
     this.store.dispatch(new GetWorkshopsByProviderId(providerId));
     this.store.dispatch(new AddNavPath(
-      this.navigationBarService.creatNavPaths(
+      this.navigationBarService.createNavPaths(
         { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
         { name: title, isActive: false, disable: true },
       )));

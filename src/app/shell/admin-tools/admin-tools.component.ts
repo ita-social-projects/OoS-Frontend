@@ -14,7 +14,7 @@ export class AdminToolsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, public navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatOneNavPath(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createOneNavPath(
       { name: NavBarName.AdminTools,
         isActive: false, disable: true }
     )));

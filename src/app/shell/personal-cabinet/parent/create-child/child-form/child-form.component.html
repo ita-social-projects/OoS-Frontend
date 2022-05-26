@@ -3,89 +3,53 @@
 
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ChildFormGroup.get('lastName').errors?.required"
-    [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched"
-    [forbiddenCharacter]="ChildFormGroup.get('lastName').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('lastName').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('lastName').errors?.maxlength"
-    [invalid]="ChildFormGroup.get('lastName').invalid && ChildFormGroup.get('lastName').touched"
-    [minCharachters]="1"
-    [maxCharachters]="30">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('lastName')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ChildFormGroup.get('firstName').errors?.required"
-    [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched"
-    [forbiddenCharacter]="ChildFormGroup.get('firstName').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('firstName').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('firstName').errors?.maxlength"
-    [invalid]="ChildFormGroup.get('firstName').invalid && ChildFormGroup.get('firstName').touched"
-    [minCharachters]="1"
-    [maxCharachters]="30">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('firstName')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="ChildFormGroup.get('middleName').errors?.required"
-    [invalid]="ChildFormGroup.get('middleName').invalid && ChildFormGroup.get('middleName').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="ChildFormGroup.get('middleName').invalid && ChildFormGroup.get('middleName').touched"
-    [forbiddenCharacter]="ChildFormGroup.get('middleName').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('middleName').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('middleName').errors?.maxlength"
-    [invalid]="ChildFormGroup.get('middleName').invalid && ChildFormGroup.get('middleName').touched"
-    [minCharachters]="1"
-    [maxCharachters]="30">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('middleName')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" formControlName="dateOfBirth" [appKeyFilter]="dateFilter" placeholder="20.01.2010">
+    <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" formControlName="dateOfBirth" [appKeyFilter]="dateFilter" [placeholder]="dateFormPlaceholder">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="ChildFormGroup.get('dateOfBirth').pristine && ChildFormGroup.get('dateOfBirth').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validDateFormat"
-    [invalid]="ChildFormGroup.get('dateOfBirth').invalid && ChildFormGroup.get('dateOfBirth').dirty && ChildFormGroup.get('dateOfBirth').touched"
-    [minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="outOfRangeDate"
-    [minMaxDate]="ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMin') || ChildFormGroup.get('dateOfBirth').hasError('matDatepickerMax')">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('dateOfBirth')" 
+    minMaxDate="true">
+  </app-validation-hint>
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
   <mat-radio-group formControlName="gender" color="primary">
     <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
     <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
   </mat-radio-group>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="ChildFormGroup.get('gender').invalid && ChildFormGroup.get('gender').touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('gender')">
+  </app-validation-hint>
 
   <label class="step-label">Соціальна група</label>
   <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
@@ -100,51 +64,33 @@
 
   <label class="step-label">Місце проживання</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="validAddressField"
-    [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
-    [forbiddenCharacter]="ChildFormGroup.get('placeOfLiving').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('placeOfLiving').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('placeOfLiving').errors?.maxlength"
-    [invalid]="ChildFormGroup.get('placeOfLiving').invalid && ChildFormGroup.get('placeOfLiving').touched"
-    [minCharachters]="1"
-    [maxCharachters]="256">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
 
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="validAddressField"
-    [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
-    [forbiddenCharacter]="ChildFormGroup.get('placeOfStudy').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('placeOfStudy').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('placeOfStudy').errors?.maxlength"
-    [invalid]="ChildFormGroup.get('placeOfStudy').invalid && ChildFormGroup.get('placeOfStudy').touched"
-    [minCharachters]="1"
-    [maxCharachters]="256">
-    [minCharachters]="10" [maxCharachters]="256">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
 
   <label class="step-label">Серія та номер свідоцтва про народження</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="validBirthCertificate"
-    [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
-    [forbiddenCharacter]="ChildFormGroup.get('certificateOfBirth').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validLength"
-    [minLength]="ChildFormGroup.get('certificateOfBirth').errors?.minlength"
-    [maxLength]="ChildFormGroup.get('certificateOfBirth').errors?.maxlength"
-    [invalid]="ChildFormGroup.get('certificateOfBirth').invalid && ChildFormGroup.get('certificateOfBirth').touched"
-    [minCharachters]="10" [maxCharachters]="20">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
+  </app-validation-hint>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1" class="addChild">
     <button class="btn-reset" mat-button (click)="delete()">

@@ -4,30 +4,30 @@
   </app-image-form-control>
 
   <div class="step-label-combined">
-    <label class="step-label"> Опис <span class="step-required">*</span></label>
+    <label class="step-label">Опис<span class="step-required">*</span></label>
     <label class="step-characters-count">
-      {{DescriptionFormGroup.get('description').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
+      {{DescriptionFormGroup.get('description').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}</label>
   </div>
   <mat-form-field appearance="none">
-    <textarea matInput class="step-textarea" placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-      formControlName="description" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів"
+      formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}" appTrimValue></textarea>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="DescriptionFormGroup.get('description').invalid && DescriptionFormGroup.get('description').touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint
+    [validationFormControl]="DescriptionFormGroup.get('description')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+  </app-validation-hint>
 
-  <label class="step-label"> Директор <span class="step-required">*</span></label>
+  <label class="step-label">Директор<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
-    <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head" autocomplete="none">
+    <input matInput class="step-input step-input-field" placeholder="П.І.Б." formControlName="head" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="DescriptionFormGroup.get('head').errors?.required"
-    [invalid]="DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="DescriptionFormGroup.get('head').invalid && DescriptionFormGroup.get('head').touched"
-    [forbiddenCharacter]="DescriptionFormGroup.get('head').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint
+    [validationFormControl]="DescriptionFormGroup.get('head')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
   <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column'
@@ -35,20 +35,24 @@
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
     <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
-      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none">
+      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none" appTrimValue>
+      <app-validation-hint
+        [minCharachters]="validationConstants.INPUT_LENGTH_1"
+        [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+      </app-validation-hint>
   </mat-radio-group>
 
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
   </app-category-select>
 
   <div class="step-label-combined">
-    <label class="step-label">Ключові слова <span class="step-required">*</span></label>
-    <label class="step-characters-count">{{keyWords.length}}/{{constants.MAX_KEYWORDS_LENGTH}}</label>
+    <label class="step-label">Ключові слова<span class="step-required">*</span></label>
+    <label class="step-characters-count">{{keyWords.length}}/{{validationConstants.MAX_KEYWORDS_LENGTH}}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()"
     [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
     <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими
-      користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум 5 слів)</span>
+      користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум {{validationConstants.MAX_KEYWORDS_LENGTH}} слів)</span>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
@@ -56,11 +60,10 @@
       </mat-chip>
       <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}" [disabled]="disabledKeyWordsInput"
         #keyWordsInput (focusout)="onKeyWordsInput()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"
-        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none">
+        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none" appTrimValue>
     </mat-chip-list>
   </div>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
-  </app-validation-hint-for-input>
-
+  <app-validation-hint
+    [validationFormControl]="DescriptionFormGroup.get('keyWords')">
+  </app-validation-hint>
 </form>

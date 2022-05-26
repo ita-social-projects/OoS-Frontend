@@ -82,6 +82,7 @@ import {
   BlockProviderAdminById,
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
+  OnGetProviderByIdFail,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -104,18 +105,18 @@ export interface UserStateModel {
   name: 'user',
   defaults: {
     isLoading: false,
-    workshops: [],
+    workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: [],
+    applications: null,
     children: undefined,
-    favoriteWorkshops: [],
-    favoriteWorkshopsCard: [],
+    favoriteWorkshops: null,
+    favoriteWorkshopsCard: null,
     currentPage: {
       element: 1,
       isActive: true
     },
-    providerAdmins: [],
+    providerAdmins: null,
   }
 })
 @Injectable()
@@ -166,9 +167,7 @@ export class UserState {
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
-        tap((workshop: Workshop) => {
-          return patchState({ selectedWorkshop: workshop, isLoading: false });
-        }),
+        tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
         catchError((error: Error) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
   }
 
@@ -181,13 +180,21 @@ export class UserState {
   }
 
   @Action(GetProviderById)
-  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById): Observable<Provider> {
+  getProviderById({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: GetProviderById): Observable<object> {
+    patchState({ isLoading: true });
+
     return this.providerService
       .getProviderById(payload)
       .pipe(
-        tap((provider: Provider) => {
-          return patchState({ selectedProvider: provider });
-        }));
+        tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
+        catchError((error: Error) => of(dispatch(new OnGetProviderByIdFail(error)))));
+  }
+
+  @Action(OnGetProviderByIdFail)
+  onGetProviderByIdFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnGetProviderByIdFail): void {
+    throwError(payload);
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: 'Виникла помилка', type: 'error' }));
   }
 
   @Action(GetWorkshopsByProviderId)
@@ -202,10 +209,10 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId): Observable<Application[]> {
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, status }: GetApplicationsByParentId): Observable<Application[]> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsByParentId(payload)
+      .getApplicationsByParentId(id, status)
       .pipe(
         tap((applications: Application[]) => {
           return patchState({ applications: applications, isLoading: false });
@@ -332,7 +339,7 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'Дякуємо! Дитина була успішно додана.', type: 'success' }));
     this.router.navigate(['/personal-cabinet/parent/info']);
   }
- 
+
   @Action(CreateProvider)
   createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
     return this.providerService
@@ -437,12 +444,14 @@ export class UserState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
-    throwError(payload);    
-    dispatch(new ShowMessageBar({ message: payload.error.status === 429 
-      ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(payload.headers.get('retry-after'))}`           
-      : 'На жаль виникла помилка',      
-      type: 'error', 
-      info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : ''}));      
+    throwError(payload);
+    dispatch(new ShowMessageBar({
+      message: payload.error.status === 429
+        ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(payload.headers.get('retry-after'))}`
+        : 'На жаль виникла помилка',
+      type: 'error',
+      info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : ''
+    }));
   }
 
   @Action(OnCreateApplicationSuccess)
@@ -526,7 +535,7 @@ export class UserState {
   }
 
   @Action(UpdateProvider)
-  updateProvider({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateProvider): Observable<object> {
+  updateProvider({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: UpdateProvider): Observable<object> {
     return this.providerService
       .updateProvider(payload)
       .pipe(
@@ -538,6 +547,7 @@ export class UserState {
   @Action(OnUpdateProviderFail)
   onUpdateProviderfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderFail): void {
     throwError(payload);
+
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
@@ -574,7 +584,6 @@ export class UserState {
     this.router.navigate(['/personal-cabinet/config']);
   }
 
-
   @Action(UpdateApplication)
   updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication): Observable<object> {
     return this.applicationService
@@ -593,12 +602,12 @@ export class UserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-
     dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left
       ? messageStatus.left
       : messageStatus.approved, type: 'success' }));
-    dispatch(new GetApplicationsByParentId(payload.parentId));
+    dispatch(new GetApplicationsByParentId(payload.parentId, payload.status));
   }
+
   @Action(CreateRating)
   createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating): Observable<object> {
     return this.ratingService

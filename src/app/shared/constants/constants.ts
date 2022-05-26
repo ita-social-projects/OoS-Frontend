@@ -35,6 +35,7 @@ export class Constants {
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
+  static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
@@ -49,8 +50,8 @@ export class Constants {
     region: 'м.Київ',
   };
 
-  static readonly IMG_URL = '/api/v1/PublicImage/';
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
+  static readonly NO_INFORMATION = `не вказано`;
 }
 
 export class PaginationConstants {

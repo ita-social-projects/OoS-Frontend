@@ -6,6 +6,7 @@ import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
@@ -26,6 +27,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class ReviewsComponent implements OnInit, OnDestroy {
 
   readonly Role: typeof Role = Role;
+  readonly ReviewDeclination = ReviewDeclination;
 
   @Input() workshop: Workshop;
   @Input() role: string;
