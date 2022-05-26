@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxsModule } from '@ngxs/store';
@@ -19,6 +20,7 @@ describe('CityConfirmationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CityConfirmationComponent);
     component = fixture.componentInstance;
+    component.city$ = new Observable();
     fixture.detectChanges();
   });
 
