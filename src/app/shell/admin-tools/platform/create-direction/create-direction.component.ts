@@ -1,20 +1,15 @@
+import {  OnCreateDepartmentSuccess, OnCreateDirectionSuccess, OnUpdateDepartmentSuccess, OnUpdateDirectionSuccess } from 'src/app/shared/store/admin.actions';
+import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { createDirectionSteps } from 'src/app/shared/enum/provider-admin';
-import { Department, Direction, IClass } from 'src/app/shared/models/category.model';
-import { CreateClass } from 'src/app/shared/store/admin.actions';
+import { Department, Direction } from 'src/app/shared/models/category.model';
+import { GetDirectionById, OnClearCategories } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-create-direction',
@@ -27,92 +22,54 @@ import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 })
 
 export class CreateDirectionComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper') stepper: MatStepper;
 
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
   direction: Direction;
   @Select(AdminState.department)
   department$: Observable<Department>;
-  department: Department;
+  department:Department;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  editMode = true;
-
-  @ViewChild('stepper') stepper: MatStepper;
-
-  ClassFormArray: FormArray = new FormArray([]);
-  @Input() classes: IClass[];
-
-  departmentFormGroup: FormGroup;
-  directionFormGroup: FormGroup;
-  ClassFormGroup: FormGroup;
+  editMode: boolean;
 
   constructor(
-    private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
-    private router: Router,
-    private matDialog: MatDialog,) { }
+    private actions$: Actions) {
 
-    ngOnInit(): void {
-      this.addClass();
-      this.direction$.pipe(takeUntil(this.destroy$),filter((direction: Direction)=>!!direction)).subscribe((direction: Direction)=>this.direction = direction);
-      this.department$.pipe(takeUntil(this.destroy$),filter((department: Department)=>!!department)).subscribe((department: Department)=>this.department = department);
-    }
-
-    private newForm( ): FormGroup {
-      const ClassFormGroup = this.fb.group({
-        title: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      });
-      return ClassFormGroup;
-    }
-
-  addClass(): void {
-    this.ClassFormArray.push(this.newForm());
+    this.direction$.pipe(
+      takeUntil(this.destroy$),
+      filter((direction: Direction)=> !!direction)
+    ).subscribe((direction: Direction)=> this.direction = direction);
+    this.department$.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((department: Department)=> this.department = department);
+    this.actions$.pipe(
+      takeUntil(this.destroy$),
+      ofAction(
+        OnUpdateDepartmentSuccess,
+        OnUpdateDirectionSuccess,
+        OnCreateDepartmentSuccess,
+        OnCreateDirectionSuccess,
+    )).subscribe(()=> this.stepper.next());
   }
 
-  onDeleteForm(indexClass: number): void {
-    this.ClassFormArray.removeAt(indexClass);
+  ngOnInit(): void {
+    this.determineEditMode();
   }
 
-  onSubmit(): void {
-    if (this.ClassFormArray.invalid) {
-      this.checkValidationClass();
-    } else {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: '330px',
-        data: {
-          type: ModalConfirmationType.createClass,
-        }
-      });
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-      const classes: IClass[] = [];
-      const department = this.store.selectSnapshot<Department>(AdminState.department);
-
-      this.ClassFormArray.controls.forEach((form: FormGroup) =>
-        classes.push(new IClass(form.value, department.id))
-        );
-        this.store.dispatch(new CreateClass(classes));
-      } else {
-        this.router.navigate([`/admin-tools/platform/directions`]);
-       }
-     });
+  private determineEditMode(): void {
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+    if (this.editMode) {
+      const directionId = parseInt(this.route.snapshot.paramMap.get('param'));
+      this.store.dispatch( new GetDirectionById(directionId));
     }
-   }
-
-    checkValidationClass(): void {
-    Object.keys(this.ClassFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.ClassFormArray.get(key));
-    });
-  }
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).markAsTouched();
-    });
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new OnClearCategories())
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

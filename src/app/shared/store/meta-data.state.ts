@@ -150,16 +150,17 @@ export class MetaDataState {
     return this.categoriesService
       .getDepartmentsByDirectionId(payload)
       .pipe(
-        tap((departments: Department[]) => patchState({ departments: departments })
+        tap((departments: Department[]) => patchState({ departments: departments, isLoading: false })
         ))
   }
 
   @Action(GetClasses)
   getClasses({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetClasses): Observable<IClass[]> {
+    patchState({ isLoading: true })
     return this.categoriesService
       .getClassByDepartmentId(payload)
       .pipe(
-        tap((classes: IClass[]) => patchState({ classes: classes })
+        tap((classes: IClass[]) => patchState({ classes: classes, isLoading: false })
         ))
   }
 
@@ -183,12 +184,12 @@ export class MetaDataState {
 
   @Action(ClearClasses)
   clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses): void {
-    patchState({ classes: undefined });
+    patchState({ classes: null });
   }
 
   @Action(ClearDepartments)
   clearDepartments({ patchState }: StateContext<MetaDataStateModel>, { }: ClearDepartments): void {
-    patchState({ departments: undefined });
+    patchState({ departments: null });
   }
 
   @Action(GetCities)
