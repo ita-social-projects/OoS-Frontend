@@ -23,6 +23,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-child',
@@ -49,7 +50,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private matDialog: MatDialog) {
+    private matDialog: MatDialog,
+    private location: Location) {
     super(store, route, navigationBarService);
 
     this.socialGroups$
@@ -189,6 +191,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         });
       }
     }
+  }
+
+  /**
+  * This method navigate back
+  */
+  onCancel(): void {
+    this.location.back();
   }
 
   /**
