@@ -1,14 +1,14 @@
 <mat-form-field class="dropdown-wrapper">
-  <mat-label class="label" [ngClass]="{'disabled-field': workshops?.length < 1}">Усі гуртки</mat-label>
-  <mat-select [disabled]="workshops?.length < 1" [formControl]="workshopControl" multiple class="dropdown" disableOptionCentering
-    panelClass="dropdown-panel application-dropdown">
+  <mat-label class="label" [ngClass]="{'disabled-field': entities?.length < 1}">{{ getlabelTitle(entities?.length) }}</mat-label>
+  <mat-select [disabled]="entities?.length < 1" [formControl]="entityControl" multiple class="dropdown" disableOptionCentering
+    panelClass="dropdown-panel application-dropdown ">
     <mat-select-trigger>
-      <div *ngIf="workshopControl.value?.length">
-        <span *ngIf="workshopControl.value?.length > 1"> {{workshopControl.value?.length}} гуртків вибрано </span>
-        <span *ngIf="workshopControl.value?.length === 1"> {{workshopControl.value[0].title}} </span>
+      <div *ngIf="entityControl.value?.length">
+        <span *ngIf="entityControl.value?.length > 1"> {{entityControl.value?.length | declination: Declination}} вибрано </span>
+        <span *ngIf="entityControl.value?.length === 1"> {{ getEntityTitle(entityControl.value[0]) }} </span>
       </div>
     </mat-select-trigger>
-    <mat-option class="dropdown-option" *ngFor="let workshop of workshops" [value]="workshop">{{ workshop.title }}
+    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ getEntityTitle(entity) }}
     </mat-option>
   </mat-select>
 </mat-form-field>

@@ -1,0 +1,35 @@
+.info {
+  position: relative;
+
+  &-content {
+    position: relative;
+    top: -33px;
+    text-align: center;
+    width: 97.6%;
+    margin: 0 auto 2%;
+    background: #ffffff;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 0 0 5px 5px
+  }
+
+  &-title {
+    padding-top: 25px;
+    font-size: 33px;
+  }
+
+  &-text {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+    width: 70%;
+    margin: 0 auto;
+
+    p {
+      margin: 1rem auto;
+    }
+  }
+
+  &-link {
+    color: blue;
+    font-weight: 300;
+  }
+}

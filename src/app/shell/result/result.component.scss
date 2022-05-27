@@ -116,7 +116,7 @@
 
 :host ::ng-deep app-full-search-bar {
   min-width: 300px;
-  max-width: 378px;
+  max-width: 420px;
   width: 100%;
 
   app-searchbar {
@@ -165,7 +165,6 @@
     position: relative;
     z-index: 2;
     width: 90vw;
-    margin-left: 5vw;
 
     &.mobile-map-view {
       position: absolute;

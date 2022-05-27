@@ -47,11 +47,24 @@ import { StatusInfoCardComponent } from './components/status-info-card/status-in
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { WorkingHoursFormComponent } from './components/working-hours-form/working-hours-form.component';
+import { WorkingHoursFormComponent } from './components/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
 import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
+import { UsersListComponent } from './components/users-list/users-list.component';
+import { KeyFilterDirective } from './directives/key-filter.directive';
+import { CustomCarouselDirective } from './directives/custom-carousel.directive';
+import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
+import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
+import { DeclinationPipe } from './pipes/declination.pipe';
+import { ProviderInfoComponent } from './components/provider-info/provider-info.component';
+import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
+import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
+import { TrimValueDirective } from './directives/trim-value.directive';
+import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +113,19 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     SidenavFiltersComponent,
     RejectModalWindowComponent,
     ImageCarouselComponent,
+    NotificationsComponent,
+    NotificationsListComponent,
+    UsersListComponent,
+    KeyFilterDirective,
+    CustomCarouselDirective,
+    PhoneTransformPipe,
+    ProviderAdminsFilterPipe,
+    DeclinationPipe,
+    ProviderInfoComponent,    
+    ApplicationChildSortingPipe,
+    ValidationHintComponent,
+    TrimValueDirective,
+    WorkingHoursFormWrapperComponent,
   ],
   imports: [
     MaterialModule,
@@ -110,7 +136,7 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
-    IvyCarouselModule
+    IvyCarouselModule,
   ],
   exports: [
     FiltersListComponent,
@@ -157,7 +183,19 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
-    ImageCarouselComponent
+    ImageCarouselComponent,
+    NotificationsComponent,
+    UsersListComponent,
+    ProviderInfoComponent,
+    KeyFilterDirective,
+    CustomCarouselDirective,
+    PhoneTransformPipe,
+    ProviderAdminsFilterPipe,
+    DeclinationPipe,
+    ApplicationChildSortingPipe,
+    ValidationHintComponent,
+    TrimValueDirective,
+    WorkingHoursFormWrapperComponent
   ]
 })
 export class SharedModule { }

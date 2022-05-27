@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
 import { City } from '../models/city.model';
@@ -9,8 +10,10 @@ import { WorkingDaysToggleValue } from '../models/workingHours.model';
 export class Constants {
   static readonly CLASS_AMOUNT_MIN = 1;
   static readonly CLASS_AMOUNT_MAX = 7;
+  static readonly CHILDREN_AMOUNT_MAX = 20;
   static readonly AGE_MIN = 0;
   static readonly AGE_MAX = 18;
+  static readonly BIRTH_AGE_MAX = 120;
   static readonly MIN_PRICE = 1;
   static readonly MAX_PRICE = 10000;
   static readonly MIN_TIME = '00:00';
@@ -24,8 +27,6 @@ export class Constants {
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
 
-  static readonly ITEMS_PER_PAGE = 8;
-
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
   static readonly RATE_THREE_STAR = 3;
@@ -34,13 +35,13 @@ export class Constants {
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
+  static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
-
-  static WorkingDaysValues: any;
-
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
 
+  static readonly NO_CITY = 'Такого міста немає';
   static readonly KIEV: City = {
     district: 'м.Київ',
     id: 14446,
@@ -50,8 +51,8 @@ export class Constants {
     region: 'м.Київ',
   };
 
-  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
-
+  static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
+  static readonly NO_INFORMATION = `не вказано`;
 }
 
 export class PaginationConstants {
@@ -59,7 +60,9 @@ export class PaginationConstants {
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
   static readonly PAGINATION_DOTS = '...';
   static readonly PAGINATION_SHIFT_DELTA = 3;
-}
+  static readonly ITEMS_PER_PAGE_TEN = 10;
+  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332))
+};
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -103,3 +106,7 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
     selected: false,
   }
 ];
+
+export class NotificationsConstants {
+  static readonly NO_MESSAGE = 'У вас немає нових повідомлень';
+}

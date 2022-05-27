@@ -3,11 +3,16 @@
   <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
 
   <ng-container *ngIf="isEditMode">
-    <a routerLink="./create" class="config_edit-icon">
+    <div  [routerLink]="['./create', direction.id]" class="config_edit-icon">
       <button mat-button class="config-button">
         <mat-icon>edit</mat-icon>
       </button>
-    </a>
+    </div>
+    <div class="del-icon" (click)="onDelete()" >
+    <button mat-button class="del-button">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
   </ng-container>
 
   <div class="details">

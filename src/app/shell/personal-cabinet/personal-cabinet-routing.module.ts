@@ -6,6 +6,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
 import { WorkshopsComponent } from './workshops/workshops.component';
+import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,7 @@ const routes: Routes = [
     component: MessagesComponent,
   },
   {
-    path: 'applications',
+    path: 'applications/:param',
     component: ApplicationsComponent,
   },
   {
@@ -33,7 +34,11 @@ const routes: Routes = [
     path: 'parent',
     loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard]
-  }
+  },
+  {
+    path: 'administration/:param',
+    component: ProviderAdminsComponent,
+  },
 ];
 
 @NgModule({

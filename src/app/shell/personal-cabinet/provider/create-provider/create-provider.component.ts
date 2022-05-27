@@ -1,12 +1,12 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { createProviderSteps } from 'src/app/shared/enum/provider';
+import { CreateProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -25,10 +25,10 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
     useValue: { displayDefaultIndicatorType: false }
   }]
 })
-export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   provider: Provider;
   isAgreed: boolean;
-  isNotRobot: boolean;
+  isNotRobot: boolean;  
 
   InfoFormGroup: FormGroup;
   ActualAddressFormGroup: FormGroup;
@@ -41,7 +41,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   @ViewChild('stepper') stepper: MatStepper;
 
-  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService) {
+  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private changeDetector : ChangeDetectorRef) {
     super(store, route, navigationBarService);
   }
 
@@ -55,14 +55,18 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+        
   }
 
   ngAfterViewInit(): void {
     if (this.editMode) {
       this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +createProviderSteps[params.param];
+        this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
     }
+  }
+  ngAfterViewChecked(){
+    this.changeDetector.detectChanges();
   }
 
   setEditMode(): void {
@@ -71,7 +75,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
       { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
@@ -137,7 +141,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.subscribeOnDirtyForm(form);
   }
 
-
   /**
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
@@ -147,7 +150,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       form.get(key).markAsTouched();
     });
   }
-
+  
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */

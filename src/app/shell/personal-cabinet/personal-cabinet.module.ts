@@ -11,6 +11,7 @@ import { UserConfigComponent } from './user-config/user-config.component';
 import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     WorkshopsComponent,
     UserConfigComponent,
     UserConfigEditComponent,
+    ProviderAdminsComponent,
   ],
   imports: [
     CommonModule,

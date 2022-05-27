@@ -1,67 +1,54 @@
 <div class="create-form">
   <div class="wrapper">
+
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} НАПРЯМОК</h3>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <label class="step-label"> Назва напрямку <span class="step-required">*</span></label>
-          <i class="material-icons status-info-icon" (click)="isActiveDirectionInfoButton=!isActiveDirectionInfoButton"
-          [ngClass]="isActiveDirectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-        </div>
-        <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="directionName">
-        </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="directionFormGroup.get('directionName').errors?.required"
-          [invalid]="directionFormGroup.get('directionName').invalid && directionFormGroup.get('directionName').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="directionFormGroup.get('directionName').invalid && directionFormGroup.get('directionName').touched"
-          [forbiddenCharacter]="directionFormGroup.get('directionName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
 
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <label class="step-label"> Назва відділення <span class="step-required">*</span></label>
-          <i class="material-icons status-info-icon" (click)="isActiveSectionInfoButton=!isActiveSectionInfoButton"
-          [ngClass]="isActiveSectionInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-        </div>
-        <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="sectionName">
-        </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="directionFormGroup.get('sectionName').errors?.required"
-          [invalid]="directionFormGroup.get('sectionName').invalid && directionFormGroup.get('sectionName').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="directionFormGroup.get('sectionName').invalid && directionFormGroup.get('sectionName').touched"
-          [forbiddenCharacter]="directionFormGroup.get('sectionName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
+    <mat-horizontal-stepper #stepper [linear]="!editMode">
 
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <label class="step-label"> Назва класу <span class="step-required">*</span></label>
-          <i class="material-icons status-info-icon" (click)="isActiveClassInfoButton=!isActiveClassInfoButton"
-          [ngClass]="isActiveClassInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-        </div>
-        <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="className">
-        </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="directionFormGroup.get('className').errors?.required"
-          [invalid]="directionFormGroup.get('className').invalid && directionFormGroup.get('className').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="directionFormGroup.get('className').invalid && directionFormGroup.get('className').touched"
-          [forbiddenCharacter]="directionFormGroup.get('className').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
-      </form>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button
-          class="btn btn-cancel">Скасувати</button></a>
-      <button [disabled]="!directionFormGroup.valid" class="btn" mat-button type="submit"
-        (click)="onSubmit()">Додати</button>
-    </div>
+      <mat-step>
+        <ng-template matStepLabel>
+          <p class="step-name">Напрямок</p>
+        </ng-template>
+        <app-add-direction-form></app-add-direction-form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>
+          <p class="step-name">Відділення</p>
+        </ng-template>
+
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+        <ng-container *ngIf="direction">
+          <app-add-department-form [direction]="direction" [department]="department"></app-add-department-form>
+        </ng-container>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>
+          <p class="step-name">Клас</p>
+        </ng-template>
+
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+        <ng-container *ngIf="department; else noSelectedDepartmentTmpl">
+          <app-add-class-form [department]="department"></app-add-class-form>
+        </ng-container>
+
+        <ng-template #noSelectedDepartmentTmpl>
+          <div class="no-info" fxLayout="column" fxLayoutAlign="center center">
+            <mat-label>Для редагування класів оберіть відділення.</mat-label>
+          </div>
+        </ng-template>
+      </mat-step>
+
+    </mat-horizontal-stepper>
   </div>
 </div>
+
+<ng-template #headerTemplate>
+  <div class="step">
+    <h3 *ngIf="direction">Назва напрямку: {{direction.title}}</h3>
+    <h3 *ngIf="department">Назва відділення: {{department.title}}</h3>
+  </div>
+</ng-template>

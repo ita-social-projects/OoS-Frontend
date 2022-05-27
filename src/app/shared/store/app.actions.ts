@@ -2,10 +2,6 @@ export class ToggleLoading {
   static readonly type = '[app] toggle page loading';
   constructor(public payload: boolean) { }
 }
-export class SetLocation {
-  static readonly type = '[app] set geolocation';
-  constructor(public payload: { city: string, lng: number, lat: number }) { }
-}
 export class MarkFormDirty {
   static readonly type = '[app] mark the form dirty';
   constructor(public payload: boolean) { }
@@ -16,7 +12,7 @@ export class ActivateEditMode {
 }
 export class ShowMessageBar {
   static readonly type = '[app] show message bar';
-  constructor(public payload: { message: string, type: string }) { }
+  constructor(public payload: { message: string, type: string, info?: string }) { }
 }
 
 export class ToggleMobileScreen {

@@ -3,17 +3,11 @@ import { CityFilterComponent } from './city-filter.component';
 import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { City } from 'src/app/shared/models/city.model';
+import { of } from 'rxjs';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
   let fixture: ComponentFixture<CityFilterComponent>;
-
-  @Component({
-    selector: 'app-city-autocomplete',
-    template: '<p>Mock City Autocomplete</p>'
-  })
-  class CityAutocompleteComponent {
-  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

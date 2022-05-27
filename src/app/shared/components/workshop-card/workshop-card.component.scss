@@ -1,9 +1,8 @@
 @import "src/app/shared/styles/cards.scss";
-.card-img-full{
-  width: 60%;
-}
+@import "src/app/shared/styles/application-statuses.scss";
+
 .card-img-mobile{
-  width: 30%;
+  width: 100%;
 }
 .horizontal {
   margin: 0;
@@ -17,6 +16,7 @@
   justify-content: center;
   align-items: center;
   font-weight: 500;
+  margin: 0.3rem 0 0.3rem;
 }
 .action-icon {
   color: #fff;
@@ -24,26 +24,19 @@
 .favorite-icon {
   color: #ffbd00;
 }
-.parent-status{
-  .Approved{
-    color:#199953
-  }
-  .Pending{
-    color: #FFBD00;
-  }
-  .AcceptedForSelection{
-    color: #27A3FF;
-  }
-  .Rejected, .Left, .Blocked{
-    color: #C72A21;
-  }
+.provider-link {
+  color: #3849F9;
+  margin: 0.3rem 0;
 }
-
+.provider-link:hover {
+    opacity: 0.5;
+    color: #3849F9;
+}
 .horizontal-card {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
 
   background: #FFFFFF;
@@ -54,14 +47,16 @@
     display: flex;
     max-width: 100% !important;
     min-width: inherit;
+    height: min-content;
     object-fit: cover;
     object-position: bottom;
   }
+  .wrap-for-details {
+    padding-bottom: 0;
+  }
 
-  .mat-card-image {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 0;
+  .wrap-for-details .mat-card-header {
+    margin-bottom: 1rem;
   }
 
   .hide {
@@ -90,16 +85,12 @@
 }
 
 @media (max-width: 750px) {
-  .card-img-mobile{
-    display: none !important;
-  }
-  .horizontal {
-    margin: 1vw;
-    width: 90vw;
+  :host.application-workshop .horizontal {
+    width: auto;
   }
   .horizontal-card {
     max-width: 100%;
-    padding: 0.5rem;
+    width: 90vw;
     .card-img{
       flex: 1;
     }
@@ -107,12 +98,23 @@
       flex: 2;
       width: 50%;
     }
+    .wrap-for-details-map {
+      padding: 0.75rem;
+
+      .mat-card-content {
+        margin-bottom: 0.5rem;
+      }
+    }
     .card_text {
       margin: 0;
     }
     .mat-card-image {
-      object-fit: cover;
-      object-position: bottom;
+      height: 150px;
+      width: 150px;
+    }
+    .mat-card-header img {
+      width: 21px;
+      height: 21px;
     }
     .hide {
       display: none;
@@ -124,10 +126,7 @@
       flex-direction: row;
     }
     .card-title, .mat-card-header{
-      width: 150px;
       font-size: 15px;
-      margin-bottom: 0;
-      text-align: center;
     }
   }
 }

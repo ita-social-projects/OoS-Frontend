@@ -2,24 +2,34 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/create-form-wrapper.scss";
 @import "src/app/shared/styles/buttons.scss";
+
 .wrapper{
-  padding: 1rem 5rem;
+  padding: 0rem 0rem;
   margin-bottom: 2rem;
   &-title{
     text-align: center;
   }
 }
-
-.activeInfoBtn {
-  color: #3849f9;
+.direction{
+  color: gray;
+  margin-bottom: 25px;
 }
 
-.inactiveInfoBtn {
-  color: #AAAAAA;
+.department{
+  color: gray;
+  margin-bottom: 25px;
 }
-
-.status-info-icon {
-  cursor: pointer;
-  margin: auto 0.5rem;
-  font-size: 16px;
+.step {
+  h3{
+    color: #444444b5 !important;
+    padding-bottom: 0.8rem !important;
+  }
+  border-bottom: 1px solid #444444b5;
+}
+.no-info{
+  min-height: 10rem;
+  color: red;
+}
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
 }

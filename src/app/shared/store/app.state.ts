@@ -1,25 +1,19 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { ActivateEditMode, MarkFormDirty, SetLocation, ShowMessageBar, ToggleMobileScreen } from './app.actions';
+import { ActivateEditMode, MarkFormDirty, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
-  city: string;
-  lng: number | null;
-  lat: number | null;
   isDirtyForm: boolean;
   isEditMode: boolean;
-  isMobileScreen: undefined | boolean;
+  isMobileScreen: undefined | boolean;  
 }
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    city: null,
-    lng: null,
-    lat: null,
     isDirtyForm: false,
     isEditMode: false,
-    isMobileScreen: undefined
+    isMobileScreen: undefined    
   }
 })
 @Injectable()
@@ -36,11 +30,6 @@ export class AppState {
 
   constructor() { }
 
-  @Action(SetLocation)
-  setLocation({ patchState }: StateContext<AppStateModel>, { payload }: SetLocation): void {
-    patchState({ city: payload.city, lng: payload.lng, lat: payload.lat });
-  }
-
   @Action(MarkFormDirty)
   markFormDirty({ patchState }: StateContext<AppStateModel>, { payload }: MarkFormDirty): void {
     patchState({ isDirtyForm: payload });
@@ -52,7 +41,8 @@ export class AppState {
   }
 
   @Action(ShowMessageBar)
-  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void { }
+  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void {     
+  }
 
   @Action(ToggleMobileScreen)
   ToggleMobileScreen({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {

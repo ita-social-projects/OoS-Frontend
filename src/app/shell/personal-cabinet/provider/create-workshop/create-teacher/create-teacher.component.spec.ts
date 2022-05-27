@@ -48,6 +48,7 @@ class MockTeacherFormComponent {
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
   @Input() index: number;
+  @Input() isRelease2: boolean;
 }
 
 @Component({

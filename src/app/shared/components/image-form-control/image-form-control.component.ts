@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Constants } from '../../constants/constants';
 import { DecodedImage } from '../../models/image.model';
 @Component({
   selector: 'app-image-form-control',
@@ -23,8 +24,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   decodedImages: DecodedImage[] = [];
   touched = false;
   disabled = false;
-  authServer: string = environment.serverUrl;
-  imgUrl = `/api/v1/PublicImage/`;
 
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
@@ -78,7 +77,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
           this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
           this.onChange(this.selectedImages);
         } else {
-          this.imageIdsFormControl.value.splice(imageIndex, 1);
+          if (this.imageIdsFormControl) {
+            this.imageIdsFormControl.value.splice(imageIndex, 1);
+          }
         }
       }
     }
@@ -86,7 +87,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(`${this.authServer + this.imgUrl + imageId}`, null))
+      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null))
     })
   }
 

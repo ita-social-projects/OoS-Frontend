@@ -1,18 +1,13 @@
 <div  class="footer"
-      fxLayout.xs="column"
-      fxLayoutAlign="space-between center"
-      fxLayoutAlign.xs="center center"
-      fxLayoutGap="2rem"
+      fxLayout="row"
+      fxLayoutAlign="flex-start center"
+      fxLayoutGap="3rem"
+      fxLayoutGap.lt-md="1rem"
 >
-  <div  fxLayout="row wrap"
-        fxLayout.lt-md="column"
-        fxLayout.xs="row wrap"
-        fxLayoutAlign="center"
-        fxLayoutAlign.sm="center start"
-        fxLayoutAlign.xs="start center"
-        fxLayoutGap="3rem"
-        fxLayoutGap.xs="1rem"
-        fxLayoutGap.sm="1rem"
+  <div  fxLayout="row"
+        fxLayoutAlign="flex-start center"
+        fxLayoutGap.gt-sm="3rem" 
+        fxLayoutGap.lt-md="1rem"
   >
     <a target="_blank" rel="noreferrer" href="https://mon.gov.ua/">
       <img class="min-logo" src="../../assets/images/MES.png" alt="Ministry of Education and Science of Ukraine">
@@ -20,11 +15,17 @@
     <a target="_blank" rel="noreferrer" href="https://mkip.gov.ua/">
       <img class="min-logo" src="../../assets/images/MinCultInfoPolicy.png" alt="Ministry of Culture and Information Policy of Ukraine">
     </a>
+  </div>
+  <div  fxLayout="row"
+        fxLayoutAlign="space-between center"
+        fxLayoutGap.gt-sm="2rem" 
+        fxLayoutGap.lt-md="1rem"
+        fxFlex="1 1 auto">
     <a target="_blank" rel="noreferrer" href="https://sport.gov.ua/">
       <img class="min-logo" src="../../assets/images/MinMolodSport.png" alt="Ministry of Youth and Sports of Ukraine">
     </a>
+    <a target="_blank" rel="noreferrer" href="https://www.softserveinc.com/uk-ua/">
+      <img class="company-logo" src="../../assets/images/SoftServeLogo.png" alt="SoftServe">
+    </a>
   </div>
-  <a target="_blank" rel="noreferrer" href="https://www.softserveinc.com/">
-    <img src="../../assets/images/SoftServeLogo.png" alt="SoftServe">
-  </a>
 </div>

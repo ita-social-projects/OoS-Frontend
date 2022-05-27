@@ -11,6 +11,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component, Input } from '@angular/core';
+import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
 
 describe('PersonCardComponent', () => {
   let component: PersonCardComponent;
@@ -32,7 +33,8 @@ describe('PersonCardComponent', () => {
       ],
       declarations: [
         PersonCardComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        PhoneTransformPipe
       ]
     })
       .compileComponents();

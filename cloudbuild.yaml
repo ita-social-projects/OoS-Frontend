@@ -12,6 +12,7 @@ steps:
           production: true,
           stsServer: 'https://auth.oos.dmytrominochkin.cloud',
           serverUrl: 'https://api.oos.dmytrominochkin.cloud',
+          storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
         };
         EOF
   - name: 'gcr.io/cloud-builders/yarn'
@@ -24,8 +25,11 @@ steps:
     args:
       - build
       - gcr.io/$PROJECT_ID/oos-frontend:$TAG_NAME
+      - --cache-image=gcr.io/$PROJECT_ID/oos-frontend:cache
       - --builder=paketobuildpacks/builder:base
-      - --buildpack=paketo-buildpacks/nginx
+      # TODO: after nginx/staticfile buildpack fix revert to using latest version
+      # - --buildpack=paketo-buildpacks/nginx
+      - --buildpack=docker:///gcr.io/paketo-buildpacks/nginx:0.5.3
       - --buildpack=paketo-community/staticfile
       - --path=dist/
       - --publish
@@ -56,4 +60,4 @@ steps:
     entrypoint: bash
     args:
       - -c
-      - $(yes | gcloud run revisions delete --platform managed --region $_REGION `gcloud run revisions list --service frontend --platform managed --region $_REGION --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`) || exit 0
+      - for revision in `gcloud run revisions list --service frontend --platform managed --region $_REGION --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`; do $(yes | gcloud run revisions delete --platform managed --region $_REGION $revision) || exit 0; done;

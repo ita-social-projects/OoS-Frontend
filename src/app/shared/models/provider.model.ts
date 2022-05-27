@@ -24,6 +24,7 @@ export class Provider {
   actualAddress?: Address;
   workshop?: Workshop;
   image?: File[];
+  imageIds?: string[];
   institutionStatusId?: number | null;
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
