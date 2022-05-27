@@ -24,7 +24,7 @@ steps:
       - "TMPDIR=/builder/home/.pack"
     args:
       - build
-      - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
+      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
       - --cache-image=gcr.io/$PROJECT_ID/oos-frontend:cache
       - --builder=paketobuildpacks/builder:base
       # TODO: after nginx/staticfile buildpack fix revert to using latest version
@@ -41,7 +41,7 @@ steps:
       - deploy
       - frontend
       - --image
-      - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
+      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
       - --region
       - $_REGION
       - --platform
