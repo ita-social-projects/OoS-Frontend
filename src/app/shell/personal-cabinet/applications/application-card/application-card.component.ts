@@ -45,16 +45,13 @@ export class ApplicationCardComponent implements OnInit {
   constructor(
     private detectedDevice: DetectedDeviceService,
     private matDialog: MatDialog,
-    private store: Store,
     ) {}
 
   ngOnInit(): void {    
     this.childAge = Util.getChildAge(this.application.child);
     this.deviceToogle = this.detectedDevice.checkedDevice();
     this.subrole$.subscribe((subrole) => this.subrole = subrole);
-    console.log('subrole', this.subrole);
   }
-
 
   onClick(event) {
     if (event.target.id === 'child-box' || event.target.parentElement.id === 'child-box' || event.target.parentElement.parentElement.id === 'child-box') return
