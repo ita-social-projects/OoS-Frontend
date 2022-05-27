@@ -99,7 +99,7 @@ steps:
       git config --global user.name cloudbuild
       git config --global user.email oos@cloudbuild.gserviceaccount.com
       echo "Cloning repo"
-      git clone --branch $BRANCH_NAME --depth 1 git@github.com:ita-social-projects/OoS-Frontend.git
+      git clone --branch $BRANCH_NAME git@github.com:ita-social-projects/OoS-Frontend.git
       echo "Updating image tag version ..."
       cd OoS-Frontend
       CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
