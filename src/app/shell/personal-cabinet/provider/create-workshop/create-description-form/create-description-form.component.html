@@ -35,11 +35,10 @@
   </app-category-select>
 
   <div class="step-label-combined">
-    <label class="step-label">Ключові слова<span class="step-required">*</span></label>
+    <label class="step-label">Ключові слова</label>
     <label class="step-characters-count">{{keyWords.length}}/{{validationConstants.MAX_KEYWORDS_LENGTH}}</label>
   </div>
-  <div class="step-input keywords" (click)="setFocus()"
-    [class.redBorder]="DescriptionFormGroup.get('keyWords').invalid && DescriptionFormGroup.get('keyWords').touched">
+  <div class="step-input keywords" (click)="setFocus()">
     <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими
       користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум {{validationConstants.MAX_KEYWORDS_LENGTH}} слів)</span>
     <mat-chip-list #chipList>
@@ -52,7 +51,4 @@
         (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none" appTrimValue>
     </mat-chip-list>
   </div>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('keyWords')">
-  </app-validation-hint>
 </form>
