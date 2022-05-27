@@ -10,6 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 @Component({
   selector: 'app-application-card',
@@ -17,6 +20,8 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
   styleUrls: ['./application-card.component.scss']
 })
 export class ApplicationCardComponent implements OnInit {
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;   
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
@@ -27,6 +32,7 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
+  subrole: string;
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -38,12 +44,15 @@ export class ApplicationCardComponent implements OnInit {
 
   constructor(
     private detectedDevice: DetectedDeviceService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private store: Store,
     ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.childAge = Util.getChildAge(this.application.child);
-    this.deviceToogle = this.detectedDevice.checkedDevice()
+    this.deviceToogle = this.detectedDevice.checkedDevice();
+    this.subrole$.subscribe((subrole) => this.subrole = subrole);
+    console.log('subrole', this.subrole);
   }
 
 
