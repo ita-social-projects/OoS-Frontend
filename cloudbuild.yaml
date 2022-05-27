@@ -102,7 +102,7 @@ steps:
       git clone --branch $BRANCH_NAME git@github.com:ita-social-projects/OoS-Frontend.git
       echo "Updating image tag version ..."
       cd OoS-Frontend
-      CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
+      CURRENT_VERSION=`git describe --tags $$(git rev-list --tags --max-count=1) 2>/dev/null`
       if [[ $$CURRENT_VERSION == '' ]]
       then
         CURRENT_VERSION='gcp-0.0.0'
