@@ -11,7 +11,6 @@ import { SetCity } from '../../../store/filter.actions';
   styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent {
-
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
   @Select(FilterState.city)
@@ -19,8 +18,7 @@ export class CityFilterComponent {
 
   constructor(private store: Store) { }
 
-  onSelectedCity(event): void {
-    this.store.dispatch(new SetCity(event));
+  onSelectedCity(city: City): void {
+    this.store.dispatch(new SetCity(city));
   }
-
 }

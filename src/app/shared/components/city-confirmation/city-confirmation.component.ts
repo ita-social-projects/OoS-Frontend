@@ -15,6 +15,8 @@ export class CityConfirmationComponent {
   @Select(FilterState.city)
   city$: Observable<City>;
 
+  isDispalyed = true;
+
   constructor(public store: Store) { }
 
   confirmCity(): void {
