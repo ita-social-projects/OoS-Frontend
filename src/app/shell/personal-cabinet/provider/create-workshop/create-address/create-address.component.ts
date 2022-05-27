@@ -21,23 +21,22 @@ const defaultValidators: ValidatorFn[] = [
 })
 export class CreateAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  
+
   @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
 
   AddressFormGroup: FormGroup;
   city: string;
-
-  @Select(MetaDataState.cities)
-  cities$: Observable<City[]>;
+  cityFormControl = new FormControl('', defaultValidators);
 
   constructor(
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', defaultValidators),
       buildingNumber: new FormControl('', defaultValidators),
-      city: new FormControl('', defaultValidators),
+      city: this.cityFormControl,
       longitude: new FormControl(''),
+      latitude: new FormControl(''),
     });
   }
 
@@ -50,8 +49,10 @@ export class CreateAddressComponent implements OnInit {
   }
 
   onSelectedCity(event: any): void {
-    this.AddressFormGroup.get('latitude').setValue(event.latitude);
-    this.AddressFormGroup.get('longitude').setValue(event.longitude);
+    this.city = event.name;
+    this.AddressFormGroup.reset();
+    this.AddressFormGroup.get('latitude').setValue(event.latitude, { emitEvent: false });
+    this.AddressFormGroup.get('longitude').setValue(event.longitude, { emitEvent: false });
     this.AddressFormGroup.get('city').setValue(event.name);
   }
 

@@ -21,13 +21,15 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   _InitialCity: string;
 
   @Output() selectedCity = new EventEmitter();
+  @Output() passCityFormControl = new EventEmitter();
+
   @Input() set InitialCity(value: string) {
     this._InitialCity = value;
     this._InitialCity && this.setInitialCity();
   }
   @Input() className: string;
+  @Input() cityFormControl: FormControl = new FormControl();
 
-  cityFormControl = new FormControl();
   cities: City[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -44,9 +46,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cities$
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((cities) => this.cities = cities);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((cities) => this.cities = cities);
 
     this.cityFormControl.valueChanges
       .pipe(

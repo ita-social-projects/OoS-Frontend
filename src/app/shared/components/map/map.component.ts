@@ -100,6 +100,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    */
   ngAfterViewInit(): void {
 
+    this.addressFormGroup.valueChanges.subscribe(val => console.log(val))
+
     this.city$
       .pipe(takeUntil(this.destroy$), filter((city: City) => !!city))
       .subscribe((city: City) => {
