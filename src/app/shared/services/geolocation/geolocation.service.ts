@@ -30,12 +30,12 @@ export class GeolocationService {
   confirmCity(city: City): void {
     !!localStorage.getItem('cityConfirmation') ?
       this.store.dispatch([
+        new SetCity(JSON.parse(localStorage.getItem('cityConfirmation'))),
         new ConfirmCity(true),
-        new SetCity(JSON.parse(localStorage.getItem('cityConfirmation')))
       ]) :
       this.store.dispatch([
+        new SetCity(city),
         new ConfirmCity(false),
-        new SetCity(city)
       ]);
   }
 
