@@ -24,7 +24,7 @@ steps:
       - "TMPDIR=/builder/home/.pack"
     args:
       - build
-      - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
+      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
       - --cache-image=gcr.io/$PROJECT_ID/oos-frontend:cache
       - --builder=paketobuildpacks/builder:base
       # TODO: after nginx/staticfile buildpack fix revert to using latest version
@@ -41,7 +41,7 @@ steps:
       - deploy
       - frontend
       - --image
-      - gcr.io/$PROJECT_ID/oos-frontend:$COMMIT_SHA
+      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
       - --region
       - $_REGION
       - --platform
@@ -99,10 +99,10 @@ steps:
       git config --global user.name cloudbuild
       git config --global user.email oos@cloudbuild.gserviceaccount.com
       echo "Cloning repo"
-      git clone --branch $BRANCH_NAME --depth 1 git@github.com:ita-social-projects/OoS-Frontend.git
+      git clone --branch $BRANCH_NAME git@github.com:ita-social-projects/OoS-Frontend.git
       echo "Updating image tag version ..."
       cd OoS-Frontend
-      CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
+      CURRENT_VERSION=`git describe --tags $$(git rev-list --tags --max-count=1) 2>/dev/null`
       if [[ $$CURRENT_VERSION == '' ]]
       then
         CURRENT_VERSION='gcp-0.0.0'
