@@ -250,11 +250,12 @@ export class CabinetPageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
 }
-export class ResetSelectedWorkshop {
-  static readonly type = '[user] reset selected workshop';
-  constructor() { }
-}
 export class GetAllProviderAdmins {
   static readonly type = '[user] get all users ProviderAdmins';
+  constructor() { }
+}
+
+export class ResetProviderWorkshopDetails {
+  static readonly type = '[user] clear provider and workshop details';
   constructor() { }
 }
