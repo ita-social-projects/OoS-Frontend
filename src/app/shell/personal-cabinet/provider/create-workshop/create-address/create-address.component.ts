@@ -7,6 +7,7 @@ import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Constants } from 'src/app/shared/constants/constants';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -59,5 +60,13 @@ export class CreateAddressComponent implements OnInit {
   onReceiveAddressFromMap(address: Address): void {
     this.city = address.city;
     this.AddressFormGroup.patchValue(address);
+  }
+
+  onFocusout(city: City): void {
+    if(!this.cityFormControl.value || city.name === Constants.NO_CITY){
+      this.cityFormControl.setValue(null);
+    } else{
+      this.cityFormControl.setValue(this.city);
+    }
   }
 }

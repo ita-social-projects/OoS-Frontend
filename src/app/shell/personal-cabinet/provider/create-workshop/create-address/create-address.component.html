@@ -1,7 +1,8 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city" [className]="'create-form'"
-    class="city-autocomplete" [cityFormControl]="cityFormControl" [class.redBorder]="cityFormControl.invalid && cityFormControl.touched">
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city"
+    class="city-autocomplete" [cityFormControl]="cityFormControl" [class.redBorder]="cityFormControl.invalid && cityFormControl.touched"
+    (focusout)="onFocusout($event)">
   </app-city-autocomplete>
   <app-validation-hint 
     [validationFormControl]="cityFormControl"

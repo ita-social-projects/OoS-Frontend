@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AppState } from 'src/app/shared/store/app.state';
 import { takeUntil } from 'rxjs/operators';
 import { imgPath } from 'src/app/shared/models/carousel.model';
