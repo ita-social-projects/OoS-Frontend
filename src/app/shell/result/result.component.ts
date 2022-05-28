@@ -97,7 +97,6 @@ export class ResultComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch([
         new SetFirstPage(),
-        new ResetProviderWorkshopDetails(),
         new GetFilteredWorkshops(this.currentView === this.viewType.map)
       ]));
 

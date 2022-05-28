@@ -55,16 +55,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
         });
       });
 
-    this.setDataDubscribtion();
+    this.setDataSubscribtion();
   }
 
-  private setDataDubscribtion(): void {
+  private setDataSubscribtion(): void {
     this.workshop$
       .pipe(
         filter((workshop: Workshop) => !!workshop),
-        takeUntil(this.destroy$),
-        delay(0))
-      .subscribe((workshop: Workshop) => {
+        takeUntil(this.destroy$)
+      ).subscribe((workshop: Workshop) => {
         if (this.entityType === EntityType.workshop) {
           this.workshop = workshop;
           this.getWorkshopData(workshop);
