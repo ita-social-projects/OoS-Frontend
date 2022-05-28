@@ -1,11 +1,8 @@
 import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Constants } from 'src/app/shared/constants/constants';
 
