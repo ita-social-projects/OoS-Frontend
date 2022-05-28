@@ -21,7 +21,7 @@ import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
-import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
+import { CreateDirectionComponent } from './admin-tools/platform/directions/create-direction/create-direction.component';
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
 import { IsMobileGuard } from './is-mobile.guard';

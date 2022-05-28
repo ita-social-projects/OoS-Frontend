@@ -18,25 +18,28 @@ import { Constants } from '../../constants/constants';
 export class CityAutocompleteComponent implements OnInit, OnDestroy {
   @ViewChild('search') searchElement: ElementRef;
 
-  _InitialCity: string;
-
-  @Output() selectedCity = new EventEmitter();
   @Input() set InitialCity(value: string) {
     this._InitialCity = value;
     this._InitialCity && this.setInitialCity();
   }
   @Input() className: string;
+  @Input() cityFormControl: FormControl;
 
-  cityFormControl = new FormControl();
-  cities: City[] = [];
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  @Output() selectedCity = new EventEmitter();
+  @Output() passCityFormControl = new EventEmitter();
+  @Output() focusout = new EventEmitter();
 
   @Select(MetaDataState.isCity)
   isCity$: Observable<boolean[]>;
   @Select(MetaDataState.cities)
   cities$: Observable<City[]>;
+  cities: City[] = [];
 
-  constructor(public store: Store, private actions$: Actions) { }
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  private _InitialCity: string;
+
+  constructor(private store: Store, private actions$: Actions) { }
 
   displayCityName(city: City): string {
     return typeof city === 'string' ? city : city?.name;
@@ -44,9 +47,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cities$
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((cities) => this.cities = cities);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((cities: City[]) => this.cities = cities);
 
     this.cityFormControl.valueChanges
       .pipe(
@@ -78,15 +80,10 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ClearCities());
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
   /**
    * This method set initial city to autocomplete
    */
-  setInitialCity(): void {
+  private setInitialCity(): void {
     if (this._InitialCity !== Constants.NO_CITY) {
       this.cityFormControl.setValue(this._InitialCity);
       this.actions$.pipe(ofActionSuccessful(GetCities))
@@ -98,14 +95,19 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   /**
    * This method sets focus on input search city
    */
-  setFocus(): void {
+  private setFocus(): void {
     const initialValut = this.searchElement.nativeElement.value;
     this.searchElement.nativeElement.value = '';
     this.searchElement.nativeElement.focus();
     this.searchElement.nativeElement.value = initialValut;
   }
 
-  onFocusout(): void {
-    this.cityFormControl.setValue(this._InitialCity);
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  onFocusout(auto: MatAutocomplete): void {
+    this.focusout.emit(auto.options.first?.value);
   }
 }
