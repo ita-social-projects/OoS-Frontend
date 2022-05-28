@@ -33,8 +33,8 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   isCity$: Observable<boolean[]>;
   @Select(MetaDataState.cities)
   cities$: Observable<City[]>;
-
   cities: City[] = [];
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   private _InitialCity: string;
@@ -48,7 +48,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cities$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((cities) => this.cities = cities);
+      .subscribe((cities: City[]) => this.cities = cities);
 
     this.cityFormControl.valueChanges
       .pipe(
