@@ -68,8 +68,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
         if (this.entityType === EntityType.workshop) {
           this.workshop = workshop;
           this.getWorkshopData(workshop);
-        } else {
-          this.workshop = null;
         }
       });
 
