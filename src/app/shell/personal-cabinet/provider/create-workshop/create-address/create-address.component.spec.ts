@@ -69,4 +69,5 @@ class MockMapComponent {
 class MockCityAutocompleteComponent {
   @Input() InitialCity: string;
   @Input() className: string;
+  @Input() cityFormControl: FormControl;
 }

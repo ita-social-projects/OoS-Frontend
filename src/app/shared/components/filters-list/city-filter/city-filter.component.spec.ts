@@ -4,6 +4,7 @@ import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { City } from 'src/app/shared/models/city.model';
 import { of } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
@@ -41,7 +42,7 @@ describe('CityFilterComponent', () => {
 class MockCityAutocompleteComponent {
   @Input() InitialCity: string;
   @Input() className: string;
-
+  @Input() cityFormControl: FormControl;
 }
 
 @Component({
