@@ -1,21 +1,37 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  takeUntil,
+} from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
+import {
+  providerAdminRoleUkr,
+  providerAdminRoleUkrReverse,
+} from 'src/app/shared/enum/enumUA/provider-admin';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
+import {
+  ProviderAdmin,
+  ProviderAdminTable,
+} from 'src/app/shared/models/providerAdmin.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/user.actions';
+import {
+  BlockProviderAdminById,
+  DeleteProviderAdminById,
+  GetAllProviderAdmins,
+} from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { Role } from 'src/app/shared/enum/role';
 
 @Component({
   selector: 'app-provider-admins',
@@ -34,12 +50,16 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   providerAdmins: ProviderAdminTable[] = [];
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;
   provider: Provider;
   filter = new FormControl('');
   filterValue: string;
   btnView: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
+  subrole: string;
+  Role = Role;
 
   constructor(
     public store: Store,
@@ -64,7 +84,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     this.providerAdmins$
       .pipe(
         filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
-        takeUntil(this.destroy$))
+        takeUntil(this.destroy$)
+      )
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
@@ -83,6 +104,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((provider: Provider) => (this.provider = provider));
+
+    this.subrole$.subscribe((subrole) => (this.subrole = subrole));
   }
 
   getAllProviderAdmins(): void {
