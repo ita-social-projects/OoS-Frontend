@@ -96,10 +96,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onDelete(user: ProviderAdminTable): void {
+  onDelete(user: ProviderAdminTable): void {    
     this.deleteAdmin.emit(user);
   }
-
+  
   onBlock(user: ProviderAdminTable): void {
     this.blockAdmin.emit(user);
   }

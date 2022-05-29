@@ -48,7 +48,7 @@
 <ng-template #UsersList let-filterValue let-users="users">
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length else isEmptyList;">
-      <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+      <app-users-list [users]="users" [filterValue]="filterValue" [subrole]="subrole" (deleteAdmin)="onDelete($event)"
         (blockAdmin)="onBlock($event)"></app-users-list>
     </ng-container>
   </ng-container>

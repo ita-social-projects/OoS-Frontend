@@ -20,10 +20,9 @@ import { FeaturesList } from '../shared/models/featuresList.model';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly roles: typeof RoleLinks = RoleLinks;
@@ -59,17 +58,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store,
-    private router: Router) {
-  }
+  constructor(private store: Store, private router: Router) {}
 
   changeView(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
   ngOnInit(): void {
-    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$])
+    combineLatest([
+      this.isLoadingResultPage$,
+      this.isLoadingMetaData$,
+      this.isLoadingCabinet$,
+    ])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet]) => {
         this.isLoadingResultPage = isLoadingResult;
@@ -82,21 +82,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(([isMobile, navigationPaths]) => {
         this.isMobile = isMobile;
         this.navigationPaths = navigationPaths;
-      })
+      });
 
     this.store.dispatch(new CheckAuth());
 
-    this.user$.pipe(
-      filter((user) => !!user),
-      takeUntil(this.destroy$)
-    ).subscribe((user: User) => {
-      this.userShortName = this.getFullName(user);
-      this.user = user;
-    });
+    this.user$
+      .pipe(
+        filter((user) => !!user),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((user: User) => {
+        this.userShortName = this.getFullName(user);
+        this.user = user;
+      });
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${(user.firstName).slice(0, 1)}.${(user.middleName) ? (user.middleName).slice(0, 1) + '.' : ''}`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${
+      user.middleName ? user.middleName.slice(0, 1) + '.' : ''
+    }`;
   }
 
   logout(): void {

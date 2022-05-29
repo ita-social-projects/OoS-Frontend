@@ -7,16 +7,13 @@ import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-personal-cabinet',
   templateUrl: './personal-cabinet.component.html',
   styleUrls: ['./personal-cabinet.component.scss'],
 })
-export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+export class PersonalCabinetComponent implements OnInit, OnDestroy {  
 
   roles = RoleLinks;
   subrole: string;
@@ -33,6 +30,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.userRole = this.store.selectSnapshot<User>(
       RegistrationState.user
     ).role;
+    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createOneNavPath({
@@ -46,8 +44,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
           disable: true,
         })
       )
-    );
-    this.subrole$.subscribe((subrole) => this.subrole = subrole)
+    );    
   }
 
   ngOnDestroy(): void {

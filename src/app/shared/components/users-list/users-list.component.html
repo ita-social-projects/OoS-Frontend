@@ -104,7 +104,7 @@
       <a class="more-details" [routerLink]="['#']">
         <span class="Cancel"> Скасувати </span>
       </a>
-      <button mat-icon-button [matMenuTriggerFor]="actions">
+      <button mat-icon-button [matMenuTriggerFor]="actions" [diabled]="subrole === Role.deputy && user.isDeputy">
         <mat-icon>more_vert</mat-icon>
       </button>
       <button mat-icon-button [matMenuTriggerFor]="email">
@@ -118,7 +118,7 @@
         <button mat-menu-item (click)="onDelete(user)">
           Видалити користувача
         </button>
-      </mat-menu>
+    </mat-menu>
       <mat-menu #email="matMenu" class="header_menu">
         <button mat-menu-item (click)="sendInvitation()">
           Надіслати запрошення
