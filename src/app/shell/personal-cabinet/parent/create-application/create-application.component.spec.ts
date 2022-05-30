@@ -77,7 +77,7 @@ class MockPersonCardComponent {
 })
 
 class MockValidationHintForInputComponent {
-  @Input() formControl: FormControl;
+  @Input() validationFormControl: FormControl;
 }
 
 @Component({
