@@ -162,7 +162,6 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStyling,
-    ValidationHintForInputComponent,
     NavigationBarComponent,
     NavigationMobileBarComponent,
     WorkshopCheckboxDropdownComponent,
