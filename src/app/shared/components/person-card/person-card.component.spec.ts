@@ -33,7 +33,6 @@ describe('PersonCardComponent', () => {
       ],
       declarations: [
         PersonCardComponent,
-        MockValidationHintForInputComponent,
         PhoneTransformPipe
       ]
     })

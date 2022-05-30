@@ -30,7 +30,6 @@ import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
 import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
-import { ValidationHintForInputComponent } from './components/validation-hint-for-input/validation-hint-for-input.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
@@ -93,7 +92,6 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStyling,
-    ValidationHintForInputComponent,
     NavigationBarComponent,
     WorkshopCheckboxDropdownComponent,
     NavigationMobileBarComponent,
