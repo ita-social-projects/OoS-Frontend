@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../enum/enumUA/provider-admin';
 import { providerAdminRole } from '../enum/provider-admin';
 import { ProviderAdminTable } from '../models/providerAdmin.model';
 
@@ -7,9 +8,8 @@ import { ProviderAdminTable } from '../models/providerAdmin.model';
 })
 export class ProviderAdminsFilterPipe implements PipeTransform {
 
-  transform(users: ProviderAdminTable[], userType: string): ProviderAdminTable[] {
-    const isDeputy = userType === providerAdminRole.deputy;
-    return users.filter((user) => (user.isDeputy === isDeputy));
+  transform(users: ProviderAdminTable[], role: string): ProviderAdminTable[] {
+    return users.filter((user) => (user.role === providerAdminRoleUkr[role]));
   }
 
 }

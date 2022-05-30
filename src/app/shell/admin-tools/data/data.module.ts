@@ -6,10 +6,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { UsersComponent } from './users/users.component';
 
 
 @NgModule({
-  declarations: [ProviderListComponent],
+  declarations: [
+    ProviderListComponent,
+    UsersComponent,
+  ],
   imports: [
     CommonModule,
     DataRoutingModule,

@@ -23,6 +23,8 @@ import {
   ProviderAdminStatus,
 } from '../../enum/provider-admin';
 import { Role } from '../../enum/role';
+import { providerAdminRoleUkr, ProviderAdminTitles } from '../../enum/enumUA/provider-admin';
+import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
 import { ProviderAdminTable } from '../../models/providerAdmin.model';
 import { RegistrationState } from '../../store/registration.state';
 
@@ -43,7 +45,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
   @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
 
-  readonly constants: typeof Constants = Constants;
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminTitles = ProviderAdminTitles;
   readonly providerAdminStatus = ProviderAdminStatus;
@@ -57,18 +58,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): void {
-    this.displayedColumns = [
-      'pib',
-      'email',
-      'phone',
-      'place',
-      'isDeputy',
-      'status',
-      'actions',
-    ];
-    this.dataSource = new MatTableDataSource(this.users);
+  ngOnInit(): void {    
     this.subrole$.subscribe((subrole) => (this.subrole = subrole));
+    this.displayedColumns = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
+    this.dataSource = new MatTableDataSource(this.users);
   }
 
   ngAfterViewInit() {

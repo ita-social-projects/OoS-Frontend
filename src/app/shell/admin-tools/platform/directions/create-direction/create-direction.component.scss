@@ -10,7 +10,6 @@
     text-align: center;
   }
 }
-
 .direction{
   color: gray;
   margin-bottom: 25px;
@@ -19,4 +18,18 @@
 .department{
   color: gray;
   margin-bottom: 25px;
+}
+.step {
+  h3{
+    color: #444444b5 !important;
+    padding-bottom: 0.8rem !important;
+  }
+  border-bottom: 1px solid #444444b5;
+}
+.no-info{
+  min-height: 10rem;
+  color: red;
+}
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
 }

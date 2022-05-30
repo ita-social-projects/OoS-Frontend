@@ -1,10 +1,11 @@
 <form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city" [className]="'create-form'"
-    class="city-autocomplete">
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city"
+    class="city-autocomplete" [cityFormControl]="cityFormControl" [class.redBorder]="cityFormControl.invalid && cityFormControl.touched"
+    (focusout)="onFocusout($event)">
   </app-city-autocomplete>
   <app-validation-hint 
-    [validationFormControl]="AddressFormGroup.get('city')"
+    [validationFormControl]="cityFormControl"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
@@ -14,7 +15,7 @@
     <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="AddressFormGroup.get('city')"
+    [validationFormControl]="AddressFormGroup.get('street')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>

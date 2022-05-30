@@ -5,6 +5,7 @@ export interface ProviderAdminTable {
   phoneNumber: string,
   isDeputy: boolean,
   status: string,
+  role?: string,
 }
 
 export class ProviderAdmin {
