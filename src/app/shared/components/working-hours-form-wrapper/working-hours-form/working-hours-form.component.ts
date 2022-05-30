@@ -2,7 +2,7 @@ import { ValidationConstants } from '../../../constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from '../../../constants/constants';
 import { WorkingDaysReverse } from '../../../enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from '../../../models/workingHours.model';
@@ -38,6 +38,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     this.workingHoursForm.valueChanges.pipe(
       filter(()=> !this.workdaysFormControl.touched),
+      takeUntil(this.destroy$)
     ).subscribe(()=> this.workdaysFormControl.markAsTouched());
 
     this.workdaysFormControl.value.length && this.activateEditMode();
@@ -57,8 +58,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     const value = this.workingDays.length ? this.workingDays : null;
     this.workdaysFormControl.setValue(value);
-
-    console.log(this.workingHoursAmount)
   }
 
   getMinTime(): string {

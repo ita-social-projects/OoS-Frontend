@@ -120,10 +120,11 @@ export class AppWorkshopsService {
    * This method get top workshops
    */
   getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
-    let city = JSON.parse(localStorage.getItem('cityConfirmation'));
     let params = new HttpParams();
+
     params = params.set('Limit', this.size.toString());
-    params = params.set('City', city?.name ?? Constants.KIEV.name);
+    params = params.set('City', filters.city?.name ?? Constants.KIEV.name);
+    
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }
 }

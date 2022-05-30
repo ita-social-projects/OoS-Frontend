@@ -41,6 +41,7 @@ export class Constants {
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
   static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
 
+  static readonly NO_CITY = 'Такого міста немає';
   static readonly KIEV: City = {
     district: 'м.Київ',
     id: 14446,
@@ -51,6 +52,7 @@ export class Constants {
   };
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
+  static readonly NO_INFORMATION = `не вказано`;
 }
 
 export class PaginationConstants {

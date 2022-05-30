@@ -13,7 +13,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CompanyInformation, СompanyInformationItem, PlatformInfoStateModel } from 'src/app/shared/models/сompanyInformation.model';
-import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/admin-tabs';
+import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 
 @Component({

@@ -10,7 +10,6 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { TechAdmin } from 'src/app/shared/models/techAdmin.model';
 import { CreateDirectionComponent } from './create-direction.component';
 
 describe('CreateDirectionComponent', () => {
@@ -46,12 +45,6 @@ describe('CreateDirectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateDirectionComponent);
     component = fixture.componentInstance;
-    component.directionFormGroup = new FormGroup({
-      image: new FormControl(''),
-      directionName: new FormControl('', [Validators.required]),
-      sectionName: new FormControl('', [Validators.required]),
-      className: new FormControl('', [Validators.required]),
-    });
     fixture.detectChanges();
   });
 

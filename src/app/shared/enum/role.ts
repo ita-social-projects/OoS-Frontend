@@ -5,6 +5,8 @@ export enum Role {
   techAdmin = 'admin',
   deputy = 'ProviderDeputy',
   admin = 'ProviderAdmin',
+  all = 'all',
+  child = 'child'
 }
 
 export enum cardType {
