@@ -23,7 +23,7 @@ export class InformationPageComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly constants: typeof Constants = Constants;
 
-  @Input() role: string;
+  @Input() role: Role;
   @Input() workshop: Workshop;
   @Input() set providerData(provider: Provider) {
     this.address = provider.actualAddress
@@ -38,6 +38,7 @@ export class InformationPageComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: imgPath[] = [];
   address: Address;
+  shouldDisplay = true;
 
   @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
 
@@ -46,6 +47,7 @@ export class InformationPageComponent implements OnInit, OnDestroy {
     private imagesService: ImagesService) { }
 
   ngOnInit(): void {
+    this.shouldDisplay = this.role !== (Role.provider && Role.techAdmin);
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.selectedIndex = 0));
