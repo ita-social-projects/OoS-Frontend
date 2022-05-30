@@ -64,10 +64,10 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   ngOnInit(): void {      
     this.determineEditMode();
     this.addNavPath();
-    
-    if (!this.editMode) { 
-      this.ChildrenFormArray.push(this.newForm());     
-    } else this.AgreementFormControl.setValue(true);
+
+    this.editMode ?
+    this.AgreementFormControl.setValue(true) :
+    this.ChildrenFormArray.push(this.newForm());
   }
 
   addNavPath(): void {
