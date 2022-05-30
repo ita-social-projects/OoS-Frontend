@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="title">
     {{
-      (subrole || subrole ==='None')
+      (!subrole || subrole ==='None')
         ? PersonalCabinetTitle[userRole] 
         : PersonalCabinetTitle[subrole]
     }}
