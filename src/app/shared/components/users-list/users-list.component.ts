@@ -18,12 +18,8 @@ import {
   providerAdminRoleUkr,
   ProviderAdminTitles,
 } from '../../enum/enumUA/provider-admin';
-import {
-  ProviderAdminIcons,
-  ProviderAdminStatus,
-} from '../../enum/provider-admin';
+
 import { Role } from '../../enum/role';
-import { providerAdminRoleUkr, ProviderAdminTitles } from '../../enum/enumUA/provider-admin';
 import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
 import { ProviderAdminTable } from '../../models/providerAdmin.model';
 import { RegistrationState } from '../../store/registration.state';
