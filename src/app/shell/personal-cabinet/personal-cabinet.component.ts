@@ -16,10 +16,11 @@ import { Observable } from 'rxjs';
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.subrole)
-  subrole: Observable<string>;
+  subrole$: Observable<string>;
 
   roles = RoleLinks;
   userRole: string;
+  subrole: string;
   Role = Role;
   PersonalCabinetTitle = PersonalCabinetTitle;
 
@@ -46,6 +47,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
+    this.subrole$.subscribe((subrole: string) => this.subrole = subrole)
   }
 
   ngOnDestroy(): void {
