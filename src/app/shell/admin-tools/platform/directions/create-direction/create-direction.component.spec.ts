@@ -53,21 +53,6 @@ describe('CreateDirectionComponent', () => {
   });
 });
 @Component({
-  selector: 'app-validation-hint-for-input',
-  template: ''
-})
-
-class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() forbiddenCharacter: string;
-  @Input() directionFormGroup: FormGroup;
-  @Input() classFormGroup: FormGroup;
-  @Input() departmentFormGroup: FormGroup;
-  @Input() router: Router;
-}
-@Component({
   selector: 'app-add-direction-form',
   template: ''
 })

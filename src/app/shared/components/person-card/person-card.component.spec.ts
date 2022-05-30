@@ -57,18 +57,3 @@ describe('PersonCardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-@Component({
-  selector: 'app-validation-hint-for-input',
-  template: ''
-})
-
-class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmailCheck: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() minLength: boolean;
-  @Input() minCharachters: number; 
-  @Input() forbiddenCharacter: string;
-}
