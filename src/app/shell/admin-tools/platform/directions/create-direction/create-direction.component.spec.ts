@@ -33,7 +33,6 @@ describe('CreateDirectionComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         CreateDirectionComponent,
-        MockValidationHintForInputComponent,
         MockAddDepartmentFormComponent,
         MockAddDirectionFormComponent,
         MockAddClassFormComponent
