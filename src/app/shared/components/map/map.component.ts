@@ -99,7 +99,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-
     this.city$
       .pipe(takeUntil(this.destroy$), filter((city: City) => !!city))
       .subscribe((city: City) => {

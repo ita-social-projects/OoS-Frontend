@@ -12,5 +12,4 @@ export class ValidationMessageStyling {
     this.r.setStyle(this.el.nativeElement, 'color', 'red');
     this.r.setStyle(this.el.nativeElement, 'font-size', '10px');
   }
-
 }
