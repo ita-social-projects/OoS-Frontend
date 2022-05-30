@@ -1,12 +1,10 @@
 import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { Address } from 'src/app/shared/models/address.model';
 import { City } from 'src/app/shared/models/city.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Constants } from 'src/app/shared/constants/constants';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -21,23 +19,22 @@ const defaultValidators: ValidatorFn[] = [
 })
 export class CreateAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  
+
   @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
 
   AddressFormGroup: FormGroup;
   city: string;
-
-  @Select(MetaDataState.cities)
-  cities$: Observable<City[]>;
+  cityFormControl = new FormControl('', defaultValidators);
 
   constructor(
     private formBuilder: FormBuilder) {
     this.AddressFormGroup = this.formBuilder.group({
       street: new FormControl('', defaultValidators),
       buildingNumber: new FormControl('', defaultValidators),
-      city: new FormControl('', defaultValidators),
+      city: this.cityFormControl,
       longitude: new FormControl(''),
+      latitude: new FormControl(''),
     });
   }
 
@@ -50,13 +47,23 @@ export class CreateAddressComponent implements OnInit {
   }
 
   onSelectedCity(event: any): void {
-    this.AddressFormGroup.get('latitude').setValue(event.latitude);
-    this.AddressFormGroup.get('longitude').setValue(event.longitude);
+    this.city = event.name;
+    this.AddressFormGroup.reset();
+    this.AddressFormGroup.get('latitude').setValue(event.latitude, { emitEvent: false });
+    this.AddressFormGroup.get('longitude').setValue(event.longitude, { emitEvent: false });
     this.AddressFormGroup.get('city').setValue(event.name);
   }
 
   onReceiveAddressFromMap(address: Address): void {
     this.city = address.city;
     this.AddressFormGroup.patchValue(address);
+  }
+
+  onFocusout(city: City): void {
+    if(!this.cityFormControl.value || city.name === Constants.NO_CITY){
+      this.cityFormControl.setValue(null);
+    } else{
+      this.cityFormControl.setValue(this.city);
+    }
   }
 }
