@@ -66,8 +66,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.addNavPath();
 
     this.editMode ?
-    this.AgreementFormControl.setValue(true) :
-    this.ChildrenFormArray.push(this.newForm());
+      this.AgreementFormControl.setValue(true) :
+      this.ChildrenFormArray.push(this.newForm());
   }
 
   addNavPath(): void {
@@ -136,7 +136,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     if (this.editMode) {
       child.socialGroupId = child.socialGroupId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
       childFormGroup.patchValue(child, { emitEvent: false });
-
     }
 
     return childFormGroup;
