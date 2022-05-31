@@ -17,7 +17,7 @@ export class ChildrenService {
     let params = new HttpParams();
 
     if (state.currentPage) {
-      const size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
+      const size: number = state.childrensPerPage;
       const from: number = size * (+state.currentPage.element - 1);
 
       params = params.set('Size', (size).toString());

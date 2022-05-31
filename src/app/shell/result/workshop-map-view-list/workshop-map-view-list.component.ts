@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -34,6 +34,10 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+
+  @Output() itemsPerPageChange = new EventEmitter<Number>();
+
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
   isSelectedMarker = false;

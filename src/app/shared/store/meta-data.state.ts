@@ -28,12 +28,14 @@ import {
   ClearClasses,
   GetInstitutionStatus,
   ClearRatings,
-  GetFeaturesList
+  GetFeaturesList,
+
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { environment } from 'src/environments/environment';
+import { FilterChange } from './filter.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
@@ -49,7 +51,7 @@ export interface MetaDataStateModel {
   filteredClasses: IClass[];
   rating: Rate[];
   isLoading: boolean;
-  featuresList: FeaturesList
+  featuresList: FeaturesList;
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -67,7 +69,7 @@ export interface MetaDataStateModel {
     filteredClasses: [],
     rating: [],
     isLoading: false,
-    featuresList: null
+    featuresList: null,
   }
 
 })
@@ -85,7 +87,7 @@ export class MetaDataState {
 
   @Selector()
   static classes(state: MetaDataStateModel): IClass[] { return state.classes; }
-  
+
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups; }
 
@@ -115,6 +117,7 @@ export class MetaDataState {
 
   @Selector()
   static featuresList(state: MetaDataStateModel): FeaturesList { return state.featuresList; }
+
 
   constructor(
     private categoriesService: CategoriesService,

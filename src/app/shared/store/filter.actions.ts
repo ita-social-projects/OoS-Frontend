@@ -105,3 +105,7 @@ export class SetFirstPage {
   static readonly type = '[filter] Set First Page';
   constructor() { }
 }
+export class WorkshopsPerPage {
+  static readonly type = '[filter] Workshops Per Page';
+  constructor(public payload) { }
+}

@@ -20,7 +20,7 @@ export class CategoriesService {
     }
 
     if (filters.currentPage) {
-      const size: number = PaginationConstants.ITEMS_PER_PAGE_TEN;
+      const size: number = filters.directionsPerPage;
       const from: number = size * (+filters.currentPage.element - 1);
 
       params = params.set('Size', size.toString());

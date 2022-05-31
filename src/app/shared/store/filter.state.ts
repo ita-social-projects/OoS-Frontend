@@ -31,7 +31,8 @@ import {
   CleanCity,
   FilterClear,
   SetFirstPage,
-  SetIsPaid
+  SetIsPaid,
+  WorkshopsPerPage,
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -56,6 +57,7 @@ export interface FilterStateModel {
   isLoading: boolean;
   currentPage: PaginationElement;
   isConfirmCity: boolean;
+  workshopsPerPage: number;
 }
 @State<FilterStateModel>({
   name: 'filter',
@@ -84,6 +86,7 @@ export interface FilterStateModel {
       isActive: true
     },
     isConfirmCity: false,
+    workshopsPerPage: 12,
   }
 })
 @Injectable()
@@ -118,6 +121,9 @@ export class FilterState {
 
   @Selector()
   static order(state: FilterStateModel): {} { return state.order };
+
+  @Selector()
+  static workshopsPerPage(state: FilterStateModel): number { return state.workshopsPerPage; };
 
   @Selector()
   static filterList(state: FilterStateModel): any {
@@ -312,5 +318,10 @@ export class FilterState {
         isActive: true
       }
     });
+  }
+
+  @Action(WorkshopsPerPage)
+  workshopsPerPage({ patchState }: StateContext<FilterStateModel>, { payload }: WorkshopsPerPage): void {
+    patchState({ workshopsPerPage: payload });
   }
 }

@@ -106,5 +106,9 @@ export class OnCreateClassSuccess {
   static readonly type = '[admin] create Class success';
   constructor(public payload) { }
 }
+export class DirectionsPerPage {
+  static readonly type = '[admin] Directions Per Page';
+  constructor(public payload) { }
+}
 
 

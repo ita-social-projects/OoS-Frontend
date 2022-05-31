@@ -10,7 +10,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, PageChange, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import { DeleteDirectionById, DirectionsPerPage, FilterChange, FilterClear, GetFilteredDirections, PageChange, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 
 @Component({
@@ -25,9 +25,12 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(AdminState.directionsPerPage)
+  directionsPerPage$: Observable<number>;
+  directionsPerPage: number;
 
   readonly noDirections = NoResultsTitle.noDirections;
-  readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
+  //readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
 
   searchValue = new FormControl('', [Validators.maxLength(200)]);
   searchedText: string;
@@ -57,6 +60,14 @@ export class DirectionsComponent implements OnInit, OnDestroy {
         }
       });
 
+  this.directionsPerPage$
+    .pipe(
+      takeUntil(this.destroy$)
+      ).subscribe((directionsPerPage: number)=>{
+      this.directionsPerPage = directionsPerPage;
+      this.store.dispatch(new GetFilteredDirections());
+      });
+
     this.searchQuery$
       .pipe(
       debounceTime(1000),
@@ -79,6 +90,10 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new PageChange(page));
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void{
+    this.store.dispatch(new DirectionsPerPage(itemsPerPage));
   }
 
   onDelete(direction: Direction): void {

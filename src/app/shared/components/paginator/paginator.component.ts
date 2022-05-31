@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Constants, PaginationConstants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { DirectionsPerPage } from '../../store/admin.actions';
+import { WorkshopsPerPage } from '../../store/filter.actions';
+import { MetaDataState } from '../../store/meta-data.state';
+import { ChildrensPerPage } from '../../store/user.actions';
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
@@ -11,18 +19,24 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
-  @Input() itemsPerPage: number = this.constants.ITEMS_PER_PAGE_DEFAULT;
+  @Input() itemsPerPage: number;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
+  @Output() itemsPerPageChange = new EventEmitter<Number>();
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
+  selectedOption: number;
 
-  constructor() { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.totalPageAmount = this.getTotalPageAmount();
-    this.createPageList();
+      this.totalPageAmount = this.getTotalPageAmount();
+      this.createPageList();
+  }
+
+  OnSelectOption(event: MatSelectChange): void {
+    this.itemsPerPageChange.emit(event.value);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

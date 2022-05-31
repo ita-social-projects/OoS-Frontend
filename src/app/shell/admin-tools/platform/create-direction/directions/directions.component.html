@@ -15,8 +15,8 @@
    (deleteDirection)="onDelete($event)" [isEditMode]="true">
   </app-category-card>
 </div>
-<app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
-(pageChange)="onPageChange($event)">
+<app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="directionsPerPage"
+(pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
 </ng-container>
 
