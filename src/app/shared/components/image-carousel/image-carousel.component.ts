@@ -12,7 +12,7 @@ export class ImageCarouselComponent implements OnInit, OnChanges {
   @ViewChild('myCarousel', {static: false}) myCarousel;
   constructor() { }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
   }
 
   ngOnChanges() {
@@ -21,5 +21,4 @@ export class ImageCarouselComponent implements OnInit, OnChanges {
       this.myCarousel.dotsArr = Array(this.images.length).fill(1);
     }
   }
-
 }

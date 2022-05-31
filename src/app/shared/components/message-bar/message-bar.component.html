@@ -1,7 +1,10 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-  <span fxLayout="row" fxLayoutAlign="center center">
+  <span fxLayout="row" fxLayoutAlign="center start">
     <mat-icon fxLayout="row" fxLayoutAlign="center center" class="icon">{{messageType}}</mat-icon>
-    {{data.message}}
+    <div>
+      {{data.message}}           
+      <p *ngIf='data.type === "error"' class="info">{{data.info}}</p>
+    </div>
   </span>
   <div (click)="onClose()">
     <mat-icon class="action">close</mat-icon>

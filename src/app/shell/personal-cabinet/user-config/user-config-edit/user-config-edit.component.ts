@@ -1,3 +1,4 @@
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Role } from 'src/app/shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,7 +11,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 
 @Component({
@@ -19,13 +20,14 @@ import { TEXT_REGEX } from 'src/app/shared/constants/regex-constants'
   styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent implements OnInit, OnDestroy {
+  readonly role = Role;
+  readonly validationConstants = ValidationConstants;
+  readonly phonePrefix= Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
 
-  readonly constants: typeof Constants = Constants;
-  readonly role: typeof Role = Role;
   userEditFormGroup: FormGroup;
 
   constructor(
@@ -34,10 +36,29 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService) {
 
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      firstName: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      middleName: new FormControl('', Validators.pattern(TEXT_REGEX)),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(Constants.PHONE_LENGTH)]),
+      lastName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ]),
+      firstName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ]),
+      middleName: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ]),
+      phoneNumber: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(ValidationConstants.PHONE_LENGTH),
+        Validators.maxLength(ValidationConstants.PHONE_LENGTH)
+      ]),
     });
   }
 
@@ -45,7 +66,7 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
     this.user$.subscribe((user: User) => this.user = user);
     this.user && this.userEditFormGroup.patchValue(this.user);
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
         NavBarName.PersonalCabinetProvider : 
         this.role.techAdmin ?

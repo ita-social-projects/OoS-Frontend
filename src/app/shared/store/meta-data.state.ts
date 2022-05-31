@@ -85,7 +85,7 @@ export class MetaDataState {
 
   @Selector()
   static classes(state: MetaDataStateModel): IClass[] { return state.classes; }
-
+  
   @Selector()
   static socialGroups(state: MetaDataStateModel): SocialGroup[] { return state.socialGroups; }
 
@@ -146,48 +146,52 @@ export class MetaDataState {
 
   @Action(GetDepartments)
   getDepartments({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetDepartments): Observable<Department[]> {
+    patchState({ isLoading: true })
     return this.categoriesService
-      .getDepartmentsBytDirectionId(payload)
+      .getDepartmentsByDirectionId(payload)
       .pipe(
-        tap((departments: Department[]) => patchState({ departments: departments })
+        tap((departments: Department[]) => patchState({ departments: departments, isLoading: false })
         ))
   }
 
   @Action(GetClasses)
   getClasses({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetClasses): Observable<IClass[]> {
+    patchState({ isLoading: true })
     return this.categoriesService
       .getClassByDepartmentId(payload)
       .pipe(
-        tap((classes: IClass[]) => patchState({ classes: classes })
+        tap((classes: IClass[]) => patchState({ classes: classes, isLoading: false })
         ))
   }
 
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { }: GetSocialGroup): Observable<SocialGroup[]> {
+    patchState({ isLoading: true })
     return this.childrenService
       .getSocialGroup()
       .pipe(
-        tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups })
+        tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups, isLoading: false })
         ))
   }
 
   @Action(GetInstitutionStatus)
   getInstitutionStatus({ patchState }: StateContext<MetaDataStateModel>, { }: GetInstitutionStatus): Observable<InstitutionStatus[]> {
+    patchState({ isLoading: true })
     return this.providerService
       .getInstitutionStatus()
       .pipe(
-        tap((institutionStatuses: InstitutionStatus[]) => patchState({ institutionStatuses: institutionStatuses })
+        tap((institutionStatuses: InstitutionStatus[]) => patchState({ institutionStatuses: institutionStatuses, isLoading: false })
         ))
   }
 
   @Action(ClearClasses)
   clearClasses({ patchState }: StateContext<MetaDataStateModel>, { }: ClearClasses): void {
-    patchState({ classes: undefined });
+    patchState({ classes: null });
   }
 
   @Action(ClearDepartments)
   clearDepartments({ patchState }: StateContext<MetaDataStateModel>, { }: ClearDepartments): void {
-    patchState({ departments: undefined });
+    patchState({ departments: null });
   }
 
   @Action(GetCities)
@@ -195,7 +199,7 @@ export class MetaDataState {
     return this.cityService
       .getCities(payload)
       .pipe(
-        tap((cities: City[]) => patchState(cities ? { cities: cities, isCity: true } : { cities: [{ name: 'Такого міста немає' } as City], isCity: false })
+        tap((cities: City[]) => patchState(cities ? { cities: cities, isCity: true } : { cities: [{ name: Constants.NO_CITY } as City], isCity: false })
         ))
   }
 
@@ -238,10 +242,10 @@ export class MetaDataState {
     return this.featureManagementService
       .getFeaturesList()
       .pipe(
-        tap((featuresList: FeaturesList) => 
-        patchState(environment.production 
-          ? { featuresList: featuresList } 
-          : { featuresList: { release1: true, release2: true, release3: false } })
+        tap((featuresList: FeaturesList) =>
+          patchState(environment.production
+            ? { featuresList: featuresList }
+            : { featuresList: { release1: true, release2: true, release3: false } })
         ))
   }
 

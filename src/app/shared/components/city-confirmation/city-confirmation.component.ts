@@ -1,8 +1,10 @@
-import { Constants } from 'src/app/shared/constants/constants';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Component } from '@angular/core';
 import { ConfirmCity } from '../../store/filter.actions';
 import { SetFocusOnCityField } from '../../store/app.actions';
+import { City } from '../../models/city.model';
+import { Observable } from 'rxjs';
+import { FilterState } from '../../store/filter.state';
 
 @Component({
   selector: 'app-city-confirmation',
@@ -10,16 +12,18 @@ import { SetFocusOnCityField } from '../../store/app.actions';
   styleUrls: ['./city-confirmation.component.scss']
 })
 export class CityConfirmationComponent {
+  @Select(FilterState.city)
+  city$: Observable<City>;
+
+  isDispalyed = true;
 
   constructor(public store: Store) { }
 
   confirmCity(): void {
-    localStorage.setItem('cityConfirmation', JSON.stringify(Constants.KIEV));
-    this.store.dispatch(new ConfirmCity(false));
+    this.store.dispatch(new ConfirmCity(true));
   }
 
   changeCity(): void {
     this.store.dispatch([new ConfirmCity(false), new SetFocusOnCityField()]);
   }
-
 }

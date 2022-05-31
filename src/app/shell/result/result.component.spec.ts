@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -33,6 +34,7 @@ describe('ResultComponent', () => {
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent,
+        DeclinationPipe,
       ]
     })
       .compileComponents();

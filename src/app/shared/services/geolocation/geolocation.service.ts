@@ -27,21 +27,21 @@ export class GeolocationService {
   /**
    * This method sets default city Kiev in localStorage if user deny geolocation
    */
-  confirmCity(city: City, isConfirm: boolean): void {
+  confirmCity(city: City): void {
     !!localStorage.getItem('cityConfirmation') ?
       this.store.dispatch([
-        new ConfirmCity(false),
-        new SetCity(JSON.parse(localStorage.getItem('cityConfirmation')))
+        new SetCity(JSON.parse(localStorage.getItem('cityConfirmation'))),
+        new ConfirmCity(true),
       ]) :
       this.store.dispatch([
-        new ConfirmCity(isConfirm),
-        new SetCity(city)
+        new SetCity(city),
+        new ConfirmCity(false),
       ]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(Constants.KIEV, true);
+    this.confirmCity(Constants.KIEV);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
@@ -86,7 +86,7 @@ export class GeolocationService {
    * @param address - Address
    * @param callback - Function, which receives 1 argument of type Address
    */
-   addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
+  addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
     GeocoderService
       .geocode(this.http, `${address.city}+${address.street}+${address.buildingNumber}`, 'uk-UA, uk')
       .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param

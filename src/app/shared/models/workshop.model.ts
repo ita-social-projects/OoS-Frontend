@@ -16,8 +16,6 @@ export class Workshop {
   description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
-  head: string;
-  headDateOfBirth?: Date;
   keywords?: string[];
   address: Address;
   teachers: Teacher[];
@@ -36,26 +34,20 @@ export class Workshop {
   dateTimeRanges: DateTimeRanges[];
   imageFiles?: File[];
   imageIds?: string[];
+  coverImage?: File[];
+  coverImageId?: string[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    if (id) {
-      this.id = id;
-    }
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
-    this.head = description.head;
     this.description = description.description;
     this.address = address;
     this.teachers = teachers;
-    this.website = about.website;
-    this.facebook = about.facebook;
-    this.instagram = about.instagram;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
-    this.disabilityOptionsDesc = description.disabilityOptionsDesc;
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
     this.isPerMonth = about.isPerMonth;
@@ -64,11 +56,32 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
-    if (description.imageFiles.length) {
+    if (id) {
+      this.id = id;
+    }
+    if (about.facebook) {
+      this.facebook = about.facebook;
+    }
+    if (about.website) {
+      this.website = about.website;
+    }
+    if (about.instagram) {
+      this.instagram = about.instagram;
+    }
+    if (description.disabilityOptionsDesc) {
+      this.disabilityOptionsDesc = description.disabilityOptionsDesc;
+    }
+    if (description.imageFiles?.length) {
       this.imageFiles = description.imageFiles;
     }
-    if (description.imageIds) {
+    if (description.imageIds?.length) {
       this.imageIds = description.imageIds;
+    }
+    if (about.coverImage?.length) {
+      this.coverImage = about.coverImage;
+    }
+    if (about.coverImageId?.length) {
+      this.coverImageId = about.coverImageId[0];
     }
   }
 }
@@ -87,6 +100,7 @@ export interface WorkshopCard {
   rating: number;
   title: string;
   workshopId: string;
+  coverImageId?: string;
 }
 export interface WorkshopFilterCard {
   totalAmount: number;

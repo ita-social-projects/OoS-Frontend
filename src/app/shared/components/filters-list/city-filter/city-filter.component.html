@@ -1,4 +1,5 @@
-  <app-city-autocomplete class="input" (selectedCity)="onSelectedCity($event)" [className]="'city-filter add-size'"
-    [InitialCity]="city$ | async">
+  <app-city-autocomplete [className]="'city-filter'" (selectedCity)="onSelectedCity($event)" [cityFormControl]="cityFormControl"
+  [InitialCity]="(city$ | async)?.name" (focusout)="OnFocusout()">
   </app-city-autocomplete>
-  <app-city-confirmation class="confirmation" *ngIf="isConfirmCity$ | async"></app-city-confirmation>
+  <app-city-confirmation class="confirmation" *ngIf="!(isConfirmCity$ | async)"></app-city-confirmation>
+  

@@ -2,9 +2,9 @@
   width: 300px;
   min-height: 410px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 
   &-title {
@@ -13,10 +13,6 @@
     font-weight: bold;
     font-size: 18px;
     line-height: 20px;
-  }
-
-  &-image {
-    max-width: 50%;
   }
 
   &_category {
@@ -43,21 +39,6 @@
     }
   }
 
-  &-list {
-    color: #3849F9;
-    margin: 1rem 0 1rem 2rem;
-    padding: 0;
-  }
-  &-list-workshop{
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
   &_text {
     display: flex;
     flex-direction: row;
@@ -68,13 +49,12 @@
     font-size: 13px;
     line-height: 18px;
     color: #333333;
-    margin: 0.3rem;
+    margin: 0.3rem 0;
     padding: 0;
     min-width: 0;
 
     &_label{
       margin: 0;
-      width: 200px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -104,6 +84,13 @@
     }
   }
 }
+.wrap-for-details {
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
 .card-footer {
   display: flex;
   flex-direction: row-reverse;
@@ -114,7 +101,6 @@
   width: 110px;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
   .mat-icon {
     font-size: 16px;
     width: 16px;
@@ -123,7 +109,6 @@
     font-weight: 700;
   }
 }
-
 .actions_btn {
   border-radius: 50%;
   background-color: #494545b9;
@@ -182,14 +167,10 @@
 .mat-card {
   padding: 0;
 }
-.mat-card-content {
-  margin: 0 1.5rem !important;
-}
 .mat-card-footer {
-  margin: 1.5rem 1.5rem 0 1.5rem !important;
+  margin: 0 !important;
 }
 .mat-card-header {
-  margin: 0 1rem !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -197,19 +178,35 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 200px;
     height: 20px;
+    margin: 0;
   }
   img {
+    width: 25px;
+    height: 25px;
     margin-block-end: auto;
   }
 }
+::ng-deep .mat-card-header-text {
+  width: calc(100% - 40px);
+  margin: 0!important;
+}
 .mat-card-image {
-  width: 100%;
-  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: 0;
+  object-fit: cover;
+  object-position: top;
 }
 .actions {
   position: absolute;
   top: 0;
   right: 0;
+}
+.card-img-full{
+  width: 100%;
+  height: 180px;
 }

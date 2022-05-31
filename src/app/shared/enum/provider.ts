@@ -24,7 +24,7 @@ export enum OwnershipType {
 
 export enum OwnershipTypeUkr {
   State = 'Державна',
-  Common = 'Громадська організація',
+  Common = 'Комунальна',
   Private = 'Приватна',
 }
 
@@ -40,8 +40,16 @@ export enum WorkshopTypeUkr {
   'Клас',
 }
 
-export enum createProviderSteps {
+export enum CreateProviderSteps {
   'info',
   'contacts',
   'description'
+}
+
+export enum ProviderWorkshopSameValues {
+  email = 'email',
+  phone = 'phoneNumber',
+  website = 'website',
+  facebook = 'facebook',
+  instagram = 'instagram'
 }

@@ -1,10 +1,9 @@
 <form [formGroup]="InfoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
-  <label class="step-label">Форма властності<span class="step-required">*</span></label>
-
+  <label class="step-label">Форма власності<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"
-      name="ownership" placeholder="Оберіть форму властності">
+      name="ownership" placeholder="Оберіть форму власності">
       <ng-container *ngFor="let type of ownershipType | keyvalue">
         <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
           {{ ownershipTypeUkr[type.key] }}
@@ -12,13 +11,12 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="InfoFormGroup.get('ownership').invalid && InfoFormGroup.get('ownership').touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('ownership')">
+  </app-validation-hint>
 
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
-
-  <mat-form-field floatLabel="never">
+  <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="type" name="type"
       placeholder="Оберіть тип організації">
       <ng-container *ngFor="let type of providerType | keyvalue">
@@ -28,121 +26,119 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="InfoFormGroup.get('type').invalid && InfoFormGroup.get('type').touched"></app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('type')">
+  </app-validation-hint>
 
-  <label class="step-label"> Повна назва організації <span class="step-required">*</span></label>
+  <label class="step-label"> Повна назва організації<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="InfoFormGroup.get('fullTitle').invalid && InfoFormGroup.get('fullTitle').touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('fullTitle')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
-  <label class="step-label"> Скорочена назва організації <span class="step-required">*</span></label>
+  <label class="step-label"> Скорочена назва організації<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="InfoFormGroup.get('shortTitle').invalid && InfoFormGroup.get('shortTitle').touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('shortTitle')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
-  <label class="step-label"> ПІБ керівника <span class="step-required">*</span></label>
+  <label class="step-label"> ПІБ керівника<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="director" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="director" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="InfoFormGroup.get('director').errors?.required"
-    [invalid]="InfoFormGroup.get('director').invalid && InfoFormGroup.get('director').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="InfoFormGroup.get('director').invalid && InfoFormGroup.get('director').touched"
-    [forbiddenCharacter]="InfoFormGroup.get('director').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('director')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input [max]="today" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth">
+    <input [min]="minDate" [max]="maxDate" matInput [matDatepicker]="picker" formControlName="directorDateOfBirth" [appKeyFilter]="dateFilter" [placeholder]="dateFormPlaceholder">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-
-  <app-validation-hint-for-input type="requiredField"
-    [invalid]="InfoFormGroup.get('directorDateOfBirth').invalid && InfoFormGroup.get('directorDateOfBirth').touched">
-  </app-validation-hint-for-input>
-
-  <label class="step-label"> {{this.InfoFormGroup.get('type').value === 0? "ІПН" : "ЄДПРОУ"}} <span
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('directorDateOfBirth')" 
+    minMaxDate="true">
+  </app-validation-hint>
+  
+  <label class="step-label"> {{this.InfoFormGroup.get('type').value ? "ІПН" : "ЄДРПОУ"}}<span
       class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" maxlength="10" appDigitOnly formControlName="edrpouIpn"
-      autocomplete="none">
+    <input matInput class="step-input" type="text" [minlength]="validationConstants.INPUT_LENGTH_8" [maxlength]="validationConstants.INPUT_LENGTH_10" formControlName="edrpouIpn"
+      autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="InfoFormGroup.get('edrpouIpn').errors?.required"
-    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="minCharachtersLengthFOP"
-    [minLength]="InfoFormGroup.get('edrpouIpn').errors?.minlength"
-    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched"
-    *ngIf="this.InfoFormGroup.get('type').value === 0"></app-validation-hint-for-input>
-  <app-validation-hint-for-input type="minDigitsLength" [minLength]="InfoFormGroup.get('edrpouIpn').errors?.minlength"
-    [invalid]="InfoFormGroup.get('edrpouIpn').invalid && InfoFormGroup.get('edrpouIpn').touched"
-    [minCharachters]="InfoFormGroup.get('edrpouIpn').errors?.minlength?.requiredLength"
-    *ngIf="this.InfoFormGroup.get('type').value !== 0"></app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('edrpouIpn')">
+  </app-validation-hint>
 
-  <label class="step-label"> Телефон <span class="step-required">*</span></label>
+  <label class="step-label"> Телефон<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
-      <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+      <span class="step-text">{{ phonePrefix }}</span>
       <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-        ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+        ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}">
     </div>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="InfoFormGroup.get('phoneNumber').errors?.required"
-    [invalid]="InfoFormGroup.get('phoneNumber').invalid && InfoFormGroup.get('phoneNumber').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="minDigitsLength" [minLength]="InfoFormGroup.get('phoneNumber').errors?.minlength"
-    [invalid]="InfoFormGroup.get('phoneNumber').invalid && InfoFormGroup.get('phoneNumber').touched"
-    [minCharachters]="InfoFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('phoneNumber')">
+  </app-validation-hint>
 
-  <label class="step-label"> Емейл <span class="step-required">*</span></label>
+  <label class="step-label"> Емейл<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="email" formControlName="email">
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField" [isEmptyCheck]="InfoFormGroup.get('email').errors?.required"
-    [invalid]="InfoFormGroup.get('email').invalid && InfoFormGroup.get('email').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validEmail" [isEmailCheck]="InfoFormGroup.get('email').errors?.email"
-    [invalid]="InfoFormGroup.get('email').invalid && InfoFormGroup.get('email').touched">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('email')">
+  </app-validation-hint>
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('website')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="facebook"
+      autocomplete="none" appTrimValue>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('facebook')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
 
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('instagram')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
 
   <label class="step-label">Засновник<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none">
+    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none" appTrimValue>
   </mat-form-field>
-  <app-validation-hint-for-input type="requiredEmptyField"
-    [isEmptyCheck]="InfoFormGroup.get('founder').errors?.required"
-    [invalid]="InfoFormGroup.get('founder').invalid && InfoFormGroup.get('founder').touched">
-  </app-validation-hint-for-input>
-  <app-validation-hint-for-input type="validTextField"
-    [invalid]="InfoFormGroup.get('founder').invalid && InfoFormGroup.get('founder').touched"
-    [forbiddenCharacter]="InfoFormGroup.get('founder').errors?.pattern?.requiredPattern">
-  </app-validation-hint-for-input>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('founder')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
 </form>

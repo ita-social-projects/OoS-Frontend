@@ -8,58 +8,45 @@
 
         <label class="step-label"> Прізвище <span class="step-required">*</span></label>
         <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="lastName">
+          <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue>
         </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="userEditFormGroup.get('lastName').errors?.required"
-          [invalid]="userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="userEditFormGroup.get('lastName').invalid && userEditFormGroup.get('lastName').touched"
-          [forbiddenCharacter]="userEditFormGroup.get('lastName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
-
+        <app-validation-hint 
+          [validationFormControl]="userEditFormGroup.get('lastName')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
 
         <label class="step-label"> Ім'я <span class="step-required">*</span></label>
         <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="firstName">
+          <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue>
         </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="userEditFormGroup.get('firstName').errors?.required"
-          [invalid]="userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="userEditFormGroup.get('firstName').invalid && userEditFormGroup.get('firstName').touched"
-          [forbiddenCharacter]="userEditFormGroup.get('firstName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
+        <app-validation-hint 
+          [validationFormControl]="userEditFormGroup.get('firstName')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
 
         <label class="step-label"> По-батькові </label>
         <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="middleName">
+          <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue>
         </mat-form-field>
-        <app-validation-hint-for-input type="validTextField"
-          [invalid]="userEditFormGroup.get('middleName').invalid && userEditFormGroup.get('middleName').touched"
-          [forbiddenCharacter]="userEditFormGroup.get('middleName').errors?.pattern?.requiredPattern">
-        </app-validation-hint-for-input>
+        <app-validation-hint 
+          [validationFormControl]="userEditFormGroup.get('middleName')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
 
         <label class="step-label"> Телефон <span class="step-required">*</span></label>
         <mat-form-field>
           <div fxLayout='row' fxLayoutAlign='start center'>
-            <span class="step-text">{{constants.PHONE_PREFIX}}</span>
+            <span class="step-text">{{ phonePrefix }}</span>
             <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-              ui-hide-group-sep maxlength="{{constants.PHONE_LENGTH}}">
+              ui-hide-group-sep maxlength="{{validationConstants.PHONE_LENGTH}}" appTrimValue>
           </div>
         </mat-form-field>
-        <app-validation-hint-for-input type="requiredEmptyField"
-          [isEmptyCheck]="userEditFormGroup.get('phoneNumber').errors?.required"
-          [invalid]="userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched">
-        </app-validation-hint-for-input>
-        <app-validation-hint-for-input type="minDigitsLength"
-          [minLength]="userEditFormGroup.get('phoneNumber').errors?.minlength"
-          [invalid]="userEditFormGroup.get('phoneNumber').invalid && userEditFormGroup.get('phoneNumber').touched"
-          [minCharachters]="userEditFormGroup.get('phoneNumber').errors?.minlength?.requiredLength">
-        </app-validation-hint-for-input>
-
+        <app-validation-hint 
+          [validationFormControl]="userEditFormGroup.get('phoneNumber')">
+        </app-validation-hint>
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">

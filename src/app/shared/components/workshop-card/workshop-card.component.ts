@@ -11,10 +11,12 @@ import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryIcons } from '../../enum/category-icons';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { Constants } from '../../constants/constants';
+import { ImagesService } from '../../services/images/images.service';
+import { CategoryIcons } from '../../enum/category-icons';
 
 @Component({
   selector: 'app-workshop-card',
@@ -22,19 +24,21 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
+  readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly Role: typeof Role = Role;
-  public categoryIcons = CategoryIcons;
-  public below = 'below';
-  favoriteWorkshops: Favorite[];
-  isFavorite: boolean;
-  favoriteWorkshopId: Favorite;
-  pendingApplicationAmount: number;
-  ownershipType: string;
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  readonly categoryIcons = CategoryIcons;
 
-  @Input() workshop: WorkshopCard;
+  isFavorite: boolean;
+  pendingApplicationAmount: number;
+  workshopData: WorkshopCard;
+
+  @Input() set workshop(workshop: WorkshopCard) {
+    this.workshopData = workshop;
+    this.imagesService.setWorkshopCoverImage(workshop);
+  };
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
@@ -42,15 +46,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isCreateApplicationView = false;
   @Input() icons: {};
   @Input() set pendingApplications(applications: Application[]) {
-    if (applications) {
+    if (applications?.length) {
       this.pendingApplicationAmount = applications.filter((application: Application) => {
-        return (application.workshopId === this.workshop.workshopId && application.status === ApplicationStatus.Pending);
+        return (application.workshopId === this.workshopData.workshopId && application.status === ApplicationStatus.Pending);
       }).length;
     } else {
       this.pendingApplicationAmount = 0;
     }
   };
-
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
@@ -64,33 +67,30 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private imagesService: ImagesService) { }
 
   ngOnInit(): void {
-    this.ownershipType = OwnershipTypeUkr[this.workshop.providerOwnership];
-    this.favoriteWorkshops$
+    this.role$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((favorites: Favorite[]) => {
-        this.favoriteWorkshops = favorites;
-        this.favoriteWorkshopId = this.favoriteWorkshops?.find((item: Favorite) => item.workshopId === this.workshop?.workshopId);
-      });
-    this.isFavorite = !!this.favoriteWorkshopId;
-    this.role$.pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => this.role = role);
+      .subscribe((role: string) => {
+        this.role = role;
+        (this.role === Role.parent) && this.getFavoriteWorkshops();
+      })
   }
 
   onDelete(): void {
-    this.deleteWorkshop.emit(this.workshop);
+    this.deleteWorkshop.emit(this.workshopData);
   }
 
   onLike(): void {
     const param = new Favorite(
-      this.workshop.workshopId,
+      this.workshopData.workshopId,
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' })
+      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} додано до Улюблених`, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -98,7 +98,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   onDisLike(id: string): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(id),
-      new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' })
+      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -116,7 +116,17 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
+  private getFavoriteWorkshops(): void {
+    this.favoriteWorkshops$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((favorites: Favorite[]) => !!favorites)
+      ).subscribe((favorites: Favorite[]) => {
+        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+      });
+  }
 }
+
 
 @Component({
   selector: 'app-workshop-dialog',

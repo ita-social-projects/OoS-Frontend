@@ -23,6 +23,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 @NgModule({
   exports: [
     MatTooltipModule,
@@ -50,7 +54,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatGridListModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTableModule,
+    MatSortModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule { }

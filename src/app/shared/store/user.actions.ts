@@ -5,6 +5,7 @@ import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { PaginationElement } from '../models/paginationElement.model';
+import { ProviderAdmin } from '../models/providerAdmin.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -14,13 +15,21 @@ export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: string) { }
 }
+export class OnGetWorkshopByIdFail {
+  static readonly type = '[user] get Workshop By Workshop Id fail';
+  constructor(public payload: Error) { }
+}
 export class GetProviderById {
   static readonly type = '[user] get Provider By Provider Id';
   constructor(public payload: string) { }
 }
+export class OnGetProviderByIdFail {
+  static readonly type = '[user] get Provider By Id fail';
+  constructor(public payload: Error) { }
+}
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
-  constructor(public payload: string) { }
+  constructor(public id: string, public status?: string) { }
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
@@ -101,13 +110,49 @@ export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';
   constructor(public payload) { }
 }
+export class CreateProviderAdmin {
+  static readonly type = '[user] create Provider Admin';
+  constructor(public payload: ProviderAdmin) { }
+}
+export class OnCreateProviderAdminFail {
+  static readonly type = '[user] create Provider Admin fail';
+  constructor(public payload: Error) { }
+}
+export class OnCreateProviderAdminSuccess {
+  static readonly type = '[user] create Provider Admin success';
+  constructor(public payload) { }
+}
+export class BlockProviderAdminById {
+  static readonly type = '[user] block Provider Admin';
+  constructor(public payload) { }
+}
+export class OnBlockProviderAdminSuccess {
+  static readonly type = '[user] block Provider Admin success';
+  constructor(public payload) { }
+}
+export class OnBlockProviderAdminFail {
+  static readonly type = '[user] block Provider Admin fail';
+  constructor(public payload) { }
+}
+export class DeleteProviderAdminById {
+  static readonly type = '[user] delete Provider Admin';
+  constructor(public payload) { }
+}
+export class OnDeleteProviderAdminSuccess {
+  static readonly type = '[user] delete Provider Admin success';
+  constructor(public payload) { }
+}
+export class OnDeleteProviderAdminFail {
+  static readonly type = '[user] delete Provider Admin fail';
+  constructor(public payload) { }
+}
 export class CreateApplication {
   static readonly type = '[user] create Application';
   constructor(public payload: Application) { }
 }
 export class OnCreateApplicationFail {
   static readonly type = '[user] create Application fail';
-  constructor(public payload: Error) { }
+  constructor(public payload) { }
 }
 export class OnCreateApplicationSuccess {
   static readonly type = '[user] create Application success';
@@ -205,7 +250,12 @@ export class CabinetPageChange {
   static readonly type = '[filter] Change Page';
   constructor(public payload: PaginationElement) { }
 }
-export class ResetSelectedWorkshop {
-  static readonly type = '[user] reset selected workshop';
+export class GetAllProviderAdmins {
+  static readonly type = '[user] get all users ProviderAdmins';
+  constructor() { }
+}
+
+export class ResetProviderWorkshopDetails {
+  static readonly type = '[user] clear provider and workshop details';
   constructor() { }
 }

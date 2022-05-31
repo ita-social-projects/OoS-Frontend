@@ -1,16 +1,25 @@
+import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { TEXT_REGEX, TEXT_WITH_DIGITS_REGEX } from 'src/app/shared/constants/regex-constants'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
+const defaultValidators: ValidatorFn[] = [
+  Validators.required, 
+  Validators.pattern(NO_LATIN_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+]
 @Component({
   selector: 'app-create-contacts-form',
   templateUrl: './create-contacts-form.component.html',
   styleUrls: ['./create-contacts-form.component.scss']
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
+  
   ActualAddressFormGroup: FormGroup;
   LegalAddressFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);
@@ -22,20 +31,23 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl(''),
+      buildingNumber: new FormControl(''),
+      city: new FormControl(''),
+      district: new FormControl(''),
+      region: new FormControl(''),
     });
 
     this.ActualAddressFormGroup = this.formBuilder.group({
-      street: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      buildingNumber: new FormControl('', [Validators.required, Validators.pattern(TEXT_WITH_DIGITS_REGEX)]),
-      city: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      district: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
-      region: new FormControl('', [Validators.required, Validators.pattern(TEXT_REGEX)]),
+      street: new FormControl(''),
+      buildingNumber: new FormControl(''),
+      city: new FormControl(''),
+      district: new FormControl(''),
+      region: new FormControl(''),
     });
+
+    this.setDefaultValidators(this.ActualAddressFormGroup); 
+    this.setDefaultValidators(this.LegalAddressFormGroup); 
   }
 
   ngOnInit(): void {
@@ -69,20 +81,19 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       } else {
         this.ActualAddressFormGroup.enable();
         this.ActualAddressFormGroup.markAsUntouched();
-        this.setValidators();
-        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id').setValue(this.provider.actualAddress.id);
+        this.setDefaultValidators(this.ActualAddressFormGroup); 
+        this.provider?.actualAddress && this.ActualAddressFormGroup.get('id')
+          .setValue(this.provider.actualAddress.id);
       }
     });
   }
   /**
   * This method add validators to teh form-group when actual address is not teh same as legal address
   */
-  private setValidators(): void {
-    const addValidator = (formControlTitle: string) => (formControlTitle !== 'buildingNumber') ? Validators.pattern(TEXT_REGEX) : Validators.pattern(TEXT_WITH_DIGITS_REGEX);
-
-    Object.keys(this.ActualAddressFormGroup.controls).forEach((formControlTitle: string) => {
-      this.ActualAddressFormGroup.get(formControlTitle).setValidators([addValidator(formControlTitle), Validators.required]);
-    });
+  private setDefaultValidators(form: FormGroup): void {
+    Object.keys(form.controls).forEach((formControlTitle: string) => {
+        form.get(formControlTitle).setValidators(defaultValidators);
+    });    
   }
 
   ngOnDestroy(): void {

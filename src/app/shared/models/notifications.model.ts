@@ -1,0 +1,25 @@
+export interface NotificationsAmount {
+  amount: number;
+}
+export interface Notification {
+  id: string;
+  userId: string;
+  data: any;
+  type: string;
+  action: string;
+  createdDateTime: string;
+  readDateTime: string;
+  objectId: string;
+}
+
+export interface NotificationGrouped {
+  action: string;
+  amount: number;
+  groupedData: string;
+  type: string;
+}
+
+export interface Notifications {
+  notificationsGrouped: NotificationGrouped[];
+  notifications: Notification[];
+}

@@ -11,7 +11,7 @@ import { Constants } from '../../constants/constants';
 })
 export class ChildCardComponent implements OnInit {
 
-  public below = 'below';
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public childFullName: string;
   public childAge: string;
   readonly constants: typeof Constants = Constants;
@@ -21,7 +21,7 @@ export class ChildCardComponent implements OnInit {
   @Output() deleteChild = new EventEmitter<Child>();
 
   ngOnInit(): void {
-    this.childFullName =  `${this.child.lastName} ${this.child.firstName} ${this.child.middleName}`;
+    this.childFullName = `${this.child.lastName} ${this.child.firstName} ${this.child.middleName}`;
     this.childAge = Util.getChildAge(this.child);
   }
 

@@ -15,7 +15,7 @@ export class SupportComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(
-      new AddNavPath(this.navigationBarService.creatOneNavPath(
+      new AddNavPath(this.navigationBarService.createOneNavPath(
         { name: NavBarName.Support, isActive: false, disable: true }
       )),
     );

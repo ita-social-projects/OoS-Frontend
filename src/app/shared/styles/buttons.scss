@@ -13,6 +13,7 @@ $button-color-cancel: #444444;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  text-transform: capitalize;
 
   &-reset, &-add {
     color: $button-color;
@@ -59,7 +60,18 @@ $button-color-cancel: #444444;
 
 button:disabled,
 button[disabled] {
-  border: 1px solid #cccccc;
-  background-color: #cccccc;
+  border: 1px solid #dddcdc;
+  background-color: #dddcdc;
   color: #666666;
+}
+.activeInfoBtn {
+  color: #3849f9;
+}
+.inactiveInfoBtn {
+  color: #AAAAAA;
+}
+.status-info-icon {
+  cursor: pointer;
+  margin: auto 0.5rem;
+  font-size: 16px;
 }

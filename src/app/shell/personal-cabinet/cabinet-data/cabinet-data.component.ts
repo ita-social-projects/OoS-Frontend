@@ -1,14 +1,14 @@
-import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
-import { ChildCards } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -49,9 +49,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   workshops: WorkshopCard[];
   applications: Application[];
-  childrenCards: ChildCards;
+  childrenCards: Child[];
+  filteredChildren: Child[]
 
-  constructor(public store: Store, public matDialog: MatDialog) { }
+  constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }
 
   ngOnInit(): void { }
 
@@ -81,16 +82,22 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     });
 
     this.applications$.pipe(
+      filter((applications: Application[]) => !!applications),
       takeUntil(this.destroy$)
     ).subscribe((applications: Application[]) => this.applications = applications);
+
+    this.childrenCards$.pipe(
+      filter((childrenCards: ChildCards) => !!childrenCards),
+      takeUntil(this.destroy$)
+    ).subscribe((childrenCards: ChildCards) => this.filteredChildren = this.childrenCards = childrenCards.entities);
   }
 
   getProviderApplications(providerApplicationParams): void {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
   }
 
-  getParentApplications(): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
+  getParentApplications(status?): void {
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, status));
   }
 
   getUsersChildren(): void {

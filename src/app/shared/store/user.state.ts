@@ -13,6 +13,7 @@ import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
+import { ProviderAdminService } from '../services/provider-admins/provider-admin.service';
 import { RatingService } from '../services/rating/rating.service';
 import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
@@ -53,6 +54,7 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
+  OnGetWorkshopByIdFail,
   GetApplicationsByProviderId,
   GetApplicationsByParentId,
   OnUpdateApplicationSuccess,
@@ -69,11 +71,23 @@ import {
   GetUsersChildren,
   CabinetPageChange,
   GetAllUsersChildren,
-  ResetSelectedWorkshop,
+  GetAllProviderAdmins,
+  CreateProviderAdmin,
+  OnCreateProviderAdminFail,
+  OnCreateProviderAdminSuccess,
+  DeleteProviderAdminById,
+  OnDeleteProviderAdminFail,
+  OnDeleteProviderAdminSuccess,
+  BlockProviderAdminById,
+  OnBlockProviderAdminFail,
+  OnBlockProviderAdminSuccess,
+  OnGetProviderByIdFail,
+  ResetProviderWorkshopDetails,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
-
+import { Util } from '../utils/utils';
+import { ProviderAdmin } from '../models/providerAdmin.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -85,22 +99,24 @@ export interface UserStateModel {
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
+  providerAdmins: ProviderAdmin[];
 }
 @State<UserStateModel>({
   name: 'user',
   defaults: {
     isLoading: false,
-    workshops: [],
+    workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: [],
+    applications: null,
     children: undefined,
-    favoriteWorkshops: [],
-    favoriteWorkshopsCard: [],
+    favoriteWorkshops: null,
+    favoriteWorkshopsCard: null,
     currentPage: {
       element: 1,
       isActive: true
     },
+    providerAdmins: null,
   }
 })
 @Injectable()
@@ -130,11 +146,15 @@ export class UserState {
   @Selector()
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] { return state.favoriteWorkshopsCard; }
 
+  @Selector()
+  static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
+
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
+    private providerAdminService: ProviderAdminService,
     private router: Router,
     private userService: UserService,
     private ratingService: RatingService,
@@ -142,24 +162,39 @@ export class UserState {
   ) { }
 
   @Action(GetWorkshopById)
-  getWorkshopById({ patchState }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<Workshop> {
+  getWorkshopById({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: GetWorkshopById): Observable<object> {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopById(payload)
       .pipe(
-        tap((workshop: Workshop) => {
-          return patchState({ selectedWorkshop: workshop, isLoading: false });
-        }));
+        tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
+        catchError((error: Error) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
+  }
+
+  @Action(OnGetWorkshopByIdFail)
+  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
+    throwError(payload);
+    patchState({ isLoading: false });
+    patchState({ selectedWorkshop: null });
+    dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
   }
 
   @Action(GetProviderById)
-  getProviderById({ patchState }: StateContext<UserStateModel>, { payload }: GetProviderById): Observable<Provider> {
+  getProviderById({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: GetProviderById): Observable<object> {
+    patchState({ isLoading: true });
+
     return this.providerService
       .getProviderById(payload)
       .pipe(
-        tap((provider: Provider) => {
-          return patchState({ selectedProvider: provider });
-        }));
+        tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
+        catchError((error: Error) => of(dispatch(new OnGetProviderByIdFail(error)))));
+  }
+
+  @Action(OnGetProviderByIdFail)
+  onGetProviderByIdFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnGetProviderByIdFail): void {
+    throwError(payload);
+    patchState({ isLoading: false });
+    dispatch(new ShowMessageBar({ message: 'Виникла помилка', type: 'error' }));
   }
 
   @Action(GetWorkshopsByProviderId)
@@ -174,10 +209,10 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { payload }: GetApplicationsByParentId): Observable<Application[]> {
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, status }: GetApplicationsByParentId): Observable<Application[]> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsByParentId(payload)
+      .getApplicationsByParentId(id, status)
       .pipe(
         tap((applications: Application[]) => {
           return patchState({ applications: applications, isLoading: false });
@@ -193,6 +228,17 @@ export class UserState {
         tap((applications: Application[]) => {
           return patchState({ applications: applications, isLoading: false });
         }));
+  }
+
+  @Action(GetAllProviderAdmins)
+  getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
+    patchState({ isLoading: true });
+    return this.providerAdminService
+      .getAllProviderAdmins()
+      .pipe(
+        tap(
+          (providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins, isLoading: false })
+        ))
   }
 
   @Action(GetUsersChildren)
@@ -293,7 +339,7 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'Дякуємо! Дитина була успішно додана.', type: 'success' }));
     this.router.navigate(['/personal-cabinet/parent/info']);
   }
- 
+
   @Action(CreateProvider)
   createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
     return this.providerService
@@ -303,6 +349,7 @@ export class UserState {
         catchError((error: Error) => of(dispatch(new OnCreateProviderFail(error))))
       );
   }
+
 
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
@@ -318,6 +365,73 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
   }
 
+  @Action(CreateProviderAdmin)
+  createProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProviderAdmin): Observable<object> {
+    return this.providerAdminService
+      .createProviderAdmin(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
+        catchError((error: Error) => of(dispatch(new OnCreateProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnCreateProviderAdminFail)
+  onCreateProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка при створенні користувача', type: 'error' }));
+  }
+
+  @Action(OnCreateProviderAdminSuccess)
+  onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
+    dispatch(new MarkFormDirty(false));
+    dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
+    this.router.navigate(['/personal-cabinet/administration/all']);
+  }
+
+  @Action(BlockProviderAdminById)
+  blockProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: BlockProviderAdminById): Observable<object> {
+    return this.providerAdminService
+      .blockProviderAdmin(payload.userId, payload.providerId)
+      .pipe(
+        tap((res) => dispatch(new OnBlockProviderAdminSuccess(payload))),
+        catchError((error: Error) => of(dispatch(new OnBlockProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnBlockProviderAdminFail)
+  onBlockProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnBlockProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnBlockProviderAdminSuccess)
+  onBlockProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnBlockProviderAdminSuccess): void {
+    dispatch(new ShowMessageBar({ message: `Дякуємо! користувача заблоковано!`, type: 'success' }));
+    dispatch(new GetAllProviderAdmins());
+  }
+
+  @Action(DeleteProviderAdminById)
+  deleteProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteProviderAdminById): Observable<object> {
+    return this.providerAdminService
+      .deleteProviderAdmin(payload.userId, payload.providerId)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteProviderAdminSuccess(payload))),
+        catchError((error: Error) => of(dispatch(new OnDeleteProviderAdminFail(error))))
+      );
+  }
+
+  @Action(OnDeleteProviderAdminFail)
+  onDeleteProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteProviderAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnDeleteProviderAdminSuccess)
+  onDeleteProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteProviderAdminSuccess): void {
+    dispatch(new ShowMessageBar({ message: `Дякуємо! користувача видалено!`, type: 'success' }));
+    dispatch(new GetAllProviderAdmins());
+  }
+
   @Action(CreateApplication)
   createApplication({ dispatch }: StateContext<UserStateModel>, { payload }: CreateApplication): Observable<object> {
     return this.applicationService
@@ -331,7 +445,13 @@ export class UserState {
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({
+      message: payload.error.status === 429
+        ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(payload.headers.get('retry-after'))}`
+        : 'На жаль виникла помилка',
+      type: 'error',
+      info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : ''
+    }));
   }
 
   @Action(OnCreateApplicationSuccess)
@@ -415,7 +535,7 @@ export class UserState {
   }
 
   @Action(UpdateProvider)
-  updateProvider({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateProvider): Observable<object> {
+  updateProvider({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: UpdateProvider): Observable<object> {
     return this.providerService
       .updateProvider(payload)
       .pipe(
@@ -427,6 +547,7 @@ export class UserState {
   @Action(OnUpdateProviderFail)
   onUpdateProviderfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderFail): void {
     throwError(payload);
+
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
@@ -463,7 +584,6 @@ export class UserState {
     this.router.navigate(['/personal-cabinet/config']);
   }
 
-
   @Action(UpdateApplication)
   updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication): Observable<object> {
     return this.applicationService
@@ -482,12 +602,12 @@ export class UserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-    
-    dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left 
-      ? messageStatus.left 
+    dispatch(new ShowMessageBar({ message: payload.status === ApplicationStatus.Left
+      ? messageStatus.left
       : messageStatus.approved, type: 'success' }));
-    dispatch(new GetApplicationsByParentId(payload.parentId));
+    dispatch(new GetApplicationsByParentId(payload.parentId, payload.status));
   }
+
   @Action(CreateRating)
   createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating): Observable<object> {
     return this.ratingService
@@ -549,8 +669,8 @@ export class UserState {
     patchState({ currentPage: payload });
   }
 
-  @Action(ResetSelectedWorkshop)
-  ResetSelectedWorkshop({ patchState }: StateContext<UserStateModel>): void {
-    patchState({ selectedWorkshop: null });
+  @Action(ResetProviderWorkshopDetails)
+  clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
+    patchState({ selectedWorkshop: null, selectedProvider: null });
   }
 }
