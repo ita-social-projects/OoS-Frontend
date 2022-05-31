@@ -16,13 +16,11 @@ steps:
     volumes:
     - name: 'gh'
       path: /ghcli
-    env:
-      - "PATH=$$PATH:/ghcli/bin"
     args:
     - '-c'
     - |
       echo "Cloning repo"
-      git clone --branch $BRANCH_NAME git@github.com:ita-social-projects/OoS-Frontend.git
+      git clone --branch $BRANCH_NAME https://github.com/ita-social-projects/OoS-Frontend.git
       cd OoS-Frontend
       CURRENT_VERSION=`git describe --tags $$(git rev-list --tags --max-count=1) 2>/dev/null`
       if [[ $$CURRENT_VERSION == '' ]]
@@ -44,8 +42,8 @@ steps:
       else
         RELEASE_TAG=$$CURRENT_VERSION
       fi
-      gh auth login --with-token <<< $$TOKEN
-      gh release create $$RELEASE_TAG --generate-notes --repo "ita-social-projects/OoS-Frontend"
+      /ghcli/bin/gh auth login --with-token <<< $$TOKEN
+      /ghcli/bin/gh release create $$RELEASE_TAG --generate-notes --repo "ita-social-projects/OoS-Frontend"
 availableSecrets:
   secretManager:
   - versionName: $_GITHUB_TOKEN
