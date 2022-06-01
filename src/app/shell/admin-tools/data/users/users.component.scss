@@ -7,7 +7,7 @@
   justify-content: flex-end;
   z-index: 1000;
   position: absolute;
-  right: 80px;
+  right: 0;
 }
 .users-wrapper {
   padding: 0 1rem;
@@ -28,6 +28,5 @@
     display: flex;
     z-index: 1000;
     top: -3rem;
-    right: 0;
   }
 }
