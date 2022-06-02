@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { CompanyInformation, PlatformInfoStateModel } from "../models/сompanyInformation.model";
+import { CompanyInformation } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { ChildCards } from "../models/child.model";
@@ -94,7 +94,7 @@ export interface AdminStateModel {
     selectedDirection: null,
     children: null,
     providers: null,
-    parents: null
+    parents: null,
   }
 })
 @Injectable()
@@ -131,13 +131,16 @@ export class AdminState {
     private parentService: ParentService,
     private childrenService: ChildrenService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private providerService: ProviderService,
   ) { }
 
   @Action(GetPlatformInfo)
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {  }: GetPlatformInfo): void {
-    dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
+    dispatch([
+      new GetAboutPortal(),
+      new GetSupportInformation(), 
+      new GetLawsAndRegulations()
+    ]);
   }
 
   @Action(GetAllProviders)
@@ -197,9 +200,10 @@ export class AdminState {
 
   @Action(OnUpdatePlatformInfoSuccess)
   onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch(new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }));
-
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' })
+    ]);
     this.router.navigate([`/admin-tools/platform/${payload}`]);
   }
 
@@ -222,8 +226,10 @@ export class AdminState {
   @Action(OnDeleteDirectionSuccess)
   onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionSuccess): void {
     console.log('Direction is deleted', payload);
-    dispatch(new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }));
-    this.router.navigate(['/admin-tools/platform/directions']);
+    dispatch([
+      new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }),
+      new GetFilteredDirections()
+    ]);
   }
 
   @Action(CreateDirection)
@@ -244,10 +250,12 @@ export class AdminState {
 
   @Action(OnCreateDirectionSuccess)
   onCreateDirectionSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionSuccess): void {
-    dispatch(new MarkFormDirty(false));
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' })
+    ]);
     patchState({direction: payload});
     console.log('Direction is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }));
   }
   @Action(UpdateDirection)
   updateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<Direction | Observable<void>> {
@@ -266,10 +274,12 @@ export class AdminState {
 
   @Action(OnUpdateDirectionSuccess)
   onUpdateDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch(new GetDirectionById(payload.id));
+    dispatch([
+      new MarkFormDirty(false),
+      new GetDirectionById(payload.id),
+      new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' })
+    ]);
     console.log('Direction is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' }));
   }
 
   @Action(UpdateDepartment)
@@ -289,11 +299,13 @@ export class AdminState {
 
   @Action(OnUpdateDepartmentSuccess)
   onUpdateDepartmentSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnUpdateDepartmentSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch(new GetDepartments(payload.directionId));
+    dispatch([
+      new MarkFormDirty(false),
+      new GetDepartments(payload.directionId),
+      new ShowMessageBar({ message: 'Відділ успішно відредагованний', type: 'success' })
+    ]);
     patchState({ department : payload});
     console.log('Department is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Відділ успішно відредагованний', type: 'success' }));
   }
 
   @Action(UpdateClass)
@@ -313,10 +325,12 @@ export class AdminState {
 
   @Action(OnUpdateClassSuccess)
   onUpdateClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateClassSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch(new GetClasses(payload.departmentId));
+    dispatch([
+      new MarkFormDirty(false),
+      new GetClasses(payload.departmentId),
+      new ShowMessageBar({ message: 'Клас успішно відредагованний', type: 'success' })
+    ]);
     console.log('Class is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Клас успішно відредагованний', type: 'success' }));
   }
 
   @Action(CreateDepartment)
@@ -337,10 +351,12 @@ export class AdminState {
 
   @Action(OnCreateDepartmentSuccess)
   onCreateDepartmentSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDepartmentSuccess): void {
-    dispatch(new MarkFormDirty(false));
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Відділ успішно створенний', type: 'success' })
+    ]);
     patchState({department: payload});
     console.log('Department is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Відділ успішно створенний', type: 'success' }));
   }
 
   @Action(CreateClass)
@@ -355,10 +371,12 @@ export class AdminState {
 
   @Action(OnCreateClassSuccess)
   onCreateClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateClassSuccess): void {
-    dispatch(new MarkFormDirty(false));
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Клас успішно створенний', type: 'success' })
+    ]);
     console.log('Class is created', payload);
     this.router.navigate([`/admin-tools/platform/directions`]);
-    dispatch(new ShowMessageBar({ message: 'Клас успішно створенний', type: 'success' }));
   }
 
   @Action(OnCreateClassFail)
@@ -429,8 +447,10 @@ export class AdminState {
   @Action(OnDeleteDepartmentSuccess)
   onDeleteDepartmentSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDepartmentSuccess): void {
     console.log('Department is deleted', payload);
-    dispatch(new GetDepartments(payload.directionId));
-    dispatch(new ShowMessageBar({ message: 'Відділення видалено!', type: 'success' }));
+    dispatch([
+      new GetDepartments(payload.directionId),
+      new ShowMessageBar({ message: 'Відділення видалено!', type: 'success' })
+    ]);
   }
   @Action(DeleteClassById)
   deleteClassById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteClassById): Observable<object> {
@@ -451,8 +471,10 @@ export class AdminState {
   @Action(OnDeleteClassSuccess)
   onDeleteClassSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteClassSuccess): void {
     console.log('Class is deleted', payload);
-    dispatch(new GetClasses(payload.departmentId)); //TODO: fix the performance
-    dispatch(new ShowMessageBar({ message: 'Класс видалено!', type: 'success' }));
+    dispatch([
+      new GetClasses(payload.departmentId), //TODO: fix the performance
+      new ShowMessageBar({ message: 'Класс видалено!', type: 'success' })
+    ]); 
   }
 
   @Action(OnClearCategories)
