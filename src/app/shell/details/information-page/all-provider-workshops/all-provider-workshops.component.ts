@@ -14,7 +14,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class AllProviderWorkshopsComponent implements OnInit {
   readonly Role = Role;
 
-  @Input() role: string;
+  @Input() role: Role;
   @Input() workshop: Workshop;
 
   @Select(UserState.workshops)

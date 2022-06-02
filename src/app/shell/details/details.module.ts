@@ -15,6 +15,8 @@ import { ContactsComponent } from './side-menu/contacts/contacts.component';
 import { ScheduleComponent } from './side-menu/schedule/schedule.component';
 import { AllProviderWorkshopsComponent } from './information-page/all-provider-workshops/all-provider-workshops.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
+import { ProviderDetailsComponent } from './provider-details/provider-details.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ActionsComponent,
     ContactsComponent,
     ScheduleComponent,
-    AllProviderWorkshopsComponent],
+    AllProviderWorkshopsComponent,
+    WorkshopDetailsComponent,
+    ProviderDetailsComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
