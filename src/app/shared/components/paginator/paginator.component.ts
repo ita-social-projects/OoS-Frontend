@@ -24,8 +24,8 @@ export class PaginatorComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-      this.totalPageAmount = this.getTotalPageAmount();
-      this.createPageList();
+    this.totalPageAmount = this.getTotalPageAmount();
+    this.createPageList();
   }
 
   OnSelectOption(event: MatSelectChange): void {
