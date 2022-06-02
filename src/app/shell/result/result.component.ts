@@ -45,11 +45,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
   public viewType = ViewType;
-
   public destroy$: Subject<boolean> = new Subject<boolean>();
-
   public filtersList;
-  //public currentPage: PaginationElement;
   public order;
 
   isMobileScreen: boolean;
@@ -72,12 +69,11 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workshopsPerPage$
-    .pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((workshopsPerPage: number)=>{
-      this.workshopsPerPage = workshopsPerPage;
-      this.store.dispatch(new GetFilteredWorkshops());
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((workshopsPerPage: number)=> {
+        this.workshopsPerPage = workshopsPerPage;
+        this.store.dispatch(new GetFilteredWorkshops());
+      });
 
     this.route.params
       .pipe(takeUntil(this.destroy$))
@@ -118,25 +114,20 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.isFiltersVisible = window.innerWidth > 750;
 
     this.filterList$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((list) => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => {
         const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours, order } = list;
         this.filtersList = { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours };
         this.order = order;
       })
 
     this.isMobileScreen$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((isMobile) => {
-        this.isMobileScreen = isMobile;
-      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isMobile) => this.isMobileScreen = isMobile)
 
     this.route.url
-      .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
-        this.isHidden = item.path === 'map';
-      }));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => this.isHidden = item.path === 'map'));
   }
 
   viewHandler(value: ViewType): void {
