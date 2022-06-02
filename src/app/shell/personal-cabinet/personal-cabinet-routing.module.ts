@@ -36,7 +36,7 @@ const routes: Routes = [
     canLoad: [ParentGuard]
   },
   {
-    path: 'administration/:param',
+    path: 'administration',
     component: ProviderAdminsComponent,
   },
 ];
