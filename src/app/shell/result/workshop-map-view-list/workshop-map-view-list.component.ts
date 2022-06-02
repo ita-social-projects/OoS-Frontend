@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { PageChange } from 'src/app/shared/store/filter.actions';
+import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -34,6 +34,10 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+
+  @Output() itemsPerPageChange = new EventEmitter<Number>();
+
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
   isSelectedMarker = false;
@@ -125,7 +129,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
+    this.store.dispatch(new OnPageChangeWorkshops(page));
   }
 
   ngOnDestroy(): void {

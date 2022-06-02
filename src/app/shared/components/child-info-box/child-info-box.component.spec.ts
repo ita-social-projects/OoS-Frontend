@@ -3,6 +3,8 @@ import { ChildInfoBoxComponent } from './child-info-box.component';
 import { MatCardModule } from '@angular/material/card';
 import { Child } from '../../models/child.model';
 import { HttpClientModule } from '@angular/common/http';
+import { GeolocationService } from '../../services/geolocation/geolocation.service';
+import { ChildrenService } from '../../services/children/children.service';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;
@@ -14,7 +16,10 @@ describe('ChildInfoBoxComponent', () => {
         MatCardModule,
         HttpClientModule
       ],
-      declarations: [ChildInfoBoxComponent]
+      declarations: [ChildInfoBoxComponent],
+      providers: [
+        { provide: ChildrenService, useValue: ChildrenService }
+      ]
     })
       .compileComponents();
   });
@@ -30,3 +35,4 @@ describe('ChildInfoBoxComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
