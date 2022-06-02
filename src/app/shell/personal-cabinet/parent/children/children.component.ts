@@ -22,7 +22,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
-  childrensPerPage: number;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   currentPage: PaginationElement = {
@@ -39,24 +39,12 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   ngOnInit(): void {
     this.getUserData();
-    this.childrensPerPage$
-    .pipe(
-      takeUntil(this.destroy$)
-      ).subscribe((childrensPerPage: number)=>{
-      this.childrensPerPage = childrensPerPage;
-      this.store.dispatch(new GetUsersChildren());
-      });
+    // this.store.dispatch(new GetUsersChildren());
   }
 
   init(): void {
     this.getUsersChildren();
     this.getParentApplications();
-    this.actions$.pipe(ofAction(OnPageChangeChildrens))
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetUsersChildren()));
   }
 
   childApplications(applications: Application[], child: Child): Array<Application> {

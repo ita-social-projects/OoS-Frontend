@@ -28,17 +28,13 @@ export interface PaginatorStateModel {
 @Injectable()
 export class PaginatorState {
 
-  @Selector()
-  static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; };
+  @Selector() static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; };
 
-  @Selector()
-  static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; };
+  @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; };
 
-  @Selector()
-  static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
+  @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
 
-  @Selector()
-  static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
+  @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
   constructor() { }
 
@@ -66,22 +62,22 @@ export class PaginatorState {
     dispatch(new GetFilteredDirections());
   }
 
+  @Action(OnPageChangeWorkshops)
+  onPageChangeWorkshops({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeWorkshops): void {
+    patchState({ currentPage: payload });
+    dispatch(new GetFilteredWorkshops());
+  }
 
-@Action(OnPageChangeWorkshops)
-onPageChangeWorkshops({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeWorkshops) {
-  patchState({ currentPage: payload });
-  dispatch(new GetFilteredWorkshops());
-}
+  @Action(SetFirstPage)
+  setFirstPage({ patchState }: StateContext<PaginatorStateModel>): void {
+    patchState({ currentPage: { element: 1, isActive: true } });
+  }
 
-@Action(SetFirstPage)
-setFirstPage({ patchState }: StateContext<PaginatorStateModel>) {
-  patchState({ currentPage: { element: 1, isActive: true } });
-}
-
-@Action(OnPageChangeChildrens)
-onPageChange({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
-  patchState({ currentPage: payload });
-}
+  @Action(OnPageChangeChildrens)
+  onPageChange({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
+    patchState({ currentPage: payload });
+    dispatch( new GetUsersChildren());
+  }
 }
 
 

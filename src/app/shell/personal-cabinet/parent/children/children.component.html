@@ -23,7 +23,7 @@
         (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
       </app-child-card>
     </div>
-    <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage$ | async" [itemsPerPage]="childrensPerPage$ | async"
+    <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="childrensPerPage$ | async"
       (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </ng-container>

@@ -16,7 +16,7 @@ export class CategoriesService {
   constructor(
     private http: HttpClient,
     private store: Store,
-    ) { }
+  ) { }
 
   private setParams(filters: AdminStateModel): HttpParams {
     let params = new HttpParams();
@@ -25,11 +25,12 @@ export class CategoriesService {
       params = params.set('Name', filters.searchQuery);
     }
 
-      const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-      const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
-      const from: number = size * (+currentPage.element - 1);
-      params = params.set('Size', size.toString());
-      params = params.set('From', from.toString());
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    const from: number = size * (+currentPage.element - 1);
+    
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }

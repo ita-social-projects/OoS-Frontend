@@ -115,7 +115,6 @@ export class MetaDataState {
   @Selector()
   static featuresList(state: MetaDataStateModel): FeaturesList { return state.featuresList; }
 
-
   constructor(
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService,

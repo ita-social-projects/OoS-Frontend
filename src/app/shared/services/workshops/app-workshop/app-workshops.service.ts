@@ -6,9 +6,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { Ordering } from 'src/app/shared/enum/ordering';
 import { Direction } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
@@ -16,12 +14,10 @@ import { FilterStateModel } from '../../../store/filter.state';
 })
 export class AppWorkshopsService {
 
-  dataUrlMock = '/assets/mock-org-cards.json';
-
   constructor(
     private http: HttpClient,
     private store: Store,
-    ) {}
+  ) {}
 
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
@@ -93,9 +89,11 @@ export class AppWorkshopsService {
       const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
       const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
       const from: number = size * (+currentPage.element - 1);
+
       params = params.set('Size', size.toString());
       params = params.set('From', from.toString());
-      }
+    }
+
     return params;
   }
 

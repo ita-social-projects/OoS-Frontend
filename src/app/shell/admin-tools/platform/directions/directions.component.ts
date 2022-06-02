@@ -1,3 +1,4 @@
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
@@ -21,14 +22,17 @@ import { AdminState } from 'src/app/shared/store/admin.state';
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
   @Input() direction: Direction;
+
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;
+  @Select(PaginatorState.directionsPerPage)
+  directionsPerPage$: Observable<number>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   readonly noDirections = NoResultsTitle.noDirections;
-  readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
 
   searchValue = new FormControl('', [Validators.maxLength(200)]);
   searchedText: string;
@@ -40,7 +44,6 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private actions$: Actions,
     private matDialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -53,24 +56,17 @@ export class DirectionsComponent implements OnInit, OnDestroy {
           startWith(''),
         ).subscribe((val: string) => {
         this.searchedText = val;
-        if (val.length === 0) {
+        if (!val) {
           this.store.dispatch(new SetSearchQueryValue(''));
         }
       });
 
     this.searchQuery$
       .pipe(
-      debounceTime(1000),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
-
-    this.actions$.pipe(ofAction(FilterChange))
-      .pipe(
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetFilteredDirections()));
+      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
   }
 
   onSearch(): void {

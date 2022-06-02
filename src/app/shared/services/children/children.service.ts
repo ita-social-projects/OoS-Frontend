@@ -17,7 +17,7 @@ export class ChildrenService {
   constructor(
     private http: HttpClient,
     private store: Store,
-    ) { }
+  ) { }
 
   private setParams(state: UserStateModel): HttpParams {
     let params = new HttpParams();
@@ -25,6 +25,7 @@ export class ChildrenService {
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
     const from: number = size * (+currentPage.element - 1);
+    
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
 
