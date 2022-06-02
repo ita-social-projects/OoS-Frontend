@@ -3,7 +3,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Actions, Select, Store, ofActionSuccessful } from '@ngxs/store';
+import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Department, Direction } from 'src/app/shared/models/category.model';
 import { GetDirectionById, OnClearCategories } from 'src/app/shared/store/admin.actions';

@@ -69,7 +69,6 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
-  CabinetPageChange,
   GetAllUsersChildren,
   GetAllProviderAdmins,
   CreateProviderAdmin,
@@ -664,11 +663,6 @@ export class UserState {
     return this.favoriteWorkshopsService
       .deleteFavoriteWorkshop(payload)
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
-  }
-
-  @Action(CabinetPageChange)
-  pageChange({ patchState }: StateContext<UserStateModel>, { payload }: CabinetPageChange): void {
-    patchState({ currentPage: payload });
   }
 
   @Action(ResetProviderWorkshopDetails)
