@@ -73,8 +73,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['status']);
-        this.btnView = providerAdminRoleUkr[params['status']];
+        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
+        this.btnView = providerAdminRoleUkr[params['role']];
       });
 
     this.provider$
@@ -111,7 +111,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   onTabChange(event: MatTabChangeEvent): void {
     this.btnView = event.tab.textLabel;
     this.filter.reset();
-    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: providerAdminRoleUkrReverse[event.tab.textLabel] } }
+    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] } }
     );
   }
 
