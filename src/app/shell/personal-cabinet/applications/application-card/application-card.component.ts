@@ -26,8 +26,9 @@ import { RejectModalWindowComponent } from 'src/app/shared/components/reject-mod
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-application-card',
@@ -48,6 +49,7 @@ export class ApplicationCardComponent implements OnInit {
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
   subrole: string;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -65,7 +67,10 @@ export class ApplicationCardComponent implements OnInit {
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
     this.deviceToogle = this.detectedDevice.checkedDevice();
-    this.subrole$.subscribe((subrole) => (this.subrole = subrole));
+    this.subrole$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subrole: string) => (this.subrole = subrole));
+
   }
 
   onClick(event) {
@@ -146,4 +151,9 @@ export class ApplicationCardComponent implements OnInit {
     this.deviceToogle &&
       document.removeEventListener('click', this.onClick.bind(this));
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
+  }
+
 }
