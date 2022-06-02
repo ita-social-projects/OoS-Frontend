@@ -29,14 +29,11 @@ import {
   GetInstitutionStatus,
   ClearRatings,
   GetFeaturesList,
-
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { environment } from 'src/environments/environment';
-import { FilterChange } from './filter.actions';
-
 export interface MetaDataStateModel {
   directions: Direction[];
   topDirections: Direction[];

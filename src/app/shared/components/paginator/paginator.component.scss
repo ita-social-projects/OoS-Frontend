@@ -36,9 +36,8 @@
   max-width: 100px;
   padding-left: 0;
 }
-
 @media(max-width: 750px) {
   .paginator {
-flex-direction: column;
-  }
+    flex-direction: column;
+    }
 }

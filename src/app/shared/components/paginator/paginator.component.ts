@@ -20,7 +20,6 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
-  selectedOption: number;
 
   constructor() { }
 

@@ -4,6 +4,7 @@ import { PaginationElement } from "../models/paginationElement.model";
 import { GetFilteredDirections } from "./admin.actions";
 import { GetFilteredWorkshops } from "./filter.actions";
 import { OnPageChangeChildrens, OnPageChangeDirections, OnPageChangeWorkshops, SetChildrensPerPage, SetDirectionsPerPage, SetFirstPage, SetWorkshopsPerPage, } from "./paginator.actions";
+import { GetUsersChildren } from "./user.actions";
 
 export interface PaginatorStateModel {
   workshopsPerPage: number;
@@ -42,18 +43,21 @@ export class PaginatorState {
   constructor() { }
 
   @Action(SetWorkshopsPerPage)
-  setWorkshopsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetWorkshopsPerPage): void {
+  setWorkshopsPerPage({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: SetWorkshopsPerPage): void {
     patchState({ workshopsPerPage: payload });
+    dispatch(new GetFilteredWorkshops());
   }
 
   @Action(SetDirectionsPerPage)
-  setDirectionsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetDirectionsPerPage): void {
+  setDirectionsPerPage({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: SetDirectionsPerPage): void {
     patchState({ directionsPerPage: payload });
+    dispatch(new GetFilteredDirections());
   }
 
   @Action(SetChildrensPerPage)
-  setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
+  setChildrensPerPage({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
     patchState({ childrensPerPage: payload });
+    dispatch(new GetUsersChildren());
   }
 
   @Action(OnPageChangeDirections)
@@ -78,7 +82,6 @@ setFirstPage({ patchState }: StateContext<PaginatorStateModel>) {
 onPageChange({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
   patchState({ currentPage: payload });
 }
-
 }
 
 

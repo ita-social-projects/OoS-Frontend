@@ -101,6 +101,3 @@ export class OnCreateClassSuccess {
   static readonly type = '[admin] create Class success';
   constructor(public payload) { }
 }
-
-
-

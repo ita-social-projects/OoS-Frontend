@@ -5,11 +5,37 @@ import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { AboutPortal } from "../models/aboutPortal.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import {
+  DeleteDirectionById,
+  GetInfoAboutPortal,
+  OnDeleteDirectionFail,
+  OnDeleteDirectionSuccess,
+  OnUpdateInfoAboutPortalFail,
+  OnUpdateInfoAboutPortalSuccess,
+  UpdateInfoAboutPortal,
+  CreateDirection,
+  OnCreateDirectionFail,
+  OnCreateDirectionSuccess,
+  UpdateDirection,
+  OnUpdateDirectionSuccess,
+  OnUpdateDirectionFail,
+  CreateDepartment,
+  OnCreateDepartmentFail,
+  OnCreateDepartmentSuccess,
+  GetDirectionById,
+  GetDepartmentByDirectionId,
+  SetSearchQueryValue,
+  GetFilteredDirections,
+  FilterChange,
+  FilterClear,
+  OnCreateClassFail,
+  OnCreateClassSuccess,
+  CreateClass,
+} from "./admin.actions";
+
 
 export interface AdminStateModel {
   isLoading: boolean;

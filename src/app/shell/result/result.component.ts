@@ -78,14 +78,12 @@ export class ResultComponent implements OnInit, OnDestroy {
     ).subscribe((workshopsPerPage: number)=>{
       this.workshopsPerPage = workshopsPerPage;
       this.store.dispatch(new GetFilteredWorkshops());
-      console.log(this.workshopsPerPage)
     });
 
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.currentView = params.param;
-        console.log(params.param)
       });
 
     this.router.events

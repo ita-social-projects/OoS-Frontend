@@ -89,14 +89,13 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', Ordering.nearest);
       params = params.set('Size', '100');
       params = params.set('From', '0');
-    }
-
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
-    const from: number = size * (+currentPage.element - 1);
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
-
+    } else {
+      const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+      const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+      const from: number = size * (+currentPage.element - 1);
+      params = params.set('Size', size.toString());
+      params = params.set('From', from.toString());
+      }
     return params;
   }
 
