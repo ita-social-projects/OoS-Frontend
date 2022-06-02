@@ -1,10 +1,19 @@
-<div class="wrapper" [fxLayout]="(isMobileScreen$ | async) ? 'column': 'row'"
-  [fxLayout.lt-lg]="(isMobileScreen$ | async) ? 'column' : 'row wrap'" fxLayoutAlign="center space-between"
-  fxLayoutGap.gt-md="2rem">
+<div 
+  class="wrapper"
+  fxLayoutGap.gt-md="2rem"
+  fxLayoutAlign="center space-between" 
+  [fxLayout]="isMobileScreen ? 'column': 'row'"
+  [fxLayout.lt-lg]="isMobileScreen? 'column' : 'row wrap'">
 
   <ng-container *ngIf="entity === entityType.workshop then WorkshopDetails; else ProviderDetails"></ng-container>
   
-  <app-side-menu *ngIf="workshop" [workshop]="workshop" [role]="role$ | async">
+  <app-side-menu 
+    *ngIf="provider" 
+    [workshop]="workshop" 
+    [provider]="provider" 
+    [role]="role" 
+    [isMobileScreen]="isMobileScreen"
+    [displayActionCard]="displayActionCard">
   </app-side-menu>
 </div>
 

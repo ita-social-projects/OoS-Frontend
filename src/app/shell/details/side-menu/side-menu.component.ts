@@ -1,17 +1,12 @@
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Role } from 'src/app/shared/enum/role';
-import { Select } from '@ngxs/store';
-import { AppState } from 'src/app/shared/store/app.state';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Address } from 'src/app/shared/models/address.model';
 
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
   readonly Role: typeof Role = Role;

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Address } from 'src/app/shared/models/address.model';
 

@@ -1,4 +1,4 @@
-import { StarsComponent } from './../../../../shared/components/stars/stars.component';
+import { StarsComponent } from '../../../../shared/components/stars/stars.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
