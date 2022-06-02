@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { emit } from 'process';
 import { CategoryIcons } from '../../enum/category-icons';
 import { Direction } from '../../models/category.model';
 import { SetDirections } from '../../store/filter.actions';
@@ -20,8 +21,9 @@ export class CategoryCardComponent {
   constructor(private store: Store) {
   }
 
-  onDelete(): void {
+  onDelete(event: Event): void {
     this.deleteDirection.emit(this.direction);
+    event.stopPropagation();
   }
 
   selectDirection(direction: Direction): void {

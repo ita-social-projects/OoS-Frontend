@@ -1,6 +1,6 @@
 <div class="container" *ngIf="provider">
 
-  <ng-container *ngIf="(isMobileScreen$ | async) && workshop && (role !== Role.provider)">
+  <ng-container *ngIf="(isMobileScreen$ | async) && workshop && shouldDisplay">
     <app-actions [role]="role" [workshop]="workshop"></app-actions>
   </ng-container>
 
