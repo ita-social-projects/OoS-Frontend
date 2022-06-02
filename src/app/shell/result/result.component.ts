@@ -4,7 +4,7 @@ import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
 import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, GetFilteredWorkshops, PageChange, SetFirstPage, WorkshopsPerPage } from 'src/app/shared/store/filter.actions';
+import { FilterChange, GetFilteredWorkshops, } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -12,8 +12,9 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ResetSelectedWorkshop } from 'src/app/shared/store/user.actions';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { SetFirstPage, SetWorkshopsPerPage } from 'src/app/shared/store/paginator.actions';
 
 enum ViewType {
   map = 'map',
@@ -36,9 +37,11 @@ export class ResultComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
-  @Select(FilterState.workshopsPerPage)
+  @Select(PaginatorState.workshopsPerPage)
   workshopsPerPage$: Observable<number>;
   workshopsPerPage: number;
+  @Select(PaginatorState.currentPage)
+  currentPage$: Observable<number>;
 
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
@@ -47,7 +50,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
   public filtersList;
-  public currentPage: PaginationElement;
+  //public currentPage: PaginationElement;
   public order;
 
   isMobileScreen: boolean;
@@ -69,24 +72,28 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
     this.workshopsPerPage$
     .pipe(
       takeUntil(this.destroy$)
     ).subscribe((workshopsPerPage: number)=>{
       this.workshopsPerPage = workshopsPerPage;
       this.store.dispatch(new GetFilteredWorkshops());
+      console.log(this.workshopsPerPage)
     });
 
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.currentView = params.param;
+        console.log(params.param)
       });
 
     this.router.events
       .pipe(takeUntil(this.destroy$))
       .subscribe((event: NavigationStart) => {
+        if (!event.url.includes('details')) {
+          this.store.dispatch(new SetFirstPage());
+        };
         if (event.navigationTrigger === 'popstate') {
           this.store.dispatch(new GetFilteredWorkshops(this.currentView !== this.viewType.map))
             .pipe(takeUntil(this.destroy$))
@@ -118,8 +125,7 @@ export class ResultComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$)
       ).subscribe((list) => {
-        const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours, currentPage, order } = list;
-        this.currentPage = currentPage;
+        const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours, order } = list;
         this.filtersList = { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours };
         this.order = order;
       })
@@ -133,9 +139,8 @@ export class ResultComponent implements OnInit, OnDestroy {
 
     this.route.url
       .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
-        this.isHidden = item.path === 'map' ? false : true;
+        this.isHidden = item.path === 'map';
       }));
-
   }
 
   viewHandler(value: ViewType): void {
@@ -145,7 +150,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void{
-    this.store.dispatch(new WorkshopsPerPage(itemsPerPage));
+    this.store.dispatch(new SetWorkshopsPerPage(itemsPerPage));
   }
 
   filterHandler(): void {
@@ -158,5 +163,4 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

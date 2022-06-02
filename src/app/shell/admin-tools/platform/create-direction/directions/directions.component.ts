@@ -5,13 +5,14 @@ import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteDirectionById, DirectionsPerPage, FilterChange, FilterClear, GetFilteredDirections, PageChange, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { OnPageChangeDirections, SetDirectionsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
 
 @Component({
   selector: 'app-directions',
@@ -25,9 +26,11 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @Select(AdminState.directionsPerPage)
+  @Select(PaginatorState.directionsPerPage)
   directionsPerPage$: Observable<number>;
   directionsPerPage: number;
+  @Select(PaginatorState.currentPage)
+  currentPage$: Observable<number>;
 
   readonly noDirections = NoResultsTitle.noDirections;
   //readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
@@ -60,6 +63,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
         }
       });
 
+  this.directionsPerPage$ === null;
   this.directionsPerPage$
     .pipe(
       takeUntil(this.destroy$)
@@ -67,7 +71,6 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       this.directionsPerPage = directionsPerPage;
       this.store.dispatch(new GetFilteredDirections());
       });
-
     this.searchQuery$
       .pipe(
       debounceTime(1000),
@@ -89,11 +92,11 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
+    this.store.dispatch(new OnPageChangeDirections(page));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void{
-    this.store.dispatch(new DirectionsPerPage(itemsPerPage));
+    this.store.dispatch(new SetDirectionsPerPage(itemsPerPage));
   }
 
   onDelete(direction: Direction): void {
@@ -113,5 +116,6 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new SetFirstPage());
   }
 }

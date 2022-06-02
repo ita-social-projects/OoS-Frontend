@@ -69,7 +69,6 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
-  CabinetPageChange,
   GetAllUsersChildren,
   ResetSelectedWorkshop,
   GetAllProviderAdmins,
@@ -83,7 +82,6 @@ import {
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
-  ChildrensPerPage,
   GetFilteredChildrens,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
@@ -102,7 +100,6 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
-  childrensPerPage: number;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -120,7 +117,6 @@ export interface UserStateModel {
       isActive: true
     },
     providerAdmins: null,
-    childrensPerPage: 12,
   }
 })
 @Injectable()
@@ -152,9 +148,6 @@ export class UserState {
 
   @Selector()
   static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
-
-  @Selector()
-  static childrensPerPage(state: UserStateModel): number { return state.childrensPerPage; };
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -671,19 +664,8 @@ export class UserState {
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 
-  @Action(CabinetPageChange)
-  pageChange({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: CabinetPageChange): void {
-    patchState({ currentPage: payload });
-    dispatch(new GetFilteredChildrens());
-  }
-
   @Action(ResetSelectedWorkshop)
   ResetSelectedWorkshop({ patchState }: StateContext<UserStateModel>): void {
     patchState({ selectedWorkshop: null });
-  }
-
-  @Action(ChildrensPerPage)
-  childrensPerPage({ patchState }: StateContext<UserStateModel>, { payload }: ChildrensPerPage): void {
-    patchState({ childrensPerPage: payload });
   }
 }

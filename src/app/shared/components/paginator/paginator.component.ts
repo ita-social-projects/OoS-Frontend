@@ -1,14 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Constants, PaginationConstants } from '../../constants/constants';
+import { PaginationConstants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
-import { DirectionsPerPage } from '../../store/admin.actions';
-import { WorkshopsPerPage } from '../../store/filter.actions';
-import { MetaDataState } from '../../store/meta-data.state';
-import { ChildrensPerPage } from '../../store/user.actions';
+
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
@@ -28,7 +22,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
   totalPageAmount: number;
   selectedOption: number;
 
-  constructor(private store: Store) { }
+  constructor() { }
 
   ngOnInit(): void {
       this.totalPageAmount = this.getTotalPageAmount();
@@ -43,6 +37,11 @@ export class PaginatorComponent implements OnInit, OnChanges {
     if (changes?.currentPage) {
       if (!changes.currentPage.isFirstChange()) {
         this.createPageList();
+      }
+    }
+    if (changes?.itemsPerPage) {
+      if (!changes.itemsPerPage.isFirstChange()) {
+       this.ngOnInit();
       }
     }
   }

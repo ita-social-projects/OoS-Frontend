@@ -1,5 +1,5 @@
 import { Application } from 'src/app/shared/models/application.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -7,10 +7,11 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { CabinetPageChange, ChildrensPerPage, DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
+import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 import { Observable, Subject } from 'rxjs';
-import { UserState } from 'src/app/shared/store/user.state';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 
 @Component({
   selector: 'app-children',
@@ -19,9 +20,11 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class ChildrenComponent extends CabinetDataComponent implements OnInit, OnDestroy {
 
-  @Select(UserState.childrensPerPage)
+  @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
   childrensPerPage: number;
+  @Select(PaginatorState.currentPage)
+  currentPage$: Observable<number>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   currentPage: PaginationElement = {
@@ -38,7 +41,6 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   ngOnInit(): void {
     this.getUserData();
-
     this.childrensPerPage$
     .pipe(
       takeUntil(this.destroy$)
@@ -51,7 +53,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
   init(): void {
     this.getUsersChildren();
     this.getParentApplications();
-    this.actions$.pipe(ofAction(CabinetPageChange))
+    this.actions$.pipe(ofAction(OnPageChangeChildrens))
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
@@ -76,18 +78,19 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
       (result) && this.store.dispatch(new DeleteChildById(child.id));
     });
   }
-  
+
   onItemsPerPageChange(itemsPerPage: number): void{
-    this.store.dispatch(new ChildrensPerPage(itemsPerPage));
+    this.store.dispatch(new SetChildrensPerPage(itemsPerPage));
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new CabinetPageChange(page));
+    this.store.dispatch(new OnPageChangeChildrens(page));
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new SetFirstPage());
   }
 }

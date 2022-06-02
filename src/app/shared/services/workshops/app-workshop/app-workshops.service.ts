@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, Input } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Constants } from 'src/app/shared/constants/constants';
 import { Ordering } from 'src/app/shared/enum/ordering';
 import { Direction } from 'src/app/shared/models/category.model';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
 
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
@@ -17,7 +18,10 @@ export class AppWorkshopsService {
 
   dataUrlMock = '/assets/mock-org-cards.json';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+    ) {}
 
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
@@ -85,13 +89,13 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', Ordering.nearest);
       params = params.set('Size', '100');
       params = params.set('From', '0');
-    } else if (filters.currentPage) {
-      const size: number = filters.workshopsPerPage;
-      const from: number = size * (+filters.currentPage.element - 1);
-
-      params = params.set('Size', size.toString());
-      params = params.set('From', from.toString());
     }
+
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const from: number = size * (+currentPage.element - 1);
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }
@@ -124,7 +128,7 @@ export class AppWorkshopsService {
   getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
     let city = JSON.parse(localStorage.getItem('cityConfirmation'));
     let params = new HttpParams();
-    let size: number = filters.workshopsPerPage;
+    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
     params = params.set('Limit', size.toString());
     params = params.set('City', city?.name ?? Constants.KIEV.name);
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });

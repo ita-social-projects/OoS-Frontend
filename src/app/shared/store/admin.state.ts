@@ -8,7 +8,7 @@ import { Department, Direction, DirectionsFilter, IClass } from "../models/categ
 import { PaginationElement } from "../models/paginationElement.model";
 import { CategoriesService } from "../services/categories/categories.service";
 import { PortalService } from "../services/portal/portal.service";
-import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, PageChange, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, DirectionsPerPage, } from "./admin.actions";
+import { DeleteDirectionById, GetInfoAboutPortal, OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnUpdateInfoAboutPortalFail, OnUpdateInfoAboutPortalSuccess, UpdateInfoAboutPortal,CreateDirection, OnCreateDirectionFail, OnCreateDirectionSuccess, UpdateDirection, OnUpdateDirectionSuccess, OnUpdateDirectionFail, CreateDepartment, OnCreateDepartmentFail, OnCreateDepartmentSuccess, GetDirectionById, GetDepartmentByDirectionId, SetSearchQueryValue, GetFilteredDirections, FilterChange, FilterClear, OnCreateClassFail, OnCreateClassSuccess, CreateClass, } from "./admin.actions";
 import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 
 export interface AdminStateModel {
@@ -19,11 +19,8 @@ export interface AdminStateModel {
   aboutPortal: AboutPortal;
   departments: Department[];
   selectedDirection: Direction;
-  currentPage: PaginationElement;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
-  directionsPerPage: number;
-
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -37,11 +34,6 @@ export interface AdminStateModel {
     selectedDirection: null,
     searchQuery: '',
     filteredDirections: undefined,
-    currentPage: {
-      element: 1,
-      isActive: true
-    },
-    directionsPerPage: 10,
   }
 })
 @Injectable()
@@ -60,11 +52,7 @@ export class AdminState {
   @Selector()
   static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
   @Selector()
-  static currentPage(state: AdminStateModel): {} { return state.currentPage; };
-  @Selector()
   static isLoading(state: AdminStateModel): boolean { return state.isLoading };
-  @Selector()
-  static directionsPerPage(state: AdminStateModel): number { return state.directionsPerPage; };
 
   constructor(
     private portalService: PortalService,
@@ -165,7 +153,7 @@ export class AdminState {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
-  
+
   @Action(OnUpdateDirectionSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionSuccess): void {
     dispatch(new MarkFormDirty(false));
@@ -264,25 +252,10 @@ export class AdminState {
       () => patchState({ isLoading: false, selectedDirection: null })));
   }
 
-    @Action(PageChange)
-    pageChange({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: PageChange): void {
-      patchState({ currentPage: payload });
-      dispatch(new GetFilteredDirections());
-    }
-
     @Action(FilterClear)
     filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
     patchState({
       searchQuery: '',
-      currentPage: {
-        element: 1,
-        isActive: true
-      }
     });
-  }
-
-  @Action(DirectionsPerPage)
-  directionsPerPage({ patchState }: StateContext<AdminStateModel>, { payload }: DirectionsPerPage): void {
-    patchState({ directionsPerPage: payload });
   }
 }

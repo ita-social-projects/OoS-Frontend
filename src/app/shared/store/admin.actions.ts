@@ -1,6 +1,5 @@
 import { AboutPortal } from "../models/aboutPortal.model";
 import { Department, Direction, IClass } from "../models/category.model";
-import { PaginationElement } from "../models/paginationElement.model";
 
 export class GetInfoAboutPortal {
   static readonly type = '[admin] Get Information About Portal';
@@ -74,10 +73,6 @@ export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload: number) { }
 }
-export class PageChange {
-  static readonly type = '[admin] Change Page';
-  constructor(public payload: PaginationElement) { }
-}
 export class FilterChange {
   static readonly type = '[admin] Filter Change';
   constructor() { }
@@ -106,9 +101,6 @@ export class OnCreateClassSuccess {
   static readonly type = '[admin] create Class success';
   constructor(public payload) { }
 }
-export class DirectionsPerPage {
-  static readonly type = '[admin] Directions Per Page';
-  constructor(public payload) { }
-}
+
 
 
