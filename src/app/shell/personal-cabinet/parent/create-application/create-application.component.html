@@ -17,9 +17,9 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-validation-hint-for-input type="requiredField"
-          [invalid]="ChildFormControl.invalid && ChildFormControl.touched">
-        </app-validation-hint-for-input>
+        <app-validation-hint 
+          [validationFormControl]="ChildFormControl">
+        </app-validation-hint>
 
         <div fxLayout="column" fxLayoutAlign="center center">
           <a [routerLink]="['/create-child', '']">
