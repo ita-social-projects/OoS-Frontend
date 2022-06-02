@@ -2,31 +2,37 @@
 @import "src/app/shared/styles/buttons.scss";
 @import "src/app/shared/styles/list-wrappers.scss";
 @import "src/app/shared/styles/search.scss";
-.search-area {
-  display: flex;
-  justify-content: flex-end;
-  z-index: 1000;
-  position: absolute;
-  right: 0;
-}
+
 .users-wrapper {
-  padding: 0 1rem;
-}
-.wrapper {
   position: relative;
-}
-.tab-wrapper {
-  width: 100%;
-}
-@media (max-width: 1070px) {
-  .wrapper {
-    display: flex;
-    justify-content: start;
-    top: 4rem;
+  }
+  .tab-wrapper {
+    margin-bottom: 4rem;
+  }
+  .search {
+    padding-left: 10px;
   }
   .search-area {
     display: flex;
+    justify-content: flex-end;
     z-index: 1000;
-    top: -3rem;
+    position: absolute;
+    right: 12px;
   }
-}
+  @media (max-width: 1070px) {
+    .tab-wrapper {
+      bottom: 0;
+    }
+    .search-area {
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .search-area {
+      position: static;
+      margin-bottom: 1rem;
+      justify-content: space-between;
+    }
+  }
