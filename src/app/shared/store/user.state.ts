@@ -70,7 +70,6 @@ import {
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
   GetAllUsersChildren,
-  ResetSelectedWorkshop,
   GetAllProviderAdmins,
   CreateProviderAdmin,
   OnCreateProviderAdminFail,
@@ -82,7 +81,7 @@ import {
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
-  GetFilteredChildrens,
+  ResetProviderWorkshopDetails,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -664,8 +663,8 @@ export class UserState {
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
   }
 
-  @Action(ResetSelectedWorkshop)
-  ResetSelectedWorkshop({ patchState }: StateContext<UserStateModel>): void {
-    patchState({ selectedWorkshop: null });
+  @Action(ResetProviderWorkshopDetails)
+  clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
+    patchState({ selectedWorkshop: null, selectedProvider: null });
   }
 }

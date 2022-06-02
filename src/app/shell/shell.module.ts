@@ -11,7 +11,6 @@ import { OrderingComponent } from './result/ordering/ordering.component';
 import { SharedModule } from '../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PersonalCabinetComponent } from './personal-cabinet/personal-cabinet.component';
-import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { PersonalCabinetGuard } from './personal-cabinet/personal-cabinet.guard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from '../shared/interceptors/http-token.interceptor';
@@ -36,7 +35,6 @@ import { RulesComponent } from './info/rules/rules.component';
     WorkshopCardsListComponent,
     OrderingComponent,
     PersonalCabinetComponent,
-    AdminToolsComponent,
     WorkshopMapViewListComponent,
     AllCategoriesComponent,
     AboutComponent,

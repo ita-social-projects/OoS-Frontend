@@ -259,5 +259,7 @@ export class GetFilteredChildrens {
   static readonly type = '[user] Get Filtered Childrens';
   constructor() { }
 }
-
-
+export class ResetProviderWorkshopDetails {
+  static readonly type = '[user] clear provider and workshop details';
+  constructor() { }
+}

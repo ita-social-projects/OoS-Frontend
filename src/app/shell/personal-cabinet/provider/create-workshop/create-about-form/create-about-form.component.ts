@@ -7,10 +7,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { DateTimeRanges } from 'src/app/shared/models/workingHours.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-
 
 @Component({
   selector: 'app-create-about-form',
@@ -40,7 +38,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
       coverImage: new FormControl(''),
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
+        ]),
       phone: new FormControl('', [
         Validators.required, 
         Validators.minLength(Constants.PHONE_LENGTH),

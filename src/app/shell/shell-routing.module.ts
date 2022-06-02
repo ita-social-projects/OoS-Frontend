@@ -1,3 +1,5 @@
+import { PlatformModule } from './admin-tools/platform/platform.module';
+import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
 import { ResultComponent } from './result/result.component';
@@ -19,9 +21,7 @@ import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
-import { AboutEditComponent } from './admin-tools/platform/about-edit/about-edit.component';
-import { SupportEditComponent } from './admin-tools/platform/support-edit/support-edit.component';
-import { CreateDirectionComponent } from './admin-tools/platform/create-direction/create-direction.component';
+import { CreateDirectionComponent } from './admin-tools/platform/directions/create-direction/create-direction.component';
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
 import { IsMobileGuard } from './is-mobile.guard';
@@ -53,19 +53,21 @@ const routes: Routes = [
   },
   {
     path: 'personal-cabinet/config/edit',
-    component: UserConfigEditComponent
+    component: UserConfigEditComponent,
+    canDeactivate: [CreateGuard]
   },
   {
-    path: 'admin-tools/platform/about/edit',
-    component: AboutEditComponent
+    path: 'admin-tools/platform/update/:param/:mode', component: InfoEditComponent,
+    loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
+    canDeactivate: [CreateGuard]
   },
   {
-    path: 'admin-tools/platform/support/edit',
-    component: SupportEditComponent
-  },
-  {
-    path: 'admin-tools/platform/directions/create',
+    path: 'admin-tools/platform/directions/create/:param',
     component: CreateDirectionComponent
+  },
+  {
+  path: 'admin-tools/platform/directions/create',
+  component: CreateDirectionComponent
   },
   {
     path: 'notifications',
@@ -86,6 +88,10 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
+  },
+  {
+  path: 'directions/create/:param', component: CreateDirectionComponent,
+  loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
   },
   {
     path: 'create-workshop', component: CreateWorkshopComponent,

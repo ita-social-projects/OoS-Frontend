@@ -1,1 +1,14 @@
 @import "src/app/shared/styles/side-menu-cards.scss";
+
+.container .contact-info {
+  max-width: 100%;
+  a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.mat-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}

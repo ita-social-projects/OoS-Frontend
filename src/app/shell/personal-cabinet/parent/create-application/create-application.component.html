@@ -49,7 +49,7 @@
         Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас
       </mat-checkbox>
       <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControl">
-        Я(моя дитина) не маю противопоказів щодо відвідування гуртока/секції/класу
+        Я (моя дитина) не маю противопоказів щодо відвідування гуртка/секції/класу
       </mat-checkbox>
       <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
         Я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
@@ -58,7 +58,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="['/workshop-details', workshopId]"><button class="btn btn-cancel"
+      <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel"
           mat-raised-button>Скасувати</button></a>
       <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
                     !isContraindicationAgreed ||

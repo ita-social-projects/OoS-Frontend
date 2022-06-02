@@ -107,13 +107,13 @@
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a [routerLink]="'./admin-tools/platform/about'"> <button mat-menu-item>Адміністрування</button></a>
+        <a [routerLink]="'./admin-tools/platform/AboutPortal'"> <button mat-menu-item>Адміністрування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
     </mat-menu>
   </div>
 </ng-template>
-<div *ngIf="isLoadingResultPage || isLoadingMetaData || isLoadingCabinet" class="progress-bar">
+<div *ngIf="isLoadingResultPage || isLoadingMetaData || isLoadingCabinet || isLoadingAdminData" class="progress-bar">
   <mat-progress-bar mode="indeterminate">
   </mat-progress-bar>
 </div>

@@ -5,7 +5,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 
 describe('CityAutocompleteComponent', () => {
@@ -33,6 +33,7 @@ describe('CityAutocompleteComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CityAutocompleteComponent);
     component = fixture.componentInstance;
+    component.cityFormControl = new FormControl('');
     fixture.detectChanges();
   });
 

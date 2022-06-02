@@ -50,7 +50,7 @@
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(AddressFormGroup)">Далі</button>
+          <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup.invalid" (click)="checkValidation(AddressFormGroup)">Далі</button>
         </div>
       </mat-step>
 
@@ -67,7 +67,7 @@
           <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
-            (click)="onSubmit()">Завершити</button>
+            (click)="onSubmit()">Зберегти</button>
         </div>
       </mat-step>
 

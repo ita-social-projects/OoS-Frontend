@@ -6,7 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { createProviderSteps } from 'src/app/shared/enum/provider';
+import { CreateProviderSteps } from 'src/app/shared/enum/provider';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -61,7 +61,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   ngAfterViewInit(): void {
     if (this.editMode) {
       this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +createProviderSteps[params.param];
+        this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
     }
   }

@@ -10,7 +10,7 @@ export class CleanCity {
 }
 export class ConfirmCity {
   static readonly type = '[app] Confirm Current City';
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean, public city?: City) { }
 }
 export class SetOrder {
   static readonly type = '[filter] Set Order';
