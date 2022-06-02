@@ -7,14 +7,13 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { EntityType, Role } from 'src/app/shared/enum/role';
-import { Address } from 'src/app/shared/models/address.model';
 import { imgPath } from 'src/app/shared/models/carousel.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
+import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-workshop-details',
