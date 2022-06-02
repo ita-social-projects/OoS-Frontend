@@ -16,7 +16,7 @@
   </app-category-card>
 </div>
 <app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
-(pageChange)="onPageChange($event)">
+(pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
 </ng-container>
 

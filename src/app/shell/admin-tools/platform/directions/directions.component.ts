@@ -1,3 +1,4 @@
+import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, PageChange, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 
 @Component({
@@ -78,7 +79,11 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
+    this.store.dispatch(new OnPageChangeDirections(page));
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch(new SetDirectionsPerPage(itemsPerPage));
   }
 
   onDelete(direction: Direction): void {
