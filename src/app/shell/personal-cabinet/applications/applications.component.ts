@@ -1,16 +1,17 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Store } from '@ngxs/store';
-import { debounceTime, filter, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { MatTabGroup } from '@angular/material/tabs';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -24,7 +25,7 @@ import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumU
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss']
 })
-export class ApplicationsComponent extends CabinetDataComponent implements OnInit {
+export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit {
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
@@ -45,6 +46,9 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
 
+  @ViewChild(MatTabGroup)
+  tabGroup: MatTabGroup;
+
   constructor(
     store: Store,
     private infoBoxService: InfoBoxService,
@@ -54,12 +58,16 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     private route: ActivatedRoute,) {
     super(store, matDialog, actions$);
   }
+  ngAfterViewInit(): void {
+    this.tabGroup.selectedIndex = this.tabIndex;
+  }
 
   ngOnInit(): void {
     this.getUserData();
-    this.route.params
+    this.route.queryParams
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params.param));
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])      
+      );
 
     this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
       .pipe(
@@ -142,7 +150,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     } else {
       this.getParentApplications(status);
     }
-    this.router.navigate(['../', tabLabel], { relativeTo: this.route });
+    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
   }
 
   /**
