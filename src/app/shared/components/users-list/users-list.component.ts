@@ -46,6 +46,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   readonly providerAdminTitles = ProviderAdminTitles;
   readonly providerAdminStatus = ProviderAdminStatus;
   readonly providerAdminIcons = ProviderAdminIcons;
+
   subrole: string;
   Role = Role;
   displayedColumns: string[];
@@ -59,7 +60,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {    
     this.subrole$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((subrole) => (this.subrole = subrole));
+      .subscribe((subrole: string) => (this.subrole = subrole));
     this.displayedColumns = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
     this.dataSource = new MatTableDataSource(this.users);
   }

@@ -148,8 +148,7 @@ export class ApplicationCardComponent implements OnInit {
   onInfoHide(): void {
     this.infoShowToggle = false;
     this.infoHide.emit();
-    this.deviceToogle &&
-      document.removeEventListener('click', this.onClick.bind(this));
+    this.deviceToogle && document.removeEventListener('click', this.onClick.bind(this));
   }
 
   ngOnDestroy(): void {
