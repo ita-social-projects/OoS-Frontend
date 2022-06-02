@@ -12,7 +12,7 @@ import {
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Constants } from 'src/app/shared/constants/constants';
 import {
   providerAdminRoleUkr,
@@ -23,6 +23,7 @@ import { Role } from '../../enum/role';
 import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
 import { ProviderAdminTable } from '../../models/providerAdmin.model';
 import { RegistrationState } from '../../store/registration.state';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * @title Table with sorting
@@ -49,13 +50,16 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   Role = Role;
   displayedColumns: string[];
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {    
-    this.subrole$.subscribe((subrole) => (this.subrole = subrole));
+    this.subrole$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subrole) => (this.subrole = subrole));
     this.displayedColumns = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
     this.dataSource = new MatTableDataSource(this.users);
   }
@@ -91,5 +95,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   
   onBlock(user: ProviderAdminTable): void {
     this.blockAdmin.emit(user);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }

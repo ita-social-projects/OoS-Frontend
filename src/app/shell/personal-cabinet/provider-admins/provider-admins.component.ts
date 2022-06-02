@@ -107,7 +107,9 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       )
       .subscribe((provider: Provider) => (this.provider = provider));
 
-    this.subrole$.subscribe((subrole) => (this.subrole = subrole));
+    this.subrole$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subrole: string) => (this.subrole = subrole));
   }
 
   getAllProviderAdmins(): void {
