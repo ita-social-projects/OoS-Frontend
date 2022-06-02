@@ -98,7 +98,7 @@
             {{roles[user.role]}}</button></a>
         <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
         <a [routerLink]="'./personal-cabinet/applications/All'"><button mat-menu-item>Мої заяви</button></a>
-        <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/administration/all'"><button
+        <a *ngIf="user.role === Role.provider && subrole !== Role.providerAdmin" [routerLink]="'./personal-cabinet/administration/all'"><button
             mat-menu-item>Адміністрування</button></a>
         <!-- <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a> -->
         <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button

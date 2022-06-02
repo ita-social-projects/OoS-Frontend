@@ -51,6 +51,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: User;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;
 
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
@@ -59,6 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoadingNotifications: boolean;
   isMobile: boolean;
   navigationPaths: Navigation[];
+  subrole: string;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -69,6 +72,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.subrole$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subrole: string) => (this.subrole = subrole));
     combineLatest([
       this.isLoadingResultPage$,
       this.isLoadingMetaData$,

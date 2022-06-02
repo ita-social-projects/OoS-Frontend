@@ -7,6 +7,8 @@ import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -14,6 +16,9 @@ import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin'
   styleUrls: ['./personal-cabinet.component.scss'],
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {  
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   roles = RoleLinks;
   subrole: string;
@@ -30,7 +35,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.userRole = this.store.selectSnapshot<User>(
       RegistrationState.user
     ).role;
-    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
+    this.subrole$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subrole: string) => (this.subrole = subrole));
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createOneNavPath({

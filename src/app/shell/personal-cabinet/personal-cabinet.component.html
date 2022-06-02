@@ -22,7 +22,7 @@
     <ng-container *ngIf="userRole !== Role.techAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications/all'">ЗАЯВИ</a>
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider && subrole !== Role.admin">
+    <ng-container *ngIf="userRole === Role.provider && subrole !== Role.providerAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./administration/all'">АДМІНІСТРУВАННЯ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.parent">
