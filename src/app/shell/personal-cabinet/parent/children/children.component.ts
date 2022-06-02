@@ -1,13 +1,12 @@
 import { Application } from 'src/app/shared/models/application.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Actions, Select, Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
+import { DeleteChildById } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
@@ -19,12 +18,10 @@ import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/ap
   styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends CabinetDataComponent implements OnInit, OnDestroy {
-
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
@@ -39,7 +36,6 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   ngOnInit(): void {
     this.getUserData();
-    // this.store.dispatch(new GetUsersChildren());
   }
 
   init(): void {

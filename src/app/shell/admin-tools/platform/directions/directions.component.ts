@@ -3,16 +3,15 @@ import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/sto
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import { DeleteDirectionById, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 
 @Component({
