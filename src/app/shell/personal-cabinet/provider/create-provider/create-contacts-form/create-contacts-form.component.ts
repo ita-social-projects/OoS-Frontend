@@ -31,8 +31,10 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
 
-  city: string;
-  cityFormControl = new FormControl('', defaultValidators);
+  cityLegal: string;
+  cityActual: string;
+  cityLegalFormControl = new FormControl('', defaultValidators);
+  cityActualFormControl = new FormControl('', defaultValidators);
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
@@ -62,22 +64,38 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
   }
 
-  onSelectedCity(event: any): void {
-    this.city = event.name;
-    this.LegalAddressFormGroup.get('city').reset();
-    this.LegalAddressFormGroup.get('city').setValue(event.name);
-  }
-
-  onFocusout(city: City): void {
-    if(!this.cityFormControl.value || city.name === Constants.NO_CITY){
-      this.cityFormControl.setValue(null);
-    } else{
-      this.cityFormControl.setValue(this.city);
+  onSelectedCity(event: any, type: string): void {
+    if (type === 'legal') {
+      this.cityLegal = event.name;
+      this.LegalAddressFormGroup.get('city').reset();
+      this.LegalAddressFormGroup.get('city').setValue(event.name);
+    } else if (type === 'actual') {
+      this.cityActual = event.name;
+      this.ActualAddressFormGroup.get('city').reset();
+      this.ActualAddressFormGroup.get('city').setValue(event.name);
     }
   }
 
+  onFocusout(city: City, type: string): void {
+    if (type === 'legal') {
+      if(!this.cityLegalFormControl.value || city.name === Constants.NO_CITY){
+        this.cityLegalFormControl.setValue(null);
+      } else {
+        this.cityLegalFormControl.setValue(this.cityLegal);
+      }
+    } else if (type === 'actual') {
+      if(!this.cityActualFormControl.value || city.name === Constants.NO_CITY){
+        this.cityActualFormControl.setValue(null);
+      } else {
+        this.cityActualFormControl.setValue(this.cityActual);
+      }
+    }
+
+  }
+
   private activateEditMode(): void {
-    this.city = this.provider.legalAddress.city;
+    this.cityLegal = this.provider.legalAddress.city;
+    this.cityActual = this.provider?.actualAddress.city;
     this.LegalAddressFormGroup.addControl('id', this.formBuilder.control(''));
     this.ActualAddressFormGroup.addControl('id', this.formBuilder.control(''));
 
