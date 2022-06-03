@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationApproved, ApplicationLeft, ApplicationPending, ApplicationRejected } from 'src/app/shared/enum/enumUA/declinations/notification-declination';
 import { NotificationsConstants } from '../../../constants/constants';
 import { ApplicationTitlesReverse } from '../../../enum/enumUA/applications';
@@ -56,7 +57,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
-        let status: string = ApplicationTitlesReverse[notificationsGrouped.groupedData];
+        let status: string = ApplicationStatus[notificationsGrouped.groupedData];
         this.router.navigate([`/personal-cabinet/${NotificationType.Application}/`], { relativeTo: this.route, queryParams: { status: status } });
         break;
       case NotificationType.Workshop:
