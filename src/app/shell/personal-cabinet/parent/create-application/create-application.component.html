@@ -17,8 +17,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-validation-hint 
-          [validationFormControl]="ChildFormControl">
+        <app-validation-hint [validationFormControl]="ChildFormControl">
         </app-validation-hint>
 
         <div fxLayout="column" fxLayoutAlign="center center">
@@ -59,11 +58,11 @@
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel"
-          mat-raised-button>Скасувати</button></a>
+          mat-raised-button>СКАСУВАТИ</button></a>
       <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
                     !isContraindicationAgreed ||
                     !isParentAgreed ||
-                    !selectedChild " (click)="onSubmit()">Відправити</button>
+                    !selectedChild " (click)="onSubmit()">ВІДПРАВИТИ</button>
     </div>
   </div>
 </div>
