@@ -13,9 +13,10 @@
   </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
-  </mat-form-field>
+  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city"
+    class="city-autocomplete" [cityFormControl]="cityFormControl" [class.redBorder]="cityFormControl.invalid && cityFormControl.touched"
+    (focusout)="onFocusout($event)">
+  </app-city-autocomplete>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('city')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"

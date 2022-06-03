@@ -5,6 +5,8 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { City } from 'src/app/shared/models/city.model';
+import { Constants } from 'src/app/shared/constants/constants';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -28,6 +30,9 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   @Input() provider: Provider;
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
+
+  city: string;
+  cityFormControl = new FormControl('', defaultValidators);
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
@@ -57,7 +62,22 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
   }
 
+  onSelectedCity(event: any): void {
+    this.city = event.name;
+    this.LegalAddressFormGroup.get('city').reset();
+    this.LegalAddressFormGroup.get('city').setValue(event.name);
+  }
+
+  onFocusout(city: City): void {
+    if(!this.cityFormControl.value || city.name === Constants.NO_CITY){
+      this.cityFormControl.setValue(null);
+    } else{
+      this.cityFormControl.setValue(this.city);
+    }
+  }
+
   private activateEditMode(): void {
+    this.city = this.provider.legalAddress.city;
     this.LegalAddressFormGroup.addControl('id', this.formBuilder.control(''));
     this.ActualAddressFormGroup.addControl('id', this.formBuilder.control(''));
 
