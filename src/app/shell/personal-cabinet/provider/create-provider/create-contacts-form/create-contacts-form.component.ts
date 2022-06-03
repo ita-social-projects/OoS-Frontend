@@ -76,7 +76,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   }
 
   onFocusOutLegal(city: City): void {
-      if(!this.cityLegalFormControl.value || city.name === Constants.NO_CITY){
+      if(!this.cityLegalFormControl.value || city?.name === Constants.NO_CITY){
         this.cityLegalFormControl.setValue(null);
       } else {
         this.cityLegalFormControl.setValue(this.cityLegal);
@@ -84,7 +84,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   }
 
   onFocusOutActual(city: City): void {
-    if(!this.cityActualFormControl.value || city.name === Constants.NO_CITY){
+    if(!this.cityActualFormControl.value || city?.name === Constants.NO_CITY){
       this.cityActualFormControl.setValue(null);
     } else {
       this.cityActualFormControl.setValue(this.cityActual);
