@@ -26,15 +26,14 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   LegalAddressFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
+  cityLegalFormControl = new FormControl('', defaultValidators);
+  cityActualFormControl = new FormControl('', defaultValidators);
+  cityLegal: string;
+  cityActual: string;
 
   @Input() provider: Provider;
   @Output() passActualAddressFormGroup = new EventEmitter();
   @Output() passLegalAddressFormGroup = new EventEmitter();
-
-  cityLegal: string;
-  cityActual: string;
-  cityLegalFormControl = new FormControl('', defaultValidators);
-  cityActualFormControl = new FormControl('', defaultValidators);
 
   constructor(private formBuilder: FormBuilder) {
     this.LegalAddressFormGroup = this.formBuilder.group({
