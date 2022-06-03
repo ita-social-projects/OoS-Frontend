@@ -1,3 +1,4 @@
+import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 import { StarsComponent } from '../../../../shared/components/stars/stars.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -31,7 +32,9 @@ describe('ReviewsComponent', () => {
       declarations: [
         ReviewsComponent,
         StarsComponent,
-        DeclinationPipe]
+        DeclinationPipe,
+        NoResultCardComponent,
+      ]
     })
       .compileComponents();
   });
