@@ -72,4 +72,5 @@ class MockResultMapComponent {
 class MockMapWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
 }

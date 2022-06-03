@@ -4,16 +4,16 @@ import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable, Subject } from 'rxjs';
 import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, GetFilteredWorkshops, PageChange, SetFirstPage } from 'src/app/shared/store/filter.actions';
+import { FilterChange, GetFilteredWorkshops, } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
 import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { SetFirstPage, SetWorkshopsPerPage } from 'src/app/shared/store/paginator.actions';
 
 enum ViewType {
   map = 'map',
@@ -36,20 +36,22 @@ export class ResultComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
+  @Select(PaginatorState.workshopsPerPage)
+  workshopsPerPage$: Observable<number>;
+  workshopsPerPage: number;
+  @Select(PaginatorState.currentPage)
+  currentPage$: Observable<number>;
 
   public currentView: ViewType = ViewType.data;
   public isFiltersVisible = true;
   public viewType = ViewType;
-
   public destroy$: Subject<boolean> = new Subject<boolean>();
-
   public filtersList;
-  public currentPage: PaginationElement;
   public order;
 
   isMobileScreen: boolean;
   isHidden: boolean;
-  
+
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @HostListener('window:resize', ['$event'])
@@ -66,6 +68,12 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.workshopsPerPage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((workshopsPerPage: number)=> {
+        this.workshopsPerPage = workshopsPerPage;
+        this.store.dispatch(new GetFilteredWorkshops());
+      });
 
     this.route.params
       .pipe(takeUntil(this.destroy$))
@@ -76,6 +84,9 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(takeUntil(this.destroy$))
       .subscribe((event: NavigationStart) => {
+        if (event.url && !event.url.includes('details')) {
+          this.store.dispatch(new SetFirstPage());
+        };
         if (event.navigationTrigger === 'popstate') {
           this.store.dispatch(new GetFilteredWorkshops(this.currentView !== this.viewType.map))
             .pipe(takeUntil(this.destroy$))
@@ -103,32 +114,30 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.isFiltersVisible = window.innerWidth > 750;
 
     this.filterList$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((list) => {
-        const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours, currentPage, order } = list;
-        this.currentPage = currentPage;
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => {
+        const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours, order } = list;
         this.filtersList = { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours };
         this.order = order;
       })
 
     this.isMobileScreen$
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((isMobile) => {
-        this.isMobileScreen = isMobile;
-      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isMobile) => this.isMobileScreen = isMobile)
 
     this.route.url
-      .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => {
-        this.isHidden = item.path === 'map' ? false : true;
-      }));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((url: UrlSegment[]) => url.forEach((item: UrlSegment) => this.isHidden = item.path === 'map'));
   }
 
   viewHandler(value: ViewType): void {
     this.store.dispatch(new GetFilteredWorkshops(value === this.viewType.map))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.router.navigate([`result/${value}`]));
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void{
+    this.store.dispatch(new SetWorkshopsPerPage(itemsPerPage));
   }
 
   filterHandler(): void {

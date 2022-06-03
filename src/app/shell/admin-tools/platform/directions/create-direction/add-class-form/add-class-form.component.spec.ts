@@ -36,7 +36,6 @@ describe('AddClassFormComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         AddClassFormComponent,
-        MockValidationHintForInputComponent,
       ],
       providers: [
         { provide: CdkStepper, }
@@ -55,16 +54,3 @@ describe('AddClassFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-@Component({
-  selector: 'app-validation-hint-for-input',
-  template: ''
-})
-
-class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() minLength: boolean;
-  @Input() minCharachters: number;
-  @Input() forbiddenCharacter: string;
-  @Input() isEmptyCheck: boolean;
-}
