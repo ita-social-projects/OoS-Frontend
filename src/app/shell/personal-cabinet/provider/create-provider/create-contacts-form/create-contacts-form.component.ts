@@ -64,33 +64,32 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
   }
 
-  onSelectedCity(event: any, type: string): void {
-    if (type === 'legal') {
-      this.cityLegal = event.name;
-      this.LegalAddressFormGroup.get('city').reset();
-      this.LegalAddressFormGroup.get('city').setValue(event.name);
-    } else if (type === 'actual') {
-      this.cityActual = event.name;
-      this.ActualAddressFormGroup.get('city').reset();
-      this.ActualAddressFormGroup.get('city').setValue(event.name);
-    }
+  onSelectLegalCity(event: any): void {
+    this.cityLegal = event.name;
+    this.LegalAddressFormGroup.get('city').reset();
+    this.LegalAddressFormGroup.get('city').setValue(event.name);
   }
 
-  onFocusout(city: City, type: string): void {
-    if (type === 'legal') {
+  onSelectActualCity(event: any): void {
+    this.cityActual = event.name;
+    this.ActualAddressFormGroup.get('city').reset();
+    this.ActualAddressFormGroup.get('city').setValue(event.name);
+  }
+
+  onFocusOutLegal(city: City): void {
       if(!this.cityLegalFormControl.value || city.name === Constants.NO_CITY){
         this.cityLegalFormControl.setValue(null);
       } else {
         this.cityLegalFormControl.setValue(this.cityLegal);
       }
-    } else if (type === 'actual') {
-      if(!this.cityActualFormControl.value || city.name === Constants.NO_CITY){
-        this.cityActualFormControl.setValue(null);
-      } else {
-        this.cityActualFormControl.setValue(this.cityActual);
-      }
-    }
+  }
 
+  onFocusOutActual(city: City): void {
+    if(!this.cityActualFormControl.value || city.name === Constants.NO_CITY){
+      this.cityActualFormControl.setValue(null);
+    } else {
+      this.cityActualFormControl.setValue(this.cityActual);
+    }
   }
 
   private activateEditMode(): void {

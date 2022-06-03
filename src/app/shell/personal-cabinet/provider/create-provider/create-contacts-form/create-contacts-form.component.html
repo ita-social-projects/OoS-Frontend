@@ -13,9 +13,9 @@
   </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event, 'legal')" [InitialCity]="cityLegal"
+  <app-city-autocomplete (selectedCity)="onSelectLegalCity($event)" [InitialCity]="cityLegal"
     class="city-autocomplete" [cityFormControl]="cityLegalFormControl" [class.redBorder]="cityLegalFormControl.invalid && cityLegalFormControl.touched"
-    (focusout)="onFocusout($event, 'legal')">
+    (focusout)="onFocusOutLegal($event)">
   </app-city-autocomplete>
   <app-validation-hint 
     [validationFormControl]="LegalAddressFormGroup.get('city')"
@@ -76,9 +76,9 @@
   </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event, 'actual')" [InitialCity]="cityActual"
+  <app-city-autocomplete (selectedCity)="onSelectActualCity($event)" [InitialCity]="cityActual"
     class="city-autocomplete" [cityFormControl]="cityActualFormControl" [class.redBorder]="cityActualFormControl.invalid && cityActualFormControl.touched"
-    (focusout)="onFocusout($event, 'actual')">
+    (focusout)="onFocusOutActual($event)">
   </app-city-autocomplete>
   <app-validation-hint 
     [validationFormControl]="ActualAddressFormGroup.get('city')"
