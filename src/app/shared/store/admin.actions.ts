@@ -120,10 +120,6 @@ export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload: number) { }
 }
-export class PageChange {
-  static readonly type = '[admin] Change Page';
-  constructor(public payload: PaginationElement) { }
-}
 export class FilterChange {
   static readonly type = '[admin] Filter Change';
   constructor() { }

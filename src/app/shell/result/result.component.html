@@ -19,13 +19,13 @@
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'"
     [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
-    <div *ngIf="currentView === viewType.map; else ShowData;" fxLayout='row wrap' fxLayoutAlign='start'>
-      <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$"
-        [currentPage]="currentPage"></app-workshop-map-view-list>
+    <div *ngIf="currentView === viewType.map; else ShowData; " fxLayout='row wrap' fxLayoutAlign='start'>
+      <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$" [itemsPerPage]="workshopsPerPage"
+        [currentPage]="currentPage$ | async" (itemsPerPageChange)="onItemsPerPageChange($event)"></app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [role]="role$ | async" [workshops$]="filteredWorkshops$"
-        [currentPage]="currentPage"></app-workshop-cards-list>
+      <app-workshop-cards-list class="cards" [role]="role$ | async" [workshops$]="filteredWorkshops$" [itemsPerPage]="workshopsPerPage"
+        [currentPage]="currentPage$ | async" (itemsPerPageChange)="onItemsPerPageChange($event)"></app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>

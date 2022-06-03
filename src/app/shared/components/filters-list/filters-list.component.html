@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between">
     <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
       <mat-icon class="matFilter">delete_forever</mat-icon>
-      Очистити Фільтри
+      Очистити фільтри
     </button>
     <ng-container *ngIf="isMobileScreen$ | async">
       <button mat-button (click)="changeView()">
