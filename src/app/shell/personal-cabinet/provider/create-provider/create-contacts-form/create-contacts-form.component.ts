@@ -95,7 +95,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
 
   private activateEditMode(): void {
     this.cityLegal = this.provider.legalAddress.city;
-    this.cityActual = this.provider?.actualAddress.city;
+    this.cityActual = this.provider.actualAddress?.city;
     this.LegalAddressFormGroup.addControl('id', this.formBuilder.control(''));
     this.ActualAddressFormGroup.addControl('id', this.formBuilder.control(''));
 
