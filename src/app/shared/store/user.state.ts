@@ -88,6 +88,7 @@ import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
 import { ProviderAdmin } from '../models/providerAdmin.model';
+import { Location } from '@angular/common';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -159,6 +160,7 @@ export class UserState {
     private userService: UserService,
     private ratingService: RatingService,
     private favoriteWorkshopsService: FavoriteWorkshopsService,
+    private location: Location
   ) { }
 
   @Action(GetWorkshopById)
@@ -531,7 +533,7 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Child is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/parent/info']);
+    this.location.back();
   }
 
   @Action(UpdateProvider)
