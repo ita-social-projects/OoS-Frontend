@@ -246,15 +246,14 @@ export class DeleteFavoriteWorkshop {
   static readonly type = '[favorite] delete favorite workshop';
   constructor(public payload: string) { }
 }
-export class CabinetPageChange {
-  static readonly type = '[filter] Change Page';
-  constructor(public payload: PaginationElement) { }
-}
 export class GetAllProviderAdmins {
   static readonly type = '[user] get all users ProviderAdmins';
   constructor() { }
 }
-
+export class GetFilteredChildrens {
+  static readonly type = '[user] Get Filtered Childrens';
+  constructor() { }
+}
 export class ResetProviderWorkshopDetails {
   static readonly type = '[user] clear provider and workshop details';
   constructor() { }
