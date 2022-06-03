@@ -7,8 +7,8 @@
     </div>
   </ng-container>
   <ng-container *ngIf="workshops$ | async">
-    <app-paginator [totalEntities]="(workshops$ | async).totalAmount" [currentPage]="currentPage"
-      (pageChange)="onPageChange($event)">
+    <app-paginator [totalEntities]="(workshops$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
+      (pageChange)="onPageChange($event)" (itemsPerPageChange)="itemsPerPageChange.emit($event)">
     </app-paginator>
   </ng-container>
 </ng-container>

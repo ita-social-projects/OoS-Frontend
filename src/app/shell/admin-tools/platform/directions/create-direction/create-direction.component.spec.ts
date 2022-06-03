@@ -33,7 +33,6 @@ describe('CreateDirectionComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         CreateDirectionComponent,
-        MockValidationHintForInputComponent,
         MockAddDepartmentFormComponent,
         MockAddDirectionFormComponent,
         MockAddClassFormComponent
@@ -52,21 +51,6 @@ describe('CreateDirectionComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-@Component({
-  selector: 'app-validation-hint-for-input',
-  template: ''
-})
-
-class MockValidationHintForInputComponent {
-  @Input() type: string;
-  @Input() invalid: boolean;
-  @Input() isEmptyCheck: boolean;
-  @Input() forbiddenCharacter: string;
-  @Input() directionFormGroup: FormGroup;
-  @Input() classFormGroup: FormGroup;
-  @Input() departmentFormGroup: FormGroup;
-  @Input() router: Router;
-}
 @Component({
   selector: 'app-add-direction-form',
   template: ''

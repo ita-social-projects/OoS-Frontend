@@ -1,9 +1,9 @@
-import {  OnCreateDepartmentSuccess, OnCreateDirectionSuccess, OnUpdateDepartmentSuccess, OnUpdateDirectionSuccess } from 'src/app/shared/store/admin.actions';
+import { OnCreateDepartmentSuccess, OnCreateDirectionSuccess, OnUpdateDepartmentSuccess, OnUpdateDirectionSuccess } from 'src/app/shared/store/admin.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { ActivatedRoute } from '@angular/router';
+import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Department, Direction } from 'src/app/shared/models/category.model';
 import { GetDirectionById, OnClearCategories } from 'src/app/shared/store/admin.actions';
@@ -48,7 +48,7 @@ export class CreateDirectionComponent implements OnInit, OnDestroy {
     ).subscribe((department: Department)=> this.department = department);
     this.actions$.pipe(
       takeUntil(this.destroy$),
-      ofAction(
+      ofActionSuccessful(
         OnUpdateDepartmentSuccess,
         OnUpdateDirectionSuccess,
         OnCreateDepartmentSuccess,

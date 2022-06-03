@@ -4,11 +4,11 @@ import { Select, Store } from '@ngxs/store';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable, Subject } from 'rxjs';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { PageChange } from 'src/app/shared/store/filter.actions';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Role } from 'src/app/shared/enum/role';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
 
 
 @Component({
@@ -41,6 +41,6 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
+    this.store.dispatch(new OnPageChangeWorkshops(page));
   }
 }
