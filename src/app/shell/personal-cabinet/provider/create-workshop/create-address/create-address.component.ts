@@ -24,7 +24,7 @@ export class CreateAddressComponent implements OnInit {
   @Output() passAddressFormGroup = new EventEmitter();
 
   AddressFormGroup: FormGroup;
-  city: string;
+  city: string = '';
   cityFormControl = new FormControl('', defaultValidators);
 
   constructor(
