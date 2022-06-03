@@ -1,5 +1,5 @@
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Role, RoleLinks } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -8,7 +8,6 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -21,11 +20,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
 
   roles = RoleLinks;
   userRole: string;
-  subrole: string;
   Role = Role;
   PersonalCabinetTitle = PersonalCabinetTitle;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
 
   constructor(
     private store: Store,
@@ -50,11 +47,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
-    this.subrole$.pipe(takeUntil(this.destroy$)).subscribe((subrole: string) => this.subrole = subrole)
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
-    this.destroy$.unsubscribe();
   }
 }
