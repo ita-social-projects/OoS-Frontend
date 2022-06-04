@@ -1,9 +1,9 @@
 <div class="container">
   <h1 class="title">
     {{
-      (!(subrole$ | async) || (subrole$ | async) ==='None')
+      (!subrole || subrole ==='None')
         ? PersonalCabinetTitle[userRole] 
-        : PersonalCabinetTitle[subrole$ | async]
+        : PersonalCabinetTitle[subrole]
     }}
   </h1>
 

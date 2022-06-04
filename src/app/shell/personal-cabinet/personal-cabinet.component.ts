@@ -14,15 +14,12 @@ import { Observable, Subject } from 'rxjs';
   templateUrl: './personal-cabinet.component.html',
   styleUrls: ['./personal-cabinet.component.scss'],
 })
-export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
-
+export class PersonalCabinetComponent implements OnInit {
   roles = RoleLinks;
   userRole: string;
+  subrole: string;
   Role = Role;
   PersonalCabinetTitle = PersonalCabinetTitle;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -30,9 +27,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userRole = this.store.selectSnapshot<User>(
-      RegistrationState.user
-    ).role;
+    this.userRole = this.store.selectSnapshot<string>(RegistrationState.role);
+    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
+
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createOneNavPath({
@@ -47,9 +44,5 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
   }
 }
