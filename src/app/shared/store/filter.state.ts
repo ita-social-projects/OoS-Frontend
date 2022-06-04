@@ -75,7 +75,7 @@ export interface FilterStateModel {
     topWorkshops: [],
     withDisabilityOption: false,
     isLoading: false,
-    isConfirmCity: false,
+    isConfirmCity: true,
   }
 })
 @Injectable()
