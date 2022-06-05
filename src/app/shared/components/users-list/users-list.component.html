@@ -91,7 +91,8 @@
       <a class="more-details" [routerLink]="['#']">
         <span class="Cancel"> Скасувати </span>
       </a>
-      <button mat-icon-button [matMenuTriggerFor]="actions" [disabled]="subrole === Role.deputy && user.isDeputy">
+      <button mat-icon-button [matMenuTriggerFor]="actions" 
+        *ngIf="subrole !== Role.deputy">
         <mat-icon>more_vert</mat-icon>
       </button>
       <button mat-icon-button [matMenuTriggerFor]="email">
