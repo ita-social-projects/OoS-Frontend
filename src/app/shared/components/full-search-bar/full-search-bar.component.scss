@@ -13,14 +13,17 @@
 
   .search-bar-wrap {
     width: 100%;
+    border-left: 1px solid #E3E3E3;
+
     .search-bar {
       width: 100%;
     }
   }
 }
-
+.max-height{
+  max-height: 40px;
+}
 .city {
-  border-right: 1px solid #E3E3E3;
   padding-right: 1rem;
 }
 

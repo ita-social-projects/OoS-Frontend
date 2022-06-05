@@ -1,6 +1,5 @@
 
 @import "src/app/shared/styles/dropdown.scss";
-
 :host ::ng-deep .mat-form-field-wrapper,
 :host ::ng-deep .mat-form-field-infix  {
   padding: 0;
@@ -28,10 +27,9 @@
 .mat-option {
   line-height: 20px;
 }
-.city-filter ::ng-deep .cdk-overlay-pane {
+::ng-deep .cdk-overlay-pane {
   min-width: 180px; /* workaround for issue #110 and  #912*/
 }
-.city-filter ::ng-deep .mat-autocomplete-panel {
+::ng-deep .mat-autocomplete-panel {
   top: 10px !important; /* workaround for issue #110 and  #912*/
-  right: 20px;
 }
