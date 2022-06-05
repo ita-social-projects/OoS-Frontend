@@ -11,6 +11,7 @@ import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component'
 import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-children',
@@ -49,7 +50,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   onDelete(child: Child): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
         property: `${child.firstName} ${child.lastName}`
