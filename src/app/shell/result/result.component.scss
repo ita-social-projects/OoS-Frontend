@@ -114,28 +114,6 @@
   color: #444444;
 }
 
-:host ::ng-deep app-full-search-bar {
-  min-width: 300px;
-  max-width: 550px;
-  width: 100%;
-
-  app-searchbar {
-    input {
-      min-width: auto !important;
-    }
-  }
-
-  .search.shadow {
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  }
-}
-
-:host ::ng-deep app-city-autocomplete {
-  .city-filter.add-size {
-    font-size: 13px;
-  }
-}
-
 @media(max-width: 960px) {
   .workshops-count .filters-toggle-btn {
     display: none;
