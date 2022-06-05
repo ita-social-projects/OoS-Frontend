@@ -16,6 +16,7 @@ import { Constants } from '../../constants/constants';
   styleUrls: ['./city-autocomplete.component.scss']
 })
 export class CityAutocompleteComponent implements OnInit, OnDestroy {
+  readonly noCity = Constants.NO_CITY;
   @ViewChild('search') searchElement: ElementRef;
 
   @Input() set InitialCity(value: string) {
@@ -29,8 +30,6 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
   @Output() passCityFormControl = new EventEmitter();
   @Output() focusout = new EventEmitter();
 
-  @Select(MetaDataState.isCity)
-  isCity$: Observable<boolean[]>;
   @Select(MetaDataState.cities)
   cities$: Observable<City[]>;
   cities: City[] = [];
