@@ -11,9 +11,7 @@ import {
 } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Store } from '@ngxs/store';
 import {
   providerAdminRoleUkr,
   ProviderAdminTitles,
@@ -33,9 +31,6 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./users-list.component.scss'],
 })
 export class UsersListComponent implements OnInit, AfterViewInit {
-  @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
-
   @Input() users: Array<object>;
   @Input() filterValue: string;
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
