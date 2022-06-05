@@ -12,10 +12,9 @@
   display: flex;
 }
 .input-wrapper {
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 .search-input {
-  padding: 0 1rem;
   font-weight: normal;
   line-height: 22px;
   color: #161414;
@@ -23,19 +22,10 @@
   text-overflow: ellipsis;
 }
 .icon {
-  margin: 0 1rem;
+  margin: 0 1rem 0 0.5rem;
   color: #AAAAAA;
-  line-height: 26px;
   cursor: pointer;
 }
 .search-bar {
   width: 100%;
 }
-// ::ng-deep .cdk-overlay-pane {
-//   min-width: 400px; /* workaround for issue #110 and  #912*/
-// }
-// .search-bar ::ng-deep .mat-autocomplete-panel {
-//   top: 10px !important; /* workaround for issue #110 and  #912*/
-//   right: 20px;
-//   width: 100px;
-// }
