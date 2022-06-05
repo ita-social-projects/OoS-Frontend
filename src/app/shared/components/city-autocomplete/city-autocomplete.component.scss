@@ -30,6 +30,6 @@
 ::ng-deep .cdk-overlay-pane {
   min-width: 180px; /* workaround for issue #110 and  #912*/
 }
-::ng-deep .mat-autocomplete-panel {
-  top: 10px !important; /* workaround for issue #110 and  #912*/
-}
+// ::ng-deep .mat-autocomplete-panel {
+//   top: 10px !important; /* workaround for issue #110 and  #912*/
+// }
