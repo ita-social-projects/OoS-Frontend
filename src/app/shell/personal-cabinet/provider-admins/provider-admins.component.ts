@@ -124,7 +124,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    */
   onDelete(user): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: user.deputy
           ? ModalConfirmationType.deleteProviderAdminDeputy
@@ -149,7 +149,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    */
   onBlock(user): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: user.deputy
           ? ModalConfirmationType.blockProviderAdminDeputy

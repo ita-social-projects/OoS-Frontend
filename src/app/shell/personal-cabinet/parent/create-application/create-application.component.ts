@@ -20,6 +20,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
+import { Constants } from 'src/app/shared/constants/constants';
 
 
 @Component({
@@ -103,7 +104,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
    */
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.createApplication,
         property: this.workshop.title
