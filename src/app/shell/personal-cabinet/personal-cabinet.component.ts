@@ -25,9 +25,6 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.userRole = this.store.selectSnapshot<User>(
-    //   RegistrationState.user
-    // ).role;
     this.userRole = this.store.selectSnapshot<string>(RegistrationState.role);
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.store.dispatch(
