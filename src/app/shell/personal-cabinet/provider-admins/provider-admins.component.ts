@@ -52,8 +52,6 @@ export class ProviderAdminsComponent implements OnInit {
   providerAdmins: ProviderAdminTable[] = [];
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  // @Select(RegistrationState.subrole)
-  // subrole$: Observable<string>;
   provider: Provider;
   filter = new FormControl('');
   filterValue: string;
@@ -108,10 +106,6 @@ export class ProviderAdminsComponent implements OnInit {
       .subscribe((provider: Provider) => (this.provider = provider));
     
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
-
-    // this.subrole$
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((subrole: string) => (this.subrole = subrole));
   }
 
   getAllProviderAdmins(): void {
@@ -195,8 +189,4 @@ export class ProviderAdminsComponent implements OnInit {
         );
     });
   }
-
-  // ngOnDestroy(): void {
-  //   this.destroy$.unsubscribe();
-  // }
 }
