@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Role, RoleLinks } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin';
@@ -26,9 +25,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userRole = this.store.selectSnapshot<User>(
-      RegistrationState.user
-    ).role;
+    // this.userRole = this.store.selectSnapshot<User>(
+    //   RegistrationState.user
+    // ).role;
     this.userRole = this.store.selectSnapshot<string>(RegistrationState.role);
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.store.dispatch(

@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="title">
     {{
-      (!subrole || subrole ==='None')
+      (!subrole || subrole === 'None')
         ? PersonalCabinetTitle[userRole] 
         : PersonalCabinetTitle[subrole]
     }}
@@ -22,7 +22,7 @@
     <ng-container *ngIf="userRole !== Role.techAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications/all'">ЗАЯВИ</a>
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider && subrole !== Role.providerAdmin">
+    <ng-container *ngIf="userRole === Role.provider && subrole !== Role.ProviderAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./administration/all'">АДМІНІСТРУВАННЯ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.parent">
