@@ -161,7 +161,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     if(status !== 'INVALID' || isTouched) {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
         property: ''

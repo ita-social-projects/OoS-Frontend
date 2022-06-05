@@ -87,7 +87,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   onRate(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.rate,
       }
