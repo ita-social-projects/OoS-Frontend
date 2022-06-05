@@ -28,10 +28,10 @@
 .mat-option {
   line-height: 20px;
 }
-::ng-deep .cdk-overlay-pane {
+.city-filter ::ng-deep .cdk-overlay-pane {
   min-width: 180px; /* workaround for issue #110 and  #912*/
 }
-::ng-deep .mat-autocomplete-panel {
+.city-filter ::ng-deep .mat-autocomplete-panel {
   top: 10px !important; /* workaround for issue #110 and  #912*/
   right: 20px;
 }
