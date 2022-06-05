@@ -3,13 +3,17 @@
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 13px;
     color: #000000;
     background-color: transparent;
     padding-left: 10px;
    }
 }
-
+.mat-option.mat-option-disabled {
+  background-color: #F8F8F8!important;
+  color:  rgba(0, 0, 0, 0.11);
+  opacity: 0.5;
+  cursor: default;
+}
 ::ng-deep .dropdown-panel{
   .mat-selected{
     background-color: white!important;
