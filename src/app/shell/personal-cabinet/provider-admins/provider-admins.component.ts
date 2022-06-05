@@ -39,7 +39,7 @@ import { Constants } from 'src/app/shared/constants/constants';
   templateUrl: './provider-admins.component.html',
   styleUrls: ['./provider-admins.component.scss'],
 })
-export class ProviderAdminsComponent implements OnInit, OnDestroy {
+export class ProviderAdminsComponent implements OnInit {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
@@ -52,8 +52,8 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   providerAdmins: ProviderAdminTable[] = [];
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+  // @Select(RegistrationState.subrole)
+  // subrole$: Observable<string>;
   provider: Provider;
   filter = new FormControl('');
   filterValue: string;
@@ -106,10 +106,12 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((provider: Provider) => (this.provider = provider));
+    
+    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
 
-    this.subrole$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((subrole: string) => (this.subrole = subrole));
+    // this.subrole$
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((subrole: string) => (this.subrole = subrole));
   }
 
   getAllProviderAdmins(): void {
@@ -194,7 +196,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.destroy$.unsubscribe();
+  // }
 }
