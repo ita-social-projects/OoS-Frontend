@@ -72,7 +72,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.previousResults = this.getPreviousResults();
 
     this.previousResults.length  > 4 && this.previousResults.shift();
-    this.previousResults.push(this.searchedText.trim());
+    this.previousResults.unshift(this.searchedText.trim());
   
     localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
   }
@@ -80,7 +80,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private getPreviousResults(): string[] {
     const previousResults: string[] | undefined = JSON.parse(localStorage.getItem('previousResults'));
     if(previousResults?.length){
-      return previousResults.reverse();
+      return previousResults;
     }else{
       localStorage.setItem('previousResults', JSON.stringify([]));
       return [];
