@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -24,9 +25,9 @@ import { ActivateEditMode } from 'src/app/shared/store/app.actions';
   styleUrls: ['./provider-info.component.scss'],
 })
 export class ProviderInfoComponent implements OnInit {
-  readonly constants: typeof Constants = Constants;
-  readonly providerType: typeof ProviderType = ProviderType;
-  readonly ownershipType: typeof OwnershipType = OwnershipType;
+  readonly constants = ValidationConstants;
+  readonly providerType = ProviderType;
+  readonly ownershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
   editLink: string = CreateProviderSteps[0];
