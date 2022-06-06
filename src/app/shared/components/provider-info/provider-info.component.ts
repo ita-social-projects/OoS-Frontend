@@ -24,9 +24,9 @@ import { ActivateEditMode } from 'src/app/shared/store/app.actions';
   styleUrls: ['./provider-info.component.scss'],
 })
 export class ProviderInfoComponent implements OnInit {
-  readonly constants = Constants;
-  readonly providerType = ProviderType;
-  readonly ownershipType = OwnershipType;
+  readonly constants: typeof Constants = Constants;
+  readonly providerType: typeof ProviderType = ProviderType;
+  readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
   editLink: string = CreateProviderSteps[0];
