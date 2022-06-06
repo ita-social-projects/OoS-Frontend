@@ -60,6 +60,7 @@ export class ProviderInfoComponent implements OnInit {
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.editLink = CreateProviderSteps[tabChangeEvent.index];
     this.tabChanged.emit(tabChangeEvent);
   }
 
