@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Constants, PaginationConstants } from '../../constants/constants';
+import { MatSelectChange } from '@angular/material/select';
+import { PaginationConstants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
+
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
@@ -11,9 +13,10 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
-  @Input() itemsPerPage: number = this.constants.ITEMS_PER_PAGE_DEFAULT;
+  @Input() itemsPerPage: number;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
+  @Output() itemsPerPageChange = new EventEmitter<Number>();
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
@@ -25,10 +28,19 @@ export class PaginatorComponent implements OnInit, OnChanges {
     this.createPageList();
   }
 
+  OnSelectOption(event: MatSelectChange): void {
+    this.itemsPerPageChange.emit(event.value);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.currentPage) {
       if (!changes.currentPage.isFirstChange()) {
         this.createPageList();
+      }
+    }
+    if (changes?.itemsPerPage) {
+      if (!changes.itemsPerPage.isFirstChange()) {
+       this.ngOnInit();
       }
     }
   }

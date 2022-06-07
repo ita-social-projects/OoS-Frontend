@@ -9,6 +9,9 @@
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="title">
     </mat-form-field>
+    <app-validation-hint
+      [validationFormControl]="directionFormGroup.get('title')"
+    ></app-validation-hint>
   
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="'/admin-tools/platform/directions'"><button mat-raised-button

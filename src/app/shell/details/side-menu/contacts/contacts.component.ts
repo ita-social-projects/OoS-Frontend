@@ -8,7 +8,7 @@ import { Constants } from 'src/app/shared/constants/constants';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
   address = 'https://www.google.com/maps/place/';
 
   @Input() workshop: Workshop;
