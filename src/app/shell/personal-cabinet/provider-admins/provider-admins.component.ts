@@ -70,13 +70,11 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
-    this.route.params
+    this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(
-          params.param
-        );
-        this.btnView = providerAdminRoleUkr[params.param];
+        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
+        this.btnView = providerAdminRoleUkr[params['role']];
       });
 
     this.provider$
@@ -98,7 +96,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phoneNumber: `${this.constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
         role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
       });
@@ -113,9 +111,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   onTabChange(event: MatTabChangeEvent): void {
     this.btnView = event.tab.textLabel;
     this.filter.reset();
-    this.router.navigate(
-      ['../', providerAdminRoleUkrReverse[event.tab.textLabel]],
-      { relativeTo: this.route }
+    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] } }
     );
   }
 

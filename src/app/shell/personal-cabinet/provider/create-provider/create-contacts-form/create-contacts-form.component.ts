@@ -5,6 +5,8 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { City } from 'src/app/shared/models/city.model';
+import { Constants } from 'src/app/shared/constants/constants';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -24,6 +26,10 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   LegalAddressFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
+  cityLegalFormControl = new FormControl('', defaultValidators);
+  cityActualFormControl = new FormControl('', defaultValidators);
+  cityLegal: string;
+  cityActual: string;
 
   @Input() provider: Provider;
   @Output() passActualAddressFormGroup = new EventEmitter();
@@ -57,7 +63,37 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.passLegalAddressFormGroup.emit(this.LegalAddressFormGroup);
   }
 
+  onSelectLegalCity(event: any): void {
+    this.cityLegal = event.name;
+    this.LegalAddressFormGroup.get('city').reset();
+    this.LegalAddressFormGroup.get('city').setValue(event.name);
+  }
+
+  onSelectActualCity(event: any): void {
+    this.cityActual = event.name;
+    this.ActualAddressFormGroup.get('city').reset();
+    this.ActualAddressFormGroup.get('city').setValue(event.name);
+  }
+
+  onFocusOutLegal(city: City): void {
+      if(!this.cityLegalFormControl.value || city?.name === Constants.NO_CITY){
+        this.cityLegalFormControl.setValue(null);
+      } else {
+        this.cityLegalFormControl.setValue(this.cityLegal);
+      }
+  }
+
+  onFocusOutActual(city: City): void {
+    if(!this.cityActualFormControl.value || city?.name === Constants.NO_CITY){
+      this.cityActualFormControl.setValue(null);
+    } else {
+      this.cityActualFormControl.setValue(this.cityActual);
+    }
+  }
+
   private activateEditMode(): void {
+    this.cityLegal = this.provider.legalAddress.city;
+    this.cityActual = this.provider.actualAddress?.city;
     this.LegalAddressFormGroup.addControl('id', this.formBuilder.control(''));
     this.ActualAddressFormGroup.addControl('id', this.formBuilder.control(''));
 

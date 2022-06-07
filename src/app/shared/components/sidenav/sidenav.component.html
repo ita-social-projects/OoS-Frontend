@@ -48,8 +48,8 @@
               про
               {{roles[user.role]}}</a>
             <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
-            <a [routerLink]="'./personal-cabinet/applications/All'" (click)="changeView()">Мої заяви</a>
-            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/administration/all'"
+            <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
+            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/administration'"
               (click)="changeView()">Адміністрування</a>
             <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
             <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
@@ -57,7 +57,7 @@
           </ng-template>
           <ng-template #AdminView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста інформація</a>
-            <a [routerLink]="'./admin-tools/platform/AboutPortal'" (click)="changeView()">Адміністрування</a>
+            <a [routerLink]="'./admin-tools/platform'" (click)="changeView()">Адміністрування</a>
           </ng-template>
         </div>
       </div>
