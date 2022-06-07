@@ -34,8 +34,7 @@
         <span> {{applicationTitles[application.status]}}</span>
       </div>
       <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
-        (click)="isActiveInfoButton=!isActiveInfoButton"
-        [ngClass]="isActiveInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
+        [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
           xPosition="after" class="mat-application-menu">
           <app-status-info-card [application]="application"></app-status-info-card>
