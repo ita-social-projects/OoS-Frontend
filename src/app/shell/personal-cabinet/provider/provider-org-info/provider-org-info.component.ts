@@ -8,7 +8,6 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
   selector: 'app-provider-org-info',
   templateUrl: './provider-org-info.component.html',
   styleUrls: ['./provider-org-info.component.scss'],
-  
 })
 export class ProviderOrgInfoComponent {
   @Select(RegistrationState.provider)
