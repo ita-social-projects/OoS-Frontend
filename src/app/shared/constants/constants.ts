@@ -1,4 +1,3 @@
-import { Input } from '@angular/core';
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
 import { City } from '../models/city.model';
@@ -8,21 +7,7 @@ import { WorkingDaysToggleValue } from '../models/workingHours.model';
  * Constants for OutOfSchool
  */
 export class Constants {
-  static readonly CLASS_AMOUNT_MIN = 1;
-  static readonly CLASS_AMOUNT_MAX = 7;
   static readonly CHILDREN_AMOUNT_MAX = 20;
-  static readonly AGE_MIN = 0;
-  static readonly AGE_MAX = 18;
-  static readonly BIRTH_AGE_MAX = 120;
-  static readonly MIN_PRICE = 1;
-  static readonly MAX_PRICE = 10000;
-  static readonly MIN_TIME = '00:00';
-  static readonly MAX_TIME = '23:59';
-  static readonly MAX_DESCRIPTION_LENGTH = 500;
-  static readonly MAX_DESCRIPTION_ABOUT_LENGTH = 2000;
-  static readonly MAX_KEYWORDS_LENGTH = 5;
-  static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
-  static readonly PHONE_LENGTH = 9;
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
@@ -53,6 +38,7 @@ export class Constants {
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;
+  static readonly MODAL_SMALL = '500px';
 }
 
 export class PaginationConstants {
