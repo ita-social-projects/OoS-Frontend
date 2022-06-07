@@ -21,7 +21,7 @@ import { Address } from 'src/app/shared/models/address.model';
 export class InformationPageComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   readonly categoryIcons = CategoryIcons;
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Input() role: Role;
   @Input() workshop: Workshop;

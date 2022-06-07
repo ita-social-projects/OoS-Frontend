@@ -5,7 +5,7 @@ import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   { path: 'provider-list', component: ProviderListComponent},
-  { path: 'users/:index', component: UsersComponent},
+  { path: 'users', component: UsersComponent},
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
