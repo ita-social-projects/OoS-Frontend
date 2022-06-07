@@ -48,12 +48,13 @@
     <mat-icon class="icon">star</mat-icon>
     {{workshop.rating}}
   </span>
-
-  <a [routerLink]="['/details/provider',provider.id ]" fxLayout="row" fxLayoutAlign="start center">
+<div fxLayout="row" fxLayoutAlign="start center">
+  <a [routerLink]="['/details/provider',provider.id ]" >
     <span class="icon-text details-link">
       <mat-icon class="icon">home</mat-icon>{{ provider.fullTitle }}
     </span>
   </a>
+</div>
 
 </ng-template>
 
