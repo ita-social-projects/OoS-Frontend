@@ -58,8 +58,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [
         Validators.required, 
-        Validators.minLength(Constants.PHONE_LENGTH),
-        Validators.maxLength(Constants.PHONE_LENGTH)
+        Validators.minLength(ValidationConstants.PHONE_LENGTH),
+        Validators.maxLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
         Validators.required, 

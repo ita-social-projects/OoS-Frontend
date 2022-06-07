@@ -98,7 +98,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phoneNumber: `${this.constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
         role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
       });
