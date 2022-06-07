@@ -96,7 +96,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phoneNumber: `${this.constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
         role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
       });
@@ -120,7 +120,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    */
   onDelete(user): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: user.deputy
           ? ModalConfirmationType.deleteProviderAdminDeputy
@@ -145,7 +145,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    */
   onBlock(user): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: user.deputy
           ? ModalConfirmationType.blockProviderAdminDeputy

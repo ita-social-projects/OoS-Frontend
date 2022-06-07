@@ -13,6 +13,7 @@ import { Direction, DirectionsFilter } from 'src/app/shared/models/category.mode
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { DeleteDirectionById, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-directions',
@@ -83,7 +84,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   onDelete(direction: Direction): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteDirection,
         property: direction.title
