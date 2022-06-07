@@ -1,3 +1,4 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -12,8 +13,7 @@ import { SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
   styleUrls: ['./age-filter.component.scss']
 })
 export class AgeFilterComponent implements OnInit, OnDestroy {
-
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
   @Input()
   set ageFilter(filter) {
     const { minAge, maxAge } = filter
