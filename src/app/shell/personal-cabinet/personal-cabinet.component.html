@@ -1,9 +1,9 @@
 <div class="container">
   <h1 class="title">
     {{
-      subrole
-        ? PersonalCabinetTitle[subrole | async]
-        : PersonalCabinetTitle[userRole]
+      (!subrole || subrole ==='None')
+        ? PersonalCabinetTitle[userRole] 
+        : PersonalCabinetTitle[subrole]
     }}
   </h1>
 
@@ -31,7 +31,7 @@
       <a
         mat-tab-link
         [routerLinkActive]="['active']"
-        [routerLink]="'./applications/all'"
+        [routerLink]="['./applications']"
         >ЗАЯВИ</a
       >
     </ng-container>
@@ -39,7 +39,7 @@
       <a
         mat-tab-link
         [routerLinkActive]="['active']"
-        [routerLink]="'./administration/all'"
+        [routerLink]="['./administration']"
         >АДМІНІСТРУВАННЯ</a
       >
     </ng-container>

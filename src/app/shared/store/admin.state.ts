@@ -4,11 +4,17 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { CompanyInformation, PlatformInfoStateModel } from "../models/сompanyInformation.model";
+import { CompanyInformation } from "../models/сompanyInformation.model";
 import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { ChildCards } from "../models/child.model";
-import { PaginationElement } from "../models/paginationElement.model";
 import { Parent } from "../models/parent.model";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { Provider } from '../models/provider.model';
+import { PlatformService } from '../services/platform/platform.service';
+import { ParentService } from '../services/parent/parent.service';
+import { ChildrenService } from '../services/children/children.service';
+import { ProviderService } from '../services/provider/provider.service';
 import { CategoriesService } from "../services/categories/categories.service";
 import {
   DeleteDirectionById,
@@ -26,7 +32,6 @@ import {
   GetDirectionById,
   SetSearchQueryValue,
   GetFilteredDirections,
-  PageChange,
   FilterChange,
   FilterClear,
   OnCreateClassFail,
@@ -58,13 +63,6 @@ import {
   GetParents,
   GetChildren,
 } from "./admin.actions";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { Provider } from '../models/provider.model';
-import { PlatformService } from '../services/platform/platform.service';
-import { ParentService } from '../services/parent/parent.service';
-import { ChildrenService } from '../services/children/children.service';
-import { ProviderService } from '../services/provider/provider.service';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -74,8 +72,7 @@ export interface AdminStateModel {
   direction: Direction;
   department: Department;
   departments: Department[];
-  iClass: IClass;
-  currentPage: PaginationElement;
+  selectedDirection: Direction;
   searchQuery: string;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
@@ -91,17 +88,13 @@ export interface AdminStateModel {
     direction: null,
     department: null,
     departments: null,
-    iClass: null,
     isLoading: false,
     searchQuery: '',
     filteredDirections: undefined,
-    parents: null,
+    selectedDirection: null,
     children: null,
-    currentPage: {
-      element: 1,
-      isActive: true
-    },
-    providers: null,
+    providers: null,
+    parents: null,
   }
 })
 @Injectable()
@@ -126,8 +119,6 @@ export class AdminState {
 
   @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
 
-  @Selector() static currentPage(state: AdminStateModel): {} { return state.currentPage; }
-
   @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
   @Selector() static parents(state: AdminStateModel): Parent[] { return state.parents };
@@ -140,7 +131,6 @@ export class AdminState {
     private parentService: ParentService,
     private childrenService: ChildrenService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private providerService: ProviderService,
   ) { }
 
@@ -432,20 +422,10 @@ export class AdminState {
       () => patchState({ isLoading: false, direction: null })));
   }
 
-    @Action(PageChange)
-    pageChange({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: PageChange): void {
-      patchState({ currentPage: payload });
-      dispatch(new GetFilteredDirections());
-    }
-
     @Action(FilterClear)
     filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
     patchState({
       searchQuery: '',
-      currentPage: {
-        element: 1,
-        isActive: true
-      }
     });
   }
   @Action(DeleteDepartmentById)
@@ -499,7 +479,7 @@ export class AdminState {
 
   @Action(OnClearCategories)
   onClearCategories({ patchState }: StateContext<AdminStateModel>, { }: OnClearCategories): void {
-    patchState({ direction: null, department: null, iClass: null });
+    patchState({ direction: null, department: null });
   }
 
   @Action(OnClearDepartment)

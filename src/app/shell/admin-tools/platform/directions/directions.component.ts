@@ -1,17 +1,19 @@
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteDirectionById, FilterChange, FilterClear, GetFilteredDirections, PageChange, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import { DeleteDirectionById, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-directions',
@@ -20,14 +22,17 @@ import { AdminState } from 'src/app/shared/store/admin.state';
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
   @Input() direction: Direction;
+
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
   @Select(AdminState.searchQuery)
   searchQuery$: Observable<string>;
+  @Select(PaginatorState.directionsPerPage)
+  directionsPerPage$: Observable<number>;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   readonly noDirections = NoResultsTitle.noDirections;
-  readonly itemsPerPage = PaginationConstants.ITEMS_PER_PAGE_TEN;
 
   searchValue = new FormControl('', [Validators.maxLength(200)]);
   searchedText: string;
@@ -39,7 +44,6 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private actions$: Actions,
     private matDialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -52,24 +56,17 @@ export class DirectionsComponent implements OnInit, OnDestroy {
           startWith(''),
         ).subscribe((val: string) => {
         this.searchedText = val;
-        if (val.length === 0) {
+        if (!val) {
           this.store.dispatch(new SetSearchQueryValue(''));
         }
       });
 
     this.searchQuery$
       .pipe(
-      debounceTime(1000),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
-
-    this.actions$.pipe(ofAction(FilterChange))
-      .pipe(
         debounceTime(1000),
         distinctUntilChanged(),
         takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetFilteredDirections()));
+      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
   }
 
   onSearch(): void {
@@ -78,12 +75,16 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new PageChange(page));
+    this.store.dispatch(new OnPageChangeDirections(page));
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch(new SetDirectionsPerPage(itemsPerPage));
   }
 
   onDelete(direction: Direction): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteDirection,
         property: direction.title

@@ -24,7 +24,7 @@ export class ChildFormComponent implements OnInit {
 
   dateFilter: RegExp = DATE_REGEX;
   maxDate: Date = Util.getMaxBirthDate();
-  minDate: Date = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
+  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   constructor() { }
 

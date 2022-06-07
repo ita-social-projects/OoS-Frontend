@@ -5,8 +5,8 @@
     <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem'>
       <p class="filter-text">Від</p>
       <input matInput class="age-input" type="number" ng-model="number" [formControl]="minAgeFormControl" appDigitOnly
-        maxlength="2" [min]="constants.AGE_MIN" 
-        [max]="maxAgeFormControl.value ? maxAgeFormControl.value - 1 : constants.AGE_MAX" 
+        maxlength="2" [min]="validationConstants.AGE_MIN" 
+        [max]="maxAgeFormControl.value ? maxAgeFormControl.value - 1 : validationConstants.AGE_MAX" 
         [directiveFormControl]="minAgeFormControl"
         appMinMax autocomplete="off">
       <mat-icon class="clear-age-min clear-age" (click)="clearMin()">clear</mat-icon>
@@ -17,8 +17,8 @@
       <p class="filter-text">До</p>
       <input matInput class="age-input" type="number" ng-model="number" [formControl]="maxAgeFormControl" appDigitOnly
         [directiveFormControl]="maxAgeFormControl" maxlength="2" appMinMax 
-        [min]="minAgeFormControl.value ? minAgeFormControl.value + 1 : constants.AGE_MIN"
-        [max]="constants.AGE_MAX" autocomplete="off">
+        [min]="minAgeFormControl.value ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
+        [max]="validationConstants.AGE_MAX" autocomplete="off">
       <mat-icon class="clear-age-max clear-age" (click)="clearMax()">clear</mat-icon>  
     </div>
   </mat-form-field>

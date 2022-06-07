@@ -23,7 +23,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
     this._InitialCity && this.setInitialCity();
   }
   @Input() className: string;
-  @Input() cityFormControl: FormControl;
+  @Input() cityFormControl: FormControl = new FormControl();
 
   @Output() selectedCity = new EventEmitter();
   @Output() passCityFormControl = new EventEmitter();
