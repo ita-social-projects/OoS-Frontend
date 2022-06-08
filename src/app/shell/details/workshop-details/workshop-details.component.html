@@ -12,22 +12,23 @@
     <div fxLayout="column" fxLayoutAlign="space-between space-between">
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
-          <h1 class="title">{{workshop.title}}</h1>
+          <h1 class="title">{{ workshop.title }}</h1>
         </div>
         <div>
-          <img class="details-icon" [src]="categoryIcons[workshop.directionId]" alt="{{workshop.title}}">
+          <img class="details-icon" [src]="categoryIcons[workshop.directionId]" alt="{{ workshop.title }}" />
         </div>
       </div>
       <span class="icon-text">
         <mat-icon class="icon">star</mat-icon>
-        {{workshop.rating}}
+        {{ workshop.rating }}
       </span>
-    
-      <a [routerLink]="['/details/provider', workshop.providerId ]" fxLayout="row" fxLayoutAlign="start center">
-        <span class="icon-text details-link">
-          <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }}
-        </span>
-      </a>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <a [routerLink]="['/details/provider', workshop.providerId]">
+          <span class="icon-text details-link">
+            <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }}
+          </span>
+        </a>
+      </div>
     </div>
 
     <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex">
