@@ -29,9 +29,10 @@
     [validationFormControl]="AboutFormGroup.get('phone')">
   </app-validation-hint>
 
-  <label class="step-label">Емейл<span class="step-required">*</span></label>
+  <label class="step-label">Електронна пошта<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
+    <mat-label></mat-label>
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]='mailFormPlaceholder'>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('email')">
