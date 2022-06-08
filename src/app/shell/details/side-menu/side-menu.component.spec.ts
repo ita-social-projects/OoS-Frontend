@@ -7,6 +7,7 @@ import { User } from 'src/app/shared/models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { Address } from 'src/app/shared/models/address.model';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -22,7 +23,6 @@ describe('SideMenuComponent', () => {
       ],
       declarations: [
         SideMenuComponent,
-        MockScheduleComponent,
         MockActionsComponent,
         MockContactsComponent
       ],
@@ -48,8 +48,8 @@ describe('SideMenuComponent', () => {
   template: ''
 })
 class MockContactsComponent {
-  @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input() address: Address;
+  @Input() contactsData: any;
 }
 
 @Component({
@@ -61,10 +61,3 @@ class MockActionsComponent {
   @Input() role: string;
 }
 
-@Component({
-  selector: 'app-schedule',
-  template: ''
-})
-class MockScheduleComponent {
-  @Input() workshop: Workshop;
-}

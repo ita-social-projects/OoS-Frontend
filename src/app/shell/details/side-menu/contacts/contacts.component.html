@@ -3,9 +3,9 @@
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
     <span fxLayout="row wrap" fxLayoutAlign="start">
-      <span>{{workshop.address.city}}, </span>
-      <span>{{workshop.address.street}}, </span>
-      <span>{{workshop.address.buildingNumber}}</span>
+      <span>{{address.city}}, </span>
+      <span>{{address.street}}, </span>
+      <span>{{address.buildingNumber}}</span>
     </span>
   </p>
 
@@ -18,24 +18,24 @@
 
   <p class="contact-info">
     <mat-icon class="card_icon">call</mat-icon><a
-      href="tel:{{constants.PHONE_PREFIX}}{{workshop.phone}}">{{constants.PHONE_PREFIX}}{{workshop.phone}}</a>
+      href="tel:{{phonePrefix}}{{contactsData.phone}}">{{phonePrefix}}{{contactsData.phone}}</a>
   </p>
 
   <p class="contact-info">
     <mat-icon class="card_icon">mail</mat-icon>
-    <a href="mailto:{{workshop.email}}" target="_blank">{{workshop.email}}</a>
+    <a href="mailto:{{contactsData.email}}" target="_blank">{{contactsData.email}}</a>
   </p>
 
-  <p *ngIf="workshop.website" class="contact-info">
+  <p *ngIf="contactsData.website" class="contact-info">
     <mat-icon class="card_icon">language</mat-icon>
-    <a [href]="workshop.website" style="margin-left: 5px;">{{workshop.website}}</a>
+    <a [href]="contactsData.website" style="margin-left: 5px;">{{contactsData.website}}</a>
   </p>
 
   <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
-    <a href="{{workshop.instagram}}" [ngClass]="workshop.instagram ? 'link' : 'disable'">
+    <a href="{{contactsData.instagram}}" [ngClass]="contactsData.instagram ? 'link' : 'disable'">
       <img src="assets/icons/inst.png" alt="instagram">
     </a>
-    <a href="{{workshop.facebook}}" [ngClass]="workshop.facebook ? 'link' : 'disable'">
+    <a href="{{contactsData.facebook}}" [ngClass]="contactsData.facebook ? 'link' : 'disable'">
       <img src="assets/icons/facebook.png" alt="facebook">
     </a>
   </div>

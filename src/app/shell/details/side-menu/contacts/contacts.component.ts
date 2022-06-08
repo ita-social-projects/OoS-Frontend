@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Constants } from 'src/app/shared/constants/constants';
+import { Address } from 'src/app/shared/models/address.model';
 
 @Component({
   selector: 'app-contacts',
@@ -8,10 +8,18 @@ import { Constants } from 'src/app/shared/constants/constants';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  readonly constants: typeof Constants = Constants;
-  address = 'https://www.google.com/maps/place/';
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
-  @Input() workshop: Workshop;
+  @Input() address: Address;
+  @Input() contactsData: {
+    phone: string;
+    email: string;
+    facebook: string;
+    instagram: string;
+    website: string;
+  };
+
+  addressLink = 'https://www.google.com/maps/place/';
 
   constructor() { }
 
@@ -20,12 +28,12 @@ export class ContactsComponent implements OnInit {
   /*Detects device and opens map*/
   mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      this.address = 'http://maps.apple.com:';
-      window.open(`${this.address} ${this.workshop.address.street},+ ${this.workshop.address.buildingNumber} ,+ ${this.workshop.address.city}`);
+      this.addressLink = 'http://maps.apple.com:';
+      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.city}`);
     } else if (/Android/i.test(navigator.userAgent)) {
-      window.open(`${this.address} ${this.workshop.address.street},+ ${this.workshop.address.buildingNumber} ,+ ${this.workshop.address.city}`);
+      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.city}`);
     } else {
-      window.open(`${this.address} ${this.workshop.address.street},+ ${this.workshop.address.buildingNumber} ,+ ${this.workshop.address.city}`, '_blank');
+      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.city}`, '_blank');
     }
   }
 }
