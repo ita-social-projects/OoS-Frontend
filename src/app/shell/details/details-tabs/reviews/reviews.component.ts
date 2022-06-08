@@ -8,6 +8,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
@@ -25,7 +26,7 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
-
+  readonly noResultReviews= NoResultsTitle.noReviews;
   readonly Role: typeof Role = Role;
   readonly ReviewDeclination = ReviewDeclination;
 
@@ -38,6 +39,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   applications$: Observable<Application[]>;
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
+  rating: Rate[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   parent: Parent;
@@ -81,6 +83,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         filter((rating: Rate[]) => !!rating?.length),
         takeUntil(this.destroy$),
       ).subscribe((rating: Rate[]) => {
+        this.rating = rating;
         this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent?.id);
       });
   }

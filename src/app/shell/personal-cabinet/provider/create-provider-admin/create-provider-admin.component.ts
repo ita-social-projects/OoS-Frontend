@@ -59,8 +59,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [
         Validators.required, 
-        Validators.minLength(Constants.PHONE_LENGTH),
-        Validators.maxLength(Constants.PHONE_LENGTH)
+        Validators.minLength(ValidationConstants.PHONE_LENGTH),
+        Validators.maxLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
         Validators.required, 
@@ -107,7 +107,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: (this.isDeputy) ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin
       }

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { Role } from 'src/app/shared/enum/role';
 
 const MockUser = {
   role: '',
@@ -28,7 +29,8 @@ describe('DetailsComponent', () => {
       declarations: [
         DetailsComponent,
         MockSideMenuComponent,
-        MockDetailsPageComponent
+        MockDetailsWorkshopComponent,
+        MockDetailsProviderComponent,
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     })
@@ -50,21 +52,35 @@ describe('DetailsComponent', () => {
 });
 
 @Component({
-  selector: 'app-information-page',
+  selector: 'app-workshop-details',
   template: ''
 })
-class MockDetailsPageComponent {
+class MockDetailsWorkshopComponent {
+  @Input() role: Role;
   @Input() workshop: Workshop;
-  @Input() providerData: Provider;
-  @Input() providerWorkshops: Workshop[];
-  @Input() role: string;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
 }
-
+@Component({
+  selector: 'app-provider-details',
+  template: ''
+})
+class MockDetailsProviderComponent {
+  @Input() role: Role;
+  @Input() workshop: Workshop;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
+}
 @Component({
   selector: 'app-side-menu',
   template: ''
 })
 class MockSideMenuComponent {
+  @Input() role: Role;
   @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
 }

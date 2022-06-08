@@ -69,7 +69,6 @@ import {
   DeleteFavoriteWorkshop,
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
-  CabinetPageChange,
   GetAllUsersChildren,
   GetAllProviderAdmins,
   CreateProviderAdmin,
@@ -387,7 +386,7 @@ export class UserState {
   onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
-    this.router.navigate(['/personal-cabinet/administration/all']);
+    this.router.navigate(['/personal-cabinet/administration']);
   }
 
   @Action(BlockProviderAdminById)
@@ -664,11 +663,6 @@ export class UserState {
     return this.favoriteWorkshopsService
       .deleteFavoriteWorkshop(payload)
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])))
-  }
-
-  @Action(CabinetPageChange)
-  pageChange({ patchState }: StateContext<UserStateModel>, { payload }: CabinetPageChange): void {
-    patchState({ currentPage: payload });
   }
 
   @Action(ResetProviderWorkshopDetails)

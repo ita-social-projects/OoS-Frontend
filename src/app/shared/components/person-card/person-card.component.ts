@@ -9,9 +9,8 @@ import { Constants } from '../../constants/constants';
   styleUrls: ['./person-card.component.scss']
 })
 export class PersonCardComponent implements OnInit {
-
   readonly CardType: typeof cardType = cardType;
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
   UserFormGroup: FormGroup;
 
   @Input() card;

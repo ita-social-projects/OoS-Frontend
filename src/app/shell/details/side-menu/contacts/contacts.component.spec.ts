@@ -1,3 +1,4 @@
+import { Address } from './../../../../shared/models/address.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactsComponent } from './contacts.component';
 import { Workshop } from '../../../../shared/models/workshop.model';
@@ -21,9 +22,9 @@ describe('ContactsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactsComponent);
     component = fixture.componentInstance;
-    component.workshop = {
-      address: {}
-    } as Workshop;
+    component.address = { } as Address;
+    component.contactsData = { } as any;
+
     fixture.detectChanges();
   });
 

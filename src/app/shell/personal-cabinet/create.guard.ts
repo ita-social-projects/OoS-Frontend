@@ -5,6 +5,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
@@ -27,7 +28,7 @@ export class CreateGuard implements CanDeactivate<unknown> {
 
     if (isDirty) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: '330px',
+        width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.leavePage
         }

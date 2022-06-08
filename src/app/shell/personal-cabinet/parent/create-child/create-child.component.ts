@@ -36,6 +36,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
+  socialGroups: SocialGroup[];
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards[]>
 
@@ -57,11 +58,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.socialGroups$
       .pipe(
         takeUntil(this.destroy$),
-        filter((socialGroups)=> !socialGroups))
-      .subscribe(() =>this.store.dispatch(new GetSocialGroup()));
+        filter((socialGroups)=> !!socialGroups))
+      .subscribe((socialGroups: SocialGroup[]) => this.socialGroups = socialGroups);
   }
 
-  ngOnInit(): void {      
+  ngOnInit(): void {
+    this.store.dispatch(new GetSocialGroup());
+
     this.determineEditMode();
     this.addNavPath();
 
@@ -158,7 +161,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     if(status !== 'INVALID' || isTouched) {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
         property: ''
