@@ -3,11 +3,16 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <mat-form-field floatLabel=never appearance="none">
-        <input matInput [formControl]="filter" type="text" class="search"
-          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
-      </mat-form-field>
+      <input
+        #input
+        [formControl]="filter"
+        matInput
+        type="text"
+        class="search"
+        placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом"
+      />
     </div>
+
     <ng-template [ngIf]="btnView == providerAdminRoleUkr.all">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         Додати <mat-icon>arrow_drop_down</mat-icon>
@@ -23,8 +28,9 @@
     <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
-
   </div>
+
+  
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
@@ -48,8 +54,10 @@
 <ng-template #UsersList let-filterValue let-users="users">
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length else isEmptyList;">
-      <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
-        (blockAdmin)="onBlock($event)"></app-users-list>
+      <div class="table-wrapper">
+        <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+          (blockAdmin)="onBlock($event)"></app-users-list>
+      </div>
     </ng-container>
   </ng-container>
 </ng-template>
