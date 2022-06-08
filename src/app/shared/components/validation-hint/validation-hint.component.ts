@@ -17,7 +17,7 @@ enum ValidatorsTypes {
 export class ValidationHintComponent implements OnInit, OnDestroy {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
-  @Input() validationFormControl: FormControl; //required for validation
+  @Input() validationFormControl: FormControl = new FormControl(); //required for validation
 
   //for Length Validation
   @Input() minCharachters: number;
