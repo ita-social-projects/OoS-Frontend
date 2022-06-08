@@ -21,6 +21,7 @@ export class Constants {
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
+  static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;

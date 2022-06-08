@@ -20,6 +20,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix= Constants.PHONE_PREFIX;
+  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
