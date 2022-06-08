@@ -26,6 +26,7 @@ export class Provider {
   image?: File[];
   imageIds?: string[];
   institutionStatusId?: number | null;
+  providerSectionItems?: object[]
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
@@ -49,5 +50,7 @@ export class Provider {
     if (provider?.id) {
       this.id = provider.id;
     }
+    this.providerSectionItems = description.sectionItems;
+
   }
 }
