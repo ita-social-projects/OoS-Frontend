@@ -39,6 +39,10 @@
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
         </ng-container>
       </mat-tab>
+      <mat-tab label="{{applicationTitles.Blocked}}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        </ng-container>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </ng-template>
@@ -84,6 +88,10 @@
           </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          </ng-container>
+        </mat-tab>
+        <mat-tab label="{{applicationTitles[applicationStatus.Blocked]}}">
           <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
           </ng-container>
         </mat-tab>

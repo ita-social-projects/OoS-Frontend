@@ -11,7 +11,8 @@ export class Application {
   workshop: WorkshopCard;
   child: Child;
   parent: Parent;
-  rejectionMessage: string
+  rejectionMessage: string;
+  isBlocked: boolean;
 
   constructor(child: Child, workshop: Workshop, parent: Parent) {
     this.childId = child.id;
