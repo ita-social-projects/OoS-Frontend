@@ -13,11 +13,17 @@
     </div>
   </div>
 
-  <div class="rate" *ngFor="let rate of (rating$|async)" fxLayout='column' fxLayoutAlign='start space-between'>
+  <ng-container *ngIf="rating?.length; else isEmptyList">
+    <div class="rate" *ngFor="let rate of rating" fxLayout='column' fxLayoutAlign='start space-between'>
     <p class="rate-author"> {{rate.firstName}} {{rate.lastName}} </p>
     <p class="rate-date" fxLayout='row' fxLayoutAlign='start center'>
       <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
       {{rate.creationTime | date: 'shortDate'}}
     </p>
   </div>
+  </ng-container>
+  
+  <ng-template #isEmptyList>
+    <app-no-result-card [title]="noResultReviews"></app-no-result-card>
+  </ng-template>
 </div>
