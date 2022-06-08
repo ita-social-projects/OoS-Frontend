@@ -42,7 +42,6 @@ export interface MetaDataStateModel {
   cities: City[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
-  isCity: boolean;
   filteredDirections: Direction[];
   filteredDepartments: Department[];
   filteredClasses: IClass[];
@@ -60,7 +59,6 @@ export interface MetaDataStateModel {
     cities: null,
     socialGroups: [],
     institutionStatuses: [],
-    isCity: false,
     filteredDirections: [],
     filteredDepartments: [],
     filteredClasses: [],
@@ -93,9 +91,6 @@ export class MetaDataState {
 
   @Selector()
   static cities(state: MetaDataStateModel): City[] { return state.cities; }
-
-  @Selector()
-  static isCity(state: MetaDataStateModel): boolean { return state.isCity; }
 
   @Selector()
   static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections; }
@@ -198,7 +193,7 @@ export class MetaDataState {
     return this.cityService
       .getCities(payload)
       .pipe(
-        tap((cities: City[]) => patchState(cities ? { cities: cities, isCity: true } : { cities: [{ name: Constants.NO_CITY } as City], isCity: false })
+        tap((cities: City[]) => patchState(cities ? { cities: cities } : { cities: [{ name: Constants.NO_CITY } as City]})
         ))
   }
 
