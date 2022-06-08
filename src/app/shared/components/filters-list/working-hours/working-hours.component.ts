@@ -1,9 +1,10 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Constants, WorkingDaysValues } from 'src/app/shared/constants/constants';
+import { WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
 import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
@@ -38,7 +39,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.startTimeFormControl.setValue(startTime, { emitEvent: false });
   };
 
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
 
@@ -57,7 +58,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     ).subscribe((time: string) => {
       this.store.dispatch(new SetStartTime(time?.split(':')[0]));
-      this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : this.constants.MIN_TIME;
+      this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
     });
 
     this.endTimeFormControl.valueChanges.pipe(
@@ -66,7 +67,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     ).subscribe((time: string) => {
       this.store.dispatch(new SetEndTime(time?.split(':')[0]));
-      this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : this.constants.MAX_TIME;
+      this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
     });
   }
 

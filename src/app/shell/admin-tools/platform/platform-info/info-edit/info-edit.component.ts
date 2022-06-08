@@ -1,20 +1,19 @@
-import { GetSupportInformation, GetLawsAndRegulations } from './../../../../../shared/store/admin.actions';
 import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter, tap, takeLast } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { takeUntil, filter, tap } from 'rxjs/operators';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { CompanyInformation, СompanyInformationItem, PlatformInfoStateModel } from 'src/app/shared/models/сompanyInformation.model';
+import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
 import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-info-edit',
@@ -40,7 +39,9 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private location: Location
+  ) {
       super(store, route, navigationBarService);
   }
 
@@ -117,6 +118,10 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    */
   onDeleteForm(index: number): void {
     this.PlatformInfoItemArray.removeAt(index);
+  }
+
+  onBack(): void {
+    this.location.back();
   }
 
   onSubmit(): void {

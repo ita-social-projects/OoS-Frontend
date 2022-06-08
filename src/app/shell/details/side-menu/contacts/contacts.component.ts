@@ -8,7 +8,7 @@ import { Address } from 'src/app/shared/models/address.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Input() address: Address;
   @Input() contactsData: {

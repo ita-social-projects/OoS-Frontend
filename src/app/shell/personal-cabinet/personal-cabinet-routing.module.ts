@@ -22,7 +22,7 @@ const routes: Routes = [
     component: MessagesComponent,
   },
   {
-    path: 'applications/:param',
+    path: 'applications',
     component: ApplicationsComponent,
   },
   {
@@ -36,7 +36,7 @@ const routes: Routes = [
     canLoad: [ParentGuard]
   },
   {
-    path: 'administration/:param',
+    path: 'administration',
     component: ProviderAdminsComponent,
   },
 ];
