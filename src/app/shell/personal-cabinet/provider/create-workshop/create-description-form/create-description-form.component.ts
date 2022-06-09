@@ -1,13 +1,12 @@
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { Store } from '@ngxs/store';
+import { SectionItem } from 'src/app/shared/models/workshop.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -63,6 +62,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.onAddForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.activateEditMode();
+    if (this.workshop.workshopSectionItems?.length) {
+      this.workshop.workshopSectionItems.forEach((item: SectionItem) => this.SectionItems.push(this.newForm(item)))
+    } else {
+      this.onAddForm();
+    }
   }
 
   /**
@@ -167,7 +171,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(item?: СompanyInformationItem): FormGroup {
+  private newForm(item?: SectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
@@ -179,8 +183,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
     if (item) {
       EditFormGroup.addControl(
-        'companyInformationId',
-        this.formBuilder.control(item.companyInformationId)
+        'workshopId',
+        this.formBuilder.control(item.workshopId)
       );
       EditFormGroup.patchValue(item, { emitEvent: false });
     }

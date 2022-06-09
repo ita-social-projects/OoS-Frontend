@@ -73,7 +73,7 @@
         <p class="description">{{ this.currentStatus }}</p>
         <ng-container *ngIf="provider.providerSectionItems?.length">
           <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
-            <h5>{{item.name}}</h5>
+            <h5>{{item.sectionName}}</h5>
             <p>{{item.description}}</p>
           </div>
         </ng-container>
