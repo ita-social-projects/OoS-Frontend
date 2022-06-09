@@ -67,6 +67,10 @@ class MockValidationHintForInputComponent {
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
 }
+@Component({
+  selector: 'app-info-form',
+  template: ''
+})
 class MockInfoFormComponent {
   @Input() PlatformInfoEditFormGroup: FormGroup;
   @Input() index: number;
