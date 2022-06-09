@@ -33,7 +33,8 @@ describe('CreatePhotoFormComponent', () => {
       declarations: [
         CreatePhotoFormComponent,
         ImageFormControlComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        MockInfoFormComponent
       ]
     })
       .compileComponents();
@@ -65,4 +66,9 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+}
+class MockInfoFormComponent {
+  @Input() PlatformInfoEditFormGroup: FormGroup;
+  @Input() index: number;
+  @Input() formAmount: number;
 }

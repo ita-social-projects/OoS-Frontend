@@ -39,7 +39,8 @@ describe('CreateDescriptionFormComponent', () => {
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
         ImageFormControlComponent,
-        MockValidationHintAboutComponent
+        MockValidationHintAboutComponent,
+        MockInfoFormComponent
       ],
     })
       .compileComponents();
@@ -82,4 +83,9 @@ class MockValidationHintAboutComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+}
+class MockInfoFormComponent {
+  @Input() PlatformInfoEditFormGroup: FormGroup;
+  @Input() index: number;
+  @Input() formAmount: number;
 }
