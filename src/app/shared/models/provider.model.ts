@@ -1,4 +1,5 @@
 import { Address } from './address.model';
+import { SectionItem } from './sectionItem.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
 
@@ -26,7 +27,7 @@ export class Provider {
   image?: File[];
   imageIds?: string[];
   institutionStatusId?: number | null;
-  providerSectionItems?: object[]
+  providerSectionItems?: ProviderSectionItem[]
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
@@ -55,20 +56,14 @@ export class Provider {
   }
 }
 
-export class SectionItem {
-  id?: string;
-  sectionName?: string;
-  description: string;
+export class ProviderSectionItem extends SectionItem {
   providerId?: string;
 
   constructor(info, id?) {
-    
-    this.sectionName = info.sectionName;
-    this.description = info.description;
-    if(id){
-      this.id = id;
+    super(info, id);
+
+    if (info.providerId) {
+      this.providerId = info.providerId;
     }
-    if(info.providerId)
-      this.providerId =  info.providerId;
-    }
+  }
 }

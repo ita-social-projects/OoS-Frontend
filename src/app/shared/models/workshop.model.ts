@@ -1,5 +1,6 @@
 import { Address } from './address.model';
 import { Provider } from './provider.model';
+import { SectionItem } from './sectionItem.model';
 import { Teacher } from './teacher.model';
 import { DateTimeRanges } from './workingHours.model';
 export class Workshop {
@@ -36,7 +37,7 @@ export class Workshop {
   imageIds?: string[];
   coverImage?: File[];
   coverImageId?: string[];
-  workshopSectionItems?: object[];
+  workshopSectionItems: WorkshopSectionItem[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -84,30 +85,21 @@ export class Workshop {
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
     }
-    if(description.sectionItems?.length) {
-      this.workshopSectionItems = description.sectionItems;
-    }
+    this.workshopSectionItems = description.sectionItems;
   }
 }
 
-export class SectionItem {
-  id?: string;
-  sectionName?: string;
-  description: string;
+export class WorkshopSectionItem extends SectionItem {
   workshopId?: string;
 
   constructor(info, id?) {
-    
-    this.sectionName = info.sectionName;
-    this.description = info.description;
-    if(id){
-      this.id = id;
-    }
-    if(info.workshopId)
-      this.workshopId =  info.workshopId;
-    }
-}
+    super(info, id);
 
+    if (info.workshopId) {
+      this.workshopId = info.workshopId;
+    }
+  }
+}
 export interface WorkshopCard {
   address: Address;
   directionId: number;

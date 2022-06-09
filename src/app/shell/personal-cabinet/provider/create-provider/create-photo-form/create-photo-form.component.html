@@ -13,12 +13,13 @@
     </mat-select>
   </mat-form-field>
 
-  <app-info-form *ngFor="let form of SectionItems.controls" [InfoEditFormGroup]="form"
-    [index]="SectionItems.controls.indexOf(form)" [formAmount]="SectionItems.controls.length"
+  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
     (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
-  <button *ngIf="SectionItems.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()">
+  <button *ngIf="SectionItemsFormArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()"
+    [disabled] = "SectionItemsFormArray.invalid">
     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
   </button>
 

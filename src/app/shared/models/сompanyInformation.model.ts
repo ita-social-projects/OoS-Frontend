@@ -1,30 +1,15 @@
+import { СompanyInformationSectionItem } from "./sectionItem.model";
+
 export class CompanyInformation {
   id?: string;
   title?: string;
-  companyInformationItems: СompanyInformationItem [];
+  companyInformationItems: СompanyInformationSectionItem [];
 
-  constructor(title: string, portalItems: СompanyInformationItem[], id?) {
+  constructor(title: string, portalItems: СompanyInformationSectionItem[], id?) {
     this.id = id;
     this.title = title;
     this.companyInformationItems = portalItems;
   }
-}
-export class СompanyInformationItem {
-  id?: string;
-  sectionName?: string;
-  description: string;
-  companyInformationId?: string;
-
-  constructor(info, id?) {
-    
-    this.sectionName = info.sectionName;
-    this.description = info.description;
-    if(id){
-      this.id = id;
-    }
-    if(info.companyInformationId)
-      this.companyInformationId =  info.companyInformationId;
-    }
 }
 
 export interface PlatformInfoStateModel {

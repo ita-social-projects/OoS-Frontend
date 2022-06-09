@@ -6,7 +6,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { Store } from '@ngxs/store';
-import { SectionItem } from 'src/app/shared/models/workshop.model';
+import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -154,7 +154,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       );
     }
     if (this.workshop.workshopSectionItems?.length) {
-      this.workshop.workshopSectionItems.forEach((item: SectionItem) => this.SectionItems.push(this.newForm(item)))
+      this.workshop.workshopSectionItems.forEach((item: WorkshopSectionItem) => this.SectionItems.push(this.newForm(item)))
     } else {
       this.onAddForm();
     }
@@ -170,7 +170,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(item?: SectionItem): FormGroup {
+  private newForm(item?: WorkshopSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
