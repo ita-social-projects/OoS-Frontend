@@ -16,7 +16,7 @@
         </app-validation-hint>
       </div>
 
-      <app-info-form *ngFor="let form of PlatformInfoItemArray.controls" [PlatformInfoEditFormGroup]="form"
+      <app-info-form *ngFor="let form of PlatformInfoItemArray.controls" [InfoEditFormGroup]="form"
         [index]="PlatformInfoItemArray.controls.indexOf(form)" [formAmount]="PlatformInfoItemArray.controls.length"
         (deleteForm)="onDeleteForm($event)">
       </app-info-form>

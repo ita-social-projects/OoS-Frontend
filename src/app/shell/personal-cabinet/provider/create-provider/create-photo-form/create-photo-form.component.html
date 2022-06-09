@@ -13,7 +13,7 @@
     </mat-select>
   </mat-form-field>
 
-  <app-info-form *ngFor="let form of SectionItems.controls" [PlatformInfoEditFormGroup]="form"
+  <app-info-form *ngFor="let form of SectionItems.controls" [InfoEditFormGroup]="form"
     [index]="SectionItems.controls.indexOf(form)" [formAmount]="SectionItems.controls.length"
     (deleteForm)="onDeleteForm($event)">
   </app-info-form>
