@@ -90,6 +90,24 @@ export class Workshop {
   }
 }
 
+export class SectionItem {
+  id?: string;
+  sectionName?: string;
+  description: string;
+  workshopId?: string;
+
+  constructor(info, id?) {
+    
+    this.sectionName = info.sectionName;
+    this.description = info.description;
+    if(id){
+      this.id = id;
+    }
+    if(info.workshopId)
+      this.workshopId =  info.workshopId;
+    }
+}
+
 export interface WorkshopCard {
   address: Address;
   directionId: number;
