@@ -89,7 +89,7 @@ class MockValidationHintAboutComponent {
   template: ''
 })
 class MockInfoFormComponent {
-  @Input() PlatformInfoEditFormGroup: FormGroup;
+  @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
 }
