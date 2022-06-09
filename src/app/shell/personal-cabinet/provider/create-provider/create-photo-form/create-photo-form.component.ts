@@ -48,17 +48,17 @@ export class CreatePhotoFormComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
     this.provider && this.activateEditMode();
-    if (this.provider.providerSectionItems?.length) {
-      this.provider.providerSectionItems.forEach((item: SectionItem) => this.SectionItems.push(this.newForm(item)))
-    } else {
-      this.onAddForm();
-    }
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
 
   private activateEditMode(): void {
   this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
   this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
+  if (this.provider.providerSectionItems?.length) {
+    this.provider.providerSectionItems.forEach((item: SectionItem) => this.SectionItems.push(this.newForm(item)))
+  } else {
+    this.onAddForm();
+  }
 }
 
 

@@ -59,14 +59,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
-    this.onAddForm();
-    this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.workshop && this.activateEditMode();
-    if (this.workshop.workshopSectionItems?.length) {
-      this.workshop.workshopSectionItems.forEach((item: SectionItem) => this.SectionItems.push(this.newForm(item)))
-    } else {
-      this.onAddForm();
-    }
+    this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
   }
 
   /**
@@ -158,6 +152,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         'imageIds',
         this.formBuilder.control(this.workshop.imageIds)
       );
+    }
+    if (this.workshop.workshopSectionItems?.length) {
+      this.workshop.workshopSectionItems.forEach((item: SectionItem) => this.SectionItems.push(this.newForm(item)))
+    } else {
+      this.onAddForm();
     }
   }
 
