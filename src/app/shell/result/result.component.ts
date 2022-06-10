@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
@@ -43,7 +43,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.currentPage)
   currentPage$: Observable<number>;
   currentPage;
-
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
@@ -51,11 +50,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   currentView: ViewType = ViewType.data;
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  // @HostListener('window:resize', ['$event'])
-  // public onResize(event): void {
-  //   this.isFiltersVisible = window.innerWidth > 750;
-  // }
 
   constructor(
     private actions$: Actions,
