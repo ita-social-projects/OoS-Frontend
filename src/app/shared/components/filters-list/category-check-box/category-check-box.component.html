@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="(isMobileScreen$ | async) ? 'wrapper-full-width' : ''">
+<div [ngClass]="{'wrapper-full-width': (isMobileScreen$ | async)}">
   <p class="filter-text">Напрямки</p>
   <div class="search-bar" fxLayout="row" fxLayoutAlign="space-evenly center">
     <button mat-stroked-button>
