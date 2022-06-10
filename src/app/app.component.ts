@@ -1,6 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { ToggleMobileScreen } from './shared/store/app.actions';
+import { AppState } from './shared/store/app.state';
+import { FilterState } from './shared/store/filter.state';
 import { GetFeaturesList } from './shared/store/meta-data.actions';
 
 @Component({
