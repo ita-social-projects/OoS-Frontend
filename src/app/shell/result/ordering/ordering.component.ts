@@ -14,12 +14,11 @@ import { FilterState } from 'src/app/shared/store/filter.state';
   styleUrls: ['./ordering.component.scss'],
 })
 export class OrderingComponent implements OnInit {
-  readonly ordering: typeof Ordering = Ordering;
+  readonly ordering = Ordering;
 
   @Select(FilterState.filterList)
   filterList$: Observable<any>;
 
-  selectedOption: string;
   orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -32,8 +31,7 @@ export class OrderingComponent implements OnInit {
   }
 
   OnSelectOption(event: MatSelectChange): void {
-    this.selectedOption = event.value;
-    this.store.dispatch(new SetOrder(this.selectedOption));
+    this.store.dispatch(new SetOrder(event.value));
   }
 
   ngOnDestroy() {
