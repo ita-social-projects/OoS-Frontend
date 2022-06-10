@@ -188,8 +188,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       EditFormGroup.patchValue(item, { emitEvent: false });
     }
 
-    this.subscribeOnDirtyForm(EditFormGroup);
-
     return EditFormGroup;
   }
 
@@ -210,10 +208,4 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.SectionItems.removeAt(index);
   }
 
-  public subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-    form.valueChanges.pipe(takeWhile(() => this.isPristine)).subscribe(() => {
-      this.isPristine = false;
-      this.store.dispatch(new MarkFormDirty(true));
-    });
-  }
 }

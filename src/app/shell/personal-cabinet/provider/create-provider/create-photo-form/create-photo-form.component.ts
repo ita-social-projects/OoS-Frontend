@@ -79,8 +79,6 @@ export class CreatePhotoFormComponent implements OnInit {
       EditFormGroup.patchValue(item, { emitEvent: false });  
     }
 
-    this.subscribeOnDirtyForm(EditFormGroup);
-
     return EditFormGroup;
   }
   
@@ -97,16 +95,6 @@ export class CreatePhotoFormComponent implements OnInit {
    */
   onDeleteForm(index: number): void {
     this.SectionItemsFormArray.removeAt(index);
-  }
-
-  public subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-    form.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true));
-      });
   }
 
   ngOnDestroy(): void {
