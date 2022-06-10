@@ -524,6 +524,28 @@ export class UserState {
     dispatch(new MarkFormDirty(false));
     console.log('Workshop is updated', payload);
     dispatch(new ShowMessageBar({ message: 'Гурток оновлено!', type: 'success' }));
+    if (!payload.uploadingCoverImageResult?.result.succeeded) {
+      dispatch(
+        new ShowMessageBar({
+          message: `Помилка завантаження фонового зображення: ${payload.uploadingCoverImageResult?.result.errors
+            .map((error) => error.code)
+            .join(', ')}`,
+          type: 'error',
+        })
+      );
+    }
+    if (!payload.uploadingImagesResults?.allImagesUploaded) {
+      dispatch(
+        new ShowMessageBar({
+          message: `Помилка завантаження зображеннь для галереї: ${Object.values(
+            payload.uploadingImagesResults?.results
+          )
+            .map((result, index) => `${index+1}) зображення: ${result['errors'].map((error) => error.code)}`)
+            .join(', ')}`,
+          type: 'error',
+        })
+      );
+    }
     this.router.navigate(['/personal-cabinet/workshops']);
   }
 
