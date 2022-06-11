@@ -46,6 +46,7 @@ export class Provider {
     this.actualAddress = actualAddress;
     this.description = description.description;
     this.institutionStatusId = description.institutionStatusId || null;
+    this.institutionType = description.institutionType;
     this.userId = user.id;
     if (provider?.id) {
       this.id = provider.id;

@@ -54,7 +54,7 @@ export enum ProviderWorkshopSameValues {
   instagram = 'instagram'
 }
 
-export enum InstitutionType {
+export enum InstitutionTypes {
   Complex = 'Комплексний',
   Profile = 'Профільний',
   Specialized = 'Спеціалізований'

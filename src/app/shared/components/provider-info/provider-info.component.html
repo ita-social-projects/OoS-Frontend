@@ -70,8 +70,10 @@
       </mat-tab>
 
       <mat-tab label="Опис">
+        <h5>Статус</h5>
+        <p class="description">{{ this.currentStatus }}</p>
         <h5>Тип закладу</h5>
-        <p class="description">{{ institutionType[provider.institutionType] }}</p>
+        <p class="description">{{ institutionTypes[provider.institutionType] }}</p>
         <h5>Про заклад</h5>
         <p class="description">{{ provider?.description }}</p>
       </mat-tab>
