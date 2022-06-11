@@ -47,7 +47,6 @@ export class CreatePhotoFormComponent implements OnInit {
     this.store.dispatch(new GetInstitutionStatus());
     this.provider && this.activateEditMode();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-    console.log(this.PhotoFormGroup)
   }
 
   private activateEditMode(): void {
