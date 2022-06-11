@@ -34,8 +34,7 @@ export class CreateTeacherComponent implements OnInit {
   onAddTeacher(teacher?: Teacher): void {
     const formGroup = this.createNewForm(teacher);
     this.TeacherFormArray.controls.push(formGroup);
-    this.TeacherFormArray['_registerControl'](formGroup);
-
+    this.TeacherFormArray['_registerControl'](formGroup);//for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
