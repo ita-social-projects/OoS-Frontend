@@ -32,7 +32,10 @@ export class CreateTeacherComponent implements OnInit {
    * This method add new FormGroup to teh FormArray
    */
   onAddTeacher(teacher?: Teacher): void {
-    this.TeacherFormArray.push(this.createNewForm(teacher));
+    const formGroup = this.createNewForm(teacher);
+    this.TeacherFormArray.controls.push(formGroup);
+    this.TeacherFormArray['_registerControl'](formGroup);
+
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -42,7 +45,9 @@ export class CreateTeacherComponent implements OnInit {
    */
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
+      id: new FormControl(''),
       avatarImage: new FormControl(''),
+      avatarImageId: new FormControl(''),
       lastName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
@@ -80,8 +85,9 @@ export class CreateTeacherComponent implements OnInit {
     */
   private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
-    teacherFormGroup.addControl('teacherId', this.fb.control(teacher.id));
-    teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
+    if (teacher.avatarImageId) {
+      teacherFormGroup.get('avatarImageId').setValue([teacher.avatarImageId], { emitEvent: false });
+    }
   }
 
   /**

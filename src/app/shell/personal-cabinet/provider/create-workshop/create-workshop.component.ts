@@ -97,7 +97,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
-//    this.subscribeOnDirtyForm(array);
+    this.subscribeOnDirtyForm(array);
   }
 
   /**
