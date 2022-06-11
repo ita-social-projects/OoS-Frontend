@@ -10,7 +10,7 @@ import {
   ProviderTypeUkr,
 } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
-import { NgxsOnInit, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
@@ -31,6 +31,7 @@ export class ProviderInfoComponent implements OnInit {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
   readonly institutionTypes = InstitutionTypes;
+
   editLink: string = CreateProviderSteps[0];
 
   @Input() provider: Provider;
