@@ -57,10 +57,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine))
-      .subscribe((val) => {
-        console.log(val)
-        debugger;
-
+      .subscribe(() => {
         this.isPristine = false;
         this.store.dispatch(new MarkFormDirty(true));
       });
