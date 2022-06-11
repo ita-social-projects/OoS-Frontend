@@ -90,7 +90,7 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-  path: 'directions/create/:param', component: CreateDirectionComponent,
+  path: 'admin-tools/platform/create/:param', component: CreateDirectionComponent,
   loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
   },
   {
