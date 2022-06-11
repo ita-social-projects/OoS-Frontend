@@ -12,6 +12,7 @@
         placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
       />
     </div>
+
     <ng-template [ngIf]="btnView == providerAdminRoleUkr.all">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         Додати <mat-icon>arrow_drop_down</mat-icon>
@@ -19,7 +20,7 @@
       <mat-menu #add="matMenu" class="header_menu">
         <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button mat-menu-item>Заступника директора</button></a>
         <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
-    </mat-menu>
+      </mat-menu>
     </ng-template>
     <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button class="btn" mat-raised-button>Додати</button></a>
