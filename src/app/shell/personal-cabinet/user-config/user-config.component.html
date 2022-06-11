@@ -12,12 +12,12 @@
     <h4>По-батькові</h4>
     <p>{{user.middleName}}</p>
     <h4>Телефон</h4>
-    <p>{{constants.PHONE_PREFIX + user.phoneNumber | phoneTransform }}</p>
+    <p>{{phonePrefix + user.phoneNumber | phoneTransform }}</p>
   </div>
   <div class="config">
-    <h4>Емейл</h4>
+    <h4>Електронна пошта</h4>
     <p style="margin-bottom: 0;">{{user.email}}</p>
-    <p class="link" (click)="onRedirect('/Account/ChangeEmail')">Змінити емейл</p>
+    <p class="link" (click)="onRedirect('/Account/ChangeEmail')">Змінити електронну пошту</p>
     <h4>Пароль</h4>
     <p class="link" (click)="onRedirect('/Account/ChangePassword')">Змінити Пароль</p>
   </div>

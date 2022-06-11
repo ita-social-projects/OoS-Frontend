@@ -15,6 +15,7 @@ import { Util } from 'src/app/shared/utils/utils';
 export class CreateInfoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
+  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly phonePrefix= Constants.PHONE_PREFIX;
   
   readonly ownershipType = OwnershipType;
@@ -30,7 +31,7 @@ export class CreateInfoFormComponent implements OnInit {
 
   dateFilter: RegExp = DATE_REGEX;
   maxDate: Date = Util.getMaxBirthDate();
-  minDate: Date = Util.getMinBirthDate(Constants.BIRTH_AGE_MAX);
+  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   constructor(private formBuilder: FormBuilder) {
     this.InfoFormGroup = this.formBuilder.group({
@@ -58,8 +59,8 @@ export class CreateInfoFormComponent implements OnInit {
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [
         Validators.required, 
-        Validators.minLength(Constants.PHONE_LENGTH),
-        Validators.maxLength(Constants.PHONE_LENGTH),
+        Validators.minLength(ValidationConstants.PHONE_LENGTH),
+        Validators.maxLength(ValidationConstants.PHONE_LENGTH),
       ]),
       email: new FormControl('', [
         Validators.required, 

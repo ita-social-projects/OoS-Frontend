@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
@@ -10,20 +10,17 @@ import { NavigationState } from 'src/app/shared/store/navigation.state';
   styleUrls: ['./sidenav-filters.component.scss']
 })
 export class SidenavFiltersComponent implements OnInit {
-
-  @Input() isMobileView: boolean;
-  @Input() filtersList;
-
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;
-
   visibleFiltersSidenav: boolean;
+
+  @Input() isMobileView: boolean;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void {    
     this.filtersSidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleFiltersSidenav = visible);
@@ -33,5 +30,4 @@ export class SidenavFiltersComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

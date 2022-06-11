@@ -4,7 +4,7 @@ import { FormControl, Validators, } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
 
 @Component({
@@ -25,16 +25,16 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.isPaidControl.setValue(isPaid, { emitEvent: false });
   };
 
-  readonly constants: typeof Constants = Constants;
+  readonly validationConstants = ValidationConstants;
 
   isFreeControl = new FormControl(false);
   isPaidControl = new FormControl(false);
 
-  minPriceControl = new FormControl(Constants.MIN_PRICE, [Validators.maxLength(4)]);
-  maxPriceControl = new FormControl(Constants.MAX_PRICE, [Validators.maxLength(4)]);
+  minPriceControl = new FormControl(ValidationConstants.MIN_PRICE, [Validators.maxLength(4)]);
+  maxPriceControl = new FormControl(ValidationConstants.MAX_PRICE, [Validators.maxLength(4)]);
 
-  minValue = Constants.MIN_PRICE;
-  maxValue = Constants.MAX_PRICE;
+  minValue = ValidationConstants.MIN_PRICE;
+  maxValue = ValidationConstants.MAX_PRICE;
   options: Options = this.getSliderOprions(true);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -60,8 +60,14 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe((val: boolean) => {
-        this.store.dispatch(new SetIsPaid(val));
         const func = val ? 'enable' : 'disable';
+        if(!val) {
+          this.store.dispatch([
+            new SetMinPrice(ValidationConstants.MIN_PRICE),
+            new SetMaxPrice(ValidationConstants.MAX_PRICE)
+          ]);
+        }
+        this.store.dispatch(new SetIsPaid(val));
         this.minPriceControl[func]();
         this.maxPriceControl[func]();
         this.options = this.getSliderOprions(!val)
@@ -90,8 +96,8 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   getSliderOprions(val): Options {
     return {
-      floor: Constants.MIN_PRICE,
-      ceil: Constants.MAX_PRICE,
+      floor: ValidationConstants.MIN_PRICE,
+      ceil: ValidationConstants.MAX_PRICE,
       disabled: val
     }
   }

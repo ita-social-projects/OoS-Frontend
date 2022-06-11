@@ -7,22 +7,9 @@
   margin-right: 1rem;
 }
 
-.all-categories-full-search-bar-wrap {
-  max-width: 420px;
-  width: 100%;
-
-  .search {
-    .search__search-bar {
-      .search-bar {
-        height: 34px;
-      }
-    }
-  }
-}
-
 :host ::ng-deep app-full-search-bar {
   min-width: 300px;
-  max-width: 420px;
+  max-width: 550px;
   width: 100%;
 
   app-searchbar {

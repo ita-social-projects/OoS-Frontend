@@ -20,6 +20,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix= Constants.PHONE_PREFIX;
+  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -45,8 +46,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         ]),
       phone: new FormControl('', [
         Validators.required, 
-        Validators.minLength(Constants.PHONE_LENGTH),
-        Validators.maxLength(Constants.PHONE_LENGTH),
+        Validators.minLength(ValidationConstants.PHONE_LENGTH),
+        Validators.maxLength(ValidationConstants.PHONE_LENGTH),
       ]),
       email: new FormControl('', [
         Validators.required, 
