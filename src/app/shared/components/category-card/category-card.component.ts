@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { emit } from 'process';
 import { CategoryIcons } from '../../enum/category-icons';
@@ -19,21 +18,11 @@ export class CategoryCardComponent {
   @Output() deleteDirection = new EventEmitter<Direction>();
   public categoryIcons = CategoryIcons;
 
-  constructor(
-    private store: Store,
-    private router: Router,
-  ) {
+  constructor(private store: Store) {
   }
 
   onDelete(event: Event): void {
     this.deleteDirection.emit(this.direction);
-    event.stopPropagation();
-  }
-
-  onEdit(id: string): void {
-    console.log(id)
-    // [routerLink]="['./create', direction.id]" 
-    this.router.navigate(['./create', id]);
     event.stopPropagation();
   }
 
