@@ -115,7 +115,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
-  //  this.subscribeOnDirtyForm(form);
+    this.subscribeOnDirtyForm(form);
   }
 
   /**
