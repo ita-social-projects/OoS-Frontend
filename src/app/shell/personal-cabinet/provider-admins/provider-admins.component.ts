@@ -39,7 +39,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   provider: Provider;
   filter = new FormControl('');
   filterValue: string;
-  btnView: string;
+  btnView: string= providerAdminRoleUkr.all;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
 
@@ -51,7 +51,6 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.btnView = providerAdminRoleUkr.all;
     this.filter.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
       .subscribe((val: string) => {
