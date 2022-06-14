@@ -4,8 +4,6 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
-import { Store } from '@ngxs/store';
 import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
 @Component({
   selector: 'app-create-description-form',
@@ -24,7 +22,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   CategoriesFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
-  SectionItems = new FormArray([]);
+  SectionItemsFormArray = new FormArray([]);
 
   keyWordsCtrl: FormControl = new FormControl('', Validators.required);
   keyWords: string[] = [];
@@ -33,9 +31,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
   disabledKeyWordsInput: boolean = false;
-  isPristine = true;
 
-  constructor(private formBuilder: FormBuilder, public store: Store) {
+  constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       description: new FormControl('', [
@@ -53,7 +50,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         departmentId: new FormControl('', Validators.required),
         classId: new FormControl('', Validators.required),
       }),
-      sectionItems: this.SectionItems,
+      sectionItemsFormArray: this.SectionItemsFormArray,
     });
   }
 
@@ -154,7 +151,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       );
     }
     if (this.workshop.workshopSectionItems?.length) {
-      this.workshop.workshopSectionItems.forEach((item: WorkshopSectionItem) => this.SectionItems.push(this.newForm(item)))
+      this.workshop.workshopSectionItems.forEach((item: WorkshopSectionItem) => this.SectionItemsFormArray.push(this.newForm(item)))
     } else {
       this.onAddForm();
     }
@@ -195,7 +192,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.DescriptionFormGroup.get('sectionItems') as FormArray).push(
+    (this.DescriptionFormGroup.get('sectionItemsFormArray') as FormArray).push(
       this.newForm()
     );
   }
@@ -205,7 +202,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * @param index
    */
   onDeleteForm(index: number): void {
-    this.SectionItems.removeAt(index);
+    this.SectionItemsFormArray.removeAt(index);
   }
 
 }

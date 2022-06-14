@@ -11,14 +11,3 @@ export class SectionItem {
     }
   }
 }
-
-export class СompanyInformationSectionItem extends SectionItem {
-  companyInformationId?: string;
-
-  constructor(info, id?) {
-    super(info, id);
-
-    if(info.companyInformationId)
-      this.companyInformationId =  info.companyInformationId;
-    }
-}

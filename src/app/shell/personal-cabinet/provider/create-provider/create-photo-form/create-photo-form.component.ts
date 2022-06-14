@@ -30,7 +30,6 @@ export class CreatePhotoFormComponent implements OnInit {
     Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
   ]);
   SectionItemsFormArray = new FormArray([]);
-  isPristine = true;
   
   @Input() provider: Provider;
 
@@ -41,7 +40,7 @@ export class CreatePhotoFormComponent implements OnInit {
       image: new FormControl(''),
       description: this.descriptionFormGroup,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE),
-      sectionItems : this.SectionItemsFormArray
+      sectionItemsFormArray: this.SectionItemsFormArray
     }); 
   }
 
@@ -72,10 +71,10 @@ export class CreatePhotoFormComponent implements OnInit {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
+      providerId: new FormControl(item?.providerId)
     });
     
     if (item){
-      EditFormGroup.addControl('providerId', this.formBuilder.control(item.providerId));
       EditFormGroup.patchValue(item, { emitEvent: false });  
     }
 
@@ -86,7 +85,7 @@ export class CreatePhotoFormComponent implements OnInit {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.PhotoFormGroup.get('sectionItems') as FormArray).push(this.newForm());
+    (this.PhotoFormGroup.get('sectionItemsFormArray') as FormArray).push(this.newForm());
   }
 
   /**

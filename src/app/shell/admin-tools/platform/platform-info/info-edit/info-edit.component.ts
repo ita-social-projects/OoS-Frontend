@@ -14,7 +14,7 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
-import { СompanyInformationSectionItem } from 'src/app/shared/models/sectionItem.model';
+import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
   selector: 'app-info-edit',

@@ -1,4 +1,4 @@
-import { СompanyInformationSectionItem } from "./sectionItem.model";
+import { SectionItem } from "./sectionItem.model";
 
 export class CompanyInformation {
   id?: string;
@@ -10,6 +10,17 @@ export class CompanyInformation {
     this.title = title;
     this.companyInformationItems = portalItems;
   }
+}
+
+export class СompanyInformationSectionItem extends SectionItem {
+  companyInformationId?: string;
+
+  constructor(info, id?) {
+    super(info, id);
+
+    if(info.companyInformationId)
+      this.companyInformationId =  info.companyInformationId;
+    }
 }
 
 export interface PlatformInfoStateModel {
