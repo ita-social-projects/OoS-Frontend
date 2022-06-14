@@ -1,4 +1,3 @@
-import { GetAllInstitutions } from './../../../../../shared/store/meta-data.actions';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -9,7 +8,7 @@ import { InstitutionTypes } from 'src/app/shared/enum/provider';
 import { Institution } from 'src/app/shared/models/institution.model';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
+import { GetAllInstitutions, GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
