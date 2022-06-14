@@ -1,13 +1,17 @@
 .toggle {
+  font-family: Open Sans;
+  font-weight: 300;
   height: 40px;
   padding: 5px;
   flex-grow: 1;
   box-sizing: border-box;
   border: 1px solid #EBEBEB;
   background: #FFFFFF;
+  color: #AAAAAA;
   &-selected{
+    color: #454545;
     background: rgba(56, 73, 249, 0.07);
-    border: 1px solid #3849F9;
+    border: 1px solid rgb(170, 170, 170, 0.1);
   }
   &:first-child{
     border-top-left-radius: 25px;
@@ -28,10 +32,10 @@
 
 .input {
   font-family: Open Sans;
-  border: 1px solid #E3E3E3;
+  font-weight: 700;
+  color: #AAAAAA;
   box-sizing: border-box;
-  border-radius: 21px;
-  padding: 0.5rem 2rem;
+  padding: 0.7rem 0.3rem;
   max-width: max-content;
   height: 40px;
   align-items: center;
