@@ -71,6 +71,8 @@
       <mat-tab label="Опис">
         <h5>Статус</h5>
         <p class="description">{{ this.currentStatus }}</p>
+        <h5>Тип закладу</h5>
+        <p class="description">{{ institutionTypes[provider.institutionType] }}</p>
         <ng-container *ngIf="provider.providerSectionItems?.length">
           <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
             <h5>{{item.sectionName}}</h5>

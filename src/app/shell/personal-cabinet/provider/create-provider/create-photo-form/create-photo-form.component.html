@@ -13,6 +13,16 @@
     </mat-select>
   </mat-form-field>
 
+  <label class="step-label">Тип закладу</label>
+  <mat-form-field floatLabel="never" appearance="none">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+      formControlName="institutionType">
+      <mat-option *ngFor="let type of (institutionTypes | keyvalue)" [value]="type.key" class="dropdown-option">
+        {{type.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
     (deleteForm)="onDeleteForm($event)">

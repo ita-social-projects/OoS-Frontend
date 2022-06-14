@@ -77,7 +77,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           this.workshop = workshop;
           this.provider = provider;
 
-          this.displayActionCard = this.role !== (Role.provider && Role.techAdmin);
+          this.displayActionCard = (this.role === Role.parent || this.role ===  Role.unauthorized);
         });
   }
 
