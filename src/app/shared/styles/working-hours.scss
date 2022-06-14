@@ -28,6 +28,9 @@
   font-weight: 700;
   color: #AAAAAA;
   padding: 5px;
+  &:last-child {
+    padding: 5px 5px 5px 0px;
+  }
 }
 
 .input {
