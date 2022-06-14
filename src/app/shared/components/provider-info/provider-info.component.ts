@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
   CreateProviderSteps,
+  InstitutionTypes,
   OwnershipType,
   OwnershipTypeUkr,
   ProviderType,
@@ -10,13 +11,13 @@ import {
 } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
+import { ActivateEditMode } from 'src/app/shared/store/app.actions';
+import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
 import { RegistrationState } from '../../store/registration.state';
-import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-info',
@@ -29,6 +30,8 @@ export class ProviderInfoComponent implements OnInit {
   readonly ownershipType: typeof OwnershipType = OwnershipType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
+  readonly institutionTypes = InstitutionTypes;
+
   editLink: string = CreateProviderSteps[0];
 
   @Input() provider: Provider;
@@ -50,13 +53,13 @@ export class ProviderInfoComponent implements OnInit {
       .pipe(
         filter((institutionStatuses) => !!institutionStatuses.length),
         takeUntil(this.destroy$)
-      ).subscribe((institutionStatuses) => {
-        const provider = this.store.selectSnapshot(RegistrationState.provider);
-        this.currentStatus =
-          institutionStatuses
-            .find((item) => +item.id === provider?.institutionStatusId)
-            ?.name.toString() ?? 'Відсутній';
-      });
+        ).subscribe((institutionStatuses) => {
+          const provider = this.store.selectSnapshot(RegistrationState.provider);
+          this.currentStatus =
+            institutionStatuses
+              .find((item) => +item.id === provider?.institutionStatusId)
+              ?.name.toString() ?? 'Відсутній';
+        });
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {

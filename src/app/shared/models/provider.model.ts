@@ -26,6 +26,7 @@ export class Provider {
   image?: File[];
   imageIds?: string[];
   institutionStatusId?: number | null;
+  institutionType: string;
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
@@ -45,6 +46,7 @@ export class Provider {
     this.actualAddress = actualAddress;
     this.description = description.description;
     this.institutionStatusId = description.institutionStatusId || null;
+    this.institutionType = description.institutionType;
     this.userId = user.id;
     if (provider?.id) {
       this.id = provider.id;
