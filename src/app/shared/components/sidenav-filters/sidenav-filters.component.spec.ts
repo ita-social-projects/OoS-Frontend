@@ -35,5 +35,5 @@ describe('SidenavFiltersComponent', () => {
   template: ''
 })
 class MockFiltersListComponent {
-  @Input() filtersList;
+  @Input() isMobileView;
 }
