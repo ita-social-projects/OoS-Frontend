@@ -140,9 +140,14 @@ export class Util {
       let finalMessage = {text: '', type: 'success'};
       let messageArr = [];
 
-      const isInvalidCoverImage = !payload.uploadingCoverImageResult?.result.succeeded;
+      let isInvalidCoverImage = false;
       let isInvalidGaleryImages = false;
       let statuses, invalidImages;
+      
+      if (payload.uploadingCoverImageResult) {
+        isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded
+      }
+
       if (payload.uploadingImagesResults) {
         statuses = Object.entries(payload.uploadingImagesResults?.results);
         invalidImages = statuses.filter((result) => !result[1]['succeeded']);
