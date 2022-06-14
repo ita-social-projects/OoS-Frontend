@@ -1,3 +1,4 @@
+import { GetAllInstitutions } from './../../../../../shared/store/meta-data.actions';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -5,6 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { InstitutionTypes } from 'src/app/shared/enum/provider';
+import { Institution } from 'src/app/shared/models/institution.model';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
@@ -22,6 +24,8 @@ export class CreatePhotoFormComponent implements OnInit {
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(MetaDataState.institutions)
+  institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
 
@@ -40,11 +44,12 @@ export class CreatePhotoFormComponent implements OnInit {
       description: this.descriptionFormGroup,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
+      institution: new FormControl('', Validators.required),
     }); 
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetInstitutionStatus());
+    this.store.dispatch([new GetInstitutionStatus(), new GetAllInstitutions()]);
     this.provider && this.activateEditMode();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
