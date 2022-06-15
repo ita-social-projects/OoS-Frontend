@@ -6,7 +6,9 @@ describe('InstitutionsService', () => {
   let service: InstitutionsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
     service = TestBed.inject(InstitutionsService);
   });
 
