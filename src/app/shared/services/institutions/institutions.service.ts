@@ -10,9 +10,6 @@ export class InstitutionsService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * This method get Parent by User id
-   */
    getAllInstitutions(): Observable<Institution[]> {
     return this.http.get<Institution[]>('/api/v1/Institution/GetAll');
   }
