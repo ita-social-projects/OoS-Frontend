@@ -82,12 +82,22 @@ import {
   OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
   ResetProviderWorkshopDetails,
+  BlockParent,
+  BlockParentFail,
+  BlockParentSuccess,
+  GetBlockedParents,
+  UnBlockParent,
+  UnBlockParentFail,
+  UnBlockParentSuccess,
+
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Location } from '@angular/common';
+import { BlockService } from '../services/block/block.service';
+import { BlockedParent } from '../models/block.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -95,11 +105,13 @@ export interface UserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
+  application: Application;
   children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
+  blockedParents: BlockedParent[];
 }
 @State<UserStateModel>({
   name: 'user',
@@ -109,6 +121,7 @@ export interface UserStateModel {
     selectedWorkshop: null,
     selectedProvider: null,
     applications: null,
+    application: null,
     children: undefined,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
@@ -117,6 +130,7 @@ export interface UserStateModel {
       isActive: true
     },
     providerAdmins: null,
+    blockedParents: null,
   }
 })
 @Injectable()
@@ -149,6 +163,9 @@ export class UserState {
   @Selector()
   static providerAdmins(state: UserStateModel): ProviderAdmin[] { return state.providerAdmins; }
 
+  @Selector()
+  static blockedParents(state: UserStateModel): BlockedParent[] { return state.blockedParents; }
+
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
@@ -159,6 +176,7 @@ export class UserState {
     private userService: UserService,
     private ratingService: RatingService,
     private favoriteWorkshopsService: FavoriteWorkshopsService,
+    private blockService: BlockService,
     private location: Location
   ) { }
 
@@ -668,5 +686,65 @@ export class UserState {
   @Action(ResetProviderWorkshopDetails)
   clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
     patchState({ selectedWorkshop: null, selectedProvider: null });
+  }
+
+  @Action(BlockParent)
+  blockParent({ dispatch }: StateContext<UserStateModel>, { payload }: BlockParent): Observable<BlockedParent | Observable<void>> {
+    return this.blockService
+    .blockParent(payload)
+      .pipe(
+        tap((res) => dispatch(new BlockParentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new BlockParentFail(error))))
+      );
+  }
+
+  @Action(BlockParentFail)
+  blockParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: BlockParentFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(BlockParentSuccess)
+  blockParentFailSuccess({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: BlockParentSuccess): void {
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' })
+    ]);
+    console.log('parent is blocked', payload);
+  }
+
+  @Action(UnBlockParent)
+  unBlockParent({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParent): Observable<BlockedParent | Observable<void>> {
+    return this.blockService
+    .blockParent(payload)
+      .pipe(
+        tap((res) => dispatch(new UnBlockParentSuccess(res))),
+        catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
+      );
+  }
+
+  @Action(UnBlockParentFail)
+  unBlockParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParentFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(UnBlockParentSuccess)
+  unBlockParentFailSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParentSuccess): void {
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' })
+    ]);
+    console.log('parent is blocked', payload);
+  }
+
+  @Action(GetBlockedParents)
+  getBlockedParents({ patchState }: StateContext<UserStateModel>, { }: GetBlockedParents): Observable<object> {
+    patchState({ isLoading: true })
+    return this.blockService
+      .getBlockedParents()
+      .pipe(
+        tap((blockedParents: BlockedParent[]) => patchState({ blockedParents: blockedParents, isLoading: false })
+        ))
   }
 }

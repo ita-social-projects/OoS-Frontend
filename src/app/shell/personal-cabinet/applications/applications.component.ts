@@ -1,13 +1,13 @@
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { UpdateApplication } from 'src/app/shared/store/user.actions';
+import { GetBlockedParents, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
@@ -18,6 +18,10 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
 import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { FormGroup } from '@angular/forms';
+import { UserState } from 'src/app/shared/store/user.state';
+import { Observable } from 'rxjs';
+import { BlockedParent } from 'src/app/shared/models/block.model';
 
 
 @Component({
@@ -26,6 +30,9 @@ import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumU
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit {
+
+  @Select(UserState.blockedParents)
+  blockedParents$: Observable<BlockedParent[]>;
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
@@ -66,7 +73,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     this.getUserData();
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])      
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])
       );
 
     this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
@@ -75,6 +82,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       .subscribe(() => {
         if (this.role === Role.provider) {
           this.getProviderApplications(this.providerApplicationParams);
+          this.getBlockedParents();
         } else {
           this.getParentApplications();
         }
@@ -86,10 +94,11 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getProviderApplications(this.providerApplicationParams);
       this.getProviderWorkshops();
       this.activateChildInfoBox();
+      this.getBlockedParents();
     } else {
       this.getAllUsersChildren();
       this.getParentApplications();
-    }
+    } 
   }
 
   /**

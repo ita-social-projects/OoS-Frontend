@@ -7,9 +7,18 @@ import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
+import { Select, Store } from '@ngxs/store';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
+import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
+import { Parent } from 'src/app/shared/models/parent.model';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { AbstractControl, FormControl, FormGroup, } from '@angular/forms';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { Observable, Subject } from 'rxjs';
+import { BlockedParent } from 'src/app/shared/models/block.model';
 
 @Component({
   selector: 'app-application-card',
@@ -27,6 +36,8 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
+  ReasonFormGroup: FormGroup;
+ 
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -38,7 +49,8 @@ export class ApplicationCardComponent implements OnInit {
 
   constructor(
     private detectedDevice: DetectedDeviceService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private store: Store,
     ) {}
 
   ngOnInit(): void {
@@ -70,7 +82,7 @@ export class ApplicationCardComponent implements OnInit {
       if (result) {
         this.approved.emit(application);
       }
-    });    
+    });
   }
 
 
@@ -88,6 +100,42 @@ export class ApplicationCardComponent implements OnInit {
     });
   }
 
+    /**
+   * This method emit reject Application
+   * @param Application application
+   */
+  onBlock(blockedParent: BlockedParent): void {
+    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {});
+    dialogRef.afterClosed().subscribe((result: string)  => {
+      if(result) {
+        const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+        const parent = this.application.parentId;
+        const reason = result;
+        blockedParent = new BlockedParent( parent, provider.id, reason);
+        console.log("reason2", reason)
+
+        console.log("blockedParent",blockedParent)
+        this.store.dispatch(new BlockParent(blockedParent));
+        }
+    });
+  }
+  
+  onUnBlock(blockedParent: BlockedParent): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.unBlockParent,
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: string)  => {
+      if(result) {
+        const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+        const parent = this.application.parentId;
+        blockedParent = new BlockedParent( parent, provider.id);
+        this.store.dispatch(new UnBlockParent(blockedParent));
+        }
+    });
+  }
   /**
    * This method emit on deny action
    * @param Application application

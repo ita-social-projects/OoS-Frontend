@@ -1,9 +1,9 @@
-import { GetAllUsersChildren, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetBlockedParents, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, tap, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
@@ -16,6 +16,7 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-cabinet-data',
@@ -94,6 +95,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getProviderApplications(providerApplicationParams): void {
     this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
+
   }
 
   getParentApplications(status?): void {
@@ -106,6 +108,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getAllUsersChildren(): void {
     this.store.dispatch(new GetAllUsersChildren());
+  }
+
+  getBlockedParents(): void {
+    this.store.dispatch(new GetBlockedParents());
   }
 
   getProviderWorkshops(): void {

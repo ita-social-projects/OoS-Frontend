@@ -64,6 +64,7 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
+import { BlockModalWindowComponent } from './components/block-modal-window/block-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -119,11 +120,12 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
-    ProviderInfoComponent,    
+    ProviderInfoComponent,
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
+    BlockModalWindowComponent,
   ],
   imports: [
     MaterialModule,
@@ -192,7 +194,8 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
-    WorkingHoursFormWrapperComponent
+    WorkingHoursFormWrapperComponent,
+    BlockModalWindowComponent,
   ]
 })
 export class SharedModule { }

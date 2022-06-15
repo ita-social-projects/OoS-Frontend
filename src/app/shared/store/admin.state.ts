@@ -102,9 +102,9 @@ export class AdminState {
   adminStateModel: any;
 
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
-  
+
   @Selector() static providers(state: AdminStateModel): Provider[] { return state.providers; }
-  
+
   @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation { return state.supportInformation; }
 
   @Selector() static LawsAndRegulations(state: AdminStateModel): CompanyInformation { return state.lawsAndRegulations; }
@@ -122,7 +122,7 @@ export class AdminState {
   @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
   @Selector() static parents(state: AdminStateModel): Parent[] { return state.parents };
-  
+
   @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
 
   constructor(
@@ -138,7 +138,7 @@ export class AdminState {
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {  }: GetPlatformInfo): void {
     dispatch([
       new GetAboutPortal(),
-      new GetSupportInformation(), 
+      new GetSupportInformation(),
       new GetLawsAndRegulations()
     ]);
   }
@@ -162,7 +162,7 @@ export class AdminState {
         tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
   }
 
-  
+
 
   @Action(GetSupportInformation)
   getSupportInformation({ patchState }: StateContext<AdminStateModel>, {  }: GetSupportInformation): Observable<CompanyInformation> {
@@ -474,7 +474,7 @@ export class AdminState {
     dispatch([
       new GetClasses(payload.departmentId), //TODO: fix the performance
       new ShowMessageBar({ message: 'Класс видалено!', type: 'success' })
-    ]); 
+    ]);
   }
 
   @Action(OnClearCategories)

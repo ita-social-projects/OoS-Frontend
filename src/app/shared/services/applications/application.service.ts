@@ -29,8 +29,6 @@ export class ApplicationService {
     return params;
   }
 
-
-
   /**
    * This method get applications by Parent id
    * @param id string

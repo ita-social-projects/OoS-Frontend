@@ -101,7 +101,7 @@
 </ng-template>
 
 <ng-template #Applications let-applications>
-  <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="role"
+  <app-application-card *ngFor="let application of applications" [application]="application"  [userRole]="role"
     (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
     (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
   </app-application-card>
