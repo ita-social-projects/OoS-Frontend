@@ -1,5 +1,5 @@
 import { InstitutionsService } from './../services/institutions/institutions.service';
-import { Institution } from './../models/institution.model';
+import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
 import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -32,6 +32,8 @@ import {
   ClearRatings,
   GetFeaturesList,
   GetAllInstitutions,
+  GetFieldDescriptionByInstitutionId,
+  GetAllByInstitutionAndLevel,
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -52,6 +54,8 @@ export interface MetaDataStateModel {
   isLoading: boolean;
   featuresList: FeaturesList;
   institutions: Institution[];
+  institutionFieldDesc: InstitutionFieldDescription[];
+  instituitionsHierarchy: InstituitionHierarchy[]
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -70,6 +74,8 @@ export interface MetaDataStateModel {
     isLoading: false,
     featuresList: null,
     institutions: null,
+    institutionFieldDesc: null,
+    instituitionsHierarchy: null,
   }
 
 })
@@ -117,6 +123,12 @@ export class MetaDataState {
 
   @Selector()
   static institutions(state: MetaDataStateModel): Institution[] { return state.institutions; }
+
+  @Selector()
+  static institutionFieldDesc(state: MetaDataStateModel): InstitutionFieldDescription[] { return state.institutionFieldDesc; }
+
+  @Selector()
+  static instituitionsHierarchy(state: MetaDataStateModel): InstituitionHierarchy[] { return state.instituitionsHierarchy; }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -262,4 +274,21 @@ export class MetaDataState {
         ))
   }
 
+  @Action(GetFieldDescriptionByInstitutionId)
+  GetFieldDescriptionByInstitutionId({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetFieldDescriptionByInstitutionId): Observable<InstitutionFieldDescription[]> {
+    return this.institutionsService
+      .getFieldDescriptionByInstitutionId(payload)
+      .pipe(
+        tap((institutionFieldDesc: InstitutionFieldDescription[]) => patchState({ institutionFieldDesc: institutionFieldDesc })
+        ))
+  }
+
+  @Action(GetAllByInstitutionAndLevel)
+  GetAllByInstitutionAndLevel({ patchState }: StateContext<MetaDataStateModel>, { institutionId, level }: GetAllByInstitutionAndLevel): Observable<InstituitionHierarchy[]> {
+    return this.institutionsService
+      .getAllByInstitutionAndLevel(institutionId, level)
+      .pipe(
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy })
+        ))
+  }
 }

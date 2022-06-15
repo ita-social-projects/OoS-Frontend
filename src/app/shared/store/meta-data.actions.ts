@@ -67,3 +67,13 @@ export class GetAllInstitutions {
   static readonly type = '[meta-data] Get All Institutions';
   constructor() { }
 }
+
+export class GetFieldDescriptionByInstitutionId {
+  static readonly type = '[meta-data] Get Field Description By Institution Id';
+  constructor(public payload: string) { }
+}
+
+export class GetAllByInstitutionAndLevel {
+  static readonly type = '[meta-data] Get All By Institution And Level';
+  constructor(public institutionId: string, public level: number) { }
+}

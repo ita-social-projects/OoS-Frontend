@@ -5,6 +5,12 @@ export interface Institution {
   numberOfHierarchyLevels: number;
 }
 
+export interface  InstitutionFieldDescription {
+  id: string;
+  institutionId: string;
+  title: string;
+  hierarchyLevel: number;
+}
 export interface InstituitionHierarchy {
   id: string;
   title: string;

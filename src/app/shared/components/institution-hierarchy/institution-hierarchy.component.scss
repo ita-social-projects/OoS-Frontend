@@ -1,0 +1,7 @@
+@import "src/app/shared/styles/validation-form.scss";
+@import "src/app/shared/styles/create-form.scss";
+@import "src/app/shared/styles/dropdown.scss";
+
+:host ::ng-deep .mat-form-field-wrapper{
+  padding-bottom: 0;
+}

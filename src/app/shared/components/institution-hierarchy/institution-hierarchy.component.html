@@ -1,1 +1,35 @@
-<p>institution-hierarchy works!</p>
+<div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
+  <label class="step-label">Підпорядкування</label>
+  <mat-form-field floatLabel="never" appearance="none">
+    <mat-select
+      [formControl]="institutionIdFormControl"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      class="step-input">
+      <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">
+        {{ institution.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container *ngFor="let hierarchy of hierarchyArray">
+    <ng-container *ngIf="hierarchy.options?.length">
+      <label class="step-label">{{ hierarchy.title }}</label>
+      <mat-form-field floatLabel="never" appearance="none">
+        <mat-select
+          [formControl]="hierarchy.formControl"
+          disableOptionCentering
+          panelClass="dropdown-panel"
+          class="step-input"
+          (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy.hierarchyLevel)">
+          <mat-option
+            *ngFor="let option of hierarchy.options"
+            [value]="option.id"
+            class="dropdown-option">
+            {{ option.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+  </ng-container>
+</div>
