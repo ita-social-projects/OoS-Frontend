@@ -24,8 +24,8 @@
           disableOptionCentering
           panelClass="dropdown-panel"
           class="step-input"
-          (click)="onClick(hierarchy)"
-          (selectionChange)="onHierarchyLevelSelect(hierarchy, option)">
+          (focusout)="onFocusOut(hierarchy)"
+          (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy)">
           <mat-option
             *ngFor="let option of hierarchy.options"
             [value]="option.id"

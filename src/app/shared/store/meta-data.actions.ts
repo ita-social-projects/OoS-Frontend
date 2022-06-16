@@ -77,7 +77,10 @@ export class GetAllByInstitutionAndLevel {
   static readonly type = '[meta-data] Get All By Institution And Level';
   constructor(public institutionId: string, public level: number) { }
 }
-
+export class GetInstitutionHierarchyChildrenById {
+  static readonly type = '[meta-data ]Get Institution Hierarchy Children By Id';
+  constructor(public id: string) { }
+}
 export class ResetInstitutionHierarchy {
   static readonly type = '[meta-data] Reset Institution Hierarchy';
   constructor() { }

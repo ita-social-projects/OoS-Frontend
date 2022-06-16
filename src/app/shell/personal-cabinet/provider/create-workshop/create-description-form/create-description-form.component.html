@@ -26,15 +26,16 @@
     <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
       placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none" appTrimValue>
       <app-validation-hint
+        [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
         [minCharachters]="validationConstants.INPUT_LENGTH_1"
         [maxCharachters]="validationConstants.INPUT_LENGTH_256">
       </app-validation-hint>
   </mat-radio-group>
 
-  <!-- <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
-  </app-category-select> -->
+  <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
+  </app-category-select>
 
-  <app-institution-hierarchy></app-institution-hierarchy>
+  <app-institution-hierarchy [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"></app-institution-hierarchy>
 
   <div class="step-label-combined">
     <label class="step-label">Ключові слова</label>

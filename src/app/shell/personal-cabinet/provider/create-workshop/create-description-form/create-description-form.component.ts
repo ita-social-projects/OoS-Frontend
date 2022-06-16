@@ -1,3 +1,4 @@
+import { Institution } from './../../../../../shared/models/institution.model';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -48,7 +49,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         directionId: new FormControl('', Validators.required),
         departmentId: new FormControl('', Validators.required),
         classId: new FormControl('', Validators.required),
-      })
+      }),
+      institutionHierarchyId: new FormControl('', Validators.required),
     });
   }
 

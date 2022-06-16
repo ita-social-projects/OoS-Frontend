@@ -24,4 +24,8 @@ export class InstitutionsService {
   getFieldDescriptionByInstitutionId(institutionsId: string): Observable<InstitutionFieldDescription[]> {
     return this.http.get<InstitutionFieldDescription[]>(`/api/v1/InstitutionFieldDescription/GetByInstitutionId/${institutionsId}`);
   }
+
+  getInstitutionHierarchyChildrenById(id: string): Observable<InstituitionHierarchy[]> {
+    return this.http.get<InstituitionHierarchy[]>(`/api/v1/InstitutionHierarchy/GetChildren/${id}`);
+  }
 }
