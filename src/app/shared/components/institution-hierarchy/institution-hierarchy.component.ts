@@ -15,6 +15,7 @@ import { Observable, Subject } from 'rxjs';
 import { MetaDataState } from '../../store/meta-data.state';
 import { GetAllInstitutions } from '../../store/meta-data.actions';
 import { tap, filter, takeUntil, debounceTime } from 'rxjs/operators';
+import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',
@@ -33,17 +34,17 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   hierarchyArray: HierarchyElement[] = [];
-
-  private providerInstitution = this.store.selectSnapshot<Provider>(RegistrationState.provider).institution;
-
-  institutionIdFormControl = new FormControl(this.providerInstitution.id, Validators.required);
+  institutionIdFormControl: FormControl;
+  private providerInstitutionId: string; 
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.providerInstitutionId = this.store.selectSnapshot<Provider>(RegistrationState.provider).institution.id;
+
     this.store.dispatch([
       new GetAllInstitutions(),
-      new GetFieldDescriptionByInstitutionId(this.providerInstitution.id),
+      new GetFieldDescriptionByInstitutionId(this.providerInstitutionId),
     ]);
 
     this.instituitionsHierarchy$
@@ -71,6 +72,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         this.institutionFieldDesc = institutionFieldDesc;
         this.createInstitutionFormGroup();
       });
+
+    this.institutionIdFormControl =  new FormControl(this.providerInstitutionId, Validators.required);
     this.institutionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
     });
