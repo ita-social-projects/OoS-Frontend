@@ -34,6 +34,7 @@ import {
   GetAllInstitutions,
   GetFieldDescriptionByInstitutionId,
   GetAllByInstitutionAndLevel,
+  ResetInstitutionHierarchy,
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -290,5 +291,10 @@ export class MetaDataState {
       .pipe(
         tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy })
         ))
+  }
+  
+  @Action(ResetInstitutionHierarchy)
+  resetInstitutionHierarchy({ patchState }: StateContext<MetaDataStateModel>, { }: ResetInstitutionHierarchy): void {
+    patchState({ instituitionsHierarchy: null });
   }
 }

@@ -1,6 +1,6 @@
 import { InstituitionHierarchy } from './../../models/institution.model';
 import { Options } from '@angular-slider/ngx-slider';
-import { GetFieldDescriptionByInstitutionId, GetAllByInstitutionAndLevel } from './../../store/meta-data.actions';
+import { GetFieldDescriptionByInstitutionId, GetAllByInstitutionAndLevel, ResetInstitutionHierarchy } from './../../store/meta-data.actions';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
@@ -10,8 +10,15 @@ import { Institution, InstitutionFieldDescription } from '../../models/instituti
 import { Observable } from 'rxjs';
 import { MetaDataState } from '../../store/meta-data.state';
 import { GetAllInstitutions } from '../../store/meta-data.actions';
-import { tap, filter } from 'rxjs/operators';
-
+import { tap, filter, debounceTime } from 'rxjs/operators';
+export interface HierarchyElement {
+  formControl: FormControl;
+  title: string;
+  hierarchyLevel: number;
+  institutionId: string;
+  shouldDisplay: boolean;
+  options?: InstituitionHierarchy[];
+}
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',
@@ -27,21 +34,16 @@ export class InstitutionHierarchyComponent implements OnInit {
   instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   instituitionsHierarchy: InstituitionHierarchy[];
 
-  hierarchyArray: {
-    formControl: FormControl;
-    title: string;
-    hierarchyLevel: number;
-    institutionId: string;
-    options,
-  }[] = [];
+  hierarchyArray: HierarchyElement[] = [];
 
   selectedLevel;
 
   private providerInstitution = this.store.selectSnapshot<Provider>(RegistrationState.provider).institution;
 
   institutionIdFormControl = new FormControl(this.providerInstitution.id, Validators.required);
+  instituitionHierarchyFormControl = new FormControl('', Validators.required);
 
-  constructor(private store: Store, private actions$: Actions) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -52,7 +54,8 @@ export class InstitutionHierarchyComponent implements OnInit {
     this.instituitionsHierarchy$.pipe(
       filter((instituitionsHierarchy: InstituitionHierarchy[])=>!!instituitionsHierarchy)
     ).subscribe((instituitionsHierarchy: InstituitionHierarchy[])=>{
-      this.hierarchyArray[instituitionsHierarchy[0].hierarchyLevel].options = instituitionsHierarchy 
+      this.instituitionsHierarchy = instituitionsHierarchy;
+      this.hierarchyArray[instituitionsHierarchy[0].hierarchyLevel-1].options = instituitionsHierarchy; 
     })
 
     this.institutionFieldDesc$
@@ -76,25 +79,30 @@ export class InstitutionHierarchyComponent implements OnInit {
         formControl: new FormControl('', Validators.required),
         title: institutionFieldDesc.title,
         hierarchyLevel: institutionFieldDesc.hierarchyLevel,
-        institutionId: institutionFieldDesc.id,
+        institutionId: institutionFieldDesc.institutionId,
+        shouldDisplay: institutionFieldDesc.hierarchyLevel === 1,
         options: []
       };
       this.hierarchyArray.push(hierarchy);
     });
-    this.onHierarchyLevelSelect(this.institutionIdFormControl.value, 1)
+    const firtHierarchyLevel = this.hierarchyArray[0];
+    this.store.dispatch(new GetAllByInstitutionAndLevel(firtHierarchyLevel.institutionId, firtHierarchyLevel.hierarchyLevel))
   }
 
-  onHierarchyLevelSelect(id: string, hierarchyLevel: number): void {
-    this.store.dispatch(new GetAllByInstitutionAndLevel(id, hierarchyLevel));
-    
+  onHierarchyLevelSelect(hierarchy: HierarchyElement, optionId: string): void {
+    this.store.dispatch( new ResetInstitutionHierarchy());
+    const currentEl = this.hierarchyArray.indexOf(hierarchy);
+    this.store.dispatch( new GetAllByInstitutionAndLevel(hierarchy.institutionId, hierarchy.hierarchyLevel));
 
-    // .subscribe((res)=>{
-    //   console.log(res)
-    //   this.hierarchyArray[hierarchyLevel-1].options = res;
-    //   console.log(this.hierarchyArray)
-    // });
-    // this.selectedLevel = hierarchy.hierarchyLevel;
-    // console.log(this.selectedLevel)
-    // console.log(hierarchy.hierarchyLevel)
+    if(this.hierarchyArray[currentEl+1]){
+      setTimeout(()=> this.hierarchyArray[currentEl+1].shouldDisplay = true, 500);
+    }else{
+      const selectedOption = hierarchy.options.find((option: InstituitionHierarchy)=> option.id === optionId);
+      this.instituitionHierarchyFormControl.setValue(selectedOption);
+    }
+  }
+
+  onClick(hierarchy: HierarchyElement): void{
+    this.store.dispatch( new GetAllByInstitutionAndLevel(hierarchy.institutionId, hierarchy.hierarchyLevel));
   }
 }

@@ -11,9 +11,12 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="institutionIdFormControl">
+  </app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
-    <ng-container *ngIf="hierarchy.options?.length">
+    <ng-container *ngIf="hierarchy.shouldDisplay">
       <label class="step-label">{{ hierarchy.title }}</label>
       <mat-form-field floatLabel="never" appearance="none">
         <mat-select
@@ -21,7 +24,8 @@
           disableOptionCentering
           panelClass="dropdown-panel"
           class="step-input"
-          (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy.hierarchyLevel)">
+          (click)="onClick(hierarchy)"
+          (selectionChange)="onHierarchyLevelSelect(hierarchy, option)">
           <mat-option
             *ngFor="let option of hierarchy.options"
             [value]="option.id"
@@ -30,6 +34,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <app-validation-hint
+      [validationFormControl]="hierarchy.formControl">
+    </app-validation-hint>
     </ng-container>
   </ng-container>
 </div>
