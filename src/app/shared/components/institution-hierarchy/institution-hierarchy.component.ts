@@ -96,8 +96,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       ).subscribe(()=> hierarchy.formControl.markAsTouched());
 
       this.hierarchyArray.push(hierarchy);
-      this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionFormControl.value.id, 1));
     });
+    this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionFormControl.value.id, 1));
   }
 
   onHierarchyLevelSelect(optionId: string, hierarchy: HierarchyElement): void {
