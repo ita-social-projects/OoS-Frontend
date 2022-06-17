@@ -34,17 +34,17 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   hierarchyArray: HierarchyElement[] = [];
-  institutionIdFormControl: FormControl;
-  private providerInstitutionId: string; 
+  institutionFormControl: FormControl;
+  private providerInstitution: Institution; 
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.providerInstitutionId = this.store.selectSnapshot<Provider>(RegistrationState.provider).institution.id;
+    this.providerInstitution = this.store.selectSnapshot<Provider>(RegistrationState.provider).institution;
 
     this.store.dispatch([
       new GetAllInstitutions(),
-      new GetFieldDescriptionByInstitutionId(this.providerInstitutionId),
+      new GetFieldDescriptionByInstitutionId(this.providerInstitution.id),
     ]);
 
     this.instituitionsHierarchy$
@@ -73,9 +73,9 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         this.createInstitutionFormGroup();
       });
 
-    this.institutionIdFormControl =  new FormControl(this.providerInstitutionId, Validators.required);
-    this.institutionIdFormControl.valueChanges.subscribe((institutionId: string) => {
-      this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
+    this.institutionFormControl =  new FormControl(this.providerInstitution, Validators.required);
+    this.institutionFormControl.valueChanges.subscribe((institution: Institution) => {
+      this.store.dispatch(new GetFieldDescriptionByInstitutionId(institution.id));
     });
   }
 
@@ -96,7 +96,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       ).subscribe(()=> hierarchy.formControl.markAsTouched());
 
       this.hierarchyArray.push(hierarchy);
-      this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionIdFormControl.value, 1));
+      this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionFormControl.value.id, 1));
     });
   }
 
@@ -116,6 +116,10 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     if(!hierarchy.formControl.value) {
       (<EventEmitter<any>>hierarchy.formControl.statusChanges).emit();
     }
+  }
+
+  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
   }
 
   ngOnDestroy(): void {

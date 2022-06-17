@@ -85,3 +85,8 @@ export class ResetInstitutionHierarchy {
   static readonly type = '[meta-data] Reset Institution Hierarchy';
   constructor() { }
 }
+
+export class GetInstitutionHierarchyParentsById {
+  static readonly type = '[meta-data] Get Institution Hierarchy Parents By Id';
+  constructor(public id: string) { }
+}

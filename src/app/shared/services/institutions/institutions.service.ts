@@ -28,4 +28,8 @@ export class InstitutionsService {
   getInstitutionHierarchyChildrenById(id: string): Observable<InstituitionHierarchy[]> {
     return this.http.get<InstituitionHierarchy[]>(`/api/v1/InstitutionHierarchy/GetChildren/${id}`);
   }
+
+  getInstitutionHierarchyParentsId(id: string): Observable<InstituitionHierarchy[]> {
+    return this.http.get<InstituitionHierarchy[]>(`/api/v1/InstitutionHierarchy/GetParents/${id}`);
+  }
 }
