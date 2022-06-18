@@ -81,7 +81,6 @@ export interface MetaDataStateModel {
     institutionFieldDesc: null,
     instituitionsHierarchy: null,
     editInstituitionsHierarchy: null,
-
   }
 
 })
