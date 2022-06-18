@@ -58,8 +58,7 @@ export interface MetaDataStateModel {
   featuresList: FeaturesList;
   institutions: Institution[];
   institutionFieldDesc: InstitutionFieldDescription[];
-  instituitionsHierarchy: InstituitionHierarchy[];
-  editInstituitionsHierarchy: InstituitionHierarchy[];
+  instituitionsHierarchy: InstituitionHierarchy[]
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -80,7 +79,6 @@ export interface MetaDataStateModel {
     institutions: null,
     institutionFieldDesc: null,
     instituitionsHierarchy: null,
-    editInstituitionsHierarchy: null,
   }
 
 })
@@ -134,9 +132,6 @@ export class MetaDataState {
 
   @Selector()
   static instituitionsHierarchy(state: MetaDataStateModel): InstituitionHierarchy[] { return state.instituitionsHierarchy; }
-
-  @Selector()
-  static editInstituitionsHierarchy(state: MetaDataStateModel): InstituitionHierarchy[] { return state.editInstituitionsHierarchy; }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -314,7 +309,7 @@ export class MetaDataState {
     return this.institutionsService
       .getInstitutionHierarchyParentsId(id)
       .pipe(
-        tap((editInstituitionsHierarchy: InstituitionHierarchy[]) => patchState({ editInstituitionsHierarchy: editInstituitionsHierarchy })
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy })
         ))
   }
   

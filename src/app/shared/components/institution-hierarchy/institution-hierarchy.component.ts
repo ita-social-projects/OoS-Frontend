@@ -4,7 +4,6 @@ import {
   GetAllByInstitutionAndLevel,
   ResetInstitutionHierarchy,
   GetInstitutionHierarchyChildrenById,
-  GetInstitutionHierarchyParentsById,
 } from './../../store/meta-data.actions';
 import { FormControl, Validators } from '@angular/forms';
 import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
@@ -32,14 +31,11 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutionFieldDesc)
   institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
-  @Select(MetaDataState.editInstituitionsHierarchy)
-  editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   hierarchyArray: HierarchyElement[] = [];
   institutionFormControl: FormControl;
   private providerInstitution: Institution; 
-  private editMode = false;
 
   constructor(private store: Store) {}
 
@@ -62,22 +58,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       });
 
     this.createInstitutioHierarchy();
-
-  }
-
-  setEditMode(): void {
-    this.store.dispatch(new GetInstitutionHierarchyParentsById(this.instituitionHierarchyIdFormControl.value));
-
-    this.editInstituitionsHierarchy$
-      .pipe(
-        filter((instituitionsHierarchy: InstituitionHierarchy[])=> !!instituitionsHierarchy),
-        tap((institutionFieldDesc: InstitutionFieldDescription[]) => institutionFieldDesc.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel))
-      ).subscribe((instituitionsHierarchy: InstituitionHierarchy[])=> {
-        for(let i = 0; i < instituitionsHierarchy.length; i ++) {
-          this.hierarchyArray[i].formControl.setValue(instituitionsHierarchy[i].id, {emitEvent: false});
-          this.onHierarchyLevelSelect(instituitionsHierarchy[i].id, this.hierarchyArray[i]);
-        }
-      })
   }
 
   createInstitutioHierarchy(): void {
@@ -117,11 +97,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
 
       this.hierarchyArray.push(hierarchy);
     });
-    if(this.editMode){
-      this.setEditMode();
-    }else{
-      this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionFormControl.value.id, 1));
-    }
+    this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionFormControl.value.id, 1));
   }
 
   onHierarchyLevelSelect(optionId: string, hierarchy: HierarchyElement): void {
