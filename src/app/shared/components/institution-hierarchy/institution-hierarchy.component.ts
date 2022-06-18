@@ -14,7 +14,7 @@ import { Institution, InstitutionFieldDescription } from '../../models/instituti
 import { Observable, Subject } from 'rxjs';
 import { MetaDataState } from '../../store/meta-data.state';
 import { GetAllInstitutions } from '../../store/meta-data.actions';
-import { tap, filter, takeUntil, take } from 'rxjs/operators';
+import { tap, filter, takeUntil, debounceTime } from 'rxjs/operators';
 import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 @Component({
   selector: 'app-institution-hierarchy',
@@ -123,6 +123,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ResetInstitutionHierarchy());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
