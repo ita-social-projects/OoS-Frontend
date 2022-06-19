@@ -59,9 +59,10 @@
             [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')">
           </app-validation-hint>
 
-          <label class="step-label"> Емейл <span class="step-required">*</span></label>
-          <mat-form-field>
-            <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
+          <label class="step-label" > Електронна пошта <span class="step-required">*</span></label>
+          <mat-form-field >
+            <mat-label></mat-label>
+            <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]='mailFormPlaceholder' >
           </mat-form-field>
           <app-validation-hint 
             [validationFormControl]="ProviderAdminFormGroup.get('email')">
@@ -76,7 +77,7 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
+          <a [routerLink]="'/personal-cabinet/administration'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(ProviderAdminFormGroup)"
             [disabled]="ProviderAdminFormGroup.invalid">Далі</button>
@@ -110,7 +111,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
+          <a [routerLink]="'/personal-cabinet/administration'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
         </div>

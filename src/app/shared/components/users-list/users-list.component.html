@@ -1,17 +1,10 @@
-<table
-  mat-table
-  [dataSource]="dataSource"
-  matSort
-  (matSortChange)="announceSortChange($event)"
-  class="mat-elevation-z8"
->
-  <!-- Name Column -->
-  <ng-container matColumnDef="pib" sticky>
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by name"
+<div class="wrapper">
+  <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
     >
       ПІБ
     </th>

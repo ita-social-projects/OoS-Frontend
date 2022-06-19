@@ -89,7 +89,7 @@ export class ApplicationCardComponent implements OnInit {
    */
   onApprove(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.approveApplication,
         property: '',

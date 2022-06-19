@@ -3,12 +3,14 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <mat-form-field floatLabel=never appearance="none">
-        <input matInput [formControl]="filter" type="text" class="search"
-          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
-      </mat-form-field>
+      <input
+        [formControl]="filter"
+        matInput
+        type="text"
+        class="search"
+        placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
+      />
     </div>
-
   </div>
 
   <div class="tab-wrapper">
@@ -33,8 +35,10 @@
 <ng-template #UsersList let-filterValue let-users="users">
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length else isEmptyList;">
-      <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
-        (blockAdmin)="onBlock($event)"></app-users-list>
+      <div class="table-wrapper">
+        <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+        (blockAdmin)="onBlock($event)" [displayedColumns]="displayedColumns"></app-users-list>
+      </div>
     </ng-container>
   </ng-container>
 </ng-template>

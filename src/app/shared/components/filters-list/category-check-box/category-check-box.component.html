@@ -1,4 +1,4 @@
-<div class="wrapper" [ngClass]="(isMobileScreen$ | async) ? 'wrapper-full-width' : ''">
+<div [ngClass]="{'wrapper-full-width': (isMobileScreen$ | async)}">
   <p class="filter-text">Напрямки</p>
   <div class="search-bar" fxLayout="row" fxLayoutAlign="space-evenly center">
     <button mat-stroked-button>
@@ -7,7 +7,7 @@
     </button>
     <mat-form-field floatLabel=never appearance="none">
       <input matInput type="text" maxlength="200" [formControl]="directionSearch" class="search" matInput
-        placeholder="Пошук за напрямком">
+        placeholder="Пошук за напрямком" autocomplete="off">
     </mat-form-field>
   </div>
   <div class="list-wrapper">

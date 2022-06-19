@@ -1,3 +1,4 @@
+import { Institution } from './institution.model';
 import { Address } from './address.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
@@ -26,6 +27,8 @@ export class Provider {
   image?: File[];
   imageIds?: string[];
   institutionStatusId?: number | null;
+  institutionType: string;
+  institution: Institution;
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
@@ -45,7 +48,9 @@ export class Provider {
     this.actualAddress = actualAddress;
     this.description = description.description;
     this.institutionStatusId = description.institutionStatusId || null;
+    this.institutionType = description.institutionType;
     this.userId = user.id;
+    this.institution = description.institution;
     if (provider?.id) {
       this.id = provider.id;
     }

@@ -1,25 +1,26 @@
-import { MatIconModule } from '@angular/material/icon';
+import { ImageCarouselComponent } from './../../../shared/components/image-carousel/image-carousel.component';
+import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { InformationPageComponent } from './information-page.component';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { Workshop } from '../../../shared/models/workshop.model';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatChipsModule } from '@angular/material/chips';
-import { Teacher } from '../../../shared/models/teacher.model';
-import { RouterTestingModule } from '@angular/router/testing';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { NgxsModule } from '@ngxs/store';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
+import { WorkshopDetailsComponent } from './workshop-details.component';
+import { Role } from 'src/app/shared/enum/role';
 
-
-describe('InformationPageComponent', () => {
-  let component: InformationPageComponent;
-  let fixture: ComponentFixture<InformationPageComponent>;
-
+describe('WorkshopDetailsComponent', () => {
+  let component: WorkshopDetailsComponent;
+  let fixture: ComponentFixture<WorkshopDetailsComponent>;
+  WorkshopDetailsComponent
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+      imports:[
         MatChipsModule,
         MatTabsModule,
         RouterTestingModule,
@@ -29,28 +30,26 @@ describe('InformationPageComponent', () => {
         NgxsModule.forRoot([]),
         BrowserAnimationsModule
       ],
-      declarations: [
-        InformationPageComponent,
+      declarations: [ 
+        WorkshopDetailsComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,
         MockReviewsComponent,
         MockWorkshopTeachersComponent,
-        MockWorkshopAboutComponent
+        MockWorkshopAboutComponent,
+        ImageCarouselComponent,
+        MockActionsComponent
       ],
-      schemas: [
-        CUSTOM_ELEMENTS_SCHEMA
-      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
-      .compileComponents();
+    .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InformationPageComponent);
+    fixture = TestBed.createComponent(WorkshopDetailsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
     component.provider = {} as Provider;
-
-
     fixture.detectChanges();
   });
 
@@ -58,7 +57,6 @@ describe('InformationPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
 @Component({
   selector: 'app-workshop-about',
   template: ''
@@ -97,6 +95,16 @@ class MockProviderAboutComponent {
   template: ''
 })
 class MockAllProviderWorkshopsComponent {
-  @Input() providerWorkshops: Workshop[];
-  @Input() role: string;
+  @Input() workshops: Workshop[];
+}
+@Component({
+  selector: 'app-actions',
+  template: ''
+})
+class MockActionsComponent {
+  @Input() role: Role;
+  @Input() workshop: Workshop;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
 }

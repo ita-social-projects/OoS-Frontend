@@ -1,3 +1,5 @@
+import { InstitutionsService } from './../services/institutions/institutions.service';
+import { Institution } from './../models/institution.model';
 import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -29,6 +31,7 @@ import {
   GetInstitutionStatus,
   ClearRatings,
   GetFeaturesList,
+  GetAllInstitutions,
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -42,13 +45,13 @@ export interface MetaDataStateModel {
   cities: City[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
-  isCity: boolean;
   filteredDirections: Direction[];
   filteredDepartments: Department[];
   filteredClasses: IClass[];
   rating: Rate[];
   isLoading: boolean;
   featuresList: FeaturesList;
+  institutions: Institution[];
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -60,13 +63,13 @@ export interface MetaDataStateModel {
     cities: null,
     socialGroups: [],
     institutionStatuses: [],
-    isCity: false,
     filteredDirections: [],
     filteredDepartments: [],
     filteredClasses: [],
     rating: [],
     isLoading: false,
     featuresList: null,
+    institutions: null,
   }
 
 })
@@ -95,9 +98,6 @@ export class MetaDataState {
   static cities(state: MetaDataStateModel): City[] { return state.cities; }
 
   @Selector()
-  static isCity(state: MetaDataStateModel): boolean { return state.isCity; }
-
-  @Selector()
   static filteredDirections(state: MetaDataStateModel): Direction[] { return state.filteredDirections; }
 
   @Selector()
@@ -115,13 +115,18 @@ export class MetaDataState {
   @Selector()
   static featuresList(state: MetaDataStateModel): FeaturesList { return state.featuresList; }
 
+  @Selector()
+  static institutions(state: MetaDataStateModel): Institution[] { return state.institutions; }
+
   constructor(
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
     private cityService: CityService,
     private ratingService: RatingService,
-    private featureManagementService: FeatureManagementService) { }
+    private featureManagementService: FeatureManagementService,
+    private institutionsService: InstitutionsService,
+    ) { }
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
@@ -198,7 +203,7 @@ export class MetaDataState {
     return this.cityService
       .getCities(payload)
       .pipe(
-        tap((cities: City[]) => patchState(cities ? { cities: cities, isCity: true } : { cities: [{ name: Constants.NO_CITY } as City], isCity: false })
+        tap((cities: City[]) => patchState(cities ? { cities: cities } : { cities: [{ name: Constants.NO_CITY } as City]})
         ))
   }
 
@@ -245,6 +250,15 @@ export class MetaDataState {
           patchState(environment.production
             ? { featuresList: featuresList }
             : { featuresList: { release1: true, release2: true, release3: false } })
+        ))
+  }
+
+  @Action(GetAllInstitutions)
+  getAllInstitutions({ patchState }: StateContext<MetaDataStateModel>, { }: GetAllInstitutions): Observable<Institution[]> {
+    return this.institutionsService
+      .getAllInstitutions()
+      .pipe(
+        tap((institutions: Institution[]) => patchState({ institutions: institutions })
         ))
   }
 
