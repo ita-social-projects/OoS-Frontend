@@ -47,6 +47,7 @@ describe('ProviderAdminsComponent', () => {
     fixture = TestBed.createComponent(ProviderAdminsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.subrole = '' as string;
   });
 
   it('should create', () => {
