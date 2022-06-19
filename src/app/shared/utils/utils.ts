@@ -158,8 +158,8 @@ export class Util {
 
       if (isInvalidCoverImage) {
         const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
-        .map((error) => `"${CodeMessageErrors[error.code]}"`)
-        .join(', ');
+          .map((error) => `"${CodeMessageErrors[error.code]}"`)
+          .join(', ');
 
         messageArr.push(`Помилка завантаження фонового зображення: ${coverImageErrorMsg}`);
         finalMessage.type = 'warningYellow';
