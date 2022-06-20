@@ -579,7 +579,7 @@ export class UserState {
   onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
-    dispatch([new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }), new GetProfile()]);
+    dispatch([new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' })]);
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
