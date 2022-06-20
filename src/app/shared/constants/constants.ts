@@ -40,6 +40,7 @@ export class Constants {
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;
   static readonly MODAL_SMALL = '500px';
+  static readonly MODAL_MEDIUM = '1024px';
 }
 
 export class PaginationConstants {
