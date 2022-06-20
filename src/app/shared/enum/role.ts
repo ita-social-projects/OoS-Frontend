@@ -3,6 +3,8 @@ export enum Role {
   parent = 'parent',
   unauthorized = 'unauthorized',
   techAdmin = 'admin',
+  ProviderDeputy = 'ProviderDeputy',
+  ProviderAdmin = 'ProviderAdmin',
   all = 'all',
   child = 'child'
 }

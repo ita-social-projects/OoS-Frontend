@@ -35,6 +35,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
+      imageIds: new FormControl(''),
       description: new FormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
@@ -109,14 +110,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       ).subscribe((isDisabilityOptionsDesc: boolean) => {
         isDisabilityOptionsDesc ? setAction('enable') : setAction('disable')
       });
-
-    this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) =>
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').setValue(disabilityOptionsDesc)
-      );
   }
 
   /**
@@ -130,14 +123,9 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       this.onKeyWordsInput(false);
     });
 
-    this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
-
     if (this.workshop.withDisabilityOptions) {
+      this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
-    }
-
-    if (this.workshop.imageIds) {
-      this.DescriptionFormGroup.addControl('imageIds', this.formBuilder.control(this.workshop.imageIds));
     }
   }
 
