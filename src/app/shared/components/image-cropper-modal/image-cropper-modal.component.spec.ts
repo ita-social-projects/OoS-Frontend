@@ -19,7 +19,7 @@ describe('ImageCropperModalComponent', () => {
         ImageCropperModalComponent,
        ],
        providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {data: {cropperConfig: {cropperConfig:1}}} },
+        { provide: MAT_DIALOG_DATA, useValue: {data: {cropperConfig: {cropperAspectRatio:1}}} },
         { provide: MatDialogRef, useValue: {} }
       ]
     })
