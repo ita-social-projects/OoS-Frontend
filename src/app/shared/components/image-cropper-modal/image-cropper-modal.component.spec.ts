@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageCropperModalComponent } from './image-cropper-modal.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('ImageCropperModalComponent', () => {
   let component: ImageCropperModalComponent;
@@ -17,7 +17,11 @@ describe('ImageCropperModalComponent', () => {
       ],
       declarations: [ 
         ImageCropperModalComponent,
-       ]
+       ],
+       providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ]
     })
     .compileComponents();
   });
