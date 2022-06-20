@@ -104,7 +104,7 @@ export class CreateProvider {
 }
 export class OnCreateProviderFail {
   static readonly type = '[user] create Provider fail';
-  constructor(public payload: Error) { }
+  constructor(public payload) { }
 }
 export class OnCreateProviderSuccess {
   static readonly type = '[user] create Provider success';

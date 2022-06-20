@@ -351,7 +351,7 @@ export class UserState {
       .createProvider(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateProviderSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateProviderFail(error))))
+        catchError((error) => of(dispatch(new OnCreateProviderFail(error))))
       );
   }
 
@@ -359,7 +359,10 @@ export class UserState {
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
+    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути уніклаьними' :
+    'На жаль виникла помилка';
+    dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
   @Action(OnCreateProviderSuccess)
