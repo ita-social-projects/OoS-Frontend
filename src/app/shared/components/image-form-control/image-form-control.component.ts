@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { Constants } from '../../constants/constants';
+import { Cropper } from '../../models/cropper';
 import { DecodedImage } from '../../models/image.model';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 @Component({
@@ -30,6 +31,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
+  @Input() cropperConfig: Cropper;
 
   constructor(public dialog: MatDialog) { }
 
@@ -114,13 +116,14 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
       maxHeight: '95vh',
       height : 'auto',
       data: {
-        image: event
+        image: event,
+        cropperConfig: this.cropperConfig,
       }
     });
 
     dialogRef.afterClosed().subscribe((image: any)  => {
       this.markAsTouched();
-      if (!this.disabled) {
+      if (!this.disabled && image) {
         this.imageDecoder(image);
         this.selectedImages.push(image);
         this.onChange(this.selectedImages);

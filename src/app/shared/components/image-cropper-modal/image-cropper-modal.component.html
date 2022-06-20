@@ -4,17 +4,15 @@
   >
   <div fxFlex="60">
     <image-cropper 
-    [imageChangedEvent]="data.image"
-    [cropperMinWidth]="512"
-    [cropperMinHeight]="512"
-    [resizeToWidth]="512"
-    [resizeToHeight]="512"
-    format="png"
-    [aspectRatio]="1 / 1"
-    (imageCropped)="imageCropped($event)"
-    (imageLoaded)="imageLoaded($event)"
-    (cropperReady)="cropperReady()"
-    (loadImageFailed)="loadImageFailed()"
+      [imageChangedEvent]="data.image"
+      [cropperMinWidth]="data.cropperConfig.cropperMinWidth"
+      [resizeToWidth]="data.cropperConfig.croppedWidth"
+      [aspectRatio]="data.cropperConfig.cropperAspectRatio"
+      format="data.cropperConfig.croppedFormat"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded($event)"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"
     ></image-cropper>
   </div>
   <div fxFlex="40">
@@ -25,5 +23,5 @@
 <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
   <button class="btn" mat-button
     cdkFocusInitial (click)="onConfirm()">ПІДТВЕРДИТИ</button>
-  <button class="btn btn-cancel" mat-button [mat-dialog-close]="false" (click)="clearCropper()">СКАСУВАТИ</button>
+  <button class="btn btn-cancel" mat-button [mat-dialog-close]="false" >СКАСУВАТИ</button>
 </mat-dialog-actions>

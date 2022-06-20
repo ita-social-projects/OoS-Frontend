@@ -1,10 +1,10 @@
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -12,6 +12,12 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    croppedWidth: CropperConfigurationConstants.croppedWidth,
+    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
+  }
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
