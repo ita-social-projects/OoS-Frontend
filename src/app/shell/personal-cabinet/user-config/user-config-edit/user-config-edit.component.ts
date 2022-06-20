@@ -56,8 +56,7 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
       ]),
       phoneNumber: new FormControl('', [
         Validators.required, 
-        Validators.minLength(ValidationConstants.PHONE_LENGTH),
-        Validators.maxLength(ValidationConstants.PHONE_LENGTH)
+        Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
     });
   }

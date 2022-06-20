@@ -33,6 +33,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
   invalidLength: boolean;
   invalidDateRange: boolean;
   invalidEmail: boolean;
+  invalidPhone: boolean;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -63,6 +64,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
+    this.invalidPhone = !errors?.minLength;
     this.invalidLength = !!(errors?.maxlength || errors?.minlength);
   }
 
