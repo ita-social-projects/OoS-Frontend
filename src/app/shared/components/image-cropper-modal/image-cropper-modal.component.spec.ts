@@ -1,6 +1,9 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageCropperModalComponent } from './image-cropper-modal.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('ImageCropperModalComponent', () => {
   let component: ImageCropperModalComponent;
@@ -8,7 +11,13 @@ describe('ImageCropperModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImageCropperModalComponent ]
+      imports: [
+        ImageCropperModule,
+        MatDialogModule,
+      ],
+      declarations: [ 
+        ImageCropperModalComponent,
+       ]
     })
     .compileComponents();
   });
@@ -23,3 +32,15 @@ describe('ImageCropperModalComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+// @Component({
+//   selector: 'image-cropper',
+//   template: ''
+// })
+// class MockPropertiesCropperComponent {
+//   @Input() imageChangedEvent: string;
+//   @Input() cropperMinWidth: string;
+//   @Input() cropperMinHeight: string;
+//   @Input() resizeToWidth: string;
+//   @Input() resizeToHeight: string;
+// }
