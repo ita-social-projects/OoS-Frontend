@@ -19,7 +19,7 @@ describe('ImageCropperModalComponent', () => {
         ImageCropperModalComponent,
        ],
        providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {data: {cropperAspectRatio: 1}} },
         { provide: MatDialogRef, useValue: {} }
       ]
     })
@@ -37,13 +37,14 @@ describe('ImageCropperModalComponent', () => {
   });
 });
 
-@Component({
-  selector: 'image-cropper',
-  template: ''
-})
-class MockPropertiesCropperComponent {
-  @Input() imageChangedEvent: string;
-  @Input() cropperMinWidth: number;
-  @Input() croppedWidth: number;
-  @Input() cropperAspectRatio: number;
-}
+// @Component({
+//   selector: 'image-cropper',
+//   template: ''
+// })
+
+// class MockCropperConfigComponent {
+//   @Input() imageChangedEvent: string;
+//   @Input() cropperMinWidth: number;
+//   @Input() croppedWidth: number;
+//   @Input() cropperAspectRatio: number;
+// }
