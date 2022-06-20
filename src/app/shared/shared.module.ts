@@ -64,6 +64,8 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +126,7 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ValidationHintComponent,
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
+    ImageCropperModalComponent,
   ],
   imports: [
     MaterialModule,
@@ -135,6 +138,7 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     NgxSliderModule,
     NgxMatTimepickerModule,
     IvyCarouselModule,
+    ImageCropperModule
   ],
   exports: [
     FiltersListComponent,
@@ -192,7 +196,8 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
-    WorkingHoursFormWrapperComponent
+    WorkingHoursFormWrapperComponent,
+    ImageCropperModalComponent
   ]
 })
 export class SharedModule { }

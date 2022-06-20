@@ -6851,6 +6851,13 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+ngx-image-cropper@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-image-cropper/-/ngx-image-cropper-5.0.1.tgz#b25650c43c49c67819fb02c053819e1a117683d0"
+  integrity sha512-WGfDJsYizOq3VE82JJkqjSjfvp+o2xrzsOwwm2rVtqNO64SvNJ8/PHP7ctkIjZmEkfjBfFE+eNZR82lLJJ+47w==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-mat-timepicker@^12.1.0:
   version "12.1.0"
   resolved "https://registry.yarnpkg.com/ngx-mat-timepicker/-/ngx-mat-timepicker-12.1.0.tgz#62fb58a5eac9c393c08286c7db110bea4ae98364"
