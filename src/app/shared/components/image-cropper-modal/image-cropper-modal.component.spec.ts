@@ -37,14 +37,13 @@ describe('ImageCropperModalComponent', () => {
   });
 });
 
-// @Component({
-//   selector: 'image-cropper',
-//   template: ''
-// })
-// class MockPropertiesCropperComponent {
-//   @Input() imageChangedEvent: string;
-//   @Input() cropperMinWidth: string;
-//   @Input() cropperMinHeight: string;
-//   @Input() resizeToWidth: string;
-//   @Input() resizeToHeight: string;
-// }
+@Component({
+  selector: 'image-cropper',
+  template: ''
+})
+class MockPropertiesCropperComponent {
+  @Input() imageChangedEvent: string;
+  @Input() cropperMinWidth: number;
+  @Input() croppedWidth: number;
+  @Input() cropperAspectRatio: number;
+}
