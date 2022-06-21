@@ -88,6 +88,7 @@ import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Location } from '@angular/common';
+import { ResponseError } from '../models/error.model';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -169,7 +170,7 @@ export class UserState {
       .getWorkshopById(payload)
       .pipe(
         tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
-        catchError((error: Error) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
+        catchError((error: ResponseError) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
   }
 
   @Action(OnGetWorkshopByIdFail)
@@ -187,7 +188,7 @@ export class UserState {
       .getProviderById(payload)
       .pipe(
         tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
-        catchError((error: Error) => of(dispatch(new OnGetProviderByIdFail(error)))));
+        catchError((error: ResponseError) => of(dispatch(new OnGetProviderByIdFail(error)))));
   }
 
   @Action(OnGetProviderByIdFail)
@@ -269,7 +270,7 @@ export class UserState {
       .createWorkshop(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateWorkshopSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateWorkshopFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnCreateWorkshopFail(error))))
       );
   }
 
@@ -300,7 +301,7 @@ export class UserState {
       .deleteWorkshop(payload.workshopId)
       .pipe(
         tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
-        catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
 
@@ -325,7 +326,7 @@ export class UserState {
       .createChild(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateChildrenFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnCreateChildrenFail(error))))
       );
   }
 
@@ -359,6 +360,7 @@ export class UserState {
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
+    console.log(payload)
     const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
     'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути уніклаьними' :
     'На жаль виникла помилка';
@@ -381,7 +383,7 @@ export class UserState {
       .createProviderAdmin(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateProviderAdminFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnCreateProviderAdminFail(error))))
       );
   }
 
@@ -406,7 +408,7 @@ export class UserState {
       .blockProviderAdmin(payload.userId, payload.providerId)
       .pipe(
         tap((res) => dispatch(new OnBlockProviderAdminSuccess(payload))),
-        catchError((error: Error) => of(dispatch(new OnBlockProviderAdminFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnBlockProviderAdminFail(error))))
       );
   }
 
@@ -430,7 +432,7 @@ export class UserState {
       .deleteProviderAdmin(payload.userId, payload.providerId)
       .pipe(
         tap((res) => dispatch(new OnDeleteProviderAdminSuccess(payload))),
-        catchError((error: Error) => of(dispatch(new OnDeleteProviderAdminFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnDeleteProviderAdminFail(error))))
       );
   }
 
@@ -454,7 +456,7 @@ export class UserState {
       .createApplication(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateApplicationSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnCreateApplicationFail(error))))
       );
   }
 
@@ -486,7 +488,7 @@ export class UserState {
       .deleteChild(payload)
       .pipe(
         tap((res) => dispatch(new OnDeleteChildSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnDeleteChildFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnDeleteChildFail(error))))
       );
   }
 
@@ -511,7 +513,7 @@ export class UserState {
       .updateWorkshop(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateWorkshopFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnUpdateWorkshopFail(error))))
       );
   }
 
@@ -527,7 +529,7 @@ export class UserState {
       .updateChild(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateChildSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnUpdateChildFail(error))))
       );
   }
 
@@ -564,7 +566,7 @@ export class UserState {
       .updateProvider(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateProviderFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnUpdateProviderFail(error))))
       );
   }
 
@@ -589,7 +591,7 @@ export class UserState {
       .updateUser(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateUserSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateUserFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnUpdateUserFail(error))))
       );
   }
 
@@ -616,7 +618,7 @@ export class UserState {
       .updateApplication(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateApplicationSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnCreateApplicationFail(error))))
       );
   }
 
@@ -640,7 +642,7 @@ export class UserState {
       .createRate(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateRatingSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateRatingFail(error))))
+        catchError((error: ResponseError) => of(dispatch(new OnCreateRatingFail(error))))
       );
   }
 
