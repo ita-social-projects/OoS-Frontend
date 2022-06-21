@@ -15,12 +15,15 @@
   <label class="step-label">Тип закладу</label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institutionType" placeholder="Оберіть підпорядкування">
+      formControlName="institutionType" placeholder="Оберіть тип закладу">
       <mat-option *ngFor="let type of (institutionTypes | keyvalue)" [value]="type.key" class="dropdown-option">
         {{type.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="PhotoFormGroup.get('institutionType')">
+  </app-validation-hint>
 
   <label class="step-label">Підпорядкування</label>
   <mat-form-field floatLabel="never" appearance="none">
