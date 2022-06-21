@@ -58,8 +58,7 @@ export class CreateInfoFormComponent implements OnInit {
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [
         Validators.required, 
-        Validators.minLength(ValidationConstants.PHONE_LENGTH),
-        Validators.maxLength(ValidationConstants.PHONE_LENGTH),
+        Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
         Validators.required, 
