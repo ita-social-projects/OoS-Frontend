@@ -69,7 +69,6 @@ export class ProviderAdminsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.btnView = providerAdminRoleUkr.all;
     this.filter.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
       .subscribe((val: string) => {
@@ -89,8 +88,8 @@ export class ProviderAdminsComponent implements OnInit {
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
+
     this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
         this.btnView = providerAdminRoleUkr[params['role']];
