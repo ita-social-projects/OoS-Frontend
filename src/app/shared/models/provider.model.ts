@@ -56,7 +56,7 @@ export class Provider {
     if (provider?.id) {
       this.id = provider.id;
     }
-    this.providerSectionItems = description.sectionItems;
+    this.providerSectionItems = description.providerSectionItems;
   }
 }
 

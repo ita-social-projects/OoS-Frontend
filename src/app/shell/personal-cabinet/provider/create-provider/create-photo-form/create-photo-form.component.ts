@@ -55,7 +55,6 @@ export class CreatePhotoFormComponent implements OnInit {
     this.store.dispatch([new GetInstitutionStatus(), new GetAllInstitutions()]);
     this.provider && this.activateEditMode();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-    this.SectionItemsFormArray.valueChanges.subscribe(val => console.log(val));
   }
 
   private activateEditMode(): void {
@@ -75,7 +74,6 @@ export class CreatePhotoFormComponent implements OnInit {
  */
   private newForm(item?: ProviderSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
-      id: new FormControl(''),
       providerId: new FormControl(this.provider.id),
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [

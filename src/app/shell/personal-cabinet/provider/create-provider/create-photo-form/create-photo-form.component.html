@@ -23,16 +23,6 @@
     </mat-select>
   </mat-form-field>
 
-  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
-    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
-    (deleteForm)="onDeleteForm($event)">
-  </app-info-form>
-
-  <button *ngIf="SectionItemsFormArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()"
-    [disabled] = "SectionItemsFormArray.invalid">
-    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
-  </button>
-
   <label class="step-label">Підпорядкування</label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
@@ -43,19 +33,13 @@
     </mat-select>
   </mat-form-field>
 
-  <div class="step-label-combined">
-    <label class="step-label"> Опис<span class="step-required">*</span></label>
-    <label class="step-characters-count">
-      {{descriptionFormGroup.value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
-    </label>
-  </div>
-  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none" >
-    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
-      formControlName="description" minlength="3" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}" appTrimValue></textarea>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="PhotoFormGroup.get('description')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
-  </app-validation-hint>
+  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
+    (deleteForm)="onDeleteForm($event)">
+  </app-info-form>
+
+  <button *ngIf="SectionItemsFormArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()"
+    [disabled] = "SectionItemsFormArray.invalid">
+    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+  </button>
 </form>
