@@ -34,6 +34,9 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="PhotoFormGroup.get('institution')">
+  </app-validation-hint>
 
   <div class="step-label-combined">
     <label class="step-label"> Опис<span class="step-required">*</span></label>
