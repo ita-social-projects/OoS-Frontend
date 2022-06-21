@@ -54,7 +54,6 @@ export class Provider {
       this.id = provider.id;
     }
     this.providerSectionItems = description.sectionItems;
-
   }
 }
 
