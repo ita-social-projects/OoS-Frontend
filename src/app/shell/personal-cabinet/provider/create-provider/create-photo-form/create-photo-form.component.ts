@@ -6,11 +6,11 @@ import { takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { InstitutionTypes } from 'src/app/shared/enum/provider';
+import { Institution } from 'src/app/shared/models/institution.model';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ProviderSectionItem } from 'src/app/shared/models/provider.model';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
-import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
+import { GetAllInstitutions, GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
@@ -25,6 +25,8 @@ export class CreatePhotoFormComponent implements OnInit {
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(MetaDataState.institutions)
+  institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
 
@@ -45,13 +47,15 @@ export class CreatePhotoFormComponent implements OnInit {
       providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
+      institution: new FormControl('', Validators.required),
     }); 
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetInstitutionStatus());
+    this.store.dispatch([new GetInstitutionStatus(), new GetAllInstitutions()]);
     this.provider && this.activateEditMode();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
+    this.SectionItemsFormArray.valueChanges.subscribe(val => console.log(val));
   }
 
   private activateEditMode(): void {
@@ -71,13 +75,13 @@ export class CreatePhotoFormComponent implements OnInit {
  */
   private newForm(item?: ProviderSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
-      name: new FormControl('', [Validators.required]),
+      sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
-      providerId: new FormControl(item?.providerId)
+      providerId: new FormControl(this.provider.id)
     });
     
     if (item){
