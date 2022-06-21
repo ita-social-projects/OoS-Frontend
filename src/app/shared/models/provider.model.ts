@@ -63,8 +63,8 @@ export class Provider {
 export class ProviderSectionItem extends SectionItem {
   providerId?: string;
 
-  constructor(info, id?) {
-    super(info, id);
+  constructor(info) {
+    super(info);
 
     if (info.providerId) {
       this.providerId = info.providerId;

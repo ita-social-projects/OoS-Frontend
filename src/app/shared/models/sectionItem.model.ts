@@ -3,11 +3,11 @@ export class SectionItem {
   sectionName?: string;
   description: string;
 
-  constructor(info, id?) {
+  constructor(info) {
     this.sectionName = info.sectionName;
     this.description = info.description;
-    if (id) {
-      this.id = id;
+    if (info.id) {
+      this.id = info.id;
     }
   }
 }

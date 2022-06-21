@@ -92,8 +92,8 @@ export class Workshop {
 export class WorkshopSectionItem extends SectionItem {
   workshopId?: string;
 
-  constructor(info, id?) {
-    super(info, id);
+  constructor(info) {
+    super(info);
 
     if (info.workshopId) {
       this.workshopId = info.workshopId;

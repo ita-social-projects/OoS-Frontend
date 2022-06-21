@@ -75,13 +75,14 @@ export class CreatePhotoFormComponent implements OnInit {
  */
   private newForm(item?: ProviderSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
+      id: new FormControl(''),
+      providerId: new FormControl(this.provider.id),
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
-      providerId: new FormControl(this.provider.id)
     });
     
     if (item){

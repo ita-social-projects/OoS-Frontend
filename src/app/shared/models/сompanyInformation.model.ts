@@ -15,8 +15,8 @@ export class CompanyInformation {
 export class СompanyInformationSectionItem extends SectionItem {
   companyInformationId?: string;
 
-  constructor(info, id?) {
-    super(info, id);
+  constructor(info) {
+    super(info);
 
     if(info.companyInformationId)
       this.companyInformationId =  info.companyInformationId;
