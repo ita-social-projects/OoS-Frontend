@@ -50,7 +50,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         departmentId: new FormControl('', Validators.required),
         classId: new FormControl('', Validators.required),
       }),
-      sectionItemsFormArray: this.SectionItemsFormArray,
+      workshopDescriptionItems: this.SectionItemsFormArray,
     });
   }
 
@@ -192,7 +192,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.DescriptionFormGroup.get('sectionItemsFormArray') as FormArray).push(
+    (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
       this.newForm()
     );
   }
