@@ -51,7 +51,7 @@ export class CreateAddressComponent implements OnInit {
     this.AddressFormGroup.reset();
     this.AddressFormGroup.get('latitude').setValue(event.latitude, { emitEvent: false });
     this.AddressFormGroup.get('longitude').setValue(event.longitude, { emitEvent: false });
-    this.AddressFormGroup.get('city').setValue(event.name);
+    this.AddressFormGroup.get('city').setValue(event.name,  { emitEvent: false });
   }
 
   onReceiveAddressFromMap(address: Address): void {
