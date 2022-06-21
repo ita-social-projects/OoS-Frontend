@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ImageCropperModalComponent } from './image-cropper-modal.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Cropper } from '../../models/cropper';
 
 describe('ImageCropperModalComponent', () => {
   let component: ImageCropperModalComponent;
@@ -19,7 +20,7 @@ describe('ImageCropperModalComponent', () => {
         ImageCropperModalComponent,
        ],
        providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {data: {cropperConfig: {cropperAspectRatio:1}}} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
     })
@@ -29,6 +30,8 @@ describe('ImageCropperModalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ImageCropperModalComponent);
     component = fixture.componentInstance;
+    component.data.cropperConfig = {} as Cropper;
+    component.data.cropperConfig.cropperAspectRatio = 1;
     fixture.detectChanges();
   });
 
@@ -36,15 +39,3 @@ describe('ImageCropperModalComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-// @Component({
-//   selector: 'image-cropper',
-//   template: ''
-// })
-
-// class MockCropperConfigComponent {
-//   @Input() imageChangedEvent: string;
-//   @Input() cropperMinWidth: number;
-//   @Input() croppedWidth: number;
-//   @Input() cropperAspectRatio: number;
-// }
