@@ -42,7 +42,7 @@ export class CreatePhotoFormComponent implements OnInit {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       description: this.descriptionFormGroup,
-      sectionItemsFormArray: this.SectionItemsFormArray,
+      providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
     }); 
@@ -91,7 +91,7 @@ export class CreatePhotoFormComponent implements OnInit {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.PhotoFormGroup.get('sectionItemsFormArray') as FormArray).push(this.newForm());
+    (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
   }
 
   /**
