@@ -4,5 +4,5 @@ export interface Cropper {
   croppedFormat: string;
   cropperMinWidth: number;
   cropperMinHeight?: number;
-  cropperAspectRatio?: number;
+  cropperAspectRatio: number;
 }
