@@ -1,7 +1,7 @@
 <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
   [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
 
-  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="avatarImage"
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [cropperConfig]="cropperConfig" [label]="'Фото викладача'" formControlName="avatarImage"
     [imageIdsFormControl]="TeacherFormGroup.get('avatarImageId')">
   </app-image-form-control>
 
