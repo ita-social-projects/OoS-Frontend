@@ -175,13 +175,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
       ]),
+      workshopId: new FormControl(item?.workshopId)
     });
 
     if (item) {
-      EditFormGroup.addControl(
-        'workshopId',
-        this.formBuilder.control(item.workshopId)
-      );
       EditFormGroup.patchValue(item, { emitEvent: false });
     }
 
