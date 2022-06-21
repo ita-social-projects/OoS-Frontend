@@ -55,7 +55,7 @@ export class ProviderAdminsComponent implements OnInit {
   provider: Provider;
   filter = new FormControl('');
   filterValue: string;
-  btnView: string= providerAdminRoleUkr.all;
+  btnView: string = providerAdminRoleUkr.all;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
   subrole: string;
@@ -69,6 +69,7 @@ export class ProviderAdminsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.btnView = providerAdminRoleUkr.all;
     this.filter.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
       .subscribe((val: string) => {

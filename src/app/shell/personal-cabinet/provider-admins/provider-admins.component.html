@@ -12,7 +12,7 @@
         placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
       />
     </div>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.all && subrole !== Role.ProviderAdmin">
+    <ng-template [ngIf]="btnView === providerAdminRoleUkr.all">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         Додати <mat-icon>arrow_drop_down</mat-icon>
       </button>
