@@ -37,7 +37,7 @@ export class Workshop {
   imageIds?: string[];
   coverImage?: File[];
   coverImageId?: string[];
-  workshopSectionItems: WorkshopSectionItem[];
+  workshopDescriptionItems: WorkshopSectionItem[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -85,7 +85,7 @@ export class Workshop {
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
     }
-    this.workshopSectionItems = description.sectionItems;
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
   }
 }
 

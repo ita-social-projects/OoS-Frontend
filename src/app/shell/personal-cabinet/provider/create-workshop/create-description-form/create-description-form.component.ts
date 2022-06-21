@@ -130,6 +130,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
+
+    if (this.workshop.workshopDescriptionItems?.length) {
+      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => this.SectionItemsFormArray.push(this.newForm(item)))
+    } else {
+      this.onAddForm();
+    }
   }
 
   /**
@@ -144,13 +150,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   private newForm(item?: WorkshopSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
+      workshopId: new FormControl(this.workshop.id),
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
       ]),
-      workshopId: new FormControl(item?.workshopId)
     });
 
     if (item) {
