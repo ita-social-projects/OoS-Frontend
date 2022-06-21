@@ -91,8 +91,7 @@ export class ProviderAdminsComponent implements OnInit {
 
     this.route.queryParams
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
-        this.btnView = providerAdminRoleUkr[params['role']];
+        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);      
       });
 
     this.provider$
