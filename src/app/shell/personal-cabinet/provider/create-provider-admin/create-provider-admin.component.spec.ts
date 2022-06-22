@@ -10,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-
 import { CreateProviderAdminComponent } from './create-provider-admin.component';
 
 describe('CreateProviderAdminComponent', () => {
@@ -34,7 +33,7 @@ describe('CreateProviderAdminComponent', () => {
         CreateProviderAdminComponent,
         MockValidationHintForInputComponent,
         MockWorkshopChekcboxDropdownComponent
-       ]
+      ]
     })
     .compileComponents();
   });
@@ -49,7 +48,6 @@ describe('CreateProviderAdminComponent', () => {
       phoneNumber: new FormControl(),
       email: new FormControl(),
     });
-    fixture.detectChanges();
   });
 
   it('should create', () => {
