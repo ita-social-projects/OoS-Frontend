@@ -14,7 +14,6 @@ export class Workshop {
   minAge: number;
   maxAge: number;
   price: number;
-  description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
   keywords?: string[];
@@ -46,7 +45,6 @@ export class Workshop {
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
-    this.description = description.description;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
