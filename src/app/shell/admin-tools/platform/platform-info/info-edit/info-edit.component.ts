@@ -22,6 +22,8 @@ import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyIn
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
+  
   @Select(AdminState.AboutPortal)
   AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
