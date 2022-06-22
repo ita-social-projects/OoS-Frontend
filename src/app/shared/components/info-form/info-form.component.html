@@ -14,16 +14,16 @@
   <div class="step-label-combined">
     <label class="step-label"> Опис <span class="step-required">*</span></label>
     <label class="step-characters-count">
-      {{InfoEditFormGroup.get('description').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}</label>
+      {{InfoEditFormGroup.get('description').value.length}}/{{maxDescriptionLength}}</label>
   </div>
   <mat-form-field appearance="none">
-    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
-      formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}" appTrimValue></textarea>
+    <textarea matInput class="step-textarea" placeholder="Максимум {{maxDescriptionLength}} символів"
+      formControlName="description" maxlength="{{maxDescriptionLength}}" appTrimValue></textarea>
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="InfoEditFormGroup.get('description')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+    [maxCharachters]="maxDescriptionLength">
   </app-validation-hint>
   
   <div fxLayout="row" fxLayoutAlign="center" *ngIf="formAmount > 1">

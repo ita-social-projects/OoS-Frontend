@@ -13,6 +13,7 @@ export class InfoFormComponent {
   @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
 
   @Output() deleteForm = new EventEmitter();
 

@@ -18,7 +18,7 @@
 
       <app-info-form *ngFor="let form of PlatformInfoItemArray.controls" [InfoEditFormGroup]="form"
         [index]="PlatformInfoItemArray.controls.indexOf(form)" [formAmount]="PlatformInfoItemArray.controls.length"
-        (deleteForm)="onDeleteForm($event)">
+        [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000" (deleteForm)="onDeleteForm($event)">
       </app-info-form>
 
       <button *ngIf="PlatformInfoItemArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()">
