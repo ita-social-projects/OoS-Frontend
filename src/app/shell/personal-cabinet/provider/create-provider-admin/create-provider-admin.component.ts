@@ -19,6 +19,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -35,6 +36,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly validationConstants = ValidationConstants;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
