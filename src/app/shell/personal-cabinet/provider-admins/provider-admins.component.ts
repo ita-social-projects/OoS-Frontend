@@ -90,8 +90,9 @@ export class ProviderAdminsComponent implements OnInit {
       });
 
     this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);      
+        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
       });
 
     this.provider$
@@ -100,7 +101,7 @@ export class ProviderAdminsComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((provider: Provider) => (this.provider = provider));
-    
+
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
   }
 
