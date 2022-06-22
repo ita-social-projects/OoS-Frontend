@@ -16,11 +16,11 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab label="{{applicationTitles.All}}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCard$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles.Pending}}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCard$| async }">
         </ng-container>
       </mat-tab>
       <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
@@ -28,15 +28,15 @@
         </ng-container>
       </mat-tab> TODO: display when functionality is ready -->
       <mat-tab label="{{applicationTitles.Approved}}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCard$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles.Rejected}}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCard$ | async }">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles.Left}}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$ | async }">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCard$ | async }">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -64,11 +64,11 @@
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
         <mat-tab label="Усі">
-          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCard$ | async }">
           </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Pending]}}">
-          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCard$ | async }">
           </ng-container>
         </mat-tab>
         <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
@@ -76,24 +76,28 @@
           </ng-container>
         </mat-tab> TODO: display when functionality is ready -->
         <mat-tab label="{{applicationTitles[applicationStatus.Approved]}}">
-          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCard$ | async }">
           </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Rejected]}}">
-          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCard$ | async }">
           </ng-container>
         </mat-tab>
         <mat-tab label="{{applicationTitles[applicationStatus.Left]}}">
-          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applications$ | async }">
+          <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCard$ | async }">
           </ng-container>
         </mat-tab>
       </mat-tab-group>
     </div>
 
+  <app-paginator  [totalEntities]="(applicationsCard$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="applicationsPerPage$ | async"
+    (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-paginator>
+
 </ng-template>
 
 <ng-template #Applications let-applications>
-  <app-application-card *ngFor="let application of applications" [application]="application" [userRole]="role"
+  <app-application-card *ngFor="let application of (applicationsCard$ | async)?.entities" [application]="application" [userRole]="role"
     (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
     (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
   </app-application-card>
@@ -101,7 +105,7 @@
 
 <ng-template #ProviderApplication let-applications>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="applications?.length else isEmptyList;">
+    <ng-container *ngIf="(applicationCard$ | async)?.length else isEmptyList;">
       <ng-container *ngTemplateOutlet="Applications; context:{$implicit: applications}">
       </ng-container>
     </ng-container>
@@ -110,11 +114,11 @@
 
 <ng-template #ParentApplication let-applications>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="applications?.length else isEmptyList;">
+    <ng-container *ngIf="(applicationCard$ | async)?.length else isEmptyList;">
 
-      <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">
-        <div *ngFor="let child of filteredChildren | applicationChildSorting : applications">
-          <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child, child: child }">
+      <div *ngIf="filteredChildren?.length && (applicationCard$ | async)?.length; else isEmptyList">
+        <div *ngFor="let child of filteredChildren | applicationChildSorting : applicationCard">
+          <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applicationCard$ | async | applicationChildFilter : child, child: child }">
           </ng-container>
         </div>
       </div>

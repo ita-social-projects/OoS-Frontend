@@ -3,13 +3,14 @@ import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { PaginationElement } from "../models/paginationElement.model";
 import { GetFilteredDirections } from "./admin.actions";
 import { GetFilteredWorkshops } from "./filter.actions";
-import { OnPageChangeChildrens, OnPageChangeDirections, OnPageChangeWorkshops, SetChildrensPerPage, SetDirectionsPerPage, SetFirstPage, SetWorkshopsPerPage, } from "./paginator.actions";
-import { GetUsersChildren } from "./user.actions";
+import { OnPageChangeApplications, OnPageChangeChildrens, OnPageChangeDirections, OnPageChangeWorkshops, SetApplicationsPerPage, SetChildrensPerPage, SetDirectionsPerPage, SetFirstPage, SetWorkshopsPerPage, } from "./paginator.actions";
+import { GetApplicationsByProviderId, GetUsersChildren } from "./user.actions";
 
 export interface PaginatorStateModel {
   workshopsPerPage: number;
   directionsPerPage: number;
   childrensPerPage: number;
+  applicationsPerPage: number;
   currentPage: PaginationElement;
 }
 @State<PaginatorStateModel>({
@@ -18,6 +19,7 @@ export interface PaginatorStateModel {
     workshopsPerPage: 12,
     directionsPerPage: 10,
     childrensPerPage: 12,
+    applicationsPerPage: 5,
     currentPage: {
       element: 1,
       isActive: true
@@ -33,6 +35,8 @@ export class PaginatorState {
   @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; };
 
   @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
+
+  @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; };
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
@@ -56,6 +60,12 @@ export class PaginatorState {
     dispatch(new GetUsersChildren());
   }
 
+  @Action(SetApplicationsPerPage)
+  setApplicationsPerPage({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: SetApplicationsPerPage): void {
+    patchState({ applicationsPerPage: payload });
+
+  }
+
   @Action(OnPageChangeDirections)
   onPageChangeDirections({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeDirections): void {
     patchState({ currentPage: payload });
@@ -77,6 +87,11 @@ export class PaginatorState {
   onPageChange({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
     patchState({ currentPage: payload });
     dispatch( new GetUsersChildren());
+  }
+
+  @Action(OnPageChangeApplications)
+  onPageChangeApplications({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeApplications): void {
+    patchState({ currentPage: payload });
   }
 }
 

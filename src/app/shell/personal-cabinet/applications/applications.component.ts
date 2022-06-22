@@ -1,14 +1,14 @@
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
-import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
+import { Application, ApplicationCards, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -18,6 +18,11 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
 import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { Observable } from 'rxjs';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 
 
 @Component({
@@ -27,6 +32,9 @@ import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumU
 })
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit {
 
+  @Select(PaginatorState.applicationsPerPage)
+  directionsPerPage$: Observable<number>;
+
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
 
@@ -34,14 +42,20 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   tabIndex: number;
   providerApplicationParams: {
     status: string,
-    workshopsId: string[]
+    showBlocked: boolean,
+    workshopsId: string[],
   } = {
       status: undefined,
+      showBlocked: true,
       workshopsId: []
     };
   isSelectedChildCheckbox = false;
   ChildDeclination = ChildDeclination;
   WorkshopDeclination = WorkshopDeclination;
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -66,7 +80,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     this.getUserData();
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])      
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])
       );
 
     this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
@@ -144,6 +158,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
     const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
     tabLabel : null;
+    const showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked]
+    this.providerApplicationParams.showBlocked = showBlocked;
     if (this.role === Role.provider) {
       this.providerApplicationParams.status = status;
       this.getProviderApplications(this.providerApplicationParams);
@@ -177,5 +193,14 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new OnPageChangeApplications(page));
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
   }
 }

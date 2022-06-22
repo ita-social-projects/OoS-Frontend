@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Application } from '../models/application.model';
+import { Application, ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
@@ -94,7 +94,7 @@ export interface UserStateModel {
   workshops: WorkshopCard[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
-  applications: Application[];
+  applicationsCard: ApplicationCards;
   children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
@@ -108,7 +108,7 @@ export interface UserStateModel {
     workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: null,
+    applicationsCard: null,
     children: undefined,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
@@ -135,7 +135,7 @@ export class UserState {
   static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop; }
 
   @Selector()
-  static applications(state: UserStateModel): Application[] { return state.applications; }
+  static applications(state: UserStateModel): ApplicationCards { return state.applicationsCard; }
 
   @Selector()
   static children(state: UserStateModel): ChildCards { return state.children; }
@@ -210,24 +210,24 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, status }: GetApplicationsByParentId): Observable<Application[]> {
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, status }: GetApplicationsByParentId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByParentId(id, status)
       .pipe(
-        tap((applications: Application[]) => {
-          return patchState({ applications: applications, isLoading: false });
+        tap((applicationsCard: ApplicationCards) => {
+          return patchState({ applicationsCard: applicationsCard, isLoading: false });
         }));
   }
 
   @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<Application[]> {
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
-        tap((applications: Application[]) => {
-          return patchState({ applications: applications, isLoading: false });
+        tap((applicationsCard: ApplicationCards) => {
+          return patchState({ applicationsCard: applicationsCard, isLoading: false });
         }));
   }
 

@@ -20,7 +20,7 @@
   <ng-container>
     <div class="card-wrapper">
       <app-child-card class="card" *ngFor="let child of (childrenCards$ | async)?.entities" [child]="child"
-        (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
+        (deleteChild)="onDelete($event)" [applications]="childApplications(applicationCard$ |async, child)">
       </app-child-card>
     </div>
     <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="childrensPerPage$ | async"
