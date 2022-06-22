@@ -92,4 +92,5 @@ class MockInfoFormComponent {
   @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
 }

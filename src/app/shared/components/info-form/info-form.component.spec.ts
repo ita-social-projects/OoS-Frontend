@@ -52,4 +52,5 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() validationFormControl: FormControl;
+  @Input() maxDescriptionLength: number;
 }
