@@ -83,6 +83,9 @@
   border-radius: 20px;
   margin-bottom: 20px;
 }
+.more-details {
+  width: 144px;
+}
 
 @media (max-width: 750px) {
   :host.application-workshop .horizontal {
@@ -121,7 +124,7 @@
     }
     ::ng-deep .mat-card-header-text {
       margin: 0;
-    }
+    }    
     .card-title, .mat-card-header{
       font-size: 15px;
     }
