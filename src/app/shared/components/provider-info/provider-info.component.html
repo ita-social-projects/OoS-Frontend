@@ -73,10 +73,12 @@
         <p class="description">{{ this.currentStatus }}</p>
         <h5>Тип закладу</h5>
         <p class="description">{{ institutionTypes[provider.institutionType] }}</p>
-        <h5>Підпорядкування</h5>
-        <p class="description">{{ provider.institution.title }}</p>
+        <ng-container *ngIf="provider.institution">
+          <h5>Підпорядкування</h5>
+          <p class="description">{{ provider.institution.title }}</p>
+        </ng-container>
         <h5>Про заклад</h5>
-        <p class="description">{{ provider?.description }}</p>
+        <p class="description">{{ provider.description }}</p>
       </mat-tab>
     </mat-tab-group>
   </div>
