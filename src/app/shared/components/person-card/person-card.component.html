@@ -16,7 +16,7 @@
   </div>
   <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card-label">Дата народження</label>
-  <p>{{card.dateOfBirth | date: constants.SHORT_DATE_FORMAT}}</p>
+  <p>{{ card.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}</p>
   <label class="card-label">Стать дитини</label>
   <p> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
   <label class="card-label">Соціальна група</label>

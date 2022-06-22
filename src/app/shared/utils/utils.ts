@@ -1,5 +1,6 @@
 import { map } from 'rxjs/internal/operators/map';
 import { Constants } from '../constants/constants';
+import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { Child } from '../models/child.model';
 import { UsersTable } from '../models/usersTable';
 
@@ -129,4 +130,57 @@ export class Util {
   });
   return updatedUsers;
 }
+
+  /**
+   * This method returns union message for the workshop updating
+   * @param payload Object
+   * @returns string
+   */
+    public static getWorkshopMessage(payload) {
+      let finalMessage = {text: '', type: 'success'};
+      let messageArr = [];
+
+      let isInvalidCoverImage = false;
+      let isInvalidGaleryImages = false;
+      let statuses, invalidImages;
+      
+      if (payload.uploadingCoverImageResult) {
+        isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded
+      }
+
+      if (payload.uploadingImagesResults) {
+        statuses = Object.entries(payload.uploadingImagesResults?.results);
+        invalidImages = statuses.filter((result) => !result[1]['succeeded']);
+        isInvalidGaleryImages = !!invalidImages.length;
+      }
+
+      messageArr.push(`Гурток оновлено!`);
+
+      if (isInvalidCoverImage) {
+        const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
+          .map((error) => `"${CodeMessageErrors[error.code]}"`)
+          .join(', ');
+
+        messageArr.push(`Помилка завантаження фонового зображення: ${coverImageErrorMsg}`);
+        finalMessage.type = 'warningYellow';
+
+      }
+  
+      if (isInvalidGaleryImages) {
+        let errorCodes = new Set();
+        invalidImages.map(img => img[1]).forEach((img) => img['errors'].forEach((error) => errorCodes.add(error.code)));
+        const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
+        const indexes = invalidImages.map(img => img[0]);
+        const quantityMsg = (indexes.length > 1) ?
+          `у ${indexes.length} зображень` :
+          `у ${+indexes[0] + 1}-го зображення`;
+
+          messageArr.push(`Помилка завантаження ${quantityMsg} для галереї: ${errorMsg}`);
+          finalMessage.type = 'warningYellow';
+      }
+
+      finalMessage.text = messageArr.join(';\n');
+
+      return finalMessage;
+    }
 }

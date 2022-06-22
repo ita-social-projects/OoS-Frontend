@@ -24,11 +24,10 @@ export class CreateInfoFormComponent implements OnInit {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
 
-  InfoFormGroup: FormGroup;
-
   @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();
 
+  InfoFormGroup: FormGroup;
   dateFilter: RegExp = DATE_REGEX;
   maxDate: Date = Util.getMaxBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);

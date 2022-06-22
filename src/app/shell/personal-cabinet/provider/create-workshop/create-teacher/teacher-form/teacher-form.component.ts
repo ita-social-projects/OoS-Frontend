@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';

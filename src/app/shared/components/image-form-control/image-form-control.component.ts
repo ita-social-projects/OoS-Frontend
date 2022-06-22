@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
@@ -64,12 +64,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.decodedImages.splice(imageIndex, 1);
         if (img.imgFile) {
           this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
-          this.onChange(this.selectedImages);
-        } else {
-          if (this.imageIdsFormControl) {
-            this.imageIdsFormControl.value.splice(imageIndex, 1);
-          }
         }
+        if (this.imageIdsFormControl) {
+          this.imageIdsFormControl.value.splice(imageIndex, 1);
+        }
+        this.onChange(this.selectedImages);
       }
     }
   }

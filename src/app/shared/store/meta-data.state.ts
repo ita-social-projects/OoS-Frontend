@@ -1,3 +1,5 @@
+import { InstitutionsService } from './../services/institutions/institutions.service';
+import { Institution } from './../models/institution.model';
 import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -29,6 +31,7 @@ import {
   GetInstitutionStatus,
   ClearRatings,
   GetFeaturesList,
+  GetAllInstitutions,
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -48,6 +51,7 @@ export interface MetaDataStateModel {
   rating: Rate[];
   isLoading: boolean;
   featuresList: FeaturesList;
+  institutions: Institution[];
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -65,6 +69,7 @@ export interface MetaDataStateModel {
     rating: [],
     isLoading: false,
     featuresList: null,
+    institutions: null,
   }
 
 })
@@ -110,13 +115,18 @@ export class MetaDataState {
   @Selector()
   static featuresList(state: MetaDataStateModel): FeaturesList { return state.featuresList; }
 
+  @Selector()
+  static institutions(state: MetaDataStateModel): Institution[] { return state.institutions; }
+
   constructor(
     private categoriesService: CategoriesService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
     private cityService: CityService,
     private ratingService: RatingService,
-    private featureManagementService: FeatureManagementService) { }
+    private featureManagementService: FeatureManagementService,
+    private institutionsService: InstitutionsService,
+    ) { }
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, { }: GetDirections): Observable<Direction[]> {
@@ -240,6 +250,15 @@ export class MetaDataState {
           patchState(environment.production
             ? { featuresList: featuresList }
             : { featuresList: { release1: true, release2: true, release3: false } })
+        ))
+  }
+
+  @Action(GetAllInstitutions)
+  getAllInstitutions({ patchState }: StateContext<MetaDataStateModel>, { }: GetAllInstitutions): Observable<Institution[]> {
+    return this.institutionsService
+      .getAllInstitutions()
+      .pipe(
+        tap((institutions: Institution[]) => patchState({ institutions: institutions })
         ))
   }
 

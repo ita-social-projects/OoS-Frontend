@@ -15,8 +15,8 @@ export class Teacher {
     this.middleName = info.middleName;
     this.dateOfBirth = new Date(info.dateOfBirth).toISOString();
     this.description = info.description;
-    if (info.teacherId) {
-      this.id = info.teacherId;
+    if (info.id) {
+      this.id = info.id;
     }
     if (info.avatarImage?.length) {
       this.avatarImage = info.avatarImage[0];

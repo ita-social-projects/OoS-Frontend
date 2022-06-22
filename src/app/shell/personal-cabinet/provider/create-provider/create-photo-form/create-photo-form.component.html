@@ -15,12 +15,23 @@
   <label class="step-label">Тип закладу</label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institutionType">
+      formControlName="institutionType" placeholder="Оберіть підпорядкування">
       <mat-option *ngFor="let type of (institutionTypes | keyvalue)" [value]="type.key" class="dropdown-option">
         {{type.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <label class="step-label">Підпорядкування</label>
+  <mat-form-field floatLabel="never" appearance="none">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+      formControlName="institution" placeholder="Оберіть підпорядкування">
+      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution" class="dropdown-option">
+        {{institution.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div class="step-label-combined">
     <label class="step-label"> Опис<span class="step-required">*</span></label>
     <label class="step-characters-count">
