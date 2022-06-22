@@ -27,6 +27,7 @@ import { NotificationsListComponent } from '../shared/components/notifications/n
 import { IsMobileGuard } from './is-mobile.guard';
 import { RulesComponent } from './info/rules/rules.component';
 import { DetailsComponent } from './details/details.component';
+import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -98,6 +99,10 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-achievment', component: CreateAchievementComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
   },
   {
     path: 'create-provider/:param', component: CreateProviderComponent,
