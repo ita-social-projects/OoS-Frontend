@@ -48,7 +48,7 @@ export class Provider {
     this.founder = info.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
-    this.description = '';
+    this.description = '_';
     this.institutionStatusId = description.institutionStatusId || null;
     this.institutionType = description.institutionType;
     this.userId = user.id;
