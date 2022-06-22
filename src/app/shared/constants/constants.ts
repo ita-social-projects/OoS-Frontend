@@ -101,6 +101,7 @@ export class NotificationsConstants {
 
 export class CropperConfigurationConstants {
   static readonly cropperMinWidth = 512;
+  static readonly galleryImagesCropperMinWidth = 896;
   static readonly cropperMinHeight = 512;
   static readonly defaultCropperAspectRatio = 1/1;
   static readonly coverImageCropperAspectRatio = 5/3;

@@ -13,7 +13,7 @@ import { CropperConfigurationConstants } from 'src/app/shared/constants/constant
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   readonly cropperConfig = {
-    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMinWidth: CropperConfigurationConstants.galleryImagesCropperMinWidth,
     croppedWidth: CropperConfigurationConstants.croppedWidth,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
