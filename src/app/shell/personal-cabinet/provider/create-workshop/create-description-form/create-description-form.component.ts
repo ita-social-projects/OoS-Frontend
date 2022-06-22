@@ -182,5 +182,4 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   onDeleteForm(index: number): void {
     this.SectionItemsFormArray.removeAt(index);
   }
-
 }
