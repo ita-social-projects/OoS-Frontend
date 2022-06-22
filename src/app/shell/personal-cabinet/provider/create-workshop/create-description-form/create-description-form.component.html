@@ -8,7 +8,7 @@
     (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
-  <button *ngIf="SectionItemsFormArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()">
+  <button *ngIf="SectionItemsFormArray.controls.length < 10" [disabled]="SectionItemsFormArray.invalid" class="btn-add" mat-button (click)="onAddForm()">
     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
   </button>
 

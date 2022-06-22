@@ -36,11 +36,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
-      description: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
-      ]),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
