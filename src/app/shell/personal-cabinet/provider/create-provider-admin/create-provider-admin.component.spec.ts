@@ -76,4 +76,5 @@ class MockValidationHintForInputComponent {
 class MockWorkshopChekcboxDropdownComponent {
   @Input() workshops: Workshop[];
   @Input() dropdownContainerClass: string;
+  @Input() declination: string;
 }
