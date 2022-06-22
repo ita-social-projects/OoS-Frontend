@@ -74,8 +74,13 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   ngOnInit(): void {
+    this.provider$.pipe(
+      filter((provider: Provider) => !!provider),
+      takeUntil(this.destroy$)
+    ).subscribe((provider: Provider) => this.provider = provider);
+
     if(!this.isDeputy){
-      this.getProviderWorkshops();
+      this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     }
   }
   
@@ -84,16 +89,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   addNavPath(): void { } //TODO: add nav path
-
-  getProviderWorkshops(): void {
-    this.provider$.pipe(
-      filter((provider: Provider) => !!provider),
-      takeUntil(this.destroy$)
-    ).subscribe((provider: Provider) => {
-      this.provider = provider;
-      this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
-    });
-  }
 
   onWorkshopsSelect(workshopsId: string[]): void {
     this.managedWorkshopIds = workshopsId;
