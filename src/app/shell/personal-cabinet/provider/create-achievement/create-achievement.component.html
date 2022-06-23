@@ -20,7 +20,8 @@
         </mat-form-field>
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
+          <mat-select multiple panelClass="dropdown-panel" class="step-input"
+            [formControl]="ChildFormControl" name="child">
             <mat-option *ngFor="let child of children$" [value]="child" class="dropdown-option">
               {{child.lastName}} {{child.firstName}}
             </mat-option>

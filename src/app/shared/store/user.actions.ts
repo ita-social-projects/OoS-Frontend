@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { PaginationElement } from '../models/paginationElement.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
+import { Achievement } from '../models/achievement.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -145,6 +146,18 @@ export class OnDeleteProviderAdminSuccess {
 export class OnDeleteProviderAdminFail {
   static readonly type = '[user] delete Provider Admin fail';
   constructor(public payload) { }
+}
+export class CreateAchievement {
+  static readonly type = '[user] create Achievement';
+  constructor(public payload: Achievement) {}
+}
+export class OnCreateAchievementFail {
+  static readonly type = '[user] create Achievement fail';
+  constructor(public payload) {}
+}
+export class OnCreateAchievementSuccess {
+  static readonly type = '[user] create Achievement success';
+  constructor(public payload) {}
 }
 export class CreateApplication {
   static readonly type = '[user] create Application';
