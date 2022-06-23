@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Achievement } from '../../models/achievement.model';
 
@@ -8,7 +7,7 @@ import { Achievement } from '../../models/achievement.model';
   providedIn: 'root',
 })
 export class AchievementsService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   getAchievementsByWorkshopId(id: string): Observable<Achievement[]> {
     return this.http.get<Achievement[]>(
