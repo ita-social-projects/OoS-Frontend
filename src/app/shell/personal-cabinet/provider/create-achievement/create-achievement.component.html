@@ -10,7 +10,7 @@
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let child of children$" [value]="child" class="dropdown-option">
+            <mat-option *ngFor="let child of children$" [value]="child">
               {{child.lastName}} {{child.firstName}}
             </mat-option>
           </mat-select>

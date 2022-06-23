@@ -91,7 +91,7 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create-achievment/:param', component: CreateAchievementComponent,
+    path: 'create-achievement/:param', component: CreateAchievementComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
   },
   {
@@ -105,7 +105,7 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create-achievment', component: CreateAchievementComponent,
+    path: 'create-achievement', component: CreateAchievementComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
   },
   {
