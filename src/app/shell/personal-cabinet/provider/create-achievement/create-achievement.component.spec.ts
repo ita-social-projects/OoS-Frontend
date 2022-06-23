@@ -2,8 +2,10 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -28,7 +30,9 @@ describe('CreateAchievementComponent', () => {
         BrowserAnimationsModule,
         HttpClientModule,
         RouterModule.forRoot([]),
-
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule
       ],
       declarations: [CreateAchievementComponent],
       providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }]
