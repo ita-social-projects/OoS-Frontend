@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { takeUntil } from 'rxjs/operators';
+import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
 @Component({
@@ -7,7 +13,10 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
   styleUrls: ['./create-achievement.component.scss'],
 })
 export class CreateAchievementComponent implements OnInit {
-  @Input() workshop: Workshop;
+  // @Select(UserState.selectedWorkshop)
+  // workshop$: Observable<Workshop>;
+  // workshop: Workshop;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   children$ = [
     { lastName: 'Тетерукова', firstName: 'Дарина' },
@@ -15,7 +24,14 @@ export class CreateAchievementComponent implements OnInit {
     { lastName: 'Малинка', firstName: 'Малина' },
   ];
 
-  constructor() {}
+  constructor(private store: Store, private route: ActivatedRoute, private router: Router,) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => {
+        console.log('this.router.url', params.param);        
+      });
+    // this.setDataSubscribtion();
+  }
 }
