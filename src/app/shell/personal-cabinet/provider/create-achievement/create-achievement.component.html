@@ -25,9 +25,11 @@
         <label class="step-label">Тренер<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let teacher of workshop.teachers" [value]="child" class="dropdown-option">
-              {{teacher.lastName}} {{teacher.firstName}}
-            </mat-option>
+            <ng-container *ngIf="workshop">
+              <mat-option *ngFor="let teacher of workshop.teachers" [value]="child" class="dropdown-option">
+                {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
+              </mat-option>
+            </ng-container>
           </mat-select>
         </mat-form-field>
       </form>

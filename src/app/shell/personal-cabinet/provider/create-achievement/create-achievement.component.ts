@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -11,7 +10,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
   templateUrl: './create-achievement.component.html',
   styleUrls: ['./create-achievement.component.scss'],
 })
-export class CreateAchievementComponent implements OnInit {
+export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -32,12 +31,15 @@ export class CreateAchievementComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.workshopId = params.param;
-        console.log('this.router.url', params.param);        
       });
     this.userWorkshopService.getWorkshopById(this.workshopId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop) => {
         this.workshop = workshop;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }
