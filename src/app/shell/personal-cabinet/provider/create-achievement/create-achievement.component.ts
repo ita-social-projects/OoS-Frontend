@@ -58,11 +58,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.workshopId = params.param;
-      });
+    this.workshopId = this.route.snapshot.paramMap.get('param');
     this.userWorkshopService
       .getWorkshopById(this.workshopId)
       .pipe(takeUntil(this.destroy$))
