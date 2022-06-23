@@ -1,5 +1,5 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
@@ -14,11 +14,11 @@ enum ValidatorsTypes {
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html',
 })
-export class ValidationHintComponent implements OnInit, OnDestroy {
+export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
   @Input() validationFormControl: FormControl = new FormControl(); //required for validation
-
+  @Input() isTouched: boolean; //required for dropdowns that doesn't touched
   //for Length Validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
@@ -59,6 +59,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
       //Check errors for invalid text field 
       this.checkInvalidText(errors);
     })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.isTouched) {
+      (<EventEmitter<any>>this.validationFormControl.statusChanges).emit();
+    }
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
