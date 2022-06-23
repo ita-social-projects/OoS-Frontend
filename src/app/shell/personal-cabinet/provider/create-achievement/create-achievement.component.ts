@@ -12,6 +12,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateAchievement } from 'src/app/shared/store/user.actions';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { Child } from 'src/app/shared/models/child.model';
 
 @Component({
   selector: 'app-create-achievement',
@@ -20,8 +22,8 @@ import { CreateAchievement } from 'src/app/shared/store/user.actions';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
-  teachers;
-  children;
+  teachers: Teacher[] = [];
+  children: Child[] = [];
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -86,8 +88,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       if (result) {
         const achievement = new Achievement(
           this.workshop,
+          this.children,
           this.teachers,
-          this.children
         );
         this.store.dispatch(new CreateAchievement(achievement));
       }

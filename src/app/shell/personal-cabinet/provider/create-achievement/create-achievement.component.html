@@ -54,8 +54,8 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
-      <a><button class="btn" mat-button type="submit">ЗБЕРЕГТИ</button></a>
+      <a [routerLink]="['/personal-cabinet/workshops']"><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
+      <a><button class="btn" mat-button type="submit" (click)="onSubmit()">ЗБЕРЕГТИ</button></a>
     </div>
   </div>
 </div>
