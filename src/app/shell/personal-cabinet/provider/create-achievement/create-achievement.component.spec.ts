@@ -11,8 +11,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@microsoft/signalr';
 import { NgxsModule } from '@ngxs/store';
+import { Component, Input } from '@angular/core';
 
 import { CreateAchievementComponent } from './create-achievement.component';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;
@@ -32,10 +34,10 @@ describe('CreateAchievementComponent', () => {
         RouterModule.forRoot([]),
         MatInputModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
       ],
-      declarations: [CreateAchievementComponent],
-      providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }]
+      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent],
+      providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
     }).compileComponents();
   });
 
@@ -49,3 +51,17 @@ describe('CreateAchievementComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-workshop-card',
+  template: '',
+})
+class MockMainWorkshopCardComponent {
+  @Input() workshop: Workshop;
+  @Input() workshopId: string;
+  @Input() isMainPage: boolean;
+  @Input() userRole: string;
+  @Input() parent: boolean;
+  @Input() isHorizontalView: boolean;
+  @Input() isCreateApplicationView: boolean;
+}
