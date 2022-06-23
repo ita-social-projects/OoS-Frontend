@@ -11,7 +11,9 @@ export class Achievement {
   children: Child[];
   teachers: Teacher[];
 
-  constructor(workshop: Workshop) {
+  constructor(workshop: Workshop, children: Child[], teachers: Teacher[]) {
     this.workshopId = workshop.id;
+    this.teachers = teachers;
+    this.children = children;
   }
 }
