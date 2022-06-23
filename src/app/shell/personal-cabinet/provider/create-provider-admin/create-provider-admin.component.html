@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{(isDeputy) ? 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА' : 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА'}}</h3>
-      <p class="wrapper-text">Дані для входу будуть надіслані на Емейл користувача для логування в систему. </p>
+      <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. </p>
     </div>
 
     <mat-horizontal-stepper #stepper [linear]="!editMode">
@@ -98,9 +98,13 @@
           </ng-template>
           <ng-template #WorkshopAdmin>
             <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span
-                class="step-required">*</span></label>
-            <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)"
-              [dropdownContainerClass]="'create-admin'">
+                class="step-required">*</span>
+            </label>
+            <app-workshop-checkbox-dropdown 
+              [entities]="workshops$ | async" 
+              [declination]="WorkshopDeclination"
+              [dropdownContainerClass]="'create-admin'"
+              (entityCheck)="onWorkshopsSelect($event)">
             </app-workshop-checkbox-dropdown>
           </ng-template>
         </form>
