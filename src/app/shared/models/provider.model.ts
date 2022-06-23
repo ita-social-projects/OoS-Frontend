@@ -1,5 +1,6 @@
 import { Institution } from './institution.model';
 import { Address } from './address.model';
+import { SectionItem } from './sectionItem.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
 
@@ -27,6 +28,7 @@ export class Provider {
   image?: File[];
   imageIds?: string[];
   institutionStatusId?: number | null;
+  providerSectionItems: ProviderSectionItem[]
   institutionType: string;
   institution: Institution;
 
@@ -46,13 +48,26 @@ export class Provider {
     this.founder = info.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
-    this.description = description.description;
+    this.description = 'tempMock';
     this.institutionStatusId = description.institutionStatusId || null;
     this.institutionType = description.institutionType;
     this.userId = user.id;
     this.institution = description.institution;
     if (provider?.id) {
       this.id = provider.id;
+    }
+    this.providerSectionItems = description.providerSectionItems;
+  }
+}
+
+export class ProviderSectionItem extends SectionItem {
+  providerId?: string;
+
+  constructor(info) {
+    super(info);
+
+    if (info.providerId) {
+      this.providerId = info.providerId;
     }
   }
 }

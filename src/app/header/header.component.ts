@@ -17,6 +17,7 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
 import { AdminState } from '../shared/store/admin.state';
+import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 
 @Component({
   selector: 'app-header',
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isMobile: boolean;
   navigationPaths: Navigation[];
   subrole: string;
+  btnView: string = providerAdminRoleUkr.all;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -79,16 +81,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isLoadingResultPage$,
       this.isLoadingMetaData$,
       this.isLoadingCabinet$,
-    ])
+    ]);
 
-    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$, this.isLoadingAdminData$])
+    combineLatest([
+      this.isLoadingResultPage$,
+      this.isLoadingMetaData$,
+      this.isLoadingCabinet$,
+      this.isLoadingAdminData$,
+    ])
       .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet, isLoadingAdminData]) => {
-        this.isLoadingResultPage = isLoadingResult;
-        this.isLoadingMetaData = isLoadingMeta;
-        this.isLoadingCabinet = isLoadingCabinet;
-        this.isLoadingAdminData = isLoadingAdminData
-      });
+      .subscribe(
+        ([
+          isLoadingResult,
+          isLoadingMeta,
+          isLoadingCabinet,
+          isLoadingAdminData,
+        ]) => {
+          this.isLoadingResultPage = isLoadingResult;
+          this.isLoadingMetaData = isLoadingMeta;
+          this.isLoadingCabinet = isLoadingCabinet;
+          this.isLoadingAdminData = isLoadingAdminData;
+        }
+      );
 
     combineLatest([this.isMobileScreen$, this.navigationPaths$])
       .pipe(takeUntil(this.destroy$), delay(0))

@@ -81,7 +81,7 @@ export class UserWorkshopService {
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds',];
+    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];
     const imageFiles = ['imageFiles', 'coverImage'];
     const teachers = 'teachers';
 
