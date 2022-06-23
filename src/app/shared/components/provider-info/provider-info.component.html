@@ -34,7 +34,7 @@
         <p>
           {{ constants.PHONE_PREFIX + provider.phoneNumber | phoneTransform }}
         </p>
-        <h5>Емейл</h5>
+        <h5>Електронна пошта</h5>
         <p>{{ provider.email }}</p>
         <h5>Засновник</h5>
         <p>{{ provider.founder }}</p>
@@ -73,10 +73,17 @@
         <p class="description">{{ this.currentStatus }}</p>
         <h5>Тип закладу</h5>
         <p class="description">{{ institutionTypes[provider.institutionType] }}</p>
-        <h5>Підпорядкування</h5>
-        <p class="description">{{ provider.institution.title }}</p>
-        <h5>Про заклад</h5>
-        <p class="description">{{ provider?.description }}</p>
+        <ng-container *ngIf="provider.institution">
+          <h5>Підпорядкування</h5>
+          <p class="description">{{ provider.institution.title }}</p>
+        </ng-container>
+        <ng-container *ngIf="provider.providerSectionItems?.length">
+          <h5>Про заклад</h5>
+          <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
+            <h5>{{item.sectionName}}</h5>
+            <p>{{item.description}}</p>
+          </div>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>

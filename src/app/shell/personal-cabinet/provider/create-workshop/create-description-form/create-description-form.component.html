@@ -3,20 +3,14 @@
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <div class="step-label-combined">
-    <label class="step-label">Опис<span class="step-required">*</span></label>
-    <label class="step-characters-count">
-      {{DescriptionFormGroup.get('description').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}</label>
-  </div>
-  <mat-form-field appearance="none">
-    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів"
-      formControlName="description" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}" appTrimValue></textarea>
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="DescriptionFormGroup.get('description')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
-  </app-validation-hint>
+  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500" (deleteForm)="onDeleteForm($event)">
+  </app-info-form>
+
+  <button *ngIf="SectionItemsFormArray.controls.length < 10" [disabled]="SectionItemsFormArray.invalid" class="btn-add" mat-button (click)="onAddForm()">
+    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+  </button>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
   <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column'

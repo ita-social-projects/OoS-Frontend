@@ -10,9 +10,10 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 export class InfoFormComponent {
   readonly validationConstants = ValidationConstants;
 
-  @Input() PlatformInfoEditFormGroup: FormGroup;
+  @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
 
   @Output() deleteForm = new EventEmitter();
 
