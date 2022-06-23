@@ -22,9 +22,10 @@ import { Child } from 'src/app/shared/models/child.model';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
-  teachers: Teacher[] = [];
-  children: Child[] = [];
+  teachers: Teacher[];
+  children: Child[];
   workshopId: string;
+  title;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
@@ -83,9 +84,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const achievement = new Achievement(
+          this.title,
           this.workshop,
           this.children,
-          this.teachers
         );
         this.store.dispatch(new CreateAchievement(achievement));
       }
