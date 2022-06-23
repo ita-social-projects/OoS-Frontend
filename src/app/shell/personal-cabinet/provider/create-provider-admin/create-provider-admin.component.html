@@ -51,7 +51,7 @@
           <mat-form-field>
             <div fxLayout='row' fxLayoutAlign='start'>
               <span class="step-text">{{ phonePrefix }}</span>
-              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
+              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appTrimValue ui-number-mask
               ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}">
             </div>
           </mat-form-field>
