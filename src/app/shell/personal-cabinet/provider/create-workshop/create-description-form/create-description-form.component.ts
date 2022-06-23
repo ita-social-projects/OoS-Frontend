@@ -168,9 +168,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
-      this.newForm()
-    );
+    if(this.DescriptionFormGroup.get('workshopDescriptionItems')) {
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
+        this.newForm()
+      );
+    }
   }
 
   /**
