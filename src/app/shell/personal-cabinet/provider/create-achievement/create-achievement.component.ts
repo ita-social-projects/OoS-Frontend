@@ -21,9 +21,21 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     { lastName: 'Малинка', firstName: 'Малина' },
   ];
 
+  achievements = [
+    {
+      name: 'Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних',
+    },
+    {
+      name: 'Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів'
+    },
+    {
+      name: 'Реципієнти міжнародних грантів',
+    },
+  ];
+
   constructor(
-    private userWorkshopService: UserWorkshopService, 
-    private route: ActivatedRoute, 
+    private userWorkshopService: UserWorkshopService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +44,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       .subscribe((params: Params) => {
         this.workshopId = params.param;
       });
-    this.userWorkshopService.getWorkshopById(this.workshopId)
+    this.userWorkshopService
+      .getWorkshopById(this.workshopId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop) => {
         this.workshop = workshop;

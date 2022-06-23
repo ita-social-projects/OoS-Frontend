@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
