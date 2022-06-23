@@ -23,8 +23,8 @@
       <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
         <div>
           <a class="more-details" [routerLink]="['/create-achievement', '']">
+            <mat-icon>add</mat-icon>
             <span class="card_link">Додати досягнення</span>
-            <mat-icon>arrow_forward</mat-icon>
           </a>  
           <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
             <span class="card_link">Детальніше</span>
