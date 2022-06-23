@@ -3,7 +3,6 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">СТВОРИТИ ДОСЯГНЕННЯ</h3>
     </div>
-
     <div class="card-border">
       <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
@@ -15,7 +14,6 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
@@ -24,24 +22,20 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-
         <label class="step-label">Тренер<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let child of children$" [value]="child" class="dropdown-option">
-              {{child.lastName}} {{child.firstName}}
+            <mat-option *ngFor="let teacher of workshop.teachers" [value]="child" class="dropdown-option">
+              {{teacher.lastName}} {{teacher.firstName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-
       </form>
     </div>
-
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a><button class="btn btn-cancel"
           mat-raised-button>СКАСУВАТИ</button></a>
       <button class="btn" mat-button type="submit">ВІДПРАВИТИ</button>
     </div>
-
   </div>
 </div>
