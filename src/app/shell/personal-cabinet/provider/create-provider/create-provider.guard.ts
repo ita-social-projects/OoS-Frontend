@@ -26,7 +26,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isEditMode = this.store.selectSnapshot<boolean>(AppState.isEditMode);
 
-    return isEditMode ? true : this.user$.pipe(map((user: User) => user.role === Role.provider && user.isRegistered === false));
+    return isEditMode ? true : this.user$.pipe(filter((user: User) => !!user),map((user: User) => user.role === Role.provider && user.isRegistered === false));
   }
 
   canDeactivate(

@@ -1,6 +1,11 @@
 <div class="wrapper">
-  <h5 class="title">Опис</h5>
-  <p class="txt">{{workshop.description}}</p>
+  <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
+    <h5 class="title">Про гурток</h5>
+    <div *ngFor="let item of workshop.workshopDescriptionItems" class="config-wrapper">
+      <h5 class="section-title">{{item.sectionName}}</h5>
+      <p>{{item.description}}</p>
+    </div>
+  </ng-container>
   <h5 class="title"> Вартість </h5>
   <p *ngIf="!workshop.price" class="txt"> Безкоштовно </p>
   <p *ngIf="workshop.price" class="txt"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття' }} </p>

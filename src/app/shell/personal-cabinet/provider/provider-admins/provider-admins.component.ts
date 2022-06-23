@@ -55,7 +55,7 @@ export class ProviderAdminsComponent implements OnInit {
   provider: Provider;
   filter = new FormControl('');
   filterValue: string;
-  btnView: string= providerAdminRoleUkr.all;
+  btnView: string = providerAdminRoleUkr.all;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
   subrole: string;
@@ -88,11 +88,11 @@ export class ProviderAdminsComponent implements OnInit {
       .subscribe((providerAdmins: ProviderAdmin[]) => {
         this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
       });
+
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
-        this.btnView = providerAdminRoleUkr[params['role']];
       });
 
     this.provider$
@@ -101,7 +101,7 @@ export class ProviderAdminsComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((provider: Provider) => (this.provider = provider));
-    
+
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
   }
 

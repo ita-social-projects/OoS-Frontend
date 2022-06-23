@@ -1,9 +1,9 @@
 <div class="container" *ngIf="provider">
-
-  <app-actions 
-    *ngIf="isMobileScreen && displayActionCard" 
-    [role]="role" 
-    [workshop]="workshop">
+  <app-actions
+    *ngIf="isMobileScreen && displayActionCard"
+    [role]="role"
+    [workshop]="workshop"
+  >
   </app-actions>
 
   <app-image-carousel [images]="images"></app-image-carousel>
@@ -11,11 +11,19 @@
   <div class="details-wrapper">
     <div fxLayout="column" fxLayoutAlign="space-between space-between">
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
+        <div
+          fxLayout="row"
+          fxLayout.lt-sm="row wrap"
+          fxLayoutAlign="start center"
+        >
           <h1 class="title">{{ workshop.title }}</h1>
         </div>
         <div>
-          <img class="details-icon" [src]="categoryIcons[workshop.directionId]" alt="{{ workshop.title }}" />
+          <img
+            class="details-icon"
+            [src]="categoryIcons[workshop.directionId]"
+            alt="{{ workshop.title }}"
+          />
         </div>
       </div>
       <span class="icon-text">
@@ -39,17 +47,20 @@
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
       <mat-tab class="label" label="ВИКЛАДАЧІ">
-        <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
+        <app-workshop-teachers
+          [teachers]="workshop.teachers"
+        ></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="ІНШІ ГУРТКИ ЗАКЛАДУ">
         <app-all-provider-workshops [workshop]="workshop">
         </app-all-provider-workshops>
       </mat-tab>
       <mat-tab class="label" label="ВІДГУКИ">
-        <app-reviews [workshop]="workshop" [role]="role">
-        </app-reviews>
+        <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>
+      </mat-tab>
+      <mat-tab class="label" label="ЗДОБУВАЧІ">
+        <app-children></app-children>
       </mat-tab>
     </mat-tab-group>
-
   </div>
 </div>

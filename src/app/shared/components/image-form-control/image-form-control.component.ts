@@ -37,7 +37,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   ngOnInit(): void {
     this.onResize(window);
-    (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
+    (this.imageIdsFormControl && this.imageIdsFormControl.value?.length) && this.activateEditMode();
   }
 
   /**

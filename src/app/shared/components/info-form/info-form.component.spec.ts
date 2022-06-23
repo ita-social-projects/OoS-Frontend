@@ -31,7 +31,7 @@ describe('InfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InfoFormComponent);
     component = fixture.componentInstance;
-    component.PlatformInfoEditFormGroup = new FormGroup({
+    component.InfoEditFormGroup = new FormGroup({
       sectionName: new FormControl(''),
       description: new FormControl('')
     });
@@ -52,4 +52,5 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() validationFormControl: FormControl;
+  @Input() maxDescriptionLength: number;
 }
