@@ -75,7 +75,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.createApplication,
+        type: ModalConfirmationType.createAchievement,
         property: this.workshop.title,
       },
     });
@@ -85,7 +85,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
         const achievement = new Achievement(
           this.workshop,
           this.children,
-          this.teachers,
+          this.teachers
         );
         this.store.dispatch(new CreateAchievement(achievement));
       }
