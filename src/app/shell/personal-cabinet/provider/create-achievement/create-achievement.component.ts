@@ -19,6 +19,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     { lastName: 'Тетерукова', firstName: 'Дарина' },
     { lastName: 'Узумакі', firstName: 'Боруто' },
     { lastName: 'Малинка', firstName: 'Малина' },
+    { lastName: 'Малинка', firstName: 'Малина' },
+    { lastName: 'Rtdby', firstName: 'Малина' },
+    { lastName: 'Малинка', firstName: 'Малина' },
   ];
 
   achievements = [
@@ -26,7 +29,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       name: 'Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних',
     },
     {
-      name: 'Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів'
+      name: 'Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів',
     },
     {
       name: 'Реципієнти міжнародних грантів',
