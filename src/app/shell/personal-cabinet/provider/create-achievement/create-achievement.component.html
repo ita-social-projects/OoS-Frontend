@@ -31,6 +31,7 @@
               </mat-option>
             </ng-container>
           </mat-select>
+
         </mat-form-field>
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
@@ -38,12 +39,18 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
+
+        <label class="step-label"> Опис<span class="step-required">*</span></label>
+        <mat-form-field appPlaceholderStyling floatLabel="never">
+          <textarea matInput class="step-textarea"></textarea>
+        </mat-form-field>
+
       </form>
     </div>
+
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a><button class="btn btn-cancel"
-          mat-raised-button>СКАСУВАТИ</button></a>
-      <button class="btn" mat-button type="submit">ВІДПРАВИТИ</button>
+      <a><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
+      <a><button class="btn" mat-button type="submit">ЗБЕРЕГТИ</button></a>
     </div>
   </div>
 </div>
