@@ -20,6 +20,8 @@ import { CreateAchievement } from 'src/app/shared/store/user.actions';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
+  teachers;
+  children;
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -82,7 +84,11 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(this.workshop);
+        const achievement = new Achievement(
+          this.workshop,
+          this.teachers,
+          this.children
+        );
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });
