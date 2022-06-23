@@ -10,10 +10,11 @@ import { takeUntil, filter, tap } from 'rxjs/operators';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { CompanyInformation, СompanyInformationItem } from 'src/app/shared/models/сompanyInformation.model';
+import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
 import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
+import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
   selector: 'app-info-edit',
@@ -21,6 +22,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
+  
   @Select(AdminState.AboutPortal)
   AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
@@ -84,7 +87,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   /**
    * This method creates new FormGroup
    */
-  private newForm(platformInfoItem?: СompanyInformationItem): FormGroup {
+  private newForm(platformInfoItem?: СompanyInformationSectionItem): FormGroup {
     const platformInfoEditFormGroup = this.fb.group({
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
@@ -126,9 +129,9 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   onSubmit(): void {
     if(this.PlatformInfoItemArray.valid && this.titleFormControl.valid){
-      const platformInfoItemArray: СompanyInformationItem[] = [];
+      const platformInfoItemArray: СompanyInformationSectionItem[] = [];
       this.PlatformInfoItemArray.controls
-        .forEach((form: FormGroup) => platformInfoItemArray.push(new СompanyInformationItem(form.value)));
+        .forEach((form: FormGroup) => platformInfoItemArray.push(new СompanyInformationSectionItem(form.value)));
       
       const platformInfo = this.editMode ? 
         new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id) :
@@ -176,6 +179,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.platformInfo = platformInfo;
     this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
     this.platformInfo.companyInformationItems
-      .forEach((item: СompanyInformationItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
+      .forEach((item: СompanyInformationSectionItem) => this.PlatformInfoItemArray.push(this.newForm(item)));
   }
 }
