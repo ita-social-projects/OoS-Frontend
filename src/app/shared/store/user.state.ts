@@ -93,6 +93,7 @@ import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Location } from '@angular/common';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -194,14 +195,11 @@ export class UserState {
     { payload }: GetWorkshopById
   ): Observable<object> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getWorkshopById(payload).pipe(
-      tap((workshop: Workshop) =>
-        patchState({ selectedWorkshop: workshop, isLoading: false })
-      ),
-      catchError((error: Error) =>
-        of(dispatch(new OnGetWorkshopByIdFail(error)))
-      )
-    );
+    return this.userWorkshopService
+      .getWorkshopById(payload)
+      .pipe(
+        tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
   }
 
   @Action(OnGetWorkshopByIdFail)
@@ -222,15 +220,11 @@ export class UserState {
     { payload }: GetProviderById
   ): Observable<object> {
     patchState({ isLoading: true });
-
-    return this.providerService.getProviderById(payload).pipe(
-      tap((provider: Provider) =>
-        patchState({ selectedProvider: provider, isLoading: false })
-      ),
-      catchError((error: Error) =>
-        of(dispatch(new OnGetProviderByIdFail(error)))
-      )
-    );
+    return this.providerService
+      .getProviderById(payload)
+      .pipe(
+        tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnGetProviderByIdFail(error)))));
   }
 
   @Action(OnGetProviderByIdFail)
@@ -321,17 +315,14 @@ export class UserState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop(
-    { patchState, dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateWorkshop
-  ): Observable<object> {
-    patchState({ isLoading: true });
-    return this.userWorkshopService.createWorkshop(payload).pipe(
-      tap((res) => dispatch(new OnCreateWorkshopSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnCreateWorkshopFail(error)))
-      )
-    );
+  createWorkshop({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: CreateWorkshop): Observable<object> {
+    patchState({ isLoading: true })
+    return this.userWorkshopService
+      .createWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateWorkshopSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateWorkshopFail(error))))
+      );
   }
 
   @Action(OnCreateWorkshopFail)
@@ -361,16 +352,13 @@ export class UserState {
   }
 
   @Action(DeleteWorkshopById)
-  deleteWorkshop(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: DeleteWorkshopById
-  ): Observable<object> {
-    return this.userWorkshopService.deleteWorkshop(payload.workshopId).pipe(
-      tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
-      catchError((error: Error) =>
-        of(dispatch(new OnDeleteWorkshopFail(error)))
-      )
-    );
+  deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById): Observable<object> {
+    return this.userWorkshopService
+      .deleteWorkshop(payload.workshopId)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteWorkshopFail(error))))
+      );
   }
 
   @Action(OnDeleteWorkshopFail)
@@ -400,16 +388,13 @@ export class UserState {
   }
 
   @Action(CreateChildren)
-  createChildren(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateChildren
-  ): Observable<object> {
-    return this.childrenService.createChild(payload).pipe(
-      tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnCreateChildrenFail(error)))
-      )
-    );
+  createChildren({ dispatch }: StateContext<UserStateModel>, { payload }: CreateChildren): Observable<object> {
+    return this.childrenService
+      .createChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
+      );
   }
 
   @Action(OnCreateChildrenFail)
@@ -440,16 +425,13 @@ export class UserState {
   }
 
   @Action(CreateProvider)
-  createProvider(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateProvider
-  ): Observable<object> {
-    return this.providerService.createProvider(payload).pipe(
-      tap((res) => dispatch(new OnCreateProviderSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnCreateProviderFail(error)))
-      )
-    );
+  createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
+    return this.providerService
+      .createProvider(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateProviderSuccess(res))),
+        catchError((error) => of(dispatch(new OnCreateProviderFail(error))))
+      );
   }
 
   @Action(OnCreateProviderFail)
@@ -458,9 +440,10 @@ export class UserState {
     { payload }: OnCreateProviderFail
   ): void {
     throwError(payload);
-    dispatch(
-      new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' })
-    );
+    const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
+    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути уніклаьними' :
+    'На жаль виникла помилка';
+    dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
   @Action(OnCreateProviderSuccess)
@@ -480,16 +463,13 @@ export class UserState {
   }
 
   @Action(CreateProviderAdmin)
-  createProviderAdmin(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateProviderAdmin
-  ): Observable<object> {
-    return this.providerAdminService.createProviderAdmin(payload).pipe(
-      tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnCreateProviderAdminFail(error)))
-      )
-    );
+  createProviderAdmin({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProviderAdmin): Observable<object> {
+    return this.providerAdminService
+      .createProviderAdmin(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateProviderAdminFail(error))))
+      );
   }
 
   @Action(OnCreateProviderAdminFail)
@@ -530,9 +510,7 @@ export class UserState {
       .blockProviderAdmin(payload.userId, payload.providerId)
       .pipe(
         tap((res) => dispatch(new OnBlockProviderAdminSuccess(payload))),
-        catchError((error: Error) =>
-          of(dispatch(new OnBlockProviderAdminFail(error)))
-        )
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
       );
   }
 
@@ -570,9 +548,7 @@ export class UserState {
       .deleteProviderAdmin(payload.userId, payload.providerId)
       .pipe(
         tap((res) => dispatch(new OnDeleteProviderAdminSuccess(payload))),
-        catchError((error: Error) =>
-          of(dispatch(new OnDeleteProviderAdminFail(error)))
-        )
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderAdminFail(error))))
       );
   }
 
@@ -615,16 +591,13 @@ export class UserState {
   }
 
   @Action(CreateApplication)
-  createApplication(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateApplication
-  ): Observable<object> {
-    return this.applicationService.createApplication(payload).pipe(
-      tap((res) => dispatch(new OnCreateApplicationSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnCreateApplicationFail(error)))
-      )
-    );
+  createApplication({ dispatch }: StateContext<UserStateModel>, { payload }: CreateApplication): Observable<object> {
+    return this.applicationService
+      .createApplication(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateApplicationSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
+      );
   }
 
   @Action(OnCreateApplicationFail)
@@ -664,14 +637,13 @@ export class UserState {
   }
 
   @Action(DeleteChildById)
-  deleteChildById(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: DeleteChildById
-  ): Observable<object> {
-    return this.childrenService.deleteChild(payload).pipe(
-      tap((res) => dispatch(new OnDeleteChildSuccess(res))),
-      catchError((error: Error) => of(dispatch(new OnDeleteChildFail(error))))
-    );
+  deleteChildById({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteChildById): Observable<object> {
+    return this.childrenService
+      .deleteChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnDeleteChildSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteChildFail(error))))
+      );
   }
 
   @Action(OnDeleteChildFail)
@@ -698,16 +670,13 @@ export class UserState {
   }
 
   @Action(UpdateWorkshop)
-  updateWorkshop(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: UpdateWorkshop
-  ): Observable<object> {
-    return this.userWorkshopService.updateWorkshop(payload).pipe(
-      tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnUpdateWorkshopFail(error)))
-      )
-    );
+  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop): Observable<object> {
+    return this.userWorkshopService
+      .updateWorkshop(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateWorkshopFail(error))))
+      );
   }
 
   @Action(OnUpdateWorkshopFail)
@@ -722,14 +691,13 @@ export class UserState {
   }
 
   @Action(UpdateChild)
-  updateChild(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: UpdateChild
-  ): Observable<object> {
-    return this.childrenService.updateChild(payload).pipe(
-      tap((res) => dispatch(new OnUpdateChildSuccess(res))),
-      catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
-    );
+  updateChild({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateChild): Observable<object> {
+    return this.childrenService
+      .updateChild(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateChildSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateChildFail(error))))
+      );
   }
 
   @Action(OnUpdateChildFail)
@@ -774,16 +742,13 @@ export class UserState {
   }
 
   @Action(UpdateProvider)
-  updateProvider(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: UpdateProvider
-  ): Observable<object> {
-    return this.providerService.updateProvider(payload).pipe(
-      tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnUpdateProviderFail(error)))
-      )
-    );
+  updateProvider({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: UpdateProvider): Observable<object> {
+    return this.providerService
+      .updateProvider(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
+      );
   }
 
   @Action(OnUpdateProviderFail)
@@ -805,27 +770,18 @@ export class UserState {
   ): void {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
-    dispatch([
-      new ShowMessageBar({
-        message: 'Організація успішно відредагована',
-        type: 'success',
-      }),
-      new GetProfile(),
-    ]);
-    dispatch(new GetProfile()).subscribe(() =>
-      this.router.navigate(['/personal-cabinet/provider/info'])
-    );
+    dispatch([new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' })]);
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
   @Action(UpdateUser)
-  updateUser(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: UpdateUser
-  ): Observable<object> {
-    return this.userService.updateUser(payload).pipe(
-      tap((res) => dispatch(new OnUpdateUserSuccess(res))),
-      catchError((error: Error) => of(dispatch(new OnUpdateUserFail(error))))
-    );
+  updateUser({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateUser): Observable<object> {
+    return this.userService
+      .updateUser(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateUserSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
+      );
   }
 
   @Action(OnUpdateUserFail)
@@ -857,16 +813,13 @@ export class UserState {
   }
 
   @Action(UpdateApplication)
-  updateApplication(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: UpdateApplication
-  ): Observable<object> {
-    return this.applicationService.updateApplication(payload).pipe(
-      tap((res) => dispatch(new OnUpdateApplicationSuccess(res))),
-      catchError((error: Error) =>
-        of(dispatch(new OnCreateApplicationFail(error)))
-      )
-    );
+  updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication): Observable<object> {
+    return this.applicationService
+      .updateApplication(payload)
+      .pipe(
+        tap((res) => dispatch(new OnUpdateApplicationSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
+      );
   }
 
   @Action(OnUpdateApplicationFail)
@@ -898,14 +851,13 @@ export class UserState {
   }
 
   @Action(CreateRating)
-  createRating(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateRating
-  ): Observable<object> {
-    return this.ratingService.createRate(payload).pipe(
-      tap((res) => dispatch(new OnCreateRatingSuccess(res))),
-      catchError((error: Error) => of(dispatch(new OnCreateRatingFail(error))))
-    );
+  createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating): Observable<object> {
+    return this.ratingService
+      .createRate(payload)
+      .pipe(
+        tap((res) => dispatch(new OnCreateRatingSuccess(res))),
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
+      );
   }
 
   @Action(OnCreateRatingFail)

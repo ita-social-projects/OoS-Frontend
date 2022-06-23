@@ -97,9 +97,13 @@
           </ng-template>
           <ng-template #WorkshopAdmin>
             <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span
-                class="step-required">*</span></label>
-            <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)"
-              [dropdownContainerClass]="'create-admin'">
+                class="step-required">*</span>
+            </label>
+            <app-workshop-checkbox-dropdown 
+              [entities]="workshops$ | async" 
+              [declination]="WorkshopDeclination"
+              [dropdownContainerClass]="'create-admin'"
+              (entityCheck)="onWorkshopsSelect($event)">
             </app-workshop-checkbox-dropdown>
           </ng-template>
         </form>
