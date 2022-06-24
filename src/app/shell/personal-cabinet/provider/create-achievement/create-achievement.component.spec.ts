@@ -48,7 +48,6 @@ describe('CreateAchievementComponent', () => {
       title: new FormControl(''),
       teachers: new FormControl(''), 
       childrenIDs: new FormControl(''),  
-      teacher: new FormControl(''),    
     });
     fixture.detectChanges();
   });

@@ -25,6 +25,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   title: string;
   workshop: Workshop;
   workshopId: string;
+  teachers;
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
   achievements = AchievementsTitle;
@@ -58,6 +59,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     this.workshop$
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
+
+      console.log('workshop', this.workshop);
+      
   }
 
   ngOnDestroy(): void {
@@ -75,7 +79,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(this.title, this.workshop);
+        const achievement = new Achievement(this.title, this.workshop, this.teachers);
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });
