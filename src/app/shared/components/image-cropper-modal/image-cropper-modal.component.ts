@@ -29,8 +29,8 @@ export class ImageCropperModalComponent {
   }
 
   imageCropped(event: ImageCroppedEvent) {
-      this.imageFile = base64ToFile(event.base64);
-      this.croppedImage = event.base64;
+    this.imageFile = base64ToFile(event.base64);
+    this.croppedImage = event.base64;
   }
 
   loadImageFailed(): void {}
