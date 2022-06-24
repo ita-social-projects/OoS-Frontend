@@ -1,1 +1,7 @@
-<p>achievements works!</p>
+<div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
+  <app-teacher-card class="card" *ngFor="let achievement of achievements" [achievement]="achievement">
+  </app-teacher-card>
+</div>
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noResultTeachers"></app-no-result-card>
+</ng-template>
