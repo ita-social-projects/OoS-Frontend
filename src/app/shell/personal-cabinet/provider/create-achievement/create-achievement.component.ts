@@ -8,7 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { Achievement } from 'src/app/shared/models/achievement.model';
-import { Constants } from 'src/app/shared/constants/constants';
+import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateAchievement } from 'src/app/shared/store/user.actions';
@@ -29,6 +29,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   ChildFormControl = new FormControl('', Validators.required);
+  achievements = AchievementsTitle;
 
   children$ = [
     { lastName: 'Тетерукова', firstName: 'Дарина' },
@@ -39,17 +40,6 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     { lastName: 'Малинка', firstName: 'Малина' },
   ];
 
-  achievements = [
-    {
-      name: 'Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних',
-    },
-    {
-      name: 'Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів',
-    },
-    {
-      name: 'Реципієнти міжнародних грантів',
-    },
-  ];
 
   constructor(
     private store: Store,
@@ -86,7 +76,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
         const achievement = new Achievement(
           this.title,
           this.workshop,
-          this.children,
+          this.children
         );
         this.store.dispatch(new CreateAchievement(achievement));
       }

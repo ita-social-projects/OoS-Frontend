@@ -63,6 +63,12 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
   }
 };
 
+export const AchievementsTitle: string[] = [
+  'Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних',
+  'Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів',
+  'Реципієнти міжнародних грантів',
+];
+
 export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   {
     value: WorkingDays.monday,

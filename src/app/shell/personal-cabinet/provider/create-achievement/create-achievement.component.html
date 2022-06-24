@@ -5,12 +5,12 @@
       <h3 class="wrapper-title">ДОДАТИ ДОСЯГНЕННЯ</h3>
     </div>
 
-    <app-workshop-card 
+    <!-- <app-workshop-card 
       class="application-workshop" 
       [workshop]="workshop" 
       [isHorizontalView]="true"
       [isCreateApplicationView]="true">
-    </app-workshop-card>
+    </app-workshop-card> TODO: isCreateApplicationView -->
 
     <div class="card-border">
       <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
@@ -19,7 +19,7 @@
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering panelClass="dropdown-panel" [(ngModel)]="title" class="step-input">
             <mat-option *ngFor="let achievement of achievements" [value]="child">
-              {{achievement.name}}
+              {{achievement}}
             </mat-option>
           </mat-select>
         </mat-form-field>
