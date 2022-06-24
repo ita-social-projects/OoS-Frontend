@@ -101,7 +101,7 @@ export interface UserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
-  achievements: Achievement[];
+  achievement: Achievement;
   children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
@@ -116,7 +116,7 @@ export interface UserStateModel {
     selectedWorkshop: null,
     selectedProvider: null,
     applications: null,
-    achievements: null,
+    achievement: null,
     children: undefined,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,

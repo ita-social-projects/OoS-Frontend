@@ -1,18 +1,16 @@
-import { Child } from "./child.model";
-import { Workshop } from "./workshop.model";
+// import { Child } from "./child.model";
+// import { Workshop } from "./workshop.model";
 
 export class Achievement {
-  id: string;
-  title?: string;
-  achievementDate: Date;
+  id?: string;
+  title: string;
+  // achievementDate: Date;
   workshopId: string;
   achievementTypeId: string;
-  children: Child[];
+  childrenIDs: string[];
   teachers: string[];
 
-  constructor(title: string, workshop: Workshop, children: Child[]) {
+  constructor(title: string) {
     this.title = title;
-    this.workshopId = workshop.id;
-    this.children = children;
   }
 }

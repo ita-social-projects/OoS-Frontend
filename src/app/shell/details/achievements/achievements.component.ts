@@ -8,8 +8,10 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
   styleUrls: ['./achievements.component.scss'],
 })
 export class AchievementsComponent implements OnInit {
-  readonly noResultTeachers = NoResultsTitle.noAchievements;
-  @Input() achievements: Achievement[] = [];
+  readonly noResultAchievements = NoResultsTitle.noAchievements;
+
+  @Input() achievements: Achievement[];
+
   constructor() {}
 
   ngOnInit(): void {}
