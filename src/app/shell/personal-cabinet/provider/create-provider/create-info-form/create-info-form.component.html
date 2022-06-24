@@ -12,7 +12,8 @@
     </mat-select>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('ownership')">
+    [validationFormControl]="InfoFormGroup.get('ownership')"
+    [isTouched]="InfoFormGroup.get('ownership').touched">
   </app-validation-hint>
 
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
@@ -27,7 +28,8 @@
     </mat-select>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('type')">
+    [validationFormControl]="InfoFormGroup.get('type')"
+    [isTouched]="InfoFormGroup.get('type').touched">
   </app-validation-hint>
 
   <label class="step-label"> Повна назва організації<span class="step-required">*</span></label>
