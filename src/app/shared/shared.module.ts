@@ -31,7 +31,6 @@ import { ConfirmationModalWindowComponent } from './components/confirmation-moda
 import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
 import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
-import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
@@ -65,6 +64,7 @@ import { ValidationHintComponent } from './components/validation-hint/validation
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
+import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +94,7 @@ import { InfoFormComponent } from './components/info-form/info-form.component';
     PlaceholderFormDirective,
     ValidationMessageStyling,
     NavigationBarComponent,
-    WorkshopCheckboxDropdownComponent,
+    EntityCheckboxDropdownComponent,
     NavigationMobileBarComponent,
     FullSearchBarComponent,
     MessageBarComponent,
@@ -166,7 +166,7 @@ import { InfoFormComponent } from './components/info-form/info-form.component';
     ValidationMessageStyling,
     NavigationBarComponent,
     NavigationMobileBarComponent,
-    WorkshopCheckboxDropdownComponent,
+    EntityCheckboxDropdownComponent,
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
