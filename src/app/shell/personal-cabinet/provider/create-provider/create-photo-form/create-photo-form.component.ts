@@ -92,7 +92,7 @@ export class CreatePhotoFormComponent implements OnInit {
    */
   onAddForm(): void {
     if(this.PhotoFormGroup.get('providerSectionItems')) {
-    (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+      (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
     }
   }
 
