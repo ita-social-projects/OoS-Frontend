@@ -6,11 +6,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { DeclinationPipe } from '../../pipes/declination.pipe';
-import { WorkshopCheckboxDropdownComponent } from './workshop-checkbox-dropdown.component';
+import { EntityCheckboxDropdownComponent } from './entity-checkbox-dropdown.component';
 
-describe('WorkshopCheckboxDropdownComponent', () => {
-  let component: WorkshopCheckboxDropdownComponent;
-  let fixture: ComponentFixture<WorkshopCheckboxDropdownComponent>;
+describe('EntityCheckboxDropdownComponent', () => {
+  let component: EntityCheckboxDropdownComponent;
+  let fixture: ComponentFixture<EntityCheckboxDropdownComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe('WorkshopCheckboxDropdownComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
-        WorkshopCheckboxDropdownComponent,
+        EntityCheckboxDropdownComponent,
         DeclinationPipe
       ]
     })
@@ -32,7 +32,7 @@ describe('WorkshopCheckboxDropdownComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkshopCheckboxDropdownComponent);
+    fixture = TestBed.createComponent(EntityCheckboxDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
