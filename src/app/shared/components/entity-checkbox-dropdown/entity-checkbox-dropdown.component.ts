@@ -7,12 +7,12 @@ import { WorkshopCard } from '../../models/workshop.model';
 import { DeclinationPipe } from '../../pipes/declination.pipe';
 
 @Component({
-  selector: 'app-workshop-checkbox-dropdown',
-  templateUrl: './workshop-checkbox-dropdown.component.html',
-  styleUrls: ['./workshop-checkbox-dropdown.component.scss'],
+  selector: 'app-entity-checkbox-dropdown',
+  templateUrl: './entity-checkbox-dropdown.component.html',
+  styleUrls: ['./entity-checkbox-dropdown.component.scss'],
   providers: [DeclinationPipe]
 })
-export class WorkshopCheckboxDropdownComponent implements OnInit, OnDestroy {
+export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
 
   entityControl = new FormControl();
   ids: string[];

@@ -1,5 +1,6 @@
 import { Address } from './address.model';
 import { Provider } from './provider.model';
+import { SectionItem } from './sectionItem.model';
 import { Teacher } from './teacher.model';
 import { DateTimeRanges } from './workingHours.model';
 export class Workshop {
@@ -13,7 +14,6 @@ export class Workshop {
   minAge: number;
   maxAge: number;
   price: number;
-  description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
   keywords?: string[];
@@ -37,6 +37,7 @@ export class Workshop {
   coverImage?: File[];
   coverImageId?: string[];
   institutionHierarchyId: string;
+  workshopDescriptionItems: WorkshopSectionItem[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -45,7 +46,6 @@ export class Workshop {
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
-    this.description = description.description;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
@@ -85,9 +85,21 @@ export class Workshop {
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
     }
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
   }
 }
 
+export class WorkshopSectionItem extends SectionItem {
+  workshopId?: string;
+
+  constructor(info) {
+    super(info);
+
+    if (info.workshopId) {
+      this.workshopId = info.workshopId;
+    }
+  }
+}
 export interface WorkshopCard {
   address: Address;
   directionId: number;
