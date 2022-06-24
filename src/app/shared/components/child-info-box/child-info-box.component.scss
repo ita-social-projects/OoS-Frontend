@@ -12,11 +12,11 @@
 }
 
 .title{
-color: #444444;
+  margin-bottom: 15px;
+  color: #444444;
 }
 
 .text{
-  margin-top: 1rem;
   color: #000000;
 }
 
@@ -24,6 +24,7 @@ color: #444444;
   box-sizing: border-box;
   width: 100vw;
 }
-h5{
-  margin-top: 1rem;
+
+.textChildrenName{
+  margin-bottom: 15px;
 }

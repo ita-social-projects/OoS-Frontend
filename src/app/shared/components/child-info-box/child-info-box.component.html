@@ -5,33 +5,34 @@
     <div class="info-group">
       <h4 class="textChildrenName">{{child.firstName}} {{child.lastName}} {{child.middleName}}</h4>
       <h5 class="text">Дата народження:</h5>
-      <span>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}</span>
-      <br>{{ childAge }}
+      <p >
+        {{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}  ({{ childAge }})
+      </p>
     </div>
     
     <div class="info-group">
       <h5 class="text">Стать:</h5>
-      <span>{{ gender[child.gender] }}</span>
+      <p>{{ gender[child.gender] }}</p>
     </div>
 
     <div class="info-group">
       <h5 class="text">Соціальна група:</h5>
-      <span>{{ socialGroup ? socialGroup.name : "Відсутня" }}</span>
+      <p>{{ socialGroup ? socialGroup.name : "Відсутня" }}</p>
     </div>
 
     <div class="info-group">
       <h5 class="text">Батьки:</h5>
-      <span>{{ parentLastName }} {{parentFirstName}} {{parantMiddleName}}</span>
+      <p>{{ parentLastName }} {{parentFirstName}} {{parantMiddleName}}</p>
     </div>
 
     <div class="info-group">
       <h5 class="text">Телефон:</h5>
-      <span>+380{{parentPhoneNumber}}</span>
+      <p>+380{{parentPhoneNumber}}</p>
     </div>
 
     <div class="info-group">
       <h5 class="text">Електронна пошта:</h5>
-      <span>{{parentEmail}}</span>
+      <p>{{parentEmail}}</p>
     </div>
     
   </div>
