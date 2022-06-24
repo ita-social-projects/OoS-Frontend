@@ -91,7 +91,9 @@ export class CreatePhotoFormComponent implements OnInit {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
+    if(this.PhotoFormGroup.get('providerSectionItems')) {
     (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+    }
   }
 
   /**
