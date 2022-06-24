@@ -37,6 +37,7 @@ export class Workshop {
   coverImage?: File[];
   coverImageId?: string[];
   institutionHierarchyId: string;
+  institutionId: string;
   workshopDescriptionItems: WorkshopSectionItem[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
@@ -58,6 +59,7 @@ export class Workshop {
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
     this.institutionHierarchyId = description.institutionHierarchyId;
+    this.institutionId = description.institutionId;
     if (id) {
       this.id = id;
     }

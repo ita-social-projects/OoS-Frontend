@@ -1,51 +1,88 @@
-<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="10" [label]="'Фото'" formControlName="imageFiles"
+<form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <app-image-form-control
+    *ngIf="isRelease2"
+    [imgMaxAmount]="10"
+    [label]="'Фото'"
+    formControlName="imageFiles"
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
-    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
-    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500" (deleteForm)="onDeleteForm($event)">
+  <app-info-form
+    *ngFor="let form of SectionItemsFormArray.controls"
+    [InfoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)"
+    [formAmount]="SectionItemsFormArray.controls.length"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+    (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
-  <button *ngIf="SectionItemsFormArray.controls.length < 10" [disabled]="SectionItemsFormArray.invalid" class="btn-add" mat-button (click)="onAddForm()">
+  <button
+    *ngIf="SectionItemsFormArray.controls.length < 10"
+    [disabled]="SectionItemsFormArray.invalid"
+    class="btn-add"
+    mat-button
+    (click)="onAddForm()">
     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
   </button>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
-  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout='column'
-    fxLayoutAlign='center space-between'>
+  <mat-radio-group
+    [formControl]="disabilityOptionRadioBtn"
+    color="primary"
+    fxLayout="column"
+    fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
-    <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
-      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none" appTrimValue>
-      <app-validation-hint
-        [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
-        [minCharachters]="validationConstants.INPUT_LENGTH_1"
-        [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-      </app-validation-hint>
+    <input
+      matInput
+      class="step-input"
+      [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
+      placeholder="Пандус/спец. обладнання"
+      formControlName="disabilityOptionsDesc"
+      autocomplete="none"
+      appTrimValue />
+    <app-validation-hint
+      [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
+      [minCharachters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    </app-validation-hint>
   </mat-radio-group>
 
   <app-category-select [workshop]="workshop" [CategoryFormGroup]="DescriptionFormGroup.get('categories')">
   </app-category-select>
 
-  <app-institution-hierarchy [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"></app-institution-hierarchy>
+  <app-institution-hierarchy
+    [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
+    [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')">
+  </app-institution-hierarchy>
 
   <div class="step-label-combined">
     <label class="step-label">Ключові слова</label>
-    <label class="step-characters-count">{{keyWords.length}}/{{validationConstants.MAX_KEYWORDS_LENGTH}}</label>
+    <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()">
-    <span *ngIf="!keyWord && (keyWords.length < 1)" class="keywordsPlaceholder">Введіть ключові слова за якими
-      користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум {{validationConstants.MAX_KEYWORDS_LENGTH}} слів)</span>
+    <span *ngIf="!keyWord && keyWords.length < 1" class="keywordsPlaceholder"
+      >Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум
+      {{ validationConstants.MAX_KEYWORDS_LENGTH }} слів)</span
+    >
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
-        <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">{{keyWord}}</div>
+        <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">
+          {{ keyWord }}
+        </div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input [ngClass]="{'keywords-input': !keyWord && (keyWords.length < 1)}" [disabled]="disabledKeyWordsInput"
-        #keyWordsInput (focusout)="onKeyWordsInput()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"
-        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none" appTrimValue>
+      <input
+        [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
+        [disabled]="disabledKeyWordsInput"
+        #keyWordsInput
+        (focusout)="onKeyWordsInput()"
+        [formControl]="keyWordsCtrl"
+        [matChipInputFor]="chipList"
+        (keyup.enter)="onKeyWordsInput()"
+        [(ngModel)]="keyWord"
+        autocomplete="none"
+        appTrimValue />
     </mat-chip-list>
   </div>
 </form>

@@ -2,18 +2,17 @@
   <label class="step-label">Підпорядкування</label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select
-      [formControl]="institutionFormControl"
-      [compareWith]="compareInstitutions"
+      [formControl]="instituitionIdFormControl"
       disableOptionCentering
       panelClass="dropdown-panel"
       class="step-input">
-      <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+      <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">
         {{ institution.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="institutionFormControl">
+    [validationFormControl]="instituitionIdFormControl">
   </app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">

@@ -49,6 +49,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         classId: new FormControl('', Validators.required),
       }),
       institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required),
       workshopDescriptionItems: this.SectionItemsFormArray,
     });
   }
