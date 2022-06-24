@@ -17,7 +17,7 @@
 
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple disableOptionCentering panelClass="dropdown-panel" [(ngModel)]="title" class="step-input">
+          <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <mat-option *ngFor="let achievement of achievements" [value]="child">
               {{achievement}}
             </mat-option>
@@ -26,7 +26,7 @@
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple panelClass="dropdown-panel" class="step-input"
-            [formControl]="ChildFormControl" [(ngModel)]="children" name="child">
+            [formControl]="ChildFormControl" name="child">
             <mat-option *ngFor="let child of children$" [value]="child" class="dropdown-option">
               {{child.lastName}} {{child.firstName}}
             </mat-option>
@@ -34,7 +34,7 @@
         </mat-form-field>
         <label class="step-label">Тренер<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple disableOptionCentering panelClass="dropdown-panel" [(ngModel)]="teachers" class="step-input">
+          <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <ng-container *ngIf="workshop">
               <mat-option *ngFor="let teacher of workshop.teachers" [value]="child" class="dropdown-option">
                 {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
