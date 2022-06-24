@@ -65,6 +65,7 @@ import { ValidationHintComponent } from './components/validation-hint/validation
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
+import { AchievementCardComponent } from './components/achievement-card/achievement-card/achievement-card.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { InfoFormComponent } from './components/info-form/info-form.component';
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
     InfoFormComponent,
+    AchievementCardComponent,
   ],
   imports: [
     MaterialModule,
