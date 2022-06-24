@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -12,8 +11,6 @@ import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateAchievement, GetWorkshopById } from 'src/app/shared/store/user.actions';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Child } from 'src/app/shared/models/child.model';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -29,7 +26,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  achievement: Achievement;
   achievements = AchievementsTitle;
 
   children$ = [
@@ -70,12 +67,15 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
-      data: { type: ModalConfirmationType.createAchievement },
+      data: { 
+        type: ModalConfirmationType.createAchievement,
+        property: this.achievement.title 
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(this.title);
+        const achievement = new Achievement(this.title, this.workshop);
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });

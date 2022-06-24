@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -36,7 +36,7 @@ describe('CreateAchievementComponent', () => {
         MatDatepickerModule,
         MatNativeDateModule,
       ],
-      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent],
+      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockMainNavigationBarComponent],
       providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
     }).compileComponents();
   });
@@ -44,6 +44,12 @@ describe('CreateAchievementComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAchievementComponent);
     component = fixture.componentInstance;
+    component.AchievementFormGroup = new FormGroup({
+      title: new FormControl(''),
+      teachers: new FormControl(''), 
+      childrenIDs: new FormControl(''),  
+      teacher: new FormControl(''),    
+    });
     fixture.detectChanges();
   });
 
@@ -64,4 +70,11 @@ class MockMainWorkshopCardComponent {
   @Input() parent: boolean;
   @Input() isHorizontalView: boolean;
   @Input() isCreateApplicationView: boolean;
+}
+
+@Component({
+  selector: 'app-navigation-bar',
+  template: '',
+})
+class MockMainNavigationBarComponent {  
 }
