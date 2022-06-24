@@ -1,76 +1,78 @@
-<div class="create-form" *ngIf="(editMode && workshop) || !editMode">
-  <div class="wrapper">
-    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК'}}</h3>
-      <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
+<ng-container *ngIf="provider">
+  <div class="create-form" *ngIf="(editMode && workshop) || !editMode">
+    <div class="wrapper">
+      <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+        <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК'}}</h3>
+        <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
+      </div>
+  
+      <mat-horizontal-stepper [linear]="!editMode">
+        <mat-step [stepControl]="AboutFormGroup">
+          <ng-template matStepLabel>
+            <p class="step-name">Про гурток</p>
+          </ng-template>
+          <app-create-about-form fxLayout="row" fxLayoutAlign="center center"
+            (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop" [isRelease2]="isRelease2" [provider]="provider">
+          </app-create-about-form>
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+                class="btn btn-cancel">Скасувати</button></a>
+            <button class="btn" mat-raised-button matStepperNext
+            [disabled]="AboutFormGroup.invalid"
+            (click)="checkValidation(AboutFormGroup)">Далі</button>
+          </div>
+        </mat-step>
+  
+        <mat-step [stepControl]="DescriptionFormGroup">
+          <ng-template matStepLabel>
+            <p class="step-name">Опис</p>
+          </ng-template>
+          <app-create-description-form fxLayout="row" fxLayoutAlign="center center"
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop" [provider]="provider"
+            [isRelease2]="isRelease2">
+          </app-create-description-form>
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+                class="btn btn-cancel">Скасувати</button></a>
+            <button class="btn" mat-raised-button matStepperNext
+              [disabled]="DescriptionFormGroup.invalid"
+              (click)="checkValidation(DescriptionFormGroup)">Далі</button>
+          </div>
+        </mat-step>
+  
+        <mat-step [stepControl]="AddressFormGroup">
+          <ng-template matStepLabel>
+            <p class="step-name">Контакти</p>
+          </ng-template>
+          <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)" [address]="workshop?.address">
+          </app-create-address>
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+                class="btn btn-cancel">Скасувати</button></a>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup.invalid">Далі</button>
+          </div>
+        </mat-step>
+  
+        <mat-step>
+          <ng-template matStepLabel>
+            <p class="step-name">Викладачі</p>
+          </ng-template>
+          <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers"
+            [isRelease2]="isRelease2">
+          </app-create-teacher>
+  
+          <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+            <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
+                class="btn btn-cancel">Скасувати</button></a>
+            <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
+              (click)="onSubmit()">Зберегти</button>
+          </div>
+        </mat-step>
+  
+      </mat-horizontal-stepper>
     </div>
-
-    <mat-horizontal-stepper [linear]="!editMode">
-      <mat-step [stepControl]="AboutFormGroup">
-        <ng-template matStepLabel>
-          <p class="step-name">Про гурток</p>
-        </ng-template>
-        <app-create-about-form fxLayout="row" fxLayoutAlign="center center"
-          (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop" [isRelease2]="isRelease2">
-        </app-create-about-form>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext
-          [disabled]="AboutFormGroup.invalid"
-          (click)="checkValidation(AboutFormGroup)">Далі</button>
-        </div>
-      </mat-step>
-
-      <mat-step [stepControl]="DescriptionFormGroup">
-        <ng-template matStepLabel>
-          <p class="step-name">Опис</p>
-        </ng-template>
-        <app-create-description-form fxLayout="row" fxLayoutAlign="center center"
-          (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop"
-          [isRelease2]="isRelease2">
-        </app-create-description-form>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext
-            [disabled]="DescriptionFormGroup.invalid"
-            (click)="checkValidation(DescriptionFormGroup)">Далі</button>
-        </div>
-      </mat-step>
-
-      <mat-step [stepControl]="AddressFormGroup">
-        <ng-template matStepLabel>
-          <p class="step-name">Контакти</p>
-        </ng-template>
-        <app-create-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)" [address]="workshop?.address">
-        </app-create-address>
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup.invalid">Далі</button>
-        </div>
-      </mat-step>
-
-      <mat-step>
-        <ng-template matStepLabel>
-          <p class="step-name">Викладачі</p>
-        </ng-template>
-        <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers"
-          [isRelease2]="isRelease2">
-        </app-create-teacher>
-
-        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
-          <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
-            (click)="onSubmit()">Зберегти</button>
-        </div>
-      </mat-step>
-
-    </mat-horizontal-stepper>
   </div>
-</div>
+</ng-container>

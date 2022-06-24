@@ -1,4 +1,4 @@
-<div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
+<div *ngIf="!(isLoading$ | async)" class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
   <label class="step-label">Підпорядкування</label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select

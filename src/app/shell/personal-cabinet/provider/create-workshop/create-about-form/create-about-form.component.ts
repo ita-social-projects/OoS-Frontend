@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
@@ -19,10 +19,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
-  readonly phonePrefix= Constants.PHONE_PREFIX;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
   @Input() workshop: Workshop;
+  @Input() provider: Provider;
   @Input() isRelease2: boolean;
   @Output() PassAboutFormGroup = new EventEmitter();
 
@@ -39,29 +40,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
-        ]),
-      phone: new FormControl('', [
-        Validators.required, 
-        Validators.minLength(ValidationConstants.PHONE_LENGTH)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      email: new FormControl('', [
-        Validators.required, 
-        Validators.email
-      ]),
+      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       minAge: new FormControl('', [Validators.required]),
       maxAge: new FormControl('', [Validators.required]),
       image: new FormControl(''),
-      website: new FormControl('',[
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
-      ]),
-      facebook: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
-      ]),
-      instagram: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
-      ]),
+      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       isPerMonth: new FormControl(false),
@@ -82,36 +71,28 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   private onPriceCtrlInit(): void {
-    this.priceRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((isPrice: boolean) => {
-        isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
-      });
+    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
+      isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
+    });
   }
 
   private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
-    this.AboutFormGroup.get('price')[action]({emitEvent});
-    this.AboutFormGroup.get('price').setValue(price, {emitEvent});
+    this.AboutFormGroup.get('price')[action]({ emitEvent });
+    this.AboutFormGroup.get('price').setValue(price, { emitEvent });
   };
-
-  
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    const setValue = (value) => this.AboutFormGroup.get(value).setValue(provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = (value) => this.AboutFormGroup.get(value).reset();
+    const setValue = value => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = value => this.AboutFormGroup.get(value).reset();
 
-    this.useProviderInfoCtrl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((useProviderInfo: boolean) => {
-        for (let value in ProviderWorkshopSameValues ) {
-          useProviderInfo ? setValue(value) : resetValue(value);
-        }
-      });
+    this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
+      for (let value in ProviderWorkshopSameValues) {
+        useProviderInfo ? setValue(value) : resetValue(value);
+      }
+    });
   }
 
   /**

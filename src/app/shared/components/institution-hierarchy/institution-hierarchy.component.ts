@@ -7,16 +7,14 @@ import {
   GetInstitutionHierarchyParentsById,
 } from './../../store/meta-data.actions';
 import { FormControl, Validators } from '@angular/forms';
-import { Component, EventEmitter, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Provider } from '../../models/provider.model';
-import { RegistrationState } from '../../store/registration.state';
 import { Institution, InstitutionFieldDescription } from '../../models/institution.model';
 import { Observable, Subject } from 'rxjs';
 import { MetaDataState } from '../../store/meta-data.state';
 import { GetAllInstitutions } from '../../store/meta-data.actions';
-import { tap, filter, takeUntil, debounceTime } from 'rxjs/operators';
-import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
+import { tap, filter, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',
@@ -25,6 +23,7 @@ import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_inter
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() instituitionHierarchyIdFormControl: FormControl;
   @Input() instituitionIdFormControl: FormControl;
+  @Input() provider: Provider;
 
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
@@ -35,6 +34,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutionFieldDesc)
   institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
+  @Select(MetaDataState.isLoading)
+  isLoading$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   hierarchyArray: HierarchyElement[] = [];
@@ -56,7 +57,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private setInitialInstitution(): void {
     const institutionId = this.editMode
       ? this.instituitionIdFormControl.value
-      : this.store.selectSnapshot<Provider>(RegistrationState.provider).institution.id;
+      : this.provider.institution.id;
 
     this.instituitionIdFormControl.setValue(institutionId, { emitEvent: false });
 

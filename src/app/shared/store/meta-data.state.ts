@@ -275,51 +275,56 @@ export class MetaDataState {
 
   @Action(GetAllInstitutions)
   getAllInstitutions({ patchState }: StateContext<MetaDataStateModel>, { }: GetAllInstitutions): Observable<Institution[]> {
+    patchState({ isLoading: true });
     return this.institutionsService
       .getAllInstitutions()
       .pipe(
-        tap((institutions: Institution[]) => patchState({ institutions: institutions })
+        tap((institutions: Institution[]) => patchState({ institutions: institutions, isLoading: false })
         ))
   }
-
   @Action(GetFieldDescriptionByInstitutionId)
   GetFieldDescriptionByInstitutionId({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetFieldDescriptionByInstitutionId): Observable<InstitutionFieldDescription[]> {
+    patchState({ isLoading: true });
     return this.institutionsService
       .getFieldDescriptionByInstitutionId(payload)
       .pipe(
-        tap((institutionFieldDesc: InstitutionFieldDescription[]) => patchState({ institutionFieldDesc: institutionFieldDesc })
+        tap((institutionFieldDesc: InstitutionFieldDescription[]) => patchState({ institutionFieldDesc: institutionFieldDesc, isLoading: false })
         ))
   }
 
   @Action(GetAllByInstitutionAndLevel)
   GetAllByInstitutionAndLevel({ patchState }: StateContext<MetaDataStateModel>, { institutionId, level }: GetAllByInstitutionAndLevel): Observable<InstituitionHierarchy[]> {
+    patchState({ isLoading: true });
     return this.institutionsService
       .getAllByInstitutionAndLevel(institutionId, level)
       .pipe(
-        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy })
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy, isLoading: false })
         ))
   }
 
   @Action(GetInstitutionHierarchyChildrenById)
   getInstitutionHierarchyChildrenById({ patchState }: StateContext<MetaDataStateModel>, { id }: GetInstitutionHierarchyChildrenById): Observable<InstituitionHierarchy[]> {
+    patchState({ isLoading: true });
     return this.institutionsService
       .getInstitutionHierarchyChildrenById(id)
       .pipe(
-        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy })
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ instituitionsHierarchy: instituitionsHierarchy, isLoading: false })
         ))
   }
 
   @Action(GetInstitutionHierarchyParentsById)
   getInstitutionHierarchyParentsById({ patchState }: StateContext<MetaDataStateModel>, { id }: GetInstitutionHierarchyParentsById): Observable<InstituitionHierarchy[]> {
+    patchState({ isLoading: true });
     return this.institutionsService
       .getInstitutionHierarchyParentsId(id)
       .pipe(
-        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ editInstituitionsHierarchy: instituitionsHierarchy })
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) => patchState({ editInstituitionsHierarchy: instituitionsHierarchy, isLoading: false })
         ))
   }
   
   @Action(ResetInstitutionHierarchy)
   resetInstitutionHierarchy({ patchState }: StateContext<MetaDataStateModel>, { }: ResetInstitutionHierarchy): void {
     patchState({ instituitionsHierarchy: null });
+    patchState({ editInstituitionsHierarchy: null });
   }
 }

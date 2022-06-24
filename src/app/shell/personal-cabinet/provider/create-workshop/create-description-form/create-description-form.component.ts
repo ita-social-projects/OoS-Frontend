@@ -7,6 +7,7 @@ import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -17,6 +18,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
+  @Input() provider: Provider;
 
   @Output() passDescriptionFormGroup = new EventEmitter();
 
