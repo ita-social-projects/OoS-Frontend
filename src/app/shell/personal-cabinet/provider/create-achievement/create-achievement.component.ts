@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { Achievement } from 'src/app/shared/models/achievement.model';
@@ -21,6 +21,7 @@ import { Child } from 'src/app/shared/models/child.model';
   styleUrls: ['./create-achievement.component.scss'],
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
+  AchievementFormGroup: FormGroup;
   workshop: Workshop;
   teachers: string[];
   children: Child[];
@@ -28,7 +29,6 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   title;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ChildFormControl = new FormControl('', Validators.required);
   achievements = AchievementsTitle;
 
   children$ = [
@@ -45,8 +45,15 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private store: Store,
     private matDialog: MatDialog,
     private userWorkshopService: UserWorkshopService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
+  ) {
+    this.AchievementFormGroup = this.formBuilder.group({
+      title: new FormControl(''),
+      childrenIDs: new FormControl(''),
+      teacher: new FormControl(''),
+    });
+  }
 
   ngOnInit(): void {
     this.workshopId = this.route.snapshot.paramMap.get('param');
