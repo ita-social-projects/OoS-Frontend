@@ -8,7 +8,7 @@ import { Cropper } from '../../models/cropper';
   templateUrl: './image-cropper-modal.component.html',
   styleUrls: ['./image-cropper-modal.component.scss']
 })
-export class ImageCropperModalComponent implements OnInit {
+export class ImageCropperModalComponent {
 
   imageChangedEvent: string = '';
   croppedImage: string = '';
@@ -19,9 +19,6 @@ export class ImageCropperModalComponent implements OnInit {
     cropperConfig: Cropper,
   },
   public dialogRef: MatDialogRef<ImageCropperModalComponent>,) { }
-
-  ngOnInit(): void {
-  }
 
   onConfirm(): void {
     this.dialogRef.close(this.imageFile);
