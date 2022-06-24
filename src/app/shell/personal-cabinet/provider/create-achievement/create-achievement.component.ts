@@ -22,7 +22,7 @@ import { Child } from 'src/app/shared/models/child.model';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
-  teachers: Teacher[];
+  teachers: string[];
   children: Child[];
   workshopId: string;
   title;
@@ -53,9 +53,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     this.userWorkshopService
       .getWorkshopById(this.workshopId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((workshop) => {
-        this.workshop = workshop;
-      });
+      .subscribe((workshop) => this.workshop = workshop);
   }
 
   ngOnDestroy(): void {
