@@ -609,7 +609,7 @@ export class UserState {
   ): Observable<object> {
     return this.achievementsService.createAchievement(payload).pipe(
       tap((res) => dispatch(new OnCreateAchievementSuccess(res))),
-      catchError((error: Error) =>
+      catchError((error: HttpErrorResponse) =>
         of(dispatch(new OnCreateAchievementFail(error)))
       )
     );
@@ -634,7 +634,9 @@ export class UserState {
     { payload }: OnCreateApplicationFail
   ): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'fail', type: 'error' }));
+    dispatch(
+      new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' })
+    );
   }
 
   @Action(CreateApplication)

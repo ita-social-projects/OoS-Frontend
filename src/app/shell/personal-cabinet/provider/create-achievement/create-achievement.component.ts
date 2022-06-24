@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { Workshop } from 'src/app/shared/models/workshop.model';

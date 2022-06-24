@@ -1,5 +1,4 @@
 import { Child } from "./child.model";
-import { Teacher } from "./teacher.model";
 import { Workshop } from "./workshop.model";
 
 export class Achievement {
@@ -9,7 +8,7 @@ export class Achievement {
   workshopId: string;
   achievementTypeId: string;
   children: Child[];
-  teachers: Teacher[];
+  teachers: string[];
 
   constructor(title: string, workshop: Workshop, children: Child[]) {
     this.title = title;
