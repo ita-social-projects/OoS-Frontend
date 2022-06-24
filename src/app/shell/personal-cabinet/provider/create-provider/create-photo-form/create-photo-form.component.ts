@@ -33,17 +33,11 @@ export class CreatePhotoFormComponent implements OnInit {
   @Output() passPhotoFormGroup = new EventEmitter();
 
   PhotoFormGroup: FormGroup;
-  descriptionFormGroup: FormControl = new FormControl('', [
-    Validators.required, 
-    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-    Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
-  ]);
   SectionItemsFormArray = new FormArray([]);
 
   constructor(private formBuilder: FormBuilder, private store: Store ) {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: this.descriptionFormGroup,
       providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
@@ -53,7 +47,7 @@ export class CreatePhotoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch([new GetInstitutionStatus(), new GetAllInstitutions()]);
-    this.provider && this.activateEditMode();
+    this.provider ? this.activateEditMode() : this.newForm;
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
 
