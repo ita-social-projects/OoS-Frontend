@@ -1,7 +1,7 @@
 <form [formGroup]="InfoEditFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step"
   [ngClass]="(formAmount > 1) ? 'step-border' : ''">
 
-  <label class="step-label"> Назва розділу </label>
+  <label class="step-label"> Назва розділу<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="sectionName" appTrimValue>
   </mat-form-field>
