@@ -105,10 +105,6 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create-achievement', component: CreateAchievementComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
-  },
-  {
     path: 'create-provider/:param', component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [CreateProviderGuard],
