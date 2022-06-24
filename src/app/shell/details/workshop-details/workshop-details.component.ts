@@ -50,9 +50,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(ofAction(OnCreateRatingSuccess))
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
-      .subscribe(() =>
-        this.store.dispatch(new GetWorkshopById(this.workshop.id))
-      );
+      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
   }
 
   private getWorkshopData(): void {
