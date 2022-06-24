@@ -23,6 +23,7 @@ import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_inter
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() instituitionHierarchyIdFormControl: FormControl;
+  @Input() instituitionIdFormControl: FormControl;
 
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
@@ -35,22 +36,17 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   hierarchyArray: HierarchyElement[] = [];
   institutionFormControl: FormControl;
-  private providerInstitution: Institution; 
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.providerInstitution = this.store.selectSnapshot<Provider>(RegistrationState.provider).institution;
-
-    this.store.dispatch([
-      new GetAllInstitutions(),
-      new GetFieldDescriptionByInstitutionId(this.providerInstitution.id),
-    ]);
-
+    this.setInitialInstitution();
+    
     this.instituitionsHierarchy$
       .pipe(
         takeUntil(this.destroy$),
-        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy))
+        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy)
+      )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         const nextLevel = instituitionsHierarchy[0].hierarchyLevel - 1;
         this.hierarchyArray[nextLevel].options = instituitionsHierarchy;
@@ -60,23 +56,37 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.createInstitutioHierarchy();
   }
 
+  setInitialInstitution(): void {
+    const institutionId = this.instituitionIdFormControl.value ?
+      this.instituitionIdFormControl.value
+      :this.store.selectSnapshot<Provider>(RegistrationState.provider).institution.id
+
+    this.institutionFormControl = new FormControl(institutionId, Validators.required);
+
+    this.institutionFormControl.valueChanges.subscribe((institution: Institution) => {
+      this.store.dispatch(new GetFieldDescriptionByInstitutionId(institution.id));
+    });
+
+    this.store.dispatch([
+      new GetAllInstitutions(),
+      new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value),
+    ]);
+  }
+
   createInstitutioHierarchy(): void {
     this.institutionFieldDesc$
       .pipe(
         takeUntil(this.destroy$),
         filter((institutionFieldDesc: InstitutionFieldDescription[]) => !!institutionFieldDesc),
-        tap((institutionFieldDesc: InstitutionFieldDescription[]) => institutionFieldDesc.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel))
+        tap((institutionFieldDesc: InstitutionFieldDescription[]) =>
+          institutionFieldDesc.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel)
+        )
       )
       .subscribe((institutionFieldDesc: InstitutionFieldDescription[]) => {
         this.hierarchyArray = [];
         this.institutionFieldDesc = institutionFieldDesc;
         this.createInstitutionFormGroup();
       });
-
-    this.institutionFormControl =  new FormControl(this.providerInstitution, Validators.required);
-    this.institutionFormControl.valueChanges.subscribe((institution: Institution) => {
-      this.store.dispatch(new GetFieldDescriptionByInstitutionId(institution.id));
-    });
   }
 
   private createInstitutionFormGroup(): void {
@@ -90,11 +100,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         options: [],
       };
 
-      hierarchy.formControl.statusChanges.pipe(
-        filter(()=> !hierarchy.formControl.touched),
-        takeUntil(this.destroy$)
-      ).subscribe(()=> hierarchy.formControl.markAsTouched());
-
       this.hierarchyArray.push(hierarchy);
     });
     this.store.dispatch(new GetAllByInstitutionAndLevel(this.institutionFormControl.value.id, 1));
@@ -103,18 +108,9 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   onHierarchyLevelSelect(optionId: string, hierarchy: HierarchyElement): void {
     const currentEl = this.hierarchyArray.indexOf(hierarchy);
     if (this.hierarchyArray[currentEl + 1]) {
-      this.store.dispatch([
-        new ResetInstitutionHierarchy(), 
-        new GetInstitutionHierarchyChildrenById(optionId)
-      ]);
+      this.store.dispatch([new ResetInstitutionHierarchy(), new GetInstitutionHierarchyChildrenById(optionId)]);
     } else {
       this.instituitionHierarchyIdFormControl.setValue(optionId);
-    }
-  }
-
-  onFocusOut(hierarchy: HierarchyElement): void {
-    if(!hierarchy.formControl.value) {
-      (<EventEmitter<any>>hierarchy.formControl.statusChanges).emit();
     }
   }
 

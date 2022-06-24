@@ -113,8 +113,4 @@ export class CreatePhotoFormComponent implements OnInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
-  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
-    return institution1.id === institution2.id;
-  }
 }

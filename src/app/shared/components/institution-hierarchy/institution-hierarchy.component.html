@@ -25,7 +25,6 @@
           disableOptionCentering
           panelClass="dropdown-panel"
           class="step-input"
-          (focusout)="onFocusOut(hierarchy)"
           (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy)">
           <mat-option
             *ngFor="let option of hierarchy.options"
@@ -36,7 +35,8 @@
         </mat-select>
       </mat-form-field>
       <app-validation-hint
-      [validationFormControl]="hierarchy.formControl">
+        [validationFormControl]="hierarchy.formControl"
+        [isTouched]="hierarchy.formControl.touched">
     </app-validation-hint>
     </ng-container>
   </ng-container>

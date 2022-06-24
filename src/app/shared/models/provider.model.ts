@@ -1,8 +1,8 @@
 import { Institution } from './institution.model';
 import { Address } from './address.model';
-import { SectionItem } from './sectionItem.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
+import { SectionItem } from './sectionItem.model';
 
 export class Provider {
   id: string;
@@ -31,6 +31,7 @@ export class Provider {
   providerSectionItems: ProviderSectionItem[]
   institutionType: string;
   institution: Institution;
+  institutionId: string;
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
