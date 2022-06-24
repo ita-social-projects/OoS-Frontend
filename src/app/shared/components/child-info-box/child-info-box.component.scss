@@ -10,15 +10,20 @@
   margin: 1rem 0;
   color: #000000;
 }
+
 .title{
-  color: #444444;
-  margin: 2rem  0;
+color: #444444;
 }
+
 .text{
   margin-top: 1rem;
+  color: #000000;
 }
 
 .card.isMobile {
   box-sizing: border-box;
   width: 100vw;
+}
+h5{
+  margin-top: 1rem;
 }

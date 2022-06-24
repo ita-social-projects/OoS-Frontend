@@ -13,7 +13,7 @@ import { Util } from '../../utils/utils';
   styleUrls: ['./child-info-box.component.scss']
 })
 export class ChildInfoBoxComponent implements OnInit {
-
+ 
   constructor(private childrenService: ChildrenService, private detectedDevice: DetectedDeviceService) { }
 
   @Input() child: Child;
@@ -23,6 +23,12 @@ export class ChildInfoBoxComponent implements OnInit {
   isMobile = false
   socialGroup: SocialGroup;
   childAge: string;
+  parentFirstName: string;
+  parentLastName: string;
+  parantMiddleName: string;
+  parentPhoneNumber: string;
+  parentEmail: string;
+  
   readonly gender = Gender;
   readonly constants: typeof Constants = Constants;
 
@@ -37,5 +43,10 @@ export class ChildInfoBoxComponent implements OnInit {
 
     this.childAge = Util.getChildAge(this.child);
     this.isMobile = this.detectedDevice.checkedDevice();
+    this.parentFirstName = this.child.parent.firstName;
+    this.parentLastName = this.child.parent.lastName;
+    this.parantMiddleName = this.child.parent.middleName;
+    this.parentPhoneNumber = this.child.parent.phoneNumber;
+    this.parentEmail = this.child.parent.email;
   }
 }

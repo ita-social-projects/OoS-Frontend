@@ -1,13 +1,38 @@
 <mat-card class="card" #childInfoBox [style]="{top:top, left: isMobile ? '0px' : left}" id="child-box" [class.isMobile]="isMobile">
   <div fxLayout='column' fxLayoutAlign='center start'>
-    <h3 class="text title">ДАНІ ДИТИНИ</h3>
-    <h4 class="text">{{child.firstName}} {{child.lastName}} {{child.middleName}}</h4>
-    <h5 class="text">Дата народження:</h5>
-    <span>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}</span>
-    <span>{{ childAge }}</span>
-    <h5 class="text">Стать:</h5>
-    <span>{{ gender[child.gender] }}</span>
-    <h5 class="text">Соціальна група:</h5>
-    <span>{{ socialGroup ? socialGroup.name : "Відсутня" }}</span>
+    <h3 class="title">ДАНІ ДИТИНИ</h3>
+
+    <div class="info-group">
+      <h4 class="textChildrenName">{{child.firstName}} {{child.lastName}} {{child.middleName}}</h4>
+      <h5 class="text">Дата народження:</h5>
+      <span>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}</span>
+      <br>{{ childAge }}
+    </div>
+    
+    <div class="info-group">
+      <h5 class="text">Стать:</h5>
+      <span>{{ gender[child.gender] }}</span>
+    </div>
+
+    <div class="info-group">
+      <h5 class="text">Соціальна група:</h5>
+      <span>{{ socialGroup ? socialGroup.name : "Відсутня" }}</span>
+    </div>
+
+    <div class="info-group">
+      <h5 class="text">Батьки:</h5>
+      <span>{{ parentLastName }} {{parentFirstName}} {{parantMiddleName}}</span>
+    </div>
+
+    <div class="info-group">
+      <h5 class="text">Телефон:</h5>
+      <span>+380{{parentPhoneNumber}}</span>
+    </div>
+
+    <div class="info-group">
+      <h5 class="text">Електронна пошта:</h5>
+      <span>{{parentEmail}}</span>
+    </div>
+    
   </div>
 </mat-card>
