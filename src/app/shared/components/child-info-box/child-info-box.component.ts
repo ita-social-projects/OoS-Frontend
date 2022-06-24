@@ -31,6 +31,7 @@ export class ChildInfoBoxComponent implements OnInit {
   
   readonly gender = Gender;
   readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
 
 

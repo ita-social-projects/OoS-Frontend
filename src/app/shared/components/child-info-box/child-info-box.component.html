@@ -27,13 +27,12 @@
 
     <div class="info-group">
       <h5 class="text">Телефон:</h5>
-      <p>+380{{parentPhoneNumber}}</p>
+      <p>{{ phonePrefix + parentPhoneNumber | phoneTransform}}</p>
     </div>
 
     <div class="info-group">
       <h5 class="text">Електронна пошта:</h5>
       <p>{{parentEmail}}</p>
     </div>
-    
   </div>
 </mat-card>

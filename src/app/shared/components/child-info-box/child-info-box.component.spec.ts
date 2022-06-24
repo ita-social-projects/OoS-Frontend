@@ -27,7 +27,9 @@ describe('ChildInfoBoxComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChildInfoBoxComponent);
     component = fixture.componentInstance;
-    component.child = {} as Child;
+    component.child = {
+      parent: {}
+    } as Child;
     fixture.detectChanges();
   });
 
