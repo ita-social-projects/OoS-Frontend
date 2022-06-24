@@ -54,6 +54,7 @@ export class Provider {
     this.institutionType = description.institutionType;
     this.userId = user.id;
     this.institution = description.institution;
+    this.institutionId = description.institutionId;
     if (provider?.id) {
       this.id = provider.id;
     }

@@ -33,27 +33,21 @@ export class CreatePhotoFormComponent implements OnInit {
   @Output() passPhotoFormGroup = new EventEmitter();
 
   PhotoFormGroup: FormGroup;
-  descriptionFormGroup: FormControl = new FormControl('', [
-    Validators.required, 
-    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-    Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
-  ]);
   SectionItemsFormArray = new FormArray([]);
 
   constructor(private formBuilder: FormBuilder, private store: Store ) {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
-      description: this.descriptionFormGroup,
       providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
-      institution: new FormControl('', Validators.required),
-    }); 
+      institutionId: new FormControl('', Validators.required),
+    });
   }
 
   ngOnInit(): void {
     this.store.dispatch([new GetInstitutionStatus(), new GetAllInstitutions()]);
-    this.provider && this.activateEditMode();
+    this.provider ? this.activateEditMode() : this.onAddForm();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
 
@@ -78,7 +72,6 @@ export class CreatePhotoFormComponent implements OnInit {
  */
   private newForm(item?: ProviderSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
-      providerId: new FormControl(this.provider.id),
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
@@ -86,6 +79,10 @@ export class CreatePhotoFormComponent implements OnInit {
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
     });
+
+    if (this.provider) {
+      EditFormGroup.addControl('providerId', this.formBuilder.control(this.provider.id))
+    }
     
     if (item){
       EditFormGroup.patchValue(item, { emitEvent: false });  
@@ -98,7 +95,9 @@ export class CreatePhotoFormComponent implements OnInit {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+    if(this.PhotoFormGroup.get('providerSectionItems')) {
+      (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+    }
   }
 
   /**
