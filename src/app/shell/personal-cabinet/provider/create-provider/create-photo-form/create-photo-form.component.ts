@@ -41,8 +41,8 @@ export class CreatePhotoFormComponent implements OnInit {
       providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
-      institution: new FormControl('', Validators.required),
-    }); 
+      institutionId: new FormControl('', Validators.required),
+    });
   }
 
   ngOnInit(): void {

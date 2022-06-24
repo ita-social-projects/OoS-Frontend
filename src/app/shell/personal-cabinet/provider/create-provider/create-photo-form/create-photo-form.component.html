@@ -26,8 +26,8 @@
   <label class="step-label">Підпорядкування</label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institution" placeholder="Оберіть підпорядкування">
-      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution" class="dropdown-option">
+      formControlName="institutionId" placeholder="Оберіть підпорядкування">
+      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution.id" class="dropdown-option">
         {{institution.title}}
       </mat-option>
     </mat-select>
