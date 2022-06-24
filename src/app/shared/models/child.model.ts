@@ -1,4 +1,4 @@
-import { Parent } from './parent.model';
+import { ParentWithContactInfo } from './parent.model';
 export class Child {
   id: string;
   firstName: string;
@@ -9,7 +9,7 @@ export class Child {
   parentId?: number;
   socialGroupId: number;
   placeOfStudy: string;
-  parent: Parent;
+  parent: ParentWithContactInfo;
 
   constructor(info, parentId, id?) {
     this.id = id;

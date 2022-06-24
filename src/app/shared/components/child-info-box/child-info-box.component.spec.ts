@@ -5,6 +5,7 @@ import { Child } from '../../models/child.model';
 import { HttpClientModule } from '@angular/common/http';
 import { GeolocationService } from '../../services/geolocation/geolocation.service';
 import { ChildrenService } from '../../services/children/children.service';
+import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;
@@ -16,7 +17,7 @@ describe('ChildInfoBoxComponent', () => {
         MatCardModule,
         HttpClientModule
       ],
-      declarations: [ChildInfoBoxComponent],
+      declarations: [ChildInfoBoxComponent, PhoneTransformPipe],
       providers: [
         { provide: ChildrenService, useValue: ChildrenService }
       ]
@@ -27,7 +28,9 @@ describe('ChildInfoBoxComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChildInfoBoxComponent);
     component = fixture.componentInstance;
-    component.child = {} as Child;
+    component.child = {
+      parent: {}
+    } as Child;
     fixture.detectChanges();
   });
 
