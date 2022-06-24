@@ -87,12 +87,13 @@
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start'>
       <span class="step-text">{{ phonePrefix }}</span>
-      <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
+      <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly appTrimValue ui-number-mask
         ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}">
     </div>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('phoneNumber')">
+    [validationFormControl]="InfoFormGroup.get('phoneNumber')"
+    [minCharachters]="validationConstants.PHONE_LENGTH">
   </app-validation-hint>
 
   <label class="step-label"> Електронна пошта<span class="step-required">*</span></label>
