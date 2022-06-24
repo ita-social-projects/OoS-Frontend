@@ -42,11 +42,13 @@
             <span class="step-text">{{ phonePrefix }}</span>
             <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
               ui-hide-group-sep maxlength="{{validationConstants.PHONE_LENGTH}}" appTrimValue>
-          </div>
+          </div>          
         </mat-form-field>
         <app-validation-hint 
-          [validationFormControl]="userEditFormGroup.get('phoneNumber')">
+          [validationFormControl]="userEditFormGroup.get('phoneNumber')"
+          [minCharachters]="validationConstants.PHONE_LENGTH">
         </app-validation-hint>
+
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
