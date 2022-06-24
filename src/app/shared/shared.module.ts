@@ -66,6 +66,7 @@ import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
+import { InfoFormComponent } from './components/info-form/info-form.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { ImageCropperModalComponent } from './components/image-cropper-modal/ima
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
     ImageCropperModalComponent,
+    InfoFormComponent,
   ],
   imports: [
     MaterialModule,
@@ -197,7 +199,8 @@ import { ImageCropperModalComponent } from './components/image-cropper-modal/ima
     ValidationHintComponent,
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
-    ImageCropperModalComponent
+    ImageCropperModalComponent,
+    InfoFormComponent
   ]
 })
 export class SharedModule { }

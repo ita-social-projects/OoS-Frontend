@@ -6,6 +6,7 @@
     <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true"
       [isCreateApplicationView]="true"></app-workshop-card>
     <div class="card-border">
+      <hr class="line">
       <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
         <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
@@ -13,7 +14,7 @@
           <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
             [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
             <mat-option *ngFor="let child of (children$ | async)?.entities" [value]="child" class="dropdown-option">
-              {{child.firstName}} {{child.middleName}} {{child.lastName}}
+              {{child.lastName}} {{child.firstName}} {{child.middleName}} 
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -21,11 +22,13 @@
         </app-validation-hint>
 
         <div fxLayout="column" fxLayoutAlign="center center">
+          <p class="background-text"> Немає дитини у списку?  
           <a [routerLink]="['/create-child', '']">
             <button class="btn-add" mat-button>
               <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
             </button>
           </a>
+        </p>
         </div>
 
         <div *ngIf="selectedChild" class="info-wrapper">
