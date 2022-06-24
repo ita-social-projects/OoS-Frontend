@@ -21,12 +21,13 @@
   <mat-form-field>
     <div fxLayout='row' fxLayoutAlign='start center'>
       <span class="step-text">{{ phonePrefix }}</span>
-      <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly ui-number-mask
+      <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly appTrimValue ui-number-mask
         ui-hide-group-sep  maxlength="{{ validationConstants.PHONE_LENGTH }}">
     </div>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('phone')">
+    [validationFormControl]="AboutFormGroup.get('phone')"
+    [minCharachters]="validationConstants.PHONE_LENGTH">
   </app-validation-hint>
 
   <label class="step-label">Електронна пошта<span class="step-required">*</span></label>
