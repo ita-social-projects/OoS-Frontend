@@ -92,7 +92,6 @@ const routes: Routes = [
   },
   {
     path: 'create-achievement/:param', component: CreateAchievementComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
   },
   {
   path: 'admin-tools/platform/create/:param', component: CreateDirectionComponent,

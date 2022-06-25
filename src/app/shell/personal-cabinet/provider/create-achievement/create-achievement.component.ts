@@ -58,10 +58,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
     this.workshop$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((workshop: Workshop) => this.workshop = workshop);
-
-      console.log('workshop', this.workshop);
-      
+      .subscribe((workshop: Workshop) => this.workshop = workshop);      
   }
 
   ngOnDestroy(): void {
