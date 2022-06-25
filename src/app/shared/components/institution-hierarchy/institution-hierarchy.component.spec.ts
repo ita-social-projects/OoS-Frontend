@@ -35,6 +35,7 @@ describe('InstitutionHierarchyComponent', () => {
     fixture = TestBed.createComponent(InstitutionHierarchyComponent);
     component = fixture.componentInstance;
     component.instituitionIdFormControl = new FormControl();
+    component.provider = {} as any;
     fixture.detectChanges();
 
   });

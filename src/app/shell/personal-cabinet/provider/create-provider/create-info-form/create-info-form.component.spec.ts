@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
+import { NgxsModule } from '@ngxs/store';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -27,6 +28,7 @@ describe('CreateInfoFormComponent', () => {
         MatSelectModule,
         MatInputModule,
         BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         CreateInfoFormComponent,
