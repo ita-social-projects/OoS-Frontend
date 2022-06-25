@@ -1,7 +1,7 @@
 import { Workshop } from "./workshop.model";
 
 export class Achievement {
-  id: string;
+  id?: string;
   title: string;
   achievementDate: string;
   workshopId: string;
@@ -11,7 +11,7 @@ export class Achievement {
 
   constructor(title: string, workshop?: Workshop, teachers?: string[]) {
     this.title = title;
-    this.workshopId = workshop.id;
-    this.teachers = teachers;
+    // this.workshopId = workshop.id;
+    // this.teachers = teachers;
   }
 }

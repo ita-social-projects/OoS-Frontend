@@ -1,4 +1,4 @@
-<app-navigation-bar><nav></nav></app-navigation-bar>
+<!-- <app-navigation-bar><nav></nav></app-navigation-bar> -->
 <div class="create-form">
   <div class="wrapper application-wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
@@ -19,13 +19,12 @@
         <mat-form-field appearance="none">
           <mat-select             
             multiple 
-            formControlName="achievementTitle" 
+            formControlName="title" 
             disableOptionCentering 
             panelClass="dropdown-panel" 
             class="step-input">
-            <mat-option *ngFor="let achievementTitle of achievements" 
-              [value]="achievement">
-              {{achievementTitle}}
+            <mat-option *ngFor="let title of achievements">
+              {{title}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -35,10 +34,8 @@
           <mat-select             
             disableOptionCentering
             multiple 
-            formControlName="childrenIDs" 
             panelClass="dropdown-panel" 
-            class="step-input" 
-            name="child">
+            class="step-input">
             <mat-option *ngFor="let child of children$" 
               [value]="child.id" 
               class="dropdown-option">
@@ -49,9 +46,9 @@
 
         <label class="step-label">Тренер<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple formControlName="teachers" disableOptionCentering panelClass="dropdown-panel" class="step-input">
+          <mat-select multiple disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <ng-container *ngIf="workshop">
-              <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher.lastName" class="dropdown-option">
+              <mat-option *ngFor="let teacher of workshop.teachers" class="dropdown-option">
                 {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
               </mat-option>
             </ng-container>
