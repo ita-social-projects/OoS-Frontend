@@ -23,6 +23,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
+  workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
   achievements = AchievementsTitle;
@@ -44,14 +45,14 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
       title: new FormControl('', Validators.required),
-      // childrenIDs: new FormControl(''),
-      // teachers: new FormControl(''),
-
+      childrenIDs: new FormControl(''),
+      teachers: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetWorkshopById(this.route.snapshot.paramMap.get('param')));
+    this.workshopId = this.route.snapshot.paramMap.get('param')
+    this.store.dispatch(new GetWorkshopById(this.workshopId));
     this.workshop$
     .pipe(takeUntil(this.destroy$))
     .subscribe((workshop: Workshop) => this.workshop = workshop);      
@@ -67,10 +68,10 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement('title'); 
+        const achievement = new Achievement(this.AchievementFormGroup.controls.title.value[0], this.workshopId); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
-    });
+    });    
   }
 
   ngOnDestroy(): void {

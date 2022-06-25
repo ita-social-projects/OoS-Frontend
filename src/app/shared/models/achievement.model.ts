@@ -9,9 +9,9 @@ export class Achievement {
   childrenIDs: string[];
   teachers: string[];
 
-  constructor(title: string, workshop?: Workshop, teachers?: string[]) {
+  constructor(title: string, workshopId, teachers?: string[]) {
     this.title = title;
-    // this.workshopId = workshop.id;
-    // this.teachers = teachers;
+    this.workshopId = workshopId;
+    this.teachers = teachers;
   }
 }
