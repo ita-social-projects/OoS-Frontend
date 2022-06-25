@@ -12,7 +12,8 @@
     </mat-select>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="instituitionIdFormControl">
+    [validationFormControl]="instituitionIdFormControl"
+    [isTouched]="hierarchy.formControl.touched">
   </app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
