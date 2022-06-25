@@ -13,7 +13,7 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="instituitionIdFormControl"
-    [isTouched]="hierarchy.formControl.touched">
+    [isTouched]="instituitionIdFormControl.touched">
   </app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
