@@ -18,7 +18,7 @@
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple formControlName="title" disableOptionCentering panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let achievement of achievements" [value]="achievement.title">
+            <mat-option *ngFor="let achievement of achievements" [value]="achievement">
               {{achievement}}
             </mat-option>
           </mat-select>

@@ -22,10 +22,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
 
   AchievementFormGroup: FormGroup;
-  title: string;
   workshop: Workshop;
-  workshopId: string;
-  teachers;
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
   achievements = AchievementsTitle;
@@ -46,42 +43,36 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl(''),
-      childrenIDs: new FormControl(''),
-      teachers: new FormControl(''),
+      title: new FormControl('', Validators.required),
+      // childrenIDs: new FormControl(''),
+      // teachers: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
-    this.workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
-
+    this.store.dispatch(new GetWorkshopById(this.route.snapshot.paramMap.get('param')));
     this.workshop$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((workshop: Workshop) => this.workshop = workshop);
-
-      console.log('workshop', this.workshop);
-      
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.unsubscribe();
-  }
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((workshop: Workshop) => this.workshop = workshop);      
+  } 
 
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: { 
-        type: ModalConfirmationType.createAchievement,
-        property: this.achievement.title 
+        type: ModalConfirmationType.createAchievement
       },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(this.title, this.workshop, this.teachers);
+        const achievement = new Achievement('title');
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 }

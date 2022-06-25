@@ -101,7 +101,7 @@ export interface UserStateModel {
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applications: Application[];
-  achievement: Achievement;
+  achievements: Achievement[];
   children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
@@ -116,7 +116,7 @@ export interface UserStateModel {
     selectedWorkshop: null,
     selectedProvider: null,
     applications: null,
-    achievement: null,
+    achievements: null,
     children: undefined,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
@@ -631,7 +631,7 @@ export class UserState {
   @Action(OnCreateAchievementFail)
   onCreateAchievementFail(
     { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnCreateApplicationFail
+    { payload }: OnCreateAchievementFail
   ): void {
     throwError(payload);
     dispatch(
