@@ -52,7 +52,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
-    this.workshop && this.activateEditMode();
+    this.workshop ? this.activateEditMode() : this.onAddForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
   }
 
@@ -145,7 +145,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   private newForm(item?: WorkshopSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
-      workshopId: new FormControl(this.workshop.id),
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
@@ -153,6 +152,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
       ]),
     });
+
+    if (this.workshop) {
+      EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id))
+    }
 
     if (item) {
       EditFormGroup.patchValue(item, { emitEvent: false });
@@ -165,9 +168,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
-      this.newForm()
-    );
+    if(this.DescriptionFormGroup.get('workshopDescriptionItems')) {
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
+        this.newForm()
+      );
+    }
   }
 
   /**
