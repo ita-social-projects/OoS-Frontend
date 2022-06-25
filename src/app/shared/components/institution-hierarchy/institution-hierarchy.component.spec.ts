@@ -34,7 +34,7 @@ describe('InstitutionHierarchyComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InstitutionHierarchyComponent);
     component = fixture.componentInstance;
-    jest.useFakeTimers();
+    component.instituitionIdFormControl = new FormControl();
     fixture.detectChanges();
 
   });

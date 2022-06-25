@@ -50,6 +50,7 @@ describe('CreatePhotoFormComponent', () => {
       institutionType: new FormControl(''),
       institution: new FormControl(''),
       institutionId: new FormControl(''),
+      founder: new FormControl(''),
     });
     fixture.detectChanges();
   });
