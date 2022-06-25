@@ -21,11 +21,8 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
 
-  AchievementFormGroup: FormGroup;
-  title: string;
   workshop: Workshop;
-  workshopId: string;
-  teachers;
+  AchievementFormGroup: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
   achievements = AchievementsTitle;
@@ -51,8 +48,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
+    this.store.dispatch(new GetWorkshopById(this.route.snapshot.paramMap.get('param')));
 
     this.workshop$
       .pipe(takeUntil(this.destroy$))
@@ -74,9 +70,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const achievement = new Achievement(
-          this.title,
-          // this.workshop,
-          // this.teachers
+          'title',  
         );
         this.store.dispatch(new CreateAchievement(achievement));
       }
