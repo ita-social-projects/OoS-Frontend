@@ -46,9 +46,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl(''),
-      childrenIDs: new FormControl(''),
-      teachers: new FormControl(''),
+      achievementTitle: new FormControl(''),
     });
   }
 
@@ -70,13 +68,16 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: { 
         type: ModalConfirmationType.createAchievement,
-        property: this.achievement.title 
       },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(this.title, this.workshop, this.teachers);
+        const achievement = new Achievement(
+          this.title,
+          // this.workshop,
+          // this.teachers
+        );
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });

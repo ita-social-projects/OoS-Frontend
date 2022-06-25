@@ -1,4 +1,4 @@
-<!-- <app-navigation-bar><nav></nav></app-navigation-bar> -->
+<app-navigation-bar><nav></nav></app-navigation-bar>
 <div class="create-form">
   <div class="wrapper application-wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
@@ -17,17 +17,31 @@
 
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple formControlName="title" disableOptionCentering panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let achievement of achievements" [value]="achievement.title">
-              {{achievement}}
+          <mat-select             
+            multiple 
+            formControlName="achievementTitle" 
+            disableOptionCentering 
+            panelClass="dropdown-panel" 
+            class="step-input">
+            <mat-option *ngFor="let achievementTitle of achievements" 
+              [value]="achievement">
+              {{achievementTitle}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple formControlName="childrenIDs" panelClass="dropdown-panel" class="step-input" name="child">
-            <mat-option *ngFor="let child of children$" [value]="child.id" class="dropdown-option">
+          <mat-select             
+            disableOptionCentering
+            multiple 
+            formControlName="childrenIDs" 
+            panelClass="dropdown-panel" 
+            class="step-input" 
+            name="child">
+            <mat-option *ngFor="let child of children$" 
+              [value]="child.id" 
+              class="dropdown-option">
               {{child.lastName}} {{child.firstName}}
             </mat-option>
           </mat-select>
