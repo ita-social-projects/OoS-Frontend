@@ -46,6 +46,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       title: new FormControl('', Validators.required),
       // childrenIDs: new FormControl(''),
       // teachers: new FormControl(''),
+
     });
   }
 
@@ -66,7 +67,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement('title');
+        const achievement = new Achievement('title'); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });
