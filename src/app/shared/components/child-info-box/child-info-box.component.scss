@@ -10,15 +10,21 @@
   margin: 1rem 0;
   color: #000000;
 }
+
 .title{
+  margin-bottom: 15px;
   color: #444444;
-  margin: 2rem  0;
 }
+
 .text{
-  margin-top: 1rem;
+  color: #000000;
 }
 
 .card.isMobile {
   box-sizing: border-box;
   width: 100vw;
+}
+
+.textChildrenName{
+  margin-bottom: 15px;
 }

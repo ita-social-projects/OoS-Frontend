@@ -67,7 +67,7 @@ class MockValidationHintForInputComponent {
 }
 
 @Component({
-  selector: 'app-workshop-checkbox-dropdown',
+  selector: 'app-entity-checkbox-dropdown',
   template: ''
 })
 
