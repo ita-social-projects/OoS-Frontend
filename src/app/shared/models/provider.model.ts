@@ -31,7 +31,8 @@ export class Provider {
   providerSectionItems: ProviderSectionItem[]
   institutionType: string;
   institution: Institution;
-
+  institutionId: string;
+  
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
@@ -45,13 +46,14 @@ export class Provider {
     this.edrpouIpn = info.edrpouIpn;
     this.director = info.director;
     this.directorDateOfBirth = info.directorDateOfBirth;
+    this.founder = description.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.institutionStatusId = description.institutionStatusId || null;
     this.institutionType = description.institutionType;
     this.userId = user.id;
-    this.institution = info.institution;
-    this.founder = description.founder;
+    this.institution = description.institution;
+    this.institutionId = info.institutionId;
     if (provider?.id) {
       this.id = provider.id;
     }

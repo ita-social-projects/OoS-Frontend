@@ -37,6 +37,8 @@
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
+
+
   <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500" (deleteForm)="onDeleteForm($event)">

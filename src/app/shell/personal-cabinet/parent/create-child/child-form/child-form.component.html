@@ -38,7 +38,8 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="ChildFormGroup.get('dateOfBirth')" 
+    [validationFormControl]="ChildFormGroup.get('dateOfBirth')"
+    [isTouched]="ChildFormGroup.get('dateOfBirth').touched"  
     minMaxDate="true">
   </app-validation-hint>
 
