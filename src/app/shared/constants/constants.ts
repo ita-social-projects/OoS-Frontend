@@ -40,6 +40,7 @@ export class Constants {
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;
   static readonly MODAL_SMALL = '500px';
+  static readonly MODAL_MEDIUM = '1024px';
 }
 
 export class PaginationConstants {
@@ -102,4 +103,15 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
 
 export class NotificationsConstants {
   static readonly NO_MESSAGE = 'У вас немає нових повідомлень';
+}
+
+export class CropperConfigurationConstants {
+  static readonly defaultCropperAspectRatio = 1/1;
+  static readonly coverImageCropperAspectRatio = 5/3;
+  static readonly galleryImagesCropperAspectRatio = 7/4;
+  static readonly cropperMinWidth = 512;
+  static readonly cropperMaxWidth = 10000;
+  static readonly cropperMinHeight = 250;
+  static readonly cropperMaxHeight = 8000;
+  static readonly croppedFormat = ['png', 'jpeg'];
 }
