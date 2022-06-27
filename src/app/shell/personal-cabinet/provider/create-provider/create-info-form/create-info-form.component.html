@@ -93,7 +93,8 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="InfoFormGroup.get('phoneNumber')"
-    [minCharachters]="validationConstants.PHONE_LENGTH">
+    [minCharachters]="validationConstants.PHONE_LENGTH"
+    [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label"> Електронна пошта<span class="step-required">*</span></label>

@@ -92,7 +92,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
     });
