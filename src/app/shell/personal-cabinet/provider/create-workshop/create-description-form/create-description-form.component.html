@@ -1,9 +1,5 @@
-<form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <app-image-form-control
-    *ngIf="isRelease2"
-    [imgMaxAmount]="10"
-    [label]="'Фото'"
-    formControlName="imageFiles"
+<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="10" [cropperConfig]="cropperConfig" [label]="'Фото'" formControlName="imageFiles"
     [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 

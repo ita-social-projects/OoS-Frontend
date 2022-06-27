@@ -70,7 +70,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    this.invalidFieldLength = !!(errors?.maxlength && errors?.minlength);
+    this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
     this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
   }
 

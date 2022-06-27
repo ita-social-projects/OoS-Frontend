@@ -64,6 +64,8 @@ import { ValidationHintComponent } from './components/validation-hint/validation
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 
@@ -127,6 +129,7 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
     InstitutionHierarchyComponent,
+    ImageCropperModalComponent,
     InfoFormComponent,
   ],
   imports: [
@@ -139,6 +142,7 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     NgxSliderModule,
     NgxMatTimepickerModule,
     IvyCarouselModule,
+    ImageCropperModule
   ],
   exports: [
     FiltersListComponent,
@@ -198,6 +202,7 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
     InstitutionHierarchyComponent,
+    ImageCropperModalComponent,
     InfoFormComponent
   ]
 })

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -21,6 +21,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
+  }
 
   @Input() workshop: Workshop;
   @Input() provider: Provider;
