@@ -100,13 +100,12 @@ export class NotificationsConstants {
 }
 
 export class CropperConfigurationConstants {
-  static readonly cropperMinWidth = 512;
-  static readonly galleryImagesCropperMinWidth = 896;
-  static readonly cropperMinHeight = 512;
   static readonly defaultCropperAspectRatio = 1/1;
   static readonly coverImageCropperAspectRatio = 5/3;
   static readonly galleryImagesCropperAspectRatio = 7/4;
-  static readonly croppedWidth = 512;
-  static readonly croppedHeight = 512;
-  static readonly croppedFormat = 'png';
+  static readonly cropperMinWidth = 512;
+  static readonly cropperMaxWidth = 10000;
+  static readonly cropperMinHeight = 250;
+  static readonly cropperMaxHeight = 8000;
+  static readonly croppedFormat = ['png', 'jpeg'];
 }

@@ -14,9 +14,10 @@ import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   readonly cropperConfig = {
-    cropperMinWidth: CropperConfigurationConstants.galleryImagesCropperMinWidth,
-    croppedWidth: CropperConfigurationConstants.croppedWidth,
-    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
   }
 

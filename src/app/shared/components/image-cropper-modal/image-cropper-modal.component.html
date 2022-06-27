@@ -6,7 +6,9 @@
     <image-cropper 
       [imageChangedEvent]="data.image"
       [cropperMinWidth]="data.cropperConfig.cropperMinWidth"
-      [resizeToWidth]="data.cropperConfig.croppedWidth"
+      [cropperMaxWidth]="data.cropperConfig.cropperMaxWidth"
+      [cropperMinHeight]="data.cropperConfig.cropperMinHeight"
+      [cropperMaxHeight]="data.cropperConfig.cropperMaxHeight"
       [aspectRatio]="data.cropperConfig.cropperAspectRatio"
       format="data.cropperConfig.croppedFormat"
       (imageCropped)="imageCropped($event)"

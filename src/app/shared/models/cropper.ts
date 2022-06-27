@@ -3,6 +3,8 @@ export interface Cropper {
   croppedHeight?: number;
   croppedFormat: string;
   cropperMinWidth: number;
+  cropperMaxWidth: number;
   cropperMinHeight?: number;
+  cropperMaxHeight?: number;
   cropperAspectRatio: number;
 }

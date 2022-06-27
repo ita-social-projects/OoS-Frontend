@@ -14,8 +14,9 @@ export class TeacherFormComponent {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
-    croppedWidth: CropperConfigurationConstants.croppedWidth,
-    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
   }
   
