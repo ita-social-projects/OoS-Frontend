@@ -7,9 +7,10 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { DATE_REGEX, NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Util } from 'src/app/shared/utils/utils';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Institution } from 'src/app/shared/models/institution.model';
 import { Observable } from 'rxjs';
+import { GetAllInstitutions } from 'src/app/shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-create-info-form',
@@ -37,7 +38,7 @@ export class CreateInfoFormComponent implements OnInit {
   maxDate: Date = Util.getMaxBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.InfoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
         Validators.required, 
@@ -85,6 +86,7 @@ export class CreateInfoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new GetAllInstitutions());
     (this.provider) && this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }

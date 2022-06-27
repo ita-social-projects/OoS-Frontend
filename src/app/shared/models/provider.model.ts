@@ -46,7 +46,7 @@ export class Provider {
     this.edrpouIpn = info.edrpouIpn;
     this.director = info.director;
     this.directorDateOfBirth = info.directorDateOfBirth;
-    this.founder = info.founder;
+    this.founder = description.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.description = 'tempMock';
@@ -54,7 +54,7 @@ export class Provider {
     this.institutionType = description.institutionType;
     this.userId = user.id;
     this.institution = description.institution;
-    this.institutionId = description.institutionId;
+    this.institutionId = info.institutionId;
     if (provider?.id) {
       this.id = provider.id;
     }

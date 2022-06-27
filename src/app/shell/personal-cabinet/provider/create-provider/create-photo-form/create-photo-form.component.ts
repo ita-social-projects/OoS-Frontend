@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
@@ -11,7 +10,7 @@ import { Institution } from 'src/app/shared/models/institution.model';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ProviderSectionItem } from 'src/app/shared/models/provider.model';
-import { GetAllInstitutions, GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
+import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
@@ -50,7 +49,7 @@ export class CreatePhotoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch([new GetInstitutionStatus(), new GetAllInstitutions()]);
+    this.store.dispatch(new GetInstitutionStatus());
     this.provider ? this.activateEditMode() : this.onAddForm();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
@@ -67,7 +66,6 @@ export class CreatePhotoFormComponent implements OnInit {
     } else {
       this.onAddForm();
     }
-    this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
     this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 
