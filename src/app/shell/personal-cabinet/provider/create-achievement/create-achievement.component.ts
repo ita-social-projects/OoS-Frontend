@@ -55,7 +55,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetWorkshopById(this.workshopId));
     this.workshop$
     .pipe(takeUntil(this.destroy$))
-    .subscribe((workshop: Workshop) => this.workshop = workshop);      
+    .subscribe((workshop: Workshop) => this.workshop = workshop);  
+    
+    console.log('this.AchievementFormGroup.controls', this.AchievementFormGroup.controls);    
   } 
 
   onSubmit(): void {
@@ -68,7 +70,11 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(this.AchievementFormGroup.controls.title.value[0], this.workshopId); 
+        const achievement = new Achievement(
+          this.AchievementFormGroup.controls.title.value, 
+          this.workshopId, 
+          this.AchievementFormGroup.controls.childrenIDs.value,
+          this.AchievementFormGroup.controls.teachers.value); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });    
