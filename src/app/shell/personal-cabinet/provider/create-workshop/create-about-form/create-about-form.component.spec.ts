@@ -97,4 +97,5 @@ class MockValidationHintAboutComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isPhoneNumber: boolean;
 }
