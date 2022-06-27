@@ -105,7 +105,5 @@ export class CreateTeacherComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
-    
   }
-
 }
