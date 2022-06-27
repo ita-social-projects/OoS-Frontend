@@ -58,4 +58,5 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
 }
