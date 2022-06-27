@@ -158,8 +158,10 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   onDeleteForm(index: number): void {
     const status: string = this.ChildrenFormArray.controls[index].status;
     const isTouched: boolean = this.ChildrenFormArray.controls[index].touched;
-
-    if(status !== 'INVALID' || isTouched) {
+    const valueForm = this.ChildrenFormArray.controls[index].value;
+    const isPristine = this.ChildrenFormArray.controls[index].pristine;
+      
+    if(!isPristine) {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -168,9 +170,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       }
     });
    
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.ChildrenFormArray.removeAt(index);;
-    });
+    dialogRef.afterClosed().subscribe((result: boolean) => 
+      result && this.ChildrenFormArray.removeAt(index));
     } else {
       this.ChildrenFormArray.removeAt(index);
     }   

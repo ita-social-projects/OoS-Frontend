@@ -95,8 +95,10 @@ export class CreateTeacherComponent implements OnInit {
    */
   onDeleteForm(index: number): void {
     const  teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
+    const isPristine = teacherFormGroup.pristine;
 
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+    if(teacherFormGroup.status==="VALID" || !isPristine ){
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteTeacher,
@@ -104,6 +106,10 @@ export class CreateTeacherComponent implements OnInit {
         }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
+    dialogRef.afterClosed().subscribe((result: boolean) => 
+      result && this.TeacherFormArray.removeAt(index));
+    } else {
+      this.TeacherFormArray.removeAt(index);
+    }
   }
 }
