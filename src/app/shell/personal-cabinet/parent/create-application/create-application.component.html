@@ -12,7 +12,8 @@
         <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
+            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти"
+            (selectionChange)="onSelectChild($event)">
             <mat-option *ngFor="let child of (children$ | async)?.entities" [value]="child" class="dropdown-option">
               {{child.lastName}} {{child.firstName}} {{child.middleName}} 
             </mat-option>

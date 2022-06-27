@@ -76,4 +76,17 @@ export class ApplicationService {
   updateApplication(application: ApplicationUpdate): Observable<object> {
     return this.http.put('/api/v1/Application/Update', application);
   }
+
+  /**
+   * This method get status if child can apply to workshop by application id and child id
+   * @param childId string
+   * @param workshopId string
+   */
+  getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
+    const options = { params: this.setParams({
+      childId: childId,
+      workshopId: workshopId
+    }) };
+    return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
+  }
 }
