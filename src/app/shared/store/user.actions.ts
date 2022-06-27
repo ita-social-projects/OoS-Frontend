@@ -12,13 +12,9 @@ export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: string) { }
 }
-export class getAchievementsByWorkshopId {
+export class GetAchievementsByWorkshopId {
   static readonly type = '[user] get Achievements By Wokrshop Id';
-  constructor(public payload: string) { }
-}
-export class OnGetAchievementsByIdFail {
-  static readonly type = '[user] get Workshop By Achievements Id fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload) { }
 }
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';

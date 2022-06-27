@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
-import { getAchievementsByWorkshopId, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { Workshop } from 'src/app/shared/models/workshop.model';
+import { GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-achievements',
@@ -11,16 +11,14 @@ import { getAchievementsByWorkshopId, GetWorkshopById } from 'src/app/shared/sto
   styleUrls: ['./achievements.component.scss'],
 })
 export class AchievementsComponent implements OnInit {
-  workshopId: string;
   readonly noResultAchievements = NoResultsTitle.noAchievements;
 
-  @Input() achievements: Achievement[];
+  @Input() workshop: Workshop;
+  achievements: Achievement[];
 
-  constructor(private store: Store, private route: ActivatedRoute,) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.workshopId = this.route.snapshot.paramMap.get('param')
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
-    this.store.dispatch(new getAchievementsByWorkshopId(this.workshopId));
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }
 }

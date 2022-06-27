@@ -70,7 +70,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
         const achievement = new Achievement(
           this.AchievementFormGroup.controls.title.value, 
           this.AchievementFormGroup.controls.childrenIDs.value,
-          this.AchievementFormGroup.controls.teachers.value); 
+          this.AchievementFormGroup.controls.teachers.value,
+          this.route.snapshot.paramMap.get('param')); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });    

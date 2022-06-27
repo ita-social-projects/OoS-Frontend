@@ -55,7 +55,6 @@ import {
   OnUpdateUserFail,
   OnUpdateUserSuccess,
   GetWorkshopById,
-  getAchievementsByWorkshopId,
   OnGetWorkshopByIdFail,
   GetApplicationsByProviderId,
   GetApplicationsByParentId,
@@ -86,7 +85,7 @@ import {
   ResetProviderWorkshopDetails,
   OnCreateAchievementSuccess,
   OnCreateAchievementFail,
-  OnGetAchievementsByIdFail
+  GetAchievementsByWorkshopId
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -224,31 +223,16 @@ export class UserState {
     );
   }
 
-  @Action(getAchievementsByWorkshopId)
+  @Action(GetAchievementsByWorkshopId)
   getAchievementsByWorkshopId(
-    { patchState, dispatch }: StateContext<UserStateModel>,
-    { payload }: getAchievementsByWorkshopId
-  ): Observable<object> {
+    { patchState }: StateContext<UserStateModel>,
+    {payload}: GetAchievementsByWorkshopId    
+  ): Observable<Achievement[]> {
     patchState({ isLoading: true });
     return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
-      tap((achievements: Achievement[]) =>
-        patchState({ achievements: achievements, isLoading: false })
-      ),
-      catchError((error: HttpErrorResponse) =>
-        of(dispatch(new OnGetWorkshopByIdFail(error)))
-      )
-    );
-  }
-
-  @Action(OnGetAchievementsByIdFail)
-  OnGetAchievementsByIdFail(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: OnGetAchievementsByIdFail
-  ): void {
-    throwError(payload);
-    patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(
-      new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' })
+      tap((achievements: Achievement[]) => {
+        return patchState({ achievements: achievements, isLoading: false });
+      })
     );
   }
 
