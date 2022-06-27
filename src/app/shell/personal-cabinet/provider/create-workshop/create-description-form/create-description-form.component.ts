@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
 @Component({
   selector: 'app-create-description-form',
@@ -12,6 +13,13 @@ import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
+  }
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
