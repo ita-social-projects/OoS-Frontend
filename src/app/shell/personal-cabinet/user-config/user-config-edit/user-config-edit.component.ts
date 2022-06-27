@@ -1,3 +1,4 @@
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Role } from 'src/app/shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -12,17 +13,18 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-
+import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-config-edit',
   templateUrl: './user-config-edit.component.html',
-  styleUrls: ['./user-config-edit.component.scss']
+  styleUrls: ['./user-config-edit.component.scss'],
 })
-export class UserConfigEditComponent implements OnInit, OnDestroy {
+export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly role = Role;
   readonly validationConstants = ValidationConstants;
-  readonly phonePrefix= Constants.PHONE_PREFIX;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
@@ -32,50 +34,65 @@ export class UserConfigEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store,
-    private navigationBarService: NavigationBarService) {
+    store: Store,
+    navigationBarService: NavigationBarService,
+    route: ActivatedRoute
+  ) {
+    super(store, route, navigationBarService);
 
     this.userEditFormGroup = this.fb.group({
       lastName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       firstName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       middleName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      phoneNumber: new FormControl('', [
-        Validators.required, 
-        Validators.minLength(ValidationConstants.PHONE_LENGTH)
-      ]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
     });
+    this.subscribeOnDirtyForm(this.userEditFormGroup);
   }
 
   ngOnInit(): void {
-    this.user$.subscribe((user: User) => this.user = user);
-    this.user && this.userEditFormGroup.patchValue(this.user);
+    this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => (this.user = user));
+    this.setEditMode();
+  }
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider ?
-        NavBarName.PersonalCabinetProvider : 
-        this.role.techAdmin ?
-        NavBarName.PersonalCabinetTechAdmin :
-        NavBarName.PersonalCabinetParent,
-        path: '/personal-cabinet/config',
-        isActive: false, disable: false
-      },
-      { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
-    )));
+  setEditMode(): void {
+    this.userEditFormGroup.patchValue(this.user, { emitEvent: false });
+    this.addNavPath();
+  }
+
+  addNavPath(): void {
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name:
+              this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider
+                ? NavBarName.PersonalCabinetProvider
+                : this.role.techAdmin
+                ? NavBarName.PersonalCabinetTechAdmin
+                : NavBarName.PersonalCabinetParent,
+            path: '/personal-cabinet/config',
+            isActive: false,
+            disable: false,
+          },
+          { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
+        )
+      )
+    );
   }
 
   ngOnDestroy(): void {
