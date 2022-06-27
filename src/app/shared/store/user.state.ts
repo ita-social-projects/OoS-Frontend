@@ -655,10 +655,9 @@ export class UserState {
   ): void {
     console.log('Achievement is created', payload);
     dispatch([
-      new ShowMessageBar({ message: 'Досягнення створено!', type: 'success' }),
+      new ShowMessageBar({ message: 'Досягнення додано!', type: 'success' }),
       new MarkFormDirty(false),
     ]);
-    this.router.navigate(['']);
   }
 
   @Action(OnCreateAchievementFail)
