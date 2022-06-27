@@ -158,6 +158,11 @@ export class UserState {
   }
 
   @Selector()
+  static achievements(state: UserStateModel): Achievement[] {
+    return state.achievements;
+  }
+
+  @Selector()
   static children(state: UserStateModel): ChildCards {
     return state.children;
   }

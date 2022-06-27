@@ -44,7 +44,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl(''),
+      title: new FormControl('', Validators.required),
       childrenIDs: new FormControl(''),
       teachers: new FormControl(''),
     });
@@ -71,8 +71,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
         const achievement = new Achievement(
           this.AchievementFormGroup.controls.title.value, 
           this.workshopId, 
-          this.AchievementFormGroup.controls.teachers.value); 
           this.AchievementFormGroup.controls.childrenIDs.value,
+          this.AchievementFormGroup.controls.teachers.value); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });    

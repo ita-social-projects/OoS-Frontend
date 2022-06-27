@@ -15,7 +15,7 @@ export class AchievementsService {
     );
   }
 
-  createAchievement(achievement: Achievement): Observable<object> {
+  createAchievement(achievement: Achievement): Observable<Object> {
     return this.http.post('/api/v1/Achievement/Create', achievement);
   }
 }

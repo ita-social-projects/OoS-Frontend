@@ -47,7 +47,7 @@ describe('CreateAchievementComponent', () => {
     component.AchievementFormGroup = new FormGroup({
       title: new FormControl(''),
       teachers: new FormControl(''), 
-      childrenIds: new FormControl(''),  
+      childrenIDs: new FormControl(''),  
     });
     fixture.detectChanges();
   });
