@@ -52,6 +52,20 @@
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
+  <label class="step-label">Підпорядкування<span class="step-required">*</span></label>
+  <mat-form-field floatLabel="never" appearance="none">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+      formControlName="institutionId" placeholder="Оберіть підпорядкування">
+      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution.id" class="dropdown-option">
+        {{institution.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('institutionId')"
+    [isTouched]="InfoFormGroup.get('institutionId').touched">
+  </app-validation-hint>
+
   <label class="step-label"> ПІБ керівника<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="director" autocomplete="none" appTrimValue>
@@ -135,15 +149,5 @@
     [validationFormControl]="InfoFormGroup.get('instagram')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Засновник<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('founder')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 </form>

@@ -27,19 +27,17 @@
     [isTouched]="PhotoFormGroup.get('institutionType').touched">
   </app-validation-hint>
 
-  <label class="step-label">Підпорядкування<span class="step-required">*</span></label>
-  <mat-form-field floatLabel="never" appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institutionId" placeholder="Оберіть підпорядкування">
-      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution.id" class="dropdown-option">
-        {{institution.title}}
-      </mat-option>
-    </mat-select>
+  <label class="step-label">Засновник<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="PhotoFormGroup.get('institution')"
-    [isTouched]="PhotoFormGroup.get('institution').touched">
+    [validationFormControl]="PhotoFormGroup.get('founder')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
+
+
 
   <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"

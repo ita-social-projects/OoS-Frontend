@@ -6,6 +6,10 @@ import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from '
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DATE_REGEX, NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Util } from 'src/app/shared/utils/utils';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { Select } from '@ngxs/store';
+import { Institution } from 'src/app/shared/models/institution.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-info-form',
@@ -17,12 +21,13 @@ export class CreateInfoFormComponent implements OnInit {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly phonePrefix= Constants.PHONE_PREFIX;
-  
   readonly ownershipType = OwnershipType;
   readonly providerType = ProviderType;
-
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
+
+  @Select(MetaDataState.institutions)
+  institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();
@@ -73,14 +78,9 @@ export class CreateInfoFormComponent implements OnInit {
       instagram: new FormControl('', [
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
-      founder: new FormControl('', [
-        Validators.required, 
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
       type: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
+      institutionId: new FormControl('', Validators.required),
     });
   }
 

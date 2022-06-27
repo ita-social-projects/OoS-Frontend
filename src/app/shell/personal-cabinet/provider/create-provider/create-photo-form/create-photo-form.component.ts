@@ -4,6 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { InstitutionTypes } from 'src/app/shared/enum/provider';
 import { Institution } from 'src/app/shared/models/institution.model';
@@ -25,8 +26,6 @@ export class CreatePhotoFormComponent implements OnInit {
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
 
@@ -41,7 +40,12 @@ export class CreatePhotoFormComponent implements OnInit {
       providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required),
+      founder: new FormControl('', [
+        Validators.required, 
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ]),
     });
   }
 
