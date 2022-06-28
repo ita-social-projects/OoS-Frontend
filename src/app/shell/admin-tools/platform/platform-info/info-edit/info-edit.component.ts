@@ -89,7 +89,11 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    */
   private newForm(platformInfoItem?: СompanyInformationSectionItem): FormGroup {
     const platformInfoEditFormGroup = this.fb.group({
-      sectionName: new FormControl('', [Validators.required]),
+      sectionName: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
+        Validators.required
+      ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
