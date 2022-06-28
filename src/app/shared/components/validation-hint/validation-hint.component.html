@@ -1,6 +1,6 @@
-<small appValidationMessageStyling>
-  <ng-container *ngIf = "invalid">
-    <ng-container *ngIf = "required; then requiredInputTmpl"></ng-container>
+<small *ngIf = "invalid" appValidationMessageStyling>
+  <ng-container *ngIf = "required; then requiredInputTmpl"></ng-container>
+  <ng-container *ngIf = "!required">
     <ng-container *ngIf = "invalidCharacters; then invalidCharactersTmpl"></ng-container>
     <ng-container *ngIf = "invalidSymbols; then invalidSymbolsTmpl"></ng-container>
     <ng-container *ngIf = "invalidFieldLength; then invalidLengthTmpl"></ng-container>
