@@ -53,6 +53,7 @@ class MockValidationHintForInputComponent{
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
 }
 @Component({
   selector: 'app-city-autocomplete',
@@ -62,5 +63,4 @@ class MockCityAutocompleteComponent {
   @Input() InitialCity: string;
   @Input() className: string;
   @Input() cityFormControl: FormControl;
-  @Input() isTouched: boolean;
 }
