@@ -61,7 +61,7 @@
           <a [routerLink]="'/personal-cabinet/provider/info'"><button mat-raised-button
               class="btn btn-cancel">СКАСУВАТИ</button></a>
           <button class="btn" mat-button type="submit" (click)="onSubmit()"
-            [disabled]="(!isAgreed || !isNotRobot) && !editMode">ЗБЕРЕГТИ</button>
+            [disabled]="(!isAgreed || !isNotRobot) && PhotoFormGroup.invalid">ЗБЕРЕГТИ</button>
         </div>
       </mat-step>
 
