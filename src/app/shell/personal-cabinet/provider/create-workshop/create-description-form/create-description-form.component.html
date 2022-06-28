@@ -20,8 +20,9 @@
     <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
       placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none" appTrimValue>
       <app-validation-hint
-        [minCharachters]="validationConstants.INPUT_LENGTH_1"
-        [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+      [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
+      [minCharachters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharachters]="validationConstants.INPUT_LENGTH_256">
       </app-validation-hint>
   </mat-radio-group>
 
