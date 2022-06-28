@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { takeUntil} from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
@@ -24,6 +25,7 @@ export class CreatePhotoFormComponent implements OnInit {
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatus:InstitutionStatus[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() provider: Provider;
@@ -52,6 +54,17 @@ export class CreatePhotoFormComponent implements OnInit {
     this.store.dispatch(new GetInstitutionStatus());
     this.provider ? this.activateEditMode() : this.onAddForm();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
+   
+    this.institutionStatuses$.pipe(takeUntil(this.destroy$)).subscribe((institutionStatus: InstitutionStatus[]) => {
+      this.institutionStatus = institutionStatus;
+      for (let i = 0; i < this.institutionStatus.length; i++) {
+        if (this.institutionStatus[i].name == "Працює") {
+          this.institutionStatus.splice(i,1);
+          break;
+        }
+      }
+    });
+
   }
 
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {
