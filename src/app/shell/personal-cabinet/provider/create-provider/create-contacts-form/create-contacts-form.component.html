@@ -18,9 +18,10 @@
     (focusout)="onFocusOutLegal($event)">
   </app-city-autocomplete>
   <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('city')"
+    [validationFormControl]="cityLegalFormControl"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+    [isTouched]="cityLegalFormControl.touched">
   </app-validation-hint>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
@@ -81,9 +82,10 @@
     (focusout)="onFocusOutActual($event)">
   </app-city-autocomplete>
   <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('city')"
+    [validationFormControl]="cityActualFormControl"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+    [isTouched]="cityActualFormControl.touched">
   </app-validation-hint>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
