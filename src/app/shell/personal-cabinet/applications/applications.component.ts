@@ -1,8 +1,8 @@
 
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { Actions, ofAction, ofActionCompleted, Select, Store } from '@ngxs/store';
+import { debounceTime, filter, first, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
@@ -33,11 +33,14 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit {
 
   @Select(PaginatorState.applicationsPerPage)
-  directionsPerPage$: Observable<number>;
+  applicationsPerPage$: Observable<number>;
+  @Select(UserState.applications)
+  applicationCards$: Observable<ApplicationCards>;
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
 
+  applicationCards: ApplicationCards;
   isActiveInfoButton = false;
   tabIndex: number;
   providerApplicationParams: {
@@ -46,7 +49,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     workshopsId: string[],
   } = {
       status: undefined,
-      showBlocked: true,
+      showBlocked: false,
       workshopsId: []
     };
   isSelectedChildCheckbox = false;
@@ -72,18 +75,21 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     private route: ActivatedRoute,) {
     super(store, matDialog, actions$);
   }
-  ngAfterViewInit(): void {
-    this.tabGroup.selectedIndex = this.tabIndex;
-  }
+
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
+    this.applicationCards$.pipe(
+      first(),
+      filter((applicationCards: ApplicationCards)=> !!applicationCards)
+    ).subscribe(() => this.tabGroup.selectedIndex = this.tabIndex);
     this.getUserData();
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])
       );
 
-    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
+    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess, SetApplicationsPerPage, OnPageChangeApplications))
       .pipe(
         takeUntil(this.destroy$))
       .subscribe(() => {
@@ -156,10 +162,15 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
-    const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
+    const status = (tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.Blocked] && tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.All]) ?
     tabLabel : null;
-    const showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked]
-    this.providerApplicationParams.showBlocked = showBlocked;
+    if (tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked]) {
+      const showBlocked = true;
+      this.providerApplicationParams.showBlocked = showBlocked ;
+    } else {
+      const showBlocked = false;
+      this.providerApplicationParams.showBlocked = showBlocked ;
+    }
     if (this.role === Role.provider) {
       this.providerApplicationParams.status = status;
       this.getProviderApplications(this.providerApplicationParams);

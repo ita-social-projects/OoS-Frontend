@@ -7,7 +7,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application, ApplicationCards } from 'src/app/shared/models/application.model';
+import { Application, ApplicationCards, } from 'src/app/shared/models/application.model';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -30,7 +30,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
   @Select(UserState.applications)
-  applicationsCard$: Observable<ApplicationCards>;
+  applicationCards$: Observable<ApplicationCards>;
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards>;
   @Select(RegistrationState.parent)
@@ -48,7 +48,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   role: string;
 
   workshops: WorkshopCard[];
-  applicationsCard: ApplicationCards;
+  applicationCards: ApplicationCards;
   childrenCards: Child[];
   filteredChildren: Child[]
 
@@ -81,10 +81,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.applicationsCard$.pipe(
-      filter((applicationsCard: ApplicationCards) => !!applicationsCard),
+    this.applicationCards$.pipe(
+      filter((applicationCards: ApplicationCards) => !!applicationCards),
       takeUntil(this.destroy$)
-    ).subscribe((applicationsCard: ApplicationCards) => this.applicationsCard = applicationsCard);
+    ).subscribe((applicationCards: ApplicationCards) => this.applicationCards = applicationCards);
 
     this.childrenCards$.pipe(
       filter((childrenCards: ChildCards) => !!childrenCards),

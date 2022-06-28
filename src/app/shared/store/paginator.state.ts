@@ -4,7 +4,7 @@ import { PaginationElement } from "../models/paginationElement.model";
 import { GetFilteredDirections } from "./admin.actions";
 import { GetFilteredWorkshops } from "./filter.actions";
 import { OnPageChangeApplications, OnPageChangeChildrens, OnPageChangeDirections, OnPageChangeWorkshops, SetApplicationsPerPage, SetChildrensPerPage, SetDirectionsPerPage, SetFirstPage, SetWorkshopsPerPage, } from "./paginator.actions";
-import { GetApplicationsByProviderId, GetUsersChildren } from "./user.actions";
+import { GetUsersChildren } from "./user.actions";
 
 export interface PaginatorStateModel {
   workshopsPerPage: number;
@@ -19,7 +19,7 @@ export interface PaginatorStateModel {
     workshopsPerPage: 12,
     directionsPerPage: 10,
     childrensPerPage: 12,
-    applicationsPerPage: 5,
+    applicationsPerPage: 8,
     currentPage: {
       element: 1,
       isActive: true

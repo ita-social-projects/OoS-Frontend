@@ -94,7 +94,7 @@ export interface UserStateModel {
   workshops: WorkshopCard[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
-  applicationsCard: ApplicationCards;
+  applicationCards: ApplicationCards;
   children: ChildCards;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
@@ -108,7 +108,7 @@ export interface UserStateModel {
     workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applicationsCard: null,
+    applicationCards: null,
     children: undefined,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
@@ -135,7 +135,7 @@ export class UserState {
   static selectedWorkshop(state: UserStateModel): Workshop { return state.selectedWorkshop; }
 
   @Selector()
-  static applications(state: UserStateModel): ApplicationCards { return state.applicationsCard; }
+  static applications(state: UserStateModel): ApplicationCards { return state.applicationCards; }
 
   @Selector()
   static children(state: UserStateModel): ChildCards { return state.children; }
@@ -215,8 +215,8 @@ export class UserState {
     return this.applicationService
       .getApplicationsByParentId(id, status)
       .pipe(
-        tap((applicationsCard: ApplicationCards) => {
-          return patchState({ applicationsCard: applicationsCard, isLoading: false });
+        tap((applicationCards: ApplicationCards) => {
+          return patchState({ applicationCards: applicationCards, isLoading: false });
         }));
   }
 
@@ -226,8 +226,8 @@ export class UserState {
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
-        tap((applicationsCard: ApplicationCards) => {
-          return patchState({ applicationsCard: applicationsCard, isLoading: false });
+        tap((applicationCards: ApplicationCards) => {
+          return patchState({ applicationCards: applicationCards, isLoading: false });
         }));
   }
 

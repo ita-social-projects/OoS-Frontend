@@ -6,7 +6,6 @@ export enum ApplicationStatus {
   Completed = 'Completed',
   Rejected = 'Rejected',
   Left = 'Left',
-  Blocked = 'Blocked'
 }
 export enum ApplicationIcons {
   Pending = 'fas fa-user-clock',
