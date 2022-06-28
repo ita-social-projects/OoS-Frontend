@@ -61,7 +61,7 @@ export class PaginatorState {
   }
 
   @Action(SetApplicationsPerPage)
-  setApplicationsPerPage({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: SetApplicationsPerPage): void {
+  setApplicationsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetApplicationsPerPage): void {
     patchState({ applicationsPerPage: payload });
 
   }
@@ -90,7 +90,7 @@ export class PaginatorState {
   }
 
   @Action(OnPageChangeApplications)
-  onPageChangeApplications({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeApplications): void {
+  onPageChangeApplications({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeApplications): void {
     patchState({ currentPage: payload });
   }
 }
