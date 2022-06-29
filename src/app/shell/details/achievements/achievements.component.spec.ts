@@ -28,7 +28,6 @@ describe('AchievementsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    // spyOn(store, 'dispatch').and.returnValue(MockAchievement as Achievement);
     fixture = TestBed.createComponent(AchievementsComponent);
     component = fixture.componentInstance;
     component.achievements = [];
