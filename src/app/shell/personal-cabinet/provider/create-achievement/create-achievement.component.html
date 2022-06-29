@@ -21,7 +21,7 @@
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering formControlName="childrenIDs" panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let child of children$" [value]="child.lastName" class="dropdown-option">
+            <mat-option *ngFor="let child of children$" [value]="child.id" class="dropdown-option">
               {{child.lastName}} {{child.firstName}}
             </mat-option>
           </mat-select>
@@ -31,7 +31,7 @@
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering formControlName="teachers" panelClass="dropdown-panel" class="step-input">
             <ng-container *ngIf="workshop">
-              <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher.firstName" class="dropdown-option">
+              <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher.lastName" class="dropdown-option">
                 {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
               </mat-option>
             </ng-container>

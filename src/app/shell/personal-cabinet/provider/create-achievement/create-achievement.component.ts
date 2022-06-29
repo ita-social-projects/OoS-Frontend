@@ -28,12 +28,12 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievements = AchievementsTitle;
 
   children$ = [
-    { lastName: 'Тетерукова', firstName: 'Дарина' },
-    { lastName: 'Узумакі', firstName: 'Боруто' },
-    { lastName: 'Малинка', firstName: 'Малина' },
-    { lastName: 'Малинка', firstName: 'Малина' },
-    { lastName: 'Rtdby', firstName: 'Малина' },
-    { lastName: 'Малинка', firstName: 'Малина' },
+    { id: '1', lastName: 'Тетерукова', firstName: 'Дарина' },
+    { id: '2', lastName: 'Узумакі', firstName: 'Боруто' },
+    { id: '3', lastName: 'Малинка', firstName: 'Малина' },
+    { id: '4', lastName: 'Малинка', firstName: 'Малина' },
+    { id: '5', lastName: 'Rtdby', firstName: 'Малина' },
+    { id: '6', lastName: 'Малинка', firstName: 'Малина' },
   ];
 
   constructor(
@@ -68,10 +68,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const achievement = new Achievement(
-          this.AchievementFormGroup.controls.title.value, 
-          this.AchievementFormGroup.controls.childrenIDs.value,
-          this.AchievementFormGroup.controls.teachers.value,
-          this.route.snapshot.paramMap.get('param')); 
+          this.AchievementFormGroup.value); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });    
