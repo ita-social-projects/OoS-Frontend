@@ -1,12 +1,12 @@
 
 export class Achievement {
-  id: string;
+  id?: string;
   title: string;
   achievementDate: string;
   workshopId: string;
   achievementTypeId: number;
-  childrenIDs: string[];
-  teachers: string[];
+  childrenIDs?: string[];
+  teachers?: string[];
 
   constructor(info, workshopId) {
     this.title = info.title,

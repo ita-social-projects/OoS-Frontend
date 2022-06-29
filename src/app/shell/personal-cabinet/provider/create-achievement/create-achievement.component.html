@@ -18,18 +18,20 @@
           </mat-select>
         </mat-form-field>
 
-        <label class="step-label">Учасники<span class="step-required">*</span></label>
+        <label class="step-label">Учасники</label>
         <mat-form-field appearance="none">
-          <mat-select multiple disableOptionCentering formControlName="childrenIDs" panelClass="dropdown-panel" class="step-input">
+          <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
+            panelClass="dropdown-panel" class="step-input">
             <mat-option *ngFor="let child of children$" [value]="child.id" class="dropdown-option">
               {{child.lastName}} {{child.firstName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <label class="step-label">Тренер<span class="step-required">*</span></label>
+        <label class="step-label">Тренер</label>
         <mat-form-field appearance="none">
-          <mat-select multiple disableOptionCentering formControlName="teachers" panelClass="dropdown-panel" class="step-input">
+          <mat-select multiple disableOptionCentering formControlName="teachers" 
+            panelClass="dropdown-panel" class="step-input">
             <ng-container *ngIf="workshop">
               <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher.lastName" class="dropdown-option">
                 {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
@@ -45,7 +47,7 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <label class="step-label">Опис Досягнення</label>
+        <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
