@@ -25,7 +25,7 @@ export class Constants {
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
-  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 1;
 
   static readonly NO_CITY = 'Такого міста немає';
   static readonly KIEV: City = {
