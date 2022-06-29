@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -54,8 +54,10 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     this.workshopId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetWorkshopById(this.workshopId));
     this.workshop$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((workshop: Workshop) => this.workshop = workshop);      
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((workshop) => !!workshop)
+    ).subscribe((workshop: Workshop) => this.workshop = workshop);      
   } 
 
   onSubmit(): void {
