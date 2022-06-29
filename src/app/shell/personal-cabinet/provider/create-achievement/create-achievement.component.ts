@@ -25,7 +25,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop: Workshop;
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
-  workshopId;
+  workshopId: string;
   achievements = AchievementsTitle;
 
   children$ = [
@@ -44,7 +44,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl('', Validators.required),
+      title: new FormControl(''),
+      achievementDate: new FormControl(''),
+      achievementTypeId: new FormControl(''),
       childrenIDs: new FormControl(''),
       teachers: new FormControl(''),
     });

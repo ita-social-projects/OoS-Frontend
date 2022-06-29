@@ -11,7 +11,7 @@
       <form [formGroup]="AchievementFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple formControlName="title" disableOptionCentering panelClass="dropdown-panel" class="step-input">
+          <mat-select multiple formControlName="achievementTypeId" disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <mat-option *ngFor="let achievement of achievements" [value]="achievement">
               {{achievement}}
             </mat-option>
@@ -40,14 +40,14 @@
         </mat-form-field>
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-          <input matInput [matDatepicker]="picker">
+          <input matInput [matDatepicker]="picker" formControlName="achievementDate">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <label class="step-label">Опис Досягнення</label>
         <mat-form-field appPlaceholderStyling floatLabel="never">
-          <textarea matInput class="step-textarea"></textarea>
+          <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
 
       </form>
