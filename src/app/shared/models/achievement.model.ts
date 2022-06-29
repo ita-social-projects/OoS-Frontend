@@ -5,8 +5,8 @@ export class Achievement {
   achievementDate: string;
   workshopId: string;
   achievementTypeId: number;
-  childrenIDs?: string;
-  teachers?: string;
+  childrenIDs: string[];
+  teachers: string[];
 
   constructor(info, workshopId) {
     this.title = info.title,

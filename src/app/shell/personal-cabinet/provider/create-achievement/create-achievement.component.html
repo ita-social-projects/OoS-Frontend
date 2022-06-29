@@ -11,7 +11,7 @@
       <form [formGroup]="AchievementFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select multiple formControlName="achievementTypeId" disableOptionCentering panelClass="dropdown-panel" class="step-input">
+          <mat-select formControlName="achievementTypeId" disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <mat-option *ngFor="let achievement of achievements" [value]="achievement">
               {{achievement}}
             </mat-option>
