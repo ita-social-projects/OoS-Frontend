@@ -2,7 +2,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { debounceTime, filter, first, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, first, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
@@ -21,7 +21,7 @@ import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumU
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { Observable } from 'rxjs';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeApplications, SetApplicationsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 
@@ -43,7 +43,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   applicationCards: ApplicationCards;
   isActiveInfoButton = false;
   tabIndex: number;
-  providerApplicationParams: {
+  applicationParams: {
     status: string,
     showBlocked: boolean,
     workshopsId: string[],
@@ -80,7 +80,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   ngOnInit(): void {
     this.applicationCards$.pipe(
-      first(),
+      take(1),
       filter((applicationCards: ApplicationCards)=> !!applicationCards)
     ).subscribe(() => this.tabGroup.selectedIndex = this.tabIndex);
     this.getUserData();
@@ -94,21 +94,21 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         takeUntil(this.destroy$))
       .subscribe(() => {
         if (this.role === Role.provider) {
-          this.getProviderApplications(this.providerApplicationParams);
+          this.getProviderApplications(this.applicationParams);
         } else {
-          this.getParentApplications();
+          this.getParentApplications(this.applicationParams);
         }
       });
   }
 
   init(): void {
     if (this.role === Role.provider) {
-      this.getProviderApplications(this.providerApplicationParams);
+      this.getProviderApplications(this.applicationParams);
       this.getProviderWorkshops();
       this.activateChildInfoBox();
     } else {
       this.getAllUsersChildren();
-      this.getParentApplications();
+      this.getParentApplications(this.applicationParams);
     }
   }
 
@@ -164,18 +164,13 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
     const status = (tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.Blocked] && tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.All]) ?
     tabLabel : null;
-    if (tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked]) {
-      const showBlocked = true;
-      this.providerApplicationParams.showBlocked = showBlocked ;
-    } else {
-      const showBlocked = false;
-      this.providerApplicationParams.showBlocked = showBlocked ;
-    }
+    this.applicationParams.status = status;
+
     if (this.role === Role.provider) {
-      this.providerApplicationParams.status = status;
-      this.getProviderApplications(this.providerApplicationParams);
+      this.applicationParams.showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked];
+      this.getProviderApplications(this.applicationParams);
     } else {
-      this.getParentApplications(status);
+      this.applicationParams.showBlocked = false;
     }
     this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
   }
@@ -186,8 +181,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
  */
    onEntitiesSelect(IDs: string[]): void {
       if (this.role === Role.provider) {
-        this.providerApplicationParams.workshopsId = IDs;
-        this.getProviderApplications(this.providerApplicationParams);
+        this.applicationParams.workshopsId = IDs;
+        this.getProviderApplications(this.applicationParams);
       } else {
         this.isSelectedChildCheckbox = !!IDs.length;
         this.filteredChildren = this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);

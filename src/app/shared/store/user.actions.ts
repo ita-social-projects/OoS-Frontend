@@ -29,7 +29,7 @@ export class OnGetProviderByIdFail {
 }
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
-  constructor(public id: string, public status?: string) { }
+  constructor(public id: string, public parameters?: string) { }
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';

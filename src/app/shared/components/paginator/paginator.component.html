@@ -11,9 +11,9 @@
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
-  
+
   <label class="step-label">Відображати на сторінці:</label>
-  <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" (selectionChange)="OnSelectOption($event)" placeholder="{{itemsPerPage}}">
+  <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" (selectionChange)="OnSelectOption($event)" placeholder="{{itemsPerPage>20 ? itemsPerPage : 20}}">
     <mat-option value="8" class="dropdown-option"> 8 </mat-option>
     <mat-option value="12" selected class="dropdown-option"> 12 </mat-option>
     <mat-option value="16" class="dropdown-option"> 16 </mat-option>

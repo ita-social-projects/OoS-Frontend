@@ -29,11 +29,10 @@ export class ApplicationService {
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
     const from: number = size * (+currentPage.element - 1);
-
     params = params.set('OrderByDateAscending', 'true'); // TODO: change parameters setting according to the backend updtaes
     params = params.set('OrderByAlphabetically', 'false'); // TODO: change parameters setting according to the backend updtaes
     params = params.set('OrderByStatus', 'true'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('ShowBlcoked', 'false');
+    params = params.set('ShowBlocked', parameters.showBlocked);
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
 
@@ -44,11 +43,8 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id string
    */
-   getApplicationsByParentId(id: string, status): Observable<ApplicationCards> {
-    const options = { params: this.setParams({
-      status: status,
-      workshopsId: []
-    }) };
+   getApplicationsByParentId(id: string, parameters): Observable<ApplicationCards> {
+    const options = { params: this.setParams(parameters) };
     return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
 

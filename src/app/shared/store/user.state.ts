@@ -210,10 +210,10 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, status }: GetApplicationsByParentId): Observable<ApplicationCards> {
+  getApplicationsByUserId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByParentId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsByParentId(id, status)
+      .getApplicationsByParentId(id, parameters)
       .pipe(
         tap((applicationCards: ApplicationCards) => {
           return patchState({ applicationCards: applicationCards, isLoading: false });
@@ -223,8 +223,10 @@ export class UserState {
   @Action(GetApplicationsByProviderId)
   getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
+    console.log(parameters)
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
+
       .pipe(
         tap((applicationCards: ApplicationCards) => {
           return patchState({ applicationCards: applicationCards, isLoading: false });

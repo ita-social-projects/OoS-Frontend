@@ -92,12 +92,12 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     ).subscribe((childrenCards: ChildCards) => this.filteredChildren = this.childrenCards = childrenCards.entities);
   }
 
-  getProviderApplications(providerApplicationParams): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
+  getProviderApplications(applicationParams): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, applicationParams));
   }
 
-  getParentApplications(status?): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, status));
+  getParentApplications(applicationParams): void {
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, applicationParams));
   }
 
   getUsersChildren(): void {

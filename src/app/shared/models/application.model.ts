@@ -12,6 +12,7 @@ export class Application {
   child: Child;
   parent: Parent;
   rejectionMessage: string
+  isBlocked: boolean;
 
   constructor(child: Child, workshop: Workshop, parent: Parent) {
     this.childId = child.id;

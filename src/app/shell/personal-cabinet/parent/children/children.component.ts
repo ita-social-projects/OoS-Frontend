@@ -10,7 +10,7 @@ import { DeleteChildById } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeChildrens, SetApplicationsPerPage, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
@@ -27,6 +27,11 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
     element: 1,
     isActive: true
   };
+  applicationParams: {
+    status: string,
+    showBlocked: boolean,
+    workshopsId: string[],
+  };
 
   constructor(
     store: Store,
@@ -41,7 +46,9 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   init(): void {
     this.getUsersChildren();
-    this.getParentApplications();
+    this.getParentApplications(this.applicationParams);
+    this.store.dispatch([new SetFirstPage(), new SetApplicationsPerPage(100)]);
+
   }
 
   childApplications(applications: Application[], child: Child): Array<Application> {

@@ -1,6 +1,6 @@
 <div *ngIf="applicationCards" class="container">
   <ng-container class="container" *ngIf="(role === Role.provider) then isProvider; else isParent"></ng-container>
-  <app-paginator
+  <app-paginator *ngIf="!(isLoadingCabinet$ | async)"
   [totalEntities]="applicationCards.totalAmount"
   [currentPage]="currentPage"
   [itemsPerPage]="applicationsPerPage$ | async"
