@@ -1,14 +1,11 @@
-<div *ngIf="applicationCards" class="container">
-  <ng-container class="container" *ngIf="(role === Role.provider) then isProvider; else isParent"></ng-container>
-  <app-paginator *ngIf="!(isLoadingCabinet$ | async)"
-  [totalEntities]="applicationCards.totalAmount"
-  [currentPage]="currentPage"
-  [itemsPerPage]="applicationsPerPage$ | async"
-  (pageChange)="onPageChange($event)"
-  (itemsPerPageChange)="onItemsPerPageChange($event)">
+  <div class="container" *ngIf="(role === Role.provider) then isProvider; else isParent"></div>
+  <app-paginator *ngIf="!(isLoadingCabinet$ | async) && applicationCards"
+    [totalEntities]="applicationCards.totalAmount"
+    [currentPage]="currentPage"
+    [itemsPerPage]="applicationsPerPage$ | async"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
-</div>
-
 
 <ng-template #isProvider>
   <div class="dropdown">
@@ -24,6 +21,7 @@
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+      <ng-container *ngIf="applicationCards">
       <mat-tab label="{{applicationTitles.All}}">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
         </ng-container>
@@ -54,6 +52,7 @@
         </ng-container>
       </ng-container>
       </mat-tab>
+    </ng-container>
     </mat-tab-group>
   </div>
 </ng-template>
@@ -78,6 +77,7 @@
 
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+        <ng-container *ngIf="applicationCards">
         <mat-tab label="Усі">
           <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCards }">
           </ng-container>
@@ -102,6 +102,7 @@
           <ng-container *ngTemplateOutlet="ParentApplication; context:{$implicit: applicationCards }">
           </ng-container>
         </mat-tab>
+      </ng-container>
       </mat-tab-group>
     </div>
 </ng-template>

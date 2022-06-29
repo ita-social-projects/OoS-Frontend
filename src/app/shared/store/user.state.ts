@@ -223,7 +223,6 @@ export class UserState {
   @Action(GetApplicationsByProviderId)
   getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
-    console.log(parameters)
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
 

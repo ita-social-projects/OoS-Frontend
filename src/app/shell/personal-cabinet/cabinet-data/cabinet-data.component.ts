@@ -16,6 +16,7 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-cabinet-data',

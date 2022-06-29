@@ -9,6 +9,7 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { Role } from 'src/app/shared/enum/role';
 import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
+import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -40,6 +41,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new OnPageChangeWorkshops(page));
+    this.store.dispatch(new GetFilteredWorkshops());
   }
 
   ngOnDestroy(): void {

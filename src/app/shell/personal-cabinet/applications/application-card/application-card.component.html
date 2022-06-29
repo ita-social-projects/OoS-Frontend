@@ -10,7 +10,7 @@
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>
     </div>
   </mat-card-content>
-
+<ng-container *ngIf="application.isBlocked then applicationStatus===applicationStatus.Blocked">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
     <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
       <h4 [routerLink]="['/details/workshop', application?.workshopId]" [matTooltip]="application?.workshop.title"
@@ -26,6 +26,7 @@
       </div>
     </div>
   </mat-card-content>
+</ng-container>
 
   <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="start center">
     <div class="application-status" *ngIf="application" fxLayout="row">

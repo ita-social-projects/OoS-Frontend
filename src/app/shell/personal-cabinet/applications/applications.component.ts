@@ -34,8 +34,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   @Select(PaginatorState.applicationsPerPage)
   applicationsPerPage$: Observable<number>;
-  @Select(UserState.applications)
-  applicationCards$: Observable<ApplicationCards>;
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
@@ -74,21 +72,18 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     private router: Router,
     private route: ActivatedRoute,) {
     super(store, matDialog, actions$);
-  }
-
-  ngAfterViewInit(): void {}
-
-  ngOnInit(): void {
-    this.applicationCards$.pipe(
-      take(1),
-      filter((applicationCards: ApplicationCards)=> !!applicationCards)
-    ).subscribe(() => this.tabGroup.selectedIndex = this.tabIndex);
-    this.getUserData();
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])
-      );
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']));
 
+  }
+
+  ngAfterViewInit(): void {
+    this.tabGroup.selectedIndex = this.tabIndex;
+  }
+
+  ngOnInit(): void {
+    this.getUserData();
     this.actions$.pipe(ofAction(OnUpdateApplicationSuccess, SetApplicationsPerPage, OnPageChangeApplications))
       .pipe(
         takeUntil(this.destroy$))
@@ -171,6 +166,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getProviderApplications(this.applicationParams);
     } else {
       this.applicationParams.showBlocked = false;
+      this.getParentApplications(this.applicationParams);
     }
     this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
   }

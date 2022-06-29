@@ -63,19 +63,16 @@ export class PaginatorState {
   @Action(SetApplicationsPerPage)
   setApplicationsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetApplicationsPerPage): void {
     patchState({ applicationsPerPage: payload });
-
   }
 
   @Action(OnPageChangeDirections)
-  onPageChangeDirections({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeDirections): void {
+  onPageChangeDirections({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeDirections): void {
     patchState({ currentPage: payload });
-    dispatch(new GetFilteredDirections());
   }
 
   @Action(OnPageChangeWorkshops)
-  onPageChangeWorkshops({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeWorkshops): void {
+  onPageChangeWorkshops({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeWorkshops): void {
     patchState({ currentPage: payload });
-    dispatch(new GetFilteredWorkshops());
   }
 
   @Action(SetFirstPage)
@@ -84,9 +81,8 @@ export class PaginatorState {
   }
 
   @Action(OnPageChangeChildrens)
-  onPageChange({ patchState, dispatch }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
+  onPageChange({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
     patchState({ currentPage: payload });
-    dispatch( new GetUsersChildren());
   }
 
   @Action(OnPageChangeApplications)
