@@ -34,7 +34,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   readonly CardType = cardType;
 
   @Select(UserState.children) children$: Observable<ChildCards>;
-  @Select(UserState.isAllowChildToApply) isAllowToApply$: Observable<boolean>;
+  @Select(UserState.isAllowChildToApply) isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.user) user$: Observable<User>;
   @Select(RegistrationState.parent) parent$: Observable<Parent>;
   parent: Parent;
@@ -89,10 +89,6 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
 
-    // this.isAllowToApply$
-    // .pipe(takeUntil(this.destroy$))
-    // .subscribe((status: boolean) => this. = status);
-
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
       { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
@@ -126,6 +122,6 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   }
 
   onSelectChild(child: MatSelectChange): void {
-    new GetStatusIsAllowToApply(child.value.id, this.workshopId)
+    this.store.dispatch(new GetStatusIsAllowToApply(child.value.id, this.workshopId));
   }
 }

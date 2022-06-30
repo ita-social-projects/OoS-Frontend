@@ -650,7 +650,7 @@ export class UserState {
         tap((status: boolean) => {
           return patchState({ isAllowChildToApply: status, isLoading: false });
         }));
-  }  
+  }
 
   @Action(CreateRating)
   createRating({ dispatch }: StateContext<UserStateModel>, { payload }: CreateRating): Observable<object> {

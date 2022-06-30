@@ -19,6 +19,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div *ngIf="!(isAllowChildToApply$ | async)">Дитина не може бути прийнята в гурток</div>
         <app-validation-hint [validationFormControl]="ChildFormControl">
         </app-validation-hint>
 

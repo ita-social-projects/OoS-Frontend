@@ -83,10 +83,12 @@ export class ApplicationService {
    * @param workshopId string
    */
   getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
-    const options = { params: this.setParams({
-      childId: childId,
-      workshopId: workshopId
-    }) };
+    const options = {
+      params: {
+        childId: childId,
+        workshopId: workshopId
+      }
+    };
     return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
   }
 }
