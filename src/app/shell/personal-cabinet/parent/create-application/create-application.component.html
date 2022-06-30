@@ -19,7 +19,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div *ngIf="!(isAllowChildToApply$ | async)">Дитина не може бути прийнята в гурток</div>
+        <small class="warning" *ngIf="!(isAllowChildToApply$ | async) && selectedChild?.id">Дитина не може бути прийнята в гурток</small>
         <app-validation-hint [validationFormControl]="ChildFormControl">
         </app-validation-hint>
 
@@ -67,7 +67,8 @@
       <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
                     !isContraindicationAgreed ||
                     !isParentAgreed ||
-                    !selectedChild " (click)="onSubmit()">ВІДПРАВИТИ</button>
+                    !selectedChild ||
+                    !(isAllowChildToApply$ | async)" (click)="onSubmit()">ВІДПРАВИТИ</button>
     </div>
   </div>
 </div>
