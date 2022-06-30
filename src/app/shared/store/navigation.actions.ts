@@ -17,5 +17,5 @@ export class SidenavToggle {
 }
 export class FiltersSidenavToggle {
   static readonly type = '[navigation] filtersSidenavOpen';
-  constructor() { }
+  constructor(public payload: boolean) { }
 }

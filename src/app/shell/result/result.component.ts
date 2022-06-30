@@ -42,7 +42,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   workshopsPerPage: number;
   @Select(PaginatorState.currentPage)
   currentPage$: Observable<number>;
-  currentPage;
+  currentPage: number;
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
@@ -65,13 +65,14 @@ export class ResultComponent implements OnInit, OnDestroy {
       this.store.dispatch(new GetFilteredWorkshops());
     });
 
-    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$])
+    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.filtersSidenavOpenTrue$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([isMobileView, role, params, currentPage]) => {
+      .subscribe(([isMobileView, role, params, currentPage, visibleFiltersSidenav]) => {
         this.isMobileView = isMobileView;
         this.role = role;
         this.currentView = params.param;
         this.currentPage = currentPage;
+        this.visibleFiltersSidenav = visibleFiltersSidenav;
       });
 
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
@@ -96,10 +97,10 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(() =>
         this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
       );
-    
-      this.filtersSidenavOpenTrue$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(visible => this.visibleFiltersSidenav = visible);
+
+    if(!this.isMobileView){
+      this.store.dispatch(new FiltersSidenavToggle(true));
+    }
   }
 
   viewHandler(value: ViewType): void {
@@ -114,7 +115,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   filterHandler(): void {
-    this.store.dispatch(new FiltersSidenavToggle());
+    this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
   }
 
   ngOnDestroy(): void {

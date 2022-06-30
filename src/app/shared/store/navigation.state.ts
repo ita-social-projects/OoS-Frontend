@@ -66,10 +66,9 @@ export class NavigationState {
   }
 
   @Action(FiltersSidenavToggle)
-  FiltersSidenavToggle({ patchState, getState }: StateContext<NavStateModel>): void {
-    const filtersSidenavOpenState = getState().filtersSidenavOpen;
+  FiltersSidenavToggle({ patchState }: StateContext<NavStateModel>, { payload }: FiltersSidenavToggle): void {
     patchState({
-      filtersSidenavOpen: !filtersSidenavOpenState
+      filtersSidenavOpen: payload
     });
   }
 

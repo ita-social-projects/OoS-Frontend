@@ -148,8 +148,8 @@ export class Util {
         isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded
       }
 
-      if (payload.uploadingImagesResults) {
-        statuses = Object.entries(payload.uploadingImagesResults?.results);
+      if (payload.uploadingImagesResults?.results) {
+        statuses = Object.entries(payload.uploadingImagesResults.results);
         invalidImages = statuses.filter((result) => !result[1]['succeeded']);
         isInvalidGaleryImages = !!invalidImages.length;
       }
