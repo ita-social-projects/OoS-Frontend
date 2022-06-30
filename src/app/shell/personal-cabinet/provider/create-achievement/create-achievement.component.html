@@ -1,4 +1,3 @@
-<!-- <app-navigation-bar><nav></nav></app-navigation-bar> -->
 <div class="create-form">
   <div class="wrapper application-wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
@@ -18,7 +17,7 @@
           </mat-select>
         </mat-form-field>
 
-        <label class="step-label">Учасники</label>
+        <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
             panelClass="dropdown-panel" class="step-input">
@@ -46,13 +45,18 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-
-        <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
-        <!-- <label class="step-characters-count">{{title.length}}/{{validationConstants.MAX_KEYWORDS_LENGTH}}</label> -->
+        <div class="step-label-combined">
+          <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
+          <label class="step-characters-count">{{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}</label>
+        </div>
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
-
+        <app-validation-hint
+          [validationFormControl]="AchievementFormGroup.get('description')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_3"
+          [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+        </app-validation-hint>
       </form>
     </div>
 
