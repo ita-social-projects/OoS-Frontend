@@ -13,7 +13,7 @@ export class Achievement {
     this.achievementDate = info.achievementDate,
     this.workshopId = workshopId;
     this.achievementTypeId = info.achievementTypeId,
-    this.childrenIDs = info.childrenIDs,
+    // this.childrenIDs = info.childrenIDs,
     this.teachers = info.teachers;
   }
 }

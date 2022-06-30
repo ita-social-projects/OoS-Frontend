@@ -12,6 +12,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateAchievement, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
   selector: 'app-create-achievement',
@@ -19,6 +20,7 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./create-achievement.component.scss'],
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
 
   AchievementFormGroup: FormGroup;
@@ -47,7 +49,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       title: new FormControl(''),
       achievementDate: new FormControl(''),
       achievementTypeId: new FormControl(''),
-      childrenIDs: new FormControl(''),
+      // childrenIDs: new FormControl(''),
       teachers: new FormControl(''),
     });
   }
