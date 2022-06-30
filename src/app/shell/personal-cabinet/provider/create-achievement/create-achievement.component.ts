@@ -31,12 +31,12 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievements = AchievementsTitle;
 
   children$ = [
-    { id: '1', lastName: 'Тетерукова', firstName: 'Дарина' },
-    { id: '2', lastName: 'Узумакі', firstName: 'Боруто' },
-    { id: '3', lastName: 'Малинка', firstName: 'Малина' },
-    { id: '4', lastName: 'Малинка', firstName: 'Малина' },
-    { id: '5', lastName: 'Rtdby', firstName: 'Малина' },
-    { id: '6', lastName: 'Малинка', firstName: 'Малина' },
+    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Тетерукова', firstName: 'Дарина' },
+    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Узумакі', firstName: 'Боруто' },
+    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
+    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
+    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Rtdby', firstName: 'Малина' },
+    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
   ];
 
   constructor(
@@ -49,7 +49,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       title: new FormControl(''),
       achievementDate: new FormControl(''),
       achievementTypeId: new FormControl(''),
-      // childrenIDs: new FormControl(''),
+      childrenIDs: new FormControl(''),
       teachers: new FormControl(''),
     });
   }
