@@ -73,7 +73,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
-      priceType: new FormControl(null, Validators.required),
+      priceType: new FormControl({value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
@@ -94,8 +94,15 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.priceRadioBtn.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-      ).subscribe((isPrice: boolean) => {
-        isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
+      ).subscribe((isPrice: boolean,) => {
+        if(isPrice){
+           this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable');
+           this.AboutFormGroup.get('priceType')['enable']({emitEvent : true});
+        }else{
+          this.setPriceControlValue();
+          this.AboutFormGroup.get('priceType').reset();
+          this.AboutFormGroup.get('priceType')['disable']({emitEvent : true});
+        }
       });
   }
 
@@ -103,8 +110,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup.get('price')[action]({emitEvent});
     this.AboutFormGroup.get('price').setValue(price, {emitEvent});
   };
-
-  
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked
@@ -134,6 +139,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if(this.workshop.price){
       this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
+      this.AboutFormGroup.get('priceType')['enable']({emitEvent : false});
+      this.AboutFormGroup.get('priceType').setValue(this.workshop.payRate, {emitEvent : false});
     }
   }
 

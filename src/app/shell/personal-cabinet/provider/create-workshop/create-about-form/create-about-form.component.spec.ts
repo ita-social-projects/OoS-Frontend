@@ -70,7 +70,7 @@ describe('CreateAboutFormComponent', () => {
       instagram: new FormControl(''),
       price: new FormControl(''),
       workingHours: new FormControl(''),
-      isPerMonth: new FormControl(''),
+      payRate: new FormControl(''),
     });
     fixture.detectChanges();
   });

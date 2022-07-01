@@ -121,25 +121,23 @@
             [max]="validationConstants.MAX_PRICE">
         </mat-radio-button>
         <p class="step-text">грн за</p>
+      </div>
+    </div>
+  </mat-radio-group>
 
-      <mat-form-field floatLabel="never" appearance="none">
-        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="priceType" name="priceType">
-        <ng-container *ngFor="let type of PayRateType | keyvalue">
-          <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="+type.key" >
-          {{ PayRateTypeUkr[type.key] }}
+  <mat-form-field floatLabel="never" appearance="none" hideRequiredMarker="true">
+        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="priceType" name="priceType" >
+        <ng-container *ngFor="let type of PayRateType | keyvalue" >
+          <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
+          {{ PayRateTypeUkr[type.key] }} 
           </mat-option>
         </ng-container>
         </mat-select>
       </mat-form-field>
-
-      </div>
-      
-    </div>
-  </mat-radio-group>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('isPerMonth')">
-  </app-validation-hint>
-
+    <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('priceType')"
+    [isTouched]="AboutFormGroup.get('priceType').touched">
+    </app-validation-hint>
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
@@ -155,5 +153,6 @@
       placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
       formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-radio-group> -->
-
 </form>
+
+<p>{{AboutFormGroup.value|json}}</p>

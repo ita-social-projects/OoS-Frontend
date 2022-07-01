@@ -7,7 +7,7 @@ export enum ProviderType {
   Other,
 }
 
-export enum ProviderTypeUkr {
+export enum   ProviderTypeUkr {
   'ФОП',
   'Громадська організація',
   'ТОВ',

@@ -27,7 +27,7 @@ export class Workshop {
   classId?: number;
   providerId: string;
   providerTitle?: string;
-  isPerMonth?: string;
+  payRate?: string;
   isCompetitiveSelection: boolean;
   competitiveSelectionDescription: string;
   logo: string;
@@ -50,7 +50,7 @@ export class Workshop {
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
-    this.isPerMonth = about.isPerMonth;
+    this.payRate = about.payRate;
     this.directionId = description.categories.directionId.id;
     this.departmentId = description.categories.departmentId.id;
     this.classId = description.categories.classId.id;
@@ -101,7 +101,7 @@ export class WorkshopSectionItem extends SectionItem {
 export interface WorkshopCard {
   address: Address;
   directionId: number;
-  isPerMonth: boolean;
+  payRate: string;
   maxAge: number;
   minAge: number;
   photo?: string;

@@ -2,3 +2,7 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/dropdown.scss";
 @import "src/app/shared/styles/toggle-button.scss";
+
+mat-form-field{
+    width:100% !important;
+}
