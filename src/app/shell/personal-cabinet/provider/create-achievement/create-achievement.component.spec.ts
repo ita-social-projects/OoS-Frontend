@@ -15,6 +15,8 @@ import { Component, Input } from '@angular/core';
 
 import { CreateAchievementComponent } from './create-achievement.component';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;
@@ -35,6 +37,8 @@ describe('CreateAchievementComponent', () => {
         MatInputModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatChipsModule,
+        MatIconModule
       ],
       declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockMainNavigationBarComponent],
       providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
