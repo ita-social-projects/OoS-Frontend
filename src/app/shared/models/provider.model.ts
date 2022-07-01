@@ -1,8 +1,8 @@
 import { Institution } from './institution.model';
 import { Address } from './address.model';
-import { SectionItem } from './sectionItem.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
+import { SectionItem } from './sectionItem.model';
 
 export class Provider {
   id: string;
@@ -32,7 +32,7 @@ export class Provider {
   institutionType: string;
   institution: Institution;
   institutionId: string;
-
+  
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
@@ -49,7 +49,6 @@ export class Provider {
     this.founder = description.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
-    this.description = 'tempMock';
     this.institutionStatusId = description.institutionStatusId || null;
     this.institutionType = description.institutionType;
     this.userId = user.id;

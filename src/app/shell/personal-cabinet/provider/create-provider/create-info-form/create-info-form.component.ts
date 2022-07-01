@@ -81,7 +81,7 @@ export class CreateInfoFormComponent implements OnInit {
       ]),
       type: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
-      institutionId: new FormControl('', Validators.required),
+      institution: new FormControl('', Validators.required),
     });
   }
 
@@ -91,4 +91,7 @@ export class CreateInfoFormComponent implements OnInit {
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
 
+  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
+  }
 }

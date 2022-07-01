@@ -18,10 +18,10 @@
         >
           <h1 class="title">{{ workshop.title }}</h1>
         </div>
-        <div>
+        <div *ngFor="let direction of workshop.directions">
           <img
             class="details-icon"
-            [src]="categoryIcons[workshop.directionId]"
+            [src]="categoryIcons[direction.id]"
             alt="{{ workshop.title }}"
           />
         </div>
