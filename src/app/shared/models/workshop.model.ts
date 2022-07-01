@@ -1,3 +1,4 @@
+import { Direction } from 'src/app/shared/models/category.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
 import { SectionItem } from './sectionItem.model';
@@ -23,6 +24,7 @@ export class Workshop {
   numberOfRatings?: number;
   directionId?: number;
   direction: string;
+  directions: Direction[];
   departmentId?: number;
   classId?: number;
   providerId: string;
@@ -117,6 +119,7 @@ export interface WorkshopCard {
   title: string;
   workshopId: string;
   coverImageId?: string;
+  directionsId: number[];
 }
 export interface WorkshopFilterCard {
   totalAmount: number;
