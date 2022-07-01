@@ -45,6 +45,10 @@ export class ApplicationCardComponent implements OnInit {
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
     this.deviceToogle = this.detectedDevice.checkedDevice()
+    if (this.application.isBlocked) {
+      const applicationStatusBlocked = "Blocked";
+      this.application.status = applicationStatusBlocked;
+    }
   }
 
 

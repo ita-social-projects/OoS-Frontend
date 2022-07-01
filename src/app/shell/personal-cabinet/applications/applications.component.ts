@@ -165,7 +165,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.applicationParams.showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked];
       this.getProviderApplications(this.applicationParams);
     } else {
-      this.applicationParams.showBlocked = false;
       this.getParentApplications(this.applicationParams);
     }
     this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });

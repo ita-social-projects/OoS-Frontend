@@ -1,4 +1,4 @@
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -100,6 +100,7 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
+  filteredWorkshops: WorkshopFilterCard;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -117,6 +118,7 @@ export interface UserStateModel {
       isActive: true
     },
     providerAdmins: null,
+    filteredWorkshops: undefined,
   }
 })
 @Injectable()
@@ -215,22 +217,19 @@ export class UserState {
     return this.applicationService
       .getApplicationsByParentId(id, parameters)
       .pipe(
-        tap((applicationCards: ApplicationCards) => {
-          return patchState({ applicationCards: applicationCards, isLoading: false });
-        }));
-  }
+        tap((applicationCards: ApplicationCards) =>
+        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { filteredWorkshops: {totalAmount: 0, entities: []}, isLoading: false }),));
+      }
 
   @Action(GetApplicationsByProviderId)
   getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
-
       .pipe(
-        tap((applicationCards: ApplicationCards) => {
-          return patchState({ applicationCards: applicationCards, isLoading: false });
-        }));
-  }
+        tap((applicationCards: ApplicationCards) =>
+        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { filteredWorkshops: {totalAmount: 0, entities: []}, isLoading: false }),));
+        }
 
   @Action(GetAllProviderAdmins)
   getAllProviderAdmins({ patchState }: StateContext<UserStateModel>, { }: GetAllProviderAdmins): Observable<ProviderAdmin[]> {

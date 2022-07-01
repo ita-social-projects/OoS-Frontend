@@ -1,5 +1,4 @@
 <div *ngIf="application; else cardFormat;">
-    <ng-container *ngIf="!application.isBlocked">
     <div class="application-popup-status {{application.status}}">
       <span> <i class={{applicationIcons[application.status]}}></i></span>
       <span> {{applicationTitles[application.status]}}</span>
@@ -7,17 +6,6 @@
     <div class="application-info-menu application-info-description-card">({{
       applicationStatusDescription[application.status] }})</div>
       <p *ngIf="application.rejectionMessage" class="application-info-menu">{{application.rejectionMessage}}</p>
-  </ng-container>
-
-  <ng-container *ngIf="application.isBlocked">
-    <div class="application-popup-status {{application.status}}">
-      <span> <i class="status-icon-block {{applicationIcons.Blocked}}"></i></span>
-      <span class="status-block"> {{applicationTitles["Blocked"]}}</span>
-    </div>
-    <div class="application-info-menu application-info-description-card">({{
-      applicationStatusDescription["Blocked"] }})</div>
-      <p *ngIf="application.rejectionMessage" class="application-info-menu">{{application.rejectionMessage}}</p>
-  </ng-container>
 </div>
 
 <ng-template #cardFormat>
