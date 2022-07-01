@@ -7,7 +7,7 @@
       </div>
   
       <mat-horizontal-stepper [linear]="!editMode">
-        <mat-step [stepControl]="AboutFormGroup">
+        <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Про гурток</p>
           </ng-template>
@@ -23,7 +23,7 @@
           </div>
         </mat-step>
   
-        <mat-step [stepControl]="DescriptionFormGroup">
+        <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Опис</p>
           </ng-template>
@@ -36,12 +36,12 @@
             <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
             <button class="btn" mat-raised-button matStepperNext
-              [disabled]="DescriptionFormGroup.invalid"
+              [disabled]="DescriptionFormGroup?.invalid"
               (click)="checkValidation(DescriptionFormGroup)">Далі</button>
           </div>
         </mat-step>
   
-        <mat-step [stepControl]="AddressFormGroup">
+        <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Контакти</p>
           </ng-template>
@@ -51,7 +51,7 @@
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
             <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
-            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup.invalid">Далі</button>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">Далі</button>
           </div>
         </mat-step>
   

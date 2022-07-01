@@ -147,6 +147,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ResetInstitutionHierarchy());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -324,8 +324,9 @@ export class MetaDataState {
   
   @Action(ResetInstitutionHierarchy)
   resetInstitutionHierarchy({ patchState }: StateContext<MetaDataStateModel>, { }: ResetInstitutionHierarchy): void {
-    patchState({ instituitionsHierarchy: null });
-    patchState({ editInstituitionsHierarchy: null });
-    patchState({ institutionFieldDesc: null });
+    patchState({ instituitionsHierarchy: null,
+      editInstituitionsHierarchy: null,
+      institutionFieldDesc: null,
+     });
   }
 }
