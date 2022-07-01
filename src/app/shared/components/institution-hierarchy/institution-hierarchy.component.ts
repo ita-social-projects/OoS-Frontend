@@ -139,14 +139,14 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   onHierarchyLevelSelect(optionId: string, hierarchy: HierarchyElement): void {
     const currentEl = this.hierarchyArray.indexOf(hierarchy);
     if (this.hierarchyArray[currentEl + 1]) {
-      this.store.dispatch([new ResetInstitutionHierarchy(), new GetInstitutionHierarchyChildrenById(optionId)]);
+      this.store.dispatch(new GetInstitutionHierarchyChildrenById(optionId));
     } else {
       this.instituitionHierarchyIdFormControl.setValue(optionId);
     }
+    this.store.dispatch(new ResetInstitutionHierarchy());
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new ResetInstitutionHierarchy());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
