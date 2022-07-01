@@ -159,7 +159,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   private newForm(item?: WorkshopSectionItem): FormGroup {
     const EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [Validators.required]),
+      sectionName: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
+        Validators.required
+      ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),

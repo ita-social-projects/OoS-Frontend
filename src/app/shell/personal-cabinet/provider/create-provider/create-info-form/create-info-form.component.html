@@ -96,7 +96,9 @@
       autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('edrpouIpn')">
+    [validationFormControl]="InfoFormGroup.get('edrpouIpn')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_8"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_10">
   </app-validation-hint>
 
   <label class="step-label"> Телефон<span class="step-required">*</span></label>
