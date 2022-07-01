@@ -27,6 +27,7 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
+  status: ApplicationStatus;
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -35,7 +36,6 @@ export class ApplicationCardComponent implements OnInit {
   @Output() leave = new EventEmitter();
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
-  @Output() passApplication = new EventEmitter();
 
   constructor(
     private detectedDevice: DetectedDeviceService,
@@ -45,10 +45,7 @@ export class ApplicationCardComponent implements OnInit {
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
     this.deviceToogle = this.detectedDevice.checkedDevice()
-    if (this.application.isBlocked) {
-      const applicationStatusBlocked = "Blocked";
-      this.application.status = applicationStatusBlocked;
-    }
+    this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
   }
 
 

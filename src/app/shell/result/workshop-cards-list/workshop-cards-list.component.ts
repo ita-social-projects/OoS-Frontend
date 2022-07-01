@@ -40,8 +40,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeWorkshops(page));
-    this.store.dispatch(new GetFilteredWorkshops());
+    this.store.dispatch([new OnPageChangeWorkshops(page), new GetFilteredWorkshops()]);
   }
 
   ngOnDestroy(): void {

@@ -79,8 +79,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch(new SetDirectionsPerPage(itemsPerPage));
-    this.store.dispatch(new GetFilteredDirections());
+    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new GetFilteredDirections()]);
   }
 
   onDelete(direction: Direction): void {

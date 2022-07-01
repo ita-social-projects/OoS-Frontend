@@ -74,7 +74,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']));
-
   }
 
   ngAfterViewInit(): void {
@@ -93,7 +92,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
           this.getParentApplications(this.applicationParams);
         }
       });
-
   }
 
   init(): void {

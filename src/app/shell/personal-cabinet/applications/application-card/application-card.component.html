@@ -28,15 +28,15 @@
 
   <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="start center">
     <div class="application-status" fxLayout="row">
-      <div class="application-popup-status {{application.status}}">
-        <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
-        <span> {{applicationTitles[application.status]}}</span>
+      <div class="application-popup-status {{status}}">
+        <span> <i class="status-icon {{applicationIcons[status]}}"></i></span>
+        <span> {{applicationTitles[status]}}</span>
       </div>
       <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
         [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
           xPosition="after" class="mat-application-menu">
-          <app-status-info-card [application]="application"></app-status-info-card>
+          <app-status-info-card [application]="application" [status]="status"></app-status-info-card>
         </mat-menu>
     </div>
   </mat-card-content>

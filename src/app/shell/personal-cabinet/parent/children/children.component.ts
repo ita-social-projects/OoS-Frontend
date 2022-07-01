@@ -74,8 +74,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeChildrens(page));
-    this.store.dispatch( new GetUsersChildren());
+    this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren()]);
   }
 
   ngOnDestroy(): void {

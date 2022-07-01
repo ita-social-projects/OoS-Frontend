@@ -15,11 +15,11 @@ export class StatusInfoCardComponent implements OnInit {
   readonly applicationStatus = ApplicationStatus;
 
   @Input() application: Application = null;
+  @Input() status: ApplicationStatus;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getValuesFromEnum(): Array<any> {
     return Object.keys(this.applicationStatus);

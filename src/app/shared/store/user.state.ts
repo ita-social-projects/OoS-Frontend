@@ -218,7 +218,7 @@ export class UserState {
       .getApplicationsByParentId(id, parameters)
       .pipe(
         tap((applicationCards: ApplicationCards) =>
-        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { filteredWorkshops: {totalAmount: 0, entities: []}, isLoading: false }),));
+        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { applicationCards: {totalAmount: 0, entities: []}, isLoading: false }),));
       }
 
   @Action(GetApplicationsByProviderId)
@@ -228,7 +228,7 @@ export class UserState {
       .getApplicationsByProviderId(id, parameters)
       .pipe(
         tap((applicationCards: ApplicationCards) =>
-        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { filteredWorkshops: {totalAmount: 0, entities: []}, isLoading: false }),));
+        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { applicationCards: {totalAmount: 0, entities: []}, isLoading: false }),));
         }
 
   @Action(GetAllProviderAdmins)
