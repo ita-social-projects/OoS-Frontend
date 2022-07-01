@@ -64,10 +64,11 @@ class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
+  @Input() isPhoneNumber: true;
 }
 
 @Component({
-  selector: 'app-workshop-checkbox-dropdown',
+  selector: 'app-entity-checkbox-dropdown',
   template: ''
 })
 

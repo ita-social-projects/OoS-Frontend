@@ -51,12 +51,14 @@
           <mat-form-field>
             <div fxLayout='row' fxLayoutAlign='start'>
               <span class="step-text">{{ phonePrefix }}</span>
-              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
+              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly appTrimValue ui-number-mask
               ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}">
             </div>
           </mat-form-field>
           <app-validation-hint 
-            [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')">
+            [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')"
+            [minCharachters]="validationConstants.PHONE_LENGTH"
+            [isPhoneNumber]="true">
           </app-validation-hint>
 
           <label class="step-label" > Електронна пошта <span class="step-required">*</span></label>
@@ -99,12 +101,12 @@
             <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span
                 class="step-required">*</span>
             </label>
-            <app-workshop-checkbox-dropdown 
+            <app-entity-checkbox-dropdown 
               [entities]="workshops$ | async" 
               [declination]="WorkshopDeclination"
               [dropdownContainerClass]="'create-admin'"
               (entityCheck)="onWorkshopsSelect($event)">
-            </app-workshop-checkbox-dropdown>
+            </app-entity-checkbox-dropdown>
           </ng-template>
         </form>
 

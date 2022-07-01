@@ -367,7 +367,7 @@ export class UserState {
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
     const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
-    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути уніклаьними' :
+    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними' :
     'На жаль виникла помилка';
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }

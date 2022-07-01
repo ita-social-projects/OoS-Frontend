@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -21,6 +21,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix= Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
+  }
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -44,8 +51,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         ]),
       phone: new FormControl('', [
         Validators.required, 
-        Validators.minLength(ValidationConstants.PHONE_LENGTH),
-        Validators.maxLength(ValidationConstants.PHONE_LENGTH),
+        Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
         Validators.required, 

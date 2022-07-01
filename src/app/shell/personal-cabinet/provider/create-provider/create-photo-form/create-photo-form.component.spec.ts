@@ -49,6 +49,7 @@ describe('CreatePhotoFormComponent', () => {
       institutionStatusId: new FormControl(''),
       institutionType: new FormControl(''),
       institution: new FormControl(''),
+      founder: new FormControl(''),
     });
     fixture.detectChanges();
   });
@@ -68,6 +69,7 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
 }
 @Component({
   selector: 'app-info-form',

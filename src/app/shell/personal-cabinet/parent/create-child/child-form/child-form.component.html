@@ -38,7 +38,8 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="ChildFormGroup.get('dateOfBirth')" 
+    [validationFormControl]="ChildFormGroup.get('dateOfBirth')"
+    [isTouched]="ChildFormGroup.get('dateOfBirth').touched"  
     minMaxDate="true">
   </app-validation-hint>
 
@@ -88,12 +89,12 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [minCharachters]="validationConstants.INPUT_LENGTH_10"
     [maxCharachters]="validationConstants.INPUT_LENGTH_30">
   </app-validation-hint>
 
   <div fxLayout='row' fxLayoutAlign='center' *ngIf="childrenAmount > 1" class="addChild">
-    <button class="btn-reset" mat-button (click)="delete()">
+    <button class="btn-reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину
     </button>
   </div>
