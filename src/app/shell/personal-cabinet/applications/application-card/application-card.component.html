@@ -32,12 +32,10 @@
         <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
         <span> {{applicationTitles[application.status]}}</span>
       </div>
-
-        <div *ngIf="application.isBlocked" class="application-popup-status {{application.status}}">
-          <span> <i class="status-icon-block {{applicationIcons.Blocked}}"></i></span>
-          <span class="status-block"> {{applicationTitles["Blocked"]}}</span>
+      <div *ngIf="application.isBlocked" class="application-popup-status {{application.status}}">
+        <span> <i class="status-icon-block {{applicationIcons.Blocked}}"></i></span>
+        <span class="status-block"> {{applicationTitles["Blocked"]}}</span>
       </div>
-
       <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
         [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"

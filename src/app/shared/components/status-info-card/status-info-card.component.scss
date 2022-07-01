@@ -1,5 +1,13 @@
 @import "src/app/shared/styles/application-statuses.scss";
 
+.status-block {
+  font-size: 13px;
+  color: #c72a21;
+}
+.status-icon-block {
+  font-size: 12px!important;
+  color: #c72a21;
+}
 .status-menu,
 .application-popup-status,
 .mat-application-menu,
