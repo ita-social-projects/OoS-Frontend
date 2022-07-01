@@ -122,11 +122,12 @@
         </mat-radio-button>
         <p class="step-text">грн за</p>
       </div>
+
     </div>
   </mat-radio-group>
 
   <mat-form-field floatLabel="never" appearance="none" hideRequiredMarker="true">
-        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="priceType" name="priceType" >
+        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="payRate" name="payRate" >
         <ng-container *ngFor="let type of PayRateType | keyvalue" >
           <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
           {{ PayRateTypeUkr[type.key] }} 
@@ -135,8 +136,8 @@
         </mat-select>
       </mat-form-field>
     <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('priceType')"
-    [isTouched]="AboutFormGroup.get('priceType').touched">
+    [validationFormControl]="AboutFormGroup.get('payRate')"
+    [isTouched]="AboutFormGroup.get('payRate').touched">
     </app-validation-hint>
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
@@ -154,5 +155,3 @@
       formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
   </mat-radio-group> -->
 </form>
-
-<p>{{AboutFormGroup.value|json}}</p>

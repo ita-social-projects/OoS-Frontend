@@ -73,7 +73,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
-      priceType: new FormControl({value: null, disabled: true }, [Validators.required]),
+      payRate: new FormControl({value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
@@ -97,11 +97,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ).subscribe((isPrice: boolean,) => {
         if(isPrice){
            this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable');
-           this.AboutFormGroup.get('priceType')['enable']({emitEvent : true});
+           this.AboutFormGroup.get('payRate')['enable']({emitEvent : true});
         }else{
           this.setPriceControlValue();
-          this.AboutFormGroup.get('priceType').reset();
-          this.AboutFormGroup.get('priceType')['disable']({emitEvent : true});
+          this.AboutFormGroup.get('payRate').reset();
+          this.AboutFormGroup.get('payRate')['disable']({emitEvent : true});
         }
       });
   }
@@ -139,8 +139,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if(this.workshop.price){
       this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.AboutFormGroup.get('priceType')['enable']({emitEvent : false});
-      this.AboutFormGroup.get('priceType').setValue(this.workshop.payRate, {emitEvent : false});
+      this.AboutFormGroup.get('payRate')['enable']({emitEvent : false});
+      this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, {emitEvent : false});
     }
   }
 
