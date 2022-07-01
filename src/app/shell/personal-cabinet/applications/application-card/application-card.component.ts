@@ -35,6 +35,7 @@ export class ApplicationCardComponent implements OnInit {
   @Output() leave = new EventEmitter();
   @Output() infoShow = new EventEmitter();
   @Output() infoHide = new EventEmitter();
+  @Output() passApplication = new EventEmitter();
 
   constructor(
     private detectedDevice: DetectedDeviceService,
@@ -70,7 +71,7 @@ export class ApplicationCardComponent implements OnInit {
       if (result) {
         this.approved.emit(application);
       }
-    });    
+    });
   }
 
 

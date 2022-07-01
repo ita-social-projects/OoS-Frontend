@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { debounceTime, filter, first, mergeMap, take, takeUntil } from 'rxjs/operators';
@@ -30,14 +30,13 @@ import { UserState } from 'src/app/shared/store/user.state';
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss']
 })
-export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit {
+export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Select(PaginatorState.applicationsPerPage)
   applicationsPerPage$: Observable<number>;
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
-
   applicationCards: ApplicationCards;
   isActiveInfoButton = false;
   tabIndex: number;
@@ -84,7 +83,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   ngOnInit(): void {
     this.getUserData();
-    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess, SetApplicationsPerPage, OnPageChangeApplications))
+    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
       .pipe(
         takeUntil(this.destroy$))
       .subscribe(() => {
@@ -94,6 +93,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
           this.getParentApplications(this.applicationParams);
         }
       });
+
   }
 
   init(): void {
@@ -200,9 +200,24 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new OnPageChangeApplications(page));
+    if (this.role === Role.provider) {
+      this.getProviderApplications(this.applicationParams);
+    } else {
+      this.getParentApplications(this.applicationParams);
+    }
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
+    if (this.role === Role.provider) {
+      this.getProviderApplications(this.applicationParams);
+    } else {
+      this.getParentApplications(this.applicationParams);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

@@ -10,7 +10,6 @@
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>
     </div>
   </mat-card-content>
-<ng-container *ngIf="application.isBlocked then applicationStatus===applicationStatus.Blocked">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
     <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
       <h4 [routerLink]="['/details/workshop', application?.workshopId]" [matTooltip]="application?.workshop.title"
@@ -26,14 +25,19 @@
       </div>
     </div>
   </mat-card-content>
-</ng-container>
 
   <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="start center">
-    <div class="application-status" *ngIf="application" fxLayout="row">
-      <div class="application-popup-status {{application.status}}">
+    <div class="application-status" fxLayout="row">
+      <div *ngIf="!application.isBlocked" class="application-popup-status {{application.status}}">
         <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
         <span> {{applicationTitles[application.status]}}</span>
       </div>
+
+        <div *ngIf="application.isBlocked" class="application-popup-status {{application.status}}">
+          <span> <i class="status-icon-block {{applicationIcons.Blocked}}"></i></span>
+          <span class="status-block"> {{applicationTitles["Blocked"]}}</span>
+      </div>
+
       <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
         [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"

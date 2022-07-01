@@ -7,6 +7,19 @@
     applicationStatusDescription[application.status] }})</div>
     <p *ngIf="application.rejectionMessage" class="application-info-menu">{{application.rejectionMessage}}</p>
 </div>
+
+
+<ng-template #blockedApplication>
+  <div class="application-popup-status {{application.status}}">
+    <span> <i class={{applicationIcons[Blocked]}}></i></span>
+    <span> {{applicationTitles["Blocked"]}}</span>
+  </div>
+  <div class="application-info-menu application-info-description-card">({{
+    applicationStatusDescription["Blocked"] }})</div>
+    <p *ngIf="application.rejectionMessage" class="application-info-menu">{{application.rejectionMessage}}</p>
+
+</ng-template>
+
 <ng-template #cardFormat>
   <div class="application-info-menu-title"> Статуси заявок</div>
   <div class="application-info-menu">

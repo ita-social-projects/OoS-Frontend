@@ -47,10 +47,8 @@
         </ng-container>
       </mat-tab>
       <mat-tab label="{{applicationTitles.Blocked}}">
-        <ng-container *ngIf="application?.isBlocked else isEmptyList;">
         <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
         </ng-container>
-      </ng-container>
       </mat-tab>
     </ng-container>
     </mat-tab-group>
