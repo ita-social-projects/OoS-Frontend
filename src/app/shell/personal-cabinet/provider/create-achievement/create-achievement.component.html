@@ -19,19 +19,18 @@
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-
           <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
             panelClass="dropdown-panel" class="step-input">
-
             <mat-select-trigger>
-              <mat-chip-list>
-                <mat-chip *ngFor="let child of AchievementFormGroup.controls['childrenIDs'].value">
+              <mat-chip-list #chipList>
+                <mat-chip 
+                  *ngFor="let child of AchievementFormGroup.controls['childrenIDs'].value"
+                  (removed)="remove(child, 'childrenIDs')">
                   {{child}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
               </mat-chip-list>
             </mat-select-trigger>
-
             <mat-option *ngFor="let child of children$" [value]="child.id" class="dropdown-option">
               {{child.lastName}} {{child.firstName}} {{child.middleName}}
             </mat-option>
@@ -43,14 +42,14 @@
           <mat-select multiple disableOptionCentering formControlName="teachers" 
             panelClass="dropdown-panel" class="step-input">
             <mat-select-trigger>
-              <mat-chip-list>
-                <mat-chip *ngFor="let teacher of AchievementFormGroup.controls['teachers'].value">
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let teacher of AchievementFormGroup.controls['teachers'].value"
+                (removed)="remove(teacher, 'teachers')">
                   {{teacher}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
               </mat-chip-list>
             </mat-select-trigger>
-
             <ng-container *ngIf="workshop">
               <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher.lastName" class="dropdown-option">
                 {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
