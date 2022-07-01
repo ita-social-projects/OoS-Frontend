@@ -17,7 +17,7 @@
       (loadImageFailed)="loadImageFailed()"
     ></image-cropper>
     <div *ngIf="!imageHasMinimumRequirements">
-      <small class="warning">Зображення не достатнього розміру.<br>Мінімальні розміри: ширина {{cropperConfig.cropperMinWidth}}px, висота {{cropperConfig.cropperMinHeight}}px.</small>
+      <small class="warning">Зображення не достатнього розміру.<br>Мінімальні розміри: ширина {{data.cropperConfig.cropperMinWidth}}px, висота {{data.cropperConfig.cropperMinHeight}}px.</small>
     </div>
   </div>
   <div fxFlex="40">

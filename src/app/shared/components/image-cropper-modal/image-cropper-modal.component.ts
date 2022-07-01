@@ -15,7 +15,6 @@ export class ImageCropperModalComponent {
   croppedImage: string = '';
   imageFile: Blob;
   imageHasMinimumRequirements: boolean = false;
-  readonly cropperConfig = CropperConfigurationConstants;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
     image: string,
@@ -36,13 +35,13 @@ export class ImageCropperModalComponent {
     this.croppedImage = event.base64;
   }
 
-  loadImageFailed(): void {}
-  cropperReady(): void {}
   imageLoaded(image: LoadedImage): void {
     const { height, width } = image.original.size;   
-    this.imageHasMinimumRequirements = (height <= this.cropperConfig.cropperMinHeight || width <= this.cropperConfig.cropperMinWidth) ?
+    this.imageHasMinimumRequirements = (height <= this.data.cropperConfig.cropperMinHeight || width <= this.data.cropperConfig.cropperMinWidth) ?
       false :
       true;
   }
 
+  loadImageFailed(): void {}
+  cropperReady(): void {}
 }
