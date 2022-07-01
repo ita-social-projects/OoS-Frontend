@@ -47,6 +47,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   isContraindicationAgreed: boolean;
   isAttendAgreed: boolean;
   isParentAgreed: boolean;
+  isAllowChildToApply: boolean;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
@@ -88,6 +89,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.workshop$
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
+
+    this.isAllowChildToApply$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((status: boolean) => this.isAllowChildToApply = status);
 
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
