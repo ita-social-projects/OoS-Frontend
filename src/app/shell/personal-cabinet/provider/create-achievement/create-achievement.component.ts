@@ -49,8 +49,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       title: new FormControl('', Validators.required),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
-      childrenIDs: new FormControl('', Validators.required),
       teachers: new FormControl(''),
+      childrenIDs: new FormControl('', Validators.required),
     });
   }
 
@@ -75,7 +75,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const achievement = new Achievement(
-          this.AchievementFormGroup.value, this.workshopId); 
+          this.AchievementFormGroup.value, 
+          this.workshopId
+        ); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });    
