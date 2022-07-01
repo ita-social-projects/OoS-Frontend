@@ -32,7 +32,9 @@ export class CreateTeacherComponent implements OnInit {
    * This method add new FormGroup to teh FormArray
    */
   onAddTeacher(teacher?: Teacher): void {
-    this.TeacherFormArray.push(this.createNewForm(teacher));
+    const formGroup = this.createNewForm(teacher);
+    this.TeacherFormArray.controls.push(formGroup);
+    this.TeacherFormArray['_registerControl'](formGroup);//for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -42,7 +44,9 @@ export class CreateTeacherComponent implements OnInit {
    */
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
-      avatarImage: new FormControl(''),
+      id: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
       lastName: new FormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
@@ -80,8 +84,9 @@ export class CreateTeacherComponent implements OnInit {
     */
   private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
-    teacherFormGroup.addControl('teacherId', this.fb.control(teacher.id));
-    teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
+    if (teacher.coverImageId) {
+      teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
+    }
   }
 
   /**
@@ -90,20 +95,21 @@ export class CreateTeacherComponent implements OnInit {
    */
   onDeleteForm(index: number): void {
     const  teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
+    const isPristine = teacherFormGroup.pristine;
 
-    if (teacherFormGroup.invalid || teacherFormGroup.touched) {
+    if(teacherFormGroup.status==="VALID" || !isPristine ){
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteTeacher,
-          property: ''
+          property: ''  
         }
-      });
+    });
 
-      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
+    dialogRef.afterClosed().subscribe((result: boolean) => 
+      result && this.TeacherFormArray.removeAt(index));
     } else {
       this.TeacherFormArray.removeAt(index);
     }
   }
-
 }

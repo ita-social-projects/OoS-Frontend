@@ -6,8 +6,8 @@ export class Teacher {
   middleName: string;
   dateOfBirth?: Date | string;
   description?: string;
-  avatarImageId?: string[];
-  avatarImage?: File[];
+  coverImageId?: string[];
+  coverImage?: File[];
 
   constructor(info) {
     this.firstName = info.firstName;
@@ -15,14 +15,14 @@ export class Teacher {
     this.middleName = info.middleName;
     this.dateOfBirth = new Date(info.dateOfBirth).toISOString();
     this.description = info.description;
-    if (info.teacherId) {
-      this.id = info.teacherId;
+    if (info.id) {
+      this.id = info.id;
     }
-    if (info.avatarImage?.length) {
-      this.avatarImage = info.avatarImage[0];
+    if (info.coverImage?.length) {
+      this.coverImage = info.coverImage[0];
     }
-    if (info.avatarImageId?.length) {
-      this.avatarImageId = info.avatarImageId[0];
+    if (info.coverImageId?.length) {
+      this.coverImageId = info.coverImageId[0];
     }
   }
 }

@@ -52,9 +52,10 @@ fdescribe('PlatformInfoEditComponent', () => {
   template: ''
 })
 class MockInfoFormComponent {
-  @Input() PlatformInfoEditFormGroup: FormGroup;
+  @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
 }
 @Component({
   selector: 'app-validation-hint',

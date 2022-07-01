@@ -321,7 +321,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    */
   private clearDepartments(clearState: boolean = false): void {
     clearState && this.store.dispatch(new ClearDepartments());
-    this.departmentIdControl.setValue(null);
+    this.departmentIdControl.setValue(null, { emitEvent: false });
   }
 
   /**
@@ -329,7 +329,7 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
    */
   private clearClasses(clearState: boolean = false): void {
     clearState && this.store.dispatch(new ClearClasses());
-    this.classIdControl.setValue(null);
+    this.classIdControl.setValue(null, { emitEvent: false });
   }
 
   /**
@@ -340,21 +340,21 @@ export class CategorySelectComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDirection = this.directions.find((direction: Direction) => this.workshop.directionId === direction.id);
-        this.directionIdControl.setValue(selectedDirection);
+        this.directionIdControl.setValue(selectedDirection, { emitEvent: false });
       });
 
     this.store.dispatch(new GetDepartments(this.workshop.directionId))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedDepartment = this.departments.find((department: Department) => this.workshop.departmentId === department.id);
-        this.departmentIdControl.setValue(selectedDepartment);
+        this.departmentIdControl.setValue(selectedDepartment, { emitEvent: false });
       });
 
     this.store.dispatch(new GetClasses(this.workshop.departmentId))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const selectedClass = this.classes.find((classItem: IClass) => this.workshop.classId === classItem.id);
-        this.classIdControl.setValue(selectedClass);
+        this.classIdControl.setValue(selectedClass, { emitEvent: false });
       });
   }
 

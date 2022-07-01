@@ -26,7 +26,9 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
    * This method create new FormGroup add new FormGroup to the FormArray
    */
   addWorkingHours(range?: DateTimeRanges): void {
-    this.workingHoursFormArray.push(this.newWorkingHoursForm(range));
+    const formGroup = this.newWorkingHoursForm(range)
+    this.workingHoursFormArray.controls.push(formGroup); //for preventing emitting value changes in edit mode on initial value set
+    this.workingHoursFormArray['_registerControl'](formGroup);
   }
 
   /**

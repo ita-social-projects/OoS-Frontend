@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -21,12 +21,18 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix= Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
+  }
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
   @Output() PassAboutFormGroup = new EventEmitter();
 
-  provider: Provider;
   AboutFormGroup: FormGroup;
   workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -38,7 +44,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.AboutFormGroup = this.formBuilder.group({
-      coverImage: new FormControl(''),
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
@@ -46,8 +51,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         ]),
       phone: new FormControl('', [
         Validators.required, 
-        Validators.minLength(ValidationConstants.PHONE_LENGTH),
-        Validators.maxLength(ValidationConstants.PHONE_LENGTH),
+        Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
         Validators.required, 
@@ -68,6 +72,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
       isPerMonth: new FormControl(false),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
     });
     this.onPriceCtrlInit();
@@ -76,7 +82,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.workshop && this.activateEditMode();
   }
 
@@ -92,9 +97,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  private setPriceControlValue = (price: number = 0, action: string = 'disable') => {
-    this.AboutFormGroup.get('price')[action]();
-    this.AboutFormGroup.get('price').setValue(price);
+  private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
+    this.AboutFormGroup.get('price')[action]({emitEvent});
+    this.AboutFormGroup.get('price').setValue(price, {emitEvent});
   };
 
   
@@ -103,7 +108,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    const setValue = (value) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    const setValue = (value) => this.AboutFormGroup.get(value).setValue(provider[ProviderWorkshopSameValues[value]]);
     const resetValue = (value) => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges
@@ -120,12 +126,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
-    this.workshop.price && this.priceRadioBtn.setValue(true);
     if (this.workshop.coverImageId) {
-      this.AboutFormGroup.addControl('coverImageId', this.formBuilder.control([this.workshop.coverImageId]));
+      this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
     if(this.workshop.price){
-      this.setPriceControlValue(this.workshop.price, 'enable');
+      this.priceRadioBtn.setValue(true, { emitEvent: false });
+      this.setPriceControlValue(this.workshop.price, 'enable', false);
     }
   }
 

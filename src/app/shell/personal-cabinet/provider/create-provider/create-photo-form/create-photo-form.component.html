@@ -2,7 +2,7 @@
   <!-- <app-image-form-control [imgMaxAmount]="4" [label]="'Фото'" formControlName="image">
   </app-image-form-control> TODO: Second release -->
 
-  <label class="step-label">Статус</label>
+  <label class="step-label">Статус<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
       formControlName="institutionStatusId">
@@ -12,39 +12,40 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <label class="step-label">Тип закладу</label>
+
+  <label class="step-label">Тип закладу<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institutionType" placeholder="Оберіть підпорядкування">
+      formControlName="institutionType" placeholder="Оберіть тип закладу">
       <mat-option *ngFor="let type of (institutionTypes | keyvalue)" [value]="type.key" class="dropdown-option">
         {{type.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="PhotoFormGroup.get('institutionType')"
+    [isTouched]="PhotoFormGroup.get('institutionType').touched">
+  </app-validation-hint>
 
-  <label class="step-label">Підпорядкування</label>
-  <mat-form-field floatLabel="never" appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institution" placeholder="Оберіть підпорядкування">
-      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution" class="dropdown-option">
-        {{institution.title}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <div class="step-label-combined">
-    <label class="step-label"> Опис<span class="step-required">*</span></label>
-    <label class="step-characters-count">
-      {{descriptionFormGroup.value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
-    </label>
-  </div>
-  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none" >
-    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
-      formControlName="description" minlength="3" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}" appTrimValue></textarea>
+  <label class="step-label">Засновник<span class="step-required">*</span></label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="PhotoFormGroup.get('description')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+    [validationFormControl]="PhotoFormGroup.get('founder')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
+
+
+
+  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500" (deleteForm)="onDeleteForm($event)">
+  </app-info-form>
+
+  <button *ngIf="SectionItemsFormArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()"
+    [disabled] = "SectionItemsFormArray.invalid">
+    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+  </button>
 </form>

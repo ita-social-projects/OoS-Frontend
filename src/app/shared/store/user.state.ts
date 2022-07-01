@@ -88,6 +88,7 @@ import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -171,14 +172,13 @@ export class UserState {
       .getWorkshopById(payload)
       .pipe(
         tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
-        catchError((error: Error) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnGetWorkshopByIdFail(error)))));
   }
 
   @Action(OnGetWorkshopByIdFail)
   onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<UserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
     throwError(payload);
-    patchState({ isLoading: false });
-    patchState({ selectedWorkshop: null });
+    patchState({ selectedWorkshop: null, isLoading: false });
     dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
   }
 
@@ -190,7 +190,7 @@ export class UserState {
       .getProviderById(payload)
       .pipe(
         tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
-        catchError((error: Error) => of(dispatch(new OnGetProviderByIdFail(error)))));
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnGetProviderByIdFail(error)))));
   }
 
   @Action(OnGetProviderByIdFail)
@@ -270,7 +270,7 @@ export class UserState {
       .createWorkshop(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateWorkshopSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateWorkshopFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateWorkshopFail(error))))
       );
   }
 
@@ -283,10 +283,11 @@ export class UserState {
 
   @Action(OnCreateWorkshopSuccess)
   onCreateWorkshopSuccess({ patchState, dispatch }: StateContext<UserStateModel>, { payload }: OnCreateWorkshopSuccess): void {
+    const message = Util.getWorkshopMessage(payload);
     patchState({ isLoading: false })
     dispatch(new MarkFormDirty(false));
     console.log('Workshop is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Гурток створено!', type: 'success' }));
+    dispatch(new ShowMessageBar({ message: message.text, type: message.type }));
     this.router.navigate(['/personal-cabinet/workshops']);
     dispatch([
       new ClearClasses(),
@@ -300,7 +301,7 @@ export class UserState {
       .deleteWorkshop(payload.workshopId)
       .pipe(
         tap((res) => dispatch(new OnDeleteWorkshopSuccess(payload))),
-        catchError((error: Error) => of(dispatch(new OnDeleteWorkshopFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteWorkshopFail(error))))
       );
   }
 
@@ -313,8 +314,10 @@ export class UserState {
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     console.log('Workshop is deleted', payload);
-    dispatch(new ShowMessageBar({ message: `Дякуємо! Гурток "${payload.title}" видалено!`, type: 'success' }));
-    dispatch(new GetWorkshopsByProviderId(payload.providerId));
+    dispatch([
+      new ShowMessageBar({ message: `Дякуємо! Гурток "${payload.title}" видалено!`, type: 'success' }),
+      new GetWorkshopsByProviderId(payload.providerId)
+    ]);
   }
 
   @Action(CreateChildren)
@@ -323,7 +326,7 @@ export class UserState {
       .createChild(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateChildrenSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateChildrenFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
       );
   }
 
@@ -335,9 +338,11 @@ export class UserState {
 
   @Action(OnCreateChildrenSuccess)
   onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
-    dispatch(new MarkFormDirty(false));
     console.log('Child is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Дякуємо! Дитина була успішно додана.', type: 'success' }));
+    dispatch([
+      new ShowMessageBar({ message: 'Дякуємо! Дитина була успішно додана.', type: 'success' }),
+      new MarkFormDirty(false)
+    ]);
     this.router.navigate(['/personal-cabinet/parent/info']);
   }
 
@@ -347,7 +352,7 @@ export class UserState {
       .createProvider(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateProviderSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateProviderFail(error))))
+        catchError((error) => of(dispatch(new OnCreateProviderFail(error))))
       );
   }
 
@@ -355,15 +360,20 @@ export class UserState {
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
+    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними' :
+    'На жаль виникла помилка';
+    dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
-    dispatch(new MarkFormDirty(false));
     console.log('Provider is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }));
+    dispatch([
+      new ShowMessageBar({ message: 'Організацію успішно створено', type: 'success' }),
+      new MarkFormDirty(false)
+    ]);
   }
 
   @Action(CreateProviderAdmin)
@@ -372,7 +382,7 @@ export class UserState {
       .createProviderAdmin(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateProviderAdminSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateProviderAdminFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateProviderAdminFail(error))))
       );
   }
 
@@ -384,8 +394,10 @@ export class UserState {
 
   @Action(OnCreateProviderAdminSuccess)
   onCreateProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch(new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }));
+    dispatch([
+      new ShowMessageBar({ message: 'Користувача успішно створено', type: 'success' }),
+      new MarkFormDirty(false)
+    ]);
     this.router.navigate(['/personal-cabinet/administration']);
   }
 
@@ -395,7 +407,7 @@ export class UserState {
       .blockProviderAdmin(payload.userId, payload.providerId)
       .pipe(
         tap((res) => dispatch(new OnBlockProviderAdminSuccess(payload))),
-        catchError((error: Error) => of(dispatch(new OnBlockProviderAdminFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
       );
   }
 
@@ -407,8 +419,10 @@ export class UserState {
 
   @Action(OnBlockProviderAdminSuccess)
   onBlockProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnBlockProviderAdminSuccess): void {
-    dispatch(new ShowMessageBar({ message: `Дякуємо! користувача заблоковано!`, type: 'success' }));
-    dispatch(new GetAllProviderAdmins());
+    dispatch([
+      new GetAllProviderAdmins(),
+      new ShowMessageBar({ message: `Дякуємо! користувача заблоковано!`, type: 'success' })
+    ]);
   }
 
   @Action(DeleteProviderAdminById)
@@ -417,7 +431,7 @@ export class UserState {
       .deleteProviderAdmin(payload.userId, payload.providerId)
       .pipe(
         tap((res) => dispatch(new OnDeleteProviderAdminSuccess(payload))),
-        catchError((error: Error) => of(dispatch(new OnDeleteProviderAdminFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderAdminFail(error))))
       );
   }
 
@@ -429,8 +443,10 @@ export class UserState {
 
   @Action(OnDeleteProviderAdminSuccess)
   onDeleteProviderAdminSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteProviderAdminSuccess): void {
-    dispatch(new ShowMessageBar({ message: `Дякуємо! користувача видалено!`, type: 'success' }));
-    dispatch(new GetAllProviderAdmins());
+    dispatch([
+      new GetAllProviderAdmins(),
+      new ShowMessageBar({ message: `Дякуємо! користувача видалено!`, type: 'success' })
+    ]);
   }
 
   @Action(CreateApplication)
@@ -439,7 +455,7 @@ export class UserState {
       .createApplication(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateApplicationSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
       );
   }
 
@@ -457,9 +473,11 @@ export class UserState {
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateApplicationSuccess): void {
-    dispatch(new MarkFormDirty(false));
     console.log('Application is created', payload);
-    dispatch(new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }));
+    dispatch([
+      new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }),
+      new MarkFormDirty(false)
+    ]);
     this.router.navigate(['']);
   }
 
@@ -469,7 +487,7 @@ export class UserState {
       .deleteChild(payload)
       .pipe(
         tap((res) => dispatch(new OnDeleteChildSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnDeleteChildFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteChildFail(error))))
       );
   }
 
@@ -482,8 +500,10 @@ export class UserState {
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     console.log('Child is deleted', payload);
-    dispatch(new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }));
-    dispatch(new GetUsersChildren());
+    dispatch([
+      new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }),
+      new GetUsersChildren()
+    ]);
   }
 
   @Action(UpdateWorkshop)
@@ -492,7 +512,7 @@ export class UserState {
       .updateWorkshop(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateWorkshopSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateWorkshopFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateWorkshopFail(error))))
       );
   }
 
@@ -508,7 +528,7 @@ export class UserState {
       .updateChild(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateChildSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateChildFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateChildFail(error))))
       );
   }
 
@@ -521,17 +541,21 @@ export class UserState {
 
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
-    dispatch(new MarkFormDirty(false));
+    const message = Util.getWorkshopMessage(payload);
     console.log('Workshop is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Гурток оновлено!', type: 'success' }));
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: message.text, type: message.type })
+    ]);
     this.router.navigate(['/personal-cabinet/workshops']);
   }
 
   @Action(OnUpdateChildSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
-    dispatch(new MarkFormDirty(false));
     console.log('Child is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' }));
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({ message: 'Дитина успішно відредагована', type: 'success' })]);
     this.location.back();
   }
 
@@ -541,7 +565,7 @@ export class UserState {
       .updateProvider(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateProviderSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateProviderFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
       );
   }
 
@@ -556,7 +580,7 @@ export class UserState {
   onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('Provider is updated', payload);
-    dispatch([new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' }), new GetProfile()]);
+    dispatch([new ShowMessageBar({ message: 'Організація успішно відредагована', type: 'success' })]);
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
@@ -566,7 +590,7 @@ export class UserState {
       .updateUser(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateUserSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnUpdateUserFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
       );
   }
 
@@ -580,8 +604,10 @@ export class UserState {
   onUpdateUserSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateUserSuccess): void {
     dispatch(new MarkFormDirty(false));
     console.log('User is updated', payload);
-    dispatch(new ShowMessageBar({ message: 'Особиста інформація успішно відредагована', type: 'success' }));
-    dispatch(new CheckAuth());
+    dispatch([
+      new CheckAuth(),
+      new ShowMessageBar({ message: 'Особиста інформація успішно відредагована', type: 'success' })
+    ]);
     this.router.navigate(['/personal-cabinet/config']);
   }
 
@@ -591,7 +617,7 @@ export class UserState {
       .updateApplication(payload)
       .pipe(
         tap((res) => dispatch(new OnUpdateApplicationSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateApplicationFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
       );
   }
 
@@ -615,7 +641,7 @@ export class UserState {
       .createRate(payload)
       .pipe(
         tap((res) => dispatch(new OnCreateRatingSuccess(res))),
-        catchError((error: Error) => of(dispatch(new OnCreateRatingFail(error))))
+        catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
       );
   }
 
