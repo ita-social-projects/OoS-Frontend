@@ -59,3 +59,23 @@ export enum InstitutionTypes {
   Profile = 'Профільний',
   Specialized = 'Спеціалізований'
 }
+
+export enum PayRateType {
+  Classes,
+  Month,
+  Day,
+  Year,
+  Hour,
+  Course,
+  AllPeriod
+}
+
+export enum PayRateTypeUkr {
+  Classes = 'Заняття',
+  Month = 'Місяць',
+  Day = 'День',
+  Year = 'Рік',
+  Hour = 'Година',
+  Course = 'Курс',
+  AllPeriod = 'Увесь період'
+}

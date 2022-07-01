@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
+import { PayRateType, PayRateTypeUkr, ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -28,6 +28,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
     cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
   }
+  readonly PayRateType = PayRateType;
+  readonly PayRateTypeUkr = PayRateTypeUkr;
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
@@ -71,7 +73,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
-      isPerMonth: new FormControl(false),
+      priceType: new FormControl(null, Validators.required),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
