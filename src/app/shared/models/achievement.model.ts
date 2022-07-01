@@ -8,13 +8,13 @@ export class Achievement {
   childrenIDs?: string[];
   teachers?: string[];
 
-  constructor(info, workshopId) {
+  constructor(info, workshopId, childrenIDs, teachers) {
     this.title = info.title,
     this.achievementDate = info.achievementDate,
     this.workshopId = workshopId;
     this.achievementTypeId = info.achievementTypeId,
-    this.childrenIDs = info.childrenIDs,
-    this.teachers = info.teachers;
+    this.childrenIDs = childrenIDs,
+    this.teachers = teachers;
   }
 
 }

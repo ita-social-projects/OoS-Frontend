@@ -76,7 +76,9 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       if (result) {
         const achievement = new Achievement(
           this.AchievementFormGroup.value, 
-          this.workshopId
+          this.workshopId,
+          this.AchievementFormGroup.controls.childrenIDs.value.map((child => child = child.id)),
+          this.AchievementFormGroup.controls.teachers.value.map((teacher => teacher = `${teacher.lastName} ${teacher.firstName}`))
         ); 
         this.store.dispatch(new CreateAchievement(achievement));
       }
@@ -85,7 +87,6 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
   remove(item: string, control): void {
     const index = this.AchievementFormGroup.controls[control].value.indexOf(item);
-
     if (index >= 0) {
       this.AchievementFormGroup.controls[control].value.splice(index, 1);
     }
