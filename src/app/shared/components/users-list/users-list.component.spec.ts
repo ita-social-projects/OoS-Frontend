@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
 import { UsersListComponent } from './users-list.component';
 
 describe('UsersListComponent', () => {
@@ -15,6 +16,7 @@ describe('UsersListComponent', () => {
         MatTableModule,
         RouterTestingModule,
         MatMenuModule,
+        NgxsModule.forRoot([]),
         MatIconModule,
       ],
       declarations: [ UsersListComponent ]
@@ -26,6 +28,7 @@ describe('UsersListComponent', () => {
     fixture = TestBed.createComponent(UsersListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.subrole = '' as string;
   });
 
   it('should create', () => {

@@ -15,8 +15,8 @@
       <app-status-info-card></app-status-info-card>
     </mat-menu>
 
-    <app-workshop-checkbox-dropdown [entities]="workshops$ | async" [declination]="WorkshopDeclination" (entityCheck)="onEntitiesSelect($event)">
-    </app-workshop-checkbox-dropdown>
+    <app-entity-checkbox-dropdown [entities]="workshops$ | async" [declination]="WorkshopDeclination" (entityCheck)="onEntitiesSelect($event)">
+    </app-entity-checkbox-dropdown>
   </div>
 
   <div class="tab-wrapper">
@@ -68,8 +68,8 @@
         <app-status-info-card></app-status-info-card>
       </mat-menu>
 
-      <app-workshop-checkbox-dropdown [entities]="childrenCards" [declination]="ChildDeclination" (entityCheck)="onEntitiesSelect($event)">
-      </app-workshop-checkbox-dropdown>
+      <app-entity-checkbox-dropdown [entities]="childrenCards" [declination]="ChildDeclination" (entityCheck)="onEntitiesSelect($event)">
+      </app-entity-checkbox-dropdown>
 
     </div>
 
