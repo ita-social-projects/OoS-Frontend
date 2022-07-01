@@ -2,7 +2,7 @@
   fxLayoutAlign="space-between center"
   fxLayoutGap="2rem" 
   >
-  <div fxFlex="60">
+  <div fxFlex="60" fxLayout="column" fxLayoutAlign="space-between center">
     <image-cropper 
       [imageChangedEvent]="data.image"
       [cropperMinWidth]="data.cropperConfig.cropperMinWidth"
@@ -16,6 +16,9 @@
       (cropperReady)="cropperReady()"
       (loadImageFailed)="loadImageFailed()"
     ></image-cropper>
+    <div *ngIf="!imageHasMinimumRequirements">
+      <small class="warning">Зображення не достатнього розміру.<br>Мінімальні розміри: ширина {{cropperConfig.cropperMinWidth}}px, висота {{cropperConfig.cropperMinHeight}}px.</small>
+    </div>
   </div>
   <div fxFlex="40">
     <img [src]="croppedImage" class="cropped-image" />
@@ -24,6 +27,6 @@
 </div>
 <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
   <button class="btn" mat-button
-    cdkFocusInitial (click)="onConfirm()">ПІДТВЕРДИТИ</button>
+    cdkFocusInitial (click)="onConfirm()" [disabled]="!imageHasMinimumRequirements">ПІДТВЕРДИТИ</button>
   <button class="btn btn-cancel" mat-button [mat-dialog-close]="false" >СКАСУВАТИ</button>
 </mat-dialog-actions>
