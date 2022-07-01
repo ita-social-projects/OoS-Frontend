@@ -54,10 +54,6 @@ export class CreatePhotoFormComponent implements OnInit {
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
   }
 
-  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
-    return institution1.id === institution2.id;
-  }
-
   private activateEditMode(): void {
     this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;

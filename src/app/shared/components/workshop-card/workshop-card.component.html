@@ -11,7 +11,10 @@
       <mat-card-header>
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition" class="card-title">{{workshopData.title}}</mat-card-title>
-        <img mat-card-image [src]="categoryIcons[workshopData.directionId]">
+
+        <ng-container *ngFor="let id of workshopData.directionsId">
+          <img mat-card-image [src]="categoryIcons[id]">
+        </ng-container>
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
