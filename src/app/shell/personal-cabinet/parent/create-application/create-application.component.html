@@ -12,12 +12,14 @@
         <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
+            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти"
+            (selectionChange)="onSelectChild($event)">
             <mat-option *ngFor="let child of (children$ | async)?.entities" [value]="child" class="dropdown-option">
               {{child.lastName}} {{child.firstName}} {{child.middleName}} 
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">Дитина не може бути прийнята в гурток</small>
         <app-validation-hint [validationFormControl]="ChildFormControl">
         </app-validation-hint>
 
@@ -65,7 +67,8 @@
       <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
                     !isContraindicationAgreed ||
                     !isParentAgreed ||
-                    !selectedChild " (click)="onSubmit()">ВІДПРАВИТИ</button>
+                    !selectedChild ||
+                    !isAllowChildToApply" (click)="onSubmit()">ВІДПРАВИТИ</button>
     </div>
   </div>
 </div>
