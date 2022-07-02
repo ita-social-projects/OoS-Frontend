@@ -86,6 +86,7 @@ import {
   OnCreateAchievementSuccess,
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId
+  GetStatusIsAllowToApply,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -108,6 +109,7 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
+  isAllowChildToApply: boolean;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -127,6 +129,8 @@ export interface UserStateModel {
     },
     providerAdmins: null,
   },
+    isAllowChildToApply: null,
+  }
 })
 @Injectable()
 export class UserState {
@@ -180,6 +184,9 @@ export class UserState {
   static providerAdmins(state: UserStateModel): ProviderAdmin[] {
     return state.providerAdmins;
   }
+
+  @Selector()
+  static isAllowChildToApply(state: UserStateModel): boolean { return state.isAllowChildToApply; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -941,6 +948,17 @@ export class UserState {
       })
     );
     dispatch(new GetApplicationsByParentId(payload.parentId, payload.status));
+  }
+
+  @Action(GetStatusIsAllowToApply)
+  getStatusIsAllowToApply({ patchState }: StateContext<UserStateModel>, { childId, workshopId }: GetStatusIsAllowToApply): Observable<boolean> {
+    patchState({ isLoading: true });
+    return this.applicationService
+      .getStatusIsAllowToApply(childId, workshopId)
+      .pipe(
+        tap((status: boolean) => {
+          return patchState({ isAllowChildToApply: status, isLoading: false });
+        }));
   }
 
   @Action(CreateRating)
