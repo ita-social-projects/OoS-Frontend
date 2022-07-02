@@ -6,7 +6,6 @@ import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsComponent } from './achievements.component';
 
-// const MockAchievement = {Achievement: typeof Achievement};
 describe('AchievementsComponent', () => {
   let component: AchievementsComponent;
   let fixture: ComponentFixture<AchievementsComponent>;
