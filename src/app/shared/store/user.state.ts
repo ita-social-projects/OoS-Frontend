@@ -85,7 +85,7 @@ import {
   ResetProviderWorkshopDetails,
   OnCreateAchievementSuccess,
   OnCreateAchievementFail,
-  GetAchievementsByWorkshopId
+  GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
@@ -128,9 +128,8 @@ export interface UserStateModel {
       isActive: true,
     },
     providerAdmins: null,
-  },
     isAllowChildToApply: null,
-  }
+  },
 })
 @Injectable()
 export class UserState {
