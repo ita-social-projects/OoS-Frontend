@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -11,7 +11,6 @@ import { Application, ApplicationUpdate } from 'src/app/shared/models/applicatio
 import { Child } from 'src/app/shared/models/child.model';
 import { SetApplicationsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
-import { Util } from 'src/app/shared/utils/utils';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 
@@ -36,11 +35,6 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   init(): void {
     if (this.role === Role.provider) {
       this.getProviderWorkshops();
-      this.getProviderApplications({
-        status: ApplicationStatus.Pending,
-        workshopsId: [],
-        showBlocked: false,
-      });
     } else {
       this.store.dispatch([new SetFirstPage(), new SetApplicationsPerPage(100)]);
       this.getAllUsersChildren();
