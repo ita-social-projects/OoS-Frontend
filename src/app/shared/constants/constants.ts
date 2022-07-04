@@ -42,7 +42,6 @@ export class Constants {
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
 }
-
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
@@ -63,6 +62,16 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: 'MMMM Y'
   }
 };
+
+export const AchievementsTitle = [
+  { id: 1, name: "Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних)" },
+  { id: 2, name: "Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів" },
+  { id: 3, name: "Реципієнти міжнародних грантів" },
+  { id: 4, name: "Призери міжнародних культурних конкурсів та фестивалів" },
+  { id: 5, name: "Соціально активні категорії учнів" },
+  { id: 6, name: "Цифрові інструменти Google для закладів вищої та фахової передвищої освіти" },
+  { id: 7, name: "Переможці та учасники олімпіад міжнародного та всеукраїнського рівнів" }
+];
 
 export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   {

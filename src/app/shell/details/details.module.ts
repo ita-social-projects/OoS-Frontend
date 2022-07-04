@@ -15,6 +15,7 @@ import { AllProviderWorkshopsComponent } from './details-tabs/all-provider-works
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { ProviderDetailsComponent } from './provider-details/provider-details.component';
+import { AchievementsComponent } from './achievements/achievements.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ProviderDetailsComponent } from './provider-details/provider-details.co
     ContactsComponent,
     AllProviderWorkshopsComponent,
     WorkshopDetailsComponent,
-    ProviderDetailsComponent],
+    ProviderDetailsComponent,
+    AchievementsComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,

@@ -6,10 +6,15 @@ import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
+import { Achievement } from '../models/achievement.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: string) { }
+}
+export class GetAchievementsByWorkshopId {
+  static readonly type = '[user] get Achievements By Wokrshop Id';
+  constructor(public payload) { }
 }
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
@@ -30,6 +35,10 @@ export class OnGetProviderByIdFail {
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
   constructor(public id: string, public parameters?: string) { }
+}
+export class GetStatusIsAllowToApply {
+  static readonly type = '[user] get child status By child and workshop ids';
+  constructor(public childId: string, public workshopId: string) { }
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
@@ -145,6 +154,18 @@ export class OnDeleteProviderAdminSuccess {
 export class OnDeleteProviderAdminFail {
   static readonly type = '[user] delete Provider Admin fail';
   constructor(public payload) { }
+}
+export class CreateAchievement {
+  static readonly type = '[user] create Achievement';
+  constructor(public payload: Achievement) {}
+}
+export class OnCreateAchievementFail {
+  static readonly type = '[user] create Achievement fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+export class OnCreateAchievementSuccess {
+  static readonly type = '[user] create Achievement success';
+  constructor(public payload) {}
 }
 export class CreateApplication {
   static readonly type = '[user] create Application';

@@ -1,11 +1,14 @@
+import { Institution } from './../../../../../shared/models/institution.model';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil, takeWhile } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -23,6 +26,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
+  @Input() provider: Provider;
 
   @Output() passDescriptionFormGroup = new EventEmitter();
 
@@ -54,6 +58,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         departmentId: new FormControl('', Validators.required),
         classId: new FormControl('', Validators.required),
       }),
+      institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required),
       workshopDescriptionItems: this.SectionItemsFormArray,
     });
   }
