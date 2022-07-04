@@ -87,7 +87,19 @@
   width: 100px;
 }
 .add-achievement {
-  width: 140px;
+  display: flex;
+  align-items: flex-start; 
+  justify-content: flex-end; 
+}
+
+.icon_add {
+  color: #3849F9;
+  font-size: 16px;
+}
+
+.icon_launch {
+  color: #3849F9;
+  width: 12px;
 }
 
 @media (max-width: 750px) {

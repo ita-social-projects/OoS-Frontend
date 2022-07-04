@@ -11,6 +11,8 @@
       <mat-card-header>
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition" class="card-title">{{workshopData.title}}</mat-card-title>
+          <ng-container *ngIf="userRoleView === Role.provider">
+            <a [routerLink]="['/details/workshop', workshopData.workshopId]"><mat-icon class="icon_launch">launch</mat-icon></a></ng-container>
 
         <ng-container *ngFor="let id of workshopData.directionsId">
           <img mat-card-image [src]="categoryIcons[id]">
@@ -23,19 +25,18 @@
         </ng-container>
       </mat-card-content>
 
-      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
-        <div>
-          <ng-container *ngIf="userRoleView === Role.provider">
-            <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
-              <mat-icon>add</mat-icon>
-              <span class="card_link">Додати досягнення</span>
-            </a>  
-          </ng-container>
+      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">                  
+        <ng-container *ngIf="userRoleView !== Role.provider">
           <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
             <span class="card_link">Детальніше</span>
             <mat-icon>arrow_forward</mat-icon>
           </a>  
-        </div>      
+        </ng-container>             
+        <ng-container *ngIf="userRoleView === Role.provider">
+            <a [routerLink]="['/create-achievement', workshopData.workshopId]">                
+              <span class="card_link add-achievement"><mat-icon class="icon_add">add</mat-icon>Додати досягнення</span>
+            </a>  
+        </ng-container>
       </mat-card-footer>
     </div>
   </div>
