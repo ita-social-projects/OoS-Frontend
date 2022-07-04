@@ -3,3 +3,22 @@
 @import "src/app/shared/styles/validation-form.scss";
 @import "src/app/shared/styles/dropdown.scss";
 @import "src/app/shared/styles/buttons.scss";
+
+.step {
+  min-width: 52em;
+  padding: 0 20px;
+}
+.wrapper {
+  max-width: 60em;
+}
+@media (max-width: 750px) {
+  .step {
+    min-width: 20em;
+  }
+  .wrapper {
+    max-width: 30em;
+  }
+  .step-textarea {
+    width: 80%;
+  }
+}
