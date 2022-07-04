@@ -1,16 +1,16 @@
 @import "src/app/shared/styles/cards.scss";
 @import "src/app/shared/styles/application-statuses.scss";
 
-.card-img-mobile{
+.card-img-mobile {
   width: 100%;
 }
 .horizontal {
   margin: 0;
 }
-.provider-content{
+.provider-content {
   min-height: 5rem;
 }
-.icon{
+.icon {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -25,12 +25,12 @@
   color: #ffbd00;
 }
 .provider-link {
-  color: #3849F9;
+  color: #3849f9;
   margin: 0.3rem 0;
 }
 .provider-link:hover {
-    opacity: 0.5;
-    color: #3849F9;
+  opacity: 0.5;
+  color: #3849f9;
 }
 .horizontal-card {
   display: flex;
@@ -39,7 +39,7 @@
   align-items: flex-start;
   overflow: hidden;
 
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
@@ -78,8 +78,8 @@
 }
 .dialog-action-button {
   color: white;
-  background-color: #3849F9;
-  border: 1px solid #3849F9;
+  background-color: #3849f9;
+  border: 1px solid #3849f9;
   border-radius: 20px;
   margin-bottom: 20px;
 }
@@ -88,12 +88,12 @@
 }
 
 .icon_add {
-  color: #3849F9;
+  color: #3849f9;
   font-size: 16px;
 }
 
 .icon_launch {
-  color: #3849F9;
+  color: #3849f9;
   width: 12px;
 }
 
@@ -104,7 +104,7 @@
   .horizontal-card {
     max-width: 100%;
     width: 90vw;
-    .card-img{
+    .card-img {
       flex: 1;
     }
     .wrap-for-details {
@@ -134,8 +134,9 @@
     }
     ::ng-deep .mat-card-header-text {
       margin: 0;
-    }    
-    .card-title, .mat-card-header{
+    }
+    .card-title,
+    .mat-card-header {
       font-size: 15px;
     }
   }
@@ -144,4 +145,10 @@
   width: calc(100% - 60px) !important;
   margin: 0 !important;
 }
-.mat-card-header {}
+.img {
+  position: absolute;
+  width: 33px;
+  right: 4%;
+  top: 15%;
+  bottom: 81%;
+}

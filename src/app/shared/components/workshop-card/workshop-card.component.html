@@ -18,9 +18,9 @@
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
         </ng-container>
-        <ng-container *ngFor="let id of workshopData.directionsId">
+        <!-- <ng-container *ngFor="let id of workshopData.directionsId">
           <img mat-card-image [src]="categoryIcons[id]">
-        </ng-container>
+        </ng-container> -->
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
@@ -56,6 +56,9 @@
       <mat-icon>delete</mat-icon>
     </div>
   </div>
+  <ng-container *ngFor="let id of workshopData.directionsId">
+    <img class="img" mat-card-image [src]="categoryIcons[id]">
+  </ng-container>
 </ng-template>
 
 <ng-template #UserActions>
