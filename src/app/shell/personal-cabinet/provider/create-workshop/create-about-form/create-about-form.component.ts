@@ -80,7 +80,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   private onPriceCtrlInit(): void {
-<<<<<<< HEAD
     this.priceRadioBtn.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -94,11 +93,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
           this.AboutFormGroup.get('payRate')['disable']({emitEvent : true});
         }
       });
-=======
-    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
-      isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
-    });
->>>>>>> develop
   }
 
   private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
