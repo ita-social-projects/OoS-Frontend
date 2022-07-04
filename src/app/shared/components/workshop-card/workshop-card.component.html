@@ -33,9 +33,10 @@
           </a>  
         </ng-container>             
         <ng-container *ngIf="userRoleView === Role.provider">
-            <a [routerLink]="['/create-achievement', workshopData.workshopId]">                
-              <span class="card_link add-achievement"><mat-icon class="icon_add">add</mat-icon>Додати досягнення</span>
-            </a>  
+          <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">                
+            <mat-icon class="icon_add">add</mat-icon>
+            <span class="card_link">Додати досягнення</span>
+          </a>  
         </ng-container>
       </mat-card-footer>
     </div>
