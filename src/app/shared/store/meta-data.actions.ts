@@ -67,3 +67,26 @@ export class GetAllInstitutions {
   static readonly type = '[meta-data] Get All Institutions';
   constructor() { }
 }
+
+export class GetFieldDescriptionByInstitutionId {
+  static readonly type = '[meta-data] Get Field Description By Institution Id';
+  constructor(public payload: string) { }
+}
+
+export class GetAllByInstitutionAndLevel {
+  static readonly type = '[meta-data] Get All By Institution And Level';
+  constructor(public institutionId: string, public level: number) { }
+}
+export class GetInstitutionHierarchyChildrenById {
+  static readonly type = '[meta-data ]Get Institution Hierarchy Children By Id';
+  constructor(public id: string) { }
+}
+export class ResetInstitutionHierarchy {
+  static readonly type = '[meta-data] Reset Institution Hierarchy';
+  constructor() { }
+}
+
+export class GetInstitutionHierarchyParentsById {
+  static readonly type = '[meta-data] Get Institution Hierarchy Parents By Id';
+  constructor(public id: string) { }
+}

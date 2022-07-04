@@ -112,6 +112,7 @@
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
+<<<<<<< HEAD
       <div fxLayout='row' fxLayoutAlign="space-between center" >
         <div fxLayout='row' fxLayoutAlign="center center">
           <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
@@ -131,6 +132,16 @@
               </ng-container>
             </mat-select>
         </div>
+=======
+    <div fxLayout='row' fxLayoutAlign="start center" fxLayout.xs='column' fxLayoutAlign.xs="center start">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input price-input"
+            appDigitOnly appMinMax formControlName="price" type="number"
+            [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
+            [max]="validationConstants.MAX_PRICE">
+        </mat-radio-button>
+        <p class="step-text">грн за</p>
+>>>>>>> develop
       </div>
     <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('payRate')"
