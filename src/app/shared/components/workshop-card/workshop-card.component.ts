@@ -13,7 +13,7 @@ import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { OwnershipTypeUkr, PayRateType, PayRateTypeUkr } from 'src/app/shared/enum/provider';
 import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
@@ -30,6 +30,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   readonly categoryIcons = CategoryIcons;
+  readonly PayRateTypeUkr = PayRateTypeUkr;
 
   isFavorite: boolean;
   pendingApplicationAmount: number;

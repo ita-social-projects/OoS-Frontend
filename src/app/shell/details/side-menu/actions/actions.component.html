@@ -1,6 +1,5 @@
 <div [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap='1.5rem'>
-  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="start"> {{ workshop.price }} грн/{{ workshop.isPerMonth ? 'місяць' : 'заняття'
-    }} </h4>
+  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="start"> {{ workshop.price }} грн/{{ PayRateTypeUkr[workshop.payRate] }} </h4>
   <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
   <a [routerLink]="['/create-application', workshop.id]" (click)="login()">
     <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
