@@ -8,12 +8,16 @@
         alt="{{workshopData.title}}">
     </div>
     <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
-      <mat-card-header>
+      <mat-card-header>        
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
-          [matTooltipPosition]="tooltipPosition" class="card-title">{{workshopData.title}}</mat-card-title>
-          <ng-container *ngIf="userRoleView === Role.provider">
-            <a [routerLink]="['/details/workshop', workshopData.workshopId]"><mat-icon class="icon_launch">launch</mat-icon></a></ng-container>
-
+          [matTooltipPosition]="tooltipPosition" class="card-title">
+          {{workshopData.title}}
+        </mat-card-title>        
+        <ng-container *ngIf="userRoleView === Role.provider">
+          <a [routerLink]="['/details/workshop', workshopData.workshopId]">
+            <mat-icon class="icon_launch">launch</mat-icon>
+          </a>
+        </ng-container>
         <ng-container *ngFor="let id of workshopData.directionsId">
           <img mat-card-image [src]="categoryIcons[id]">
         </ng-container>

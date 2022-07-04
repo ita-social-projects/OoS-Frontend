@@ -140,3 +140,8 @@
     }
   }
 }
+::ng-deep .mat-card-header-text {
+  width: calc(100% - 60px) !important;
+  margin: 0 !important;
+}
+.mat-card-header {}
