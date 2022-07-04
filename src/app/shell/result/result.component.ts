@@ -62,7 +62,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.workshopsPerPage$.pipe(takeUntil(this.destroy$)).subscribe((workshopsPerPage: number) => {
       this.workshopsPerPage = workshopsPerPage;
-      this.store.dispatch(new GetFilteredWorkshops());
     });
 
     combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.filtersSidenavOpenTrue$])
@@ -111,7 +110,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch(new SetWorkshopsPerPage(itemsPerPage));
+    this.store.dispatch([new SetWorkshopsPerPage(itemsPerPage), new SetFirstPage, new GetFilteredWorkshops()]);
   }
 
   filterHandler(): void {

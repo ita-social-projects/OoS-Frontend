@@ -1,5 +1,5 @@
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeDirections, SetDirectionsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -75,11 +75,11 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeDirections(page));
+    this.store.dispatch([new OnPageChangeDirections(page), new GetFilteredDirections()]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new GetFilteredDirections()]);
+    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new SetFirstPage, new GetFilteredDirections()]);
   }
 
   onDelete(direction: Direction): void {

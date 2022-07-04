@@ -10,7 +10,7 @@ import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.act
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetApplicationsPerPage, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
@@ -69,7 +69,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
   }
 
   onItemsPerPageChange(itemsPerPage: number): void{
-    this.store.dispatch(new SetChildrensPerPage(itemsPerPage));
+    this.store.dispatch([new SetChildrensPerPage(itemsPerPage),new SetFirstPage(), new GetUsersChildren()]);
   }
 
   onPageChange(page: PaginationElement): void {

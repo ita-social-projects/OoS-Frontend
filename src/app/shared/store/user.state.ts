@@ -322,10 +322,11 @@ export class UserState {
     { patchState, getState }: StateContext<UserStateModel>,
     {}: GetUsersChildren
   ): Observable<ChildCards> {
+    patchState({ isLoading: true });
     const state: UserStateModel = getState();
     return this.childrenService
       .getUsersChildren(state)
-      .pipe(tap((children: ChildCards) => patchState({ children: children })));
+      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(GetAllUsersChildren)
@@ -333,9 +334,10 @@ export class UserState {
     { patchState }: StateContext<UserStateModel>,
     {}: GetAllUsersChildren
   ): Observable<ChildCards> {
+    patchState({ isLoading: true });
     return this.childrenService
       .getAllUsersChildren()
-      .pipe(tap((children: ChildCards) => patchState({ children: children })));
+      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(CreateWorkshop)
