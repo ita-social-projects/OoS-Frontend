@@ -30,9 +30,7 @@ import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
 import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
-import { ValidationHintForInputComponent } from './components/validation-hint-for-input/validation-hint-for-input.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
-import { WorkshopCheckboxDropdownComponent } from './components/workshop-checkbox-dropdown/workshop-checkbox-dropdown.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
@@ -65,6 +63,12 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
+import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
+import { InfoFormComponent } from './components/info-form/info-form.component';
+import { AchievementCardComponent } from './components/achievement-card/achievement-card/achievement-card.component';
+import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -93,9 +97,8 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStyling,
-    ValidationHintForInputComponent,
     NavigationBarComponent,
-    WorkshopCheckboxDropdownComponent,
+    EntityCheckboxDropdownComponent,
     NavigationMobileBarComponent,
     FullSearchBarComponent,
     MessageBarComponent,
@@ -126,6 +129,10 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ValidationHintComponent,
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
+    InstitutionHierarchyComponent,
+    ImageCropperModalComponent,
+    InfoFormComponent,
+    AchievementCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -137,6 +144,7 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     NgxSliderModule,
     NgxMatTimepickerModule,
     IvyCarouselModule,
+    ImageCropperModule
   ],
   exports: [
     FiltersListComponent,
@@ -164,10 +172,9 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStyling,
-    ValidationHintForInputComponent,
     NavigationBarComponent,
     NavigationMobileBarComponent,
-    WorkshopCheckboxDropdownComponent,
+    EntityCheckboxDropdownComponent,
     FullSearchBarComponent,
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
@@ -195,7 +202,10 @@ import { WorkingHoursFormWrapperComponent } from './components/working-hours-for
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
-    WorkingHoursFormWrapperComponent
+    WorkingHoursFormWrapperComponent,
+    InstitutionHierarchyComponent,
+    ImageCropperModalComponent,
+    InfoFormComponent
   ]
 })
 export class SharedModule { }

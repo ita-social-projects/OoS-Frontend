@@ -11,7 +11,7 @@
     <ng-container>
       <app-child-form *ngFor="let form of ChildrenFormArray.controls" [ChildFormGroup]="form"
         [index]="ChildrenFormArray.controls.indexOf(form)" [childrenAmount]="ChildrenFormArray.controls.length"
-        [socialGroups]="(socialGroups$ | async)" (deleteForm)="onDeleteForm($event)"></app-child-form>
+        [socialGroups]="socialGroups" (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
@@ -36,8 +36,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/personal-cabinet/parent/info'"><button mat-raised-button
-          class="btn btn-cancel">СКАСУВАТИ</button></a>
+      <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">СКАСУВАТИ</button>
       <button [disabled]="!AgreementFormControl.value || ChildrenFormArray.invalid" class="btn" mat-button type="submit"(click)="onSubmit()">ЗБЕРЕГТИ</button>
     </div>
 

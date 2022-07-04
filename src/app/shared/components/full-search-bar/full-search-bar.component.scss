@@ -5,27 +5,24 @@
   border-radius: 60px;
 
   .search-city {
-    min-width: 219px;
-    max-width: 230;
-    display: flex;
-    justify-content: flex-start;
+    width: 280px;
+    vertical-align: bottom;
   }
 
   .search-bar-wrap {
-    width: 100%;
+    width: 80%;
+    border-left: 1px solid #E3E3E3;
+
     .search-bar {
       width: 100%;
     }
   }
 }
-
-.city {
-  border-right: 1px solid #E3E3E3;
-  padding-right: 1rem;
+.max-height{
+  max-height: 40px;
 }
 
 .icon{
-  margin: 4px 1rem 0;
+  margin: 0 0.5rem 0 1rem;
   color: #AAAAAA;
-  line-height: 26px;
 }

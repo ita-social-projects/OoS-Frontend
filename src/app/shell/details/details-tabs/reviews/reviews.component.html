@@ -1,0 +1,29 @@
+<div class="wrapper" fxLayout='column' fxLayoutAlign='start space-between'>
+  <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
+    <div fxLayout='row wrap' fxLayoutAlign='space-between center'>
+      <mat-icon class="star-icon">star</mat-icon> {{workshop.rating}} <p class="rate-amount">
+        ({{ ((rating$|async)?.length ? (rating$|async)?.length : 0) | declination : ReviewDeclination }})</p>
+    </div>
+    <div [matTooltip]="!isApproved ? 'Ви повинні бути прийнятим до даного гуртка' : 'Ви вже оцінили цей гурток'"
+      [matTooltipDisabled]="!(this.isRated || !this.isApproved)">
+      <button mat-raised-button class="button" (click)="onRate()" *ngIf="role !== Role.provider"
+        [disabled]="this.isRated || !this.isApproved">
+        <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
+      </button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="rating?.length; else isEmptyList">
+    <div class="rate" *ngFor="let rate of rating" fxLayout='column' fxLayoutAlign='start space-between'>
+    <p class="rate-author"> {{rate.firstName}} {{rate.lastName}} </p>
+    <p class="rate-date" fxLayout='row' fxLayoutAlign='start center'>
+      <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
+      {{rate.creationTime | date: 'shortDate'}}
+    </p>
+  </div>
+  </ng-container>
+  
+  <ng-template #isEmptyList>
+    <app-no-result-card [title]="noResultReviews"></app-no-result-card>
+  </ng-template>
+</div>

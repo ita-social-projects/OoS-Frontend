@@ -1,0 +1,32 @@
+<div fxLayout="row"
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="2rem" 
+  >
+  <div fxFlex="60" fxLayout="column" fxLayoutAlign="space-between center">
+    <image-cropper 
+      [imageChangedEvent]="data.image"
+      [cropperMinWidth]="data.cropperConfig.cropperMinWidth"
+      [cropperMaxWidth]="data.cropperConfig.cropperMaxWidth"
+      [cropperMinHeight]="data.cropperConfig.cropperMinHeight"
+      [cropperMaxHeight]="data.cropperConfig.cropperMaxHeight"
+      [aspectRatio]="data.cropperConfig.cropperAspectRatio"
+      format="data.cropperConfig.croppedFormat"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded($event)"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+    <div *ngIf="!imageHasMinimumRequirements">
+      <small class="warning">Зображення не достатнього розміру.<br>Мінімальні розміри: ширина {{data.cropperConfig.cropperMinWidth}}px, висота {{data.cropperConfig.cropperMinHeight}}px.</small>
+    </div>
+  </div>
+  <div fxFlex="40">
+    <img [src]="croppedImage" class="cropped-image" />
+  </div>
+  
+</div>
+<mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
+  <button class="btn" mat-button
+    cdkFocusInitial (click)="onConfirm()" [disabled]="!imageHasMinimumRequirements">ПІДТВЕРДИТИ</button>
+  <button class="btn btn-cancel" mat-button [mat-dialog-close]="false" >СКАСУВАТИ</button>
+</mat-dialog-actions>

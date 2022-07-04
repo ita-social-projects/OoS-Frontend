@@ -1,8 +1,8 @@
-<ng-container *ngIf="provider$ | async as provider">
+<div *ngIf="provider$ | async as provider" class="container">
   <app-provider-info
     [provider]="provider"
     [currentStatus]="currentStatus"
     (selectedTabChange)="onTabChanged($event)"
     [isProviderView]="true"
   ></app-provider-info>
-</ng-container>
+</div>

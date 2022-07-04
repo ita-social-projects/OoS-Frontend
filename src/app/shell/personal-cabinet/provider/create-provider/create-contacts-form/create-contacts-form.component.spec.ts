@@ -25,7 +25,8 @@ describe('CreateContactsFormComponent', () => {
       ],
       declarations: [
         CreateContactsFormComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        MockCityAutocompleteComponent
       ]
     })
       .compileComponents();
@@ -52,5 +53,14 @@ class MockValidationHintForInputComponent{
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
 }
-  
+@Component({
+  selector: 'app-city-autocomplete',
+  template: ''
+})
+class MockCityAutocompleteComponent {
+  @Input() InitialCity: string;
+  @Input() className: string;
+  @Input() cityFormControl: FormControl;
+}

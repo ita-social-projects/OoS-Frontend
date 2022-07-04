@@ -148,7 +148,7 @@ p {
     row-gap: 1rem;
   }
   .hidden {
-    display: none!important;
+    display: none !important;
   }
 }
 
@@ -190,4 +190,15 @@ p {
       margin-top: 1rem;
     }
   }
+.status-info-icon{
+  margin-left: 1px;
+}
+.activeInfoBtn {
+  color: #3849f9;
+  font-size: 30px;
+}
+.inactiveInfoBtn {
+  color: #AAAAAA;
+  font-size: 30px;
+}
 }

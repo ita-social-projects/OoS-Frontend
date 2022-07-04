@@ -36,16 +36,16 @@ export class PlatformComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetPlatformInfo());
 
-    this.route.params
+    this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = +this.adminTabs[params.index];
-        this.type = PlatformInfoType[params.index];
+        this.tabIndex = +this.adminTabs[params['page']];
+        this.type = PlatformInfoType[params['page']];
       });
   }
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate([`admin-tools/platform/${this.adminTabs[event.index]}`]);
+    this.router.navigate([`admin-tools/platform`], {queryParams: {page: this.adminTabs[event.index]}});
   }
 
   ngOnDestroy(): void {

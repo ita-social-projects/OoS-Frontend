@@ -7,7 +7,7 @@ export class ValidationConstants {
 
   //Price
   static readonly MIN_PRICE = 1;
-  static readonly MAX_PRICE = 10000;
+  static readonly MAX_PRICE = 100000;
   static readonly MAX_PRICE_LENGTH = 4;
 
   //Description length

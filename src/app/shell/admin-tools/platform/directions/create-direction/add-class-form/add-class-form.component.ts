@@ -14,6 +14,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateClass, UpdateClass } from 'src/app/shared/store/admin.actions';
 import { takeUntil } from 'rxjs/operators';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-add-class-form',
@@ -103,7 +104,7 @@ export class AddClassFormComponent extends CreateFormComponent implements OnInit
       const isEditMode = !!this.selectedClassFormgroup.value.id;
 
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: '330px',
+        width: Constants.MODAL_SMALL,
         data: {
           type: isEditMode ? ModalConfirmationType.editClass : ModalConfirmationType.createClass,
         }

@@ -54,10 +54,6 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
-div.cdk-overlay-pane {
-  width: auto !important; /** workaround for issue #101 **/
-}
 .mat-step-label {
   font-family: Open Sans;
   font-weight: 700;

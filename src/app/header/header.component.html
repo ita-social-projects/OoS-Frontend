@@ -97,17 +97,16 @@
         <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
             {{roles[user.role]}}</button></a>
         <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
-        <a [routerLink]="'./personal-cabinet/applications/All'"><button mat-menu-item>Мої заяви</button></a>
-        <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/administration/all'"><button
-            mat-menu-item>Адміністрування</button></a>
-        <!-- <a [routerLink]="'./personal-cabinet/messages'"><button mat-menu-item>Повідомлення</button></a> -->
+        <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
+        <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/administration'">
+          <button mat-menu-item>Адміністрування</button></a>
         <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
             mat-menu-item>Улюблене</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a [routerLink]="'./admin-tools/platform/AboutPortal'"> <button mat-menu-item>Адміністрування</button></a>
+        <a *ngIf="subrole !== 'ProviderAdmin'" [routerLink]="'./admin-tools/platform'"> <button mat-menu-item>Адміністрування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
     </mat-menu>

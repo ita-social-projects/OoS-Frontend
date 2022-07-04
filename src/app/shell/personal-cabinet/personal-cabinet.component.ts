@@ -1,13 +1,11 @@
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Role, RoleLinks } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { User } from 'src/app/shared/models/user.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { PersonalCabinetTitle } from 'src/app/shared/enum/enumUA/provider-admin';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -15,10 +13,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./personal-cabinet.component.scss'],
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.subrole)
-  subrole: Observable<string>;
-
   roles = RoleLinks;
+  subrole: string;
   userRole: string;
   Role = Role;
   PersonalCabinetTitle = PersonalCabinetTitle;
@@ -29,9 +25,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userRole = this.store.selectSnapshot<User>(
-      RegistrationState.user
-    ).role;
+    this.userRole = this.store.selectSnapshot<string>(RegistrationState.role);
+    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createOneNavPath({
@@ -45,7 +40,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
           disable: true,
         })
       )
-    );
+    );    
   }
 
   ngOnDestroy(): void {

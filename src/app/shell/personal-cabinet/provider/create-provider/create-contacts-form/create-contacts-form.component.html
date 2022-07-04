@@ -13,13 +13,15 @@
   </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
-  </mat-form-field>
+  <app-city-autocomplete (selectedCity)="onSelectLegalCity($event)" [InitialCity]="cityLegal"
+    class="city-autocomplete" [cityFormControl]="cityLegalFormControl" [class.redBorder]="cityLegalFormControl.invalid && cityLegalFormControl.touched"
+    (focusout)="onFocusOutLegal($event)">
+  </app-city-autocomplete>
   <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('city')"
+    [validationFormControl]="cityLegalFormControl"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+    [isTouched]="cityLegalFormControl.touched">
   </app-validation-hint>
 
   <label class="step-label">Район<span class="step-required">*</span></label>
@@ -75,13 +77,15 @@
   </app-validation-hint>
 
   <label class="step-label">Місто<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
-  </mat-form-field>
+  <app-city-autocomplete (selectedCity)="onSelectActualCity($event)" [InitialCity]="cityActual"
+    class="city-autocomplete" [cityFormControl]="cityActualFormControl" [class.redBorder]="cityActualFormControl.invalid && cityActualFormControl.touched"
+    (focusout)="onFocusOutActual($event)">
+  </app-city-autocomplete>
   <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('city')"
+    [validationFormControl]="cityActualFormControl"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+    [isTouched]="cityActualFormControl.touched">
   </app-validation-hint>
 
   <label class="step-label">Район<span class="step-required">*</span></label>

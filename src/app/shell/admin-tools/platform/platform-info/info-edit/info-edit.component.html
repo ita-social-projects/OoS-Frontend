@@ -4,20 +4,21 @@
       <h3 class="wrapper-title">РЕДАГУВАННЯ {{editTitle}}</h3>
     </div>
 
-    <div fxLayout="column" fxLayoutAlign="center space-between" class="step">
-      <label class="step-label"> Заголовок </label>
-      <mat-form-field>
-        <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue>
-      </mat-form-field>
-      <app-validation-hint 
-        [validationFormControl]="titleFormControl">
-      </app-validation-hint>
-    </div>
-    
     <div fxLayout="column" fxLayoutAlign="center center">
-      <app-info-form *ngFor="let form of PlatformInfoItemArray.controls" [PlatformInfoEditFormGroup]="form"
+      
+      <div fxLayout="column" fxLayoutAlign="start space-between" class="step">
+        <label class="step-label"> Заголовок </label>
+        <mat-form-field>
+          <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue>
+        </mat-form-field>
+        <app-validation-hint 
+          [validationFormControl]="titleFormControl">
+        </app-validation-hint>
+      </div>
+
+      <app-info-form *ngFor="let form of PlatformInfoItemArray.controls" [InfoEditFormGroup]="form"
         [index]="PlatformInfoItemArray.controls.indexOf(form)" [formAmount]="PlatformInfoItemArray.controls.length"
-        (deleteForm)="onDeleteForm($event)">
+        [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000" (deleteForm)="onDeleteForm($event)">
       </app-info-form>
 
       <button *ngIf="PlatformInfoItemArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()">
@@ -27,8 +28,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="['/admin-tools/platform', platformInfoType]"><button mat-raised-button
-          class="btn btn-cancel">Скасувати</button></a>
+      <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
       <button class="btn" mat-button type="submit"[disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid" (click)="onSubmit()">Зберегти</button>
     </div>
 

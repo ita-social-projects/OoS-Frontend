@@ -16,7 +16,7 @@
   </div>
   <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card-label">Дата народження</label>
-  <p>{{card.dateOfBirth | date: constants.SHORT_DATE_FORMAT}}</p>
+  <p>{{ card.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}</p>
   <label class="card-label">Стать дитини</label>
   <p> {{ card.gender === 0 ? 'Чоловіча' : "Жіноча" }} </p>
   <label class="card-label">Соціальна група</label>
@@ -32,8 +32,8 @@
   </div>
   <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card-label">Телефон</label>
-  <p> {{ constants.PHONE_PREFIX + card.phoneNumber | phoneTransform }} </p>
-  <label class="card-label">Емейл</label>
+  <p> {{ phonePrefix + card.phoneNumber | phoneTransform }} </p>
+  <label class="card-label">Електронна пошта</label>
   <p> {{ card.email}} </p>
 </ng-template>
 
@@ -46,10 +46,6 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <app-validation-hint-for-input
-      type = "requiredField"
-      [invalid] = "UserFormGroup.get('birthDay').invalid && UserFormGroup.get('birthDay').touched"
-    ></app-validation-hint-for-input>
 
     <label class="step-label">Стать<span class="step-required">*</span></label>
     <mat-radio-group formControlName="gender" color="primary">
@@ -65,10 +61,7 @@
         <mat-option value="1" class="dropdown-option"> Відсутня </mat-option>
       </mat-select>
     </mat-form-field>
-    <app-validation-hint-for-input
-      type = "requiredField"
-      [invalid] = "UserFormGroup.get('socialGroupId').invalid && UserFormGroup.get('socialGroupId').touched"
-    ></app-validation-hint-for-input>
+
 
   </form>
 

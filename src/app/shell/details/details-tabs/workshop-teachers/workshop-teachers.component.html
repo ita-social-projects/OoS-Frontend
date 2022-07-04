@@ -1,0 +1,7 @@
+<div class="card-wrapper" *ngIf="teachers?.length; else isEmptyList">
+  <app-teacher-card class="card" *ngFor="let teacher of teachers" [teacher]="teacher">
+  </app-teacher-card>
+</div>
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noResultTeachers"></app-no-result-card>
+</ng-template>

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
@@ -82,7 +81,7 @@ export class UserWorkshopService {
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds',];
+    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];
     const imageFiles = ['imageFiles', 'coverImage'];
     const teachers = 'teachers';
 

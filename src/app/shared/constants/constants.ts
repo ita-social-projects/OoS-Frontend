@@ -1,4 +1,3 @@
-import { Input } from '@angular/core';
 import { MatDateFormats } from '@angular/material/core';
 import { WorkingDays } from '../enum/enumUA/working-hours';
 import { City } from '../models/city.model';
@@ -8,21 +7,7 @@ import { WorkingDaysToggleValue } from '../models/workingHours.model';
  * Constants for OutOfSchool
  */
 export class Constants {
-  static readonly CLASS_AMOUNT_MIN = 1;
-  static readonly CLASS_AMOUNT_MAX = 7;
   static readonly CHILDREN_AMOUNT_MAX = 20;
-  static readonly AGE_MIN = 0;
-  static readonly AGE_MAX = 18;
-  static readonly BIRTH_AGE_MAX = 120;
-  static readonly MIN_PRICE = 1;
-  static readonly MAX_PRICE = 10000;
-  static readonly MIN_TIME = '00:00';
-  static readonly MAX_TIME = '23:59';
-  static readonly MAX_DESCRIPTION_LENGTH = 500;
-  static readonly MAX_DESCRIPTION_ABOUT_LENGTH = 2000;
-  static readonly MAX_KEYWORDS_LENGTH = 5;
-  static readonly MAX_TEACHER_DESCRIPTION_LENGTH = 300;
-  static readonly PHONE_LENGTH = 9;
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
@@ -36,6 +21,7 @@ export class Constants {
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
+  static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
@@ -53,8 +39,9 @@ export class Constants {
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;
+  static readonly MODAL_SMALL = '500px';
+  static readonly MODAL_MEDIUM = '1024px';
 }
-
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
@@ -75,6 +62,16 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: 'MMMM Y'
   }
 };
+
+export const AchievementsTitle = [
+  { id: 1, name: "Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних)" },
+  { id: 2, name: "Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів" },
+  { id: 3, name: "Реципієнти міжнародних грантів" },
+  { id: 4, name: "Призери міжнародних культурних конкурсів та фестивалів" },
+  { id: 5, name: "Соціально активні категорії учнів" },
+  { id: 6, name: "Цифрові інструменти Google для закладів вищої та фахової передвищої освіти" },
+  { id: 7, name: "Переможці та учасники олімпіад міжнародного та всеукраїнського рівнів" }
+];
 
 export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   {
@@ -109,4 +106,15 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
 
 export class NotificationsConstants {
   static readonly NO_MESSAGE = 'У вас немає нових повідомлень';
+}
+
+export class CropperConfigurationConstants {
+  static readonly defaultCropperAspectRatio = 1/1;
+  static readonly coverImageCropperAspectRatio = 5/3;
+  static readonly galleryImagesCropperAspectRatio = 7/4;
+  static readonly cropperMinWidth = 512;
+  static readonly cropperMaxWidth = 10000;
+  static readonly cropperMinHeight = 250;
+  static readonly cropperMaxHeight = 8000;
+  static readonly croppedFormat = ['png', 'jpeg'];
 }

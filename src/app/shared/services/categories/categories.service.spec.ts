@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
+import { NgxsModule, Store } from '@ngxs/store';
 import { CategoriesService } from './categories.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
@@ -8,7 +8,8 @@ describe('CategoriesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [ HttpClientTestingModule,
+        NgxsModule.forRoot([]), ],
     });
     service = TestBed.inject(CategoriesService);
   });
@@ -17,3 +18,4 @@ describe('CategoriesService', () => {
     expect(service).toBeTruthy();
   });
 });
+

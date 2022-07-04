@@ -4,14 +4,13 @@
 <ng-template #isProvider>
   <div class="dropdown">
     <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-      (click)=" isActiveInfoButton=!isActiveInfoButton"
-      [ngClass]="isActiveInfoButton ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
-    <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
+      [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+    <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
       <app-status-info-card></app-status-info-card>
     </mat-menu>
 
-    <app-workshop-checkbox-dropdown [entities]="workshops$ | async" [declination]="WorkshopDeclination" (entityCheck)="onEntitiesSelect($event)">
-    </app-workshop-checkbox-dropdown>
+    <app-entity-checkbox-dropdown [entities]="workshops$ | async" [declination]="WorkshopDeclination" (entityCheck)="onEntitiesSelect($event)">
+    </app-entity-checkbox-dropdown>
   </div>
 
   <div class="tab-wrapper">
@@ -48,7 +47,7 @@
   <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
 </ng-template>
 
-<ng-template #isParent>    
+<ng-template #isParent>
     <div class="dropdown">
       <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
         (click)=" isActiveInfoButton=!isActiveInfoButton"
@@ -56,9 +55,9 @@
       <mat-menu [hasBackdrop]=" false" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
         <app-status-info-card></app-status-info-card>
       </mat-menu>
-  
-      <app-workshop-checkbox-dropdown [entities]="childrenCards" [declination]="ChildDeclination" (entityCheck)="onEntitiesSelect($event)">
-      </app-workshop-checkbox-dropdown>
+
+      <app-entity-checkbox-dropdown [entities]="childrenCards" [declination]="ChildDeclination" (entityCheck)="onEntitiesSelect($event)">
+      </app-entity-checkbox-dropdown>
 
     </div>
 
@@ -113,10 +112,10 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="applications?.length else isEmptyList;">
 
-      <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">      
+      <div *ngIf="filteredChildren.length && (applications$ | async)?.length; else isEmptyList">
         <div *ngFor="let child of filteredChildren | applicationChildSorting : applications">
           <ng-container *ngTemplateOutlet="ChildApplication; context:{$implicit: applications$ | async | applicationChildFilter : child, child: child }">
-          </ng-container>  
+          </ng-container>
         </div>
       </div>
 
@@ -131,8 +130,8 @@
       <ng-container
         *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">
       </ng-container>
-    </ng-container>    
-  </ng-container>  
+    </ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template appInfoBoxHost></ng-template>

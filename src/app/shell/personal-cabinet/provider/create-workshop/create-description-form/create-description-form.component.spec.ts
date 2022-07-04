@@ -15,6 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -39,7 +40,9 @@ describe('CreateDescriptionFormComponent', () => {
         CreateDescriptionFormComponent,
         MockCategorySelectComponent,
         ImageFormControlComponent,
-        MockValidationHintAboutComponent
+        MockValidationHintAboutComponent,
+        MockInfoFormComponent,
+        MockIstitutionHierarchyComponent
       ],
     })
       .compileComponents();
@@ -82,4 +85,24 @@ class MockValidationHintAboutComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+}
+@Component({
+  selector: 'app-info-form',
+  template: ''
+})
+class MockInfoFormComponent {
+  @Input() InfoEditFormGroup: FormGroup;
+  @Input() index: number;
+  @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
+}
+
+@Component({
+  selector: '<app-institution-hierarchy',
+  template: ''
+})
+class MockIstitutionHierarchyComponent {
+  @Input() instituitionHierarchyIdFormControl: FormControl;
+  @Input() instituitionIdFormControl: FormControl;
+  @Input() provider: Provider;
 }

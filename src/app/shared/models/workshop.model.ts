@@ -1,5 +1,7 @@
+import { Direction } from 'src/app/shared/models/category.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
+import { SectionItem } from './sectionItem.model';
 import { Teacher } from './teacher.model';
 import { DateTimeRanges } from './workingHours.model';
 export class Workshop {
@@ -13,7 +15,6 @@ export class Workshop {
   minAge: number;
   maxAge: number;
   price: number;
-  description: string;
   withDisabilityOptions?: boolean;
   disabilityOptionsDesc?: string;
   keywords?: string[];
@@ -23,6 +24,7 @@ export class Workshop {
   numberOfRatings?: number;
   directionId?: number;
   direction: string;
+  directions: Direction[];
   departmentId?: number;
   classId?: number;
   providerId: string;
@@ -36,6 +38,9 @@ export class Workshop {
   imageIds?: string[];
   coverImage?: File[];
   coverImageId?: string[];
+  institutionHierarchyId: string;
+  institutionId: string;
+  workshopDescriptionItems: WorkshopSectionItem[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -44,7 +49,6 @@ export class Workshop {
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
-    this.description = description.description;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
@@ -56,6 +60,8 @@ export class Workshop {
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
+    this.institutionHierarchyId = description.institutionHierarchyId;
+    this.institutionId = description.institutionId;
     if (id) {
       this.id = id;
     }
@@ -83,9 +89,21 @@ export class Workshop {
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
     }
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
   }
 }
 
+export class WorkshopSectionItem extends SectionItem {
+  workshopId?: string;
+
+  constructor(info) {
+    super(info);
+
+    if (info.workshopId) {
+      this.workshopId = info.workshopId;
+    }
+  }
+}
 export interface WorkshopCard {
   address: Address;
   directionId: number;
@@ -101,6 +119,7 @@ export interface WorkshopCard {
   title: string;
   workshopId: string;
   coverImageId?: string;
+  directionsId: number[];
 }
 export interface WorkshopFilterCard {
   totalAmount: number;

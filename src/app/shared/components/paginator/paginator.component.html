@@ -1,15 +1,22 @@
-<div *ngIf="totalPageAmount > 1" fxLayout='row' fxLayoutAlign='center center'>
-  <button mat-button *ngIf="!(currentPage.element === 1)" class="page arrow" (click)="onArroveClick(false)">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-
-  <button mat-button *ngFor="let page of carouselPageList" class="page"
-    [ngClass]="page.isActive && ((page.element === currentPage.element) ?  'page-selected' : 'page-unselected')"
-    (click)="onPageChange(page)">{{page.element}}</button>
-
-
-  <button mat-button *ngIf="currentPage.element !== totalPageAmount" class="page arrow" (click)="onArroveClick(true)">
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-
+<div class="paginator" fxLayout="row wrap" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button *ngIf="!(currentPage.element === 1)" class="page arrow" (click)="onArroveClick(false)">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-button *ngFor="let page of carouselPageList" class="page"
+      [ngClass]="page.isActive && ((page.element === currentPage.element) ?  'page-selected' : 'page-unselected')"
+      (click)="onPageChange(page)">{{page.element}}
+    </button>
+    <button mat-button *ngIf="currentPage.element !== totalPageAmount" class="page arrow" (click)="onArroveClick(true)">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+  
+  <label class="step-label">Відображати на сторінці:</label>
+  <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" (selectionChange)="OnSelectOption($event)" placeholder="{{itemsPerPage}}">
+    <mat-option value="8" class="dropdown-option"> 8 </mat-option>
+    <mat-option value="12" selected class="dropdown-option"> 12 </mat-option>
+    <mat-option value="16" class="dropdown-option"> 16 </mat-option>
+    <mat-option value="20" class="dropdown-option"> 20 </mat-option>
+  </mat-select>
 </div>

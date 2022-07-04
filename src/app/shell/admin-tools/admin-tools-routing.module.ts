@@ -6,7 +6,7 @@ import { UsersComponent } from './data/users/users.component';
 
 const routes: Routes = [
   {
-    path: 'platform/:index', component: PlatformComponent,
+    path: 'platform', component: PlatformComponent,
     loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule),
   },
   {

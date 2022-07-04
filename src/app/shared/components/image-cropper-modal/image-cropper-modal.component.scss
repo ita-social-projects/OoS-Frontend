@@ -1,0 +1,10 @@
+@import "src/app/shared/styles/buttons.scss";
+
+.cropped-image {
+  max-width:100%;
+}
+small.warning {
+  display: block;
+  color: red;
+  font-size: 10px;
+}

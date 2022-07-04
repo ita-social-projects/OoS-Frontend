@@ -23,6 +23,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-child',
@@ -35,6 +36,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
+  socialGroups: SocialGroup[];
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards[]>
 
@@ -49,23 +51,26 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private matDialog: MatDialog) {
+    private matDialog: MatDialog,
+    private location: Location) {
     super(store, route, navigationBarService);
 
     this.socialGroups$
       .pipe(
         takeUntil(this.destroy$),
-        filter((socialGroups)=> !socialGroups))
-      .subscribe(() =>this.store.dispatch(new GetSocialGroup()));
+        filter((socialGroups)=> !!socialGroups))
+      .subscribe((socialGroups: SocialGroup[]) => this.socialGroups = socialGroups);
   }
 
-  ngOnInit(): void {      
+  ngOnInit(): void {
+    this.store.dispatch(new GetSocialGroup());
+
     this.determineEditMode();
     this.addNavPath();
-    
-    if (!this.editMode) { 
-      this.ChildrenFormArray.push(this.newForm());     
-    }
+
+    this.editMode ?
+      this.AgreementFormControl.setValue(true) :
+      this.ChildrenFormArray.push(this.newForm());
   }
 
   addNavPath(): void {
@@ -115,6 +120,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
@@ -152,20 +158,19 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   onDeleteForm(index: number): void {
     const status: string = this.ChildrenFormArray.controls[index].status;
-    const isTouched: boolean = this.ChildrenFormArray.controls[index].touched;
-
-    if(status !== 'INVALID' || isTouched) {
+    const isPristine = this.ChildrenFormArray.controls[index].pristine;
+      
+    if(status ==="VALID" || !isPristine) {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
         property: ''
       }
     });
    
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.ChildrenFormArray.removeAt(index);;
-    });
+    dialogRef.afterClosed().subscribe((result: boolean) => 
+      result && this.ChildrenFormArray.removeAt(index));
     } else {
       this.ChildrenFormArray.removeAt(index);
     }   
@@ -189,6 +194,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         });
       }
     }
+  }
+
+  /**
+  * This method navigate back
+  */
+  onCancel(): void {
+    this.location.back();
   }
 
   /**

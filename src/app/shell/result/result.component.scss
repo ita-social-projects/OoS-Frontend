@@ -14,7 +14,7 @@
 }
 
 .mat-button-toggle-group.view-toggle {
-  height: 34px;
+  height: 40px;
   border: none;
 }
 
@@ -37,7 +37,7 @@
     justify-content: space-between;
     align-items: center;
     width: 50%;
-    height: 34px;
+    height: 40px;
     gap: 15px;
     border-radius: 60px;
     padding: 0 20px;
@@ -85,7 +85,7 @@
 
 .filters-toggle-btn {
   width: 34px;
-  height: 34px;
+  height: 40px;
   box-sizing: border-box;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 60px;
@@ -116,7 +116,7 @@
 
 :host ::ng-deep app-full-search-bar {
   min-width: 300px;
-  max-width: 420px;
+  max-width: 550px;
   width: 100%;
 
   app-searchbar {

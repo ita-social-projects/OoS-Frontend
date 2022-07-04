@@ -35,7 +35,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   allUsers: Parent[] | Child[] = [];
   parents: Parent[] = [];
   children: UsersTable[];
-
+  displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
+  
   constructor(
     public store: Store,
     private router: Router,
@@ -78,9 +79,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    */
    onTabChange(event: MatTabChangeEvent): void {
     this.filter.reset();
-    this.router.navigate(
-      ['../', UserTabsUkrReverse[event.tab.textLabel]],
-      { relativeTo: this.route }
+    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] } }
     );
   }
 

@@ -1,9 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PaginationConstants } from '../../constants/constants';
 import { Child, ChildCards } from '../../models/child.model';
+import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { PaginatorState } from '../../store/paginator.state';
 import { UserStateModel } from '../../store/user.state';
 @Injectable({
   providedIn: 'root'
@@ -11,18 +14,20 @@ import { UserStateModel } from '../../store/user.state';
 
 export class ChildrenService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+  ) { }
 
   private setParams(state: UserStateModel): HttpParams {
     let params = new HttpParams();
 
-    if (state.currentPage) {
-      const size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
-      const from: number = size * (+state.currentPage.element - 1);
-
-      params = params.set('Size', (size).toString());
-      params = params.set('From', (from).toString());
-    }
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
+    const from: number = size * (+currentPage.element - 1);
+    
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }

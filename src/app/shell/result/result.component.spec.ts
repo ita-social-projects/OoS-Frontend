@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ResultComponent } from './result.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,12 +25,12 @@ describe('ResultComponent', () => {
         MatIconModule,
         RouterTestingModule
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         ResultComponent,
         MockSearchbarComponent,
         MockOrderingComponent,
         MockFiltersListComponent,
-        MockFiltersSidenavComponent,
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent,
@@ -96,11 +96,3 @@ class MockWorkshopMapViewListComponent {
   template: ''
 })
 class MockScrollToTopComponent { }
-@Component({
-  selector: 'app-sidenav-filters',
-  template: ''
-})
-class MockFiltersSidenavComponent {
-  @Input() isMobileView;
-  @Input() filtersList;
-}

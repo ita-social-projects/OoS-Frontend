@@ -1,10 +1,9 @@
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Constants } from '../constants/constants';
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
-import { PaginationElement } from '../models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
@@ -26,12 +25,10 @@ import {
   FilterChange,
   SetMinAge,
   SetMaxAge,
-  PageChange,
   ConfirmCity,
   CleanCity,
   FilterClear,
-  SetFirstPage,
-  SetIsPaid
+  SetIsPaid,
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -54,7 +51,6 @@ export interface FilterStateModel {
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   isLoading: boolean;
-  currentPage: PaginationElement;
   isConfirmCity: boolean;
 }
 @State<FilterStateModel>({
@@ -68,8 +64,8 @@ export interface FilterStateModel {
     workingDays: [],
     isFree: false,
     isPaid: false,
-    maxPrice: Constants.MAX_PRICE,
-    minPrice: Constants.MIN_PRICE,
+    maxPrice: ValidationConstants.MAX_PRICE,
+    minPrice: ValidationConstants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
     city: JSON.parse(localStorage.getItem('cityConfirmation')),
@@ -79,10 +75,6 @@ export interface FilterStateModel {
     topWorkshops: [],
     withDisabilityOption: false,
     isLoading: false,
-    currentPage: {
-      element: 1,
-      isActive: true
-    },
     isConfirmCity: true,
   }
 })
@@ -114,14 +106,11 @@ export class FilterState {
   static searchQuery(state: FilterStateModel): string { return state.searchQuery };
 
   @Selector()
-  static currentPage(state: FilterStateModel): {} { return state.currentPage };
-
-  @Selector()
   static order(state: FilterStateModel): {} { return state.order };
 
   @Selector()
   static filterList(state: FilterStateModel): any {
-    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, currentPage, order } = state
+    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, order } = state
     return {
       withDisabilityOption,
       categoryCheckBox: directions,
@@ -137,7 +126,6 @@ export class FilterState {
         startTime,
         endTime
       },
-      currentPage,
       order
     }
   };
@@ -272,17 +260,6 @@ export class FilterState {
     dispatch(new FilterChange());
   }
 
-  @Action(PageChange)
-  pageChange({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: PageChange) {
-    patchState({ currentPage: payload });
-    dispatch(new GetFilteredWorkshops());
-  }
-
-  @Action(SetFirstPage)
-  setFirstPage({ patchState }: StateContext<FilterStateModel>) {
-    patchState({ currentPage: { element: 1, isActive: true } });
-  }
-
   @Action(FilterChange)
   filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
 
@@ -297,17 +274,13 @@ export class FilterState {
       workingDays: [],
       isFree: false,
       isPaid: false,
-      maxPrice: Constants.MAX_PRICE,
-      minPrice: Constants.MIN_PRICE,
+      maxPrice: ValidationConstants.MAX_PRICE,
+      minPrice: ValidationConstants.MIN_PRICE,
       isOpenRecruitment: false,
       isClosedRecruitment: false,
       searchQuery: '',
       order: 'Rating',
       withDisabilityOption: false,
-      currentPage: {
-        element: 1,
-        isActive: true
-      }
     });
   }
 }

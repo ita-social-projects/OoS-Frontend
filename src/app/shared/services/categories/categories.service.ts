@@ -1,16 +1,22 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Constants, PaginationConstants } from '../../constants/constants';
 import { IClass, Department, Direction, DirectionsFilter } from '../../models/category.model';
+import { PaginationElement } from '../../models/paginationElement.model';
 import { AdminStateModel } from '../../store/admin.state';
+import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+  ) { }
 
   private setParams(filters: AdminStateModel): HttpParams {
     let params = new HttpParams();
@@ -19,13 +25,13 @@ export class CategoriesService {
       params = params.set('Name', filters.searchQuery);
     }
 
-    if (filters.currentPage) {
-      const size: number = PaginationConstants.ITEMS_PER_PAGE_TEN;
-      const from: number = size * (+filters.currentPage.element - 1);
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    const from: number = size * (+currentPage.element - 1);
+    
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
-      params = params.set('Size', size.toString());
-      params = params.set('From', from.toString());
-    }
     return params;
   }
 

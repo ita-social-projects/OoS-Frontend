@@ -12,7 +12,7 @@ import { Constants } from 'src/app/shared/constants/constants';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent {
-  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
   public culture: string = localStorage.getItem('ui-culture');;
 
   @Select(RegistrationState.user)

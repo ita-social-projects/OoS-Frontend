@@ -53,7 +53,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
    */
   onDelete(workshop: WorkshopCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.delete,
         property: workshop.title
@@ -71,7 +71,7 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
    */
   onLeaveWorkshops(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.leaveWorkshop,
         property: application.workshop.title

@@ -8,16 +8,16 @@
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">Від</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [directiveFormControl]="minPriceControl" [formControl]="minPriceControl"
+        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="validationConstants.MIN_PRICE"
+          [max]="validationConstants.MAX_PRICE" [directiveFormControl]="minPriceControl" [formControl]="minPriceControl"
           appMinMax>
       </div>
     </mat-form-field>
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">До</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [directiveFormControl]="maxPriceControl" [formControl]="maxPriceControl"
+        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="validationConstants.MIN_PRICE"
+          [max]="validationConstants.MAX_PRICE" [directiveFormControl]="maxPriceControl" [formControl]="maxPriceControl"
           appMinMax>
       </div>
     </mat-form-field>
