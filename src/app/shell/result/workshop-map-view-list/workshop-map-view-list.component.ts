@@ -7,6 +7,7 @@ import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
 import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
 
 @Component({
@@ -129,7 +130,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeWorkshops(page));
+    this.store.dispatch([new OnPageChangeWorkshops(page), new GetFilteredWorkshops()]);
   }
 
   ngOnDestroy(): void {
