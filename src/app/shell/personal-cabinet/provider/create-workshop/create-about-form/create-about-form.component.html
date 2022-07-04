@@ -103,7 +103,6 @@
         [validationFormControl]="AboutFormGroup.get('maxAge')">
       </app-validation-hint>
     </div>
-
   </div>
 
   <label class="step-label">Розклад занять<span class="step-required">*</span></label>
@@ -113,32 +112,34 @@
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
-    <div fxLayout='row' fxLayoutAlign="start center" fxLayout.xs='column' fxLayoutAlign.xs="center start">
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
-            appDigitOnly appMinMax formControlName="price" type="number"
-            [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE">
-        </mat-radio-button>
-        <p class="step-text">грн за</p>
+      <div fxLayout='row' fxLayoutAlign="space-between center" >
+        <div fxLayout='row' fxLayoutAlign="center center">
+          <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
+              appDigitOnly appMinMax formControlName="price" type="number"
+              [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
+              [max]="validationConstants.MAX_PRICE">
+          </mat-radio-button>
+          <p class="step-text price-text">грн за</p>
+        </div>
+        <div fxLayoutAlign="center center" class="pay-type">
+            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="payRate" name="payRate" 
+            placeholder="Оберіть тип олати за гурток">
+              <ng-container *ngFor="let type of PayRateType | keyvalue">
+                <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
+                  {{ PayRateTypeUkr[type.key] }} 
+                </mat-option>
+              </ng-container>
+            </mat-select>
+        </div>
       </div>
-
-    </div>
-  </mat-radio-group>
-
-  <mat-form-field floatLabel="never" appearance="none" hideRequiredMarker="true">
-        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="payRate" name="payRate" >
-        <ng-container *ngFor="let type of PayRateType | keyvalue" >
-          <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-          {{ PayRateTypeUkr[type.key] }} 
-          </mat-option>
-        </ng-container>
-        </mat-select>
-      </mat-form-field>
     <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('payRate')"
     [isTouched]="AboutFormGroup.get('payRate').touched">
     </app-validation-hint>
+  </mat-radio-group>
+ 
+  
+ 
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'

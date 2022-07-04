@@ -3,6 +3,9 @@
 @import "src/app/shared/styles/dropdown.scss";
 @import "src/app/shared/styles/toggle-button.scss";
 
-mat-form-field{
-    width:100% !important;
+.pay-type{
+    flex-grow: 1;
+}
+.price-text{
+    margin-right: 15px;
 }
