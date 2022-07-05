@@ -69,7 +69,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
   }
 
   onItemsPerPageChange(itemsPerPage: number): void{
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage),new SetFirstPage(), new GetUsersChildren()]);
+    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren()]);
   }
 
   onPageChange(page: PaginationElement): void {

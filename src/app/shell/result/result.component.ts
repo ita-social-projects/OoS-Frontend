@@ -110,7 +110,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetWorkshopsPerPage(itemsPerPage), new SetFirstPage, new GetFilteredWorkshops()]);
+    this.store.dispatch([new SetWorkshopsPerPage(itemsPerPage), new GetFilteredWorkshops()]);
   }
 
   filterHandler(): void {
