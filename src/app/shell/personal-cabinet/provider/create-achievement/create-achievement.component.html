@@ -16,6 +16,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <app-validation-hint 
+          [validationFormControl]="AchievementFormGroup.get('achievementTypeId')"
+          [isTouched]="AchievementFormGroup.get('achievementTypeId').touched">
+        </app-validation-hint>
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
@@ -37,6 +41,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
 
         <label class="step-label">Тренер</label>
         <mat-form-field appearance="none">
