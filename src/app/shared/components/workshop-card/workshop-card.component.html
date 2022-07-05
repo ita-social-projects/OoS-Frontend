@@ -12,7 +12,9 @@
               
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition" class="card-title">
-            <a *ngIf="userRoleView === Role.provider" [routerLink]="['/details/workshop', workshopData.workshopId]">
+            <a *ngIf="userRoleView === Role.provider" 
+            (mouseover)="!deviceToogle && onInfoShow($event)"
+              [routerLink]="['/details/workshop', workshopData.workshopId]">
               <mat-icon class="icon_launch">launch</mat-icon>
             </a>
             {{workshopData.title}}
