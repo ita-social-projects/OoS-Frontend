@@ -186,7 +186,9 @@ export class UserState {
   }
 
   @Selector()
-  static isAllowChildToApply(state: UserStateModel): boolean { return state.isAllowChildToApply; }
+  static isAllowChildToApply(state: UserStateModel): boolean {
+    return state.isAllowChildToApply;
+  }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -233,7 +235,7 @@ export class UserState {
   @Action(GetAchievementsByWorkshopId)
   getAchievementsByWorkshopId(
     { patchState }: StateContext<UserStateModel>,
-    {payload}: GetAchievementsByWorkshopId
+    { payload }: GetAchievementsByWorkshopId
   ): Observable<Achievement[]> {
     patchState({ isLoading: true });
     return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
@@ -474,9 +476,11 @@ export class UserState {
     { payload }: OnCreateProviderFail
   ): void {
     throwError(payload);
-    const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
-    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними' :
-    'На жаль виникла помилка';
+    const message =
+      payload.error ===
+      'Unable to create a new provider: There is already a provider with such a data'
+        ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
+        : 'На жаль виникла помилка';
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
@@ -943,14 +947,18 @@ export class UserState {
   }
 
   @Action(GetStatusIsAllowToApply)
-  getStatusIsAllowToApply({ patchState }: StateContext<UserStateModel>, { childId, workshopId }: GetStatusIsAllowToApply): Observable<boolean> {
+  getStatusIsAllowToApply(
+    { patchState }: StateContext<UserStateModel>,
+    { childId, workshopId }: GetStatusIsAllowToApply
+  ): Observable<boolean> {
     patchState({ isLoading: true });
     return this.applicationService
       .getStatusIsAllowToApply(childId, workshopId)
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowChildToApply: status, isLoading: false });
-        }));
+        })
+      );
   }
 
   @Action(CreateRating)
