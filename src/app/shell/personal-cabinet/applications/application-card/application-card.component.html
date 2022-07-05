@@ -63,12 +63,12 @@
     </button>
 
     <mat-menu #actions="matMenu" class="header_menu">
-      <button mat-menu-item (click)="onBlock(user)">
+      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock(user)">
         Заблокувати користувача
       </button>
-      <button mat-menu-item (click)="onUnBlock(user)">
+      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock(user)">
         Розблокувати користувача
-      </button> 
+      </button>
 
 
 

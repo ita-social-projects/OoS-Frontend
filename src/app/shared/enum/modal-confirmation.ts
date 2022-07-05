@@ -50,7 +50,7 @@ export enum ModalConfirmationTitle {
   rejectApplication = 'ВІДМОВИТИ',
   createProviderAdmin = 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА',
   createProviderAdminDeputy = 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА',
-  unBlockParent = 'РОЗБЛОКУВАТИ КОРІСТУВАЧА',
+  unBlockParent = 'РОЗБЛОКУВАТИ КОРИСТУВАЧА',
 }
 
 export enum ModalConfirmationText {

@@ -120,6 +120,7 @@ export interface UserStateModel {
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
   blockedParents: BlockedParent[];
+  blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
 }
 @State<UserStateModel>({
@@ -140,6 +141,7 @@ export interface UserStateModel {
     },
     providerAdmins: null,
     blockedParents: null,
+    blockedParent: null,
     isAllowChildToApply: null,
   },
 
@@ -202,6 +204,9 @@ export class UserState {
 
   @Selector()
   static blockedParents(state: UserStateModel): BlockedParent[] { return state.blockedParents; }
+
+  @Selector()
+  static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -1102,7 +1107,7 @@ export class UserState {
   @Action(UnBlockParent)
   unBlockParent({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParent): Observable<BlockedParent | Observable<void>> {
     return this.blockService
-    .blockParent(payload)
+    .unBlockParent( payload )
       .pipe(
         tap((res) => dispatch(new UnBlockParentSuccess(res))),
         catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
@@ -1119,7 +1124,7 @@ export class UserState {
   unBlockParentFailSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParentSuccess): void {
     dispatch([
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' })
+      new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
     ]);
     console.log('parent is blocked', payload);
   }

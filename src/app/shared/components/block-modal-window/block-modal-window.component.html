@@ -5,9 +5,8 @@
   <form fxLayout="column" class="reject-form">
 
     <label class="step-label"> Вкажіть причину блокування <span class="step-required">*</span></label>
-    <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none"
-    [formGroup]="ReasonFormGroup">
-      <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea" formControlName="reason"
+    <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
+      <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea"
         placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів" [formControl]="ReasonFormControl"
         maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}" appTrimValue></textarea>
     </mat-form-field>

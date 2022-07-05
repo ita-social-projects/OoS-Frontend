@@ -15,9 +15,7 @@ export class BlockModalWindowComponent {
   readonly validationConstants= ValidationConstants;
 
   @Input() application: Application;
-  @Output() passReasonFormGroup = new EventEmitter();
 
-  ReasonFormGroup: FormGroup;
   ReasonFormControl= new FormControl('', [
     Validators.required,
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -27,7 +25,7 @@ export class BlockModalWindowComponent {
   modalDescription = 'Ви впевнені, що хочете заблокувати користувача?';
 
   constructor(public dialogRef: MatDialogRef<BlockModalWindowComponent>) {}
- 
+
   onCancel(): void {
     this.dialogRef.close();
   }

@@ -27,14 +27,15 @@ import { RejectModalWindowComponent } from 'src/app/shared/components/reject-mod
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
-import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
+import { BlockParent, GetApplicationsByProviderId, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { AbstractControl, FormControl, FormGroup, } from '@angular/forms';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable, Subject } from 'rxjs';
 import { BlockedParent } from 'src/app/shared/models/block.model';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
+import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-application-card',
@@ -55,6 +56,16 @@ export class ApplicationCardComponent implements OnInit {
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
   ReasonFormGroup: FormGroup;
+  blockedParent: BlockedParent;
+    applicationParams: {
+    status: string,
+    showBlocked: boolean,
+    workshopsId: string[],
+  } = {
+      status: undefined,
+      showBlocked: false,
+      workshopsId: []
+    };
 
   status: ApplicationStatus;
   subrole: string;
@@ -140,22 +151,25 @@ export class ApplicationCardComponent implements OnInit {
         const reason = result;
         blockedParent = new BlockedParent( parent, provider.id, reason);
         console.log("reason2", reason)
-
         console.log("blockedParent",blockedParent)
-        this.store.dispatch(new BlockParent(blockedParent));
+        this.store.dispatch([new BlockParent(blockedParent), new GetApplicationsByProviderId(provider.id, this.applicationParams)]);
         }
     });
   }
 
   onUnBlock(blockedParent: BlockedParent): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.unBlockParent,
+      }
     });
     dialogRef.afterClosed().subscribe((result: string)  => {
       if(result) {
         const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
         const parent = this.application.parentId;
         blockedParent = new BlockedParent( parent, provider.id);
-        this.store.dispatch(new UnBlockParent(blockedParent));
+        this.store.dispatch([new UnBlockParent(blockedParent), new GetApplicationsByProviderId(provider.id, this.applicationParams)]);
         }
     });
   }
