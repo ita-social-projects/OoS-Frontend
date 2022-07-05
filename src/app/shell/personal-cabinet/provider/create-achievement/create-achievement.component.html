@@ -41,6 +41,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <app-validation-hint 
+          [validationFormControl]="AchievementFormGroup.get('childrenIDs')"
+          [isTouched]="AchievementFormGroup.get('childrenIDs').touched">
+        </app-validation-hint>
 
 
         <label class="step-label">Тренер</label>
@@ -66,14 +70,23 @@
               </mat-option>
             </ng-container>
           </mat-select>
-
         </mat-form-field>
+        <app-validation-hint 
+          [validationFormControl]="AchievementFormGroup.get('teachers')"
+          [isTouched]="AchievementFormGroup.get('teachers').touched">
+        </app-validation-hint>
+
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
           <input matInput [matDatepicker]="picker" formControlName="achievementDate">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
+        <app-validation-hint 
+          [validationFormControl]="AchievementFormGroup.get('achievementDate')"
+          [isTouched]="AchievementFormGroup.get('achievementDate').touched">
+        </app-validation-hint>
+
         <div class="step-label-combined">
           <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
           <label class="step-characters-count">{{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}</label>
@@ -81,11 +94,10 @@
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
-        <!-- <app-validation-hint
-          [validationFormControl]="AchievementFormGroup.get('description')"
-          [minCharachters]="validationConstants.INPUT_LENGTH_3"
-          [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
-        </app-validation-hint> TODO: validation-->
+        <app-validation-hint 
+          [validationFormControl]="AchievementFormGroup.get('title')"
+          [isTouched]="AchievementFormGroup.get('title').touched">
+        </app-validation-hint>
       </form>
     </div>
 

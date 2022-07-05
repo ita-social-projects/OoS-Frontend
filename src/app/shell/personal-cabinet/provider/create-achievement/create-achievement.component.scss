@@ -14,3 +14,7 @@
 .step {
   padding: 0 !important;
 }
+
+:host ::ng-deep .mat-form-field-wrapper{
+  padding: 0;
+}
