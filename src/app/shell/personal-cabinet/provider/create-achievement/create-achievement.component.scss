@@ -4,21 +4,13 @@
 @import "src/app/shared/styles/dropdown.scss";
 @import "src/app/shared/styles/buttons.scss";
 
+.wrapper{
+  padding: 1rem 5rem;
+  margin-bottom: 2rem;
+  &-title{
+    text-align: center;
+  }
+}
 .step {
-  min-width: 52em;
-  padding: 0 20px;
-}
-.wrapper {
-  max-width: 60em;
-}
-@media (max-width: 750px) {
-  .step {
-    min-width: 20em;
-  }
-  .wrapper {
-    max-width: 30em;
-  }
-  .step-textarea {
-    width: 80%;
-  }
+  padding: 0 !important;
 }
