@@ -87,6 +87,11 @@
   color: #3849f9;
   font-size: 18px !important;
   width: 14px !important;
+  height: 14px !important;
+  margin-right: 5px;
+  &:hover{
+    opacity: 0.5;
+  }
 }
 
 ::ng-deep .mat-card-header .mat-card-title {
