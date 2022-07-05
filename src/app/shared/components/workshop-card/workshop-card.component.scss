@@ -89,22 +89,11 @@
 }
 .icon_launch {
   color: #3849f9;
-  margin-left: 7px;
+  font-size: 18px;
 }
 
-::ng-deep .mat-card-header {
-  display: flex;
-  justify-content: flex-start !important;
-}
-.img {
-  position: absolute;
-  width: 33px;
-  right: 4%;
-  top: 15%;
-  bottom: 81%;
-}
-::ng-deep .mat-card-header-text {
-  width: fit-content !important;
+::ng-deep .mat-card-header .mat-card-title {  
+  height: 30px !important;
 }
 
 @media (max-width: 750px) {
