@@ -1,8 +1,12 @@
 <div class="support-content">
   <div>
-    <h2 class="support-title">Підтримка</h2>
+    <h2 class="support-title">{{ platformSupport.title }}</h2>
   </div>
   <div class="support-text">
+    <div *ngFor="let item of platformSupport.companyInformationItems">
+      <p><strong>{{ item.sectionName }}</strong></p>
+      <p>{{ item.description }}</p>
+    </div>
     <p class="support-contact"> У разі технічних питань писати на:
       <a class="support-link" href="mailto:pozashkillia@gmail.com" target="_blank">
         pozashkillia@gmail.com
