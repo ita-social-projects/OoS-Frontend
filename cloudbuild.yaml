@@ -27,9 +27,7 @@ steps:
       - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
       - --cache-image=gcr.io/$PROJECT_ID/oos-frontend:cache
       - --builder=paketobuildpacks/builder:base
-      # TODO: after nginx/staticfile buildpack fix revert to using latest version
-      # - --buildpack=paketo-buildpacks/nginx
-      - --buildpack=docker:///gcr.io/paketo-buildpacks/nginx:0.5.3
+      - --buildpack=paketo-buildpacks/nginx
       - --buildpack=paketo-community/staticfile
       - --path=dist/
       - --publish
