@@ -642,7 +642,7 @@ export class UserState {
   ): void {
     console.log('Achievement is created', payload);
     dispatch([
-      new ShowMessageBar({ message: 'Досягнення додано!', type: 'success' }),
+      new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }),
       new MarkFormDirty(false),
     ]);
   }
