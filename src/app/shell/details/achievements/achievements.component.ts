@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-// import { GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
+import { GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-achievements',
@@ -18,7 +18,7 @@ export class AchievementsComponent implements OnInit {
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
-    // this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+  ngOnInit(): void {    
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }
 }
