@@ -1,3 +1,4 @@
+<div *ngIf="platformRules.companyInformationItems.length; else noInfo">
 <div class="info-content">
   <div>
     <h2 class="info-title">{{ platformRules.title }}</h2>
@@ -13,3 +14,7 @@
     </p>
   </div>
 </div>
+</div>
+<ng-template #noInfo>
+  <div class="info-title info-no-content">Інформації поки немає</div>
+</ng-template>
