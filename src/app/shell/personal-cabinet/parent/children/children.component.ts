@@ -6,11 +6,11 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteChildById } from 'src/app/shared/store/user.actions';
+import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeChildrens, SetApplicationsPerPage, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
@@ -27,6 +27,11 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
     element: 1,
     isActive: true
   };
+  applicationParams: {
+    status: string,
+    showBlocked: boolean,
+    workshopsId: string[],
+  };
 
   constructor(
     store: Store,
@@ -41,7 +46,8 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   init(): void {
     this.getUsersChildren();
-    this.getParentApplications();
+    this.getParentApplications(this.applicationParams);
+
   }
 
   childApplications(applications: Application[], child: Child): Array<Application> {
@@ -68,7 +74,7 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeChildrens(page));
+    this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren()]);
   }
 
   ngOnDestroy(): void {
