@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent, LoadedImage, base64ToFile } from 'ngx-image-cropper';
-import { CropperConfigurationConstants } from '../../constants/constants';
 import { Cropper } from '../../models/cropper';
 
 @Component({
