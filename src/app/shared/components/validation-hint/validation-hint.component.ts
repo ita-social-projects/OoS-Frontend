@@ -1,5 +1,5 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
@@ -14,14 +14,15 @@ enum ValidatorsTypes {
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html',
 })
-export class ValidationHintComponent implements OnInit, OnDestroy {
+export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
   @Input() validationFormControl: FormControl = new FormControl(); //required for validation
-
+  @Input() isTouched: boolean; //required for dropdowns that doesn't touched
   //for Length Validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
+  @Input() isPhoneNumber: number; //required to display validation for phone number
 
   //for Date Format Validation
   @Input() minMaxDate: boolean;
@@ -30,9 +31,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
   invalid: boolean;
   invalidSymbols: boolean;
   invalidCharacters: boolean;
-  invalidLength: boolean;
+  invalidFieldLength: boolean;
   invalidDateRange: boolean;
+  invalidDateFormat: boolean;
   invalidEmail: boolean;
+  invalidPhoneLength: boolean;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -61,9 +64,19 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.isTouched) {
+      (<EventEmitter<any>>this.validationFormControl.statusChanges).emit();
+    }
+  }
+
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    this.invalidLength = !!(errors?.maxlength || errors?.minlength);
+    if(this.isPhoneNumber){
+      this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
+    }else{
+      this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
+    }
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
@@ -76,6 +89,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy {
   }
 
   private checkMatDatePciker(): void {
+    this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
         this.validationFormControl.hasError('matDatepickerMin') || 
         this.validationFormControl.hasError('matDatepickerMax')

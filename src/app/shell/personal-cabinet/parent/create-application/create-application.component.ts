@@ -15,12 +15,13 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetAllUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateApplication, GetAllUsersChildren, GetStatusIsAllowToApply, GetWorkshopById } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { Parent } from 'src/app/shared/models/parent.model';
+import { ParentWithContactInfo } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
+import { MatSelectChange } from '@angular/material/select';
 
 
 @Component({
@@ -33,9 +34,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   readonly CardType = cardType;
 
   @Select(UserState.children) children$: Observable<ChildCards>;
+  @Select(UserState.isAllowChildToApply) isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.user) user$: Observable<User>;
-  @Select(RegistrationState.parent) parent$: Observable<Parent>;
-  parent: Parent;
+  @Select(RegistrationState.parent) parent$: Observable<ParentWithContactInfo>;
+  parent: ParentWithContactInfo;
 
   ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
@@ -45,6 +47,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   isContraindicationAgreed: boolean;
   isAttendAgreed: boolean;
   isParentAgreed: boolean;
+  isAllowChildToApply: boolean;
 
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
   workshop: Workshop;
@@ -73,9 +76,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     this.parent$
       .pipe(
-        filter((parent: Parent) => !!parent),
+        filter((parent: ParentWithContactInfo) => !!parent),
         takeUntil(this.destroy$))
-      .subscribe((parent: Parent) => {
+      .subscribe((parent: ParentWithContactInfo) => {
         this.parent = parent;
         this.store.dispatch(new GetAllUsersChildren());
       });
@@ -86,6 +89,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.workshop$
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshop: Workshop) => this.workshop = workshop);
+
+    this.isAllowChildToApply$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((status: boolean) => this.isAllowChildToApply = status);
 
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
       { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
@@ -117,5 +124,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateApplication(application));
       }
     });
+  }
+
+  onSelectChild(child: MatSelectChange): void {
+    this.store.dispatch(new GetStatusIsAllowToApply(child.value.id, this.workshopId));
   }
 }

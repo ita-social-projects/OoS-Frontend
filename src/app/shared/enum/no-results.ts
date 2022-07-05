@@ -6,5 +6,6 @@ export enum NoResultsTitle {
   noDirections = 'За результатами нічого не знайдено',
   noUsers = 'Користувачів поки немає',
   noTeachers = 'Викладачів поки немає',
+  noAchievements = 'Досягнень поки немає',
   noReviews = 'Відгуків поки немає',
 }

@@ -11,7 +11,10 @@
       <mat-card-header>
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition" class="card-title">{{workshopData.title}}</mat-card-title>
-        <img mat-card-image [src]="categoryIcons[workshopData.directionId]">
+
+        <ng-container *ngFor="let id of workshopData.directionsId">
+          <img mat-card-image [src]="categoryIcons[id]">
+        </ng-container>
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
@@ -21,10 +24,18 @@
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
-        <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId ]">
-          <span class="card_link">Детальніше</span>
-          <mat-icon>arrow_forward</mat-icon>
-        </a>
+        <div>
+          <ng-container *ngIf="userRoleView === Role.provider">
+            <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
+              <mat-icon>add</mat-icon>
+              <span class="card_link">Додати досягнення</span>
+            </a>  
+          </ng-container>
+          <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
+            <span class="card_link">Детальніше</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </a>  
+        </div>      
       </mat-card-footer>
     </div>
   </div>

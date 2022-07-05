@@ -7,7 +7,7 @@ import { filter, tap, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
+import { Application, ApplicationCards, } from 'src/app/shared/models/application.model';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -31,7 +31,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
   @Select(UserState.applications)
-  applications$: Observable<Application[]>;
+  applicationCards$: Observable<ApplicationCards>;
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards>;
   @Select(RegistrationState.parent)
@@ -49,7 +49,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   role: string;
 
   workshops: WorkshopCard[];
-  applications: Application[];
+  applicationCards: ApplicationCards;
   childrenCards: Child[];
   filteredChildren: Child[]
 
@@ -82,10 +82,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.applications$.pipe(
-      filter((applications: Application[]) => !!applications),
+    this.applicationCards$.pipe(
+      filter((applicationCards: ApplicationCards) => !!applicationCards),
       takeUntil(this.destroy$)
-    ).subscribe((applications: Application[]) => this.applications = applications);
+    ).subscribe((applicationCards: ApplicationCards) => this.applicationCards = applicationCards);
 
     this.childrenCards$.pipe(
       filter((childrenCards: ChildCards) => !!childrenCards),
@@ -93,13 +93,12 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     ).subscribe((childrenCards: ChildCards) => this.filteredChildren = this.childrenCards = childrenCards.entities);
   }
 
-  getProviderApplications(providerApplicationParams): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
-
+  getProviderApplications(applicationParams): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, applicationParams));
   }
 
-  getParentApplications(status?): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, status));
+  getParentApplications(applicationParams): void {
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, applicationParams));
   }
 
   getUsersChildren(): void {

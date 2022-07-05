@@ -57,7 +57,6 @@ describe('CreateAboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
-    component.provider = { fullTitle: '' } as Provider;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),
@@ -98,4 +97,5 @@ class MockValidationHintAboutComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isPhoneNumber: boolean;
 }

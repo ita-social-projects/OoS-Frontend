@@ -21,6 +21,7 @@ export class Constants {
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
+  static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
@@ -39,8 +40,8 @@ export class Constants {
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;
   static readonly MODAL_SMALL = '500px';
+  static readonly MODAL_MEDIUM = '1024px';
 }
-
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
@@ -61,6 +62,16 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: 'MMMM Y'
   }
 };
+
+export const AchievementsTitle = [
+  { id: 1, name: "Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних)" },
+  { id: 2, name: "Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів" },
+  { id: 3, name: "Реципієнти міжнародних грантів" },
+  { id: 4, name: "Призери міжнародних культурних конкурсів та фестивалів" },
+  { id: 5, name: "Соціально активні категорії учнів" },
+  { id: 6, name: "Цифрові інструменти Google для закладів вищої та фахової передвищої освіти" },
+  { id: 7, name: "Переможці та учасники олімпіад міжнародного та всеукраїнського рівнів" }
+];
 
 export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   {
@@ -95,4 +106,15 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
 
 export class NotificationsConstants {
   static readonly NO_MESSAGE = 'У вас немає нових повідомлень';
+}
+
+export class CropperConfigurationConstants {
+  static readonly defaultCropperAspectRatio = 1/1;
+  static readonly coverImageCropperAspectRatio = 5/3;
+  static readonly galleryImagesCropperAspectRatio = 7/4;
+  static readonly cropperMinWidth = 512;
+  static readonly cropperMaxWidth = 10000;
+  static readonly cropperMinHeight = 250;
+  static readonly cropperMaxHeight = 8000;
+  static readonly croppedFormat = ['png', 'jpeg'];
 }

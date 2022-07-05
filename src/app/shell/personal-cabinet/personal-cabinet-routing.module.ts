@@ -6,7 +6,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
 import { WorkshopsComponent } from './workshops/workshops.component';
-import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
+import { ProviderAdminsComponent } from './provider/provider-admins/provider-admins.component';
 
 const routes: Routes = [
   {
@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: 'applications',
     component: ApplicationsComponent,
-  },
+  }, 
   {
     path: 'provider',
     loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),

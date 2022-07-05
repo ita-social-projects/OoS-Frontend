@@ -17,6 +17,7 @@ import { CreateTeacherComponent } from './create-workshop/create-teacher/create-
 import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-form/teacher-form.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { CreateProviderAdminComponent } from './create-provider-admin/create-provider-admin.component';
+import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -30,7 +31,8 @@ import { CreateProviderAdminComponent } from './create-provider-admin/create-pro
     CreatePhotoFormComponent,
     CreateTeacherComponent,
     TeacherFormComponent,
-    CreateProviderAdminComponent
+    CreateProviderAdminComponent,
+    CreateAchievementComponent
   ],
   imports: [
     CommonModule,

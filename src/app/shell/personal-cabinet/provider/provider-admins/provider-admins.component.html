@@ -9,10 +9,9 @@
         matInput
         type="text"
         class="search"
-        placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом"
+        placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
       />
     </div>
-
     <ng-template [ngIf]="btnView == providerAdminRoleUkr.all">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         Додати <mat-icon>arrow_drop_down</mat-icon>
@@ -22,10 +21,10 @@
         <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
       </mat-menu>
     </ng-template>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy && subrole !== Role.ProviderAdmin">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin && subrole !== Role.ProviderAdmin">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
   </div>

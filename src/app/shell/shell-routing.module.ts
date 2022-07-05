@@ -27,6 +27,7 @@ import { NotificationsListComponent } from '../shared/components/notifications/n
 import { IsMobileGuard } from './is-mobile.guard';
 import { RulesComponent } from './info/rules/rules.component';
 import { DetailsComponent } from './details/details.component';
+import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -90,7 +91,10 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-  path: 'directions/create/:param', component: CreateDirectionComponent,
+    path: 'create-achievement/:param', component: CreateAchievementComponent,
+  },
+  {
+  path: 'admin-tools/platform/create/:param', component: CreateDirectionComponent,
   loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
   },
   {

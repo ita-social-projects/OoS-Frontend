@@ -1,39 +1,55 @@
 <div class="view-control-panel" [class.mobile-map-view]="currentView === viewType.map">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
-    <h3 [class.mobile-map-view]="currentView === viewType.map">Знайдено {{((filteredWorkshops$ | async)?.totalAmount ||
-      0) | declination: WorkshopDeclination }}</h3>
+    <h3 [class.mobile-map-view]="currentView === viewType.map">
+      Знайдено {{ (filteredWorkshops$ | async)?.totalAmount || 0 | declination: WorkshopDeclination }}
+    </h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
-  <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
+  <div
+    class="workshops-search"
+    fxFlex
+    fxLayout.lt-lg="row wrap"
+    fxLayout="row"
+    fxLayoutAlign.lt-lg="center center"
     fxLayoutAlign="space-between center">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
-  <app-scroll-to-top *ngIf="(isMobileScreen$ | async)"></app-scroll-to-top>
+  <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
 </div>
 
-<app-sidenav-filters [isMobileView]="(isMobileScreen$ | async)" [filtersList]="filtersList"></app-sidenav-filters>
-
 <mat-drawer-container>
-  <mat-drawer mode="side" [(opened)]="isFiltersVisible">
-    <app-filters-list [filtersList]="filtersList"></app-filters-list>
+  <mat-drawer mode="side" [(opened)]="visibleFiltersSidenav">
+    <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
-  <mat-drawer-content [style.marginLeft]="isFiltersVisible ? '326px' : '0'"
+  <mat-drawer-content
+    [style.marginLeft]="visibleFiltersSidenav ? '326px' : '0'"
     [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
-    <div *ngIf="currentView === viewType.map; else ShowData; " fxLayout='row wrap' fxLayoutAlign='start'>
-      <app-workshop-map-view-list [role]="role$ | async" [filteredWorkshops$]="filteredWorkshops$" [itemsPerPage]="workshopsPerPage"
-        [currentPage]="currentPage$ | async" (itemsPerPageChange)="onItemsPerPageChange($event)"></app-workshop-map-view-list>
+    <div *ngIf="currentView === viewType.map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
+      <app-workshop-map-view-list
+        [role]="role"
+        [filteredWorkshops$]="filteredWorkshops$"
+        [itemsPerPage]="workshopsPerPage"
+        [currentPage]="currentPage"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [role]="role$ | async" [workshops$]="filteredWorkshops$" [itemsPerPage]="workshopsPerPage"
-        [currentPage]="currentPage$ | async" (itemsPerPageChange)="onItemsPerPageChange($event)"></app-workshop-cards-list>
+      <app-workshop-cards-list
+        class="cards"
+        [role]="role"
+        [workshops$]="filteredWorkshops$"
+        [itemsPerPage]="workshopsPerPage"
+        [currentPage]="currentPage"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>
 
 <ng-template #filterButton>
-  <button class="filters-toggle-btn" [ngClass]="isFiltersVisible ? 'visible' : 'hidden'" (click)="filterHandler()">
+  <button class="filters-toggle-btn" [ngClass]="visibleFiltersSidenav ? 'visible' : 'hidden'" (click)="filterHandler()">
     <span class="material-icons btn-icon">
-      <mat-icon *ngIf="isFiltersVisible; else hidden">filter_alt</mat-icon>
+      <mat-icon *ngIf="visibleFiltersSidenav; else hidden">filter_alt</mat-icon>
       <ng-template #hidden>
         <mat-icon>filter_alt</mat-icon>
       </ng-template>
@@ -43,21 +59,35 @@
 
 <ng-template #searchBlock>
   <app-full-search-bar></app-full-search-bar>
-  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap='1rem'>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
-    <app-ordering [order]="order" *ngIf="!isHidden"></app-ordering>
-    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
+    <app-ordering *ngIf="currentView !== viewType.map"></app-ordering>
+
+    <mat-button-toggle-group
+      class="view-toggle"
+      #group="matButtonToggleGroup"
+      [value]="currentView"
       (change)="viewHandler(group.value)">
-      <mat-button-toggle value="{{viewType.data}}" aria-label="{{viewType.data}}" fxLayout="row"
+
+      <mat-button-toggle
+        value="{{ viewType.data }}"
+        aria-label="{{ viewType.data }}"
+        fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
         <span class="view-toggle_icon">Список</span>
       </mat-button-toggle>
-      <mat-button-toggle value="{{viewType.map}}" aria-label="{{viewType.map}}" fxLayout="row"
+
+      <mat-button-toggle
+        value="{{ viewType.map }}"
+        aria-label="{{ viewType.map }}"
+        fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">map</mat-icon>
         <span class="view-toggle_icon">Карта</span>
       </mat-button-toggle>
+
     </mat-button-toggle-group>
+
   </div>
 </ng-template>

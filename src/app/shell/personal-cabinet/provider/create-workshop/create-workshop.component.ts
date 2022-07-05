@@ -1,9 +1,11 @@
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { takeUntil } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -26,6 +28,9 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
   }]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.provider)
+  provider$: Observable<Provider>;
+  provider: Provider;
   workshop: Workshop;
 
   AboutFormGroup: FormGroup;
@@ -42,6 +47,12 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   ngOnInit(): void {
+    this.provider$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((provider: Provider) => !!provider))
+    .subscribe((provider: Provider) => (this.provider = provider));
+
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();

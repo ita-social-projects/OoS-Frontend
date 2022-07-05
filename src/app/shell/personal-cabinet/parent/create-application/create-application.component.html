@@ -6,26 +6,31 @@
     <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true"
       [isCreateApplicationView]="true"></app-workshop-card>
     <div class="card-border">
+      <hr class="line">
       <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
         <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти">
+            [formControl]="ChildFormControl" [(ngModel)]="selectedChild" name="child" placeholder="Діти"
+            (selectionChange)="onSelectChild($event)">
             <mat-option *ngFor="let child of (children$ | async)?.entities" [value]="child" class="dropdown-option">
-              {{child.firstName}} {{child.middleName}} {{child.lastName}}
+              {{child.lastName}} {{child.firstName}} {{child.middleName}} 
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">Дитина не може бути прийнята в гурток</small>
         <app-validation-hint [validationFormControl]="ChildFormControl">
         </app-validation-hint>
 
         <div fxLayout="column" fxLayoutAlign="center center">
+          <p class="background-text"> Немає дитини у списку?  
           <a [routerLink]="['/create-child', '']">
             <button class="btn-add" mat-button>
               <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
             </button>
           </a>
+        </p>
         </div>
 
         <div *ngIf="selectedChild" class="info-wrapper">
@@ -62,7 +67,8 @@
       <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
                     !isContraindicationAgreed ||
                     !isParentAgreed ||
-                    !selectedChild " (click)="onSubmit()">ВІДПРАВИТИ</button>
+                    !selectedChild ||
+                    !isAllowChildToApply" (click)="onSubmit()">ВІДПРАВИТИ</button>
     </div>
   </div>
 </div>

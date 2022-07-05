@@ -60,8 +60,14 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
       ).subscribe((val: boolean) => {
-        this.store.dispatch(new SetIsPaid(val));
         const func = val ? 'enable' : 'disable';
+        if(!val) {
+          this.store.dispatch([
+            new SetMinPrice(ValidationConstants.MIN_PRICE),
+            new SetMaxPrice(ValidationConstants.MAX_PRICE)
+          ]);
+        }
+        this.store.dispatch(new SetIsPaid(val));
         this.minPriceControl[func]();
         this.maxPriceControl[func]();
         this.options = this.getSliderOprions(!val)

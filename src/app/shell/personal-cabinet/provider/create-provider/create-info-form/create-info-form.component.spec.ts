@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateInfoFormComponent } from './create-info-form.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
+import { NgxsModule } from '@ngxs/store';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -27,6 +27,7 @@ describe('CreateInfoFormComponent', () => {
         MatSelectModule,
         MatInputModule,
         BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         CreateInfoFormComponent,
@@ -58,4 +59,6 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
+  @Input() isPhoneNumber: boolean;
 }

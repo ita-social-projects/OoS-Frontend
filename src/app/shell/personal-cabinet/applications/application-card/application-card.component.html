@@ -10,7 +10,6 @@
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>
     </div>
   </mat-card-content>
-
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start center">
     <div class="workshop-description" fxLayout="column" fxLayoutAlign="start start">
       <h4 [routerLink]="['/details/workshop', application?.workshopId]" [matTooltip]="application?.workshop.title"
@@ -28,23 +27,23 @@
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="start center">
-    <div class="application-status" *ngIf="application" fxLayout="row">
-      <div class="application-popup-status {{application.status}}">
-        <span> <i class="status-icon {{applicationIcons[application.status]}}"></i></span>
-        <span> {{applicationTitles[application.status]}}</span>
+    <div class="application-status" fxLayout="row">
+      <div class="application-popup-status {{status}}">
+        <span> <i class="status-icon {{applicationIcons[status]}}"></i></span>
+        <span> {{applicationTitles[status]}}</span>
       </div>
       <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
         [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
           xPosition="after" class="mat-application-menu">
-          <app-status-info-card [application]="application"></app-status-info-card>
+          <app-status-info-card [application]="application" [status]="status"></app-status-info-card>
         </mat-menu>
     </div>
   </mat-card-content>
 
   <mat-card-content class="card-block card-block-buttons" *ngIf="userRole === role.provider">
     <div fxLayout="column" fxLayoutAlign="start start"
-      [ngClass]="(application.status === applicationStatus.Approved || application.status === applicationStatus.Left) && 'hidden'">
+      [ngClass]="application.status === applicationStatus.Approved && 'hidden'">
       <button class="btn btn-blue" (click)="onApprove(application)">
         <p>ПРИЙНЯТИ</p>
       </button>

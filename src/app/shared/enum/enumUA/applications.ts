@@ -7,7 +7,8 @@ export enum ApplicationTitles {
   Blocked = 'Заблоковано',
   AcceptedForSelection = 'Прийнято до конкурсного відбору',
   StudyingForYears = 'Навчається 1-11 років',
-  Completed = 'Навчання завершено'
+  Completed = 'Навчання завершено',
+  Blocked = 'Заблоковано'
 }
 
 export enum ApplicationTitlesReverse {
@@ -20,6 +21,7 @@ export enum ApplicationTitlesReverse {
   'Гурток залишено' = 'Left',
   'Заблоковано' = 'Blocked',
   'Користувач завершив навчання' = 'Completed',
+  'Заблоковано' = 'Blocked',
 }
 
 export enum ApplicationStatusDescription {
@@ -31,4 +33,5 @@ export enum ApplicationStatusDescription {
   Left = 'Користувач покинув гурток самостійно',
   Blocked = 'Користувачв заблоковано',
   Completed = 'Користувач завершив навчання',
+  Blocked = 'Користувача заблоковано'
 }

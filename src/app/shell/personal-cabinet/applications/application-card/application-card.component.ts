@@ -1,8 +1,23 @@
 import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus, ApplicationIcons } from 'src/app/shared/enum/applications';
-import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications';
+import {
+  ApplicationStatus,
+  ApplicationIcons,
+} from 'src/app/shared/enum/applications';
+import {
+  ApplicationTitles,
+  ApplicationStatusDescription,
+} from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
@@ -19,13 +34,16 @@ import { AbstractControl, FormControl, FormGroup, } from '@angular/forms';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable, Subject } from 'rxjs';
 import { BlockedParent } from 'src/app/shared/models/block.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
-  styleUrls: ['./application-card.component.scss']
+  styleUrls: ['./application-card.component.scss'],
 })
 export class ApplicationCardComponent implements OnInit {
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
@@ -37,7 +55,10 @@ export class ApplicationCardComponent implements OnInit {
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
   ReasonFormGroup: FormGroup;
- 
+
+  status: ApplicationStatus;
+  subrole: string;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -55,15 +76,22 @@ export class ApplicationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
-    this.deviceToogle = this.detectedDevice.checkedDevice()
+    this.deviceToogle = this.detectedDevice.checkedDevice();
+    this.subrole$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((subrole: string) => (this.subrole = subrole));
+      this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
   }
-
 
   onClick(event) {
-    if (event.target.id === 'child-box' || event.target.parentElement.id === 'child-box' || event.target.parentElement.parentElement.id === 'child-box') return
-    this.onInfoHide()
+    if (
+      event.target.id === 'child-box' ||
+      event.target.parentElement.id === 'child-box' ||
+      event.target.parentElement.parentElement.id === 'child-box'
+    )
+      return;
+    this.onInfoHide();
   }
-
 
   /**
    * This method emit on approve action
@@ -74,8 +102,8 @@ export class ApplicationCardComponent implements OnInit {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.approveApplication,
-        property: ''
-      }
+        property: '',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -85,7 +113,6 @@ export class ApplicationCardComponent implements OnInit {
     });
   }
 
-
   /**
    * This method emit reject Application
    * @param Application application
@@ -93,7 +120,7 @@ export class ApplicationCardComponent implements OnInit {
   onReject(application: Application): void {
     const dialogRef = this.matDialog.open(RejectModalWindowComponent, {});
     dialogRef.afterClosed().subscribe((result: string) => {
-      if(result) {
+      if (result) {
         application.rejectionMessage = result;
         this.rejected.emit(application);
       }
@@ -119,13 +146,9 @@ export class ApplicationCardComponent implements OnInit {
         }
     });
   }
-  
+
   onUnBlock(blockedParent: BlockedParent): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.unBlockParent,
-      }
     });
     dialogRef.afterClosed().subscribe((result: string)  => {
       if(result) {
@@ -151,9 +174,10 @@ export class ApplicationCardComponent implements OnInit {
   onInfoShow(element: Element, event): void {
     if (!this.infoShowToggle) {
       this.infoShowToggle = true;
-      this.infoShow.emit({ element, child: this.application.child});
+      this.infoShow.emit({ element, child: this.application.child });
       event.stopPropagation();
-      this.deviceToogle && document.addEventListener('click', this.onClick.bind(this));
+      this.deviceToogle &&
+        document.addEventListener('click', this.onClick.bind(this));
     } else {
       this.onInfoHide();
     }
@@ -167,6 +191,10 @@ export class ApplicationCardComponent implements OnInit {
     this.infoShowToggle = false;
     this.infoHide.emit();
     this.deviceToogle && document.removeEventListener('click', this.onClick.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.unsubscribe();
   }
 
 }

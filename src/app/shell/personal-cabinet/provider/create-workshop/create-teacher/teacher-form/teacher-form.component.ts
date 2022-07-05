@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
@@ -12,6 +12,13 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 export class TeacherFormComponent {
   readonly validationConstants = ValidationConstants;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
+  }
   
   today: Date = new Date();
 

@@ -84,7 +84,7 @@ export class CityAutocompleteComponent implements OnInit, OnDestroy {
    */
   private setInitialCity(): void {
     if (this._InitialCity !== Constants.NO_CITY) {
-      this.cityFormControl.setValue(this._InitialCity);
+      this.cityFormControl.setValue(this._InitialCity, { emitEvent: false });
       this.actions$.pipe(ofActionSuccessful(GetCities))
         .pipe(last(), filter((cities: City[])=> !!cities))
         .subscribe(()=> this.cityFormControl.setValue(this.cities[0]));

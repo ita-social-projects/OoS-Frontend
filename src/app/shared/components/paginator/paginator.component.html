@@ -11,12 +11,13 @@
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
-  
+
   <label class="step-label">Відображати на сторінці:</label>
-  <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" (selectionChange)="OnSelectOption($event)" placeholder="{{itemsPerPage}}">
-    <mat-option value="8" class="dropdown-option"> 8 </mat-option>
-    <mat-option value="12" selected class="dropdown-option"> 12 </mat-option>
-    <mat-option value="16" class="dropdown-option"> 16 </mat-option>
-    <mat-option value="20" class="dropdown-option"> 20 </mat-option>
-  </mat-select>
+    <mat-select [(value)]="itemsPerPage" disableOptionCentering panelClass=“dropdown-panel” class="step-input" (selectionChange)="OnSelectOption($event)" placeholder="{{itemsPerPage}}">
+      <mat-option *ngFor="let value of listOfValues" 
+        [style.background]="value === itemsPerPage ? 'rgba(0,0,0,.04)' : 'auto'"
+        [value]="value" 
+        class="dropdown-option">{{value}}
+      </mat-option>
+    </mat-select>
 </div>
