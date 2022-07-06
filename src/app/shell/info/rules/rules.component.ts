@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
 import { Select, Store } from '@ngxs/store';
-import { GetLawsAndRegulations } from 'src/app/shared/store/admin.actions';
+
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
+import { GetLawsAndRegulations } from 'src/app/shared/store/admin.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-rules',
@@ -12,7 +13,7 @@ import { AdminState } from 'src/app/shared/store/admin.state';
 })
 export class RulesComponent implements OnInit {
   @Select(AdminState.LawsAndRegulations)
-  platformRules$: CompanyInformation;
+  platformRules$: Observable<CompanyInformation>;
 
   constructor(private store: Store) {}
 

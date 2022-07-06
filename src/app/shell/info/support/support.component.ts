@@ -7,6 +7,7 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 import { GetSupportInformation } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-support',
@@ -15,7 +16,8 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 })
 export class SupportComponent implements OnInit, OnDestroy {
   @Select(AdminState.SupportInformation)
-  platformSupport$: CompanyInformation;
+  platformSupport$: Observable<CompanyInformation>;
+
   constructor(private store: Store, public navigationBarService: NavigationBarService ) { }
 
   ngOnInit(): void {
