@@ -31,6 +31,7 @@ export enum ModalConfirmationTitle {
   deleteDepartment = 'ВИДАЛИТИ ВІДДІЛ?',
   deleteIClass = 'ВИДАЛИТИ КЛАС?',
   createDirection = 'CТВОРИТИ НАПРЯМОК?',
+  createAchievement = 'ДОДАТИ ДОСЯГНЕННЯ',
   editDirection = 'РЕДАГУВАТИ НАПРЯМОК?',
   createDepartment = 'CТВОРИТИ ВІДДІЛЕННЯ?',
   editDepartment = 'РЕДАГУВАТИ ВІДДІЛЕННЯ?',
