@@ -50,7 +50,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
       teachers: new FormControl('', Validators.required),
-      childrenIDs: new FormControl('', Validators.required),
+      childrenIDs: new FormControl([], Validators.required),
     });
   }
 
@@ -86,16 +86,15 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     });    
   }
 
-  remove(item: string, control): void {
-    const items = this.AchievementFormGroup.controls[control].value as string[];
-    this.removeFirst(items, item);
-    this.AchievementFormGroup.controls[control].setValue(items);
-  }
-
-  private removeFirst<T>(array: T[], toRemove: T): void {
-    const index = array.indexOf(toRemove);
-    if (index !== -1) {
-      array.splice(index, 1);
+  onRemoveItem(item: string, control): void {
+    let items = this.AchievementFormGroup.controls[control].value;
+    if (items.indexOf(item) >= 0) {
+      items.splice(items.indexOf(item), 1);
+      if (items.length) {
+        this.AchievementFormGroup.get(control).setValue([...items]);
+      } else {
+        this.AchievementFormGroup.get(control).reset();
+      }
     }
   }
 
