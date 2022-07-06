@@ -19,7 +19,6 @@ export class AchievementsComponent implements OnInit {
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  // achievements: achievements[];
   @Input() workshop: Workshop;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
