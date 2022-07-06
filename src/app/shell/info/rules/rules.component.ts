@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
+import { Select, Store } from '@ngxs/store';
+import { GetLawsAndRegulations } from 'src/app/shared/store/admin.actions';
+import { AdminState } from 'src/app/shared/store/admin.state';
 
 @Component({
   selector: 'app-rules',
@@ -10,14 +11,12 @@ import { PlatformService } from 'src/app/shared/services/platform/platform.servi
   styleUrls: ['./rules.component.scss'],
 })
 export class RulesComponent implements OnInit {
-  platformRules: CompanyInformation;
-  constructor(private platformService: PlatformService) {}
+  @Select(AdminState.LawsAndRegulations)
+  platformRules$: CompanyInformation;
+
+  constructor(private store: Store) {}
+
   ngOnInit(): void {
-    this.platformService
-      .getPlatformInfo(PlatformInfoType.LawsAndRegulations)
-      .toPromise()
-      .then(
-        (result: CompanyInformation) => (this.platformRules = result)
-      );
+    this.store.dispatch(new GetLawsAndRegulations());
   }
 }

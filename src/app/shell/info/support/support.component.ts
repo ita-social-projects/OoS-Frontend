@@ -1,12 +1,12 @@
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
+import { GetSupportInformation } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
-import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-support',
@@ -14,8 +14,9 @@ import { Store } from '@ngxs/store';
   styleUrls: ['./support.component.scss']
 })
 export class SupportComponent implements OnInit, OnDestroy {
-  platformSupport: CompanyInformation;
-  constructor(private store: Store, public navigationBarService: NavigationBarService, private platformService: PlatformService ) { }
+  @Select(AdminState.SupportInformation)
+  platformSupport$: CompanyInformation;
+  constructor(private store: Store, public navigationBarService: NavigationBarService ) { }
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -23,12 +24,7 @@ export class SupportComponent implements OnInit, OnDestroy {
         { name: NavBarName.Support, isActive: false, disable: true }
       )),
     );
-    this.platformService
-    .getPlatformInfo(PlatformInfoType.SupportInformation)
-    .toPromise()
-    .then(
-      (result: CompanyInformation) => (this.platformSupport = result)
-    );
+    this.store.dispatch(new GetSupportInformation());
   }
 
   ngOnDestroy(): void {

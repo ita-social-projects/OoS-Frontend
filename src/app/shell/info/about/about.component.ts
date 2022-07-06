@@ -1,12 +1,15 @@
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import {
+  AddNavPath,
+  DeleteNavPath,
+} from 'src/app/shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
+import { GetAboutPortal } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { PlatformService } from 'src/app/shared/services/platform/platform.service';
-import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-about',
@@ -14,12 +17,15 @@ import { Store } from '@ngxs/store';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit, OnDestroy {
+
+  @Select(AdminState.AboutPortal)
+  platformInformation$: CompanyInformation;
+
   constructor(
     private store: Store,
     public navigationBarService: NavigationBarService,
-    private platformService: PlatformService
-  ) { }
-  platformInformation: CompanyInformation;
+  ) {}
+
   ngOnInit(): void {
     this.store.dispatch(
       new AddNavPath(
@@ -30,13 +36,10 @@ export class AboutComponent implements OnInit, OnDestroy {
         })
       )
     );
-    this.platformService
-      .getPlatformInfo(PlatformInfoType.AboutPortal)
-      .toPromise()
-      .then(
-        (result: CompanyInformation) => (this.platformInformation = result)
-      );
+    this.store
+      .dispatch(new GetAboutPortal());
   }
+
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }

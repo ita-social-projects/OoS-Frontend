@@ -1,10 +1,10 @@
-<div *ngIf="platformSupport.companyInformationItems.length; else noInfo">
+<div *ngIf="(platformSupport$ | async).companyInformationItems.length; else noInfo">
   <div class="support-content">
     <div>
-      <h2 class="support-title">{{ platformSupport.title }}</h2>
+      <h2 class="support-title">{{ (platformSupport$ | async).title }}</h2>
     </div>
     <div class="support-text">
-      <div *ngFor="let item of platformSupport.companyInformationItems">
+      <div *ngFor="let item of (platformSupport$ | async).companyInformationItems">
         <p><strong>{{ item.sectionName }}</strong></p>
         <p>{{ item.description }}</p>
       </div>
