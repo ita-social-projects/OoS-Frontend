@@ -87,9 +87,15 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   }
 
   remove(item: string, control): void {
-    const index = this.AchievementFormGroup.controls[control].value.indexOf(item);
-    if (index >= 0) {
-      this.AchievementFormGroup.controls[control].value.splice(index, 1);
+    const items = this.AchievementFormGroup.controls[control].value as string[];
+    this.removeFirst(items, item);
+    this.AchievementFormGroup.controls[control].setValue(items);
+  }
+
+  private removeFirst<T>(array: T[], toRemove: T): void {
+    const index = array.indexOf(toRemove);
+    if (index !== -1) {
+      array.splice(index, 1);
     }
   }
 
