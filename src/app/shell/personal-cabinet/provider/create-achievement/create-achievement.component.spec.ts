@@ -41,7 +41,7 @@ describe('CreateAchievementComponent', () => {
         MatChipsModule,
         MatIconModule
       ],
-      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockMainNavigationBarComponent],
+      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockValidationHintForInputComponent],
       providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
     }).compileComponents();
   });
@@ -77,11 +77,12 @@ class MockMainWorkshopCardComponent {
   @Input() isHorizontalView: boolean;
   @Input() isCreateApplicationView: boolean;
 }
-
 @Component({
-  selector: 'app-navigation-bar',
-  template: '',
+  selector: 'app-validation-hint',
+  template: ''
 })
-class MockMainNavigationBarComponent {  
-  @Input() achievements: Achievement[];
+
+class MockValidationHintForInputComponent {
+  @Input() validationFormControl: FormControl; 
+  @Input() isTouched: boolean;
 }
