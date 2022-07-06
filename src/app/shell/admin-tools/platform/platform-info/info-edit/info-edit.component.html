@@ -29,7 +29,7 @@
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-      <a [routerLink]="setRoute()"><button class="btn" mat-button type="submit"[disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid"  (click)="onSubmit()">Зберегти</button></a>
+     <button class="btn" mat-button type="submit"[disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid"  (click)="onSubmit()">Зберегти</button>
     </div>
 
   </div>

@@ -94,17 +94,6 @@ export class InfoEditComponent
     }
   }
 
-  setRoute(): string {
-    switch (this.platformInfoType) {
-      case PlatformInfoType.AboutPortal:
-        return '/info/about';
-      case PlatformInfoType.SupportInformation:
-        return '/info/support';
-      case PlatformInfoType.LawsAndRegulations:
-        return '/info/rules';
-    }
-  }
-
   /**
    * This method creates new FormGroup
    */
