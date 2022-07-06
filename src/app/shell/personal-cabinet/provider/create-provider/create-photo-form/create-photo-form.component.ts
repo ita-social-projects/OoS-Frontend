@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { InstitutionTypes } from 'src/app/shared/enum/provider';
@@ -21,6 +21,13 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 export class CreatePhotoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
   readonly institutionTypes = InstitutionTypes;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
+  }
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
@@ -35,7 +42,8 @@ export class CreatePhotoFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private store: Store ) {
     this.PhotoFormGroup = this.formBuilder.group({
-      image: new FormControl(''),
+      imageFiles: new FormControl(''),
+      imageIds: new FormControl(''),
       providerSectionItems: this.SectionItemsFormArray,
       institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
       institutionType: new FormControl('', Validators.required),

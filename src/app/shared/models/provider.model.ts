@@ -25,8 +25,10 @@ export class Provider {
   legalAddress?: Address;
   actualAddress?: Address;
   workshop?: Workshop;
-  image?: File[];
+  imageFiles?: File[];
   imageIds?: string[];
+  coverImage?: File[];
+  coverImageId?: string[];
   institutionStatusId?: number | null;
   providerSectionItems: ProviderSectionItem[]
   institutionType: string;
@@ -58,6 +60,18 @@ export class Provider {
       this.id = provider.id;
     }
     this.providerSectionItems = description.providerSectionItems;
+    if (description.imageFiles?.length) {
+      this.imageFiles = description.imageFiles;
+    }
+    if (description.imageIds?.length) {
+      this.imageIds = description.imageIds;
+    }
+    if (info.coverImage?.length) {
+      this.coverImage = info.coverImage;
+    }
+    if (info.coverImageId?.length) {
+      this.coverImageId = info.coverImageId[0];
+    }
   }
 }
 
