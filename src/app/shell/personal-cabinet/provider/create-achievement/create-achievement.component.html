@@ -29,7 +29,7 @@
               <mat-chip-list #chipList>
                 <mat-chip 
                   *ngFor="let child of AchievementFormGroup.controls['childrenIDs'].value"
-                  (removed)="remove(child, 'childrenIDs')">
+                  [removable]="true" (removed)="remove(child, 'childrenIDs')">
                   {{child.lastName}} {{child.firstName}} {{child.middleName}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
