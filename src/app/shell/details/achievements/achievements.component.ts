@@ -15,10 +15,11 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class AchievementsComponent implements OnInit {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
+  @Input() achievements: Achievement[];
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  achievements: Achievement[];
+  // achievements: achievements[];
   @Input() workshop: Workshop;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -36,7 +37,7 @@ export class AchievementsComponent implements OnInit {
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+    // this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }
 
   ngOnDestroy(): void {
