@@ -10,6 +10,7 @@ import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.mo
 import { GetAboutPortal } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-about',
@@ -19,7 +20,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 export class AboutComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.AboutPortal)
-  platformInformation$: CompanyInformation;
+  platformInformation$: Observable<CompanyInformation>;
 
   constructor(
     private store: Store,
