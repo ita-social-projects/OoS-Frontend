@@ -5,7 +5,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { PayRateType, PayRateTypeUkr, ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
+import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
+import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
+import { PayRateType } from 'src/app/shared/enum/workshop';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -69,6 +71,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
+    console.log("Constructor")
   }
 
   ngOnInit(): void {
@@ -79,27 +82,28 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-  private onPriceCtrlInit(): void {
-    this.priceRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((isPrice: boolean,) => {
-        if(isPrice){
-           this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable');
-           this.AboutFormGroup.get('payRate')['enable']({emitEvent : true});
-        }else{
-          this.setPriceControlValue();
-          this.AboutFormGroup.get('payRate').reset();
-          this.AboutFormGroup.get('payRate')['disable']({emitEvent : true});
-        }
-      });
+   private onPriceCtrlInit(): void {
+    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
+      isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
+    });
   }
 
   private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
     this.AboutFormGroup.get('price')[action]({ emitEvent });
     this.AboutFormGroup.get('price').setValue(price, { emitEvent });
+    this.AboutFormGroup.get('payRate')[action]({emitEvent});
+
+    if(price === 0 && action === 'disable'){
+      this.AboutFormGroup.get('payRate').reset();
+      this.AboutFormGroup.get('payRate')['action']({emitEvent});
+    }
   };
 
+  priceRadioBtnClick(){
+    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
+      isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
+    });
+  }
   /**
    * This method fills in the info from provider to the workshop if check box is checked
    */
@@ -125,8 +129,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if(this.workshop.price){
       this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.AboutFormGroup.get('payRate')['enable']({emitEvent : false});
       this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, {emitEvent : false});
+      console.log("sdkfhsjlfjsldfjlskdjfldskjfsdlkfjslkdfjsdkl")
     }
   }
 

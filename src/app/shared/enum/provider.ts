@@ -7,7 +7,7 @@ export enum ProviderType {
   Other,
 }
 
-export enum   ProviderTypeUkr {
+export enum ProviderTypeUkr {
   'ФОП',
   'Громадська організація',
   'ТОВ',
@@ -58,24 +58,4 @@ export enum InstitutionTypes {
   Complex = 'Комплексний',
   Profile = 'Профільний',
   Specialized = 'Спеціалізований'
-}
-
-export enum PayRateType {
-  Classes,
-  Month,
-  Day,
-  Year,
-  Hour,
-  Course,
-  AllPeriod
-}
-
-export enum PayRateTypeUkr {
-  Classes = 'Заняття',
-  Month = 'Місяць',
-  Day = 'День',
-  Year = 'Рік',
-  Hour = 'Година',
-  Course = 'Курс',
-  AllPeriod = 'Увесь період'
 }
