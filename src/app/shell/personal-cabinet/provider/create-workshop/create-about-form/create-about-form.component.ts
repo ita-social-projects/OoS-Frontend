@@ -130,7 +130,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
       this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, {emitEvent : false});
-      console.log("sdkfhsjlfjsldfjlskdjfldskjfsdlkfjslkdfjsdkl")
     }
   }
 
