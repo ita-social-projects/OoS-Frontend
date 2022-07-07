@@ -1,16 +1,16 @@
 @import "src/app/shared/styles/cards.scss";
 @import "src/app/shared/styles/application-statuses.scss";
 
-.card-img-mobile{
+.card-img-mobile {
   width: 100%;
 }
 .horizontal {
   margin: 0;
 }
-.provider-content{
+.provider-content {
   min-height: 5rem;
 }
-.icon{
+.icon {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -25,12 +25,12 @@
   color: #ffbd00;
 }
 .provider-link {
-  color: #3849F9;
+  color: #3849f9;
   margin: 0.3rem 0;
 }
 .provider-link:hover {
-    opacity: 0.5;
-    color: #3849F9;
+  opacity: 0.5;
+  color: #3849f9;
 }
 .horizontal-card {
   display: flex;
@@ -39,7 +39,7 @@
   align-items: flex-start;
   overflow: hidden;
 
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
@@ -50,9 +50,6 @@
     height: min-content;
     object-fit: cover;
     object-position: bottom;
-  }
-  .wrap-for-details {
-    padding-bottom: 0;
   }
 
   .wrap-for-details .mat-card-header {
@@ -78,13 +75,27 @@
 }
 .dialog-action-button {
   color: white;
-  background-color: #3849F9;
-  border: 1px solid #3849F9;
+  background-color: #3849f9;
+  border: 1px solid #3849f9;
   border-radius: 20px;
   margin-bottom: 20px;
 }
 .more-details {
-  width: 144px;
+  width: fit-content;
+}
+.icon_launch {
+  color: #3849f9;
+  font-size: 18px !important;
+  width: 14px !important;
+  height: 14px !important;
+  margin-right: 5px;
+  &:hover{
+    opacity: 0.5;
+  }
+}
+
+::ng-deep .mat-card-header .mat-card-title {
+  height: 30px !important;
 }
 
 @media (max-width: 750px) {
@@ -94,7 +105,7 @@
   .horizontal-card {
     max-width: 100%;
     width: 90vw;
-    .card-img{
+    .card-img {
       flex: 1;
     }
     .wrap-for-details {
@@ -124,8 +135,9 @@
     }
     ::ng-deep .mat-card-header-text {
       margin: 0;
-    }    
-    .card-title, .mat-card-header{
+    }
+    .card-title,
+    .mat-card-header {
       font-size: 15px;
     }
   }

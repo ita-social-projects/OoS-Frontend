@@ -70,7 +70,7 @@ describe('CreateAboutFormComponent', () => {
       instagram: new FormControl(''),
       price: new FormControl(''),
       workingHours: new FormControl(''),
-      isPerMonth: new FormControl(''),
+      payRate: new FormControl(''),
     });
     fixture.detectChanges();
   });
@@ -94,6 +94,7 @@ class MockWorkingHours {
 })
 class MockValidationHintAboutComponent {
   @Input() validationFormControl: FormControl; //required for validation
+  @Input() isTouched: boolean; 
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
