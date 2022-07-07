@@ -1,4 +1,5 @@
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Constants } from 'src/app/shared/constants/constants';
+import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -6,7 +7,7 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Application } from '../models/application.model';
+import { Application, ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
@@ -102,7 +103,7 @@ export interface UserStateModel {
   workshops: WorkshopCard[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
-  applications: Application[];
+  applicationCards: ApplicationCards;
   achievements: Achievement[];
   children: ChildCards;
   favoriteWorkshops: Favorite[];
@@ -118,7 +119,7 @@ export interface UserStateModel {
     workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applications: null,
+    applicationCards: null,
     achievements: null,
     children: undefined,
     favoriteWorkshops: null,
@@ -130,6 +131,7 @@ export interface UserStateModel {
     providerAdmins: null,
     isAllowChildToApply: null,
   },
+
 })
 @Injectable()
 export class UserState {
@@ -155,9 +157,9 @@ export class UserState {
   }
 
   @Selector()
-  static applications(state: UserStateModel): Application[] {
-    return state.applications;
-  }
+  static applications(state: UserStateModel): ApplicationCards {
+    return state.applicationCards; }
+
 
   @Selector()
   static achievements(state: UserStateModel): Achievement[] {
@@ -185,7 +187,9 @@ export class UserState {
   }
 
   @Selector()
-  static isAllowChildToApply(state: UserStateModel): boolean { return state.isAllowChildToApply; }
+  static isAllowChildToApply(state: UserStateModel): boolean {
+    return state.isAllowChildToApply;
+  }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -232,7 +236,7 @@ export class UserState {
   @Action(GetAchievementsByWorkshopId)
   getAchievementsByWorkshopId(
     { patchState }: StateContext<UserStateModel>,
-    {payload}: GetAchievementsByWorkshopId    
+    { payload }: GetAchievementsByWorkshopId
   ): Observable<Achievement[]> {
     patchState({ isLoading: true });
     return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
@@ -282,32 +286,24 @@ export class UserState {
   }
 
   @Action(GetApplicationsByParentId)
-  getApplicationsByUserId(
-    { patchState }: StateContext<UserStateModel>,
-    { id, status }: GetApplicationsByParentId
-  ): Observable<Application[]> {
+  getApplicationsByParentId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByParentId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
-    return this.applicationService.getApplicationsByParentId(id, status).pipe(
-      tap((applications: Application[]) => {
-        return patchState({ applications: applications, isLoading: false });
-      })
-    );
-  }
+    return this.applicationService
+      .getApplicationsByParentId(id, parameters)
+      .pipe(
+        tap((applicationCards: ApplicationCards) =>
+        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { applicationCards: {totalAmount: 0, entities: []}, isLoading: false }),));
+      }
 
   @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId(
-    { patchState }: StateContext<UserStateModel>,
-    { id, parameters }: GetApplicationsByProviderId
-  ): Observable<Application[]> {
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
-        tap((applications: Application[]) => {
-          return patchState({ applications: applications, isLoading: false });
-        })
-      );
-  }
+        tap((applicationCards: ApplicationCards) =>
+        patchState(applicationCards ? { applicationCards: applicationCards, isLoading: false } : { applicationCards: {totalAmount: 0, entities: []}, isLoading: false }),));
+        }
 
   @Action(GetAllProviderAdmins)
   getAllProviderAdmins(
@@ -481,9 +477,10 @@ export class UserState {
     { payload }: OnCreateProviderFail
   ): void {
     throwError(payload);
-    const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
-    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними' :
-    'На жаль виникла помилка';
+    const message =
+      payload.error === Constants.UNABLE_CREATE_PROVIDER || Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
+        ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
+        : 'На жаль виникла помилка';
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
@@ -950,14 +947,18 @@ export class UserState {
   }
 
   @Action(GetStatusIsAllowToApply)
-  getStatusIsAllowToApply({ patchState }: StateContext<UserStateModel>, { childId, workshopId }: GetStatusIsAllowToApply): Observable<boolean> {
+  getStatusIsAllowToApply(
+    { patchState }: StateContext<UserStateModel>,
+    { childId, workshopId }: GetStatusIsAllowToApply
+  ): Observable<boolean> {
     patchState({ isLoading: true });
     return this.applicationService
       .getStatusIsAllowToApply(childId, workshopId)
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowChildToApply: status, isLoading: false });
-        }));
+        })
+      );
   }
 
   @Action(CreateRating)

@@ -27,6 +27,9 @@ export class Constants {
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
   static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
 
+  static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
+  static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
+
   static readonly NO_CITY = 'Такого міста немає';
   static readonly KIEV: City = {
     district: 'м.Київ',
