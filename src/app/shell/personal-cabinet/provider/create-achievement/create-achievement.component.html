@@ -1,4 +1,4 @@
-<div class="create-form">
+<div class="create-form" *ngIf="workshop">
   <div class="wrapper application-wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">ДОДАТИ ДОСЯГНЕННЯ</h3>
@@ -46,7 +46,7 @@
           [isTouched]="AchievementFormGroup.get('childrenIDs').touched">
         </app-validation-hint>
 
-        <label class="step-label">Тренер</label>
+        <label class="step-label">Тренера<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering formControlName="teachers" 
             panelClass="dropdown-panel" class="step-input">

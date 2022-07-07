@@ -53,7 +53,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
       teachers: new FormControl('', Validators.required),
-      childrenIDs: new FormControl([], Validators.required),
+      childrenIDs: new FormControl('', Validators.required),
     });
   }
 
