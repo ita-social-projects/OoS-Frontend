@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-rules',
   templateUrl: './rules.component.html',
@@ -8,5 +7,4 @@ import { Component } from '@angular/core';
 export class RulesComponent {
 
   constructor() { }
-
 }
