@@ -30,7 +30,7 @@
       </mat-checkbox>
       <p class="agreement">Додаючи дані про
         дитину
-        я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
+        я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" [queryParams]="{childID: child?.id}" target="_blank"> Правилами користування</a>
         та надаю згоду на обробку персональних даних
       </p>
     </div>

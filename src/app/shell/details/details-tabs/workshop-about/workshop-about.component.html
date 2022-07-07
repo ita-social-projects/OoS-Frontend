@@ -8,7 +8,7 @@
   </ng-container>
   <h5 class="title"> Вартість </h5>
   <p *ngIf="!workshop.price" class="txt"> Безкоштовно </p>
-  <p *ngIf="workshop.price" class="txt"> {{ workshop.price }} грн/ {{ workshop.isPerMonth ? 'місяць' : 'заняття' }} </p>
+  <p *ngIf="workshop.price" class="txt"> {{ workshop.price }} грн/ {{ PayRateTypeUkr[workshop.payRate] }} </p>
   <h5 class="title"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </h5>
   <p class="txt"> {{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'Відсутні' }} </p>
 

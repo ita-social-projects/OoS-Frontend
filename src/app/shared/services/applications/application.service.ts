@@ -6,30 +6,29 @@ import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ApplicationService {
-
-  constructor(
-    private http: HttpClient,
-    private store: Store,) {
-  }
+  constructor(private http: HttpClient, private store: Store) {}
 
   private setParams(parameters): HttpParams {
     let params = new HttpParams();
 
-    if (parameters.status) {
-      params = params.set('Status', parameters.status);
+    if (parameters) {
+      if (parameters.status) {
+        params = params.set('Status', parameters.status);
+      }
+
+      if (parameters.workshopsId.length) {
+        parameters.workshopsId.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
+      }
+
+      params = params.set('ShowBlocked', parameters.showBlocked);
     }
 
-    if (parameters.workshopsId.length) {
-      parameters.workshopsId.forEach((workshopId: string) => params = params.append('Workshops', workshopId));
-    }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
     const from: number = size * (+currentPage.element - 1);
-    params = params.set('ShowBlocked', parameters.showBlocked);
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
 
@@ -40,7 +39,7 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id string
    */
-   getApplicationsByParentId(id: string, parameters): Observable<ApplicationCards> {
+  getApplicationsByParentId(id: string, parameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
     return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
@@ -88,8 +87,8 @@ export class ApplicationService {
     const options = {
       params: {
         childId: childId,
-        workshopId: workshopId
-      }
+        workshopId: workshopId,
+      },
     };
     return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
   }
