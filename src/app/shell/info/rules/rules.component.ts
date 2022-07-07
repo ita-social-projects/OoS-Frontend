@@ -14,7 +14,7 @@ export class RulesComponent {
   ngOnInit(): void {
     this.store.dispatch(
       new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.Rules, isActive: false, disable: true })
+        this.navigationBarService.createOneNavPath({ name: NavBarName.LawsAndRegulations, isActive: false, disable: true })
       )
     );
   }
