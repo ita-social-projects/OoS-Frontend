@@ -129,7 +129,7 @@ export interface UserStateModel {
       isActive: true,
     },
     providerAdmins: null,
-    isAllowChildToApply: null,
+    isAllowChildToApply: true,
   },
 
 })
