@@ -123,8 +123,7 @@
   </p>
   <p class="card_text" *ngIf="workshopData.price">
     <mat-icon class="card_icon"> attach_money</mat-icon> {{ workshopData.price }} грн/
-    {{ workshopData.isPerMonth
-    ? 'місяць' : 'заняття' }}
+    {{ PayRateTypeUkr[workshopData.payRate] }}
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>

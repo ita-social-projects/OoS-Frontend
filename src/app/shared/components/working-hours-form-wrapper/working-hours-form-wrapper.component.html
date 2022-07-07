@@ -3,7 +3,7 @@
     [index]="workingHoursFormArray.controls.indexOf(form)" (deleteWorkingHour)="deleteWorkingHour($event)">
   </app-working-hours-form>
 </ng-container>
-<div fxLayout='row' fxLayoutAlign='start center'>
+<div fxLayout='row' fxLayoutAlign='start center' class="add-hour">
   <button class="btn-add" mat-button (click)="addWorkingHours()" [disabled]="workingHoursFormArray.invalid">
     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
   </button>
