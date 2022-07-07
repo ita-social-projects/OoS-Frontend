@@ -17,11 +17,11 @@
         application?.workshop.title }} </h4>
       <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
         <mat-icon class="text_icon">home</mat-icon>
-        <p class="text">{{application?.workshop.providerTitle}}</p>
+        <p class="text workshop-title">{{application?.workshop.providerTitle}}</p>
       </div>
       <div class="workshop-age" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
         <mat-icon class="text_icon">person</mat-icon>
-        <p class="text">{{application?.workshop.minAge}} - {{application?.workshop.maxAge}}</p>
+        <p class="text">{{application?.workshop.minAge}} - {{application?.workshop.maxAge}} років </p>
       </div>
     </div>
   </mat-card-content>
