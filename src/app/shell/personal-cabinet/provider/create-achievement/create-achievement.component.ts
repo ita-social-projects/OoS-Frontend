@@ -46,7 +46,10 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [ 
+        Validators.required, 
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)]),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
       teachers: new FormControl('', Validators.required),

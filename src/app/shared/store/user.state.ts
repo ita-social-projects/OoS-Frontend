@@ -645,7 +645,7 @@ export class UserState {
       new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }),
       new MarkFormDirty(false),
     ]);
-    this.router.navigate(['/details/workshop/08d9af24-08a2-4958-8a95-d87014138874']);
+    this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)

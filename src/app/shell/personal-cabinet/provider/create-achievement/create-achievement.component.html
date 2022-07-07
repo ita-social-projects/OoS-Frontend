@@ -95,7 +95,9 @@
         </mat-form-field>
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('title')"
-          [isTouched]="AchievementFormGroup.get('title').touched">
+          [isTouched]="AchievementFormGroup.get('title').touched"
+          [minCharachters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+          [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
         </app-validation-hint>
       </form>
     </div>
