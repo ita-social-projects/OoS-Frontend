@@ -21,7 +21,6 @@ import { AppState } from 'src/app/shared/store/app.state';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
