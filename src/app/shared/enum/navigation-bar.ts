@@ -1,6 +1,6 @@
 export enum NavBarName {
   MainPage = 'Головна',
-  TopWorkshops = 'Найпопулярніші гуртки',
+  WorkshopResult = 'Результати пошуку',
   TopDestination = 'Найпопулярніші напрямки',
   PersonalCabinetParent = 'Кабінет користувача',
   PersonalCabinetProvider = 'Кабінет надавача',
@@ -8,6 +8,7 @@ export enum NavBarName {
   AdminTools = 'Адміністрування',
   About = 'Про портал',
   Support = 'Підтримка',
+  Rules = 'Правила користування',
   Direction = 'Напрямок',
   RequestOnWorkshop = 'Заява на гурток',
   PersonalInformation = 'Особиста інформація',
@@ -20,5 +21,5 @@ export enum NavBarName {
   Platform = 'Портал',
   NewWorkshop = 'Новий гурток',
   EditWorkshop = 'Редагування гуртка',
-  CreateProviderAdmin = 'Створення користувача'
+  CreateProviderAdmin = 'Створення користувача',
 }

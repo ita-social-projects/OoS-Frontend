@@ -46,7 +46,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   isAgreed: boolean = false;
 
   constructor(
-    private childrenService: ChildrenService, //TODO: move to teh state action
+    private childrenService: ChildrenService, //TODO: move to the state action
     private fb: FormBuilder,
     private routeParams: ActivatedRoute,
     private matDialog: MatDialog,

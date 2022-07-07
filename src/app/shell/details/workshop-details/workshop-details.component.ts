@@ -62,7 +62,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
-            name: NavBarName.TopWorkshops,
+            name: NavBarName.WorkshopResult,
             path: '/result',
             isActive: false,
             disable: false,
