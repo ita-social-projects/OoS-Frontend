@@ -97,7 +97,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
       );
 
-    if(!this.isMobileView){
+    if (!this.isMobileView) {
       this.store.dispatch(new FiltersSidenavToggle(true));
     }
   }
