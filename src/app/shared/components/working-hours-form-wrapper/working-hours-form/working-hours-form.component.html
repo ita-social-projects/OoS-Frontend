@@ -3,7 +3,7 @@
 
   <form fxLayout="row" fxLayoutAlign="start center" class="step">
 
-  <div>
+  <div class="days">
     <div fxLayout="row" fxLayoutAlign="space-between"
       [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
       <div *ngFor="let day of days" fxLayout="row" fxLayoutAlign="center center"

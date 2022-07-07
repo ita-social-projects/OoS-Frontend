@@ -72,11 +72,10 @@
 
   <div class="border-bottom"></div>
 
-  <ng-container >
   <label class="step-label">Вік дітей<span class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
     <div fxLayout="column" fxLayoutAlign="start start">
-      <div fxLayout="row" fxLayoutAlign="start center">
+      <div fxLayout="row "fxLayoutAlign="start center">
         <p class="step-text">Від</p>
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly
@@ -138,7 +137,6 @@
     [isTouched]="AboutFormGroup.get('payRate').touched">
     </app-validation-hint>
   </mat-radio-group>
-</ng-container>
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
