@@ -4,14 +4,45 @@
 @import "src/app/shared/styles/toggle-button.scss";
 
 .pay-type{
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .price-text{
-    margin-right: 15px;
+  margin-right: 15px;
+  width: 65px;
 }
 
 .price-input {
-    max-width: 100px;
-    text-align: center;
+  max-width: 100px;
+  text-align: center;
 }
+
+::ng-deep .dropdown-panel{
+  max-height:150px !important;    
+}
+
+@media (max-width: 750px) {
+  .conteiner{
+    flex-direction: column !important;
+    align-items:initial !important;
+    }
+
+  .price::after{
+    content: "грн";
+    font-weight: 700;
+    color:#AAAAAA;
+    padding:5px;
+    line-height:initial;
+    width: 65px;
+    }
+
+  .price{
+    place-content:start !important;
+  }   
+
+  .price-text{
+    margin-right: 0px;
+
+  }
+}
+

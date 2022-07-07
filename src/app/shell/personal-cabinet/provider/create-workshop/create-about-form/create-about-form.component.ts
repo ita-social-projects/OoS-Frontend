@@ -10,7 +10,6 @@ import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/a
 import { PayRateType } from 'src/app/shared/enum/workshop';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 @Component({
   selector: 'app-create-about-form',
@@ -71,7 +70,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     });
     this.onPriceCtrlInit();
     this.useProviderInfo();
-    console.log("Constructor")
   }
 
   ngOnInit(): void {
@@ -92,18 +90,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.AboutFormGroup.get('price')[action]({ emitEvent });
     this.AboutFormGroup.get('price').setValue(price, { emitEvent });
     this.AboutFormGroup.get('payRate')[action]({emitEvent});
-
-    if(price === 0 && action === 'disable'){
-      this.AboutFormGroup.get('payRate').reset();
-      this.AboutFormGroup.get('payRate')['action']({emitEvent});
-    }
+    this.AboutFormGroup.get('payRate').setValue(price, { emitEvent });
   };
 
-  priceRadioBtnClick(){
-    this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
-      isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
-    });
-  }
   /**
    * This method fills in the info from provider to the workshop if check box is checked
    */
