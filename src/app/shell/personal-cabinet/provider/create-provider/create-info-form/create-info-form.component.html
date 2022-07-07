@@ -32,6 +32,21 @@
     [isTouched]="InfoFormGroup.get('type').touched">
   </app-validation-hint>
 
+  <label class="step-label">Підпорядкування<span class="step-required">*</span></label>
+  <mat-form-field floatLabel="never" appearance="none">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+      formControlName="institution" placeholder="Оберіть підпорядкування"
+      [compareWith]="compareInstitutions">
+      <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution" class="dropdown-option">
+        {{institution.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="InfoFormGroup.get('institution')"
+    [isTouched]="InfoFormGroup.get('institution').touched">
+  </app-validation-hint>
+
   <label class="step-label"> Повна назва організації<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none" appTrimValue>
@@ -69,7 +84,8 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('directorDateOfBirth')" 
+    [validationFormControl]="InfoFormGroup.get('directorDateOfBirth')"
+    [isTouched]="InfoFormGroup.get('directorDateOfBirth').touched" 
     minMaxDate="true">
   </app-validation-hint>
   
@@ -80,7 +96,9 @@
       autocomplete="none" appTrimValue>
   </mat-form-field>
   <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('edrpouIpn')">
+    [validationFormControl]="InfoFormGroup.get('edrpouIpn')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_8"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_10">
   </app-validation-hint>
 
   <label class="step-label"> Телефон<span class="step-required">*</span></label>
@@ -93,7 +111,8 @@
   </mat-form-field>
   <app-validation-hint 
     [validationFormControl]="InfoFormGroup.get('phoneNumber')"
-    [minCharachters]="validationConstants.PHONE_LENGTH">
+    [minCharachters]="validationConstants.PHONE_LENGTH"
+    [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label"> Електронна пошта<span class="step-required">*</span></label>
@@ -134,15 +153,5 @@
     [validationFormControl]="InfoFormGroup.get('instagram')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
-  <label class="step-label">Засновник<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="InfoFormGroup.get('founder')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 </form>

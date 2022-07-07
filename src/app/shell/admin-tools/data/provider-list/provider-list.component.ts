@@ -4,7 +4,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
@@ -18,7 +17,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { filter, takeUntil } from 'rxjs/operators';
 import {
-  CreateProviderSteps,
   OwnershipTypeUkr,
 } from 'src/app/shared/enum/provider';
 

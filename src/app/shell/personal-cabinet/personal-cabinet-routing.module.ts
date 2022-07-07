@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: 'applications',
     component: ApplicationsComponent,
-  },
+  }, 
   {
     path: 'provider',
     loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),

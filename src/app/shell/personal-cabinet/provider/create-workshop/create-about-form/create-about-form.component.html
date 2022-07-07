@@ -4,7 +4,7 @@
     освітніх послуг
   </mat-checkbox>
 
-  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фонове зображення'"
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [cropperConfig]="cropperConfig" [label]="'Фонове зображення'"
     formControlName="coverImage" [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
 
   <label class="step-label">Назва<span class="step-required">*</span></label>
@@ -27,7 +27,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('phone')"
-    [minCharachters]="validationConstants.PHONE_LENGTH">
+    [minCharachters]="validationConstants.PHONE_LENGTH"
+    [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label">Електронна пошта<span class="step-required">*</span></label>
@@ -114,7 +115,7 @@
       Безкоштовно</mat-radio-button>
     <div fxLayout='row' fxLayoutAlign="start center" fxLayout.xs='column' fxLayoutAlign.xs="center start">
       <div fxLayout="row" fxLayoutAlign="center center">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input price-input"
             appDigitOnly appMinMax formControlName="price" type="number"
             [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
             [max]="validationConstants.MAX_PRICE">

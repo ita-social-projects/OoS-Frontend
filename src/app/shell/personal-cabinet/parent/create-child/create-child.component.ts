@@ -120,6 +120,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       gender: new FormControl('', Validators.required),
       socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
+        Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
@@ -157,9 +158,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   onDeleteForm(index: number): void {
     const status: string = this.ChildrenFormArray.controls[index].status;
-    const isTouched: boolean = this.ChildrenFormArray.controls[index].touched;
-
-    if(status !== 'INVALID' || isTouched) {
+    const isPristine = this.ChildrenFormArray.controls[index].pristine;
+      
+    if(status ==="VALID" || !isPristine) {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -168,9 +169,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       }
     });
    
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.ChildrenFormArray.removeAt(index);;
-    });
+    dialogRef.afterClosed().subscribe((result: boolean) => 
+      result && this.ChildrenFormArray.removeAt(index));
     } else {
       this.ChildrenFormArray.removeAt(index);
     }   

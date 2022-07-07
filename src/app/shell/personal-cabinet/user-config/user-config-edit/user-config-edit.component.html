@@ -46,7 +46,8 @@
         </mat-form-field>
         <app-validation-hint 
           [validationFormControl]="userEditFormGroup.get('phoneNumber')"
-          [minCharachters]="validationConstants.PHONE_LENGTH">
+          [minCharachters]="validationConstants.PHONE_LENGTH"
+          [isPhoneNumber]="true">
         </app-validation-hint>
 
       </form>

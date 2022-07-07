@@ -22,6 +22,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   //for Length Validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
+  @Input() isPhoneNumber: number; //required to display validation for phone number
 
   //for Date Format Validation
   @Input() minMaxDate: boolean;
@@ -32,6 +33,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   invalidCharacters: boolean;
   invalidFieldLength: boolean;
   invalidDateRange: boolean;
+  invalidDateFormat: boolean;
   invalidEmail: boolean;
   invalidPhoneLength: boolean;
 
@@ -70,8 +72,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    this.invalidFieldLength = !!(errors?.maxlength && errors?.minlength);
-    this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
+    if(this.isPhoneNumber){
+      this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
+    }else{
+      this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
+    }
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
@@ -84,6 +89,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkMatDatePciker(): void {
+    this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
         this.validationFormControl.hasError('matDatepickerMin') || 
         this.validationFormControl.hasError('matDatepickerMax')

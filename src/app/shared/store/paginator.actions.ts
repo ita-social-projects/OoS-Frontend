@@ -15,6 +15,11 @@ export class SetChildrensPerPage {
   constructor(public payload) { }
 }
 
+export class SetApplicationsPerPage {
+  static readonly type = '[paginator] Applications Per Page';
+  constructor(public payload) { }
+}
+
 export class OnPageChangeWorkshops {
   static readonly type = '[paginator] Change Page';
   constructor(public payload: PaginationElement) { }
@@ -26,6 +31,11 @@ export class OnPageChangeDirections {
 }
 
 export class OnPageChangeChildrens {
+  static readonly type = '[paginator] Change Page';
+  constructor(public payload: PaginationElement) { }
+}
+
+export class OnPageChangeApplications {
   static readonly type = '[paginator] Change Page';
   constructor(public payload: PaginationElement) { }
 }

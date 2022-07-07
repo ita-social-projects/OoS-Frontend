@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
@@ -75,9 +74,7 @@ export class UserWorkshopService {
    */
 
   deleteWorkshop(id: string): Observable<object> {
-    return this.isRelease2
-      ? this.http.delete(`/api/v2/Workshop/Delete/${id}`)
-      : this.http.delete(`/api/v1/Workshop/Delete/${id}`);
+    return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {

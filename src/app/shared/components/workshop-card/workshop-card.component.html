@@ -8,10 +8,22 @@
         alt="{{workshopData.title}}">
     </div>
     <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
-      <mat-card-header>
+      <mat-card-header>  
+              
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
-          [matTooltipPosition]="tooltipPosition" class="card-title">{{workshopData.title}}</mat-card-title>
-        <img mat-card-image [src]="categoryIcons[workshopData.directionId]">
+          [matTooltipPosition]="tooltipPosition" class="card-title">
+            <a 
+              *ngIf="userRoleView === Role.provider"   
+              matTooltip="Детальніше"   
+              matTooltipPosition="above"       
+              [routerLink]="['/details/workshop', workshopData.workshopId]">
+              <mat-icon class="icon_launch">launch</mat-icon>
+            </a>
+            {{workshopData.title}}
+        </mat-card-title>
+        <ng-container *ngFor="let id of workshopData.directionsId">
+          <img class="img" mat-card-image [src]="categoryIcons[id]">
+        </ng-container>                
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
@@ -20,11 +32,19 @@
         </ng-container>
       </mat-card-content>
 
-      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
-        <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId ]">
-          <span class="card_link">Детальніше</span>
-          <mat-icon>arrow_forward</mat-icon>
-        </a>
+      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">                  
+        <ng-container *ngIf="userRoleView !== Role.provider">
+          <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
+            <span class="card_link">Детальніше</span>
+            <mat-icon>arrow_forward</mat-icon>
+          </a>  
+        </ng-container>             
+        <ng-container *ngIf="userRoleView === Role.provider">
+          <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">                
+            <mat-icon>add</mat-icon>
+            <span class="card_link">Додати досягнення</span>
+          </a>  
+        </ng-container>
       </mat-card-footer>
     </div>
   </div>
@@ -38,7 +58,7 @@
     <div class="actions_btn action-icon" (click)="onDelete()">
       <mat-icon>delete</mat-icon>
     </div>
-  </div>
+  </div> 
 </ng-template>
 
 <ng-template #UserActions>
