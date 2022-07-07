@@ -86,7 +86,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     this.store.dispatch([
       new GetFilteredWorkshops(this.currentView === this.viewType.map),
       new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.TopWorkshops, isActive: false, disable: true })
+        this.navigationBarService.createOneNavPath({ name: NavBarName.WorkshopResult, isActive: false, disable: true })
       ),
     ]);
 

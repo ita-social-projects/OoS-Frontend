@@ -7,22 +7,21 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 @Component({
   selector: 'app-support',
   templateUrl: './support.component.html',
-  styleUrls: ['./support.component.scss']
+  styleUrls: ['./support.component.scss'],
 })
 export class SupportComponent implements OnInit, OnDestroy {
-
-  constructor(private store: Store, public navigationBarService: NavigationBarService) { }
+  
+  constructor(private store: Store, private navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.store.dispatch(
-      new AddNavPath(this.navigationBarService.createOneNavPath(
-        { name: NavBarName.Support, isActive: false, disable: true }
-      )),
+      new AddNavPath(
+        this.navigationBarService.createOneNavPath({ name: NavBarName.Support, isActive: false, disable: true })
+      )
     );
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
-
 }

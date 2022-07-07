@@ -1,3 +1,4 @@
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Store } from '@ngxs/store';
@@ -5,14 +6,15 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { Constants } from 'src/app/shared/constants/constants';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
-import { Util } from 'src/app/shared/utils/utils';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-workshops',
@@ -24,12 +26,21 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
   readonly noParentWorkshops = NoResultsTitle.noParentWorkshops;
   readonly constants: typeof Constants = Constants;
 
-  constructor(store: Store, matDialog: MatDialog, actions$: Actions) {
-    super(store, matDialog, actions$);
+  constructor(store: Store, matDialog: MatDialog, actions$: Actions, navigationBarService: NavigationBarService ) {
+    super(store, matDialog, actions$, navigationBarService);
   }
 
   ngOnInit(): void {
     this.getUserData();
+    this.store.dispatch(
+      new PushNavPath(
+        [{
+          name: NavBarName.Workshops,
+          isActive: false,
+          disable: true,
+        }]
+      )
+    );    
   }
 
   init(): void {

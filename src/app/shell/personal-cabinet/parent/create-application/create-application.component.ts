@@ -94,7 +94,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
           new AddNavPath(
             this.navigationBarService.createNavPaths(
               {
-                name: this.workshop.title,
+                name: `Гурток "${this.workshop.title}"`,
                 path: `/details/workshop/${this.workshop.id}`,
                 isActive: false,
                 disable: false,
