@@ -17,6 +17,8 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { DeleteNavPath, PopNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-cabinet-data',
@@ -53,7 +55,11 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   childrenCards: Child[];
   filteredChildren: Child[]
 
-  constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }
+  constructor(
+    public store: Store, 
+    public matDialog: MatDialog, 
+    protected actions$: Actions, 
+    protected navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void { }
 
@@ -116,6 +122,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
-
 }

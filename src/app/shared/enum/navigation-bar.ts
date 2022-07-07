@@ -22,4 +22,11 @@ export enum NavBarName {
   NewWorkshop = 'Новий гурток',
   EditWorkshop = 'Редагування гуртка',
   CreateProviderAdmin = 'Створення користувача',
+  Applications = 'Заявки',
+  Workshops = 'Мої гуртки',
+  Favorite = 'Улюблені',
+  UserInfo = 'Особиста інформація',
+  Administration = 'Адміністрування',
+  Children = 'Інформація про дитину',
+  ProviderInfo = 'Інформація про заклад',
 }
