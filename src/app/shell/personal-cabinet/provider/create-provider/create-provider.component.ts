@@ -183,13 +183,11 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   logout(){
     if (!this.user.isRegistered) {
-      const isDirty = this.store.selectSnapshot<boolean>(AppState.isDirtyForm);
-      
-      if (isDirty) {
+    
         const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
           width: Constants.MODAL_SMALL,
           data: {
-            type: ModalConfirmationType.approveApplication,
+            type: ModalConfirmationType.leaveRegistration,
             property: '',
           },
         });
@@ -199,9 +197,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
             this.store.dispatch(new Logout());
           }
         });
-      }else{
-        this.store.dispatch(new Logout());
-      }
     }
   }
 }
