@@ -1,3 +1,4 @@
+import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
@@ -477,8 +478,7 @@ export class UserState {
   ): void {
     throwError(payload);
     const message =
-      payload.error ===
-      'Unable to create a new provider: There is already a provider with such a data'
+      payload.error === Constants.UNABLE_CREATE_PROVIDER || Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
         ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
         : 'На жаль виникла помилка';
     dispatch(new ShowMessageBar({ message, type: 'error' }));
