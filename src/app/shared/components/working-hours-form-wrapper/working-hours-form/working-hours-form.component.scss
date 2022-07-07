@@ -28,6 +28,11 @@
 .btn{
   min-width: 150px;
 }
+
+.start-time-input::before{
+  content: "Від";
+}
+
 ::ng-deep .mat-toolbar.mat-primary{
   background-color: #3849F9 !important;
 }
@@ -40,4 +45,10 @@
   justify-content: center;
   flex-flow: wrap-reverse;
   row-gap: 1rem;
+}
+
+@media (max-width: 750px) {
+  .step{
+    flex-direction:column !important;
+  }
 }
