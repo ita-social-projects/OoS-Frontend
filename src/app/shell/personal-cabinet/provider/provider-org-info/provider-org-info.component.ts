@@ -21,11 +21,11 @@ export class ProviderOrgInfoComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.ProviderInfo,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );       
   }

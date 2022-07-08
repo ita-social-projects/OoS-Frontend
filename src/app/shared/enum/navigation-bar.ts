@@ -6,7 +6,6 @@ export enum NavBarName {
   AboutPortal = 'Про портал',
   SupportInformation = 'Підтримка',
   LawsAndRegulations = 'Нормативно правові акти',
-  Direction = 'Напрямок',
   RequestOnWorkshop = 'Заява на гурток',
   PersonalInformation = 'Особиста інформація',
   InformationAboutChild = 'Інформація про дитину',

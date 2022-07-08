@@ -11,7 +11,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
 import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
@@ -35,7 +35,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('', [Validators.required]);
-  editTitle: PortalEditTitleUkr;
+  editTitle: AdminTabsUkr;
   platformInfo: CompanyInformation;
 
   platformInfoType: PlatformInfoType;
@@ -57,9 +57,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   private setInitialData(params: Params): void {
     this.editMode = !!params.mode;
     this.platformInfoType = params.param;
-    console.log(this.platformInfoType)
-    debugger;
-    this.editTitle = PortalEditTitleUkr[this.platformInfoType];
+    this.editTitle = AdminTabsUkr[this.platformInfoType];
 
     this.editMode ? this.setEditMode() : this.onAddForm();
     this.addNavPath();

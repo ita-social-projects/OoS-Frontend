@@ -109,11 +109,11 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.Administration,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );    
   }

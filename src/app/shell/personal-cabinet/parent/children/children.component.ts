@@ -48,11 +48,11 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit, O
     this.getUserData();
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.Children,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );    
   }

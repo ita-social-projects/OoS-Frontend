@@ -106,7 +106,7 @@
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a *ngIf="subrole !== 'ProviderAdmin'" [routerLink]="'./admin-tools/platform'"> <button mat-menu-item>Адміністрування</button></a>
+        <a *ngIf="subrole !== 'ProviderAdmin'" [routerLink]="'./admin-tools/platform'" [queryParams]="{page: defaultAdminTabs}"> <button mat-menu-item>Адміністрування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
     </mat-menu>

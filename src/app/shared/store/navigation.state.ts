@@ -80,9 +80,8 @@ export class NavigationState {
 
   @Action(PopNavPath)
   PopNavPath({ patchState, getState }: StateContext<NavStateModel>): void {
-    const stateNavigation = getState().navigation
+    const stateNavigation = getState().navigation;
     stateNavigation.pop();
-
     patchState({
       navigation: stateNavigation,
     });

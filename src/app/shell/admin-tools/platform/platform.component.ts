@@ -7,19 +7,14 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
-import { GetFilteredDirections } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
-  styleUrls: ['./platform.component.scss']
+  styleUrls: ['./platform.component.scss'],
 })
-
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
@@ -29,34 +24,43 @@ export class PlatformComponent implements OnInit, OnDestroy {
   tabIndex: number;
   type: PlatformInfoType;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch([
-      new GetPlatformInfo(),
-      new PushNavPath(
-        [{
-          name: NavBarName.Portal,
-          isActive: false,
-          disable: true,
-        }]
-      )]
-    );    
+    this.addNavPath();
+    this.store.dispatch(new GetPlatformInfo());
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+      this.tabIndex = +this.adminTabs[params.page];
+      this.type = PlatformInfoType[params.page];
+      this.store.dispatch(
+        new PushNavPath(
+          {
+            name: AdminTabsUkr[params.page],
+            isActive: false,
+            disable: true,
+          },
+        ),
+      );
+    });
+  }
 
-    this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.tabIndex = +this.adminTabs[params['page']];
-        this.type = PlatformInfoType[params['page']];
-      });
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath(
+        {
+          name: NavBarName.Portal,
+          path: '/admin-tools/platform',
+          queryParams: { 'page': AdminTabs.AboutPortal },
+          isActive: false,
+          disable: false,
+        },
+      )
+    );
   }
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate([`admin-tools/platform`], {queryParams: {page: this.adminTabs[event.index]}});
+    this.store.dispatch(new PopNavPath());
+    this.router.navigate([`admin-tools/platform`], { queryParams: { page: this.adminTabs[event.index] } });
   }
 
   ngOnDestroy(): void {

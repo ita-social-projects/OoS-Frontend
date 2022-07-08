@@ -54,13 +54,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch([
       new GetAllProviders(),
-      new PushNavPath([
+      new PushNavPath(
         {
           name: NavBarName.Providers,
           isActive: false,
           disable: true,
         },
-      ]),
+      ),
     ]);
   }
 

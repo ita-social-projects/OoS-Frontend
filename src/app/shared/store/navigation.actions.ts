@@ -6,7 +6,7 @@ export class AddNavPath {
 
 export class PushNavPath {
   static readonly type = '[navigation] push nav path';
-  constructor(public payload: Navigation[]) { }
+  constructor(public payload: Navigation) { }
 }
 export class RemoveLastNavPath {
   static readonly type = '[navigation] Remove';

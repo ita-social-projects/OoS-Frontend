@@ -1,3 +1,4 @@
+import { AdminTabs } from './../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -10,13 +11,13 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
   styleUrls: ['./admin-tools.component.scss']
 })
 export class AdminToolsComponent implements OnInit, OnDestroy {
-
   constructor(private store: Store, public navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.createOneNavPath(
       { name: NavBarName.Administration,
         path: '/admin-tools/platform',
+        queryParams: { 'page': AdminTabs.AboutPortal },
         isActive: false, disable: false }
     )));
   }

@@ -1,3 +1,4 @@
+import { AdminTabs } from './../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -11,14 +12,21 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteDirectionById, FilterClear, GetFilteredDirections, SetSearchQueryValue } from 'src/app/shared/store/admin.actions';
+import {
+  DeleteDirectionById,
+  FilterClear,
+  GetFilteredDirections,
+  SetSearchQueryValue,
+} from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { Constants } from 'src/app/shared/constants/constants';
+import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-directions',
   templateUrl: './directions.component.html',
-  styleUrls: ['./directions.component.scss']
+  styleUrls: ['./directions.component.scss'],
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
   @Input() direction: Direction;
@@ -39,22 +47,19 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   isEditMode: true;
   currentPage: PaginationElement = {
     element: 1,
-    isActive: true
+    isActive: true,
   };
 
-  constructor(
-    private store: Store,
-    private matDialog: MatDialog) { }
+  constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.store.dispatch([new FilterClear(), new GetFilteredDirections()]);
+    this.store.dispatch([
+      new FilterClear(),
+      new GetFilteredDirections(),
+    ]);
     this.searchValue.valueChanges
-        .pipe(
-          takeUntil(this.destroy$),
-          debounceTime(1000),
-          distinctUntilChanged(),
-          startWith(''),
-        ).subscribe((val: string) => {
+      .pipe(takeUntil(this.destroy$), debounceTime(1000), distinctUntilChanged(), startWith(''))
+      .subscribe((val: string) => {
         this.searchedText = val;
         if (!val) {
           this.store.dispatch(new SetSearchQueryValue(''));
@@ -62,11 +67,8 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       });
 
     this.searchQuery$
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text, {emitEvent: false}));
+      .pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((text: string) => this.searchValue.setValue(text, { emitEvent: false }));
   }
 
   onSearch(): void {
@@ -87,8 +89,8 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteDirection,
-        property: direction.title
-      }
+        property: direction.title,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -99,5 +101,6 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 }
