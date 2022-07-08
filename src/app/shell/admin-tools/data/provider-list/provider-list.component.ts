@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { filter, takeUntil } from 'rxjs/operators';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
@@ -92,6 +92,6 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-    this.store.dispatch(new PopNavPath());
+    this.store.dispatch(new DeleteNavPath());
   }
 }
