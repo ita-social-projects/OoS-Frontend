@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       });
 
     this.store.dispatch([
-      new GetChildren(),
+      // new GetChildren(),
       new PushNavPath(
         {
           name: NavBarName.Users,

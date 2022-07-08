@@ -53,7 +53,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch([
-      new GetAllProviders(),
+      // new GetAllProviders(),
       new PushNavPath(
         {
           name: NavBarName.Providers,
@@ -92,6 +92,6 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch(new PopNavPath());
   }
 }
