@@ -2,6 +2,7 @@ export enum NavBarName {
   MainPage = 'Головна',
   WorkshopResult = 'Результати пошуку',
   TopDestination = 'Найпопулярніші напрямки',
+  Portal = 'Портал',
   AboutPortal = 'Про портал',
   SupportInformation = 'Підтримка',
   LawsAndRegulations = 'Нормативно правові акти',
@@ -25,6 +26,8 @@ export enum NavBarName {
   Administration = 'Адміністрування',
   Children = 'Інформація про дитину',
   ProviderInfo = 'Інформація про заклад',
+  Users = 'Користувачі',
+  Providers = 'Заклади',
 }
 export enum PersonalCabinetTitle {
   admin = 'Кабінет тех.адміна',

@@ -57,6 +57,8 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   private setInitialData(params: Params): void {
     this.editMode = !!params.mode;
     this.platformInfoType = params.param;
+    console.log(this.platformInfoType)
+    debugger;
     this.editTitle = PortalEditTitleUkr[this.platformInfoType];
 
     this.editMode ? this.setEditMode() : this.onAddForm();
@@ -70,7 +72,8 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
           { name: PersonalCabinetTitle.admin, isActive: false, disable: false },
           {
             name: NavBarName.Platform,
-            path: '/admin-tools/platform/?page=' + this.platformInfoType,
+            path: `/admin-tools/platform/`,
+            queryParams: { 'page': this.platformInfoType },
             isActive: false,
             disable: false,
           },

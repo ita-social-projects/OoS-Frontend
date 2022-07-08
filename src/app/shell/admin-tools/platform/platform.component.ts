@@ -11,6 +11,8 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { GetFilteredDirections } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-platform',
@@ -34,7 +36,16 @@ export class PlatformComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetPlatformInfo());
+    this.store.dispatch([
+      new GetPlatformInfo(),
+      new PushNavPath(
+        [{
+          name: NavBarName.Portal,
+          isActive: false,
+          disable: true,
+        }]
+      )]
+    );    
 
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
@@ -51,5 +62,6 @@ export class PlatformComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 }
