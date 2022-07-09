@@ -34,6 +34,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   isMobileView: boolean;
   @Select(FilterState.filteredWorkshops)
   filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Select(FilterState.isLoading)
+  isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
   role: string;
@@ -60,18 +62,28 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.workshopsPerPage$.pipe(takeUntil(this.destroy$)).subscribe((workshopsPerPage: number) => {
-      this.workshopsPerPage = workshopsPerPage;
-    });
-
-    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.filtersSidenavOpenTrue$])
+    combineLatest([
+      this.isMobileView$, 
+      this.role$, 
+      this.route.params, 
+      this.filtersSidenavOpenTrue$, 
+      this.currentPage$, 
+      this.workshopsPerPage$
+    ])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([isMobileView, role, params, currentPage, visibleFiltersSidenav]) => {
+      .subscribe(([
+        isMobileView, 
+        role, params, 
+        visibleFiltersSidenav, 
+        currentPage, 
+        workshopsPerPage
+      ]) => {
         this.isMobileView = isMobileView;
         this.role = role;
         this.currentView = params.param;
-        this.currentPage = currentPage;
         this.visibleFiltersSidenav = visibleFiltersSidenav;
+        this.currentPage = currentPage;
+        this.workshopsPerPage = workshopsPerPage;
       });
 
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
@@ -79,16 +91,18 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SetFirstPage());
       }
       if (event.navigationTrigger === 'popstate') {
-        this.store.dispatch(new GetFilteredWorkshops(this.currentView !== this.viewType.map));
+        this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
       }
+      this.store.dispatch(
+        new AddNavPath(
+          this.navigationBarService.createOneNavPath({
+            name: NavBarName.WorkshopResult,
+            isActive: false,
+            disable: true,
+          })
+        )
+      );
     });
-
-    this.store.dispatch([
-      new GetFilteredWorkshops(this.currentView === this.viewType.map),
-      new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.WorkshopResult, isActive: false, disable: true })
-      ),
-    ]);
 
     this.actions$
       .pipe(ofAction(FilterChange))

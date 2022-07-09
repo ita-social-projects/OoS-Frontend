@@ -1,7 +1,7 @@
 <div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
   <div class="header_top">
     <div class="header_logo-wrapper">
-      <div *ngIf="isMobile && (navigationPaths?.length > 0) then mobileNav; else logo"></div>
+      <div *ngIf="(isMobileScreen$ | async) && (navigationPaths?.length > 0) then mobileNav; else logo"></div>
       <ng-template #mobileNav>
         <app-navigation-mobile-bar></app-navigation-mobile-bar>
       </ng-template>
