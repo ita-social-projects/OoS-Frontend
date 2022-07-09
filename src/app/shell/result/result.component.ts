@@ -87,9 +87,6 @@ export class ResultComponent implements OnInit, OnDestroy {
       });
 
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
-      if (event.url && !event.url.includes('details')) {
-        this.store.dispatch(new SetFirstPage());
-      }
       if (event.navigationTrigger === 'popstate') {
         this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
       }
