@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
 import { AppState } from 'src/app/shared/store/app.state';
+import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
 
 
 @Component({
@@ -23,6 +24,8 @@ import { AppState } from 'src/app/shared/store/app.state';
 })
 export class ActionsComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
+  readonly PayRateTypeUkr = PayRateTypeUkr;
+  
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
 

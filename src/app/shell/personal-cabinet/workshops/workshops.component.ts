@@ -11,11 +11,10 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
-import { AddNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { SetApplicationsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { DeleteWorkshopById, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-workshops',
@@ -53,7 +52,6 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
         showBlocked: false,
       });
     } else {
-      this.store.dispatch([new SetFirstPage(), new SetApplicationsPerPage(100)]);
       this.getAllUsersChildren();
       this.getParentApplications({
         status: ApplicationStatus.Pending,

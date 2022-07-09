@@ -18,7 +18,7 @@ export class Constants {
   static readonly RATE_FOUR_STAR = 4;
   static readonly RATE_FIVE_STAR = 5;
 
-  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
+  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, HH:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
