@@ -33,11 +33,11 @@ export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.Favorite,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );       
   }

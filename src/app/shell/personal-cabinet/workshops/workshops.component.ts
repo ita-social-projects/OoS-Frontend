@@ -34,11 +34,11 @@ export class WorkshopsComponent extends CabinetDataComponent implements OnInit {
     this.getUserData();
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.Workshops,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );    
   }

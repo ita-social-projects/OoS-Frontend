@@ -4,7 +4,7 @@ import { ActivatedRoute} from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
@@ -86,7 +86,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       }
     }else{
       previousNavPath = {
-        name: NavBarName.PersonalCabinetParent,
+        name: PersonalCabinetTitle.parent,
         path: '/personal-cabinet/parent/info',
         isActive: false,
         disable: false,

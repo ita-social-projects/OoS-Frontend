@@ -83,11 +83,11 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     this.tabGroup.selectedIndex = this.tabIndex;
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.Applications,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );    
   }

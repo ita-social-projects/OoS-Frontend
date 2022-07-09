@@ -30,11 +30,11 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath(
-        [{
+        {
           name: NavBarName.UserInfo,
           isActive: false,
           disable: true,
-        }]
+        }
       )
     );    
   }

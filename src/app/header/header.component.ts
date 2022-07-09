@@ -1,3 +1,4 @@
+import { AdminTabs } from './../shared/enum/enumUA/tech-admin/admin-tabs';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly roles: typeof RoleLinks = RoleLinks;
+  readonly defaultAdminTabs = AdminTabs[0];
 
   selectedLanguage = 'uk';
   showModalReg = false;
