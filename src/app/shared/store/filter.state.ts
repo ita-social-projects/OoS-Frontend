@@ -29,6 +29,7 @@ import {
   CleanCity,
   FilterClear,
   SetIsPaid,
+  ResetFilteredWorkshops,
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -259,6 +260,11 @@ export class FilterState {
   setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
     patchState({ maxAge: payload });
     dispatch(new FilterChange());
+  }
+
+  @Action(ResetFilteredWorkshops)
+  resetFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, {}: ResetFilteredWorkshops): void {
+    patchState({ filteredWorkshops: null});
   }
 
   @Action(FilterChange)

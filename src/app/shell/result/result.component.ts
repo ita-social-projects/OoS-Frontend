@@ -4,12 +4,12 @@ import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
+import { FilterChange, GetFilteredWorkshops, ResetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { AppState } from 'src/app/shared/store/app.state';
-import { Router, ActivatedRoute, Params, UrlSegment, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
@@ -132,7 +132,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
