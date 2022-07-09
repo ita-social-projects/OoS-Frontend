@@ -1,5 +1,5 @@
+import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,12 +11,12 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
 import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-info-edit',
@@ -38,7 +38,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   editTitle: AdminTabsUkr;
   platformInfo: CompanyInformation;
 
-  platformInfoType: PlatformInfoType;
+  platformInfoType: AdminTabsTitle;
 
   constructor(
     store: Store,
@@ -67,7 +67,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
-          { name: PersonalCabinetTitle.admin, isActive: false, disable: false },
+          { name: NavBarName.Administration, isActive: false, disable: false },
           {
             name: NavBarName.Platform,
             path: `/admin-tools/platform/`,
@@ -83,13 +83,13 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   setEditMode(): void {
     switch (this.platformInfoType) {
-      case PlatformInfoType.AboutPortal:
+      case AdminTabsTitle.AboutPortal:
         this.getAboutInfo();
         break;
-      case PlatformInfoType.SupportInformation:
+      case AdminTabsTitle.SupportInformation:
         this.getSupportInformation();
         break;
-      case PlatformInfoType.LawsAndRegulations:
+      case AdminTabsTitle.LawsAndRegulations:
         this.getLawsAndRegulations();
         break;
     }

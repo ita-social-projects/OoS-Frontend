@@ -1,7 +1,6 @@
-import { PlatformInfoType } from './../enum/platform';
 import { Department, Direction, IClass } from "../models/category.model";
-import { PaginationElement } from "../models/paginationElement.model";
 import { CompanyInformation } from "../models/сompanyInformation.model";
+import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -26,7 +25,7 @@ export class GetLawsAndRegulations {
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(public payload: CompanyInformation, public type: PlatformInfoType) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';

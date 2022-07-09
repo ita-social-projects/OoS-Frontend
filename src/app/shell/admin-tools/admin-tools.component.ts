@@ -1,4 +1,3 @@
-import { AdminTabs } from './../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component } from '@angular/core';
 @Component({
   selector: 'app-admin-tools',
@@ -6,6 +5,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-tools.component.scss']
 })
 export class AdminToolsComponent{
-  readonly admintabs = AdminTabs;
   constructor() { }
 }

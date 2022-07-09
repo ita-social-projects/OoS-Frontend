@@ -3,14 +3,20 @@ export enum AdminTabsUkr {
   MainPage = 'Головна сторінка',
   Directions = 'Напрямки',
   LawsAndRegulations = 'Нормативно-правові акти',
-  SupportInformation = 'Підтримка'
+  SupportInformation = 'Підтримка',
 }
 
+export enum AdminTabsTitle {
+  AboutPortal = 'AboutPortal',
+  MainPage = 'MainPage',
+  Directions = 'Directions',
+  LawsAndRegulations = 'LawsAndRegulations',
+  SupportInformation = 'SupportInformation',
+}
 export enum AdminTabs {
-  'AboutPortal',
-  'MainPage',
-  'Directions',
-  'LawsAndRegulations',
-  'SupportInformation'
+  AboutPortal,
+  MainPage,
+  Directions,
+  LawsAndRegulations,
+  SupportInformation,
 }
-

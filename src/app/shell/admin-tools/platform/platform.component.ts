@@ -6,8 +6,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
+import { AdminTabs, AdminTabsTitle, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { AddNavPath, DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
@@ -19,11 +18,10 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
   readonly adminTabsUkr = AdminTabsUkr;
-  readonly platformInfoType = PlatformInfoType;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number = 0;
-  type: PlatformInfoType;
+  type: AdminTabs;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,10 +32,10 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetPlatformInfo());
+    this.addNavPath(AdminTabsTitle.AboutPortal);
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.tabIndex = +this.adminTabs[params.page];
-      this.type = PlatformInfoType[params.page];
-      this.addNavPath(params.page);
+      this.tabIndex = params.page && +AdminTabsTitle[params.page];
+      this.type = AdminTabsTitle[params.page];
     });
   }
 
@@ -48,14 +46,14 @@ export class PlatformComponent implements OnInit, OnDestroy {
           {
             name: NavBarName.Administration,
             path: '/admin-tools/platform',
-            queryParams: { page: AdminTabs[0] },
+            queryParams: { page: AdminTabsTitle.AboutPortal },
             isActive: false,
             disable: false,
           },
           {
             name: NavBarName.Portal,
             path: '/admin-tools/platform',
-            queryParams: { page: AdminTabs[0] },
+            queryParams: { page: AdminTabsTitle.AboutPortal },
             isActive: false,
             disable: false,
           },
@@ -71,7 +69,10 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
     this.store.dispatch(new PopNavPath());
-    this.router.navigate([`admin-tools/platform`], { queryParams: { page: this.adminTabs[event.index] } });
+    this.router.navigate([`admin-tools/platform`], { queryParams: { page: AdminTabs[event.index] } });
+    console.log(AdminTabs[event.index] )
+    // this.addNavPath(AdminTabs.AboutPortal);
+
   }
 
   ngOnDestroy(): void {
