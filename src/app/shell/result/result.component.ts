@@ -62,6 +62,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.addNavPath();
     combineLatest([
       this.isMobileView$, 
       this.role$, 
@@ -93,15 +94,6 @@ export class ResultComponent implements OnInit, OnDestroy {
       if (event.navigationTrigger === 'popstate') {
         this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
       }
-      this.store.dispatch(
-        new AddNavPath(
-          this.navigationBarService.createOneNavPath({
-            name: NavBarName.WorkshopResult,
-            isActive: false,
-            disable: true,
-          })
-        )
-      );
     });
 
     this.actions$
@@ -110,6 +102,18 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(() =>
         this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
       );
+  }
+
+  private addNavPath(): void {
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createOneNavPath({
+          name: NavBarName.WorkshopResult,
+          isActive: false,
+          disable: true,
+        })
+      )
+    );
   }
 
   viewHandler(value: ViewType): void {
