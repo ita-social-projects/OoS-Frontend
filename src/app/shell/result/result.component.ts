@@ -84,6 +84,9 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.visibleFiltersSidenav = visibleFiltersSidenav;
         this.currentPage = currentPage;
         this.workshopsPerPage = workshopsPerPage;
+        if (!this.isMobileView) {
+          this.store.dispatch(new FiltersSidenavToggle(true));
+        }
       });
 
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
@@ -107,10 +110,6 @@ export class ResultComponent implements OnInit, OnDestroy {
       .subscribe(() =>
         this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
       );
-
-    if (!this.isMobileView) {
-      this.store.dispatch(new FiltersSidenavToggle(true));
-    }
   }
 
   viewHandler(value: ViewType): void {
