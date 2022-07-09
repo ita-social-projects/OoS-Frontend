@@ -54,7 +54,9 @@ export class Workshop {
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
-    this.payRate = about.payRate;
+    if(about.payRate){
+      this.payRate = about.payRate;
+    }
     this.directionId = description.categories.directionId.id;
     this.departmentId = description.categories.departmentId.id;
     this.classId = description.categories.classId.id;
