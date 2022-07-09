@@ -70,9 +70,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   onSelectedTabChange(event: MatTabChangeEvent): void {
     this.store.dispatch(new PopNavPath());
     this.router.navigate([`admin-tools/platform`], { queryParams: { page: AdminTabs[event.index] } });
-    console.log(AdminTabs[event.index] )
-    // this.addNavPath(AdminTabs.AboutPortal);
-
+    this.addNavPath(AdminTabs[event.index]);
   }
 
   ngOnDestroy(): void {
