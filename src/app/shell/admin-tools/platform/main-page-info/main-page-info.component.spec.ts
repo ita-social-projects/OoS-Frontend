@@ -23,7 +23,7 @@ describe('MainPageInfoComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoCardComponent);
+    fixture = TestBed.createComponent(MainPageInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
