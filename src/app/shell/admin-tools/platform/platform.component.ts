@@ -34,7 +34,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetPlatformInfo());
     this.addNavPath(AdminTabsTitle.AboutPortal);
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.tabIndex = params.page && +AdminTabsTitle[params.page];
+      this.tabIndex = params.page && +AdminTabs[params.page];
       this.type = AdminTabsTitle[params.page];
     });
   }

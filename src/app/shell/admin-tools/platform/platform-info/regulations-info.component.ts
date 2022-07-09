@@ -1,4 +1,4 @@
-import { AdminTabs } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsTitle } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Select } from '@ngxs/store';
 import { Component } from '@angular/core';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   template: '<app-info-card [type]="lawsAndRegulations" [platformInfo]="LawsAndRegulations$ | async"></app-info-card>',
 })
 export class RegulationsInfoComponent {
-  readonly lawsAndRegulations = AdminTabs.LawsAndRegulations;
+  readonly lawsAndRegulations = AdminTabsTitle.LawsAndRegulations;
 
   @Select(AdminState.LawsAndRegulations)
   LawsAndRegulations$: Observable<CompanyInformation>;
