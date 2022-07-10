@@ -42,7 +42,10 @@
 }
 
 .description {
-  width: 400px;
+  max-width: 400px;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .actions {
