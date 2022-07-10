@@ -119,7 +119,7 @@ export interface WorkshopCard {
   title: string;
   workshopId: string;
   coverImageId?: string;
-  directionsId: number[];
+  directions: Direction[];
 }
 export interface WorkshopFilterCard {
   totalAmount: number;
