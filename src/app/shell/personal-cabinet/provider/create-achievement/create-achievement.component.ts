@@ -93,12 +93,12 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     let items = this.AchievementFormGroup.controls[control].value;
     if (items.indexOf(item) >= 0) {
       items.splice(items.indexOf(item), 1);
-      if (items.length) {
+      if (items.length !== 0) {
         this.AchievementFormGroup.get(control).setValue([...items]);
       } else {
-        this.AchievementFormGroup.get(control).reset();
+        this.AchievementFormGroup.get(control).setValue(null)
       }
-    }
+    }   
   }
 
   ngOnDestroy(): void {

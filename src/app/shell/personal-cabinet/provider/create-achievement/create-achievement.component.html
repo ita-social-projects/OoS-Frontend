@@ -43,7 +43,8 @@
         </mat-form-field>
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('childrenIDs')"
-          [isTouched]="AchievementFormGroup.get('childrenIDs').touched">
+          [isTouched]="AchievementFormGroup.get('childrenIDs').touched"
+        >
         </app-validation-hint>
 
         <label class="step-label">Тренера<span class="step-required">*</span></label>
