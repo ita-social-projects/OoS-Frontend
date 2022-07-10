@@ -67,7 +67,6 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
-import { AchievementCardComponent } from './components/achievement-card/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 
 @NgModule({
@@ -131,8 +130,7 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     WorkingHoursFormWrapperComponent,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent,
-    AchievementCardComponent,
+    InfoFormComponent,   
   ],
   imports: [
     MaterialModule,

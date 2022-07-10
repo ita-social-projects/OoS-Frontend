@@ -1,4 +1,31 @@
 @import "src/app/shared/styles/card-wrapper.scss";
+@import "src/app/shared/styles/cards.scss";
+
+.wrap-for-details {
+  word-break: break-all;
+}
+
 .card-wrapper {
   margin-top: 2rem;
 }
+
+.wrap-for-details {
+  display: flex;
+  flex-direction: row;
+}
+
+.mat-card {
+  margin: 10px;
+}
+
+.card {
+  height: 10rem;
+  width: 50rem;
+}
+
+img {
+  height: 58px;
+  width: 58px;
+  margin: 10px;
+}
+

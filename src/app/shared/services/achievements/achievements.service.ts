@@ -11,11 +11,11 @@ export class AchievementsService {
 
   getAchievementsByWorkshopId(id: string): Observable<Achievement[]> {
     return this.http.get<Achievement[]>(
-      `/api/v1//api/v1/Achievement/GetByWorkshopId/${id}`
+      `/api/v1/Achievement/GetByWorkshopId/${id}`
     );
   }
 
   createAchievement(achievement: Achievement): Observable<object> {
-    return this.http.post('/api/v1/Achievement/Create', achievement, { observe: 'response' });
+    return this.http.post('/api/v1/Achievement/Create', achievement);
   }
 }
