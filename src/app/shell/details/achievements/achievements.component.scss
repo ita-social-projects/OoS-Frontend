@@ -10,7 +10,7 @@
 }
 
 .wrap-for-details {
-  margin-top: 2em;
+  margin-top: 1em;
   place-content: space-between flex-start;
   align-items: flex-start !important;
   flex-direction: row;
@@ -33,4 +33,18 @@
 
 ::ng-deep .card {
   min-width: fit-content;
+  max-width: 600px;
+  height: 300px !important;
+  padding-bottom: 3em !important;
+}
+::ng-deep .mat-icon {
+  color: #fff !important;
+}
+
+.description {
+  width: 400px;
+}
+
+.actions {
+  position: static;
 }

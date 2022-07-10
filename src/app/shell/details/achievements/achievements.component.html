@@ -7,23 +7,30 @@
           <h3 class="achievement_title">{{achievementsTitle[achievement.achievementTypeId].name}}</h3>
             <h4 class="card_title">Дата</h4> 
             <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
-            
             <ng-container *ngFor="let child of achievement.children">
-              <h4 *ngIf="child">Учасники</h4> 
+              <h4 class="card_title" *ngIf="child">Учасники</h4> 
               <p class="card_text">
                 {{child.firstName}} {{child.lastName}} {{child.middleName}}
               </p>
             </ng-container>
+            <h4 class="card_title">Нагорода</h4> 
+            <p class="card_text description">{{achievement.title}}</p>
+            <h4 class="card_title">Опис</h4> 
+            <p class="card_text description">{{achievement.title}}</p>
+        </div> 
+        
+        <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+          <div class="actions_btn" [routerLink]="['/create-achievement', workshop.id]">
+            <mat-icon>edit</mat-icon>
+          </div>
+          <div class="actions_btn" (click)="onDelete()">
+            <mat-icon>delete</mat-icon>
+          </div>
+        </div>
 
-            <h4>Нагорода</h4> 
-            <p class="card_text">{{achievement.title}}</p>
-            <h4>Опис</h4> 
-            <p class="card_text">{{achievement.title}}</p>
-        </div>            
       </div>
     </div>
   </mat-card>
-
 </div>
 
 <ng-template #isEmptyList>
