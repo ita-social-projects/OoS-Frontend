@@ -85,4 +85,7 @@ class MockMainWorkshopCardComponent {
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl; 
   @Input() isTouched: boolean;
+  @Input() minMaxDate: boolean;
+  @Input() maxCharachters: number;
+  @Input() minCharachters: number;
 }
