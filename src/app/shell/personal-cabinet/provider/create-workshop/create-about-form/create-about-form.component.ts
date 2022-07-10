@@ -5,10 +5,11 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
 import { ProviderWorkshopSameValues, WorkshopType, WorkshopTypeUkr } from 'src/app/shared/enum/provider';
+import { PayRateType } from 'src/app/shared/enum/workshop';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 
 @Component({
   selector: 'app-create-about-form',
@@ -28,6 +29,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
     cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
   }
+  readonly PayRateType = PayRateType;
+  readonly PayRateTypeUkr = PayRateTypeUkr;
 
   @Input() workshop: Workshop;
   @Input() provider: Provider;
@@ -60,7 +63,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
-      isPerMonth: new FormControl(false),
+      payRate: new FormControl({value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
@@ -86,6 +89,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
     this.AboutFormGroup.get('price')[action]({ emitEvent });
     this.AboutFormGroup.get('price').setValue(price, { emitEvent });
+    this.AboutFormGroup.get('payRate')[action]({emitEvent});
+    this.AboutFormGroup.get('payRate').setValue(price, { emitEvent });
   };
 
   /**
@@ -113,6 +118,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if(this.workshop.price){
       this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
+      this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, {emitEvent : false});
     }
   }
 

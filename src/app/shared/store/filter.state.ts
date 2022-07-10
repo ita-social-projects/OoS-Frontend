@@ -29,6 +29,7 @@ import {
   CleanCity,
   FilterClear,
   SetIsPaid,
+  ResetFilteredWorkshops,
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -71,7 +72,7 @@ export interface FilterStateModel {
     city: JSON.parse(localStorage.getItem('cityConfirmation')),
     searchQuery: '',
     order: 'Rating',
-    filteredWorkshops: undefined,
+    filteredWorkshops: null,
     topWorkshops: [],
     withDisabilityOption: false,
     isLoading: false,
@@ -228,8 +229,9 @@ export class FilterState {
 
     return this.appWorkshopsService
       .getFilteredWorkshops(state, payload)
-      .pipe(tap((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
-        () => patchState({ isLoading: false })));
+      .pipe(tap((filterResult: WorkshopFilterCard) => {
+        patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: {totalAmount: 0, entities: []}, isLoading: false })
+      }));
   }
 
   @Action(GetTopWorkshops)
@@ -258,6 +260,11 @@ export class FilterState {
   setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
     patchState({ maxAge: payload });
     dispatch(new FilterChange());
+  }
+
+  @Action(ResetFilteredWorkshops)
+  resetFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, {}: ResetFilteredWorkshops): void {
+    patchState({ filteredWorkshops: null});
   }
 
   @Action(FilterChange)

@@ -1,8 +1,8 @@
-
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { debounceTime, filter, first, mergeMap, take, takeUntil } from 'rxjs/operators';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
@@ -21,8 +21,9 @@ import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumU
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { Observable } from 'rxjs';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeApplications, SetApplicationsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 
 @Component({
@@ -64,13 +65,15 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   tabGroup: MatTabGroup;
 
   constructor(
-    store: Store,
     private infoBoxService: InfoBoxService,
+    private router: Router,
+    private route: ActivatedRoute,
+    store: Store,
     matDialog: MatDialog,
     actions$: Actions,
-    private router: Router,
-    private route: ActivatedRoute,) {
-    super(store, matDialog, actions$);
+    navigationBarService: NavigationBarService,
+) {
+    super(store, matDialog, actions$, navigationBarService);
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']));
@@ -78,6 +81,15 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;
+    this.store.dispatch(
+      new PushNavPath(
+        {
+          name: NavBarName.Applications,
+          isActive: false,
+          disable: true,
+        }
+      )
+    );    
   }
 
   ngOnInit(): void {
@@ -211,10 +223,5 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     } else {
       this.getParentApplications(this.applicationParams);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

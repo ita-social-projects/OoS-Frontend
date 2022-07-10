@@ -9,7 +9,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Direction } from 'src/app/shared/models/category.model';
 import { PlatformComponent } from './platform.component';
 
 describe('PlatformComponent', () => {
