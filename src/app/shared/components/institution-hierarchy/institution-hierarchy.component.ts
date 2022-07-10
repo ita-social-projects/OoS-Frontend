@@ -142,7 +142,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray[nextEl].formControl.setValue('');
       this.hierarchyArray[nextEl].shouldDisplay = false;
       this.store.dispatch(new GetInstitutionHierarchyChildrenById(optionId));
-    } else {
       this.instituitionHierarchyIdFormControl.setValue(optionId);
     }
     this.store.dispatch(new ResetInstitutionHierarchy());
