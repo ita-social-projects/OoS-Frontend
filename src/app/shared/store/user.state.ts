@@ -29,6 +29,7 @@ import {
   CreateProvider,
   CreateWorkshop,
   DeleteChildById,
+  DeleteAchievementById,
   DeleteWorkshopById,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
@@ -41,6 +42,8 @@ import {
   OnCreateWorkshopSuccess,
   OnDeleteChildFail,
   OnDeleteChildSuccess,
+  OnDeleteAchievementFail,
+  OnDeleteAchievementSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
   UpdateChild,
@@ -721,6 +724,32 @@ export class UserState {
         of(dispatch(new OnDeleteChildFail(error)))
       )
     );
+  }
+
+  @Action(DeleteAchievementById)
+  deleteAchievementById(
+    { dispatch }: StateContext<UserStateModel>,
+    { payload }: DeleteAchievementById
+  ): Observable<object> {
+    return this.achievementsService.deleteAchievement(payload).pipe(
+      tap((res) => dispatch(new OnDeleteAchievementSuccess(res))),
+      catchError((error: HttpErrorResponse) =>
+        of(dispatch(new OnDeleteAchievementFail(error)))
+      )
+    );
+  }
+
+  @Action(OnDeleteAchievementSuccess)
+  onDeleteAchievementSuccess(
+    { dispatch }: StateContext<UserStateModel>,
+    { payload }: OnDeleteAchievementSuccess
+  ): void {
+    console.log('Child is deleted', payload);
+    dispatch([
+      new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
+      new GetUsersChildren(),
+    ]);
+    this.router.navigate(['/details/workshop']);
   }
 
   @Action(OnDeleteChildFail)

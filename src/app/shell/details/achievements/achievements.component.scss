@@ -1,28 +1,17 @@
 @import "src/app/shared/styles/card-wrapper.scss";
 @import "src/app/shared/styles/cards.scss";
 
-.card-wrapper {
-  margin-top: 2rem;
-}
-
 .mat-card {
   margin: 2rem;
 }
 
 .wrap-for-details {
   margin-top: 1em;
-  place-content: space-between flex-start;
   align-items: flex-start !important;
-  flex-direction: row;
-  box-sizing: border-box;
-  display: flex;
 }
 
-.image {
-  margin-right: 1rem;
-}
 .achievement_title {
-  width: 24em;
+  width: 18em;
   font-size: 18px;
   font-weight: 700;
 }
@@ -31,23 +20,21 @@
   font-weight: 700;
 }
 
-::ng-deep .card {
-  min-width: fit-content;
-  max-width: 600px;
-  height: 300px !important;
-  padding-bottom: 3em !important;
+.card_achievement {
+  min-width: 500px;
+  min-height: 350px;
 }
-::ng-deep .mat-icon {
-  color: #fff !important;
+
+.achievement_icon {
+  color: #fff;
 }
 
 .description {
   max-width: 400px;
-  white-space: wrap;
+  white-space: no-wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.actions {
-  position: static;
+.image {
+  margin-right: 1em;
 }

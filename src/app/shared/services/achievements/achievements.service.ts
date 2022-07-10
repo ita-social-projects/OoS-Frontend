@@ -18,4 +18,8 @@ export class AchievementsService {
   createAchievement(achievement: Achievement): Observable<object> {
     return this.http.post('/api/v1/Achievement/Create', achievement);
   }
+
+  deleteAchievement(id: string): Observable<object> {
+    return this.http.delete(`/api/v1/Achievement/Delete/${id}`);
+  }
 }

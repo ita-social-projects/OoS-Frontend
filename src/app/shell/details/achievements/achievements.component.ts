@@ -1,12 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AchievementsTitle } from 'src/app/shared/constants/constants';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
+import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -24,7 +27,7 @@ export class AchievementsComponent implements OnInit {
   achievements$: Observable<Achievement[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {   
     this.getAchievements();    
@@ -39,6 +42,19 @@ export class AchievementsComponent implements OnInit {
 
   private getAchievements(): void {
     this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
+  }  
+
+  onDelete(achievement: Achievement): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteAchievement,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
+    });
   }
 
   ngOnDestroy(): void {
