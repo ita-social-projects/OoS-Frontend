@@ -1,4 +1,3 @@
-
 import { Component, Input, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -16,13 +15,13 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./achievements.component.scss'],
 })
 export class AchievementsComponent implements OnInit {
+  @Input() workshop: Workshop;
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  @Input() workshop: Workshop;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
@@ -39,7 +38,7 @@ export class AchievementsComponent implements OnInit {
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
   }
 
   ngOnDestroy(): void {
