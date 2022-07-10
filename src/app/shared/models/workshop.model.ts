@@ -23,10 +23,9 @@ export class Workshop {
   rating?: number;
   numberOfRatings?: number;
   directionId?: number;//TODO: remove
-  direction: string;
-  directions: Direction[];
   departmentId?: number;//TODO: remove
   classId?: number;//TODO: remove
+  directions: Direction[];
   providerId: string;
   providerTitle?: string;
   payRate?: string;
