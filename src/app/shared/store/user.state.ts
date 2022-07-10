@@ -749,7 +749,7 @@ export class UserState {
       new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
       new GetUsersChildren(),
     ]);
-    this.router.navigate(['/details/workshop']);
+    this.router.navigate(['/details/workshop', payload.workshopId]);
   }
 
   @Action(OnDeleteChildFail)
