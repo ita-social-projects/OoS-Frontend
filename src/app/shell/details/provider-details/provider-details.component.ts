@@ -46,7 +46,7 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy  {
       new GetWorkshopsByProviderId(this.provider.id),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
-          { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
+          { name: NavBarName.WorkshopResult, path: '/result', isActive: false, disable: false },
           { name: this.provider.fullTitle, isActive: false, disable: true },
         ))
     ]);

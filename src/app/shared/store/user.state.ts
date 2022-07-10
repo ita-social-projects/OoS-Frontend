@@ -1,3 +1,4 @@
+import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
@@ -128,7 +129,7 @@ export interface UserStateModel {
       isActive: true,
     },
     providerAdmins: null,
-    isAllowChildToApply: null,
+    isAllowChildToApply: true,
   },
 
 })
@@ -324,10 +325,11 @@ export class UserState {
     { patchState, getState }: StateContext<UserStateModel>,
     {}: GetUsersChildren
   ): Observable<ChildCards> {
+    patchState({ isLoading: true });
     const state: UserStateModel = getState();
     return this.childrenService
       .getUsersChildren(state)
-      .pipe(tap((children: ChildCards) => patchState({ children: children })));
+      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(GetAllUsersChildren)
@@ -335,9 +337,10 @@ export class UserState {
     { patchState }: StateContext<UserStateModel>,
     {}: GetAllUsersChildren
   ): Observable<ChildCards> {
+    patchState({ isLoading: true });
     return this.childrenService
       .getAllUsersChildren()
-      .pipe(tap((children: ChildCards) => patchState({ children: children })));
+      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(CreateWorkshop)
@@ -477,8 +480,7 @@ export class UserState {
   ): void {
     throwError(payload);
     const message =
-      payload.error ===
-      'Unable to create a new provider: There is already a provider with such a data'
+      payload.error === Constants.UNABLE_CREATE_PROVIDER || Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
         ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
         : 'На жаль виникла помилка';
     dispatch(new ShowMessageBar({ message, type: 'error' }));
