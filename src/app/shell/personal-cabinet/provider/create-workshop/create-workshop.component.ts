@@ -1,4 +1,3 @@
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -6,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
@@ -60,7 +59,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
+      { name: PersonalCabinetTitle.provider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
       { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true })));
   }
 
