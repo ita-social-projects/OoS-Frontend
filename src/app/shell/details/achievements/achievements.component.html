@@ -1,16 +1,20 @@
 <div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
   <mat-card class="position" *ngFor="let achievement of achievements">
     <div class="card" fxLayout="column" fxLayoutAlign="start space-between">
-      <div class="wrap-for-details">
-        <img src='../../../../assets/icons/award.svg'/>
+      <div class="wrap-for-details" fxLayoutAlign="flex-start space-between">
+        <img class='image' src='../../../../assets/icons/award.svg'/>
         <div>
-          <h3>{{achievementsTitle[achievement.achievementTypeId].name}}</h3>
-            <h4>Дата</h4> 
+          <h3 class="achievement_title">{{achievementsTitle[achievement.achievementTypeId].name}}</h3>
+            <h4 class="card_title">Дата</h4> 
             <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
-            <h4>Учасники</h4> 
-              <p class="card_text" *ngFor="let child of achievement.children">
+            
+            <ng-container *ngFor="let child of achievement.children">
+              <h4 *ngIf="child">Учасники</h4> 
+              <p class="card_text">
                 {{child.firstName}} {{child.lastName}} {{child.middleName}}
               </p>
+            </ng-container>
+
             <h4>Нагорода</h4> 
             <p class="card_text">{{achievement.title}}</p>
             <h4>Опис</h4> 

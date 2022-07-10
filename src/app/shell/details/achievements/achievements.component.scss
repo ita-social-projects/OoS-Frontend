@@ -1,31 +1,36 @@
 @import "src/app/shared/styles/card-wrapper.scss";
 @import "src/app/shared/styles/cards.scss";
 
-.wrap-for-details {
-  word-break: break-all;
-}
-
 .card-wrapper {
   margin-top: 2rem;
 }
 
-.wrap-for-details {
-  display: flex;
-  flex-direction: row;
-}
-
 .mat-card {
-  margin: 10px;
+  margin: 2rem;
 }
 
-.card {
-  height: 10rem;
-  width: 50rem;
+.wrap-for-details {
+  margin-top: 2em;
+  place-content: space-between flex-start;
+  align-items: flex-start !important;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
 }
 
-img {
-  height: 58px;
-  width: 58px;
-  margin: 10px;
+.image {
+  margin-right: 1rem;
+}
+.achievement_title {
+  width: 24em;
+  font-size: 18px;
+  font-weight: 700;
+}
+.card_title {
+  font-size: 13px;
+  font-weight: 700;
 }
 
+::ng-deep .card {
+  min-width: fit-content;
+}
