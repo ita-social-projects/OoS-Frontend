@@ -10,7 +10,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
-import { CategorySelectComponent } from './components/category-select/category-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
@@ -79,7 +78,6 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     DigitOnlyDirective,
     WorkshopCardComponent,
     TeacherCardComponent,
-    CategorySelectComponent,
     CategoryCardComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
@@ -155,7 +153,6 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     WorkshopCardComponent,
     MaterialModule,
     TeacherCardComponent,
-    CategorySelectComponent,
     CategoryCardComponent,
     CityAutocompleteComponent,
     MinMaxDirective,

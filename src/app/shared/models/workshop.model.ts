@@ -22,11 +22,11 @@ export class Workshop {
   teachers: Teacher[];
   rating?: number;
   numberOfRatings?: number;
-  directionId?: number;
+  directionId?: number;//TODO: remove
   direction: string;
   directions: Direction[];
-  departmentId?: number;
-  classId?: number;
+  departmentId?: number;//TODO: remove
+  classId?: number;//TODO: remove
   providerId: string;
   providerTitle?: string;
   payRate?: string;
@@ -55,9 +55,9 @@ export class Workshop {
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
     this.payRate = about.payRate;
-    this.directionId = description.categories.directionId.id;
-    this.departmentId = description.categories.departmentId.id;
-    this.classId = description.categories.classId.id;
+    this.directionId = 1;//TODO: remove
+    this.departmentId = 1;//TODO: remove
+    this.classId = 1;//TODO: remove
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
     this.institutionHierarchyId = description.institutionHierarchyId;
@@ -106,7 +106,6 @@ export class WorkshopSectionItem extends SectionItem {
 }
 export interface WorkshopCard {
   address: Address;
-  directionId: number;
   payRate: string;
   maxAge: number;
   minAge: number;

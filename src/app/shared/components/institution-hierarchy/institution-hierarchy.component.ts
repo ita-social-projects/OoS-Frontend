@@ -137,8 +137,10 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   onHierarchyLevelSelect(optionId: string, hierarchy: HierarchyElement): void {
-    const currentEl = this.hierarchyArray.indexOf(hierarchy);
-    if (this.hierarchyArray[currentEl + 1]) {
+    const nextEl = this.hierarchyArray.indexOf(hierarchy) + 1;
+    if (this.hierarchyArray[nextEl]) {
+      this.hierarchyArray[nextEl].formControl.setValue('');
+      this.hierarchyArray[nextEl].shouldDisplay = false;
       this.store.dispatch(new GetInstitutionHierarchyChildrenById(optionId));
     } else {
       this.instituitionHierarchyIdFormControl.setValue(optionId);
