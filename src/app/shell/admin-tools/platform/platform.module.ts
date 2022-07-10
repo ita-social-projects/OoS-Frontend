@@ -17,6 +17,7 @@ import { RegulationsInfoComponent } from './platform-info/regulations-info.compo
 import { SupportInfoComponent } from './platform-info/support-info.component';
 import { AboutInfoComponent } from './platform-info/about-info.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
+import { MainPageInfoComponent } from './main-page-info/main-page-info.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
     InfoEditComponent,
     PlatformComponent,
     ClassesCheckBoxListComponent,
-    NewClassFormComponent
+    NewClassFormComponent,
+    MainPageInfoComponent
   ],
   imports: [
     CommonModule,
