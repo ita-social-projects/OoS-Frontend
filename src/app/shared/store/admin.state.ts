@@ -1,6 +1,5 @@
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
@@ -16,6 +15,7 @@ import { ParentService } from '../services/parent/parent.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { CategoriesService } from "../services/categories/categories.service";
+import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
 import {
   DeleteDirectionById,
   OnDeleteDirectionFail,
@@ -157,7 +157,7 @@ export class AdminState {
   getAboutPortal({ patchState }: StateContext<AdminStateModel>, {  }: GetAboutPortal): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(PlatformInfoType.AboutPortal)
+      .getPlatformInfo(AdminTabsTitle.AboutPortal)
       .pipe(
         tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
   }
@@ -168,7 +168,7 @@ export class AdminState {
   getSupportInformation({ patchState }: StateContext<AdminStateModel>, {  }: GetSupportInformation): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(PlatformInfoType.SupportInformation)
+      .getPlatformInfo(AdminTabsTitle.SupportInformation)
       .pipe(
         tap((supportInformation: CompanyInformation) => patchState({ supportInformation: supportInformation, isLoading: false })));
   }
@@ -177,7 +177,7 @@ export class AdminState {
   getLawsAndRegulations({ patchState }: StateContext<AdminStateModel>, {  }: GetLawsAndRegulations): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(PlatformInfoType.LawsAndRegulations)
+      .getPlatformInfo(AdminTabsTitle.LawsAndRegulations)
       .pipe(
         tap((lawsAndRegulations: CompanyInformation) => patchState({ lawsAndRegulations: lawsAndRegulations, isLoading: false })));
   }

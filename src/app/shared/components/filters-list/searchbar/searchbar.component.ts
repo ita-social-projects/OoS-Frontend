@@ -38,7 +38,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.navigationPaths$
       .pipe(takeUntil(this.destroy$))
       .subscribe((navigationPaths: Navigation[]) =>
-        this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.TopWorkshops)
+        this.isResultPage = navigationPaths.some((path: Navigation) => path.name === NavBarName.WorkshopResult)
       );
 
     this.searchValueFormControl.valueChanges

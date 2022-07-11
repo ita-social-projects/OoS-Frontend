@@ -1,45 +1,50 @@
-<div fxLayout="row" fxLayoutAlign='start start' fxLayoutGap='1rem' fxLayout.xs="column"
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1rem" fxLayout.xs="column"
   fxLayoutAlign.xs="center start">
 
-  <form fxLayout='row' fxLayoutAlign='start center' class="step">
+  <form fxLayout="row" fxLayoutAlign="start center" class="step">
 
-  <div>
-    <div fxLayout='row' fxLayoutAlign='space-between'
+  <div class="days">
+    <div fxLayout="row" fxLayoutAlign="space-between"
       [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
-      <div *ngFor="let day of days" fxLayout='row' fxLayoutAlign='center center'
+      <div *ngFor="let day of days" fxLayout="row" fxLayoutAlign="center center"
         (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle toggle-selected' : 'toggle' ">
-        {{day.value}}</div>
+        {{day.value}}
+      </div>
     </div>
     
     <app-validation-hint
       [validationFormControl]="workdaysFormControl">
     </app-validation-hint>
-
   </div>
 
-    <p class="text">Від</p>
-    <div>
-      <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
-        [ngxMatTimepicker]="timepickerStart" format="24" required [formControl]="startTimeFormControl" autocomplete="none">
-        <app-validation-hint
-          [validationFormControl]="startTimeFormControl">
-        </app-validation-hint>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row "fxLayoutAlign="start center">
+        <p class="text">Від</p>
+        <input class="input step-input start-time-input" type="text" [disabled]="!workingDays.length" matInput
+          [ngxMatTimepicker]="timepickerStart" format="24" required [formControl]="startTimeFormControl" autocomplete="none">
+      </div>
+      <app-validation-hint
+        [validationFormControl]="startTimeFormControl">
+    </app-validation-hint>
     </div>
 
-    <p class="text">До</p>
-    <div>
-      <input class="input step-input" type="text" [disabled]="!workingDays.length" matInput
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="text">До</p>
+      <input class="input step-input finish-time-input" type="text" [disabled]="!workingDays.length" matInput
         [ngxMatTimepicker]="timepickerEnd" format="24" required [formControl]="endTimeFormControl" [min]="getMinTime()"
         autocomplete="none">
-        <app-validation-hint
+      </div>
+      <app-validation-hint
           [validationFormControl]="endTimeFormControl">
         </app-validation-hint>
     </div>
-  </form>
-
-  <div fxLayout='row' fxLayoutAlign='start start' *ngIf="workingHoursAmount > 1">
-    <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+    <div fxLayout="row" fxLayoutAlign="start start" *ngIf="workingHoursAmount > 1">
+      <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+    </div>
   </div>
+</form>
 </div>
 
 <ng-template #ValidationHintTmpl>

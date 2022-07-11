@@ -78,6 +78,7 @@ class MockPersonCardComponent {
 
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
+  @Input() isTouched: boolean;
 }
 
 @Component({

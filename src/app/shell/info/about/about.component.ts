@@ -7,23 +7,20 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit, OnDestroy {
-
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {
-
-  }
+  constructor(private store: Store, private navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.store.dispatch(
-      new AddNavPath(this.navigationBarService.createOneNavPath(
-        { name: NavBarName.About, isActive: false, disable: true }
-      )),
+      new AddNavPath(
+        this.navigationBarService.createOneNavPath({ name: NavBarName.AboutPortal, isActive: false, disable: true })
+      )
     );
   }
+
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
-
 }

@@ -1,13 +1,10 @@
 import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
 import {
   Component,
-  ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import {
@@ -27,15 +24,13 @@ import { RejectModalWindowComponent } from 'src/app/shared/components/reject-mod
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
-import { BlockParent, GetApplicationsByProviderId, GetBlockedParents, UnBlockParent } from 'src/app/shared/store/user.actions';
-import { Parent } from 'src/app/shared/models/parent.model';
+import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { AbstractControl, FormControl, FormGroup, } from '@angular/forms';
+import { FormGroup, } from '@angular/forms';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable, Subject } from 'rxjs';
 import { BlockedParent } from 'src/app/shared/models/block.model';
-import { filter, takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/shared/store/user.state';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-application-card',

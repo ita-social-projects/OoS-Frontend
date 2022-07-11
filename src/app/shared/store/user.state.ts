@@ -1,3 +1,4 @@
+import { Constants } from 'src/app/shared/constants/constants';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
@@ -104,8 +105,8 @@ import { BlockService } from '../services/block/block.service';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Parent } from '../models/parent.model';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -142,7 +143,7 @@ export interface UserStateModel {
     providerAdmins: null,
     blockedParents: null,
     blockedParent: null,
-    isAllowChildToApply: null,
+    isAllowChildToApply: true,
   },
 
 })
@@ -200,7 +201,9 @@ export class UserState {
   }
 
   @Selector()
-  static isAllowChildToApply(state: UserStateModel): boolean { return state.isAllowChildToApply; }
+  static isAllowChildToApply(state: UserStateModel): boolean {
+    return state.isAllowChildToApply;
+  }
 
   @Selector()
   static blockedParents(state: UserStateModel): BlockedParent { return state.blockedParents; }
@@ -254,7 +257,7 @@ export class UserState {
   @Action(GetAchievementsByWorkshopId)
   getAchievementsByWorkshopId(
     { patchState }: StateContext<UserStateModel>,
-    {payload}: GetAchievementsByWorkshopId
+    { payload }: GetAchievementsByWorkshopId
   ): Observable<Achievement[]> {
     patchState({ isLoading: true });
     return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
@@ -343,10 +346,11 @@ export class UserState {
     { patchState, getState }: StateContext<UserStateModel>,
     {}: GetUsersChildren
   ): Observable<ChildCards> {
+    patchState({ isLoading: true });
     const state: UserStateModel = getState();
     return this.childrenService
       .getUsersChildren(state)
-      .pipe(tap((children: ChildCards) => patchState({ children: children })));
+      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(GetAllUsersChildren)
@@ -354,9 +358,10 @@ export class UserState {
     { patchState }: StateContext<UserStateModel>,
     {}: GetAllUsersChildren
   ): Observable<ChildCards> {
+    patchState({ isLoading: true });
     return this.childrenService
       .getAllUsersChildren()
-      .pipe(tap((children: ChildCards) => patchState({ children: children })));
+      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(CreateWorkshop)
@@ -495,9 +500,10 @@ export class UserState {
     { payload }: OnCreateProviderFail
   ): void {
     throwError(payload);
-    const message = payload.error === 'Unable to create a new provider: There is already a provider with such a data' ?
-    'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними' :
-    'На жаль виникла помилка';
+    const message =
+      payload.error === Constants.UNABLE_CREATE_PROVIDER || Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
+        ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
+        : 'На жаль виникла помилка';
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
@@ -645,7 +651,7 @@ export class UserState {
     { payload }: CreateAchievement
   ): Observable<object> {
     return this.achievementsService.createAchievement(payload).pipe(
-      tap((res) => dispatch(new OnCreateAchievementSuccess(res))),
+      tap((res: HttpResponse<Achievement>) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) =>
         of(dispatch(new OnCreateAchievementFail(error)))
       )
@@ -659,9 +665,10 @@ export class UserState {
   ): void {
     console.log('Achievement is created', payload);
     dispatch([
-      new ShowMessageBar({ message: 'Досягнення додано!', type: 'success' }),
+      new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }),
       new MarkFormDirty(false),
     ]);
+    this.router.navigate(['/details/workshop/', payload.body.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)
@@ -964,14 +971,18 @@ export class UserState {
   }
 
   @Action(GetStatusIsAllowToApply)
-  getStatusIsAllowToApply({ patchState }: StateContext<UserStateModel>, { childId, workshopId }: GetStatusIsAllowToApply): Observable<boolean> {
+  getStatusIsAllowToApply(
+    { patchState }: StateContext<UserStateModel>,
+    { childId, workshopId }: GetStatusIsAllowToApply
+  ): Observable<boolean> {
     patchState({ isLoading: true });
     return this.applicationService
       .getStatusIsAllowToApply(childId, workshopId)
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowChildToApply: status, isLoading: false });
-        }));
+        })
+      );
   }
 
   @Action(CreateRating)

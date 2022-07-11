@@ -18,7 +18,7 @@ export class Constants {
   static readonly RATE_FOUR_STAR = 4;
   static readonly RATE_FIVE_STAR = 5;
 
-  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
+  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, HH:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
@@ -26,6 +26,9 @@ export class Constants {
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
   static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
+
+  static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
+  static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
   static readonly NO_CITY = 'Такого міста немає';
   static readonly KIEV: City = {
