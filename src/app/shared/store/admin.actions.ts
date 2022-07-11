@@ -34,7 +34,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload, public type) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
