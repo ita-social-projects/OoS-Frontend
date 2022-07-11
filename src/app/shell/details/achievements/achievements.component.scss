@@ -1,6 +1,16 @@
 @import "src/app/shared/styles/card-wrapper.scss";
 @import "src/app/shared/styles/cards.scss";
-
+@import "src/app/shared/styles/list-wrappers.scss";
+@import "src/app/shared/styles/navigation-tabs.scss";
+@import "src/app/shared/styles/buttons.scss";
+.text{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  color:#272425;
+}
+.add-wrapper {
+  margin-top: 2rem;
+}
 .mat-card {
   margin: 2rem;
 }
@@ -11,7 +21,7 @@
 }
 
 .achievement_title {
-  width: calc(30% - 40px);
+  width: 430px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

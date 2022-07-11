@@ -76,6 +76,11 @@
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="AchievementFormGroup.get('title')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+        </app-validation-hint>
       </form>
     </div>
 

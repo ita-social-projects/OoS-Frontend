@@ -1,3 +1,8 @@
+<div class="add-wrapper">
+  <p class="text">Тут ви можете додати досягнення.</p>
+  <a [routerLink]="['/create-achievement', workshop.id]"><button class="btn" mat-raised-button>Додати досягнення</button></a>
+</div>
+
 <div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
   <mat-card class="position" *ngFor="let achievement of achievements">
     <div class="card_achievement" fxLayout="column" fxLayoutAlign="start space-between">
@@ -12,9 +17,7 @@
               <p class="card_text">
                 {{child.firstName}} {{child.lastName}} {{child.middleName}}
               </p>
-            </ng-container>
-            <h4 class="card_title">Нагорода</h4> 
-            <p class="card_text description">{{achievement.title}}</p>
+            </ng-container>            
             <h4 class="card_title">Опис</h4> 
             <p class="card_text description">{{achievement.title}}</p>
         </div> 
