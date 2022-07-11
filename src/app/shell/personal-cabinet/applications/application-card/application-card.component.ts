@@ -27,7 +27,7 @@ import { RejectModalWindowComponent } from 'src/app/shared/components/reject-mod
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
-import { BlockParent, GetApplicationsByProviderId, UnBlockParent } from 'src/app/shared/store/user.actions';
+import { BlockParent, GetApplicationsByProviderId, GetBlockedParents, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { AbstractControl, FormControl, FormGroup, } from '@angular/forms';
@@ -142,22 +142,19 @@ export class ApplicationCardComponent implements OnInit {
    * This method emit reject Application
    * @param Application application
    */
-  onBlock(blockedParent: BlockedParent): void {
+  onBlock(): void {
     const dialogRef = this.matDialog.open(BlockModalWindowComponent, {});
     dialogRef.afterClosed().subscribe((result: string)  => {
       if(result) {
-        const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-        const parent = this.application.parentId;
-        const reason = result;
-        blockedParent = new BlockedParent( parent, provider.id, reason);
-        console.log("reason2", reason)
-        console.log("blockedParent",blockedParent)
-        this.store.dispatch([new BlockParent(blockedParent), new GetApplicationsByProviderId(provider.id, this.applicationParams)]);
+        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+        const parentId = this.application.parentId;
+        const blockedParent = new BlockedParent( parentId, providerId, result);
+        this.store.dispatch(new BlockParent(blockedParent));
         }
     });
   }
 
-  onUnBlock(blockedParent: BlockedParent): void {
+  onUnBlock(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -166,10 +163,10 @@ export class ApplicationCardComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: string)  => {
       if(result) {
-        const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-        const parent = this.application.parentId;
-        blockedParent = new BlockedParent( parent, provider.id);
-        this.store.dispatch([new UnBlockParent(blockedParent), new GetApplicationsByProviderId(provider.id, this.applicationParams)]);
+        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+        const parentId = this.application.parentId;
+        const blockedParent = new BlockedParent( parentId, providerId);
+        this.store.dispatch(new UnBlockParent(blockedParent));
         }
     });
   }

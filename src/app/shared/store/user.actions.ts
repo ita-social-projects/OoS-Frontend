@@ -292,7 +292,7 @@ export class BlockParentFail {
 }
 export class BlockParentSuccess {
   static readonly type = '[user] block parent success';
-  constructor(public payload) { }
+  constructor(public payload: BlockedParent) { }
 }
 
 export class UnBlockParent {
@@ -306,9 +306,9 @@ export class UnBlockParentFail {
 }
 export class UnBlockParentSuccess {
   static readonly type = '[user] unblock parent success';
-  constructor(public payload) { }
+  constructor(public payload: BlockedParent) { }
 }
 export class GetBlockedParents {
   static readonly type = '[user] get block parent';
-  constructor() { }
+  constructor(public providerId: string, public parentId: string) { }
 }

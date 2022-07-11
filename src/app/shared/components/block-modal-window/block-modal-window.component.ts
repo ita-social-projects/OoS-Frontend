@@ -4,6 +4,11 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { Application } from 'src/app/shared/models/application.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Select, Store } from '@ngxs/store';
+import { GetBlockedParents } from '../../store/user.actions';
+import { UserState } from '../../store/user.state';
+import { Observable } from 'rxjs';
+import { BlockedParent } from '../../models/block.model';
 
 @Component({
   selector: 'app-block-modal-window',
@@ -24,7 +29,9 @@ export class BlockModalWindowComponent {
   modalTitle = 'ЗАБЛОКУВАТИ';
   modalDescription = 'Ви впевнені, що хочете заблокувати користувача?';
 
-  constructor(public dialogRef: MatDialogRef<BlockModalWindowComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<BlockModalWindowComponent>,
+    ) {}
 
   onCancel(): void {
     this.dialogRef.close();

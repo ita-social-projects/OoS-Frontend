@@ -7,7 +7,6 @@ import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.di
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { GetBlockedParents } from 'src/app/shared/store/user.actions';
 import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { ApplicationCards } from '../../../shared/models/application.model';
@@ -20,9 +19,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
 import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { UserState } from 'src/app/shared/store/user.state';
 import { Observable } from 'rxjs';
-import { BlockedParent } from 'src/app/shared/models/block.model';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
@@ -37,9 +34,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   @Select(PaginatorState.applicationsPerPage)
   applicationsPerPage$: Observable<number>;
-
-  @Select(UserState.blockedParents)
-  blockedParents$: Observable<BlockedParent[]>;
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
@@ -93,7 +87,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         takeUntil(this.destroy$))
       .subscribe(() => {
         if (this.role === Role.provider) {
-          this.getBlockedParents();
           this.getProviderApplications(this.applicationParams);
         } else {
           this.getParentApplications(this.applicationParams);
@@ -106,7 +99,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
       this.getProviderApplications(this.applicationParams);
       this.getProviderWorkshops();
       this.activateChildInfoBox();
-      this.getBlockedParents();
     } else {
       this.getAllUsersChildren();
       this.getParentApplications(this.applicationParams);
@@ -166,7 +158,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     const status = (tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.Blocked] && tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.All]) ?
     tabLabel : null;
     this.applicationParams.status = status;
-
     if (this.role === Role.provider) {
       this.applicationParams.showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked];
       this.getProviderApplications(this.applicationParams);

@@ -17,6 +17,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { BlockedParent } from 'src/app/shared/models/block.model';
 
 @Component({
   selector: 'app-cabinet-data',
@@ -107,10 +108,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   getAllUsersChildren(): void {
     this.store.dispatch(new GetAllUsersChildren());
-  }
-
-  getBlockedParents(): void {
-    this.store.dispatch(new GetBlockedParents());
   }
 
   getProviderWorkshops(): void {
