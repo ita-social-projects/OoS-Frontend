@@ -10,7 +10,7 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { CreateAchievement, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateAchievement, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
@@ -102,6 +102,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 }
