@@ -38,6 +38,7 @@ export class CreateInfoFormComponent implements OnInit {
   institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
+  @Input() isRelease2: boolean;
   @Output() passInfoFormGroup = new EventEmitter();
 
   InfoFormGroup: FormGroup;
@@ -96,11 +97,21 @@ export class CreateInfoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions());
-    (this.provider) && this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
+    (this.provider) && this.activateEditMode();
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
 
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {
     return institution1.id === institution2.id;
+  }
+  
+  /**
+   * This method fills inputs with information of edited provider
+   */
+  private activateEditMode(): void {
+    this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
+    if (this.provider.coverImageId) {
+      this.InfoFormGroup.get('coverImageId').setValue([this.provider.coverImageId], { emitEvent: false });
+    }
   }
 }
