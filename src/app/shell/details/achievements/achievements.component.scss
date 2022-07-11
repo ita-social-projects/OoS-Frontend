@@ -11,18 +11,23 @@
 }
 
 .achievement_title {
-  width: 18em;
+  width: calc(30% - 40px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 18px;
   font-weight: 700;
+  margin-bottom: 15px;
 }
+
 .card_title {
   font-size: 13px;
   font-weight: 700;
 }
 
 .card_achievement {
-  min-width: 500px;
-  min-height: 350px;
+  width: 628px;
+  height: 272px;
 }
 
 .achievement_icon {
@@ -30,11 +35,12 @@
 }
 
 .description {
-  max-width: 400px;
-  white-space: no-wrap;
+  width: 400px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .image {
   margin-right: 1em;
 }
