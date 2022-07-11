@@ -145,7 +145,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
-      socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
+      socialGroupId: new FormControl('', Validators.required),
       placeOfLiving: new FormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),

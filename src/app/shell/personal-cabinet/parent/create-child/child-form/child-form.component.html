@@ -52,16 +52,29 @@
     [validationFormControl]="ChildFormGroup.get('gender')">
   </app-validation-hint>
 
-  <label class="step-label">Соціальна група</label>
-  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" placeholder="Соціальна група"
-      formControlName="socialGroupId">
-      <mat-option [value]="0" class="dropdown-option"> Відсутня </mat-option>
-      <mat-option *ngFor="let group of socialGroups" [value]="group.id" class="dropdown-option">
+  <label class="step-label">Соціальна група<span class="step-required">*</span></label>
+  <mat-form-field appearance="none">
+    <mat-select multiple disableOptionCentering formControlName="socialGroupId" 
+      panelClass="dropdown-panel" class="step-input" placeholder="Виберіть соціальні групи">
+      <mat-select-trigger>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let group of ChildFormGroup.controls['socialGroupId'].value"
+          (removed)="onRemoveItem(group, 'socialGroupId')">
+            {{group}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </mat-select-trigger>
+      <mat-option [value]="'Відсутня'" class="dropdown-option" [disabled]="checkGroupSelection()"> Відсутня </mat-option>
+      <mat-option *ngFor="let group of socialGroups" [value]="group.name" class="dropdown-option" [disabled]="checkGroupSelection(group.name)">
         {{group.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <app-validation-hint 
+    [validationFormControl]="ChildFormGroup.get('socialGroupId')"
+    [isTouched]="ChildFormGroup.get('socialGroupId').touched">
+  </app-validation-hint>
 
   <label class="step-label">Місце проживання</label>
   <mat-form-field>
