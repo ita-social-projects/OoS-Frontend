@@ -14,3 +14,15 @@
 .step {
   padding: 0 !important;
 }
+
+:host ::ng-deep .mat-form-field-wrapper{
+  padding: 0;
+}
+
+.wrapper-title {
+  margin-bottom: 20px !important;
+}
+
+.card-border {
+  margin-top: 3em;
+}
