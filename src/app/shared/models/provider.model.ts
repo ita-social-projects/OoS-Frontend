@@ -47,15 +47,19 @@ export class Provider {
     this.phoneNumber = info.phoneNumber;
     this.edrpouIpn = info.edrpouIpn;
     this.director = info.director;
-    this.directorDateOfBirth = info.directorDateOfBirth;
+    this.directorDateOfBirth = new Date(info.directorDateOfBirth).toISOString();
     this.founder = description.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
-    this.institutionStatusId = description.institutionStatusId || null;
+    if (description?.institutionStatusId) {
+      this.institutionStatusId = description.institutionStatusId;
+      // this.institutionStatusId = 1;
+    }
+    // this.institutionStatusId = 1;
     this.institutionType = description.institutionType;
     this.userId = user.id;
     this.institution = description.institution;
-    this.institutionId = info.institutionId;
+    this.institutionId = info.institution.id;
     if (provider?.id) {
       this.id = provider.id;
     }
@@ -73,6 +77,25 @@ export class Provider {
       this.coverImageId = info.coverImageId[0];
     }
   }
+
+  static createFormData(provider: Provider): FormData {
+    const formData = new FormData();
+    const formNames = ['legalAddress', 'actualAddress', 'imageIds', 'providerSectionItems'];
+    const imageFiles = ['imageFiles', 'coverImage'];
+
+    Object.keys(provider).forEach((key: string) => {
+      if (imageFiles.includes(key)) {
+        provider[key].forEach((file: File) => formData.append(key, file));
+      } else if (formNames.includes(key)) {
+        formData.append(key, JSON.stringify(provider[key]));
+      } else {
+        formData.append(key, provider[key]);
+      }
+    });
+
+    return formData;
+  }
+
 }
 
 export class ProviderSectionItem extends SectionItem {

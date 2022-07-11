@@ -31,7 +31,8 @@ export class ProviderService {
    * @param Provider
    */
   createProvider(provider: Provider): Observable<object> {
-    return this.http.post('/api/v1/Provider/Create', provider);
+    const formData = Provider.createFormData(provider);
+    return this.http.post('/api/v2/Provider/Create', formData);
   }
 
   /**
@@ -46,7 +47,8 @@ export class ProviderService {
    * @param Provider
    */
   updateProvider(provider: Provider): Observable<object> {
-    return this.http.put('/api/v1/Provider/Update', provider);
+    const formData = Provider.createFormData(provider);
+    return this.http.put('/api/v2/Provider/Update', formData);
   }
 
   /**
