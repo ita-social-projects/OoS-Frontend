@@ -1,10 +1,6 @@
 <div class="container">
   <h1 class="title">
-    {{
-      (!subrole || subrole === 'None')
-        ? PersonalCabinetTitle[userRole] 
-        : PersonalCabinetTitle[subrole]
-    }}
+    {{ personalCabinetTitle | uppercase }}
   </h1>
 
   <nav class="nav" mat-tab-nav-bar>
@@ -16,13 +12,13 @@
     </ng-container>
     <ng-container *ngIf="userRole !== Role.techAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">
-        {{ userRole === Role.parent ? "МОЇ ГУРТКИ" : "ГУРТКИ" }}
+        {{ userRole === Role.parent ? 'МОЇ ГУРТКИ' : 'ГУРТКИ' }}
       </a>
     </ng-container>
     <ng-container *ngIf="userRole !== Role.techAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВИ</a>
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider && subrole !== Role.ProviderAdmin">
+    <ng-container *ngIf="userRole === Role.provider && subRole !== Role.ProviderAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./administration'">АДМІНІСТРУВАННЯ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.parent">

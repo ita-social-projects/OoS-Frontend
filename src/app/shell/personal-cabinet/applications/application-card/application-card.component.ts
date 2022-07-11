@@ -1,13 +1,10 @@
 import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
 import {
   Component,
-  ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
-  Output,
-  ViewChild,
+  Output,  
 } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import {
@@ -25,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { takeUntil } from 'rxjs/operators';
@@ -48,6 +45,7 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
+  status: ApplicationStatus;
   subrole: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -70,7 +68,7 @@ export class ApplicationCardComponent implements OnInit {
     this.subrole$
       .pipe(takeUntil(this.destroy$))
       .subscribe((subrole: string) => (this.subrole = subrole));
-
+      this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
   }
 
   onClick(event) {

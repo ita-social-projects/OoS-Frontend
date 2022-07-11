@@ -7,6 +7,7 @@ import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
 import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
 
 @Component({
@@ -28,8 +29,9 @@ import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
+  readonly Role = Role;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
 
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Input() role: string;
@@ -41,11 +43,8 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
   isSelectedMarker = false;
-  readonly Role = Role;
-
+  destroy$: Subject<boolean> = new Subject<boolean>();
   workshopDetailsAnimationState = false;
-
-  @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
@@ -103,7 +102,6 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   onSelectedAddress(address: Address): void {
-
     this.isSelectedMarker = Boolean(address);
     this.left = 0;
     this.currentWorkShopIndex = 0;
@@ -129,7 +127,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeWorkshops(page));
+    this.store.dispatch([new OnPageChangeWorkshops(page), new GetFilteredWorkshops()]);
   }
 
   ngOnDestroy(): void {

@@ -7,12 +7,14 @@ import { ProviderListComponent } from './provider-list/provider-list.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsersComponent } from './users/users.component';
+import { DataComponent } from './data.component';
 
 
 @NgModule({
   declarations: [
     ProviderListComponent,
     UsersComponent,
+    DataComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,6 @@ import { UsersComponent } from './users/users.component';
     MaterialModule,
     FlexLayoutModule
   ],
-  exports: []
+  exports: [DataComponent]
 })
 export class DataModule { }

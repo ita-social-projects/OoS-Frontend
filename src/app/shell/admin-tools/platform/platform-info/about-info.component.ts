@@ -1,4 +1,4 @@
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
+import { AdminTabsTitle } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Select } from '@ngxs/store';
 import { Component } from '@angular/core';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   template: '<app-info-card [type]="aboutPortal" [platformInfo]="AboutPortal$ | async"></app-info-card>',
 })
 export class AboutInfoComponent {
-  readonly aboutPortal = PlatformInfoType.AboutPortal;
+  readonly aboutPortal = AdminTabsTitle.AboutPortal;
 
   @Select(AdminState.AboutPortal)
   AboutPortal$: Observable<CompanyInformation>;

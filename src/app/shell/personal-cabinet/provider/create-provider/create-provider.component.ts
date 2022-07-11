@@ -5,9 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { takeUntil} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { CreateProviderSteps } from 'src/app/shared/enum/provider';
+import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -15,6 +16,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
+import { Util } from 'src/app/shared/utils/utils';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -79,8 +81,12 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
+    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
+      { name: personalCabinetTitle, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
       { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
   }

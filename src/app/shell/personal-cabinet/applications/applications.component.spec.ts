@@ -5,7 +5,7 @@ import { ApplicationsComponent } from './applications.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
 import { Component, Input } from '@angular/core';
-import { Application } from 'src/app/shared/models/application.model';
+import { Application, ApplicationCards } from 'src/app/shared/models/application.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,6 +15,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationChildSortingPipe } from 'src/app/shared/pipes/application-child-sorting.pipe';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -38,7 +39,8 @@ describe('ApplicationsComponent', () => {
         ApplicationChildSortingPipe,
         MockWorkshopChekcboxDropdownComponent,
         StatusInfoCardComponent,
-        NoResultCardComponent
+        NoResultCardComponent,
+        MockApplicationCardPaginatorComponent,
       ],
     })
       .compileComponents();
@@ -60,6 +62,7 @@ describe('ApplicationsComponent', () => {
 })
 class MockApplicationCardComponent {
   @Input() application: Application;
+  @Input() applicationCards: ApplicationCards;
   @Input() userRole: string;
 }
 
@@ -70,4 +73,13 @@ class MockApplicationCardComponent {
 class MockWorkshopChekcboxDropdownComponent {
   @Input() entities: Workshop[];
   @Input() declination: WorkshopDeclination
+}
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockApplicationCardPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
 }

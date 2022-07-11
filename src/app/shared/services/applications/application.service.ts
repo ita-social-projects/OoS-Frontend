@@ -1,56 +1,57 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application, ApplicationUpdate } from '../../models/application.model';
+import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { PaginatorState } from '../../store/paginator.state';
+import { PaginationElement } from '../../models/paginationElement.model';
+import { Store } from '@ngxs/store';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ApplicationService {
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient, private store: Store) {}
 
   private setParams(parameters): HttpParams {
     let params = new HttpParams();
 
-    if (parameters.status) {
-      params = params.set('Status', parameters.status);
+    if (parameters) {
+      if (parameters.status) {
+        params = params.set('Status', parameters.status);
+      }
+
+      if (parameters.workshopsId.length) {
+        parameters.workshopsId.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
+      }
+
+      params = params.set('ShowBlocked', parameters.showBlocked);
     }
 
-    if (parameters.workshopsId.length) {
-      parameters.workshopsId.forEach((workshopId: string) => params = params.append('Workshops', workshopId));
-    }
-
-    params = params.set('OrderByDateAscending', 'true'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('OrderByAlphabetically', 'false'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('OrderByStatus', 'true'); // TODO: change parameters setting according to the backend updtaes
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const from: number = size * (+currentPage.element - 1);
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }
-
-
 
   /**
    * This method get applications by Parent id
    * @param id string
    */
-   getApplicationsByParentId(id: string, status): Observable<Application[]> {
-    const options = { params: this.setParams({
-      status: status,
-      workshopsId: []
-    }) };
-    return this.http.get<Application[]>(`/api/v1/Application/GetByParentId/${id}`, options);
+  getApplicationsByParentId(id: string, parameters): Observable<ApplicationCards> {
+    const options = { params: this.setParams(parameters) };
+    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
 
   /**
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByProviderId(id: string, parameters): Observable<Application[]> {
+  getApplicationsByProviderId(id: string, parameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<Application[]>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
+    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
   }
 
   /**
@@ -86,8 +87,8 @@ export class ApplicationService {
     const options = {
       params: {
         childId: childId,
-        workshopId: workshopId
-      }
+        workshopId: workshopId,
+      },
     };
     return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
   }

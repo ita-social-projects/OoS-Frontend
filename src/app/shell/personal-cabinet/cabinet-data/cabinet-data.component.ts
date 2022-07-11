@@ -1,28 +1,28 @@
-import { GetAllUsersChildren, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
+import { ApplicationCards, } from 'src/app/shared/models/application.model';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-cabinet-data',
   template: '',
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly Role: typeof Role = Role;
@@ -30,7 +30,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
   @Select(UserState.applications)
-  applications$: Observable<Application[]>;
+  applicationCards$: Observable<ApplicationCards>;
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards>;
   @Select(RegistrationState.parent)
@@ -48,11 +48,15 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   role: string;
 
   workshops: WorkshopCard[];
-  applications: Application[];
+  applicationCards: ApplicationCards;
   childrenCards: Child[];
   filteredChildren: Child[]
 
-  constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }
+  constructor(
+    public store: Store, 
+    public matDialog: MatDialog, 
+    protected actions$: Actions, 
+    protected navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void { }
 
@@ -81,10 +85,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.applications$.pipe(
-      filter((applications: Application[]) => !!applications),
+    this.applicationCards$.pipe(
+      filter((applicationCards: ApplicationCards) => !!applicationCards),
       takeUntil(this.destroy$)
-    ).subscribe((applications: Application[]) => this.applications = applications);
+    ).subscribe((applicationCards: ApplicationCards) => this.applicationCards = applicationCards);
 
     this.childrenCards$.pipe(
       filter((childrenCards: ChildCards) => !!childrenCards),
@@ -92,12 +96,12 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
     ).subscribe((childrenCards: ChildCards) => this.filteredChildren = this.childrenCards = childrenCards.entities);
   }
 
-  getProviderApplications(providerApplicationParams): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, providerApplicationParams));
+  getProviderApplications(applicationParams): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, applicationParams));
   }
 
-  getParentApplications(status?): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, status));
+  getParentApplications(applicationParams): void {
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, applicationParams));
   }
 
   getUsersChildren(): void {
@@ -115,6 +119,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
-
 }

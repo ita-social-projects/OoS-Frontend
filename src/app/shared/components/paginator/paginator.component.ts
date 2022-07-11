@@ -20,6 +20,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
+  listOfValues: Array<Number> = [8, 12, 16, 20];
 
   constructor() { }
 
@@ -40,7 +41,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     }
     if (changes?.itemsPerPage) {
       if (!changes.itemsPerPage.isFirstChange()) {
-       this.ngOnInit();
+        this.ngOnInit();
       }
     }
   }
