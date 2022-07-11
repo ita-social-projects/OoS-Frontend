@@ -1,13 +1,7 @@
 import { Department, Direction, IClass } from "../models/category.model";
-<<<<<<< HEAD
 
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { PaginationElement } from "../models/paginationElement.model";
-import { PlatformInfoType } from './../enum/platform';
-=======
-import { CompanyInformation } from "../models/сompanyInformation.model";
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
->>>>>>> e148a5f4b97250c9c59ba3d52b90e6c0afb200ec
+import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';

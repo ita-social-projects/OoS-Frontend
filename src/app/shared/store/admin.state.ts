@@ -1,26 +1,4 @@
-<<<<<<< HEAD
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { ActivatedRoute, Router } from "@angular/router";
-=======
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { ChildCards } from "../models/child.model";
-import { Parent } from "../models/parent.model";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { Provider } from '../models/provider.model';
-import { PlatformService } from '../services/platform/platform.service';
-import { ParentService } from '../services/parent/parent.service';
-import { ChildrenService } from '../services/children/children.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { CategoriesService } from "../services/categories/categories.service";
-import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
->>>>>>> e148a5f4b97250c9c59ba3d52b90e6c0afb200ec
 import {
   CreateClass,
   CreateDepartment,
@@ -74,6 +52,7 @@ import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
+import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
 import { CategoriesService } from "../services/categories/categories.service";
 import { ChildCards } from "../models/child.model";
 import { ChildrenService } from '../services/children/children.service';
@@ -81,10 +60,10 @@ import { CompanyInformation } from "../models/сompanyInformation.model";
 import { Injectable } from "@angular/core";
 import { Parent } from "../models/parent.model";
 import { ParentService } from '../services/parent/parent.service';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
 import { PlatformService } from '../services/platform/platform.service';
 import { Provider } from '../models/provider.model';
 import { ProviderService } from '../services/provider/provider.service';
+import { Router } from "@angular/router";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
