@@ -96,7 +96,7 @@ import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Location } from '@angular/common';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface UserStateModel {
   isLoading: boolean;
@@ -630,7 +630,7 @@ export class UserState {
     { payload }: CreateAchievement
   ): Observable<object> {
     return this.achievementsService.createAchievement(payload).pipe(
-      tap((res) => dispatch(new OnCreateAchievementSuccess(res))),
+      tap((res: HttpResponse<Achievement>) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) =>
         of(dispatch(new OnCreateAchievementFail(error)))
       )
@@ -647,7 +647,7 @@ export class UserState {
       new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }),
       new MarkFormDirty(false),
     ]);
-    this.router.navigate(['/details/workshop/', payload.workshopId]);
+    this.router.navigate(['/details/workshop/', payload.body.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)
