@@ -188,7 +188,7 @@ export class AdminState {
     return this.platformService
       .updatePlatformInfo(payload, type)
       .pipe(
-        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(type))),
+        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(res, type))),
         catchError((error: Error) => of(dispatch(new OnUpdatePlatformInfoFail(error))))
       );
   }
@@ -200,12 +200,12 @@ export class AdminState {
   }
 
   @Action(OnUpdatePlatformInfoSuccess)
-  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
+  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload, type }: OnUpdatePlatformInfoSuccess): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' })
     ]);
-    this.router.navigate([`/admin-tools/platform/`, { queryParams: {page: payload}}]);
+    this.router.navigate([`/admin-tools/platform`], { queryParams: { page: type }});
   }
 
   @Action(DeleteDirectionById)

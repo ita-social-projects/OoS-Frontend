@@ -1,8 +1,8 @@
+import { CompanyInformation } from '../../models/сompanyInformation.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PlatformInfoType } from '../../enum/platform';
-import { CompanyInformation } from '../../models/сompanyInformation.model';
 
 @Injectable({
   providedIn: 'root'
