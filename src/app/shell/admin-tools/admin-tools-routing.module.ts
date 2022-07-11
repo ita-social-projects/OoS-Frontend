@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProviderListComponent } from './data/provider-list/provider-list.component';
+import { DataComponent } from './data/data.component';
 import { PlatformComponent } from './platform/platform.component';
-import { UsersComponent } from './data/users/users.component';
 
 const routes: Routes = [
   {
@@ -10,7 +9,7 @@ const routes: Routes = [
     loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule),
   },
   {
-    path: 'data',
+    path: 'data', component: DataComponent,
     loadChildren: () => import('./data/data.module').then((m) => m.DataModule),
   },
 ];

@@ -10,7 +10,7 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { CreateAchievement, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateAchievement, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
@@ -46,10 +46,13 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [ 
+        Validators.required, 
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)]),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
-      teachers: new FormControl(''),
+      teachers: new FormControl('', Validators.required),
       childrenIDs: new FormControl('', Validators.required),
     });
   }
@@ -68,7 +71,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: { 
-        type: ModalConfirmationType.createAchievement
+        type: ModalConfirmationType.createAchievement,
+        property: ''
       },
     });
 
@@ -85,14 +89,21 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     });    
   }
 
-  remove(item: string, control): void {
-    const index = this.AchievementFormGroup.controls[control].value.indexOf(item);
-    if (index >= 0) {
-      this.AchievementFormGroup.controls[control].value.splice(index, 1);
-    }
+  onRemoveItem(item: string, control): void {
+    let items = this.AchievementFormGroup.controls[control].value;
+    if (items.indexOf(item) >= 0) {
+      items.splice(items.indexOf(item), 1);
+      if (items.length !== 0) {
+        this.AchievementFormGroup.get(control).setValue([...items]);
+      } else {
+        this.AchievementFormGroup.get(control).setValue(null)
+      }
+    }   
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 }

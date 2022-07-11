@@ -24,7 +24,6 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   @Input() isMobileView: boolean;
 
-
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);

@@ -18,23 +18,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit, OnDestroy {
-
-  @Select(AdminState.AboutPortal)
-  platformInformation$: Observable<CompanyInformation>;
-
-  constructor(
-    private store: Store,
-    public navigationBarService: NavigationBarService,
-  ) {}
+@Select(AdminState.AboutPortal)
+platformInformation$: Observable<CompanyInformation>;
+  constructor(private store: Store, private navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.store.dispatch(
       new AddNavPath(
-        this.navigationBarService.createOneNavPath({
-          name: NavBarName.About,
-          isActive: false,
-          disable: true,
-        })
+        this.navigationBarService.createOneNavPath({ name: NavBarName.AboutPortal, isActive: false, disable: true })
       )
     );
     this.store

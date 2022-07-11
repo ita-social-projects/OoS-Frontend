@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Favorite } from './../models/favorite.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
 import { Child } from '../models/child.model';
@@ -165,7 +165,7 @@ export class OnCreateAchievementFail {
 }
 export class OnCreateAchievementSuccess {
   static readonly type = '[user] create Achievement success';
-  constructor(public payload) {}
+  constructor(public payload: HttpResponse<Achievement>) {}
 }
 export class CreateApplication {
   static readonly type = '[user] create Application';

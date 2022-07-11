@@ -1,24 +1,20 @@
 import { ActivatedRoute, Params } from '@angular/router';
+import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 
+import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
+import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable } from 'rxjs';
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { PortalEditTitleUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
@@ -43,10 +39,10 @@ export class InfoEditComponent
 
   PlatformInfoItemArray = new FormArray([]);
   titleFormControl = new FormControl('', [Validators.required]);
-  editTitle: PortalEditTitleUkr;
+  editTitle: AdminTabsUkr;
   platformInfo: CompanyInformation;
 
-  platformInfoType: PlatformInfoType;
+  platformInfoType: AdminTabsTitle;
 
   constructor(
     store: Store,
@@ -59,36 +55,45 @@ export class InfoEditComponent
   }
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.setInitialData(params));
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
   }
 
   private setInitialData(params: Params): void {
     this.editMode = !!params.mode;
     this.platformInfoType = params.param;
-    this.editTitle = PortalEditTitleUkr[this.platformInfoType];
+    this.editTitle = AdminTabsUkr[this.platformInfoType];
 
     this.editMode ? this.setEditMode() : this.onAddForm();
+    this.addNavPath();
   }
 
   addNavPath(): void {
-    // this.store.dispatch(new AddNavPath(this.navigationBarService.creatNavPaths(
-    //   { name: NavBarName.AdminTools, isActive: false, disable: false },
-    //   { name: NavBarName.Platform, isActive: false, disable: false },
-    //   { name: NavBarName.About, isActive: false, disable: true }
-    // ))); TODO: fix navigation path
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          { name: NavBarName.Administration, isActive: false, disable: false },
+          {
+            name: NavBarName.Platform,
+            path: `/admin-tools/platform/`,
+            queryParams: { 'page': this.platformInfoType },
+            isActive: false,
+            disable: false,
+          },
+          { name: `Редагувати інфомацію "${NavBarName[this.platformInfoType]}"`, isActive: false, disable: true }
+        )
+      )
+    );
   }
 
   setEditMode(): void {
     switch (this.platformInfoType) {
-      case PlatformInfoType.AboutPortal:
+      case AdminTabsTitle.AboutPortal:
         this.getAboutInfo();
         break;
-      case PlatformInfoType.SupportInformation:
+      case AdminTabsTitle.SupportInformation:
         this.getSupportInformation();
         break;
-      case PlatformInfoType.LawsAndRegulations:
+      case AdminTabsTitle.LawsAndRegulations:
         this.getLawsAndRegulations();
         break;
     }
@@ -116,9 +121,7 @@ export class InfoEditComponent
         'companyInformationId',
         this.fb.control(platformInfoItem.companyInformationId)
       );
-      platformInfoEditFormGroup.patchValue(platformInfoItem, {
-        emitEvent: false,
-      });
+      platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
     }
 
     this.subscribeOnDirtyForm(platformInfoEditFormGroup);
@@ -149,65 +152,43 @@ export class InfoEditComponent
     if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
       const platformInfoItemArray: СompanyInformationSectionItem[] = [];
       this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-        platformInfoItemArray.push(
-          new СompanyInformationSectionItem(form.value)
-        )
+        platformInfoItemArray.push(new СompanyInformationSectionItem(form.value))
       );
 
       const platformInfo = this.editMode
-        ? new CompanyInformation(
-            this.titleFormControl.value,
-            platformInfoItemArray,
-            this.platformInfo.id
-          )
-        : new CompanyInformation(
-            this.titleFormControl.value,
-            platformInfoItemArray
-          );
+        ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
+        : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
 
-      this.store.dispatch(
-        new UpdatePlatformInfo(platformInfo, this.platformInfoType)
-      );
+      this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
     }
   }
 
   private getAboutInfo(): void {
     this.AboutPortal$.pipe(
       takeUntil(this.destroy$),
-      tap(
-        (aboutPortal: CompanyInformation) =>
-          !aboutPortal && this.store.dispatch(new GetPlatformInfo())
-      ),
+      tap((aboutPortal: CompanyInformation) => !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
       filter((aboutPortal: CompanyInformation) => !!aboutPortal)
-    ).subscribe((aboutPortal: CompanyInformation) =>
-      this.setPlatformInfo(aboutPortal)
-    );
+    ).subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal));
   }
 
   private getSupportInformation(): void {
     this.SupportInformation$.pipe(
       takeUntil(this.destroy$),
       tap(
-        (supportInformation: CompanyInformation) =>
-          !supportInformation && this.store.dispatch(new GetPlatformInfo())
+        (supportInformation: CompanyInformation) => !supportInformation && this.store.dispatch(new GetPlatformInfo())
       ),
       filter((supportInformation: CompanyInformation) => !!supportInformation)
-    ).subscribe((supportInformation: CompanyInformation) =>
-      this.setPlatformInfo(supportInformation)
-    );
+    ).subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation));
   }
 
   private getLawsAndRegulations(): void {
     this.LawsAndRegulations$.pipe(
       takeUntil(this.destroy$),
       tap(
-        (lawsAndRegulations: CompanyInformation) =>
-          !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())
+        (lawsAndRegulations: CompanyInformation) => !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())
       ),
       filter((lawsAndRegulations: CompanyInformation) => !!lawsAndRegulations)
-    ).subscribe((lawsAndRegulations: CompanyInformation) =>
-      this.setPlatformInfo(lawsAndRegulations)
-    );
+    ).subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations));
   }
 
   /**
@@ -216,12 +197,9 @@ export class InfoEditComponent
    */
   private setPlatformInfo(platformInfo: CompanyInformation): void {
     this.platformInfo = platformInfo;
-    this.titleFormControl.setValue(this.platformInfo.title, {
-      emitEvent: false,
-    });
-    this.platformInfo.companyInformationItems.forEach(
-      (item: СompanyInformationSectionItem) =>
-        this.PlatformInfoItemArray.push(this.newForm(item))
+    this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
+    this.platformInfo.companyInformationItems.forEach((item: СompanyInformationSectionItem) =>
+      this.PlatformInfoItemArray.push(this.newForm(item))
     );
   }
 }
