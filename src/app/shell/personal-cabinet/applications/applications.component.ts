@@ -1,7 +1,7 @@
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
@@ -95,7 +95,7 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   ngOnInit(): void {
     this.getUserData();
-    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
+    this.actions$.pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(
         takeUntil(this.destroy$))
       .subscribe(() => {

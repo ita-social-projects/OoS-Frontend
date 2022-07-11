@@ -317,7 +317,7 @@ export class UserState {
       }
 
   @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId({ patchState, dispatch }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
+  getApplicationsByProviderId({ patchState }: StateContext<UserStateModel>, { id, parameters }: GetApplicationsByProviderId): Observable<ApplicationCards> {
     patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
@@ -967,7 +967,6 @@ export class UserState {
         type: 'success',
       })
     );
-    dispatch(new GetApplicationsByParentId(payload.parentId, payload.status));
   }
 
   @Action(GetStatusIsAllowToApply)
