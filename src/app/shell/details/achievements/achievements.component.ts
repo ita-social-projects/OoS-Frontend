@@ -59,10 +59,6 @@ export class AchievementsComponent implements OnInit {
     });
   }
 
-  alterDescriptionText() {
-    this.showShortDesciption = !this.showShortDesciption
- }
-
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
   }
