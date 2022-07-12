@@ -10,9 +10,10 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { CreateAchievement, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
+import { CreateAchievement, GetChildrenByWorkshopId, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Child } from 'src/app/shared/models/child.model';
 
 @Component({
   selector: 'app-create-achievement',
@@ -22,6 +23,7 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
+  @Select(UserState.approvedChildren) approvedChildren: Observable<Child[]>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
@@ -29,15 +31,6 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievement: Achievement;
   workshopId: string;
   achievements = AchievementsTitle;
-
-  children$ = [
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Тетерукова', firstName: 'Дарина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Узумакі', firstName: 'Боруто' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Rtdby', firstName: 'Малина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
-  ];
 
   constructor(
     private store: Store,
@@ -60,6 +53,8 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.workshopId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetWorkshopById(this.workshopId));
+    this.store.dispatch(new GetChildrenByWorkshopId(this.workshopId));
+
     this.workshop$
     .pipe(
       takeUntil(this.destroy$),

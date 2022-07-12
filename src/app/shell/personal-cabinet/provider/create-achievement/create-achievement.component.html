@@ -35,7 +35,7 @@
                 </mat-chip>
               </mat-chip-list>
             </mat-select-trigger>
-            <mat-option *ngFor="let child of children$"   
+            <mat-option *ngFor="let child of (approvedChildren | async).entities"   
               [value]="child" class="dropdown-option">
               {{child.lastName}} {{child.firstName}} {{child.middleName}}
             </mat-option>

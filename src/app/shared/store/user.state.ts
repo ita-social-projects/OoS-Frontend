@@ -8,7 +8,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application, ApplicationCards } from '../models/application.model';
-import { ChildCards } from '../models/child.model';
+import { Child, ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -95,6 +95,7 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
+  GetChildrenByWorkshopId
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -123,6 +124,7 @@ export interface UserStateModel {
   blockedParents: BlockedParent;
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
+  approvedChildren: Child[],
 }
 @State<UserStateModel>({
   name: 'user',
@@ -134,6 +136,7 @@ export interface UserStateModel {
     applicationCards: null,
     achievements: null,
     children: undefined,
+    approvedChildren: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
     currentPage: {
@@ -185,6 +188,10 @@ export class UserState {
     return state.children;
   }
 
+  @Selector()
+  static approvedChildren(state: UserStateModel): Child[] {
+    return state.approvedChildren;
+  }
   @Selector()
   static favoriteWorkshops(state: UserStateModel): Favorite[] {
     return state.favoriteWorkshops;
@@ -263,6 +270,19 @@ export class UserState {
     return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
       tap((achievements: Achievement[]) => {
         return patchState({ achievements: achievements, isLoading: false });
+      })
+    );
+  }
+
+  @Action(GetChildrenByWorkshopId)
+  getChildrenByWorkshopId(
+    { patchState }: StateContext<UserStateModel>,
+    { payload }: GetChildrenByWorkshopId
+  ): Observable<Child[]> {
+    patchState({ isLoading: true });
+    return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
+      tap((approvedChildren: Child[]) => {
+        return patchState({ approvedChildren: approvedChildren, isLoading: false });
       })
     );
   }
