@@ -20,10 +20,8 @@
             </ng-container>            
             <h4 class="card_title">Опис</h4> 
             <p class="card_text description" [ngClass]="{'show-less': showShortDesciption}">
-              {{achievement.title}}
-              <a *ngIf="achievement.title.length > 50" (click)="showShortDesciption = !showShortDesciption">More</a>
-            </p>
-            
+              {{achievement.title}}<span *ngIf="achievement.title.length > 30" (click)="showShortDesciption = !showShortDesciption">More</span>
+            </p>            
         </div> 
         
         <ng-container>

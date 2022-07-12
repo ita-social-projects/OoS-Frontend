@@ -53,10 +53,11 @@
   margin-right: 1em;
 }
 
-.show-more {
-  overflow: visible;
+.show-less {
+  overflow: hidden;
   white-space: wrap;
   flex-wrap: wrap !important;
+  white-space: wrap;
 }
 
 ::ng-deep .card_text {  
