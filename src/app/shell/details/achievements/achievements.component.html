@@ -19,9 +19,15 @@
               </p>
             </ng-container>            
             <h4 class="card_title">Опис</h4> 
-            <p class="card_text description" [ngClass]="{'show-less': showShortDesciption}">
-              {{achievement.title}}<span *ngIf="achievement.title.length > 30" (click)="showShortDesciption = !showShortDesciption">More</span>
-            </p>            
+
+            <mat-card-content>
+              <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
+                {{(showMore) ? achievement.title : achievement.title | slice:0:300}}
+                <a class='more' (click)="showMore = !showMore">...Більше</a>
+              </p>  
+            </mat-card-content>
+
+
         </div> 
         
         <ng-container>

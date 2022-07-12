@@ -43,24 +43,24 @@
 .achievement_icon {
   color: #fff;
 }
-
-// .description {
-//   width: 200px;  
-//   white-space: wrap;
-// }
-
 .image {
   margin-right: 1em;
 }
-
-.show-less {
-  overflow: hidden;
-  white-space: wrap;
-  flex-wrap: wrap !important;
-  white-space: wrap;
+.achievement_descr {
+  width: 330px;
+  white-space: nowrap;
+  overflow: overlay;
+  text-overflow: ellipsis;
 }
 
-::ng-deep .card_text {  
-  flex-wrap: wrap !important;
-  max-width: 400px !important;
+.show-more {
+  max-width: fit-content;
+  overflow: visible;
+}
+
+.more {
+  color: #3849F9;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
 }
