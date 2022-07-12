@@ -9,7 +9,7 @@
         [max]="maxAgeFormControl.value ? maxAgeFormControl.value - 1 : validationConstants.AGE_MAX" 
         [directiveFormControl]="minAgeFormControl"
         appMinMax autocomplete="off">
-      <mat-icon class="clear-age-min clear-age" (click)="clearMin()">clear</mat-icon>
+      <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
     </div>
   </mat-form-field>
   <mat-form-field>
@@ -19,7 +19,7 @@
         [directiveFormControl]="maxAgeFormControl" maxlength="2" appMinMax 
         [min]="minAgeFormControl.value ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
         [max]="validationConstants.AGE_MAX" autocomplete="off">
-      <mat-icon class="clear-age-max clear-age" (click)="clearMax()">clear</mat-icon>  
+        <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
     </div>
   </mat-form-field>
 </div>

@@ -71,3 +71,19 @@
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0 !important;
 }
+
+.price-input:hover + .clear-price {
+  visibility: visible;
+}
+.clear-price {
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  font-size: 18px;
+  color: #adadad;
+  top: 8px;
+  left: 114px;
+}
+.clear-price:hover {
+  visibility: visible;
+}

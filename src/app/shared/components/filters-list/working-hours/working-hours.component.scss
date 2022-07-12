@@ -86,17 +86,10 @@
   position: absolute;
   font-size: 18px;
   color: #adadad;
+  top: 8px;
+  left: 114px;
 }
-.clear-time-start {
-  top: 22px;
-  left: 99px;
-}
-.clear-time-end {
-  top: 22px;
-  left: 234px;
-}
-.clear-time-start:hover,
-.clear-time-end:hover {
+.clear-time:hover {
   visibility: visible;
 }
 
