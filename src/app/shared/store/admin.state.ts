@@ -1,68 +1,69 @@
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { ChildCards } from "../models/child.model";
-import { Parent } from "../models/parent.model";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { Provider } from '../models/provider.model';
-import { PlatformService } from '../services/platform/platform.service';
-import { ParentService } from '../services/parent/parent.service';
-import { ChildrenService } from '../services/children/children.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { CategoriesService } from "../services/categories/categories.service";
-import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
 import {
-  DeleteDirectionById,
-  OnDeleteDirectionFail,
-  OnDeleteDirectionSuccess,
-  CreateDirection,
-  OnCreateDirectionFail,
-  OnCreateDirectionSuccess,
-  UpdateDirection,
-  OnUpdateDirectionSuccess,
-  OnUpdateDirectionFail,
+  CreateClass,
   CreateDepartment,
-  OnCreateDepartmentFail,
-  OnCreateDepartmentSuccess,
-  GetDirectionById,
-  SetSearchQueryValue,
-  GetFilteredDirections,
+  CreateDirection,
+  DeleteClassById,
+  DeleteDepartmentById,
+  DeleteDirectionById,
   FilterChange,
   FilterClear,
+  GetAboutPortal,
+  GetAllProviders,
+  GetChildren,
+  GetDepartmentById,
+  GetDirectionById,
+  GetFilteredDirections,
+  GetLawsAndRegulations,
+  GetParents,
+  GetPlatformInfo,
+  GetSupportInformation,
+  OnClearCategories,
+  OnClearDepartment,
   OnCreateClassFail,
   OnCreateClassSuccess,
-  CreateClass,
-  UpdateDepartment,
-  OnUpdateDepartmentFail,
-  OnUpdateDepartmentSuccess,
-  UpdateClass,
-  OnUpdateClassFail,
-  OnUpdateClassSuccess,
-  DeleteClassById,
-  OnDeleteClassSuccess,
+  OnCreateDepartmentFail,
+  OnCreateDepartmentSuccess,
+  OnCreateDirectionFail,
+  OnCreateDirectionSuccess,
   OnDeleteClassFail,
-  OnClearCategories,
-  DeleteDepartmentById,
+  OnDeleteClassSuccess,
   OnDeleteDepartmentFail,
   OnDeleteDepartmentSuccess,
-  GetDepartmentById,
-  OnClearDepartment,
-  GetPlatformInfo,
-  GetAllProviders,
-  GetSupportInformation,
-  GetAboutPortal,
-  GetLawsAndRegulations,
-  UpdatePlatformInfo,
-  OnUpdatePlatformInfoSuccess,
+  OnDeleteDirectionFail,
+  OnDeleteDirectionSuccess,
+  OnUpdateClassFail,
+  OnUpdateClassSuccess,
+  OnUpdateDepartmentFail,
+  OnUpdateDepartmentSuccess,
+  OnUpdateDirectionFail,
+  OnUpdateDirectionSuccess,
   OnUpdatePlatformInfoFail,
-  GetParents,
-  GetChildren,
+  OnUpdatePlatformInfoSuccess,
+  SetSearchQueryValue,
+  UpdateClass,
+  UpdateDepartment,
+  UpdateDirection,
+  UpdatePlatformInfo,
 } from "./admin.actions";
+import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import { Observable, of, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+
+import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
+import { CategoriesService } from "../services/categories/categories.service";
+import { ChildCards } from "../models/child.model";
+import { ChildrenService } from '../services/children/children.service';
+import { CompanyInformation } from "../models/сompanyInformation.model";
+import { Injectable } from "@angular/core";
+import { Parent } from "../models/parent.model";
+import { ParentService } from '../services/parent/parent.service';
+import { PlatformService } from '../services/platform/platform.service';
+import { Provider } from '../models/provider.model';
+import { ProviderService } from '../services/provider/provider.service';
+import { Router } from "@angular/router";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -187,7 +188,7 @@ export class AdminState {
     return this.platformService
       .updatePlatformInfo(payload, type)
       .pipe(
-        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(type))),
+        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(res, type))),
         catchError((error: Error) => of(dispatch(new OnUpdatePlatformInfoFail(error))))
       );
   }
@@ -199,12 +200,12 @@ export class AdminState {
   }
 
   @Action(OnUpdatePlatformInfoSuccess)
-  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
+  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload, type }: OnUpdatePlatformInfoSuccess): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' })
     ]);
-    this.router.navigate([`/admin-tools/platform/${payload}`]);
+    this.router.navigate([`/admin-tools/platform`], { queryParams: { page: type }});
   }
 
   @Action(DeleteDirectionById)
