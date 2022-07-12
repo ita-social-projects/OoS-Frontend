@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PriceFilterComponent } from './price-filter.component';
 import { NgxsModule } from '@ngxs/store';
@@ -25,6 +26,7 @@ describe('PriceFilterComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
+        MatIconModule
       ],
       declarations: [
         PriceFilterComponent,

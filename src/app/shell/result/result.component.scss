@@ -66,6 +66,10 @@
     min-width:100px;
   }
 }
+
+:host::ng-deep.mat-drawer-inner-container{
+  padding: 1rem;
+}
 .mat-drawer-container {
   min-height: 600px;
   background-color: inherit;
@@ -73,6 +77,7 @@
 
   .mat-drawer {
     background-color: inherit;
+    overflow: hidden;
   }
 
   .mat-drawer-content {
