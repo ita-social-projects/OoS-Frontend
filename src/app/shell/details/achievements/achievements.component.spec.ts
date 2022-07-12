@@ -28,7 +28,6 @@ describe('AchievementsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AchievementsComponent);
     component = fixture.componentInstance;
-    component.achievements = [];
     fixture.detectChanges();
   });
 
