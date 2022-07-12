@@ -55,11 +55,16 @@ export class CreatePhotoFormComponent implements OnInit {
     this.store.dispatch(new GetInstitutionStatus());
     this.provider ? this.activateEditMode() : this.onAddForm();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-    this.institutionStatuses$.pipe(takeUntil(this.destroy$),filter((institutionStatuses: InstitutionStatus[])=>(!!institutionStatuses))).subscribe((institutionStatuses: InstitutionStatus[]) => {
-     this.institutionStatuses = institutionStatuses;
-     if(!this.provider){
-      this.PhotoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id,{emitEvent: false})
-     }
+    
+    this.institutionStatuses$
+      .pipe(takeUntil(this.destroy$),filter((institutionStatuses: InstitutionStatus[])=>(!!institutionStatuses)))
+      .subscribe((institutionStatuses: InstitutionStatus[]) => {
+      this.institutionStatuses = institutionStatuses;
+      if(!this.provider){
+        this.PhotoFormGroup.get('institutionStatusId')
+        .setValue(institutionStatuses[0]
+        .id,{emitEvent: false})
+      }  
     })
   }
 
