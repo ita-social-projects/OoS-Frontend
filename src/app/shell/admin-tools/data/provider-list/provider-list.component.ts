@@ -1,12 +1,5 @@
 import { Provider } from 'src/app/shared/models/provider.model';
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -17,10 +10,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { filter, takeUntil } from 'rxjs/operators';
-import {
-  CreateProviderSteps,
-  OwnershipTypeUkr,
-} from 'src/app/shared/enum/provider';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
+import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-provider-list',
@@ -32,7 +24,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-  
+
   @Select(AdminState.providers)
   providers$: Observable<Provider[]>;
   provider: Provider;
@@ -57,22 +49,28 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
   dataSource: MatTableDataSource<object>;
 
-  constructor(
-    private _liveAnnouncer: LiveAnnouncer,
-    private store: Store,
-    public providerService: ProviderService
-  ) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
   ngOnInit(): void {
-    this.getAllProviders();
+    this.store.dispatch([
+      // new GetAllProviders(),
+      new PushNavPath(
+        {
+          name: NavBarName.Providers,
+          isActive: false,
+          disable: true,
+        },
+      ),
+    ]);
   }
 
   ngAfterViewInit(): void {
     this.providers$
       .pipe(
         takeUntil(this.destroy$),
-        filter((providers) => !!providers)
-      ).subscribe((providers) => {
+        filter(providers => !!providers)
+      )
+      .subscribe(providers => {
         this.dataSource = new MatTableDataSource(providers);
         this.dataSource.sort = this.sort;
       });
@@ -91,12 +89,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private getAllProviders(): void {
-    this.store.dispatch(new GetAllProviders());
-  }
-  
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 }

@@ -63,9 +63,12 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
+import { BlockModalWindowComponent } from './components/block-modal-window/block-modal-window.component';
+import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
+import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 
 @NgModule({
@@ -122,13 +125,16 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
-    ProviderInfoComponent,    
+    ProviderInfoComponent,
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
+    BlockModalWindowComponent,
+    InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
+    AchievementCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -199,6 +205,8 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     ValidationHintComponent,
     TrimValueDirective,
     WorkingHoursFormWrapperComponent,
+    BlockModalWindowComponent,
+    InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent
   ]

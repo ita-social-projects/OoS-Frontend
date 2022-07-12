@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
@@ -32,6 +32,8 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
   @Input() cropperConfig: Cropper;
+
+  @ViewChild('inputImage') inputImage: ElementRef;
 
   constructor(public dialog: MatDialog) { }
 
@@ -113,7 +115,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     const dialogRef = this.dialog.open(ImageCropperModalComponent, {
       width: Constants.MODAL_MEDIUM,
       maxHeight: '95vh',
-      height : 'auto',
+      height: 'auto',
       data: {
         image: event,
         cropperConfig: this.cropperConfig,
@@ -127,6 +129,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.selectedImages.push(image);
         this.onChange(this.selectedImages);
       }
+      this.inputImage.nativeElement.value = "";
    });
   }
 }

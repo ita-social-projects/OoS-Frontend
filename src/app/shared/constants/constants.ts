@@ -18,13 +18,16 @@ export class Constants {
   static readonly RATE_FOUR_STAR = 4;
   static readonly RATE_FIVE_STAR = 5;
 
-  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, hh:mm';
+  static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, HH:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
+
+  static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
+  static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
   static readonly NO_CITY = 'Такого міста немає';
   static readonly KIEV: City = {
@@ -41,7 +44,6 @@ export class Constants {
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
 }
-
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;
@@ -62,6 +64,16 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
     monthYearA11yLabel: 'MMMM Y'
   }
 };
+
+export const AchievementsTitle = [
+  { id: 1, name: "Переможці міжнародних та всеукраїнських спортивних змагань (індивідуальних та командних)" },
+  { id: 2, name: "Призери та учасники міжнародних, всеукраїнських та призери регіональних конкурсів і виставок наукових, технічних, дослідницьких, інноваційних, ІТ проектів" },
+  { id: 3, name: "Реципієнти міжнародних грантів" },
+  { id: 4, name: "Призери міжнародних культурних конкурсів та фестивалів" },
+  { id: 5, name: "Соціально активні категорії учнів" },
+  { id: 6, name: "Цифрові інструменти Google для закладів вищої та фахової передвищої освіти" },
+  { id: 7, name: "Переможці та учасники олімпіад міжнародного та всеукраїнського рівнів" }
+];
 
 export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   {

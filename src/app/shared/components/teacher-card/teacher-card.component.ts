@@ -25,8 +25,8 @@ export class TeacherCardComponent implements OnInit {
   }
 
   private getCoverImageUrl(): void {
-    this.coverImageUrl = this.teacher.avatarImageId ?
-      environment.storageUrl + this.teacher.avatarImageId :
+    this.coverImageUrl = this.teacher.coverImageId ?
+      environment.storageUrl + this.teacher.coverImageId :
       'assets/icons/teacher.png';
   }
 

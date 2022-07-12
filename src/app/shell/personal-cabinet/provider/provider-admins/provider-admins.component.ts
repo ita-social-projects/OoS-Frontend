@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { PopNavPath } from './../../../../shared/store/navigation.actions';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
@@ -33,13 +34,15 @@ import {
 import { UserState } from 'src/app/shared/store/user.state';
 import { Role } from 'src/app/shared/enum/role';
 import { Constants } from 'src/app/shared/constants/constants';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-provider-admins',
   templateUrl: './provider-admins.component.html',
   styleUrls: ['./provider-admins.component.scss'],
 })
-export class ProviderAdminsComponent implements OnInit {
+export class ProviderAdminsComponent implements OnInit, OnDestroy {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
@@ -65,7 +68,7 @@ export class ProviderAdminsComponent implements OnInit {
     public store: Store,
     private router: Router,
     private route: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -103,6 +106,16 @@ export class ProviderAdminsComponent implements OnInit {
       .subscribe((provider: Provider) => (this.provider = provider));
 
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
+
+    this.store.dispatch(
+      new PushNavPath(
+        {
+          name: NavBarName.Administration,
+          isActive: false,
+          disable: true,
+        }
+      )
+    );    
   }
 
   getAllProviderAdmins(): void {
@@ -183,5 +196,11 @@ export class ProviderAdminsComponent implements OnInit {
           })
         );
     });
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new PopNavPath());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

@@ -1,3 +1,4 @@
+import { Util } from 'src/app/shared/utils/utils';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Role } from 'src/app/shared/enum/role';
@@ -75,16 +76,15 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
+    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
-            name:
-              this.store.selectSnapshot<User>(RegistrationState.user)?.role === this.role.provider
-                ? NavBarName.PersonalCabinetProvider
-                : this.role.techAdmin
-                ? NavBarName.PersonalCabinetTechAdmin
-                : NavBarName.PersonalCabinetParent,
+            name: personalCabinetTitle,
             path: '/personal-cabinet/config',
             isActive: false,
             disable: false,
