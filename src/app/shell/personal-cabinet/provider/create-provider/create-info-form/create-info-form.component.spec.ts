@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateInfoFormComponent } from './create-info-form.component';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -32,6 +32,7 @@ describe('CreateInfoFormComponent', () => {
       declarations: [
         CreateInfoFormComponent,
         MockValidationHintForInputComponent,
+        MockImageFormComponent,
         KeyFilterDirective
       ]
     })
@@ -41,6 +42,9 @@ describe('CreateInfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
+    component.InfoFormGroup = new FormGroup({
+      coverImage: new FormControl(''),
+    });
     fixture.detectChanges();
   });
 
@@ -61,4 +65,13 @@ class MockValidationHintForInputComponent {
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;
+}
+
+@Component({
+  selector: 'app-image-form-control',
+  template: ''
+})
+class MockImageFormComponent {
+  @Input() imgMaxAmount: number;
+  @Input() coverImage: string;
 }

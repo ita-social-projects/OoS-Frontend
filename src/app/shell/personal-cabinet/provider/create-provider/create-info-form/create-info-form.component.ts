@@ -38,7 +38,6 @@ export class CreateInfoFormComponent implements OnInit {
   institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
-  @Input() isRelease2: boolean;
   @Output() passInfoFormGroup = new EventEmitter();
 
   InfoFormGroup: FormGroup;
