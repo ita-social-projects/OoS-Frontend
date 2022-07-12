@@ -16,11 +16,7 @@
     color: #444444;
   }
   &-slider{
-    margin: 12px 0;
-    margin-left: 0.5rem;
     .ngx-slider{
-      margin: 0;
-      max-width: 234px;
       .ngx-slider-bar-wrapper{
         margin: 0;
         height: 0;
@@ -52,7 +48,6 @@
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 85px;
   max-height: 34px;
 }
 .input-wrapper{

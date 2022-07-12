@@ -1,8 +1,8 @@
 <p class="filter-text title">Обрати вік</p>
 
-<div class="wrapper" fxLayout='row' fxLayoutAlign='start' fxLayoutGap='1rem'>
+<div class="wrapper" fxLayout='row' fxLayoutAlign='space-between' fxLayoutGap='1rem'>
   <mat-form-field>
-    <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem'>
+    <div fxLayout='row' fxLayoutAlign='start center'>
       <p class="filter-text">Від</p>
       <input matInput class="age-input" type="number" ng-model="number" [formControl]="minAgeFormControl" appDigitOnly
         maxlength="2" [min]="validationConstants.AGE_MIN" 
@@ -13,7 +13,7 @@
     </div>
   </mat-form-field>
   <mat-form-field>
-    <div fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem'>
+    <div fxLayout='row' fxLayoutAlign='start center'>
       <p class="filter-text">До</p>
       <input matInput class="age-input" type="number" ng-model="number" [formControl]="maxAgeFormControl" appDigitOnly
         [directiveFormControl]="maxAgeFormControl" maxlength="2" appMinMax 

@@ -1,7 +1,7 @@
 @import "src/app/shared/styles/buttons.scss";
 
 .filter-text{
-  margin: 0;
+  margin: 0 1rem 0 0;
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
@@ -28,7 +28,6 @@
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 85px;
   max-height: 34px;
   text-align: center;
 }
