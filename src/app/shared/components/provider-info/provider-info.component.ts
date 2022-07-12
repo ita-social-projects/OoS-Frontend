@@ -52,7 +52,7 @@ export class ProviderInfoComponent implements OnInit {
     this.store.dispatch(new GetInstitutionStatus());
     this.institutionStatuses$.pipe(takeUntil(this.destroy$),filter((institutionStatuses: InstitutionStatus[])=>(!!institutionStatuses)))
       .subscribe((institutionStatuses: InstitutionStatus[]) => {
-       this.institutionStatusName = institutionStatuses.find((item)=>(item.id === this.provider.institutionStatusId)).name;
+       this.institutionStatusName = institutionStatuses.find((item: InstitutionStatus)=>(item.id === this.provider.institutionStatusId)).name;
       })
   }
 
