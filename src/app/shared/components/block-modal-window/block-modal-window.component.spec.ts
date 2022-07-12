@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalConfirmationText, ModalConfirmationTitle } from '../../enum/modal-confirmation';
 
 describe('BlockModalWindowComponent', () => {
   let component: BlockModalWindowComponent;
@@ -37,8 +38,8 @@ describe('BlockModalWindowComponent', () => {
     fixture = TestBed.createComponent(BlockModalWindowComponent);
     component = fixture.componentInstance;
     component.ReasonFormControl = new FormControl({ value: 'Reason', disabled: true }, Validators.required)
-    component.modalTitle = '';
-    component.modalDescription = '';
+    component.modalTitle = ModalConfirmationTitle.blockParent;
+    component.modalDescription = ModalConfirmationText.blockParent;
     fixture.detectChanges();
   });
 

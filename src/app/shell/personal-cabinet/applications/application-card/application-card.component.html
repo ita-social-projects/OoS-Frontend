@@ -36,7 +36,7 @@
         [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
           xPosition="after" class="mat-application-menu">
-          <app-status-info-card [application]="application" [blockedParent]="blockedParent" [status]="status"></app-status-info-card>
+          <app-status-info-card [application]="application" [status]="status"></app-status-info-card>
         </mat-menu>
     </div>
   </mat-card-content>

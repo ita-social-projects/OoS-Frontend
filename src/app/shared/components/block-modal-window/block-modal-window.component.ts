@@ -26,7 +26,6 @@ export class BlockModalWindowComponent {
 
   constructor(
     private dialogRef: MatDialogRef<BlockModalWindowComponent>,
-    private matDialog: MatDialog,
     ) {}
 
   onCancel(): void {
