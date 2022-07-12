@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -97,7 +97,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     });
 
     this.actions$
-      .pipe(ofAction(FilterChange))
+      .pipe(ofActionCompleted(FilterChange))
       .pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() =>
         this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])

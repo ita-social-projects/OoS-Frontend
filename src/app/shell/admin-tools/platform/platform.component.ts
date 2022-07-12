@@ -7,7 +7,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsTitle, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
-import { AddNavPath, DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { AddNavPath, DeleteNavPath, PopNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({

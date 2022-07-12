@@ -6,7 +6,9 @@ import { Provider } from '../models/provider.model';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
+import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
+import { ParentRoutingModule } from 'src/app/shell/personal-cabinet/parent/parent-routing.module';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -278,4 +280,35 @@ export class GetFilteredChildrens {
 export class ResetProviderWorkshopDetails {
   static readonly type = '[user] clear provider and workshop details';
   constructor() { }
+}
+export class BlockParent {
+  static readonly type = '[user] block parent';
+  constructor(public payload: BlockedParent) { }
+}
+
+export class BlockParentFail {
+  static readonly type = '[user] block parent fail';
+  constructor(public payload: Error) { }
+}
+export class BlockParentSuccess {
+  static readonly type = '[user] block parent success';
+  constructor(public payload: BlockedParent) { }
+}
+
+export class UnBlockParent {
+  static readonly type = '[user] unblock parent';
+  constructor(public payload: BlockedParent) { }
+}
+
+export class UnBlockParentFail {
+  static readonly type = '[user] unblock parent fail';
+  constructor(public payload: Error) { }
+}
+export class UnBlockParentSuccess {
+  static readonly type = '[user] unblock parent success';
+  constructor(public payload: BlockedParent) { }
+}
+export class GetBlockedParents {
+  static readonly type = '[user] get block parent';
+  constructor(public providerId: string, public parentId: string) { }
 }
