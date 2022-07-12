@@ -76,4 +76,5 @@ class MockImageFormComponent {
   @Input() coverImage: FormControl;
   @Input() imageIdsFormControl: FormControl;
   @Input() cropperConfig: object;
+  @Input() label: string;
 }
