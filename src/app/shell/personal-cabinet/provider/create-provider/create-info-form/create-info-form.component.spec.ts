@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
 import { NgxsModule } from '@ngxs/store';
+import { ImageFormControlComponent } from 'src/app/shared/components/image-form-control/image-form-control.component';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -32,7 +33,7 @@ describe('CreateInfoFormComponent', () => {
       declarations: [
         CreateInfoFormComponent,
         MockValidationHintForInputComponent,
-        MockImageFormComponent,
+        ImageFormControlComponent,
         KeyFilterDirective
       ]
     })
@@ -43,7 +44,21 @@ describe('CreateInfoFormComponent', () => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
     component.InfoFormGroup = new FormGroup({
+      fullTitle: new FormControl(''),
+      shortTitle: new FormControl(''),
+      edrpouIpn: new FormControl(''),
+      director: new FormControl(''),
+      directorDateOfBirth: new FormControl(''),
+      phoneNumber: new FormControl(''),
+      email: new FormControl(''),
+      website: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      type: new FormControl(null),
+      ownership: new FormControl(null),
+      institution: new FormControl(''),
       coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
     });
     fixture.detectChanges();
   });
@@ -65,16 +80,4 @@ class MockValidationHintForInputComponent {
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;
-}
-
-@Component({
-  selector: 'app-image-form-control',
-  template: ''
-})
-class MockImageFormComponent {
-  @Input() imgMaxAmount: number;
-  @Input() coverImage: FormControl;
-  @Input() imageIdsFormControl: FormControl;
-  @Input() cropperConfig: object;
-  @Input() label: string;
 }
