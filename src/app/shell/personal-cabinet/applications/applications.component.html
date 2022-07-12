@@ -138,7 +138,7 @@
 
 <ng-template #ChildApplication let-childApplications let-child="child">
   <ng-container *ngIf="isSelectedChildCheckbox || !isSelectedChildCheckbox && childApplications.length">
-    <h3 class="child-name"> {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
+    <h3 class="child-name">{{ child.lastName }} {{ child.firstName }}  {{ child.middleName }} ({{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }})</h3>
     <ng-container *ngIf="childApplications.length; else isEmptyList">
       <ng-container
         *ngTemplateOutlet="Applications; context:{$implicit: childApplications }">

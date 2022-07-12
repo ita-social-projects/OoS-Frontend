@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
+import { Direction } from '../../models/category.model';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -16,14 +17,29 @@ import { FiltersSidenavToggle } from '../../store/navigation.actions';
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
   filterList$: Observable<any>;
-  filterList;
+  filterList: {
+    withDisabilityOption: boolean;
+    categoryCheckBox: Direction[],
+    ageFilter: { minAge: number, maxAge: number },
+    priceFilter: {
+      minPrice: number,
+      maxPrice: number,
+      isFree: boolean,
+      isPaid: boolean
+    },
+    workingHours: {
+      workingDays: string[],
+      startTime: string,
+      endTime: string
+    },
+    order: string
+  };
 
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
 
   @Input() isMobileView: boolean;
-
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);

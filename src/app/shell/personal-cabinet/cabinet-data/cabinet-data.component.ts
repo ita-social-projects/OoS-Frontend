@@ -1,29 +1,28 @@
-import { GetAllUsersChildren, GetUsersChildren, OnUpdateApplicationSuccess } from './../../../shared/store/user.actions';
+import { GetAllUsersChildren, GetUsersChildren } from './../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, tap, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application, ApplicationCards, } from 'src/app/shared/models/application.model';
+import { ApplicationCards, } from 'src/app/shared/models/application.model';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetApplicationsByProviderId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-cabinet-data',
   template: '',
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly Role: typeof Role = Role;
@@ -53,7 +52,11 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   childrenCards: Child[];
   filteredChildren: Child[]
 
-  constructor(public store: Store, public matDialog: MatDialog, protected actions$: Actions) { }
+  constructor(
+    public store: Store,
+    public matDialog: MatDialog,
+    protected actions$: Actions,
+    protected navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void { }
 
@@ -116,6 +119,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
-
 }

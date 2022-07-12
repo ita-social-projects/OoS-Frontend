@@ -1,4 +1,3 @@
-import { PlatformModule } from './admin-tools/platform/platform.module';
 import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';

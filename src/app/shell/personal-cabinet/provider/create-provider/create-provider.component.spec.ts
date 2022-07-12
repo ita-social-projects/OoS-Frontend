@@ -9,6 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
@@ -24,13 +25,15 @@ describe('CreateProviderComponent', () => {
         MatCheckboxModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule
+        RouterTestingModule,
+        MatDialogModule
       ],
       declarations: [
         CreateProviderComponent,
         MockCreatePhotoFormComponent,
         MockCreateInfoComponent,
         MockCreateContactsFormComponent
+        
       ]
     })
       .compileComponents();
