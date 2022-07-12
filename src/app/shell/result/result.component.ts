@@ -63,7 +63,11 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.addNavPath();
+    this.getWorkshops();
+    this.setInitialSubscribtions();
+  }
 
+  private setInitialSubscribtions(): void {
     combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.workshopsPerPage$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([isMobileView, role, params, currentPage, workshopsPerPage]) => {
@@ -81,18 +85,21 @@ export class ResultComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
 
-    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
-      if (event.navigationTrigger === 'popstate') {
-        this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
-      }
-    });
-
     this.actions$
       .pipe(ofActionCompleted(FilterChange))
       .pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() =>
         this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
       );
+  }
+
+  private getWorkshops(): void {
+    this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
+      if (event.navigationTrigger === 'popstate') {
+        this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
+      }
+    });
   }
 
   private addNavPath(): void {
