@@ -73,5 +73,7 @@ class MockValidationHintForInputComponent {
 })
 class MockImageFormComponent {
   @Input() imgMaxAmount: number;
-  @Input() coverImage: string;
+  @Input() coverImage: FormControl;
+  @Input() imageIdsFormControl: FormControl;
+  @Input() cropperConfig: object;
 }
