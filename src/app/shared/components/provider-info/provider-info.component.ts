@@ -17,7 +17,6 @@ import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { RegistrationState } from '../../store/registration.state';
 
 @Component({
   selector: 'app-provider-info',
@@ -42,24 +41,19 @@ export class ProviderInfoComponent implements OnInit {
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatusName: string;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
-  currentStatus: string;
+  
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
-    this.institutionStatuses$
-      .pipe(
-        filter((institutionStatuses) => !!institutionStatuses.length),
-        takeUntil(this.destroy$)
-        ).subscribe((institutionStatuses) => {
-          const provider = this.store.selectSnapshot(RegistrationState.provider);
-          this.currentStatus =
-            institutionStatuses
-              .find((item) => +item.id === provider?.institutionStatusId)
-              ?.name.toString() ?? 'Відсутній';
-        });
+    this.institutionStatuses$.pipe(takeUntil(this.destroy$),filter((institutionStatuses: InstitutionStatus[])=>(!!institutionStatuses)))
+      .subscribe((institutionStatuses: InstitutionStatus[]) => {
+       this.institutionStatusName = institutionStatuses.find((item)=>(item.id === this.provider.institutionStatusId)).name;
+      })
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {

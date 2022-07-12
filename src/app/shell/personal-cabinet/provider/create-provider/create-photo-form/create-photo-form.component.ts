@@ -1,7 +1,9 @@
+import { emit } from 'process';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
@@ -24,6 +26,8 @@ export class CreatePhotoFormComponent implements OnInit {
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses: InstitutionStatus[];
+  
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() provider: Provider;
@@ -37,7 +41,7 @@ export class CreatePhotoFormComponent implements OnInit {
     this.PhotoFormGroup = this.formBuilder.group({
       image: new FormControl(''),
       providerSectionItems: this.SectionItemsFormArray,
-      institutionStatusId: new FormControl(Constants.INSTITUTION_STATUS_ID_ABSENT_VALUE, Validators.required),
+      institutionStatusId: new FormControl('', Validators.required),
       institutionType: new FormControl('', Validators.required),
       founder: new FormControl('', [
         Validators.required, 
@@ -52,6 +56,12 @@ export class CreatePhotoFormComponent implements OnInit {
     this.store.dispatch(new GetInstitutionStatus());
     this.provider ? this.activateEditMode() : this.onAddForm();
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
+    this.institutionStatuses$.pipe(takeUntil(this.destroy$),filter((institutionStatuses: InstitutionStatus[])=>(!!institutionStatuses))).subscribe((institutionStatuses: InstitutionStatus[]) => {
+     this.institutionStatuses = institutionStatuses;
+     if(!this.provider){
+      this.PhotoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id,{emitEvent: false})
+     }
+    })
   }
 
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {
