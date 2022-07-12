@@ -32,14 +32,13 @@ export class PlatformComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetPlatformInfo());
-    this.addNavPath(AdminTabsTitle.AboutPortal);
+    this.addNavPath();
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.tabIndex = params.page && +AdminTabs[params.page];
-      this.type = AdminTabsTitle[params.page];
     });
   }
 
-  private addNavPath(activeTab: string): void {
+  private addNavPath(): void {
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -55,11 +54,6 @@ export class PlatformComponent implements OnInit, OnDestroy {
             path: '/admin-tools/platform',
             queryParams: { page: AdminTabsTitle.AboutPortal },
             isActive: false,
-            disable: false,
-          },
-          {
-            name: AdminTabsUkr[activeTab],
-            isActive: false,
             disable: true,
           }
         )
@@ -68,9 +62,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   }
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
-    this.store.dispatch(new PopNavPath());
     this.router.navigate([`admin-tools/platform`], { queryParams: { page: AdminTabs[event.index] } });
-    this.addNavPath(AdminTabs[event.index]);
   }
 
   ngOnDestroy(): void {
