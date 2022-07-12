@@ -52,8 +52,14 @@
 .image {
   margin-right: 1em;
 }
-.show-less {
-  overflow: hidden;
+
+.show-more {
+  overflow: visible;
   white-space: wrap;
-  text-overflow: ellipsis;
+  flex-wrap: wrap !important;
+}
+
+::ng-deep .card_text {  
+  flex-wrap: wrap !important;
+  max-width: 400px !important;
 }

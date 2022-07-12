@@ -55,7 +55,7 @@ export class AchievementsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      (result) && this.store.dispatch(new DeleteAchievementById(achievement?.id));
+      (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
     });
   }
 
