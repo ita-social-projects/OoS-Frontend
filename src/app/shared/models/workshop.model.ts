@@ -1,3 +1,4 @@
+import { Direction } from 'src/app/shared/models/category.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
 import { SectionItem } from './sectionItem.model';
@@ -23,11 +24,12 @@ export class Workshop {
   numberOfRatings?: number;
   directionId?: number;
   direction: string;
+  directions: Direction[];
   departmentId?: number;
   classId?: number;
   providerId: string;
   providerTitle?: string;
-  isPerMonth?: string;
+  payRate?: string;
   isCompetitiveSelection: boolean;
   competitiveSelectionDescription: string;
   logo: string;
@@ -36,6 +38,8 @@ export class Workshop {
   imageIds?: string[];
   coverImage?: File[];
   coverImageId?: string[];
+  institutionHierarchyId: string;
+  institutionId: string;
   workshopDescriptionItems: WorkshopSectionItem[];
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
@@ -50,12 +54,16 @@ export class Workshop {
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
-    this.isPerMonth = about.isPerMonth;
+    if(about.payRate){
+      this.payRate = about.payRate;
+    }
     this.directionId = description.categories.directionId.id;
     this.departmentId = description.categories.departmentId.id;
     this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
+    this.institutionHierarchyId = description.institutionHierarchyId;
+    this.institutionId = description.institutionId;
     if (id) {
       this.id = id;
     }
@@ -101,7 +109,7 @@ export class WorkshopSectionItem extends SectionItem {
 export interface WorkshopCard {
   address: Address;
   directionId: number;
-  isPerMonth: boolean;
+  payRate: string;
   maxAge: number;
   minAge: number;
   photo?: string;
@@ -113,6 +121,7 @@ export interface WorkshopCard {
   title: string;
   workshopId: string;
   coverImageId?: string;
+  directionsId: number[];
 }
 export interface WorkshopFilterCard {
   totalAmount: number;

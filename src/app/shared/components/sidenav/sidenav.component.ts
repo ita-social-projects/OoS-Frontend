@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { AdminTabs } from '../../enum/enumUA/tech-admin/admin-tabs';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { FeaturesList } from '../../models/featuresList.model';
@@ -19,7 +20,7 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-
+  readonly defaultAdminTabs = AdminTabs[0];
   readonly Languages: typeof Languages = Languages;
   selectedLanguage: string;
 

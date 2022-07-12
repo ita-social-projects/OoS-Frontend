@@ -1,7 +1,7 @@
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Actions, ofAction, Store } from '@ngxs/store';
+import { Actions, Store, ofActionCompleted } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
@@ -18,7 +18,7 @@ import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRat
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
-  styleUrls: ['./workshop-details.component.scss']
+  styleUrls: ['./workshop-details.component.scss'],
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
@@ -39,7 +39,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     private actions$: Actions,
     private store: Store,
     private navigationBarService: NavigationBarService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getWorkshopData();
@@ -47,10 +47,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.selectedIndex = 0));
-    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
-      .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged())
+    this.actions$
+      .pipe(ofActionCompleted(OnCreateRatingSuccess))
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
   }
 
@@ -62,9 +61,15 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       new GetWorkshopsByProviderId(this.workshop.providerId),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
-          { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-          { name: this.workshop.title, isActive: false, disable: true },
-        ))
+          {
+            name: NavBarName.WorkshopResult,
+            path: '/result',
+            isActive: false,
+            disable: false,
+          },
+          { name: this.workshop.title, isActive: false, disable: true }
+        )
+      ),
     ]);
   }
 

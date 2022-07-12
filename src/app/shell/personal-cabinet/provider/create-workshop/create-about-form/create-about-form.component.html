@@ -73,9 +73,9 @@
   <div class="border-bottom"></div>
 
   <label class="step-label">Вік дітей<span class="step-required">*</span></label>
-  <div fxLayout='row' fxLayoutAlign='start'>
-    <div fxLayout='column' fxLayoutAlign='start start'>
-      <div fxLayout='row' fxLayoutAlign='start center'>
+  <div fxLayout="row" fxLayoutAlign="start">
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row"fxLayoutAlign="start center">
         <p class="step-text">Від</p>
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly
@@ -89,8 +89,8 @@
       </app-validation-hint>
     </div>
 
-    <div fxLayout='column' fxLayoutAlign='start start'>
-      <div fxLayout='row' fxLayoutAlign='start center'>
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row" fxLayoutAlign="start center">
         <p class="step-text">До</p>
         <mat-form-field>
           <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly
@@ -103,7 +103,6 @@
         [validationFormControl]="AboutFormGroup.get('maxAge')">
       </app-validation-hint>
     </div>
-
   </div>
 
   <label class="step-label">Розклад занять<span class="step-required">*</span></label>
@@ -113,24 +112,31 @@
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       Безкоштовно</mat-radio-button>
-    <div fxLayout='row' fxLayoutAlign="start center" fxLayout.xs='column' fxLayoutAlign.xs="center start">
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input step-input-age"
-            appDigitOnly appMinMax formControlName="price" type="number"
-            [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE">
-        </mat-radio-button>
-        <p class="step-text">грн за</p>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="conteiner">
+        <div fxLayout="row" fxLayoutAlign="center center" class="price">
+          <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input price-input"
+              appDigitOnly appMinMax formControlName="price" type="number"
+              [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
+              [max]="validationConstants.MAX_PRICE">
+          </mat-radio-button>
+        </div>
+        <div fxLayoutAlign="center center" class="pay-type">
+          <p class="step-text price-text">грн за</p>
+            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="payRate" name="payRate" 
+            placeholder="Оберіть тип олати за гурток">
+              <ng-container *ngFor="let type of PayRateType | keyvalue">
+                <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
+                  {{ PayRateTypeUkr[type.key] }} 
+                </mat-option>
+              </ng-container>
+            </mat-select>
+        </div>
       </div>
-      <mat-button-toggle-group color="primary" formControlName="isPerMonth">
-        <mat-button-toggle [value]="false">Заняття</mat-button-toggle>
-        <mat-button-toggle [value]="true">Місяць</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
+    <app-validation-hint
+      [validationFormControl]="AboutFormGroup.get('payRate')"
+      [isTouched]="AboutFormGroup.get('payRate').touched">
+    </app-validation-hint>
   </mat-radio-group>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('isPerMonth')">
-  </app-validation-hint>
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'

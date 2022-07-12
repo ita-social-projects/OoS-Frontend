@@ -1,0 +1,11 @@
+@import "src/app/shared/styles/create-form-wrapper.scss";
+@import "src/app/shared/styles/create-form.scss";
+@import "src/app/shared/styles/validation-form.scss";
+
+form.reject-form {
+  width: 100%;
+}
+
+.mat-input-element.step-textarea {
+  max-width: 90%;
+}

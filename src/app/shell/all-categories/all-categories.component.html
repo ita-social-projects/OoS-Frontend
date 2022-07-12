@@ -1,6 +1,5 @@
 <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="start center">
   <h3 class="title">Усі напрямки</h3>
-  <app-full-search-bar></app-full-search-bar>
 </div>
 <div class="card-wrapper">
   <app-category-card class="card" *ngFor="let direction of directions$ | async " [direction]="direction">

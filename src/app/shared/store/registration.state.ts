@@ -30,8 +30,8 @@ export interface RegistrationStateModel {
   provider: Provider;
   parent: Parent;
   techAdmin: TechAdmin;
-  role: string;
-  subrole: string;
+  role: Role;
+  subrole: Role;
 }
 
 @State<RegistrationStateModel>({
@@ -77,12 +77,12 @@ export class RegistrationState {
   }
 
   @Selector()
-  static role(state: RegistrationStateModel): string | undefined {
+  static role(state: RegistrationStateModel): Role | undefined {
     return state.role;
   }
 
   @Selector()
-  static subrole(state: RegistrationStateModel): string | undefined {
+  static subrole(state: RegistrationStateModel): Role | undefined {
     return state.subrole;
   }
 
@@ -165,7 +165,7 @@ export class RegistrationState {
     {}: GetProfile
   ): Observable<Parent> | Observable<Provider> {
     const state = getState();
-    patchState({ role: state.user.role });
+    patchState({ role: state.user.role as Role });
 
     switch (state.user.role) {
       case Role.parent:

@@ -33,6 +33,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   invalidCharacters: boolean;
   invalidFieldLength: boolean;
   invalidDateRange: boolean;
+  invalidDateFormat: boolean;
   invalidEmail: boolean;
   invalidPhoneLength: boolean;
 
@@ -88,6 +89,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkMatDatePciker(): void {
+    this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
         this.validationFormControl.hasError('matDatepickerMin') || 
         this.validationFormControl.hasError('matDatepickerMax')

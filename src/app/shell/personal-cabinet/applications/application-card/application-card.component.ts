@@ -1,13 +1,10 @@
 import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
 import {
   Component,
-  ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import {
@@ -22,12 +19,17 @@ import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
+import { Select, Store } from '@ngxs/store';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
+import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
+import { Provider } from 'src/app/shared/models/provider.model';
+import { FormGroup, } from '@angular/forms';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { Observable, Subject } from 'rxjs';
+import { BlockedParent } from 'src/app/shared/models/block.model';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -48,6 +50,19 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
+  ReasonFormGroup: FormGroup;
+  blockedParent: BlockedParent;
+    applicationParams: {
+    status: string,
+    showBlocked: boolean,
+    workshopsId: string[],
+  } = {
+      status: undefined,
+      showBlocked: false,
+      workshopsId: []
+    };
+
+  status: ApplicationStatus;
   subrole: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -61,8 +76,9 @@ export class ApplicationCardComponent implements OnInit {
 
   constructor(
     private detectedDevice: DetectedDeviceService,
-    private matDialog: MatDialog
-  ) {}
+    private matDialog: MatDialog,
+    private store: Store,
+    ) {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
@@ -70,7 +86,7 @@ export class ApplicationCardComponent implements OnInit {
     this.subrole$
       .pipe(takeUntil(this.destroy$))
       .subscribe((subrole: string) => (this.subrole = subrole));
-
+      this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
   }
 
   onClick(event) {
@@ -117,6 +133,42 @@ export class ApplicationCardComponent implements OnInit {
     });
   }
 
+  /**
+   * This method emit block Application
+   * @param Application application
+   */
+  onBlock(): void {
+    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {});
+    dialogRef.afterClosed().subscribe((result: string)  => {
+      if(result) {
+        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+        const parentId = this.application.parentId;
+        const blockedParent = new BlockedParent( parentId, providerId, result);
+        this.store.dispatch(new BlockParent(blockedParent));
+        }
+    });
+  }
+
+  /**
+   * This method emit unblock Application
+   * @param Application application
+   */
+  onUnBlock(): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.unBlockParent,
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: string)  => {
+      if(result) {
+        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+        const parentId = this.application.parentId;
+        const blockedParent = new BlockedParent( parentId, providerId);
+        this.store.dispatch(new UnBlockParent(blockedParent));
+        }
+    });
+  }
   /**
    * This method emit on deny action
    * @param Application application

@@ -1,6 +1,6 @@
-import { PlatformInfoType } from './../enum/platform';
 import { Department, Direction, IClass } from "../models/category.model";
-import { PaginationElement } from "../models/paginationElement.model";
+
+import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPlatformInfo {
@@ -26,7 +26,7 @@ export class GetLawsAndRegulations {
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(public payload: CompanyInformation, public type: PlatformInfoType) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';
@@ -34,7 +34,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';

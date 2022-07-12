@@ -1,14 +1,14 @@
-
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store } from '@ngxs/store';
+import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
+import { Application, ApplicationCards, ApplicationUpdate } from '../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
-import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -18,6 +18,12 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
 import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { Observable } from 'rxjs';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 
 @Component({
@@ -25,23 +31,32 @@ import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumU
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss']
 })
-export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit {
+export class ApplicationsComponent extends CabinetDataComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  @Select(PaginatorState.applicationsPerPage)
+  applicationsPerPage$: Observable<number>;
 
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly constants: typeof Constants = Constants;
-
+  applicationCards: ApplicationCards;
   isActiveInfoButton = false;
   tabIndex: number;
-  providerApplicationParams: {
+  applicationParams: {
     status: string,
-    workshopsId: string[]
+    showBlocked: boolean,
+    workshopsId: string[],
   } = {
       status: undefined,
+      showBlocked: false,
       workshopsId: []
     };
   isSelectedChildCheckbox = false;
   ChildDeclination = ChildDeclination;
   WorkshopDeclination = WorkshopDeclination;
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
 
   @ViewChild(InfoBoxHostDirective, { static: true })
   infoBoxHost: InfoBoxHostDirective;
@@ -50,45 +65,55 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
   tabGroup: MatTabGroup;
 
   constructor(
-    store: Store,
     private infoBoxService: InfoBoxService,
+    private router: Router,
+    private route: ActivatedRoute,
+    store: Store,
     matDialog: MatDialog,
     actions$: Actions,
-    private router: Router,
-    private route: ActivatedRoute,) {
-    super(store, matDialog, actions$);
+    navigationBarService: NavigationBarService,
+) {
+    super(store, matDialog, actions$, navigationBarService);
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']));
   }
+
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;
+    this.store.dispatch(
+      new PushNavPath(
+        {
+          name: NavBarName.Applications,
+          isActive: false,
+          disable: true,
+        }
+      )
+    );
   }
 
   ngOnInit(): void {
     this.getUserData();
-    this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])      
-      );
-
-    this.actions$.pipe(ofAction(OnUpdateApplicationSuccess))
+    this.actions$.pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(
         takeUntil(this.destroy$))
       .subscribe(() => {
         if (this.role === Role.provider) {
-          this.getProviderApplications(this.providerApplicationParams);
+          this.getProviderApplications(this.applicationParams);
         } else {
-          this.getParentApplications();
+          this.getParentApplications(this.applicationParams);
         }
       });
   }
 
   init(): void {
     if (this.role === Role.provider) {
-      this.getProviderApplications(this.providerApplicationParams);
+      this.getProviderApplications(this.applicationParams);
       this.getProviderWorkshops();
       this.activateChildInfoBox();
     } else {
       this.getAllUsersChildren();
-      this.getParentApplications();
+      this.getParentApplications(this.applicationParams);
     }
   }
 
@@ -142,13 +167,14 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
-    const status = (tabLabel !== ApplicationTitlesReverse[ApplicationTitles.All]) ?
+    const status = (tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.Blocked] && tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.All]) ?
     tabLabel : null;
+    this.applicationParams.status = status;
     if (this.role === Role.provider) {
-      this.providerApplicationParams.status = status;
-      this.getProviderApplications(this.providerApplicationParams);
+      this.applicationParams.showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked];
+      this.getProviderApplications(this.applicationParams);
     } else {
-      this.getParentApplications(status);
+      this.getParentApplications(this.applicationParams);
     }
     this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
   }
@@ -159,8 +185,8 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
  */
    onEntitiesSelect(IDs: string[]): void {
       if (this.role === Role.provider) {
-        this.providerApplicationParams.workshopsId = IDs;
-        this.getProviderApplications(this.providerApplicationParams);
+        this.applicationParams.workshopsId = IDs;
+        this.getProviderApplications(this.applicationParams);
       } else {
         this.isSelectedChildCheckbox = !!IDs.length;
         this.filteredChildren = this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);
@@ -177,5 +203,24 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
 
   onInfoHide(): void {
     this.infoBoxService.onMouseLeave();
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new OnPageChangeApplications(page));
+    if (this.role === Role.provider) {
+      this.getProviderApplications(this.applicationParams);
+    } else {
+      this.getParentApplications(this.applicationParams);
+    }
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
+    if (this.role === Role.provider) {
+      this.getProviderApplications(this.applicationParams);
+    } else {
+      this.getParentApplications(this.applicationParams);
+    }
   }
 }

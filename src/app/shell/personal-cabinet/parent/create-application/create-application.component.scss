@@ -52,3 +52,13 @@ border: 1px solid #E3E3E3;
   line-height: 18px;
   color: #333333;
 }
+
+small.warning {
+  display: block;
+  color: red;
+  font-size: 10px;
+}
+.redBorder {
+  outline: none;
+  border: 1px solid #C72A21;
+}

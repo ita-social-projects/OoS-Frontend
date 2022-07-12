@@ -1,8 +1,9 @@
+import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
@@ -17,6 +18,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   filterList$: Observable<any>;
   filterList;
 
+  @Select(NavigationState.filtersSidenavOpenTrue)
+  filtersSidenavOpenTrue$: Observable<boolean>;
+  visibleFiltersSidenav: boolean;
+
   @Input() isMobileView: boolean;
 
   OpenRecruitmentControl = new FormControl(false);
@@ -27,7 +32,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.filterList$.pipe(takeUntil(this.destroy$)).subscribe(filterList => {
+    combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(([visibleFiltersSidenav, filterList]) => {
+      this.visibleFiltersSidenav = visibleFiltersSidenav;
       this.filterList = filterList;
       this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
     });
@@ -46,7 +54,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   }
 
   changeView(): void {
-    this.store.dispatch(new FiltersSidenavToggle());
+    this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
   }
 
   onFilterReset(): void {

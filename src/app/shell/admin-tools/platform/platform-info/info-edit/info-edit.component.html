@@ -1,17 +1,17 @@
 <div class="create-form">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">РЕДАГУВАННЯ {{editTitle}}</h3>
+      <h3 class="wrapper-title">РЕДАГУВАННЯ {{editTitle | uppercase}}</h3>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="center center">
-      
+
       <div fxLayout="column" fxLayoutAlign="start space-between" class="step">
         <label class="step-label"> Заголовок </label>
         <mat-form-field>
           <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue>
         </mat-form-field>
-        <app-validation-hint 
+        <app-validation-hint
           [validationFormControl]="titleFormControl">
         </app-validation-hint>
       </div>
@@ -29,7 +29,7 @@
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-      <button class="btn" mat-button type="submit"[disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid" (click)="onSubmit()">Зберегти</button>
+     <button class="btn" mat-button type="submit"[disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid"  (click)="onSubmit()">Зберегти</button>
     </div>
 
   </div>
