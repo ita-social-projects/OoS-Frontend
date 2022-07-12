@@ -12,6 +12,7 @@ import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directi
 import { NgxsModule } from '@ngxs/store';
 import { ImageFormControlComponent } from 'src/app/shared/components/image-form-control/image-form-control.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -29,6 +30,7 @@ describe('CreateInfoFormComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatGridListModule,
+        MatIconModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
       ],
