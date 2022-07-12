@@ -23,6 +23,7 @@ export class AchievementsComponent implements OnInit {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
+  showShortDesciption = true;
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
@@ -57,6 +58,10 @@ export class AchievementsComponent implements OnInit {
       (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
     });
   }
+
+  alterDescriptionText() {
+    this.showShortDesciption = !this.showShortDesciption
+ }
 
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
