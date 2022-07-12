@@ -1,20 +1,29 @@
-<div class="support-content">
-  <div>
-    <h2 class="support-title">Підтримка</h2>
-  </div>
-  <div class="support-text">
-    <p class="support-contact"> У разі технічних питань писати на:
-      <a class="support-link" href="mailto:pozashkillia@gmail.com" target="_blank">
-        pozashkillia@gmail.com
-      </a>
-    </p>
-    <p class="support-contact"> У разі будь яких інших питань звертатися на:
-      <a class="support-link" href="mailto:pozashkillyainfo@gmail.com" target="_blank">
-        pozashkillyainfo@gmail.com
-      </a>
-    </p>
-    <p class="support-contact"> Або за телефоном:
-      <a class="support-link" href="tel:+380977777777" alt="Телефон +380977777777">+38(097) 777 7 777</a>
-    </p>
+<div *ngIf="(platformSupport$ | async)?.companyInformationItems.length; else noInfo">
+  <div class="support-content">
+    <div>
+      <h2 class="support-title">{{ (platformSupport$ | async).title }}</h2>
+    </div>
+    <div class="support-text">
+      <div *ngFor="let item of (platformSupport$ | async)?.companyInformationItems">
+        <p><strong>{{ item.sectionName }}</strong></p>
+        <p>{{ item.description }}</p>
+      </div>
+      <p class="support-contact"> У разі технічних питань писати на:
+        <a class="support-link" href="mailto:pozashkillia@gmail.com" target="_blank">
+          pozashkillia@gmail.com
+        </a>
+      </p>
+      <p class="support-contact"> У разі будь яких інших питань звертатися на:
+        <a class="support-link" href="mailto:pozashkillyainfo@gmail.com" target="_blank">
+          pozashkillyainfo@gmail.com
+        </a>
+      </p>
+      <p class="support-contact"> Або за телефоном:
+        <a class="support-link" href="tel:+380977777777" alt="Телефон +380977777777">+38(097) 777 7 777</a>
+      </p>
+    </div>
   </div>
 </div>
+<ng-template #noInfo>
+  <div class="info-no-content">Інформації поки немає</div>
+</ng-template>

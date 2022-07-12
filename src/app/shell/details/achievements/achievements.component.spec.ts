@@ -36,3 +36,11 @@ describe('AchievementsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-achievement-card',
+  template: '',
+})
+class MockAchievementCardComponent {
+  @Input() achievements: Achievement[];
+  @Input() achievement: Achievement;
+}

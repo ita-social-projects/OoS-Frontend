@@ -54,6 +54,28 @@
         <p>ВІДМОВИТИ</p>
       </button>
     </div>
+    <button mat-icon-button [matMenuTriggerFor]="actions">
+      <mat-icon class="material-icons">more_vert</mat-icon>
+    </button>
+
+    <button mat-icon-button [matMenuTriggerFor]="email">
+      <mat-icon class="material-icons">email</mat-icon>
+    </button>
+
+    <mat-menu #actions="matMenu" class="header_menu">
+      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">
+        Заблокувати користувача
+      </button>
+      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">
+        Розблокувати користувача
+      </button>
+
+    </mat-menu>
+    <mat-menu #email="matMenu" class="header_menu">
+      <button mat-menu-item (click)="sendInvitation()">
+        Надіслати запрошення
+      </button>
+    </mat-menu>
   </mat-card-content>
 
   <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
