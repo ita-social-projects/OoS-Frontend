@@ -46,8 +46,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   currentPage$: Observable<number>;
   currentPage: number;
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
-  visibleFiltersSidenav: boolean;
+  isFiltersSidenavOpen$: Observable<boolean>;
+  isFiltersSidenavOpen: boolean;
 
   currentView: ViewType = ViewType.data;
   viewType = ViewType;
@@ -63,32 +63,23 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.addNavPath();
-    combineLatest([
-      this.isMobileView$, 
-      this.role$, 
-      this.route.params, 
-      this.filtersSidenavOpenTrue$, 
-      this.currentPage$, 
-      this.workshopsPerPage$
-    ])
+
+    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.workshopsPerPage$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([
-        isMobileView, 
-        role, params, 
-        visibleFiltersSidenav, 
-        currentPage, 
-        workshopsPerPage
-      ]) => {
+      .subscribe(([isMobileView, role, params, currentPage, workshopsPerPage]) => {
         this.isMobileView = isMobileView;
         this.role = role;
         this.currentView = params.param;
-        this.visibleFiltersSidenav = visibleFiltersSidenav;
         this.currentPage = currentPage;
         this.workshopsPerPage = workshopsPerPage;
         if (!this.isMobileView) {
           this.store.dispatch(new FiltersSidenavToggle(true));
         }
       });
+
+    this.isFiltersSidenavOpen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
 
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
       if (event.navigationTrigger === 'popstate') {
@@ -128,7 +119,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   filterHandler(): void {
-    this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
+    this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
   }
 
   ngOnDestroy(): void {
