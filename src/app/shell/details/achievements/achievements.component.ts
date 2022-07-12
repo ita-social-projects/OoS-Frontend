@@ -10,6 +10,7 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
+
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -22,6 +23,8 @@ export class AchievementsComponent implements OnInit {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
+  readonly noResultAchievements = NoResultsTitle.noAchievements;
+  @Input() achievements: Achievement[];
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
@@ -55,6 +58,22 @@ export class AchievementsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
     });
+  }
+
+
+  ngOnInit(): void {   
+    this.getAchievements();    
+    this.achievements$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((achievements) => !!achievements)
+      ).subscribe((achievements) => {
+        this.achievements = achievements;
+      });
+  }  
+
+  private getAchievements(): void {
+    // this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }
 
   ngOnDestroy(): void {

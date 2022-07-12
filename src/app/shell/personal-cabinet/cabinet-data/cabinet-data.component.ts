@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, tap, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
@@ -53,9 +53,9 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   filteredChildren: Child[]
 
   constructor(
-    public store: Store, 
-    public matDialog: MatDialog, 
-    protected actions$: Actions, 
+    public store: Store,
+    public matDialog: MatDialog,
+    protected actions$: Actions,
     protected navigationBarService: NavigationBarService) { }
 
   ngOnInit(): void { }

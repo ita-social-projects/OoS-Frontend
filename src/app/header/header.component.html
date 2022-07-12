@@ -15,7 +15,7 @@
         <a [routerLink]="'./info/about'">ПРО ПОРТАЛ</a>
       </div>
       <div *ngIf="(isAuthorized$ | async) && user?.role === Role.techAdmin" class="header_about">
-        <a>НОРМАТИВНО-ПРАВОВІ АКТИ</a>
+        <a [routerLink]="'./info/rules'">НОРМАТИВНО-ПРАВОВІ АКТИ</a>
       </div>
       <div class="header_support">
         <a class="header_support_title" [routerLink]="'./info/support'">

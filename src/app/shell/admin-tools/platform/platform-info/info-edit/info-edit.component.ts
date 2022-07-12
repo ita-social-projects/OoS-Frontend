@@ -1,29 +1,33 @@
-import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
-import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { takeUntil, filter, tap } from 'rxjs/operators';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { filter, takeUntil, tap } from 'rxjs/operators';
+
+import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
-import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { Observable } from 'rxjs';
+import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
   selector: 'app-info-edit',
   templateUrl: './info-edit.component.html',
   styleUrls: ['./info-edit.component.scss'],
 })
-export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class InfoEditComponent
+  extends CreateFormComponent
+  implements OnInit, OnDestroy
+{
   readonly validationConstants = ValidationConstants;
 
   @Select(AdminState.AboutPortal)
