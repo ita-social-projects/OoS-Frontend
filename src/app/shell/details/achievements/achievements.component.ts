@@ -23,8 +23,6 @@ export class AchievementsComponent implements OnInit {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
-  readonly noResultAchievements = NoResultsTitle.noAchievements;
-  @Input() achievements: Achievement[];
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
@@ -58,22 +56,6 @@ export class AchievementsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
     });
-  }
-
-
-  ngOnInit(): void {   
-    this.getAchievements();    
-    this.achievements$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((achievements) => !!achievements)
-      ).subscribe((achievements) => {
-        this.achievements = achievements;
-      });
-  }  
-
-  private getAchievements(): void {
-    // this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }
 
   ngOnDestroy(): void {
