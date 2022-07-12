@@ -20,9 +20,7 @@
             </ng-container>            
             <h4 class="card_title">Опис</h4> 
             <p class="card_text" [ngClass]="{'show-less': showShortDesciption}">{{achievement.title}}</p>
-            <button type="button" (click)="alterDescriptionText()">
-              { showShortDesciption ? 'SHOW ALL': 'SHOW LESS' }}
-            </button>
+            <button type="button" (click)="alterDescriptionText()">More</button>
         </div> 
         
         <div fxLayout="row" fxLayoutAlign="end" class="actions">
