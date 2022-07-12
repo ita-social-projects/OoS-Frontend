@@ -21,7 +21,7 @@
             <h4 class="card_title">Опис</h4> 
             <p class="card_text description" [ngClass]="{'show-less': showShortDesciption}">
               {{achievement.title}}
-              <a (click)="showShortDesciption = !showShortDesciption">More</a>
+              <a *ngIf="achievement.title.length > 150" (click)="showShortDesciption = !showShortDesciption">More</a>
             </p>
             
         </div> 
