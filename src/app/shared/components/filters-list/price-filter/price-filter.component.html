@@ -9,14 +9,14 @@
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">Від</p>
-        <input matInput class="price-input" type="text" appDigitOnly maxlength="4" [formControl]="minPriceControl" autocomplete="off">
+        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="minPriceControl" autocomplete="off">
         <mat-icon class="clear-price" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">До</p>
-        <input matInput class="price-input" type="text" appDigitOnly maxlength="4" [formControl]="maxPriceControl" autocomplete="off">
+        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="maxPriceControl" autocomplete="off">
         <mat-icon class="clear-price" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>
