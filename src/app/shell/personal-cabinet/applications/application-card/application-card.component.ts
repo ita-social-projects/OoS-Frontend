@@ -133,8 +133,8 @@ export class ApplicationCardComponent implements OnInit {
     });
   }
 
-    /**
-   * This method emit reject Application
+  /**
+   * This method emit block Application
    * @param Application application
    */
   onBlock(): void {
@@ -149,6 +149,10 @@ export class ApplicationCardComponent implements OnInit {
     });
   }
 
+  /**
+   * This method emit unblock Application
+   * @param Application application
+   */
   onUnBlock(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,

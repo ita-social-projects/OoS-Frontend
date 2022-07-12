@@ -7,9 +7,8 @@ import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.di
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { Application, ApplicationUpdate } from '../../../shared/models/application.model';
+import { Application, ApplicationCards, ApplicationUpdate } from '../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
-import { ApplicationCards } from '../../../shared/models/application.model';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { MatTabGroup } from '@angular/material/tabs';

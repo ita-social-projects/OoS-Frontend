@@ -36,7 +36,7 @@
         [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
         <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
           xPosition="after" class="mat-application-menu">
-          <!-- <app-status-info-card [application]="application" [blockedParent]="blockedParent" [status]="status"></app-status-info-card> -->
+          <app-status-info-card [application]="application" [blockedParent]="blockedParent" [status]="status"></app-status-info-card>
         </mat-menu>
     </div>
   </mat-card-content>
@@ -70,8 +70,6 @@
         Розблокувати користувача
       </button>
 
-
-
     </mat-menu>
     <mat-menu #email="matMenu" class="header_menu">
       <button mat-menu-item (click)="sendInvitation()">
@@ -79,7 +77,6 @@
       </button>
     </mat-menu>
   </mat-card-content>
-
 
   <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
     <div fxLayout="column" fxLayoutAlign="start start"

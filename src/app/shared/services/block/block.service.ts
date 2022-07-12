@@ -39,7 +39,9 @@ export class BlockService {
     };
     return this.http.get<object>('/api/v1/BlockedProviderParent/GetBlock', params);
 }
-
+  /**
+    * This method get status by childId, workshopId
+  */
   getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
     const options = {
       params: {
