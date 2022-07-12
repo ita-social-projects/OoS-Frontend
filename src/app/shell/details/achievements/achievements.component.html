@@ -19,18 +19,23 @@
               </p>
             </ng-container>            
             <h4 class="card_title">Опис</h4> 
-            <p class="card_text" [ngClass]="{'show-less': showShortDesciption}">{{achievement.title}}</p>
-            <button type="button" (click)="alterDescriptionText()">More</button>
+            <p class="card_text description" [ngClass]="{'show-less': showShortDesciption}">
+              {{achievement.title}}
+              <a (click)="showShortDesciption = !showShortDesciption">More</a>
+            </p>
+            
         </div> 
         
-        <div fxLayout="row" fxLayoutAlign="end" class="actions">
-          <div class="actions_btn" [routerLink]="['/create-achievement', achievement.id]">
-            <mat-icon class="achievement_icon">edit</mat-icon>
+        <ng-container>
+          <div fxLayout="row" fxLayoutAlign="end" class="actions">
+            <div class="actions_btn" [routerLink]="['/create-achievement', achievement.id]">
+              <mat-icon class="achievement_icon">edit</mat-icon>
+            </div>
+            <div class="actions_btn" (click)="onDelete(achievement)">
+              <mat-icon class="achievement_icon">delete</mat-icon>
+            </div>
           </div>
-          <div class="actions_btn" (click)="onDelete(achievement)">
-            <mat-icon class="achievement_icon">delete</mat-icon>
-          </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </mat-card>

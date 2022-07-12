@@ -45,17 +45,15 @@
 }
 
 .description {
-  width: 400px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  width: 200px;  
+  white-space: wrap;
 }
 
 .image {
   margin-right: 1em;
 }
 .show-less {
-  height: 4rem;
   overflow: hidden;
-  padding: 1rem;
+  white-space: wrap;
+  text-overflow: ellipsis;
 }
