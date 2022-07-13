@@ -124,7 +124,7 @@ export interface UserStateModel {
   blockedParents: BlockedParent;
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
-  approvedChildren: Child[],
+  approvedChildren: Child[];
 }
 @State<UserStateModel>({
   name: 'user',
