@@ -1,5 +1,4 @@
 @import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/application-statuses.scss";
 
 p {
   margin: 0px;
@@ -71,14 +70,6 @@ p {
   align-items: center;
   font-weight: 500;
 }
-.application-status {
-  padding: 2px;
-}
-.application-popup-status {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-}
 
 .btn{
   font-family: 'Innerspace';
@@ -133,12 +124,6 @@ p {
     text-overflow: ellipsis;
   }
 }
-.application-status {
-  width: 80%;
-}
-.status-icon {
-  font-size: 12px!important;
-}
 
 @media (min-width: 751px) and (max-width: 950px) {
   .card-block {
@@ -167,9 +152,7 @@ p {
 
   .card-block,
   .workshop-description,
-  .application-status,
-  .workshop-header,
-  .status-menu {
+  .workshop-header {
     margin: 0px;
     width: 100%;
     text-align: center;
@@ -187,19 +170,8 @@ p {
       width: 100%;
       text-align: center;
     }
-    .application-status, .title, .btn-gray{
+    .title, .btn-gray{
       margin-top: 1rem;
     }
   }
-.status-info-icon{
-  margin-left: 1px;
-}
-.activeInfoBtn {
-  color: #3849f9;
-  font-size: 30px;
-}
-.inactiveInfoBtn {
-  color: #AAAAAA;
-  font-size: 30px;
-}
 }
