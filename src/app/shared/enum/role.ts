@@ -7,7 +7,7 @@ export enum Role {
   ProviderAdmin = 'ProviderAdmin',
   all = 'all',
   child = 'child',
-  None = 'provider'
+  None = 'None'
 }
 
 export enum cardType {

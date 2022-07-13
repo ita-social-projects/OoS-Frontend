@@ -1,3 +1,4 @@
+import { ParentWorkshopsComponent } from './parent-workshops/parent-workshops.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
@@ -16,7 +17,8 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
     ChildFormComponent,
     ChildrenComponent,
     CreateApplicationComponent,
-    FavoriteWorkshopsComponent
+    FavoriteWorkshopsComponent,
+    ParentWorkshopsComponent
   ],
   imports: [
     CommonModule,

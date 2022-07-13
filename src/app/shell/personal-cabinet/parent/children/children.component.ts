@@ -21,78 +21,78 @@ import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions
   templateUrl: './children.component.html',
   styleUrls: ['./children.component.scss']
 })
-export class ChildrenComponent extends CabinetDataComponent implements OnInit, OnDestroy {
-  @Select(PaginatorState.childrensPerPage)
-  childrensPerPage$: Observable<number>;
+export class ChildrenComponent {
+  // @Select(PaginatorState.childrensPerPage)
+  // childrensPerPage$: Observable<number>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
-  applicationParams: {
-    status: string,
-    showBlocked: boolean,
-    workshopsId: string[],
-  };
+  // destroy$: Subject<boolean> = new Subject<boolean>();
+  // currentPage: PaginationElement = {
+  //   element: 1,
+  //   isActive: true
+  // };
+  // applicationParams: {
+  //   status: string,
+  //   showBlocked: boolean,
+  //   workshopsId: string[],
+  // };
 
-  constructor(
-    navigationBarService: NavigationBarService,
-    store: Store,
-    matDialog: MatDialog,
-    actions$: Actions) {
-    super(store, matDialog, actions$, navigationBarService);
-  }
+  // constructor(
+  //   navigationBarService: NavigationBarService,
+  //   store: Store,
+  //   matDialog: MatDialog,
+  //   actions$: Actions) {
+  //   super(store, matDialog, actions$, navigationBarService);
+  // }
 
-  ngOnInit(): void {
-    this.getUserData();
-    this.store.dispatch(
-      new PushNavPath(
-        {
-          name: NavBarName.Children,
-          isActive: false,
-          disable: true,
-        }
-      )
-    );    
-  }
+  // ngOnInit(): void {
+  //   this.getUserData();
+  //   this.store.dispatch(
+  //     new PushNavPath(
+  //       {
+  //         name: NavBarName.Children,
+  //         isActive: false,
+  //         disable: true,
+  //       }
+  //     )
+  //   );    
+  // }
 
-  init(): void {
-    this.getUsersChildren();
-    this.getParentApplications(this.applicationParams);
+  // init(): void {
+  //   this.getUsersChildren();
+  //   this.getParentApplications(this.applicationParams);
 
-  }
+  // }
 
-  childApplications(applications: Application[], child: Child): Array<Application> {
-    return applications?.length && applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
-  }
+  // childApplications(applications: Application[], child: Child): Array<Application> {
+  //   return applications?.length && applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
+  // }
 
-  onDelete(child: Child): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.deleteChild,
-        property: `${child.firstName} ${child.lastName}`
-      }
-    });
+  // onDelete(child: Child): void {
+  //   const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+  //     width: Constants.MODAL_SMALL,
+  //     data: {
+  //       type: ModalConfirmationType.deleteChild,
+  //       property: `${child.firstName} ${child.lastName}`
+  //     }
+  //   });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      (result) && this.store.dispatch(new DeleteChildById(child.id));
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result: boolean) => {
+  //     (result) && this.store.dispatch(new DeleteChildById(child.id));
+  //   });
+  // }
 
-  onItemsPerPageChange(itemsPerPage: number): void{
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren()]);
-  }
+  // onItemsPerPageChange(itemsPerPage: number): void{
+  //   this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren()]);
+  // }
 
-  onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
-    this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren()]);
-  }
+  // onPageChange(page: PaginationElement): void {
+  //   this.currentPage = page;
+  //   this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren()]);
+  // }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch([new SetFirstPage(), new PopNavPath()]);
-  }
+  // ngOnDestroy(): void {
+  //   this.destroy$.next(true);
+  //   this.destroy$.unsubscribe();
+  //   this.store.dispatch([new SetFirstPage(), new PopNavPath()]);
+  // }
 }

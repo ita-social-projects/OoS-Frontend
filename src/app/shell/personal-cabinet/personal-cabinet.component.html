@@ -6,12 +6,12 @@
   <nav class="nav" mat-tab-nav-bar>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА ІНФОРМАЦІЯ</a>
     <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/' + 'info'">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/info'">
         ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}
       </a>
     </ng-container>
     <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./workshops'">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/workshops'">
         {{ userRole === Role.parent ? 'МОЇ ГУРТКИ' : 'ГУРТКИ' }}
       </a>
     </ng-container>

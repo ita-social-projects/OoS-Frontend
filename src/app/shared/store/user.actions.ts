@@ -14,6 +14,10 @@ export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: string) { }
 }
+export class GetProviderAdminWorkshops {
+  static readonly type = '[user] get Workshops for provider admin';
+  constructor() { }
+}
 export class GetAchievementsByWorkshopId {
   static readonly type = '[user] get Achievements By Wokrshop Id';
   constructor(public payload) { }

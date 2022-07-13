@@ -1,3 +1,4 @@
+import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ProviderRoutingModule } from './provider-routing.module';
@@ -18,6 +19,7 @@ import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-f
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { CreateProviderAdminComponent } from './create-provider-admin/create-provider-admin.component';
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
+import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -32,7 +34,8 @@ import { CreateAchievementComponent } from './create-achievement/create-achievem
     CreateTeacherComponent,
     TeacherFormComponent,
     CreateProviderAdminComponent,
-    CreateAchievementComponent
+    CreateAchievementComponent,
+    ProviderAdminsComponent,
   ],
   imports: [
     CommonModule,

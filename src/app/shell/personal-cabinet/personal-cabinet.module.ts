@@ -6,22 +6,20 @@ import { ApplicationsComponent } from './applications/applications.component';
 import { MessagesComponent } from './messages/messages.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PersonalCabinetRoutingModule } from './personal-cabinet-routing.module';
-import { WorkshopsComponent } from './workshops/workshops.component';
 import { UserConfigComponent } from './user-config/user-config.component';
 import { UserConfigEditComponent } from './user-config/user-config-edit/user-config-edit.component';
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ProviderAdminsComponent } from './provider/provider-admins/provider-admins.component';
+import { ProviderWorkshopsComponent } from './provider/provider-workshops/provider-workshops.component';
 
 @NgModule({
   declarations: [
     ApplicationsComponent,
     ApplicationCardComponent,
     MessagesComponent,
-    WorkshopsComponent,
     UserConfigComponent,
     UserConfigEditComponent,
-    ProviderAdminsComponent,
+    ProviderWorkshopsComponent,
   ],
   imports: [
     CommonModule,

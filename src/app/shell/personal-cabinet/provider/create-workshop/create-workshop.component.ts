@@ -59,7 +59,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   addNavPath(): void {
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: PersonalCabinetTitle.provider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
+      { name: PersonalCabinetTitle.provider, path: '/personal-cabinet/provider/workshops', isActive: false, disable: false },
       { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true })));
   }
 
