@@ -1,10 +1,15 @@
 <mat-card *ngIf="application" [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
-      <div #name class="workshop-header" (mouseover)="!deviceToogle && onInfoShow(name, $event)"
-        (mouseleave)="!deviceToogle && onInfoHide(name)" (click)="deviceToogle && onInfoShow(name, $event)">
+      <div #name class="workshop-header">
         <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{
-          application.child.middleName }}</h4>
+          application.child.middleName }}
+          <!-- (clickOutside)="onClickedOutside($event)" -->
+          <i class="material-icons status-info-icon" [matMenuTriggerFor]="childInfo" >info_outline</i>
+          <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false"> 
+            <app-child-info-box [child]="application.child"></app-child-info-box>
+          </mat-menu>
+        </h4>
       </div>
       <p class="text text-bold">{{ childAge }}</p>
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>

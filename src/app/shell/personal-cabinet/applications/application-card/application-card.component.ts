@@ -1,4 +1,3 @@
-import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
 import {
   Component,
   EventEmitter,
@@ -48,8 +47,6 @@ export class ApplicationCardComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
   childAge: string;
-  deviceToogle: boolean;
-  infoShowToggle: boolean = false;
   ReasonFormGroup: FormGroup;
   blockedParent: BlockedParent;
     applicationParams: {
@@ -71,32 +68,18 @@ export class ApplicationCardComponent implements OnInit {
   @Output() approved = new EventEmitter();
   @Output() rejected = new EventEmitter();
   @Output() leave = new EventEmitter();
-  @Output() infoShow = new EventEmitter();
-  @Output() infoHide = new EventEmitter();
 
   constructor(
-    private detectedDevice: DetectedDeviceService,
     private matDialog: MatDialog,
     private store: Store,
     ) {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
-    this.deviceToogle = this.detectedDevice.checkedDevice();
     this.subrole$
       .pipe(takeUntil(this.destroy$))
       .subscribe((subrole: string) => (this.subrole = subrole));
       this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
-  }
-
-  onClick(event) {
-    if (
-      event.target.id === 'child-box' ||
-      event.target.parentElement.id === 'child-box' ||
-      event.target.parentElement.parentElement.id === 'child-box'
-    )
-      return;
-    this.onInfoHide();
   }
 
   /**
@@ -168,39 +151,6 @@ export class ApplicationCardComponent implements OnInit {
         this.store.dispatch(new UnBlockParent(blockedParent));
         }
     });
-  }
-  /**
-   * This method emit on deny action
-   * @param Application application
-   */
-  onLeave(application: Application): void {
-    this.leave.emit(application);
-  }
-
-  /**
-   * This method emit on mouseover action on child avatar
-   * @param Application application
-   */
-  onInfoShow(element: Element, event): void {
-    if (!this.infoShowToggle) {
-      this.infoShowToggle = true;
-      this.infoShow.emit({ element, child: this.application.child });
-      event.stopPropagation();
-      this.deviceToogle &&
-        document.addEventListener('click', this.onClick.bind(this));
-    } else {
-      this.onInfoHide();
-    }
-  }
-
-  /**
-   * This method emit on mouseleave action on child avatar
-   * @param Application application
-   */
-  onInfoHide(): void {
-    this.infoShowToggle = false;
-    this.infoHide.emit();
-    this.deviceToogle && document.removeEventListener('click', this.onClick.bind(this));
   }
 
   ngOnDestroy(): void {

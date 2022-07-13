@@ -17,9 +17,6 @@ export class ChildInfoBoxComponent implements OnInit {
   constructor(private childrenService: ChildrenService, private detectedDevice: DetectedDeviceService) { }
 
   @Input() child: Child;
-  @ViewChild('childInfoBox') childInfoBox: ElementRef<HTMLInputElement>;
-  @Input() top: string;
-  @Input() left: string;
   isMobile = false
   socialGroup: SocialGroup;
   childAge: string;
