@@ -22,8 +22,9 @@
 
             <mat-card-content>
               <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
-                {{(showMore) ? achievement.title : achievement.title | slice:0:300}}
-                <a class='more' (click)="showMore = !showMore">...Більше</a>
+                {{(showMore) ? achievement.title : achievement.title | slice:0:100}}
+                <a *ngIf="achievement.title.length > 120" class='more_btn' 
+                  (click)="showMore = !showMore">...Більше</a>
               </p>  
             </mat-card-content>
 
