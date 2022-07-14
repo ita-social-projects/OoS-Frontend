@@ -1,3 +1,4 @@
+import { AdminTabs } from './../shared/enum/enumUA/tech-admin/admin-tabs';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly roles: typeof RoleLinks = RoleLinks;
+  readonly defaultAdminTabs = AdminTabs[0];
 
   selectedLanguage = 'uk';
   showModalReg = false;
@@ -60,7 +62,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoadingMetaData: boolean;
   isLoadingAdminData: boolean;
   isLoadingNotifications: boolean;
-  isMobile: boolean;
   navigationPaths: Navigation[];
   subrole: string;
   btnView: string = providerAdminRoleUkr.all;
@@ -74,42 +75,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subrole$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((subrole: string) => (this.subrole = subrole));
     combineLatest([
-      this.isLoadingResultPage$,
-      this.isLoadingMetaData$,
-      this.isLoadingCabinet$,
-    ]);
-
-    combineLatest([
+      this.subrole$,
       this.isLoadingResultPage$,
       this.isLoadingMetaData$,
       this.isLoadingCabinet$,
       this.isLoadingAdminData$,
+      this.navigationPaths$
     ])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(
         ([
+          subrole,
           isLoadingResult,
           isLoadingMeta,
           isLoadingCabinet,
           isLoadingAdminData,
+          navigationPaths
         ]) => {
+          this.subrole = subrole;
           this.isLoadingResultPage = isLoadingResult;
           this.isLoadingMetaData = isLoadingMeta;
           this.isLoadingCabinet = isLoadingCabinet;
           this.isLoadingAdminData = isLoadingAdminData;
+          this.navigationPaths = navigationPaths;
         }
       );
-
-    combineLatest([this.isMobileScreen$, this.navigationPaths$])
-      .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([isMobile, navigationPaths]) => {
-        this.isMobile = isMobile;
-        this.navigationPaths = navigationPaths;
-      });
 
     this.store.dispatch(new CheckAuth());
 

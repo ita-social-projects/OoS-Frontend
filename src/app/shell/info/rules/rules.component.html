@@ -1,26 +1,20 @@
-<div class="info-content">
-  <div>
-    <h2 class="info-title">Правила користування</h2>
-  </div>
-  <div class="info-text">
-    <p>Раді вітати Вас на порталі <strong>"Позашкілля"!</strong></p>
-    <p><strong>Шановні батьки, на сайті автоматизованої інформаційної системи «Позашкілля» ви маєте можливість подати
-        заяви для
-        зарахування дитини до закладів позашкільної освіти, які наявні в системі.</strong></p>
-    <p>Для успішної реєстрації та подачі заяви на зарахування вам необхідно вказати достовірну інформацію.</p>
-    <p>Після подання заяви в електронному вигляді, представник закладу позашкільної освіти її опрацьовує та проводить
-      аналіз
-      відповідності даних в заяві та приймає рішення про зарахування або відмови (у разі конкурсного відбору) у
-      зарахуванні
-      дитини до закладу позашкільної освіти, із зазначенням причин такої відмови.
-    </p>
-    <p>За результатами позитивного висновку, отриманого після проходження оцінки відповідності заяви умовам зарахування
-      до
-      закладу позашкільної освіти, ви зможете звернутися до обраного вами закладу позашкільної освіти для подачі
-      оригіналів
-      документів.</p>
-    <p>Ваші пропозиції по покращенню роботи сервісу можна надсилати:<a href="mailto:pozashkillia@gmail.com"
-        target="_blank"><span class="info-link">
-          Pozashkillia@gmail.com</span></a></p>
+<div *ngIf="(platformRules$ | async)?.companyInformationItems.length; else noInfo">
+  <div class="info-content">
+    <div>
+      <h2 class="info-title">{{ (platformRules$ | async)?.title }}</h2>
+    </div>
+    <div class="info-text">
+      <div *ngFor="let item of (platformRules$ | async)?.companyInformationItems">
+        <p><strong>{{ item.sectionName }}</strong></p>
+        <p>{{ item.description }}</p>
+      </div>
+      <p>
+        Ваші пропозиції по покращенню роботи сервісу можна надсилати:<a href="mailto:pozashkillia@gmail.com"
+          target="_blank"><span class="info-link"> Pozashkillia@gmail.com</span></a>
+      </p>
+    </div>
   </div>
 </div>
+<ng-template #noInfo>
+  <div class="info-no-content">Інформації поки немає</div>
+</ng-template>

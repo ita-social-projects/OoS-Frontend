@@ -83,6 +83,11 @@ export class FilterReset {
   constructor() { }
 }
 
+export class ResetFilteredWorkshops {
+  static readonly type = '[filter] reset filtered workshops';
+  constructor() { }
+}
+
 export class FilterClear {
   static readonly type = '[filter] Filter Clear';
   constructor() { }
