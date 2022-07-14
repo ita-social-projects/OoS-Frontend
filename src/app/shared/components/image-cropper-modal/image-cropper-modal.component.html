@@ -16,7 +16,7 @@
       (cropperReady)="cropperReady()"
       (loadImageFailed)="loadImageFailed()"
     ></image-cropper>
-    <div *ngIf="imageHasMinimumRequirements">
+    <div *ngIf="invalidMinRequirements">
       <small class="warning">Зображення не достатнього розміру.<br>Мінімальні розміри: ширина {{data.cropperConfig.cropperMinWidth}}px, висота {{data.cropperConfig.cropperMinHeight}}px.</small>
     </div>
   </div>
@@ -27,6 +27,6 @@
 </div>
 <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
   <button class="btn" mat-button
-    cdkFocusInitial (click)="onConfirm()" [disabled]="imageHasMinimumRequirements">ПІДТВЕРДИТИ</button>
+    cdkFocusInitial (click)="onConfirm()" [disabled]="invalidMinRequirements">ПІДТВЕРДИТИ</button>
   <button class="btn btn-cancel" mat-button [mat-dialog-close]="false" >СКАСУВАТИ</button>
 </mat-dialog-actions>
