@@ -51,7 +51,6 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + 'applications'" (click)="changeView()">Мої заяви</a>
             <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/administration'"
               (click)="changeView()">Адміністрування</a>
-            <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
             <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
               (click)="changeView()">Улюблене</a>
           </ng-template>

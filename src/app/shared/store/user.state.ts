@@ -927,9 +927,9 @@ export class UserState {
   ): void {
     dispatch([
       new GetApplicationsByProviderId(payload.providerId, {
-        status: undefined,
+        statuses: [],
         showBlocked: false,
-        workshopsId: [],
+        workshops: [],
       }),
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' }),
@@ -958,9 +958,9 @@ export class UserState {
   unBlockParentFailSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParentSuccess): void {
     dispatch([
       new GetApplicationsByProviderId(payload.providerId, {
-        status: undefined,
+        statuses: [],
         showBlocked: true,
-        workshopsId: [],
+        workshops: [],
       }),
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),

@@ -8,7 +8,7 @@ import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
 import { Child } from 'src/app/shared/models/child.model';
 import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
+import { Application, ApplicationParameters, ApplicationUpdate, ApplicationCards } from 'src/app/shared/models/application.model';
 import { UserState } from 'src/app/shared/store/user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
@@ -38,7 +38,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
-
+  
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,

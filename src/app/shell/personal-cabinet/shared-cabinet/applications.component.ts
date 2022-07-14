@@ -2,7 +2,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
@@ -43,9 +43,9 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
 
   @Select(UserState.applications)
   applicationCards$: Observable<ApplicationCards>;
-  applicationCards: ApplicationCards;
   @Select(PaginatorState.applicationsPerPage)
   applicationsPerPage$: Observable<number>;
+  applicationCards: ApplicationCards;
 
   isActiveInfoButton = false;
   tabIndex: number;
@@ -93,6 +93,10 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
   }
 
   protected init(): void {
+    this.applicationCards$.pipe(
+      filter((applicationCards: ApplicationCards) => !!applicationCards),
+      takeUntil(this.destroy$)
+    ).subscribe((applicationCards: ApplicationCards) => this.applicationCards = applicationCards);
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))

@@ -1,3 +1,4 @@
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
@@ -11,19 +12,19 @@ import { Store } from '@ngxs/store';
 export class ApplicationService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(parameters): HttpParams {
+  private setParams(parameters: ApplicationParameters): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
-      if (parameters.status) {
-        params = params.set('Status', parameters.status);
+      if (parameters.statuses.length) {
+        params = params.set('Statuses', JSON.stringify(parameters.statuses));
       }
 
-      if (parameters.workshopsId.length) {
-        parameters.workshopsId.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
+      if (parameters.workshops.length) {
+        parameters.workshops.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
       }
 
-      params = params.set('ShowBlocked', parameters.showBlocked);
+      params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;

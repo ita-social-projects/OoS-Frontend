@@ -24,8 +24,6 @@
     <ng-container *ngIf="userRole === Role.parent">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>
     </ng-container>
-
-    <!-- <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>  TODO: second release -->
   </nav>
 </div>
 <router-outlet></router-outlet>

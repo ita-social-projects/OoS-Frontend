@@ -1,3 +1,4 @@
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Favorite } from './../models/favorite.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
@@ -48,7 +49,7 @@ export class GetStatusIsAllowToApply {
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
-  constructor(public id: string, public parameters) { }
+  constructor(public id: string, public parameters: ApplicationParameters) { }
 }
 
 export class GetApplicationsByStatus {

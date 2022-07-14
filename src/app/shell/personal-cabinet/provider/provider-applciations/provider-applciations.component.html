@@ -1,51 +1,53 @@
 <div class="dropdown">
-  <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-    [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i>
+  <i
+    class="material-icons status-info-icon"
+    [matMenuTriggerFor]="menu"
+    #trigger="matMenuTrigger"
+    [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'"
+    >info_outline</i
+  >
 
   <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
     <app-status-info-card></app-status-info-card>
   </mat-menu>
 
-  <app-entity-checkbox-dropdown [entities]="workshops$ | async" [declination]="WorkshopDeclination" (entityCheck)="onEntitiesSelect($event)">
+  <app-entity-checkbox-dropdown
+    [entities]="workshops$ | async"
+    [declination]="WorkshopDeclination"
+    (entityCheck)="onEntitiesSelect($event)">
   </app-entity-checkbox-dropdown>
 </div>
 
 <div class="tab-wrapper">
   <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
     <ng-container *ngIf="applicationCards">
-    <mat-tab label="{{applicationTitles.All}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="{{applicationTitles.Pending}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
-      </ng-container>
-    </mat-tab>
-    <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
+      <mat-tab label="{{ applicationTitles.All }}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles.Pending }}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
       <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
       </ng-container>
     </mat-tab> TODO: display when functionality is ready -->
-    <mat-tab label="{{applicationTitles.Approved}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="{{applicationTitles.Rejected}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="{{applicationTitles.Left}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
-      </ng-container>
-    </mat-tab>
-    <mat-tab label="{{applicationTitles.Blocked}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applicationCards }">
-      </ng-container>
-    </mat-tab>
-  </ng-container>
+      <mat-tab label="{{ applicationTitles.Approved }}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles.Rejected }}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles.Left }}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles.Blocked }}">
+        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+    </ng-container>
   </mat-tab-group>
 </div>
- 
-<app-paginator 
+
+<app-paginator
   *ngIf="!(isLoadingCabinet$ | async) && applicationCards"
   [totalEntities]="applicationCards.totalAmount"
   [currentPage]="currentPage"
@@ -56,10 +58,16 @@
 
 <ng-template #ProviderApplication let-applicationCards>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="applicationCards.totalAmount else isEmptyList;">
-      <app-application-card *ngFor="let application of application" [application]="application" [userRole]="role"
-        (approved)="onApprove($event)" (rejected)="onReject($event)" (leave)="onLeave($event)"
-        (infoShow)="onInfoShow($event)" (infoHide)="onInfoHide()">
+    <ng-container *ngIf="applicationCards.totalAmount; else isEmptyList">
+      <app-application-card
+        *ngFor="let application of applicationCards.entities"
+        [application]="application"
+        [userRole]="role"
+        (approved)="onApprove($event)"
+        (rejected)="onReject($event)"
+        (leave)="onLeave($event)"
+        (infoShow)="onInfoShow($event)"
+        (infoHide)="onInfoHide()">
       </app-application-card>
     </ng-container>
   </ng-container>
