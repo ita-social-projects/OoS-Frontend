@@ -8,9 +8,10 @@ import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
+import { DeleteAchievementById, GetAchievementsByWorkshopId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -24,10 +25,11 @@ export class AchievementsComponent implements OnInit {
   readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
   showMore = false;
-  provider
+  provider: Provider;
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
+  @Select(UserState.workshops) workshops: Observable<any[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private matDialog: MatDialog) {}
@@ -42,7 +44,8 @@ export class AchievementsComponent implements OnInit {
         this.achievements = achievements;
       });
 
-    this.provider = this.store.selectSnapshot<any>(RegistrationState.provider)
+    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));
   }  
 
   private getAchievements(): void {
