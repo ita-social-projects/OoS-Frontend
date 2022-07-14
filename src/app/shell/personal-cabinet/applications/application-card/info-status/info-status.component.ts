@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -25,14 +24,14 @@ export class InfoStatusComponent implements OnInit, OnDestroy{
   readonly applicationStatus = ApplicationStatus;
 
   @Select(UserState.blockedParent)
-  blockedParent$:Observable<BlockedParent>;
-  destroy$:Subject<boolean>=new Subject<boolean>();
+  blockedParent$: Observable<BlockedParent>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() application: Application = null;
   status: ApplicationStatus;
   reason: string;
 
-  constructor(private store: Store,) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.status =  this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
