@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
