@@ -16,7 +16,6 @@ import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
 import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
-import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryCheckBoxComponent } from './components/filters-list/category-check-box/category-check-box.component';
@@ -71,6 +70,7 @@ import { InfoFormComponent } from './components/info-form/info-form.component';
 import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 import { ApplicationCardComponent } from './components/application-card/application-card.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +136,7 @@ import { ApplicationCardComponent } from './components/application-card/applicat
     ImageCropperModalComponent,
     InfoFormComponent,
     AchievementCardComponent,
+    LoginComponent,
     ApplicationCardComponent
   ],
   imports: [

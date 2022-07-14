@@ -70,7 +70,7 @@ export interface MetaDataStateModel {
     classes: [],
     cities: null,
     socialGroups: [],
-    institutionStatuses: [],
+    institutionStatuses: null,
     filteredDirections: [],
     filteredDepartments: [],
     filteredClasses: [],
