@@ -5,7 +5,7 @@
       <span> {{applicationTitles[status]}}</span>
     </div>
     <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
-      [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'" (click)="onGetBlockedParent()">info_outline</i></span>
+      [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'" (click)="onGetBlockedParent()" (menuClosed)="onMenuClosed()">info_outline</i></span>
       <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
         xPosition="after" class="mat-application-menu">
         <div>
