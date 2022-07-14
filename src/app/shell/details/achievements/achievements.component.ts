@@ -9,6 +9,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
@@ -23,6 +24,7 @@ export class AchievementsComponent implements OnInit {
   readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
   showMore = false;
+  provider
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
@@ -39,6 +41,8 @@ export class AchievementsComponent implements OnInit {
       ).subscribe((achievements) => {
         this.achievements = achievements;
       });
+
+    this.provider = this.store.selectSnapshot<any>(RegistrationState.provider)
   }  
 
   private getAchievements(): void {
