@@ -53,9 +53,9 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
       )
       .subscribe((provider: Provider) => {
         this.applicationParams.property = EntityType[this.subRole];
-        this.providerId = this.subRole === Role.None ? 
-        provider.id :
-        this.store.selectSnapshot(RegistrationState.user).id;
+        this.providerId = this.subRole === Role.ProviderAdmin ? 
+        this.store.selectSnapshot(RegistrationState.user).id:
+        provider.id;
         this.getProviderWorkshops();
         this.getApplications();
       });

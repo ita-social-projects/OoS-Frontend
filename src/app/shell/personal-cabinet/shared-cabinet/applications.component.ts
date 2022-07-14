@@ -1,12 +1,7 @@
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
-import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
-import { Role } from 'src/app/shared/enum/role';
-import { Child } from 'src/app/shared/models/child.model';
-import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
+import { takeUntil, filter } from 'rxjs/operators';
 import {
   Application,
   ApplicationCards,
@@ -19,10 +14,8 @@ import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
-import { Constants } from 'src/app/shared/constants/constants';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
-import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';

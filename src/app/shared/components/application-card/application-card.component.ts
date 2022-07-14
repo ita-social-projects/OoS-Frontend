@@ -1,7 +1,3 @@
-<<<<<<< HEAD:src/app/shared/components/application-card/application-card.component.ts
-import { DetectedDeviceService } from '../../services/detected-device.service';
-=======
->>>>>>> develop:src/app/shell/personal-cabinet/applications/application-card/application-card.component.ts
 import {
   Component,
   EventEmitter,
