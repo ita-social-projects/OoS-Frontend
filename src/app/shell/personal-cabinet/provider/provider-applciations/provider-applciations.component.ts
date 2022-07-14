@@ -1,15 +1,12 @@
-import { ApplicationStatus } from './../../../../shared/enum/applications';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store } from '@ngxs/store';
-import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
 import { Child } from 'src/app/shared/models/child.model';
 import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
+import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { UserState } from 'src/app/shared/store/user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
@@ -31,8 +28,6 @@ import { EntityType, Role } from 'src/app/shared/enum/role';
 export class ProviderApplciationsComponent extends ApplicationsComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
-  @ViewChild(InfoBoxHostDirective, { static: true }) infoBoxHost: InfoBoxHostDirective;
-
   @Select(UserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.provider)
@@ -45,14 +40,12 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
     protected router: Router,
     protected route: ActivatedRoute,
     protected actions$: Actions,
-    private infoBoxService: InfoBoxService
   ) {
     super(store, matDialog, router, route, actions$);
   }
 
   init(): void {
     super.init();
-    this.activateChildInfoBox();
     this.provider$
       .pipe(
         filter((provider: Provider) => !!provider),
@@ -70,14 +63,6 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
 
   protected getApplications(): void {
     this.store.dispatch(new GetApplicationsByProviderId(this.providerId, this.applicationParams));
-  }
-
-  onInfoShow({ element, child }: { element: Element; child: Child }): void {
-    this.infoBoxService.onMouseOver({ element, child });
-  }
-
-  onInfoHide(): void {
-    this.infoBoxService.onMouseLeave();
   }
 
   /**
@@ -117,17 +102,5 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
   onEntitiesSelect(IDs: string[]): void {
     this.applicationParams.workshops = IDs;
     this.getApplications();
-  }
-
-  private activateChildInfoBox(): void {
-    const viewContainerRef = this.infoBoxHost.viewContainerRef;
-
-    this.infoBoxService.isMouseOver$
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(200),
-        mergeMap(isMouseOver => this.infoBoxService.loadComponent(viewContainerRef, isMouseOver))
-      )
-      .subscribe();
   }
 }
