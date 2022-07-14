@@ -35,7 +35,6 @@ const routes: Routes = [
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },
-
   {
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
