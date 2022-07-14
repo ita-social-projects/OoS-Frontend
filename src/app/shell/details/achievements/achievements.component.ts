@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -29,7 +29,7 @@ export class AchievementsComponent implements OnInit {
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  @Select(UserState.workshops) workshops: Observable<any[]>;
+  @Select(UserState.workshops) workshops: Observable<Workshop[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private matDialog: MatDialog) {}
@@ -45,7 +45,7 @@ export class AchievementsComponent implements OnInit {
       });
 
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));    
   }  
 
   private getAchievements(): void {

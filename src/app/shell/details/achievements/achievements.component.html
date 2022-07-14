@@ -22,12 +22,11 @@
 
             <mat-card-content>
               <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
-                {{(showMore) ? achievement.title : achievement.title | slice:0:100}}
-                <a *ngIf="achievement.title.length > 120" class='more_btn' 
-                  (click)="showMore = !showMore">...Більше</a>
+                {{(showMore) ? achievement.title : achievement.title | slice:0:30}}
+                <a *ngIf="achievement.title.length > 70" class='more_btn' 
+                  (click)="showMore = !showMore">{{(!showMore) ? '...Більше' : '...Менше'}}</a>
               </p>  
             </mat-card-content>
-
 
         </div> 
         
@@ -48,5 +47,3 @@
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noResultAchievements"></app-no-result-card>
 </ng-template>
-
-{{workshops | async | json}}
