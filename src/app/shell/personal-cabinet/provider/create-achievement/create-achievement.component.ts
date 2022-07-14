@@ -64,7 +64,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$),
       filter((workshop) => !!workshop)
-    ).subscribe((workshop: Workshop) => this.workshop = workshop);      
+    ).subscribe((workshop: Workshop) => this.workshop = workshop);
   } 
 
   onSubmit(): void {

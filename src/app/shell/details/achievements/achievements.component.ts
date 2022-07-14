@@ -14,6 +14,7 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { DeleteAchievementById, GetAchievementsByWorkshopId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
+
 @Component({
   selector: 'app-achievements',
   templateUrl: './achievements.component.html',
@@ -31,6 +32,7 @@ export class AchievementsComponent implements OnInit {
   achievements$: Observable<Achievement[]>;
   @Select(UserState.workshops) workshops: Observable<Workshop[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  
 
   constructor(private store: Store, private matDialog: MatDialog) {}
 
@@ -45,12 +47,18 @@ export class AchievementsComponent implements OnInit {
       });
 
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));    
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));   
   }  
 
   private getAchievements(): void {
     this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
   }  
+
+  getWorkshopIds(arr) {
+    let res = []
+    arr.forEach((i) => res.push(i.workshopId));
+    return res;
+  }
 
   onDelete(achievement: Achievement): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {

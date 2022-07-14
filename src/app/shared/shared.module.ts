@@ -134,7 +134,6 @@ import { LoginComponent } from './components/login/login.component';
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
-    AchievementCardComponent,
     LoginComponent,
   ],
   imports: [
