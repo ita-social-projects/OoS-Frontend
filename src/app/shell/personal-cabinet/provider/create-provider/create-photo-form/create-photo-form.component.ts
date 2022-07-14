@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
   templateUrl: './create-photo-form.component.html',
   styleUrls: ['./create-photo-form.component.scss']
 })
-export class CreatePhotoFormComponent implements OnInit {
+export class CreatePhotoFormComponent implements OnInit , OnDestroy{
   readonly validationConstants = ValidationConstants;
   readonly institutionTypes = InstitutionTypes;
 
