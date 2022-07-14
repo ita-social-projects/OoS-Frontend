@@ -23,7 +23,7 @@ import { Child } from 'src/app/shared/models/child.model';
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
-  @Select(UserState.approvedChildren) approvedChildren: Observable<Child[]>;
+  @Select(UserState.approvedChildren) approvedChildren$: Observable<Child[]>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
@@ -31,6 +31,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievement: Achievement;
   workshopId: string;
   achievements = AchievementsTitle;
+  approvedChildren: Child[];
 
   constructor(
     private store: Store,
@@ -59,7 +60,13 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$),
       filter((workshop) => !!workshop)
-    ).subscribe((workshop: Workshop) => this.workshop = workshop);      
+    ).subscribe((workshop: Workshop) => this.workshop = workshop);   
+    
+    this.approvedChildren$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((approvedChildren) => !!approvedChildren)
+    ).subscribe((approvedChildren: Child[]) => this.approvedChildren = approvedChildren);
   } 
 
   onSubmit(): void {

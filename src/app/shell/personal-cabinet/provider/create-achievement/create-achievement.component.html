@@ -23,7 +23,7 @@
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
 
-        <ng-container *ngIf="(approvedChildren | async).entities.length !== 0; else noChildren">
+        <ng-container *ngIf="approvedChildren.entities.length !== 0; else noChildren"> 
           <mat-form-field appearance="none">
             <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
               panelClass="dropdown-panel" class="step-input">
