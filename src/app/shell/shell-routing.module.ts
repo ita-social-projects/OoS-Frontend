@@ -1,3 +1,4 @@
+import { LoginComponent } from './../shared/components/login/login.component';
 import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
@@ -33,6 +34,8 @@ const routes: Routes = [
   { path: 'result', redirectTo: 'result/list', pathMatch: 'full' },
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
+  { path: 'login', component: LoginComponent },
+
   {
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
