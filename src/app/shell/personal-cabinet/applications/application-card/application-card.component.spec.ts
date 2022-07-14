@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -33,7 +34,8 @@ describe('ApplicationCardComponent', () => {
       ],
       declarations: [
         ApplicationCardComponent,
-        StatusInfoCardComponent]
+        StatusInfoCardComponent,
+        ChildInfoBoxComponent]
     })
       .compileComponents();
   });
