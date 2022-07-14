@@ -39,9 +39,11 @@ export class ProviderService {
     this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
     return this.isRelease2 ? this.createProviderV2(provider) : this.createProviderV1(provider);
   }
+
   createProviderV1(provider: Provider): Observable<object> {
     return this.http.post('/api/v1/Provider/Create', provider);
   }
+
   createProviderV2(provider: Provider): Observable<object> {
     const formData = Provider.createFormData(provider);
     return this.http.post('/api/v2/Provider/Create', formData);
@@ -60,11 +62,15 @@ export class ProviderService {
    */
   updateProvider(provider: Provider): Observable<object> {
     this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ? this.updateProviderV1(provider) : this.updateProviderV2(provider);
+    return this.isRelease2 ?
+    this.updateProviderV1(provider) :
+    this.updateProviderV2(provider);
   }
+
   updateProviderV1(provider: Provider): Observable<object> {
     return this.http.put('/api/v1/Provider/Update', provider);
   }
+
   updateProviderV2(provider: Provider): Observable<object> {
     const formData = Provider.createFormData(provider);
     return this.http.put('/api/v2/Provider/Update', formData);
