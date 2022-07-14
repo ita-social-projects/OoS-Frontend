@@ -26,5 +26,6 @@ export enum EntityType {
   provider = 'provider',
   workshop = 'workshop',
   ProviderAdmin = 'provideradmin',
-  ProviderDeputy = 'provider'
+  ProviderDeputy = 'provider',
+  None = 'provider'
 }
