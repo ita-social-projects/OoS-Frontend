@@ -7,7 +7,12 @@ import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.di
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { Application, ApplicationCards, ApplicationUpdate } from '../../../shared/models/application.model';
+import {
+  Application,
+  ApplicationCards,
+  ApplicationParameters,
+  ApplicationUpdate,
+} from '../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
@@ -24,203 +29,106 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss']
+  styleUrls: ['./applications.component.scss'],
 })
-export class ApplicationsComponent  {
+export abstract class ApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy, AfterViewInit {
+  readonly applicationTitles = ApplicationTitles;
+  readonly applicationStatus = ApplicationStatus;
+  readonly noApplicationTitle = NoResultsTitle.noApplication;
 
-//   @Select(PaginatorState.applicationsPerPage)
-//   applicationsPerPage$: Observable<number>;
+  @Select(UserState.applications)
+  applicationCards$: Observable<ApplicationCards>;
+  applicationCards: ApplicationCards;
+  @Select(PaginatorState.applicationsPerPage)
+  applicationsPerPage$: Observable<number>;
 
-//   readonly noApplicationTitle = NoResultsTitle.noApplication;
-//   readonly constants: typeof Constants = Constants;
-//   applicationCards: ApplicationCards;
-//   isActiveInfoButton = false;
-//   tabIndex: number;
-//   applicationParams: {
-//     status: string,
-//     showBlocked: boolean,
-//     workshopsId: string[],
-//   } = {
-//       status: undefined,
-//       showBlocked: false,
-//       workshopsId: []
-//     };
-//   isSelectedChildCheckbox = false;
-//   ChildDeclination = ChildDeclination;
-//   WorkshopDeclination = WorkshopDeclination;
-//   currentPage: PaginationElement = {
-//     element: 1,
-//     isActive: true
-//   };
+  isActiveInfoButton = false;
+  tabIndex: number;
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true,
+  };
 
-//   @ViewChild(InfoBoxHostDirective, { static: true })
-//   infoBoxHost: InfoBoxHostDirective;
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
-//   @ViewChild(MatTabGroup)
-//   tabGroup: MatTabGroup;
+  protected applicationParams: ApplicationParameters = {
+    statuses: [],
+    showBlocked: false,
+  };
 
-//   constructor(
-//     private infoBoxService: InfoBoxService,
-//     private router: Router,
-//     private route: ActivatedRoute,
-//     store: Store,
-//     matDialog: MatDialog,
-//     actions$: Actions,
-//     navigationBarService: NavigationBarService,
-// ) {
-//     super(store, matDialog, actions$, navigationBarService);
-//     this.route.queryParams
-//       .pipe(takeUntil(this.destroy$))
-//       .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']));
-//   }
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected actions$: Actions
+  ) {
+    super(store, matDialog);
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => (this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])));
+  }
 
-//   ngAfterViewInit(): void {
-//     this.tabGroup.selectedIndex = this.tabIndex;
-//     this.store.dispatch(
-//       new PushNavPath(
-//         {
-//           name: NavBarName.Applications,
-//           isActive: false,
-//           disable: true,
-//         }
-//       )
-//     );
-//   }
+  protected abstract getApplications(applicationParams?: ApplicationParameters): void;
 
-//   ngOnInit(): void {
-//     this.getUserData();
-//     this.actions$.pipe(ofActionCompleted(OnUpdateApplicationSuccess))
-//       .pipe(
-//         takeUntil(this.destroy$))
-//       .subscribe(() => {
-//         if (this.role === Role.provider) {
-//           this.getProviderApplications(this.applicationParams);
-//         } else {
-//           this.getParentApplications(this.applicationParams);
-//         }
-//       });
-//   }
+  protected abstract onEntitiesSelect(IDs: string[]): void;
 
-//   init(): void {
-//     if (this.role === Role.provider) {
-//       this.getProviderApplications(this.applicationParams);
-//       this.getProviderWorkshops();
-//       this.activateChildInfoBox();
-//     } else {
-//       this.getAllUsersChildren();
-//       this.getParentApplications(this.applicationParams);
-//     }
-//   }
+  ngAfterViewInit(): void {
+    this.tabGroup.selectedIndex = this.tabIndex;
+  }
 
-//   /**
-//    * This method initialize functionality to open child-info-box
-//    */
-//   private activateChildInfoBox(): void {
-//     const viewContainerRef = this.infoBoxHost.viewContainerRef;
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Applications,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
 
-//     this.infoBoxService.isMouseOver$
-//       .pipe(
-//         takeUntil(this.destroy$),
-//         debounceTime(200),
-//         mergeMap(isMouseOver =>
-//           this.infoBoxService.loadComponent(viewContainerRef, isMouseOver)
-//         )
-//       )
-//       .subscribe();
-//   }
+  protected init(): void {
+    this.actions$
+      .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.getApplications());
+  }
 
-//   /**
-//    * This method changes status of emitted event to "approved"
-//    * @param Application event
-//    */
-//   onApprove(application: Application): void {
-//     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);
-//     this.store.dispatch(new UpdateApplication(applicationUpdate));
-//   }
+  /**
+   * This method changes status of emitted event to "left"
+   * @param Application event
+   */
+  onLeave(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Left);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
+  }
 
-//   /**
-//    * This method changes status of emitted event to "rejected"
-//    * @param Application event
-//    */
-//   onReject(application: Application): void {
-//     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Rejected, application?.rejectionMessage);
-//     this.store.dispatch(new UpdateApplication(applicationUpdate));
-//   }
+  /**
+   * This method get the list of application according to the selected tab
+   * @param workshopsId: number[]
+   */
+  onTabChange(event: MatTabChangeEvent): void {
+    const tabLabel = event.tab.textLabel;
+    const status = tabLabel !== (ApplicationTitles.Blocked || ApplicationTitles.All) ? tabLabel : null;
+    this.applicationParams.statuses = ApplicationTitlesReverse[status];
+    this.getApplications();
+    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
+  }
 
-//   /**
-//    * This method changes status of emitted event to "left"
-//    * @param Application event
-//    */
-//   onLeave(application: Application): void {
-//     const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Left);
-//     this.store.dispatch(new UpdateApplication(applicationUpdate));
-//   }
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch(new OnPageChangeApplications(page));
+    this.getApplications();
+  }
 
-//   /**
-//    * This method get the list of application according to the selected tab
-//    * @param workshopsId: number[]
-//    */
-//   onTabChange(event: MatTabChangeEvent): void {
-//     const tabLabel = ApplicationTitlesReverse[event.tab.textLabel];
-//     const status = (tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.Blocked] && tabLabel !==  ApplicationTitlesReverse[ApplicationTitles.All]) ?
-//     tabLabel : null;
-//     this.applicationParams.status = status;
-//     if (this.role === Role.provider) {
-//       this.applicationParams.showBlocked = tabLabel === ApplicationTitlesReverse[ApplicationTitles.Blocked];
-//       this.getProviderApplications(this.applicationParams);
-//     } else {
-//       this.getParentApplications(this.applicationParams);
-//     }
-//     this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
-//   }
-
-//   /**
-//  * This applies selected IDs as filtering parameter to get list of applications
-//  * @param IDs: string[]
-//  */
-//    onEntitiesSelect(IDs: string[]): void {
-//       if (this.role === Role.provider) {
-//         this.applicationParams.workshopsId = IDs;
-//         this.getProviderApplications(this.applicationParams);
-//       } else {
-//         this.isSelectedChildCheckbox = !!IDs.length;
-//         this.filteredChildren = this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);
-//       }
-//   }
-
-//   /**
-//    * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
-//    * @param object : { element: Element, child: Child }
-//    */
-//   onInfoShow({ element, child }: { element: Element, child: Child }): void {
-//     this.infoBoxService.onMouseOver({ element, child });
-//   }
-
-//   onInfoHide(): void {
-//     this.infoBoxService.onMouseLeave();
-//   }
-
-//   onPageChange(page: PaginationElement): void {
-//     this.currentPage = page;
-//     this.store.dispatch(new OnPageChangeApplications(page));
-//     if (this.role === Role.provider) {
-//       this.getProviderApplications(this.applicationParams);
-//     } else {
-//       this.getParentApplications(this.applicationParams);
-//     }
-//   }
-
-//   onItemsPerPageChange(itemsPerPage: number): void {
-//     this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
-//     if (this.role === Role.provider) {
-//       this.getProviderApplications(this.applicationParams);
-//     } else {
-//       this.getParentApplications(this.applicationParams);
-//     }
-//   }
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
+    this.getApplications();
+  }
 }

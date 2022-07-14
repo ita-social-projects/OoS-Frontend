@@ -16,13 +16,14 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Role } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { ProviderComponent } from '../provider.component';
 
 @Component({
   selector: 'app-provider-workshops',
   templateUrl: './provider-workshops.component.html',
   styleUrls: ['./provider-workshops.component.scss'],
 })
-export class ProviderWorkshopsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
+export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
 
   @Select(UserState.workshops)
@@ -30,22 +31,7 @@ export class ProviderWorkshopsComponent extends CabinetDataComponent implements 
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
-  }
-
-  /**
-   * This method subscribe on provider and get it's workshops
-   */
-  init(): void {
-    this.provider$
-      .pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((provider: Provider) => {
-        this.provider = provider;
-        this.getProviderWorkshops();
-      });
-  }
+  } 
 
   /**
    * This method set navigation path
@@ -63,8 +49,7 @@ export class ProviderWorkshopsComponent extends CabinetDataComponent implements 
   /**
    * This method get provider workshop according to the subrole
    */
-  getProviderWorkshops(): void {
-    console.log(this.subRole)
+   initProviderData(): void {
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     } else {

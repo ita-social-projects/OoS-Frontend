@@ -1,4 +1,3 @@
-import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ProviderRoutingModule } from './provider-routing.module';
@@ -20,6 +19,8 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { CreateProviderAdminComponent } from './create-provider-admin/create-provider-admin.component';
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
 import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
+import { ProviderApplciationsComponent } from './provider-applciations/provider-applciations.component';
+import { ProviderApplicationsDataComponent } from './provider-applciations/provider-applications-data/provider-applications-data.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -36,6 +37,8 @@ import { ProviderAdminsComponent } from './provider-admins/provider-admins.compo
     CreateProviderAdminComponent,
     CreateAchievementComponent,
     ProviderAdminsComponent,
+    ProviderApplciationsComponent,
+    ProviderApplicationsDataComponent,
   ],
   imports: [
     CommonModule,
