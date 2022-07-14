@@ -71,7 +71,7 @@ export class ApplicationCardComponent implements OnInit {
 
   constructor(
     private matDialog: MatDialog,
-    private store: Store,
+    private store: Store
     ) {}
 
   ngOnInit(): void {
@@ -156,5 +156,4 @@ export class ApplicationCardComponent implements OnInit {
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
   }
-
 }
