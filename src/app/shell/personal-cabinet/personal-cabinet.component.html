@@ -16,10 +16,10 @@
       </a>
     </ng-container>
     <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./applications'">ЗАЯВИ</a>
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/applications'">ЗАЯВИ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider && subRole !== Role.ProviderAdmin">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./administration'">АДМІНІСТРУВАННЯ</a>
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/administration'">АДМІНІСТРУВАННЯ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.parent">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./parent/favorite'">УЛЮБЛЕНЕ</a>

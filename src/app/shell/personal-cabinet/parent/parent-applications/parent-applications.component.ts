@@ -7,10 +7,11 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
+import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { ApplicationsComponent } from '../../applications/applications.component';
+import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
 
 @Component({
   selector: 'app-parent-applications',
@@ -65,5 +66,10 @@ export class ParentApplicationsComponent extends ApplicationsComponent implement
    */
   onEntitiesSelect(IDs: string[]): void {
     // this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new PopNavPath());
   }
 }

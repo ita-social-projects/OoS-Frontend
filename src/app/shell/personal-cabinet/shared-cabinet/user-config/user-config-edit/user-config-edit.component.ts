@@ -1,5 +1,5 @@
 import { Util } from 'src/app/shared/utils/utils';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Role } from 'src/app/shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';

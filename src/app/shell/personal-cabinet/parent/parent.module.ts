@@ -10,7 +10,6 @@ import { CreateApplicationComponent } from './create-application/create-applicat
 import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-workshops.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
-import { ParentComponent } from './parent.component';
 import { ParentApplicationsComponent } from './parent-applications/parent-applications.component';
 
 @NgModule({

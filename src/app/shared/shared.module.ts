@@ -70,6 +70,7 @@ import { ImageCropperModalComponent } from './components/image-cropper-modal/ima
 import { InfoFormComponent } from './components/info-form/info-form.component';
 import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
+import { ApplicationCardComponent } from './components/application-card/application-card.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     ImageCropperModalComponent,
     InfoFormComponent,
     AchievementCardComponent,
+    ApplicationCardComponent
   ],
   imports: [
     MaterialModule,
@@ -208,7 +210,9 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
     BlockModalWindowComponent,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent
+    InfoFormComponent,
+    AchievementCardComponent,
+    ApplicationCardComponent
   ]
 })
 export class SharedModule { }

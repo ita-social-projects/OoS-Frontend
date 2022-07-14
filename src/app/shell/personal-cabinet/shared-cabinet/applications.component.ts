@@ -14,7 +14,7 @@ import {
   ApplicationUpdate,
 } from '../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
-import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+import { CabinetDataComponent } from './cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -34,8 +34,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
   selector: 'app-applications',
-  templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss'],
+  template: '',
 })
 export abstract class ApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly applicationTitles = ApplicationTitles;
@@ -77,7 +76,7 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
 
   protected abstract getApplications(applicationParams?: ApplicationParameters): void;
 
-  protected abstract onEntitiesSelect(IDs: string[]): void;
+  abstract onEntitiesSelect(IDs: string[]): void;
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;

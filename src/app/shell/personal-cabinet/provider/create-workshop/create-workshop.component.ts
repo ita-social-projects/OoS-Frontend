@@ -15,7 +15,7 @@ import { UserWorkshopService } from 'src/app/shared/services/workshops/user-work
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
-import { CreateFormComponent } from '../../create-form/create-form.component';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-workshop',

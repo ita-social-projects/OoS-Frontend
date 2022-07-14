@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserConfigComponent } from './user-config/user-config.component';
-import { ApplicationsComponent } from './applications/applications.component';
+import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
+import { ApplicationsComponent } from './shared-cabinet/applications.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
@@ -19,10 +19,6 @@ const routes: Routes = [
     path: 'messages',
     component: MessagesComponent,
   },
-  {
-    path: 'applications',
-    component: ApplicationsComponent,
-  }, 
   {
     path: 'provider',
     loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),

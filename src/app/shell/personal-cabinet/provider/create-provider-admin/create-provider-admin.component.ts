@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CreateFormComponent } from '../../create-form/create-form.component';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';

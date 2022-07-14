@@ -6,25 +6,14 @@ import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  takeUntil,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import {
-  providerAdminRoleUkr,
-  providerAdminRoleUkrReverse,
-} from 'src/app/shared/enum/enumUA/provider-admin';
+import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import {
-  ProviderAdmin,
-  ProviderAdminTable,
-} from 'src/app/shared/models/providerAdmin.model';
+import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import {
   BlockProviderAdminById,
@@ -36,13 +25,14 @@ import { Role } from 'src/app/shared/enum/role';
 import { Constants } from 'src/app/shared/constants/constants';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { ProviderComponent } from '../provider.component';
 
 @Component({
   selector: 'app-provider-admins',
   templateUrl: './provider-admins.component.html',
   styleUrls: ['./provider-admins.component.scss'],
 })
-export class ProviderAdminsComponent implements OnInit, OnDestroy {
+export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
@@ -53,78 +43,50 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
   providerAdmins: ProviderAdminTable[] = [];
-  @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
-  provider: Provider;
-  filter = new FormControl('');
+  filterFormControl = new FormControl('');
   filterValue: string;
   btnView: string = providerAdminRoleUkr.all;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+
   tabIndex: number;
-  subrole: string;
-  Role = Role;
 
   constructor(
-    public store: Store,
+    protected store: Store,
+    protected matDialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute,
-    private matDialog: MatDialog,
-  ) {}
-
-  ngOnInit(): void {
-    this.filter.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
-      .subscribe((val: string) => {
-        if (val) {
-          this.filterValue = val;
-        } else {
-          this.filterValue = '';
-        }
-      });
-    this.getAllProviderAdmins();
-
-    this.providerAdmins$
-      .pipe(
-        filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((providerAdmins: ProviderAdmin[]) => {
-        this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
-      });
-
-    this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
-      });
-
-    this.provider$
-      .pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((provider: Provider) => (this.provider = provider));
-
-    this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
-
-    this.store.dispatch(
-      new PushNavPath(
-        {
-          name: NavBarName.Administration,
-          isActive: false,
-          disable: true,
-        }
-      )
-    );    
+    private route: ActivatedRoute
+  ) {
+    super(store, matDialog);
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+      this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
+    });
   }
 
-  getAllProviderAdmins(): void {
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Administration,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
+
+  protected initProviderData(): void {
+    this.getAllProviderAdmins();
+    this.addProviderAdmisnSubscribtions();
+  }
+
+  private getAllProviderAdmins(): void {
     this.store.dispatch(new GetAllProviderAdmins());
   }
 
-  updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
+  /**
+   * This method updates table according to teh received data
+   * @param admins: ProviderAdmin[]
+   */
+  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
     let updatedAdmins = [];
-    admins.forEach((admin) => {
+    admins.forEach((admin: ProviderAdmin) => {
       updatedAdmins.push({
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
@@ -142,10 +104,12 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    this.btnView = event.tab.textLabel;
-    this.filter.reset();
-    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] } }
-    );
+    // this.btnView = event.tab.textLabel;
+    this.filterFormControl.reset();
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] },
+    });
   }
 
   /**
@@ -155,9 +119,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.deputy
-          ? ModalConfirmationType.deleteProviderAdminDeputy
-          : ModalConfirmationType.deleteProviderAdmin,
+        type: user.deputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
         property: user.pib,
       },
     });
@@ -180,9 +142,7 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.deputy
-          ? ModalConfirmationType.blockProviderAdminDeputy
-          : ModalConfirmationType.blockProviderAdmin,
+        type: user.deputy ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
         property: user.pib,
       },
     });
@@ -198,9 +158,26 @@ export class ProviderAdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch(new PopNavPath());
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  /**
+   * This method subscribes on provider admins and filter form control value changing for data filtartion
+   */
+  private addProviderAdmisnSubscribtions(): void {
+    this.filterFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(200),
+        distinctUntilChanged(),
+        filter((val: string) => !!val)
+      )
+      .subscribe((val: string) => (this.filterValue = val));
+
+    this.providerAdmins$
+      .pipe(
+        filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        (providerAdmins: ProviderAdmin[]) => (this.providerAdmins = this.updateStructureForTheTable(providerAdmins))
+      );
   }
 }

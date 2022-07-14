@@ -8,7 +8,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
-import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';

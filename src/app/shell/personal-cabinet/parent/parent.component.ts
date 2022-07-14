@@ -4,13 +4,12 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+import { CabinetDataComponent } from '../shared-cabinet/cabinet-data.component';
 import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parent',
-  templateUrl: './parent.component.html',
-  styleUrls: ['./parent.component.scss'],
+  template: '',
 })
 export abstract class ParentComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)

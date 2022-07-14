@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
+import { CabinetDataComponent } from '../shared-cabinet/cabinet-data.component';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable } from 'rxjs';
@@ -20,13 +20,12 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
     super(store, matDialog);
   }
 
-  abstract initProviderData();
+  protected abstract initProviderData();
 
   /**
    * This method subscribe on provider and get it's workshops
    */
   init(): void {
-    this.addNavPath();
     this.provider$
       .pipe(
         filter((provider: Provider) => !!provider),

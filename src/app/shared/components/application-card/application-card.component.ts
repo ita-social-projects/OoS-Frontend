@@ -1,4 +1,4 @@
-import { DetectedDeviceService } from './../../../../shared/services/detected-device.service';
+import { DetectedDeviceService } from '../../services/detected-device.service';
 import {
   Component,
   EventEmitter,

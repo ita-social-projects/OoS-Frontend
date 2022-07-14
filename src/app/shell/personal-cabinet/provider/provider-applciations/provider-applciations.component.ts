@@ -1,30 +1,34 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store } from '@ngxs/store';
-import { Constants } from 'src/app/shared/constants/constants';
 import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
-import { ProviderComponent } from '../provider.component';
 import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
 import { Child } from 'src/app/shared/models/child.model';
-import { ApplicationsComponent } from '../../applications/applications.component';
+import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { UserState } from 'src/app/shared/store/user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
-import { GetApplicationsByProviderId, GetProviderAdminWorkshops, GetWorkshopsByProviderId, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { 
+  GetApplicationsByProviderId, 
+  GetProviderAdminWorkshops, 
+  GetWorkshopsByProviderId, 
+  UpdateApplication 
+} from 'src/app/shared/store/user.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Role } from 'src/app/shared/enum/role';
+import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-provider-applciations',
   templateUrl: './provider-applciations.component.html',
   styleUrls: ['./provider-applciations.component.scss'],
 })
-export class ProviderApplications extends ApplicationsComponent implements OnInit, OnDestroy {
+export class ProviderApplciationsComponent extends ApplicationsComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @ViewChild(InfoBoxHostDirective, { static: true }) infoBoxHost: InfoBoxHostDirective;
@@ -107,7 +111,7 @@ export class ProviderApplications extends ApplicationsComponent implements OnIni
    * This applies selected IDs as filtering parameter to get list of applications
    * @param IDs: string[]
    */
-  protected onEntitiesSelect(IDs: string[]): void {
+  onEntitiesSelect(IDs: string[]): void {
     this.applicationParams.workshops = IDs;
     this.getApplications(this.applicationParams);
   }

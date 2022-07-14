@@ -20,7 +20,7 @@ import { CreateProviderAdminComponent } from './create-provider-admin/create-pro
 import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
 import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
 import { ProviderApplciationsComponent } from './provider-applciations/provider-applciations.component';
-import { ProviderApplicationsDataComponent } from './provider-applciations/provider-applications-data/provider-applications-data.component';
+import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -38,7 +38,7 @@ import { ProviderApplicationsDataComponent } from './provider-applciations/provi
     CreateAchievementComponent,
     ProviderAdminsComponent,
     ProviderApplciationsComponent,
-    ProviderApplicationsDataComponent,
+    ProviderWorkshopsComponent
   ],
   imports: [
     CommonModule,

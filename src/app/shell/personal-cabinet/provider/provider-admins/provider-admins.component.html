@@ -5,7 +5,7 @@
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
         #input
-        [formControl]="filter"
+        [formControl]="filterFormControl"
         matInput
         type="text"
         class="search"
@@ -21,10 +21,10 @@
         <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
       </mat-menu>
     </ng-template>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy && subrole !== Role.ProviderAdmin">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin && subrole !== Role.ProviderAdmin">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
   </div>

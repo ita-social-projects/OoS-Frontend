@@ -17,7 +17,7 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { ParentComponent } from '../parent.component';
 
 @Component({

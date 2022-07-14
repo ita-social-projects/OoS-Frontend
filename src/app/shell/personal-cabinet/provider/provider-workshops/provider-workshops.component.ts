@@ -2,16 +2,12 @@ import { DeleteWorkshopById, GetProviderAdminWorkshops } from 'src/app/shared/st
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } 
-  from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Role } from 'src/app/shared/enum/role';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -31,7 +27,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
-  } 
+  }
 
   /**
    * This method set navigation path
@@ -49,7 +45,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   /**
    * This method get provider workshop according to the subrole
    */
-   initProviderData(): void {
+  initProviderData(): void {
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     } else {

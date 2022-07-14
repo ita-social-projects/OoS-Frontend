@@ -1,4 +1,4 @@
-import { PopNavPath } from './../../../shared/store/navigation.actions';
+import { PopNavPath } from '../../../../shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
