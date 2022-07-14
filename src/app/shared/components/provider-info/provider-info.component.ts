@@ -23,7 +23,7 @@ import { filter, takeUntil } from 'rxjs/operators';
   templateUrl: './provider-info.component.html',
   styleUrls: ['./provider-info.component.scss'],
 })
-export class ProviderInfoComponent implements OnInit {
+export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
@@ -42,18 +42,21 @@ export class ProviderInfoComponent implements OnInit {
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatusName: string;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
-  
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
-    this.institutionStatuses$.pipe(takeUntil(this.destroy$),filter((institutionStatuses: InstitutionStatus[])=>(!!institutionStatuses)))
+    this.institutionStatuses$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses))
       .subscribe((institutionStatuses: InstitutionStatus[]) => {
-       this.institutionStatusName = institutionStatuses.find((item: InstitutionStatus)=>(item.id === this.provider.institutionStatusId)).name;
-      })
+        this.institutionStatusName = institutionStatuses.find(
+          (item: InstitutionStatus) => item.id === this.provider.institutionStatusId
+        ).name;
+      });
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -67,5 +70,10 @@ export class ProviderInfoComponent implements OnInit {
 
   onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
