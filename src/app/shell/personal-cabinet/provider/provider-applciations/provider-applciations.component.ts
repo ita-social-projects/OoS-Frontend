@@ -1,3 +1,4 @@
+import { ApplicationStatus } from './../../../../shared/enum/applications';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, Select, Store } from '@ngxs/store';
@@ -8,7 +9,7 @@ import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
 import { Child } from 'src/app/shared/models/child.model';
 import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Application, ApplicationParameters, ApplicationUpdate, ApplicationCards } from 'src/app/shared/models/application.model';
+import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { UserState } from 'src/app/shared/store/user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
@@ -20,8 +21,7 @@ import {
 } from 'src/app/shared/store/user.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { Role } from 'src/app/shared/enum/role';
-import { PopNavPath } from 'src/app/shared/store/navigation.actions';
+import { EntityType, Role } from 'src/app/shared/enum/role';
 
 @Component({
   selector: 'app-provider-applciations',
@@ -38,7 +38,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
-  
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
@@ -59,14 +59,15 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
         takeUntil(this.destroy$)
       )
       .subscribe((provider: Provider) => {
+        this.applicationParams.property = EntityType[this.role];
         this.provider = provider;
         this.getProviderWorkshops();
         this.getApplications();
       });
   }
 
-  protected getApplications(applicationParams?: ApplicationParameters): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, applicationParams));
+  protected getApplications(): void {
+    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, this.applicationParams));
   }
 
   onInfoShow({ element, child }: { element: Element; child: Child }): void {
@@ -113,7 +114,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
    */
   onEntitiesSelect(IDs: string[]): void {
     this.applicationParams.workshops = IDs;
-    this.getApplications(this.applicationParams);
+    this.getApplications();
   }
 
   private activateChildInfoBox(): void {

@@ -1,3 +1,4 @@
+import { ApplicationStatus } from './../../enum/applications';
 import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -17,7 +18,7 @@ export class ApplicationService {
 
     if (parameters) {
       if (parameters.statuses.length) {
-        params = params.set('Statuses', JSON.stringify(parameters.statuses));
+        parameters.statuses.forEach((status: ApplicationStatus) => (params = params.append('Statuses', status)));
       }
 
       if (parameters.workshops.length) {

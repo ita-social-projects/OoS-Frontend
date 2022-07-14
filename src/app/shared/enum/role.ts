@@ -25,4 +25,5 @@ export enum RoleLinks {
 export enum EntityType {
   provider = 'provider',
   workshop = 'workshop',
+  providerAdmin = 'provideradmin'
 }

@@ -54,12 +54,14 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
     isActive: true,
   };
 
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-
   protected applicationParams: ApplicationParameters = {
+    property: null,
     statuses: [],
+    workshops:[],
     showBlocked: false,
   };
+
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   constructor(
     protected store: Store,
@@ -74,7 +76,7 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
       .subscribe((params: Params) => (this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])));
   }
 
-  protected abstract getApplications(applicationParams?: ApplicationParameters): void;
+  protected abstract getApplications(statuses?: ApplicationStatus[]): void;
 
   abstract onEntitiesSelect(IDs: string[]): void;
 
@@ -118,8 +120,8 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = event.tab.textLabel;
-    const status = tabLabel !== (ApplicationTitles.Blocked || ApplicationTitles.All) ? tabLabel : null;
-    this.applicationParams.statuses = ApplicationTitlesReverse[status];
+    const statuses = (tabLabel !== ApplicationTitles.Blocked && tabLabel !== ApplicationTitles.All) ? [ApplicationTitlesReverse[tabLabel]] : [];
+    this.applicationParams.statuses = statuses;
     this.getApplications();
     this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
   }

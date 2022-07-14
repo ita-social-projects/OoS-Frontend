@@ -338,6 +338,8 @@ export class UserState {
     { id, parameters }: GetApplicationsByProviderId
   ): Observable<ApplicationCards> {
     patchState({ isLoading: true });
+    console.log(parameters)
+
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
