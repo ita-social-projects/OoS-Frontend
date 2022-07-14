@@ -53,7 +53,7 @@ export class ApplicationService {
   getApplicationsByProviderId(id: string, parameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
+    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
   }
 
   /**

@@ -26,17 +26,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(UserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
 
-  // @Select(UserState.workshops)
-  // workshops$: Observable<WorkshopCard[]>;
- 
-  // @Select(UserState.children)
-  // childrenCards$: Observable<ChildCards>;
-  // @Select(RegistrationState.parent)
-  // parent$: Observable<Parent>;
-  // @Select(RegistrationState.provider)
-  // provider$: Observable<Provider>;
-
-
   destroy$: Subject<boolean> = new Subject<boolean>();
   
   constructor(protected store: Store, protected matDialog: MatDialog) {}

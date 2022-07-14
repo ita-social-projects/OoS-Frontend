@@ -37,7 +37,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
   workshops$: Observable<WorkshopCard[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  provider: Provider;
+  providerId: string;
 
   constructor(
     protected store: Store,
@@ -59,15 +59,17 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
         takeUntil(this.destroy$)
       )
       .subscribe((provider: Provider) => {
-        this.applicationParams.property = EntityType[this.role];
-        this.provider = provider;
+        this.applicationParams.property = EntityType[this.subRole];
+        this.providerId = this.subRole === Role.None ? 
+        provider.id :
+        this.store.selectSnapshot(RegistrationState.user).id;
         this.getProviderWorkshops();
         this.getApplications();
       });
   }
 
   protected getApplications(): void {
-    this.store.dispatch(new GetApplicationsByProviderId(this.provider.id, this.applicationParams));
+    this.store.dispatch(new GetApplicationsByProviderId(this.providerId, this.applicationParams));
   }
 
   onInfoShow({ element, child }: { element: Element; child: Child }): void {
@@ -102,7 +104,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
 
   private getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
-      this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
+      this.store.dispatch(new GetWorkshopsByProviderId(this.providerId));
     } else {
       this.store.dispatch(new GetProviderAdminWorkshops());
     }
