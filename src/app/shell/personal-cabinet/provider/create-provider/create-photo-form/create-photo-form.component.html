@@ -1,13 +1,15 @@
 <form [formGroup]="PhotoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
   <!-- <app-image-form-control [imgMaxAmount]="4" [label]="'Фото'" formControlName="image">
   </app-image-form-control> TODO: Second release -->
+  <app-image-form-control [imgMaxAmount]="4" [cropperConfig]="cropperConfig" [label]="'Фото'" formControlName="imageFiles"
+    [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
+  </app-image-form-control>
 
   <label class="step-label">Статус<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
       formControlName="institutionStatusId">
-      <mat-option [value]="0" class="dropdown-option"> Відсутній </mat-option>
-      <mat-option *ngFor="let status of (institutionStatuses$ | async)" [value]="status.id" class="dropdown-option">
+      <mat-option *ngFor="let status of (institutionStatuses$ | async)" [value]="status.id" class="dropdown-option"> 
         {{status.name}}
       </mat-option>
     </mat-select>

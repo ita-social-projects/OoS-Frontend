@@ -27,6 +27,22 @@ p {
     border-left: 5px solid #3849f9;
   }
 }
+::ng-deep .mat-menu-panel.childInfo-menu{
+  max-width:none;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px !important;
+}
+::ng-deep .childInfo-menu .mat-menu-content {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
 .title{
   font-family: 'Innerspace';
   font-style: normal;
@@ -99,10 +115,6 @@ p {
     padding: 0.6rem 1.9rem;
   }
 }
-.name:hover{
-  cursor: pointer;
-  opacity: 0.5;
-}
 .hidden{
   visibility: hidden;
 }
@@ -138,6 +150,14 @@ p {
 }
 .status-icon {
   font-size: 12px!important;
+}
+.activeInfoBtn {
+  color: #3849f9;
+  font-size: 16px;
+}
+.inactiveInfoBtn {
+  color: #AAAAAA;
+  font-size: 16px;
 }
 
 @media (min-width: 751px) and (max-width: 950px) {
@@ -191,15 +211,15 @@ p {
       margin-top: 1rem;
     }
   }
-.status-info-icon{
-  margin-left: 1px;
-}
-.activeInfoBtn {
-  color: #3849f9;
-  font-size: 30px;
-}
-.inactiveInfoBtn {
-  color: #AAAAAA;
-  font-size: 30px;
-}
+  .status-info-icon{
+    margin-left: 1px;
+  }
+  .activeInfoBtn {
+    color: #3849f9;
+    font-size: 25px;
+  }
+  .inactiveInfoBtn {
+    color: #AAAAAA;
+    font-size: 25px;
+  }
 }
