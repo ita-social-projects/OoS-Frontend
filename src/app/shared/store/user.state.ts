@@ -134,7 +134,7 @@ export interface UserStateModel {
     selectedProvider: null,
     applicationCards: null,
     achievements: null,
-    children: undefined,
+    children: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
     currentPage: {
@@ -338,7 +338,7 @@ export class UserState {
     { id, parameters }: GetApplicationsByProviderId
   ): Observable<ApplicationCards> {
     patchState({ isLoading: true });
-    console.log(parameters)
+    console.log(parameters);
 
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
@@ -373,7 +373,15 @@ export class UserState {
     const state: UserStateModel = getState();
     return this.childrenService
       .getUsersChildren(state)
-      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
+      .pipe(
+        tap((children: ChildCards) =>
+          patchState(
+            children
+              ? { children: children, isLoading: false }
+              : { children: { totalAmount: 0, entities: [] }, isLoading: false }
+          )
+        )
+      );
   }
 
   @Action(GetAllUsersChildren)
@@ -416,9 +424,9 @@ export class UserState {
     console.log('Workshop is created', payload);
     dispatch([
       new MarkFormDirty(false),
-      new ClearClasses(), 
+      new ClearClasses(),
       new ClearDepartments(),
-      new ShowMessageBar({ message: message.text, type: message.type })
+      new ShowMessageBar({ message: message.text, type: message.type }),
     ]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
   }

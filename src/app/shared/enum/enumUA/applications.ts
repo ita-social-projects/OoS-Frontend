@@ -1,3 +1,4 @@
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
 export enum ApplicationTitles {
   All = 'Усі',
   Pending = 'Очікує підтвердження',

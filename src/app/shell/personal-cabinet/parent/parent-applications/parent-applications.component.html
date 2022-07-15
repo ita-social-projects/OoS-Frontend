@@ -11,7 +11,7 @@
     <app-status-info-card></app-status-info-card>
   </mat-menu>
   <app-entity-checkbox-dropdown
-    [entities]="childrenCards"
+    [entities]="(childrenCards$ | async)?.entities"
     [declination]="ChildDeclination"
     (entityCheck)="onEntitiesSelect($event)">
   </app-entity-checkbox-dropdown>
@@ -43,33 +43,20 @@
   </mat-tab-group>
 </div>
 
+<app-paginator
+  *ngIf="!(isLoadingCabinet$ | async) && applicationCards"
+  [totalEntities]="applicationCards.totalAmount"
+  [currentPage]="currentPage"
+  [itemsPerPage]="applicationsPerPage$ | async"
+  (pageChange)="onPageChange($event)"
+  (itemsPerPageChange)="onItemsPerPageChange($event)">
+</app-paginator>
+
 <ng-template #ParentApplication let-applicationCards>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="applicationCards.totalAmount; else isEmptyList">
-      <div *ngIf="filteredChildren?.length && applicationCards.totalAmount; else isEmptyList">
-        <div *ngFor="let child of filteredChildren | applicationChildSorting: applicationCards.entities">
-          <ng-container
-            *ngTemplateOutlet="
-              ChildApplication;
-              context: { $implicit: applicationCards.entities | applicationChildFilter: child, child: child }
-            ">
-          </ng-container>
-        </div>
-      </div>
-    </ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #ChildApplication let-childApplications let-child="child">
-  <ng-container *ngIf="isSelectedChildCheckbox || (!isSelectedChildCheckbox && childApplications.length)">
-    <h3 class="child-name">
-      {{ child.lastName }} {{ child.firstName }} {{ child.middleName }} ({{
-        child.dateOfBirth | date: constants.SHORT_DATE_FORMAT
-      }})
-    </h3>
-    <ng-container *ngIf="childApplications.length; else isEmptyList">
       <app-application-card
-        *ngFor="let application of application"
+        *ngFor="let application of applicationCards.entities"
         [application]="application"
         [userRole]="role"
         (approved)="onApprove($event)"
@@ -80,4 +67,8 @@
       </app-application-card>
     </ng-container>
   </ng-container>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
 </ng-template>

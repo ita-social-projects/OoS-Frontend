@@ -14,8 +14,8 @@ import { Constants } from 'src/app/shared/constants/constants';
   template: '',
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
-  readonly Role: typeof Role = Role;
+  readonly constants = Constants;
+  readonly Role = Role;
 
   @Select(RegistrationState.role)
   role$: Observable<Role>;
@@ -46,15 +46,6 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   protected abstract init(): void;
   protected abstract addNavPath(): void;
-
-  
-  // getUsersChildren(): void {
-  //   this.store.dispatch(new GetUsersChildren());
-  // }
-
-  // getAllUsersChildren(): void {
-  //   this.store.dispatch(new GetAllUsersChildren());
-  // }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

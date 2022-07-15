@@ -1,4 +1,3 @@
-import { PopNavPath } from './../../../../shared/store/navigation.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,19 +8,16 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import {
   BlockProviderAdminById,
   DeleteProviderAdminById,
   GetAllProviderAdmins,
 } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { Role } from 'src/app/shared/enum/role';
 import { Constants } from 'src/app/shared/constants/constants';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -104,7 +100,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    // this.btnView = event.tab.textLabel;
+    // this.btnView = event.tab.textLabel; : TODO: fix btn
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,

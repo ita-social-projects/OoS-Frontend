@@ -51,6 +51,7 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
     property: null,
     statuses: [],
     workshops:[],
+    children: [],
     showBlocked: false,
   };
 

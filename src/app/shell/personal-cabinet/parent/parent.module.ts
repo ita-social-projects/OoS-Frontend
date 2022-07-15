@@ -11,6 +11,7 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-worksh
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { ParentApplicationsComponent } from './parent-applications/parent-applications.component';
+import { ChildWorkshopsListComponent } from './parent-workshops/child-workshops-list/child-workshops-list.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ParentApplicationsComponent } from './parent-applications/parent-applic
     FavoriteWorkshopsComponent,
     ParentWorkshopsComponent,
     ParentApplicationsComponent,
+    ChildWorkshopsListComponent,
   ],
   imports: [
     CommonModule,

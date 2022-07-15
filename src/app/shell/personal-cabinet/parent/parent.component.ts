@@ -12,7 +12,7 @@ import { filter, takeUntil } from 'rxjs/operators';
   template: '',
 })
 export abstract class ParentComponent extends CabinetDataComponent implements OnInit, OnDestroy {
-  @Select(RegistrationState.provider)
+  @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   parent: Parent;
 
@@ -26,7 +26,6 @@ export abstract class ParentComponent extends CabinetDataComponent implements On
    * This method subscribe on provider and get it's workshops
    */
   init(): void {
-    this.addNavPath();
     this.parent$
       .pipe(
         filter((parent: Parent) => !!parent),

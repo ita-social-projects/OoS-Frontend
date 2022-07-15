@@ -1,98 +1,84 @@
-import { NavigationBarService } from './../../../../shared/services/navigation-bar/navigation-bar.service';
-import { Application } from 'src/app/shared/models/application.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Child } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
-import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeChildrens, SetChildrensPerPage } from 'src/app/shared/store/paginator.actions';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { ParentComponent } from '../parent.component';
+import { UserState } from 'src/app/shared/store/user.state';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-children',
   templateUrl: './children.component.html',
-  styleUrls: ['./children.component.scss']
+  styleUrls: ['./children.component.scss'],
 })
-export class ChildrenComponent {
-  // @Select(PaginatorState.childrensPerPage)
-  // childrensPerPage$: Observable<number>;
+export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
+  @Select(PaginatorState.childrensPerPage)
+  childrensPerPage$: Observable<number>;
+  @Select(UserState.children)
+  childrenCards$: Observable<ChildCards>;
+  childrenCards: ChildCards;
 
-  // destroy$: Subject<boolean> = new Subject<boolean>();
-  // currentPage: PaginationElement = {
-  //   element: 1,
-  //   isActive: true
-  // };
-  // applicationParams: {
-  //   status: string,
-  //   showBlocked: boolean,
-  //   workshopsId: string[],
-  // };
+  //TODO: get approved children applications
+  
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true,
+  };
 
-  // constructor(
-  //   navigationBarService: NavigationBarService,
-  //   store: Store,
-  //   matDialog: MatDialog,
-  //   actions$: Actions) {
-  //   super(store, matDialog, actions$, navigationBarService);
-  // }
+  constructor(protected store: Store, protected matDialog: MatDialog) {
+    super(store, matDialog);
+  }
 
-  // ngOnInit(): void {
-  //   this.getUserData();
-  //   this.store.dispatch(
-  //     new PushNavPath(
-  //       {
-  //         name: NavBarName.Children,
-  //         isActive: false,
-  //         disable: true,
-  //       }
-  //     )
-  //   );    
-  // }
+  addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Children,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
 
-  // init(): void {
-  //   this.getUsersChildren();
-  //   this.getParentApplications(this.applicationParams);
+  initParentData(): void {
+    this.store.dispatch(new GetUsersChildren());
+    this.childrenCards$
+      .pipe(
+        filter((childrenCards: ChildCards) => !!childrenCards),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((childrenCards: ChildCards) => this.childrenCards = childrenCards);
+  }
 
-  // }
+  onDelete(child: Child): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteChild,
+        property: `${child.firstName} ${child.lastName}`,
+      },
+    });
 
-  // childApplications(applications: Application[], child: Child): Array<Application> {
-  //   return applications?.length && applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
-  // }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteChildById(child.id));
+    });
+  }
 
-  // onDelete(child: Child): void {
-  //   const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-  //     width: Constants.MODAL_SMALL,
-  //     data: {
-  //       type: ModalConfirmationType.deleteChild,
-  //       property: `${child.firstName} ${child.lastName}`
-  //     }
-  //   });
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren()]);
+  }
 
-  //   dialogRef.afterClosed().subscribe((result: boolean) => {
-  //     (result) && this.store.dispatch(new DeleteChildById(child.id));
-  //   });
-  // }
-
-  // onItemsPerPageChange(itemsPerPage: number): void{
-  //   this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren()]);
-  // }
-
-  // onPageChange(page: PaginationElement): void {
-  //   this.currentPage = page;
-  //   this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren()]);
-  // }
-
-  // ngOnDestroy(): void {
-  //   this.destroy$.next(true);
-  //   this.destroy$.unsubscribe();
-  //   this.store.dispatch([new SetFirstPage(), new PopNavPath()]);
-  // }
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren()]);
+  }
 }

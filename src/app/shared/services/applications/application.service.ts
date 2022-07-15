@@ -25,11 +25,18 @@ export class ApplicationService {
         parameters.workshops.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
       }
 
+      if (parameters.children.length) {
+        parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
+      }
+
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const size: number = parameters.size ?
+      parameters.size :
+      this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+
     const from: number = size * (+currentPage.element - 1);
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
@@ -41,7 +48,7 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id string
    */
-  getApplicationsByParentId(id: string, parameters): Observable<ApplicationCards> {
+  getApplicationsByParentId(id: string, parameters: ApplicationParameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
     return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
   }

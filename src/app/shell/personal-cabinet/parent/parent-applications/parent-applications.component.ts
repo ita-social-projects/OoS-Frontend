@@ -9,7 +9,7 @@ import { ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, GetUsersChildren } from 'src/app/shared/store/user.actions';
+import { GetAllUsersChildren, GetApplicationsByParentId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
 
@@ -53,11 +53,11 @@ export class ParentApplicationsComponent extends ApplicationsComponent implement
   }
 
   protected getApplications(): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id));
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, this.applicationParams));
   }
 
   private getParentChildren(): void {
-    this.store.dispatch(new GetUsersChildren());
+    this.store.dispatch(new GetAllUsersChildren());
   }
 
   /**
@@ -65,7 +65,8 @@ export class ParentApplicationsComponent extends ApplicationsComponent implement
    * @param IDs: string[]
    */
   onEntitiesSelect(IDs: string[]): void {
-    // this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);
+    this.applicationParams.children = IDs;
+    this.getApplications();
   }
 
   ngOnDestroy(): void {
