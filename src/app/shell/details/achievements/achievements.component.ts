@@ -55,8 +55,8 @@ export class AchievementsComponent implements OnInit {
     this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
   }  
 
-  getWorkshopIds(arr) {
-    let res = []
+  getWorkshopIds(arr): string[] {
+    const res = []
     arr.forEach((i) => res.push(i.workshopId));
     return res;
   }
