@@ -3,8 +3,7 @@
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
       <div #name class="workshop-header" (mouseover)="!deviceToogle && onInfoShow(name, $event)"
         (mouseleave)="!deviceToogle && onInfoHide(name)" (click)="deviceToogle && onInfoShow(name, $event)">
-        <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{
-          application.child.middleName }}</h4>
+        <h4 class="name title">{{ childFullName }}</h4>
       </div>
       <p class="text text-bold">{{ childAge }}</p>
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>

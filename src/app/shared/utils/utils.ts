@@ -4,6 +4,10 @@ import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { PersonalCabinetTitle } from '../enum/navigation-bar';
 import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
+import { Parent, ParentWithContactInfo } from '../models/parent.model';
+import { Provider } from '../models/provider.model';
+import { ProviderAdmin } from '../models/providerAdmin.model';
+import { Teacher } from '../models/teacher.model';
 import { UsersTable } from '../models/usersTable';
 import { RegistrationState } from '../store/registration.state';
 
@@ -193,11 +197,16 @@ export class Util {
     return finalMessage;
   }
 
-  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {   
+  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
     if(userRole !== Role.provider){
       return PersonalCabinetTitle[userRole]
     } else {
       return PersonalCabinetTitle[subrole];
     }
+  }
+
+  public static getFullName( person: Teacher | ProviderAdmin | Child | ParentWithContactInfo): string {
+    const fullName = `${person.lastName} ${person.firstName} ${person.middleName}`;
+    return fullName;
   }
 }

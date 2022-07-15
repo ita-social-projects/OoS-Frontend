@@ -48,6 +48,7 @@ export class ApplicationCardComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
   childAge: string;
+  childFullName: string;
   deviceToogle: boolean;
   infoShowToggle: boolean = false;
   ReasonFormGroup: FormGroup;
@@ -82,6 +83,7 @@ export class ApplicationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
+    this.childFullName = Util.getFullName(this.application.child);
     this.deviceToogle = this.detectedDevice.checkedDevice();
     this.subrole$
       .pipe(takeUntil(this.destroy$))
