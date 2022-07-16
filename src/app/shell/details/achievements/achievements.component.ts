@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
+import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
@@ -14,7 +14,6 @@ import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { DeleteAchievementById, GetAchievementsByWorkshopId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
-
 @Component({
   selector: 'app-achievements',
   templateUrl: './achievements.component.html',
@@ -23,7 +22,6 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class AchievementsComponent implements OnInit {
   @Input() workshop: Workshop;
   readonly noResultAchievements = NoResultsTitle.noAchievements;
-  readonly achievementsTitle = AchievementsTitle;
   achievements: Achievement[];
   showMore = false;
   provider: Provider;
@@ -31,7 +29,7 @@ export class AchievementsComponent implements OnInit {
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  @Select(UserState.workshops) workshops: Observable<Workshop[]>;
+  
   destroy$: Subject<boolean> = new Subject<boolean>();  
 
   constructor(private store: Store, private matDialog: MatDialog) {}
@@ -54,12 +52,6 @@ export class AchievementsComponent implements OnInit {
   private getAchievements(): void {
     this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
   }  
-
-  getWorkshopIds(arr): string[] {
-    const res = []
-    arr.forEach((i) => res.push(i.workshopId));
-    return res;
-  }
 
   onDelete(achievement: Achievement): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
