@@ -122,8 +122,8 @@ export class CropperConfigurationConstants {
   static readonly croppedQuality = 90;
   static readonly croppedGalleryImage = {
     height: 300
-  }
+  };
   static readonly croppedCoverImage = {
     height: 250
-  }
+  };
 }
