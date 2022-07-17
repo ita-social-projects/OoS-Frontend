@@ -118,5 +118,12 @@ export class CropperConfigurationConstants {
   static readonly cropperMaxWidth = 10000;
   static readonly cropperMinHeight = 250;
   static readonly cropperMaxHeight = 8000;
-  static readonly croppedFormat = ['png', 'jpeg'];
+  static readonly croppedFormat = 'jpeg';
+  static readonly croppedQuality = 90;
+  static readonly croppedGalleryImage = {
+    height: 300
+  }
+  static readonly croppedCoverImage = {
+    height: 250
+  }
 }
