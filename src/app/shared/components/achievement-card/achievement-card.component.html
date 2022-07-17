@@ -4,12 +4,12 @@
         <img class='image' src='../../../../assets/icons/award.svg'/>
         <div>
           <h3 class="achievement_title">
-            {{achievementsTitle[achievement.achievementTypeId].name}}
+            {{achievementsTitle[achievement.achievementTypeId]?.name}}
           </h3>
             <h4 class="card_title">Дата</h4> 
             <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
-            <ng-container >
-              <div *ngFor="let child of achievement.children">
+            <ng-container *ngIf="achievement">
+              <div *ngFor="let child of achievement?.children">
                 <h4 class="card_title" *ngIf="child">Учасники</h4> 
                 <p class="card_text">
                   {{child.firstName}} {{child.lastName}} {{child.middleName}}
@@ -21,7 +21,7 @@
             <mat-card-content>
               <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
                 {{(showMore) ? achievement.title : achievement.title | slice:0:150}}
-                <a *ngIf="achievement.title.length > 70" class='more_btn' 
+                <a *ngIf="achievement.title?.length > 70" class='more_btn' 
                   (click)="showMore = !showMore">{{(!showMore) ? '...Більше' : '...Менше'}}
                 </a>
               </p>  
