@@ -28,7 +28,8 @@
             </mat-card-content>
         </div> 
         
-        <ng-container *ngIf="auth && getWorkshopIds(workshops | async).includes(workshopId)">
+        <ng-container 
+          *ngIf="auth && getWorkshopIds(workshops | async).includes(workshopId) && role === 'provider'">
           <div fxLayout="row" fxLayoutAlign="end" class="actions">
             <div class="actions_btn" [routerLink]="['/create-achievement', achievement.id]">
               <mat-icon class="achievement_icon">edit</mat-icon>

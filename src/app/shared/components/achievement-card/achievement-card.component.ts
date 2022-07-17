@@ -10,6 +10,7 @@ import { GetWorkshopsByProviderId } from '../../store/user.actions';
 import { UserState } from '../../store/user.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ActivatedRoute } from '@angular/router';
+import { Role } from '../../enum/role';
 
 @Component({
   selector: 'app-achievement-card',
@@ -26,6 +27,8 @@ export class AchievementCardComponent implements OnInit {
   auth: boolean;
   provider: Provider;
   workshopId: string;
+  role: string;
+  readonly Role: Role;
 
   constructor(private store: Store, private route: ActivatedRoute) {}
 
@@ -34,8 +37,11 @@ export class AchievementCardComponent implements OnInit {
     this.provider = this.store.selectSnapshot<Provider>(
       RegistrationState.provider
     );
-    this.auth = this.store.selectSnapshot<boolean>(RegistrationState.isAuthorized);
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));    
+    this.auth = this.store.selectSnapshot<boolean>(
+      RegistrationState.isAuthorized
+    );
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));
+    this.role = this.store.selectSnapshot<string>(RegistrationState.role);
   }
 
   getWorkshopIds(arr): string[] {
