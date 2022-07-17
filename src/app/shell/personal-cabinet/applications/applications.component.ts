@@ -3,10 +3,8 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
-import { InfoBoxHostDirective } from 'src/app/shared/directives/info-box-host.directive';
 import { Role } from 'src/app/shared/enum/role';
 import { Child } from 'src/app/shared/models/child.model';
-import { InfoBoxService } from 'src/app/shared/services/info-box/info-box.service';
 import { Application, ApplicationCards, ApplicationUpdate } from '../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
 import { CabinetDataComponent } from '../cabinet-data/cabinet-data.component';
@@ -58,14 +56,10 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     isActive: true
   };
 
-  @ViewChild(InfoBoxHostDirective, { static: true })
-  infoBoxHost: InfoBoxHostDirective;
-
   @ViewChild(MatTabGroup)
   tabGroup: MatTabGroup;
 
   constructor(
-    private infoBoxService: InfoBoxService,
     private router: Router,
     private route: ActivatedRoute,
     store: Store,
@@ -110,28 +104,10 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
     if (this.role === Role.provider) {
       this.getProviderApplications(this.applicationParams);
       this.getProviderWorkshops();
-      this.activateChildInfoBox();
     } else {
       this.getAllUsersChildren();
       this.getParentApplications(this.applicationParams);
     }
-  }
-
-  /**
-   * This method initialize functionality to open child-info-box
-   */
-  private activateChildInfoBox(): void {
-    const viewContainerRef = this.infoBoxHost.viewContainerRef;
-
-    this.infoBoxService.isMouseOver$
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(200),
-        mergeMap(isMouseOver =>
-          this.infoBoxService.loadComponent(viewContainerRef, isMouseOver)
-        )
-      )
-      .subscribe();
   }
 
   /**
@@ -191,18 +167,6 @@ export class ApplicationsComponent extends CabinetDataComponent implements OnIni
         this.isSelectedChildCheckbox = !!IDs.length;
         this.filteredChildren = this.childrenCards.filter((child: Child) => IDs.includes(child.id) || !IDs.length);
       }
-  }
-
-  /**
-   * This method makes ChildInfoBox visible, pass value to the component and insert it under the position of emitted element
-   * @param object : { element: Element, child: Child }
-   */
-  onInfoShow({ element, child }: { element: Element, child: Child }): void {
-    this.infoBoxService.onMouseOver({ element, child });
-  }
-
-  onInfoHide(): void {
-    this.infoBoxService.onMouseLeave();
   }
 
   onPageChange(page: PaginationElement): void {
