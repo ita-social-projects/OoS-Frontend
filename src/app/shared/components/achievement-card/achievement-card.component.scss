@@ -34,16 +34,21 @@
 .achievement_icon {
   color: #fff;
 }
+
 .image {
   margin-right: 1em;
 }
+
 .achievement_descr {
+  width: 490px;
   white-space: wrap;
-}
+  overflow-wrap: break-word;
+} 
 
 .show-more {
   overflow: visible;
 }
+
 .more_btn {
   color: #3849F9;
   font-weight: 700;
