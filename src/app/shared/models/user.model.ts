@@ -4,8 +4,6 @@ export interface Person {
   middleName?: string;
   firstName: string;
 }
-
-
 export class User implements Person {
   isRegistered: boolean;
   lastName: string;

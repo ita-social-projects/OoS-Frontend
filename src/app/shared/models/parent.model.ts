@@ -7,7 +7,6 @@ export class Parent {
     this.userId = info.userId;
   }
 }
-
 export class ParentWithContactInfo{
   id: string;
   userId?: string;

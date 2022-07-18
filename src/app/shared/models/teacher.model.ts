@@ -1,4 +1,10 @@
-export class Teacher {
+export interface Person {
+  id?: string;
+  lastName: string;
+  middleName?: string;
+  firstName: string;
+}
+export class Teacher implements Person {
   id?: string;
   workshopId?: string;
   firstName: string;
