@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Navigation } from 'src/app/shared/models/navigation.model';
 import { SetSearchQueryValue } from 'src/app/shared/store/filter.actions';
@@ -46,6 +46,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
+        filter((value: string)=> !!value),
         tap((value: string)=> this.filter(value))
       ).subscribe((value: string) => this.searchedText = value);
 

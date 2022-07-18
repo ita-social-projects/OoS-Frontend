@@ -11,6 +11,9 @@ import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InfoStatusComponent } from 'src/app/shell/personal-cabinet/applications/application-card/info-status/info-status.component';
+import { ChildInfoBoxComponent } from 'src/app/shared/components/child-info-box/child-info-box.component';
+import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
+
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
   let fixture: ComponentFixture<ApplicationCardComponent>;
@@ -34,7 +37,10 @@ describe('ApplicationCardComponent', () => {
       declarations: [
         ApplicationCardComponent,
         StatusInfoCardComponent,
-        InfoStatusComponent]
+        InfoStatusComponent,
+        ChildInfoBoxComponent,
+        PhoneTransformPipe]
+
     })
       .compileComponents();
   });

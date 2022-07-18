@@ -1,10 +1,14 @@
 <mat-card *ngIf="application" [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
-      <div #name class="workshop-header" (mouseover)="!deviceToogle && onInfoShow(name, $event)"
-        (mouseleave)="!deviceToogle && onInfoHide(name)" (click)="deviceToogle && onInfoShow(name, $event)">
-        <h4 class="name title">{{ application.child.lastName }} {{ application.child.firstName }} {{
-          application.child.middleName }}</h4>
+      <div #name class="workshop-header">
+        <h4 class="name title" fxLayout="row" fxLayoutAlign="start">{{ application.child.lastName }} {{ application.child.firstName }} {{
+          application.child.middleName }}
+          <i [ngClass]="cildTriger.menuOpen ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'" [matMenuTriggerFor]="childInfo" #cildTriger="matMenuTrigger">info_outline</i>
+          <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false" > 
+            <app-child-info-box [child]="application.child" (click)="$event.stopPropagation();"></app-child-info-box>
+          </mat-menu>
+        </h4>
       </div>
       <p class="text text-bold">{{ childAge }}</p>
       <p class="text">{{ application.creationTime | date: constants.FULL_DATE_FORMAT }}</p>

@@ -2,8 +2,7 @@ import { StatusInfoCardComponent } from 'src/app/shared/components/status-info-c
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { InfoBoxHostDirective } from '../../../shared/directives/info-box-host.directive';
+import { NgxsModule} from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Application, ApplicationCards } from 'src/app/shared/models/application.model';
 import { ApplicationChildFilterPipe } from 'src/app/shared/pipes/application-child-filter.pipe';
@@ -33,7 +32,6 @@ describe('ApplicationsComponent', () => {
       ],
       declarations: [
         ApplicationsComponent,
-        InfoBoxHostDirective,
         MockApplicationCardComponent,
         ApplicationChildFilterPipe,
         ApplicationChildSortingPipe,

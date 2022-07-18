@@ -1,7 +1,7 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DATE_REGEX, NAME_REGEX } from 'src/app/shared/constants/regex-constants';
@@ -26,6 +26,13 @@ export class CreateInfoFormComponent implements OnInit {
   readonly providerType = ProviderType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTypeUkr = ProviderTypeUkr;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
+  }
 
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
@@ -82,16 +89,28 @@ export class CreateInfoFormComponent implements OnInit {
       type: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions());
-    (this.provider) && this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
+    (this.provider) && this.activateEditMode();
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
 
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {
     return institution1.id === institution2.id;
+  }
+  
+  /**
+   * This method fills inputs with information of edited provider
+   */
+  private activateEditMode(): void {
+    this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
+    if (this.provider.coverImageId) {
+      this.InfoFormGroup.get('coverImageId').setValue([this.provider.coverImageId], { emitEvent: false });
+    }
   }
 }
