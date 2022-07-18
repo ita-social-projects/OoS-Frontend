@@ -1,9 +1,4 @@
-export interface Person {
-  id?: string;
-  lastName: string;
-  middleName?: string;
-  firstName: string;
-}
+import { Person } from "./user.model";
 export class Parent{
   id?: string;
   userId?: number;
