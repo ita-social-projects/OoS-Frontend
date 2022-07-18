@@ -8,7 +8,6 @@
       [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'" (click)="onGetBlockedParent()" (menuClosed)="onMenuClosed()">info_outline</i></span>
     <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
       xPosition="after" class="mat-application-menu">
-      <div>
         <div class="application-popup-status {{status}}">
           <span> <i class={{applicationIcons[status]}}></i></span>
           <span> {{applicationTitles[status]}}</span>
@@ -16,7 +15,6 @@
         <div class="application-info-menu application-info-description-card">({{
           applicationStatusDescription[status] }})</div>
         <p *ngIf="reason" class="application-info-menu">{{reason}}</p>
-      </div>
     </mat-menu>
   </div>
 </mat-card-content>
