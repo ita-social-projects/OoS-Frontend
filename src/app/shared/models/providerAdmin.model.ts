@@ -7,8 +7,13 @@ export interface ProviderAdminTable {
   status: string,
   role?: string,
 }
-
-export class ProviderAdmin {
+export interface Person {
+  id?: string;
+  lastName: string;
+  middleName?: string;
+  firstName: string;
+}
+export class ProviderAdmin implements Person {
   id?: string;
   userId?: string;
   firstName: string;

@@ -4,13 +4,8 @@ import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { PersonalCabinetTitle } from '../enum/navigation-bar';
 import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
-import { Parent, ParentWithContactInfo } from '../models/parent.model';
-import { Provider } from '../models/provider.model';
-import { ProviderAdmin } from '../models/providerAdmin.model';
-import { Teacher } from '../models/teacher.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
-import { RegistrationState } from '../store/registration.state';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -202,7 +197,7 @@ export class Util {
     return (userRole !== Role.provider) ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
-  public static getFullName( person: Person): string {
+  public static getFullName(person: Person): string {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
 }

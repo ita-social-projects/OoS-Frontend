@@ -1,4 +1,10 @@
-export class Parent {
+export interface Person {
+  id?: string;
+  lastName: string;
+  middleName?: string;
+  firstName: string;
+}
+export class Parent{
   id?: string;
   userId?: number;
 
@@ -7,7 +13,7 @@ export class Parent {
     this.userId = info.userId;
   }
 }
-export class ParentWithContactInfo{
+export class ParentWithContactInfo implements Person{
   id: string;
   userId?: string;
   email?: string;
