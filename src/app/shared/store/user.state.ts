@@ -95,6 +95,7 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
+  OnClearBlockedParents,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -120,7 +121,6 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
-  blockedParents: BlockedParent;
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
 }
@@ -141,7 +141,6 @@ export interface UserStateModel {
       isActive: true,
     },
     providerAdmins: null,
-    blockedParents: null,
     blockedParent: null,
     isAllowChildToApply: true,
   },
@@ -204,9 +203,6 @@ export class UserState {
   static isAllowChildToApply(state: UserStateModel): boolean {
     return state.isAllowChildToApply;
   }
-
-  @Selector()
-  static blockedParents(state: UserStateModel): BlockedParent { return state.blockedParents; }
 
   @Selector()
   static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
@@ -1144,16 +1140,20 @@ export class UserState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
     ]);
-    console.log('parent is blocked', payload);
+    console.log('parent is unBlocked', payload);
   }
 
   @Action(GetBlockedParents)
   getBlockedParents({ patchState }: StateContext<UserStateModel>, { providerId, parentId}: GetBlockedParents): Observable<object> {
-    patchState({ isLoading: true })
     return this.blockService
       .getBlockedParents(providerId, parentId)
       .pipe(
-        tap((blockedParents: BlockedParent) => patchState({ blockedParents: blockedParents, isLoading: false })
+        tap((blockedParent: BlockedParent) => patchState({ blockedParent: blockedParent })
         ))
+  }
+
+  @Action(OnClearBlockedParents)
+  onClearBlockedParents({ patchState }: StateContext<UserStateModel>, { }: OnClearBlockedParents): void {
+    patchState({ blockedParent: null });
   }
 }

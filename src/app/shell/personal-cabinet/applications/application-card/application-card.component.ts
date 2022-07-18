@@ -59,7 +59,6 @@ export class ApplicationCardComponent implements OnInit {
       workshopsId: []
     };
 
-  status: ApplicationStatus;
   subrole: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -79,7 +78,6 @@ export class ApplicationCardComponent implements OnInit {
     this.subrole$
       .pipe(takeUntil(this.destroy$))
       .subscribe((subrole: string) => (this.subrole = subrole));
-      this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
   }
 
   /**
