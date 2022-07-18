@@ -8,6 +8,7 @@ import { Parent, ParentWithContactInfo } from '../models/parent.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Teacher } from '../models/teacher.model';
+import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
 import { RegistrationState } from '../store/registration.state';
 
@@ -198,15 +199,10 @@ export class Util {
   }
 
   public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
-    if(userRole !== Role.provider){
-      return PersonalCabinetTitle[userRole]
-    } else {
-      return PersonalCabinetTitle[subrole];
-    }
+    return (userRole !== Role.provider) ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
-  public static getFullName( person: Teacher | ProviderAdmin | Child | ParentWithContactInfo): string {
-    const fullName = `${person.lastName} ${person.firstName} ${person.middleName}`;
-    return fullName;
+  public static getFullName( person: Person): string {
+    return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
 }

@@ -9,13 +9,13 @@ export class Parent {
 }
 
 export class ParentWithContactInfo{
-  id?: string;
+  id: string;
   userId?: string;
   email?: string;
   phoneNumber?: string;
-  lastName?: string;
+  lastName: string;
   middleName?: string;
-  firstName?: string;
+  firstName: string;
 
   constructor(info) {
     this.id = info.id;
