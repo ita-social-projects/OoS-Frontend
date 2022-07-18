@@ -17,7 +17,6 @@ import { UserState } from '../../../../../shared/store/user.state';
   styleUrls: ['./info-status.component.scss']
 })
 export class InfoStatusComponent implements OnInit, OnDestroy{
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
