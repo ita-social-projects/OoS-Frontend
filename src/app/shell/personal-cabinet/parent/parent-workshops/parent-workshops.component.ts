@@ -44,9 +44,9 @@ export class ParentWorkshopsComponent extends ParentComponent implements OnInit,
   workshops$: Observable<WorkshopCard[]>;
   @Select(UserState.children)
   children$: Observable<ChildCards>;
-  @Select(UserState.applications)
-  applicationCards$: Observable<ApplicationCards>;
   children: ChildCards;
+
+  applicationCards: ApplicationCards;
   statuses: ApplicationStatus[] = activeStatuses;
 
   parentWorkshops: {
@@ -75,15 +75,7 @@ export class ParentWorkshopsComponent extends ParentComponent implements OnInit,
    * This method subscribe on parent and get children to display their workshops
    */
   initParentData(): void {
-    // this.getParentChildren();
-    // this.applicationCards$
-    // .pipe(
-    //   filter((applicationCards: ApplicationCards) => !!applicationCards),
-    //   takeUntil(this.destroy$)
-    // )
-    // .subscribe((applicationCards: ApplicationCards) => {
-
-    // });
+    this.getParentChildren();
   }
   /**
    * This method get children by parent id
@@ -94,23 +86,8 @@ export class ParentWorkshopsComponent extends ParentComponent implements OnInit,
       .pipe(
         filter((children: ChildCards) => !!children),
         takeUntil(this.destroy$),
-        map((children: ChildCards)=> children.entities.map((child: Child)=> child.id))
-      ).subscribe((childredIds: string[]) => this.getChildApplications(childredIds));
+      ).subscribe((children: ChildCards) => this.children = children);
   }
-
-    /**
-   * This method get parent children and applications to display workshops
-   */
-     getChildApplications(childredIds: string[]): void {
-      const params: ApplicationParameters = {
-        showBlocked: false,
-        children: childredIds,
-        statuses: this.statuses,
-        workshops: [],
-        size: 4
-      };
-      this.store.dispatch(new GetApplicationsByParentId(this.parent.id, params));
-    }
 
   onTabChange(event: MatTabChangeEvent): void {
     this.statuses = event.index ? inactiveStatuses : activeStatuses;

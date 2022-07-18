@@ -23,15 +23,15 @@ export class ChildWorkshopsListComponent implements OnInit, OnDestroy, OnChanges
   readonly constants = Constants;
   readonly Role = Role;
 
-  @Input() application: Application;
-  @Input() parent: Parent;
+  @Input() child: Child;
   @Input() statuses: ApplicationStatus[];
 
   @Output() leaveWorkshop = new EventEmitter();
 
-
   @Select(PaginatorState.applicationsPerPage)
   applicationsPerPage$: Observable<number>;
+  @Select(UserState.applications)
+  applicationCards$: Observable<ApplicationCards>;
   applicationCards: ApplicationCards;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -43,16 +43,35 @@ export class ChildWorkshopsListComponent implements OnInit, OnDestroy, OnChanges
   constructor(private store: Store) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes?.statuses?.currentValue){
-      // this.getChildApplications();
+    if (changes?.statuses?.currentValue) {
+      this.getChildApplications();
     }
   }
 
   ngOnInit(): void {
-
+    this.applicationCards$
+      .pipe(
+        filter((applicationCards: ApplicationCards) => !!applicationCards),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((applicationCards: ApplicationCards) => {
+        this.applicationCards = applicationCards;
+      });
   }
 
-
+  /**
+   * This method get parent children and applications to display workshops
+   */
+  getChildApplications(): void {
+    const params: ApplicationParameters = {
+      showBlocked: false,
+      children: [this.child.id],
+      statuses: this.statuses,
+      workshops: [],
+      size: 4,
+    };
+    this.store.dispatch(new GetApplicationsByParentId(this.child.parent.id, params));
+  }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;

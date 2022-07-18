@@ -2,7 +2,7 @@
   <h3 class="child-name">
     {{ child.firstName }} {{ child.lastName }} {{ child.middleName }} ({{child.dateOfBirth | date: constants.SHORT_DATE_FORMAT}})
   </h3>
-  <div fxLayout="row" [fxLayoutAlign]="applicationCards.totalAmount > 1 ? 'center center' : 'start center'">
+  <div fxLayout="row" [fxLayoutAlign]="applicationCards.totalAmount > 1 ? 'center center' : 'start center'" fxLayoutGap="2rem">
     <app-workshop-card
       class="card"
       *ngFor="let application of applicationCards.entities"
