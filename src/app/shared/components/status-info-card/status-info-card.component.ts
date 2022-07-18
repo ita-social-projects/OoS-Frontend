@@ -15,6 +15,7 @@ export class StatusInfoCardComponent implements OnInit {
   readonly applicationStatus = ApplicationStatus;
 
   @Input() application: Application = null;
+  @Input() status: ApplicationStatus;
 
   constructor() { }
 
