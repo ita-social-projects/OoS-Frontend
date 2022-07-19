@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Constants } from '../../constants/constants';
 import { Teacher } from '../../models/teacher.model';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-teacher-card',
@@ -20,7 +21,7 @@ export class TeacherCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.teacherFullName = `${this.teacher.lastName} ${this.teacher.firstName}`;
+    this.teacherFullName = Util.getFullName(this.teacher);
     this.getCoverImageUrl();
   }
 
