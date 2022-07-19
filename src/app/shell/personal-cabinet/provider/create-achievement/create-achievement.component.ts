@@ -53,8 +53,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
-    this.store.dispatch(new GetChildrenByWorkshopId(this.workshopId));
+    this.store.dispatch([new GetWorkshopById(this.workshopId), new GetChildrenByWorkshopId(this.workshopId)]);
 
     this.workshop$
     .pipe(

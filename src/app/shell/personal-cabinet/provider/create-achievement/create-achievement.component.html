@@ -23,7 +23,7 @@
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
 
-        <ng-container *ngIf="approvedChildren.entities.length !== 0; else noChildren"> 
+        <ng-container *ngIf="approvedChildren.totalAmount > 1; else noChildren"> 
           <mat-form-field appearance="none">
             <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
               panelClass="dropdown-panel" class="step-input">
@@ -48,7 +48,9 @@
             [isTouched]="AchievementFormGroup.get('childrenIDs').touched">
           </app-validation-hint>
         </ng-container>
-        <ng-template #noChildren>Додавання досягнень можливе лише при наявності дітей.</ng-template>
+        <ng-template #noChildren>
+          <span class="warning-message">Додавання досягнень можливе лише при наявності дітей.</span>
+        </ng-template>
 
         <label class="step-label">Тренера<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
@@ -92,7 +94,9 @@
 
         <div class="step-label-combined">
           <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
-          <label class="step-characters-count">{{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}</label>
+          <label class="step-characters-count">
+            {{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
+          </label>
         </div>
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
