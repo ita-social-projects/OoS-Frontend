@@ -1,4 +1,5 @@
-export class Teacher {
+import { Person } from "./user.model";
+export class Teacher implements Person {
   id?: string;
   workshopId?: string;
   firstName: string;
