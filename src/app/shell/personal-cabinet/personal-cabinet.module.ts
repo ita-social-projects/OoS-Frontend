@@ -12,7 +12,7 @@ import { UserConfigEditComponent } from './user-config/user-config-edit/user-con
 import { ApplicationCardComponent } from './applications/application-card/application-card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProviderAdminsComponent } from './provider/provider-admins/provider-admins.component';
-import { InfoStatusComponent } from './applications/application-card/info-status/info-status.component';
+import { InfoStatusComponent } from '../../shared/components/info-status/info-status.component';
 
 @NgModule({
   declarations: [
