@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SidenavComponent } from './sidenav.component';
+import { SidenavMenuComponent } from './sidenav-menu.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -14,8 +14,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
 
 describe('SidenavComponent', () => {
-  let component: SidenavComponent;
-  let fixture: ComponentFixture<SidenavComponent>;
+  let component: SidenavMenuComponent;
+  let fixture: ComponentFixture<SidenavMenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -33,14 +33,14 @@ describe('SidenavComponent', () => {
         BrowserAnimationsModule,
       ],
       declarations: [
-        SidenavComponent,
+        SidenavMenuComponent,
         MockSideNavNotificationsComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SidenavComponent);
+    fixture = TestBed.createComponent(SidenavMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

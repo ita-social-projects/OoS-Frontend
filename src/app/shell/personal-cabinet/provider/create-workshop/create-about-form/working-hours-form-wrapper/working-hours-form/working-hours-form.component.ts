@@ -1,11 +1,11 @@
-import { ValidationConstants } from '../../../constants/validation';
+import { ValidationConstants } from '../../../../../../../shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { WorkingDaysValues } from '../../../constants/constants';
-import { WorkingDaysReverse } from '../../../enum/enumUA/working-hours';
-import { WorkingDaysToggleValue } from '../../../models/workingHours.model';
+import { WorkingDaysValues } from '../../../../../../../shared/constants/constants';
+import { WorkingDaysReverse } from '../../../../../../../shared/enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from '../../../../../../../shared/models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form',

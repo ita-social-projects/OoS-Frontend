@@ -7,12 +7,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InfoStatusComponent } from './applications/application-card/info-status/info-status.component';
+import { ChildInfoBoxComponent } from './applications/application-card/child-info-box/child-info-box.component';
 
 @NgModule({
   declarations: [
     ApplicationCardComponent,
     ApplicationsComponent,
-    InfoStatusComponent
+    InfoStatusComponent,
+    ChildInfoBoxComponent,
   ],
   imports: [
     MaterialModule,

@@ -8,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
-import { MaterialModule } from '../../../modules/material.module';
+import { MaterialModule } from '../../../../../../../shared/modules/material.module';
 import { Component, Input } from '@angular/core';
 
 describe('WorkingHoursFormComponent', () => {

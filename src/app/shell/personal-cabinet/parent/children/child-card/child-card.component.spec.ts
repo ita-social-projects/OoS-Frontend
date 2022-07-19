@@ -2,7 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChildCardComponent } from './child-card.component';
 import { MatCardModule } from '@angular/material/card';
-import { Child } from '../../models/child.model';
+import { Child } from '../../../../../shared/models/child.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';

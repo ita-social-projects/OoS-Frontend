@@ -1,8 +1,8 @@
 import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { cardType } from '../../enum/role';
-import { Constants } from '../../constants/constants';
+import { cardType } from '../../../../../shared/enum/role';
+import { Constants } from '../../../../../shared/constants/constants';
 @Component({
   selector: 'app-person-card',
   templateUrl: './person-card.component.html',

@@ -15,11 +15,11 @@ import { Login, Logout } from '../../store/registration.actions';
 import { RegistrationState } from '../../store/registration.state';
 
 @Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  selector: 'app-sidenav-menu',
+  templateUrl: './sidenav-menu.component.html',
+  styleUrls: ['./sidenav-menu.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavMenuComponent implements OnInit, OnDestroy {
   readonly defaultAdminTabs = AdminTabs[0];
   readonly Languages: typeof Languages = Languages;
   selectedLanguage: string;

@@ -24,6 +24,7 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form-wrapper.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -41,7 +42,8 @@ import { FormsModule } from '@angular/forms';
     CreateAchievementComponent,
     ProviderAdminsComponent,
     ProviderApplciationsComponent,
-    ProviderWorkshopsComponent
+    ProviderWorkshopsComponent,
+    WorkingHoursFormWrapperComponent
   ],
   imports: [
     CommonModule,

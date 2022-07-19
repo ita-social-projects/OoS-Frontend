@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Constants } from '../../constants/constants';
-import { Teacher } from '../../models/teacher.model';
+import { Constants } from '../../../../../shared/constants/constants';
+import { Teacher } from '../../../../../shared/models/teacher.model';
 
 @Component({
   selector: 'app-teacher-card',

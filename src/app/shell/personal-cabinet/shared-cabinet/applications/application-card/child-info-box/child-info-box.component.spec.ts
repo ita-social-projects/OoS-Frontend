@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChildInfoBoxComponent } from './child-info-box.component';
 import { MatCardModule } from '@angular/material/card';
-import { Child } from '../../models/child.model';
+import { Child } from '../../../../../../shared/models/child.model';
 import { HttpClientModule } from '@angular/common/http';
-import { GeolocationService } from '../../services/geolocation/geolocation.service';
-import { ChildrenService } from '../../services/children/children.service';
-import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
+import { GeolocationService } from '../../../../../../shared/services/geolocation/geolocation.service';
+import { ChildrenService } from '../../../../../../shared/services/children/children.service';
+import { PhoneTransformPipe } from '../../../../../../shared/pipes/phone-transform.pipe';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;
