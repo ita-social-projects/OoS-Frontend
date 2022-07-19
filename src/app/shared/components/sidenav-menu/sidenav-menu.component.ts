@@ -37,6 +37,8 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;
   @Select(RegistrationState.isAuthorized)
   isAuthorized$: Observable<string>;
   @Select(MetaDataState.featuresList)
