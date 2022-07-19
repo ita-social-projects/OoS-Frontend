@@ -2,14 +2,14 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationIcons, ApplicationStatus } from '../../../../../shared/enum/applications';
-import { ApplicationStatusDescription, ApplicationTitles } from '../../../../../shared/enum/enumUA/applications';
-import { Application } from '../../../../../shared/models/application.model';
-import { BlockedParent } from '../../../../../shared/models/block.model';
-import { Provider } from '../../../../../shared/models/provider.model';
-import { RegistrationState } from '../../../../../shared/store/registration.state';
-import { GetBlockedParents, OnClearBlockedParents } from '../../../../../shared/store/user.actions';
-import { UserState } from '../../../../../shared/store/user.state';
+import { ApplicationIcons, ApplicationStatus } from '../../../../../../shared/enum/applications';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../../../../../shared/enum/enumUA/applications';
+import { Application } from '../../../../../../shared/models/application.model';
+import { BlockedParent } from '../../../../../../shared/models/block.model';
+import { Provider } from '../../../../../../shared/models/provider.model';
+import { RegistrationState } from '../../../../../../shared/store/registration.state';
+import { GetBlockedParents, OnClearBlockedParents } from '../../../../../../shared/store/user.actions';
+import { UserState } from '../../../../../../shared/store/user.state';
 
 @Component({
   selector: 'app-info-status',

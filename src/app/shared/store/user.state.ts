@@ -1,5 +1,4 @@
 import { Constants } from 'src/app/shared/constants/constants';
-import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -10,7 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
-import { Workshop } from '../models/workshop.model';
+import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
@@ -111,7 +110,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface UserStateModel {
   isLoading: boolean;
-  workshops: WorkshopCard[];
+  workshops: Workshop[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applicationCards: ApplicationCards;
@@ -154,7 +153,7 @@ export class UserState {
   }
 
   @Selector()
-  static workshops(state: UserStateModel): WorkshopCard[] {
+  static workshops(state: UserStateModel): Workshop[] {
     return state.workshops;
   }
 
@@ -282,10 +281,10 @@ export class UserState {
   getWorkshopsByProviderId(
     { patchState }: StateContext<UserStateModel>,
     { payload }: GetWorkshopsByProviderId
-  ): Observable<WorkshopCard[]> {
+  ): Observable<Workshop[]> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopsByProviderId(payload).pipe(
-      tap((userWorkshops: WorkshopCard[]) => {
+      tap((userWorkshops: Workshop[]) => {
         return patchState({ workshops: userWorkshops, isLoading: false });
       })
     );
@@ -295,10 +294,10 @@ export class UserState {
   getProviderAdminWorkshops(
     { patchState }: StateContext<UserStateModel>,
     {}: GetProviderAdminWorkshops
-  ): Observable<WorkshopCard[]> {
+  ): Observable<Workshop[]> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getProviderAdmisnWorkshops().pipe(
-      tap((userWorkshops: WorkshopCard[]) => {
+      tap((userWorkshops: Workshop[]) => {
         return patchState({ workshops: userWorkshops, isLoading: false });
       })
     );

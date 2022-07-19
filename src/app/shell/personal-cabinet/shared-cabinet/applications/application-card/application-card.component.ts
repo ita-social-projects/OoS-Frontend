@@ -34,13 +34,13 @@ import { BlockedParent } from 'src/app/shared/models/block.model';
   styleUrls: ['./application-card.component.scss'],
 })
 export class ApplicationCardComponent implements OnInit {
-
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly applicationIcons = ApplicationIcons;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
+
   childAge: string;
   blockedParent: BlockedParent;
     applicationParams: {
@@ -53,6 +53,7 @@ export class ApplicationCardComponent implements OnInit {
 
   @Input() application: Application;
   @Input() userRole: string;
+
   @Output() approved = new EventEmitter();
   @Output() rejected = new EventEmitter();
   @Output() leave = new EventEmitter();
@@ -60,7 +61,7 @@ export class ApplicationCardComponent implements OnInit {
   constructor(
     private matDialog: MatDialog,
     private store: Store
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);

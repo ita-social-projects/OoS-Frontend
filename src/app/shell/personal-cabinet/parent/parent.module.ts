@@ -11,6 +11,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { ParentApplicationsComponent } from './parent-applications/parent-applications.component';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
     FlexLayoutModule,
     SharedModule,
     MaterialModule,
-    SharedCabinetModule
+    SharedCabinetModule,
+    RouterModule,
+    FormsModule,
   ],
   providers: [
   ]

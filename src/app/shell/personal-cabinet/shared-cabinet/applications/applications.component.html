@@ -41,7 +41,7 @@
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
       <mat-tab *ngIf="role === Role.provider" label="{{ applicationTitles.Blocked }}">
-        <ng-container *ngTemplateOutlet="ProviderApplication; context: { $implicit: applicationCards }"> </ng-container>
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
     </ng-container>
   </mat-tab-group>

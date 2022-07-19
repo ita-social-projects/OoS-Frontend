@@ -1,4 +1,4 @@
-<mat-card *ngIf="application" [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
+<mat-card [ngClass]="application.status === applicationStatus.Pending ? 'card card-new' : 'card'">
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
       <div #name class="workshop-header">
@@ -29,8 +29,10 @@
       </div>
     </div>
   </mat-card-content>
+  <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="start center">
 
   <app-info-status [application]="application"></app-info-status>
+</mat-card-content>
 
   <mat-card-content class="card-block card-block-buttons" *ngIf="userRole === role.provider">
     <div fxLayout="column" fxLayoutAlign="start start"

@@ -22,6 +22,8 @@ import { ProviderAdminsComponent } from './provider-admins/provider-admins.compo
 import { ProviderApplciationsComponent } from './provider-applciations/provider-applciations.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -43,11 +45,13 @@ import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
   ],
   imports: [
     CommonModule,
-    SharedCabinetModule,
     ProviderRoutingModule,
     FlexLayoutModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    SharedCabinetModule,
+    RouterModule,
+    FormsModule,
   ],
 
   providers: [

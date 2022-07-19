@@ -6,7 +6,7 @@ import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/dec
 import { takeUntil, filter } from 'rxjs/operators';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { UserState } from 'src/app/shared/store/user.state';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { 
   GetApplicationsByProviderId, 
@@ -29,7 +29,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(UserState.workshops)
-  workshops$: Observable<WorkshopCard[]>;
+  workshops$: Observable<Workshop[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   providerId: string;

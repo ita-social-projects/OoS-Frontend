@@ -1,7 +1,7 @@
 <app-applications
   [applicationParams]="applicationParams"
   [declination]="WorkshopDeclination"
-  [dropdownEntities]="workshops$"
+  [dropdownEntities]="workshops$ | async"
   [role]="role"
   (enititiesSelect)="onEntitiesSelect($event)"
   (getApplications)="onGetApplications()"
