@@ -3,6 +3,7 @@ export class User {
   lastName?: string;
   middleName?: string;
   firstName?: string;
+  gender?: number;
   id: string;
   userName?: string;
   email?: string;
@@ -13,6 +14,7 @@ export class User {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
+    this.gender = info.gender;
     this.phoneNumber = info.phoneNumber;
     this.id = id;
   }

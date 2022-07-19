@@ -46,6 +46,7 @@ describe('TeacherFormComponent', () => {
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
+      gender: new FormControl(''),
       dateOfBirth: new FormControl(''),
       description: new FormControl(''),
     });
