@@ -18,18 +18,15 @@ import { Role } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
 import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
-import { FormGroup, } from '@angular/forms';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Observable, Subject } from 'rxjs';
 import { BlockedParent } from 'src/app/shared/models/block.model';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-application-card',
@@ -37,8 +34,6 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./application-card.component.scss'],
 })
 export class ApplicationCardComponent implements OnInit {
-  @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
 
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
@@ -47,20 +42,14 @@ export class ApplicationCardComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
   childAge: string;
-  ReasonFormGroup: FormGroup;
   blockedParent: BlockedParent;
     applicationParams: {
     status: string,
     showBlocked: boolean,
-    workshopsId: string[],
   } = {
       status: undefined,
       showBlocked: false,
-      workshopsId: []
     };
-
-  subrole: string;
-  destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() application: Application;
   @Input() userRole: string;
@@ -75,9 +64,6 @@ export class ApplicationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
-    this.subrole$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((subrole: string) => (this.subrole = subrole));
   }
 
   /**
@@ -149,9 +135,5 @@ export class ApplicationCardComponent implements OnInit {
         this.store.dispatch(new UnBlockParent(blockedParent));
         }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.unsubscribe();
   }
 }

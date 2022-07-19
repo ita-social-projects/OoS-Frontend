@@ -26,7 +26,10 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
+    croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
+    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    croppedQuality: CropperConfigurationConstants.croppedQuality,
   }
 
   @Input() provider: Provider;
