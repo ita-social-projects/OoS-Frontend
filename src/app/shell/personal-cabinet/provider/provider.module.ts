@@ -21,6 +21,7 @@ import { CreateAchievementComponent } from './create-achievement/create-achievem
 import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
 import { ProviderApplciationsComponent } from './provider-applciations/provider-applciations.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
+import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -42,6 +43,7 @@ import { ProviderWorkshopsComponent } from './provider-workshops/provider-worksh
   ],
   imports: [
     CommonModule,
+    SharedCabinetModule,
     ProviderRoutingModule,
     FlexLayoutModule,
     SharedModule,

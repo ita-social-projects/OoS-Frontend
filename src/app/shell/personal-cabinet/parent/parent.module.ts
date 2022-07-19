@@ -1,4 +1,3 @@
-import { ParentWorkshopsComponent } from './parent-workshops/parent-workshops.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
@@ -11,7 +10,7 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-worksh
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { ParentApplicationsComponent } from './parent-applications/parent-applications.component';
-import { ChildWorkshopsListComponent } from './parent-workshops/child-workshops-list/child-workshops-list.component';
+import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 
 @NgModule({
   declarations: [
@@ -20,16 +19,15 @@ import { ChildWorkshopsListComponent } from './parent-workshops/child-workshops-
     ChildrenComponent,
     CreateApplicationComponent,
     FavoriteWorkshopsComponent,
-    ParentWorkshopsComponent,
     ParentApplicationsComponent,
-    ChildWorkshopsListComponent,
   ],
   imports: [
     CommonModule,
     ParentRoutingModule,
     FlexLayoutModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    SharedCabinetModule
   ],
   providers: [
   ]

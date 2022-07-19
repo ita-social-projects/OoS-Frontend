@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Role } from 'src/app/shared/enum/role';
+import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import {
@@ -7,16 +8,15 @@ import {
   ApplicationCards,
   ApplicationParameters,
   ApplicationUpdate,
-} from '../../../shared/models/application.model';
+} from '../../../../shared/models/application.model';
 import { UpdateApplication } from 'src/app/shared/store/user.actions';
-import { CabinetDataComponent } from './cabinet-data.component';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { OnUpdateApplicationSuccess } from '../../../shared/store/user.actions';
-import { Observable } from 'rxjs';
+import { OnUpdateApplicationSuccess } from '../../../../shared/store/user.actions';
+import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
@@ -24,21 +24,44 @@ import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { UserState } from 'src/app/shared/store/user.state';
+import { CabinetDataComponent } from '../cabinet-data.component';
+import { Child } from 'src/app/shared/models/child.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
+import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 
 @Component({
   selector: 'app-applications',
-  template: '',
+  templateUrl: './applications.component.html',
+  styleUrls: ['./applications.component.scss'],
 })
-export abstract class ApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ApplicationsComponent  implements OnInit, OnDestroy, AfterViewInit {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
+  readonly Role = Role;
+
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+
+  @Input() applicationParams: ApplicationParameters;
+  @Input() dropdownEntities: Child[] | Workshop[];
+  @Input() declination: ChildDeclination | WorkshopDeclination;
+  @Input() role: Role;
+
+  @Output() getApplications = new EventEmitter();
+  @Output() enititiesSelect = new EventEmitter();
+  @Output() leave = new EventEmitter();
+  @Output() approve = new EventEmitter();
+  @Output() reject = new EventEmitter();
 
   @Select(UserState.applications)
   applicationCards$: Observable<ApplicationCards>;
   @Select(PaginatorState.applicationsPerPage)
   applicationsPerPage$: Observable<number>;
   applicationCards: ApplicationCards;
+  @Select(UserState.isLoading)
+  isLoadingCabinet$: Observable<boolean>;
+  
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   isActiveInfoButton = false;
   tabIndex: number;
@@ -47,48 +70,30 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
     isActive: true,
   };
 
-  protected applicationParams: ApplicationParameters = {
-    property: null,
-    statuses: [],
-    workshops:[],
-    children: [],
-    showBlocked: false,
-  };
-
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-
   constructor(
     protected store: Store,
-    protected matDialog: MatDialog,
     protected router: Router,
     protected route: ActivatedRoute,
     protected actions$: Actions
   ) {
-    super(store, matDialog);
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => (this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status'])));
+      .subscribe((params: Params) => this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']));
   }
 
-  protected abstract getApplications(statuses?: ApplicationStatus[]): void;
+  onGetApplications(): void {
+    this.getApplications.emit();
+  }
 
-  abstract onEntitiesSelect(IDs: string[]): void;
+  onEntitiesSelect(IDs: string[]): void {
+    this.enititiesSelect.emit(IDs);
+  };
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;
   }
 
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Applications,
-        isActive: false,
-        disable: true,
-      })
-    );
-  }
-
-  protected init(): void {
+  ngOnInit(): void {
     this.applicationCards$.pipe(
       filter((applicationCards: ApplicationCards) => !!applicationCards),
       takeUntil(this.destroy$)
@@ -96,16 +101,7 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.getApplications());
-  }
-
-  /**
-   * This method changes status of emitted event to "left"
-   * @param Application event
-   */
-  onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Left);
-    this.store.dispatch(new UpdateApplication(applicationUpdate));
+      .subscribe(() => this.onGetApplications());
   }
 
   /**
@@ -116,18 +112,23 @@ export abstract class ApplicationsComponent extends CabinetDataComponent impleme
     const tabLabel = event.tab.textLabel;
     const statuses = (tabLabel !== ApplicationTitles.Blocked && tabLabel !== ApplicationTitles.All) ? [ApplicationTitlesReverse[tabLabel]] : [];
     this.applicationParams.statuses = statuses;
-    this.getApplications();
-    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: tabLabel } });
+    this.onGetApplications();
+    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: ApplicationTitlesReverse[tabLabel] } });
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.store.dispatch(new OnPageChangeApplications(page));
-    this.getApplications();
+    this.onGetApplications();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
-    this.getApplications();
+    this.onGetApplications();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

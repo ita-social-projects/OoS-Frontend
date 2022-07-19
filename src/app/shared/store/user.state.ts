@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Application, ApplicationCards } from '../models/application.model';
+import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
@@ -106,7 +106,6 @@ import { BlockService } from '../services/block/block.service';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
-import { Parent } from '../models/parent.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface UserStateModel {

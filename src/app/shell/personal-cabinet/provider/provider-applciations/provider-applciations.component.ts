@@ -1,12 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { debounceTime, mergeMap, takeUntil, filter } from 'rxjs/operators';
-import { Child } from 'src/app/shared/models/child.model';
-import { ApplicationsComponent } from '../../shared-cabinet/applications.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
+import { takeUntil, filter } from 'rxjs/operators';
+import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { UserState } from 'src/app/shared/store/user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
@@ -19,13 +17,15 @@ import {
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { EntityType, Role } from 'src/app/shared/enum/role';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-provider-applciations',
   templateUrl: './provider-applciations.component.html',
-  styleUrls: ['./provider-applciations.component.scss'],
 })
-export class ProviderApplciationsComponent extends ApplicationsComponent implements OnInit, OnDestroy {
+export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(UserState.workshops)
@@ -34,18 +34,32 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
   provider$: Observable<Provider>;
   providerId: string;
 
+  applicationParams: ApplicationParameters = {
+    property: null,
+    statuses: [],
+    workshops:[],
+    children: [],
+    showBlocked: false,
+  };
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog,
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected actions$: Actions,
   ) {
-    super(store, matDialog, router, route, actions$);
+    super(store, matDialog);
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Applications,
+        isActive: false,
+        disable: true,
+      })
+    );
   }
 
   init(): void {
-    super.init();
     this.provider$
       .pipe(
         filter((provider: Provider) => !!provider),
@@ -57,11 +71,11 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
         this.store.selectSnapshot(RegistrationState.user).id:
         provider.id;
         this.getProviderWorkshops();
-        this.getApplications();
+        this.onGetApplications();
       });
   }
 
-  protected getApplications(): void {
+  onGetApplications(): void {
     this.store.dispatch(new GetApplicationsByProviderId(this.providerId, this.applicationParams));
   }
 
@@ -70,7 +84,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
    * @param Application event
    */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, this.applicationStatus.Approved);
+    const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -81,7 +95,7 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
   onReject(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(
       application.id,
-      this.applicationStatus.Rejected,
+      ApplicationStatus.Rejected,
       application?.rejectionMessage
     );
     this.store.dispatch(new UpdateApplication(applicationUpdate));
@@ -101,6 +115,6 @@ export class ProviderApplciationsComponent extends ApplicationsComponent impleme
    */
   onEntitiesSelect(IDs: string[]): void {
     this.applicationParams.workshops = IDs;
-    this.getApplications();
+    this.onGetApplications();
   }
 }
