@@ -7,11 +7,13 @@ import { PersonalCabinetRoutingModule } from './personal-cabinet-routing.module'
 import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
 import { UserConfigEditComponent } from './shared-cabinet/user-config/user-config-edit/user-config-edit.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { InfoStatusComponent } from './applications/application-card/info-status/info-status.component';
 
 @NgModule({
   declarations: [
     UserConfigComponent,
     UserConfigEditComponent,
+    InfoStatusComponent,
   ],
   imports: [
     CommonModule,

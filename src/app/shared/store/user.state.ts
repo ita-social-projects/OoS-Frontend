@@ -96,6 +96,7 @@ import {
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
   GetProviderAdminWorkshops,
+  OnClearBlockedParents,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -120,7 +121,6 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
-  blockedParents: BlockedParent;
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
 }
@@ -141,7 +141,6 @@ export interface UserStateModel {
       isActive: true,
     },
     providerAdmins: null,
-    blockedParents: null,
     blockedParent: null,
     isAllowChildToApply: true,
   },
@@ -205,14 +204,7 @@ export class UserState {
   }
 
   @Selector()
-  static blockedParents(state: UserStateModel): BlockedParent {
-    return state.blockedParents;
-  }
-
-  @Selector()
-  static blockedParent(state: UserStateModel): BlockedParent {
-    return state.blockedParent;
-  }
+  static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
 
   constructor(
     private userWorkshopService: UserWorkshopService,
@@ -974,17 +966,20 @@ export class UserState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
     ]);
-    console.log('parent is blocked', payload);
+    console.log('parent is unBlocked', payload);
   }
 
   @Action(GetBlockedParents)
-  getBlockedParents(
-    { patchState }: StateContext<UserStateModel>,
-    { providerId, parentId }: GetBlockedParents
-  ): Observable<object> {
-    patchState({ isLoading: true });
+  getBlockedParents({ patchState }: StateContext<UserStateModel>, { providerId, parentId}: GetBlockedParents): Observable<object> {
     return this.blockService
       .getBlockedParents(providerId, parentId)
-      .pipe(tap((blockedParents: BlockedParent) => patchState({ blockedParents: blockedParents, isLoading: false })));
+      .pipe(
+        tap((blockedParent: BlockedParent) => patchState({ blockedParent: blockedParent })
+        ))
+  }
+
+  @Action(OnClearBlockedParents)
+  onClearBlockedParents({ patchState }: StateContext<UserStateModel>, { }: OnClearBlockedParents): void {
+    patchState({ blockedParent: null });
   }
 }
