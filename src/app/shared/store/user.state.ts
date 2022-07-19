@@ -1,5 +1,5 @@
 import { Constants } from 'src/app/shared/constants/constants';
-import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Application, ApplicationCards } from '../models/application.model';
-import { Child, ChildCards } from '../models/child.model';
+import { ApplicationCards } from '../models/application.model';
+import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -95,7 +95,7 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
-  GetChildrenByWorkshopId
+  GetChildrenByWorkshopId,  
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -106,7 +106,6 @@ import { BlockService } from '../services/block/block.service';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
-import { Parent } from '../models/parent.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface UserStateModel {
