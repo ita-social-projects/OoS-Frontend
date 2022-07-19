@@ -1,5 +1,4 @@
 @import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/application-statuses.scss";
 
 p {
   margin: 0px;
@@ -27,6 +26,22 @@ p {
     border-left: 5px solid #3849f9;
   }
 }
+::ng-deep .mat-menu-panel.childInfo-menu{
+  max-width:none;
+  background: #FFFFFF;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px !important;
+}
+::ng-deep .childInfo-menu .mat-menu-content {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
 .title{
   font-family: 'Innerspace';
   font-style: normal;
@@ -71,14 +86,6 @@ p {
   align-items: center;
   font-weight: 500;
 }
-.application-status {
-  padding: 2px;
-}
-.application-popup-status {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-}
 
 .btn{
   font-family: 'Innerspace';
@@ -98,10 +105,6 @@ p {
     min-width: 10rem;
     padding: 0.6rem 1.9rem;
   }
-}
-.name:hover{
-  cursor: pointer;
-  opacity: 0.5;
 }
 .hidden{
   visibility: hidden;
@@ -133,12 +136,6 @@ p {
     text-overflow: ellipsis;
   }
 }
-.application-status {
-  width: 80%;
-}
-.status-icon {
-  font-size: 12px!important;
-}
 
 @media (min-width: 751px) and (max-width: 950px) {
   .card-block {
@@ -167,9 +164,7 @@ p {
 
   .card-block,
   .workshop-description,
-  .application-status,
-  .workshop-header,
-  .status-menu {
+  .workshop-header {
     margin: 0px;
     width: 100%;
     text-align: center;
@@ -187,19 +182,19 @@ p {
       width: 100%;
       text-align: center;
     }
-    .application-status, .title, .btn-gray{
+    .title, .btn-gray{
       margin-top: 1rem;
     }
   }
-.status-info-icon{
-  margin-left: 1px;
-}
-.activeInfoBtn {
-  color: #3849f9;
-  font-size: 30px;
-}
-.inactiveInfoBtn {
-  color: #AAAAAA;
-  font-size: 30px;
-}
+  .status-info-icon{
+    margin-left: 1px;
+  }
+  .activeInfoBtn {
+    color: #3849f9;
+    font-size: 25px;
+  }
+  .inactiveInfoBtn {
+    color: #AAAAAA;
+    font-size: 25px;
+  }
 }
