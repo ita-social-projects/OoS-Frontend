@@ -23,14 +23,14 @@
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
 
-        <ng-container *ngIf="approvedChildren.totalAmount > 1; else noChildren"> 
+        <ng-container *ngIf="approvedChildren.totalAmount !== 0; else noChildren"> 
           <mat-form-field appearance="none">
             <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
               panelClass="dropdown-panel" class="step-input">
               <mat-select-trigger>
                 <mat-chip-list>
                   <mat-chip 
-                    *ngFor="let child of AchievementFormGroup.controls['childrenIDs'].value"
+                    *ngFor="let child of AchievementFormGroup.get('childrenIDs').value"
                     [removable]="true" (removed)="onRemoveItem(child, 'childrenIDs')">
                     {{child.lastName}} {{child.firstName}} {{child.middleName}}
                     <mat-icon matChipRemove>cancel</mat-icon>
@@ -111,9 +111,13 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="['/personal-cabinet/workshops']"><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
-      <a><button class="btn" mat-button type="submit" (click)="onSubmit()" 
-        [disabled]="AchievementFormGroup.invalid">ЗБЕРЕГТИ</button></a>
+      <a [routerLink]="['/personal-cabinet/workshops']">
+        <button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button>
+      </a>
+      <a>
+        <button class="btn" mat-button type="submit" (click)="onSubmit()" 
+        [disabled]="AchievementFormGroup.invalid">ЗБЕРЕГТИ</button>
+      </a>
     </div>
   </div>
 </div>

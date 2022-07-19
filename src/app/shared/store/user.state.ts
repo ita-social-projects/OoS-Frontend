@@ -124,7 +124,7 @@ export interface UserStateModel {
   blockedParents: BlockedParent;
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
-  approvedChildren: Child[];
+  approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -189,7 +189,7 @@ export class UserState {
   }
 
   @Selector()
-  static approvedChildren(state: UserStateModel): Child[] {
+  static approvedChildren(state: UserStateModel): ChildCards {
     return state.approvedChildren;
   }
   @Selector()
@@ -278,11 +278,13 @@ export class UserState {
   getChildrenByWorkshopId(
     { patchState }: StateContext<UserStateModel>,
     { payload }: GetChildrenByWorkshopId
-  ): Observable<Child[]> {
+  ): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
-      tap((approvedChildren: Child[]) => {
-        return patchState({ approvedChildren: approvedChildren, isLoading: false });
+      tap((approvedChildren: ChildCards) => {
+        return patchState(approvedChildren 
+          ? { approvedChildren: approvedChildren, isLoading: false } 
+          : { approvedChildren: {totalAmount: 0, entities: []}, isLoading: false });
       })
     );
   }
