@@ -31,7 +31,6 @@ describe('ChildCardComponent', () => {
     fixture = TestBed.createComponent(ChildCardComponent);
     component = fixture.componentInstance;
     component.child = {} as Child;
-    component.applications = [];
     fixture.detectChanges();
   });
 
