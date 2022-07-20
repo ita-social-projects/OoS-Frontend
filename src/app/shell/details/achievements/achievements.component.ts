@@ -11,7 +11,7 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteAchievementById, GetAchievementsByWorkshopId, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -20,16 +20,16 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./achievements.component.scss'],
 })
 export class AchievementsComponent implements OnInit {
-  @Select(UserState.workshops) workshops: Observable<Workshop[]>;
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
 
   @Input() workshop: Workshop;
+
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   achievements: Achievement[];
   showMore = false;
   provider: Provider;
-  auth: boolean;  
+  isAllowedEdit: boolean;
   
   destroy$: Subject<boolean> = new Subject<boolean>();  
 
@@ -45,9 +45,8 @@ export class AchievementsComponent implements OnInit {
         this.achievements = achievements;
       });
 
-    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.auth = this.store.selectSnapshot<boolean>(RegistrationState.isAuthorized);
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));   
+    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.isAllowedEdit = this.workshop.providerId === provider.id
   }  
 
   private getAchievements(): void {

@@ -15,34 +15,14 @@ import { Role } from '../../enum/role';
   styleUrls: ['./achievement-card.component.scss'],
 })
 export class AchievementCardComponent implements OnInit {
-  destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() achievement: Achievement;
   @Input() workshop: Workshop;
-  @Input() workshops;
+  @Input() isAllowedEdit: boolean;
   readonly achievementsTitle = AchievementsTitle;
   showMore = false;
-  auth: boolean;
-  provider: Provider;
-  workshopId: string;
-  role: string;
-  readonly Role: Role;
+  
+  constructor() {}
 
-  constructor(private store: Store, private route: ActivatedRoute) {}
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.workshopId = this.route.snapshot.paramMap.get('id');
-    this.provider = this.store.selectSnapshot<Provider>(
-      RegistrationState.provider
-    );
-    this.auth = this.store.selectSnapshot<boolean>(
-      RegistrationState.isAuthorized
-    );
-    this.role = this.store.selectSnapshot<string>(RegistrationState.role);
-  }
-
-  getWorkshopIds(arr): string[] {
-    const res = [];
-    arr.forEach((i) => res.push(i.workshopId));
-    return res;
-  }
 }

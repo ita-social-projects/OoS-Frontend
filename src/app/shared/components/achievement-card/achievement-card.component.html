@@ -1,4 +1,4 @@
-<mat-card class="position">
+<mat-card class="position" *ngIf="achievement">
     <div class="card_achievement" fxLayout="column" fxLayoutAlign="start space-between">
       <div class="wrap-for-details" fxLayout="row" fxLayoutAlign="start space-between">
         <img class='image' src='../../../../assets/icons/award.svg'/>
@@ -10,7 +10,7 @@
             <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
             <ng-container *ngIf="achievement">
               <div *ngFor="let child of achievement?.children">
-                <h4 class="card_title" *ngIf="child">Учасники</h4> 
+                <h4 class="card_title">Учасники</h4> 
                 <p class="card_text">
                   {{child.firstName}} {{child.lastName}} {{child.middleName}}
                 </p>
@@ -29,7 +29,7 @@
         </div> 
         
         <ng-container 
-          *ngIf="auth && getWorkshopIds(workshops | async).includes(workshopId) && role === 'provider'">
+          *ngIf="isAllowedEdit">
           <div fxLayout="row" fxLayoutAlign="end" class="actions">
             <div class="actions_btn" [routerLink]="['/create-achievement', achievement.id]">
               <mat-icon class="achievement_icon">edit</mat-icon>

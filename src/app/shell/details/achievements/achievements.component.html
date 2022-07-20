@@ -1,4 +1,4 @@
-<div *ngIf="auth" class="add-wrapper">
+<div *ngIf="isAllowedEdit" class="add-wrapper">
   <p class="text">Тут ви можете додати досягнення.</p>
   <a [routerLink]="['/create-achievement', workshop?.id]">
     <button class="btn" mat-raised-button>
@@ -9,7 +9,7 @@
 
 <div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
   <app-achievement-card *ngFor="let achievement of achievements"
-    [achievement]="achievement" [workshops]="workshops"></app-achievement-card>  
+    [achievement]="achievement" [workshops]="workshops" [isAllowedEdit]="isAllowedEdit"></app-achievement-card>  
 
 </div>
 <ng-template #isEmptyList>
