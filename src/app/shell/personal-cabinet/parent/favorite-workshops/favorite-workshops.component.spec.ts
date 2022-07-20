@@ -21,7 +21,7 @@ describe('FavoriteWorkshopsComponent', () => {
         FavoriteWorkshopsComponent,
         MockWorkshopCardComponent,
         MockListWorkshopCardPaginatorComponent,
-        NoWorkshopsCardComponent
+        NoWorkshopsCardComponent,
       ]
     })
       .compileComponents();

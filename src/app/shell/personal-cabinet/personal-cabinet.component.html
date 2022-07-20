@@ -10,8 +10,8 @@
         ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}
       </a>
     </ng-container>
-    <ng-container *ngIf="userRole !== Role.techAdmin">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/workshops'">
+    <ng-container *ngIf="userRole === Role.provider">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/workshops'">
         {{ userRole === Role.parent ? 'МОЇ ГУРТКИ' : 'ГУРТКИ' }}
       </a>
     </ng-container>

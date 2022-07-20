@@ -34,7 +34,7 @@ import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declin
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.scss'],
 })
-export class ApplicationsComponent  implements OnInit, OnDestroy, AfterViewInit {
+export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatus = ApplicationStatus;
   readonly noApplicationTitle = NoResultsTitle.noApplication;

@@ -88,11 +88,6 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
     this.onGetApplications();
   }
 
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.store.dispatch(new PopNavPath());
-  }
-
   private getParentChildren(): void {
     this.store.dispatch(new GetAllUsersChildren());
   }

@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
 import { Component, Input } from '@angular/core';
 import { Provider } from 'src/app/shared/models/provider.model';
+import { ProviderComponent } from '../provider.component';
 
 describe('ProviderOrgInfoComponent', () => {
   let component: ProviderOrgInfoComponent;
@@ -24,6 +25,7 @@ describe('ProviderOrgInfoComponent', () => {
         ProviderOrgInfoComponent,
         PhoneTransformPipe,
         MockproviderInfoComponent,
+        ProviderComponent
       ],
     }).compileComponents();
   });
@@ -31,7 +33,6 @@ describe('ProviderOrgInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderOrgInfoComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
