@@ -23,7 +23,7 @@
 
         <label class="step-label">Учасники<span class="step-required">*</span></label>
 
-        <ng-container *ngIf="approvedChildren.totalAmount > 1; else noChildren"> 
+        <ng-container *ngIf="approvedChildren.totalAmount; else noChildren"> 
           <mat-form-field appearance="none">
             <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
               panelClass="dropdown-panel" class="step-input">

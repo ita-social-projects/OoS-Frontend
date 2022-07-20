@@ -15,11 +15,13 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export class AchievementsComponent implements OnInit {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
+  
   @Input() achievements: Achievement[];
+  @Input() workshop: Workshop;
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  @Input() workshop: Workshop;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
