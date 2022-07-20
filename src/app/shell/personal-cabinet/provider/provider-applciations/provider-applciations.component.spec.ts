@@ -7,6 +7,8 @@ import { Role } from 'src/app/shared/enum/role';
 import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Child } from 'src/app/shared/models/child.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { ProviderComponent } from '../provider.component';
 import { ProviderApplciationsComponent } from './provider-applciations.component';
 
 describe('ProviderApplciationsComponent', () => {
@@ -16,7 +18,12 @@ describe('ProviderApplciationsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports:[ NgxsModule.forRoot([]), MatDialogModule],
-      declarations: [ ProviderApplciationsComponent, ApplicationsMockComponent ]
+      declarations: [ 
+        ProviderApplciationsComponent, 
+        ApplicationsMockComponent, 
+        ProviderComponent, 
+        CabinetDataComponent 
+      ]
     })
     .compileComponents();
   });
