@@ -43,6 +43,7 @@ export class ApplicationCardComponent implements OnInit {
 
   childAge: string;
   blockedParent: BlockedParent;
+  childFullName: string;
     applicationParams: {
     status: string,
     showBlocked: boolean,
@@ -65,6 +66,7 @@ export class ApplicationCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
+    this.childFullName = Util.getFullName(this.application.child);
   }
 
   /**

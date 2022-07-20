@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, _MatMenuDirectivesModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { Application } from '../../../../../../shared/models/application.model';
-
 import { InfoStatusComponent } from './info-status.component';
 
 describe('InfoStatusComponent', () => {

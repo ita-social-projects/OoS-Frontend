@@ -21,7 +21,7 @@ export class ChildCardComponent implements OnInit {
   @Output() deleteChild = new EventEmitter<Child>();
 
   ngOnInit(): void {
-    this.childFullName = `${this.child.lastName} ${this.child.firstName} ${this.child.middleName}`;
+    this.childFullName = Util.getFullName(this.child);
     this.childAge = Util.getChildAge(this.child);
   }
 

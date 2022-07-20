@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Constants } from 'src/app/shared/constants/constants';
+import { Teacher } from 'src/app/shared/models/teacher.model';
+import { Util } from 'src/app/shared/utils/utils';
 import { environment } from 'src/environments/environment';
-import { Constants } from '../../../../../shared/constants/constants';
-import { Teacher } from '../../../../../shared/models/teacher.model';
+
 
 @Component({
   selector: 'app-teacher-card',
@@ -20,7 +22,7 @@ export class TeacherCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.teacherFullName = `${this.teacher.lastName} ${this.teacher.firstName}`;
+    this.teacherFullName = Util.getFullName(this.teacher);
     this.getCoverImageUrl();
   }
 
