@@ -9,7 +9,7 @@
 
 <div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
   <app-achievement-card *ngFor="let achievement of achievements"
-    [achievement]="achievement" [workshops]="workshops" [isAllowedEdit]="isAllowedEdit"></app-achievement-card>  
+    [achievement]="achievement" [workshop]="workshop" [isAllowedEdit]="isAllowedEdit"></app-achievement-card>  
 
 </div>
 <ng-template #isEmptyList>

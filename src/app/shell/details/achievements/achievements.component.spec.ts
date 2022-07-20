@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 import { Achievement } from 'src/app/shared/models/achievement.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AchievementsComponent } from './achievements.component';
 
 describe('AchievementsComponent', () => {
@@ -46,4 +47,6 @@ describe('AchievementsComponent', () => {
 })
 class MockAchievementCardComponent {
   @Input() achievement: Achievement;
+  @Input() workshop: Workshop;
+  @Input() isAllowedEdit: boolean;
 }

@@ -28,6 +28,8 @@ describe('AchievementCardComponent', () => {
     fixture = TestBed.createComponent(AchievementCardComponent);
     component = fixture.componentInstance;
     component.achievement = {} as Achievement;
+    component.isAllowedEdit;
+    component.workshop;
     fixture.detectChanges();
   });
 
