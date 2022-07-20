@@ -48,7 +48,7 @@
           </app-validation-hint>
         </ng-container>
         <ng-template #noChildren>
-          <span class="warning-message">{{noMembers}}</span>
+          <span class="warning-message">Додавання досягнень можливе лише за наявності учасників у гуртку.</span>
         </ng-template>
 
         <label class="step-label">Тренера<span class="step-required">*</span></label>
@@ -78,7 +78,7 @@
           </mat-form-field>
         </ng-container>
         <ng-template #noTeachers>
-          <span class="warning-message">{{noMembers}}</span>
+          <span class="warning-message">Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.</span>
         </ng-template>
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('teachers')"

@@ -8,5 +8,4 @@ export enum NoResultsTitle {
   noTeachers = 'Викладачів поки немає',
   noAchievements = 'Досягнень поки немає',
   noReviews = 'Відгуків поки немає',
-  noMembers = 'Додавання досягнень можливе лише за наявності учасників у гуртку',
 }
