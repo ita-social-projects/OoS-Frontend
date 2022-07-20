@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageFormControlComponent } from '../../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
+import { MatRadioModule } from '@angular/material/radio';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -27,7 +28,8 @@ describe('TeacherFormComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatIconModule,
-        MatGridListModule
+        MatGridListModule, 
+        MatRadioModule,
       ],
       declarations: [
         ImageFormControlComponent,
