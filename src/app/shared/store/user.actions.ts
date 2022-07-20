@@ -324,3 +324,7 @@ export class GetBlockedParents {
   static readonly type = '[user] get block parent';
   constructor(public providerId: string, public parentId: string) { }
 }
+export class OnClearBlockedParents {
+  static readonly type = '[user] clear blockedParents state';
+  constructor( ) { }
+}

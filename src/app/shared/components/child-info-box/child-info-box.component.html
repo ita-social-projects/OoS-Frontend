@@ -3,13 +3,13 @@
     <h3 class="title">ДАНІ ДИТИНИ</h3>
 
     <div class="info-group">
-      <h4 class="textChildrenName">{{child.firstName}} {{child.lastName}} {{child.middleName}}</h4>
+      <h4 class="textChildrenName">{{childFullName}}</h4>
       <h5 class="text">Дата народження:</h5>
       <p >
         {{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}  ({{ childAge }})
       </p>
     </div>
-    
+
     <div class="info-group">
       <h5 class="text">Стать:</h5>
       <p>{{ gender[child.gender] }}</p>
@@ -22,7 +22,7 @@
 
     <div class="info-group">
       <h5 class="text">Батьки:</h5>
-      <p>{{ parentLastName }} {{parentFirstName}} {{parantMiddleName}}</p>
+      <p>{{ parentFullName }}</p>
     </div>
 
     <div class="info-group">
