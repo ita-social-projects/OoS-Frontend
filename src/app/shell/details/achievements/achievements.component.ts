@@ -36,17 +36,16 @@ export class AchievementsComponent implements OnInit {
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {   
+    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.getAchievements();    
     this.achievements$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((achievements) => !!achievements)
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((achievements) => !!achievements)
       ).subscribe((achievements) => {
         this.achievements = achievements;
+        this.isAllowedEdit = this.workshop.providerId === provider.id
       });
-
-    const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.isAllowedEdit = this.workshop?.providerId === provider?.id
   }  
 
   private getAchievements(): void {
