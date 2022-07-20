@@ -23,7 +23,6 @@ describe('ParentApplicationsComponent', () => {
         ApplicationsMockComponent, 
         ParentComponent, 
         CabinetDataComponent,
-        MatDialogModule
       ]
     })
     .compileComponents();
