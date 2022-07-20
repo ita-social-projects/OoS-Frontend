@@ -27,7 +27,6 @@ export class AchievementsComponent implements OnInit {
 
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   achievements: Achievement[];
-  showMore = false;
   provider: Provider;
   isAllowedEdit: boolean;
   
@@ -49,7 +48,9 @@ export class AchievementsComponent implements OnInit {
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
+    if (this.workshop) {
+      this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+    }
   }  
 
   onDelete(achievement: Achievement): void {
