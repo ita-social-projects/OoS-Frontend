@@ -45,8 +45,10 @@ export class AchievementsComponent implements OnInit {
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
-  }
+    if (this.workshop) {
+      this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+    }
+  }  
 
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
