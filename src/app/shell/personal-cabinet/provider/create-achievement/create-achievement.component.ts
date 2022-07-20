@@ -14,6 +14,7 @@ import { CreateAchievement, GetChildrenByWorkshopId, GetWorkshopById, ResetProvi
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Child } from 'src/app/shared/models/child.model';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 
 @Component({
   selector: 'app-create-achievement',
@@ -32,6 +33,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshopId: string;
   achievements = AchievementsTitle;
   approvedChildren: Child[];
+  readonly noMembers = NoResultsTitle.noMembers;
 
   constructor(
     private store: Store,
