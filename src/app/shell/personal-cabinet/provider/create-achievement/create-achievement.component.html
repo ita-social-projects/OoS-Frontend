@@ -38,7 +38,7 @@
               </mat-select-trigger>
               <mat-option *ngFor="let child of approvedChildren.entities"   
                 [value]="child" class="dropdown-option">
-                {{child.lastName}} {{child.firstName}} {{child.middleName}}
+                {{getFullName(child)}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -61,7 +61,7 @@
                   <mat-chip   
                     *ngFor="let teacher of AchievementFormGroup.controls['teachers'].value"
                     (removed)="onRemoveItem(teacher, 'teachers')">
-                    {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
+                    {{getFullName(teacher)}}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
                 </mat-chip-list>
@@ -71,7 +71,7 @@
                   *ngFor="let teacher of workshop.teachers" 
                   [value]="teacher" 
                   class="dropdown-option">
-                  {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
+                  {{getFullName(teacher)}}
                 </mat-option>
               </ng-container>
             </mat-select>

@@ -15,6 +15,8 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Child } from 'src/app/shared/models/child.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+import { Person } from 'src/app/shared/models/user.model';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-create-achievement',
@@ -107,6 +109,10 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
         this.AchievementFormGroup.get(control).setValue(null)
       }
     }   
+  }
+
+  private getFullName(person: Person): string {
+    return Util.getFullName(person);
   }
 
   ngOnDestroy(): void {
