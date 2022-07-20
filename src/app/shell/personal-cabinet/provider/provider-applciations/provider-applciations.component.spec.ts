@@ -32,6 +32,10 @@ describe('ProviderApplciationsComponent', () => {
     fixture = TestBed.createComponent(ProviderApplciationsComponent);
     component = fixture.componentInstance;
   });
+  
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
 
 @Component({
