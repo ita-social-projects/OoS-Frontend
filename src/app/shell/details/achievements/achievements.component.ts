@@ -50,7 +50,7 @@ export class AchievementsComponent implements OnInit {
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
   }  
 
   onDelete(achievement: Achievement): void {
