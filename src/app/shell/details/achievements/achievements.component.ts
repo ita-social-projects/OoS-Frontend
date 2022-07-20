@@ -46,11 +46,11 @@ export class AchievementsComponent implements OnInit {
       });
 
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    this.isAllowedEdit = this.workshop.providerId === provider.id
+    this.isAllowedEdit = this.workshop.providerId === provider?.id
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
   }  
 
   onDelete(achievement: Achievement): void {
@@ -62,7 +62,7 @@ export class AchievementsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
+      (result) && this.store.dispatch(new DeleteAchievementById(achievement?.id));
     });
   }
 
