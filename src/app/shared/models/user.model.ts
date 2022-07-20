@@ -8,7 +8,7 @@ export class User implements Person {
   isRegistered: boolean;
   lastName: string;
   middleName?: string;
-  firstName?: string;
+  firstName: string;
   gender?: number;
   id: string;
   userName?: string;
