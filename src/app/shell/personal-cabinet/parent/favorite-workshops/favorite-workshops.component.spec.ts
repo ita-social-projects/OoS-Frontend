@@ -7,7 +7,7 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { ParentComponent } from '../parent.component';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;
@@ -18,7 +18,8 @@ describe('FavoriteWorkshopsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
+        MatDialogModule
       ],
       declarations: [
         FavoriteWorkshopsComponent,
@@ -27,7 +28,6 @@ describe('FavoriteWorkshopsComponent', () => {
         NoWorkshopsCardComponent,
         ParentComponent, 
         CabinetDataComponent,
-        MatDialog 
       ]
     })
       .compileComponents();
