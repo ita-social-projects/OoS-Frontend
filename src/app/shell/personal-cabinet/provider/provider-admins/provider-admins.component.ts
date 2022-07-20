@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
@@ -32,14 +32,15 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminRole = providerAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
-  readonly constants: typeof Constants = Constants;
+  readonly constants = Constants;
 
   @Select(UserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(UserState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
+
   providerAdmins: ProviderAdminTable[] = [];
-  filterFormControl = new FormControl('');
+  filterFormControl: FormControl = new FormControl('');
   filterValue: string;
   tabIndex: number;
 
@@ -55,49 +56,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
   }
 
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Administration,
-        isActive: false,
-        disable: true,
-      })
-    );
-  }
-
-  protected initProviderData(): void {
-    this.getAllProviderAdmins();
-    this.addProviderAdmisnSubscribtions();
-  }
-
-  private getAllProviderAdmins(): void {
-    this.store.dispatch(new GetAllProviderAdmins());
-  }
-
-  /**
-   * This method updates table according to teh received data
-   * @param admins: ProviderAdmin[]
-   */
-  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
-    let updatedAdmins = [];
-    admins.forEach((admin: ProviderAdmin) => {
-      updatedAdmins.push({
-        id: admin.id,
-        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
-        email: admin.email,
-        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
-        role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
-        status: admin.accountStatus,
-      });
-    });
-    return updatedAdmins;
-  }
-
   /**
    * This method filter users according to selected tab
    * @param event: MatTabChangeEvent
    */
-  onTabChange(event: MatTabChangeEvent): void {
+   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
@@ -149,6 +112,44 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           })
         );
     });
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Administration,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
+
+  protected initProviderData(): void {
+    this.getAllProviderAdmins();
+    this.addProviderAdmisnSubscribtions();
+  }
+
+  private getAllProviderAdmins(): void {
+    this.store.dispatch(new GetAllProviderAdmins());
+  }
+
+  /**
+   * This method updates table according to teh received data
+   * @param admins: ProviderAdmin[]
+   */
+  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
+    let updatedAdmins = [];
+    admins.forEach((admin: ProviderAdmin) => {
+      updatedAdmins.push({
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
+        email: admin.email,
+        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
+        status: admin.accountStatus,
+      });
+    });
+    return updatedAdmins;
   }
 
   /**
