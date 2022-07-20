@@ -13,19 +13,21 @@ import { UserState } from 'src/app/shared/store/user.state';
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.scss'],
 })
-export class AchievementsComponent implements OnInit {  
+export class AchievementsComponent implements OnInit {
+  readonly noResultAchievements = NoResultsTitle.noAchievements;
+  
+  @Input() achievements: Achievement[];
+  @Input() workshop: Workshop;
+
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
 
-  @Input() achievements: Achievement[];
-  workshop: Workshop;
-  readonly noResultAchievements = NoResultsTitle.noAchievements;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {   
+    this.getAchievements();    
     this.achievements$
       .pipe(
         takeUntil(this.destroy$),
@@ -33,15 +35,6 @@ export class AchievementsComponent implements OnInit {
       ).subscribe((achievements) => {
         this.achievements = achievements;
       });
-
-    this.workshop$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((workshop) => !!workshop)
-    ).subscribe((workshop: Workshop) => {
-      this.workshop = workshop;
-      this.getAchievements();    
-    }); 
   }  
 
   private getAchievements(): void {
