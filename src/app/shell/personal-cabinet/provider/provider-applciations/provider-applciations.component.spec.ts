@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
 import { ChildDeclination, WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { Role } from 'src/app/shared/enum/role';
@@ -14,7 +15,7 @@ describe('ProviderApplciationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[ NgxsModule.forRoot([])],
+      imports:[ NgxsModule.forRoot([]), MatDialogModule],
       declarations: [ ProviderApplciationsComponent, ApplicationsMockComponent ]
     })
     .compileComponents();
@@ -23,10 +24,6 @@ describe('ProviderApplciationsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProviderApplciationsComponent);
     component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 });
 
