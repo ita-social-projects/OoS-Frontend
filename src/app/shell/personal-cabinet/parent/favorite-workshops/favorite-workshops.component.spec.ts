@@ -7,6 +7,7 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { ParentComponent } from '../parent.component';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;
@@ -25,7 +26,8 @@ describe('FavoriteWorkshopsComponent', () => {
         MockListWorkshopCardPaginatorComponent,
         NoWorkshopsCardComponent,
         ParentComponent, 
-        CabinetDataComponent 
+        CabinetDataComponent,
+        MatDialog 
       ]
     })
       .compileComponents();
