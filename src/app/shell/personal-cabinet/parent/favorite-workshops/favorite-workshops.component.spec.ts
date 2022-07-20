@@ -20,7 +20,8 @@ describe('FavoriteWorkshopsComponent', () => {
       declarations: [
         FavoriteWorkshopsComponent,
         MockWorkshopCardComponent,
-        MockListWorkshopCardPaginatorComponent
+        MockListWorkshopCardPaginatorComponent,
+        NoWorkshopsCardComponent
       ]
     })
       .compileComponents();
@@ -31,7 +32,6 @@ describe('FavoriteWorkshopsComponent', () => {
     spyOn(store, 'selectSnapshot').and.returnValue([] as Workshop[]);
     fixture = TestBed.createComponent(FavoriteWorkshopsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -55,4 +55,12 @@ class MockWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+}
+
+@Component({
+  selector: 'app-no-result-card',
+  template: ''
+})
+class NoWorkshopsCardComponent {
+  @Input() title: string;
 }
