@@ -1,5 +1,5 @@
 import { Constants } from 'src/app/shared/constants/constants';
-import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Application, ApplicationCards } from '../models/application.model';
-import { Child, ChildCards } from '../models/child.model';
+import { ApplicationCards } from '../models/application.model';
+import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { Workshop } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -95,7 +95,8 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
-  GetChildrenByWorkshopId
+  GetChildrenByWorkshopId,  
+  OnClearBlockedParents
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -106,7 +107,6 @@ import { BlockService } from '../services/block/block.service';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
-import { Parent } from '../models/parent.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface UserStateModel {
@@ -121,10 +121,9 @@ export interface UserStateModel {
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
-  blockedParents: BlockedParent;
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
-  approvedChildren: Child[];
+  approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -144,7 +143,6 @@ export interface UserStateModel {
       isActive: true,
     },
     providerAdmins: null,
-    blockedParents: null,
     blockedParent: null,
     isAllowChildToApply: true,
   },
@@ -189,7 +187,7 @@ export class UserState {
   }
 
   @Selector()
-  static approvedChildren(state: UserStateModel): Child[] {
+  static approvedChildren(state: UserStateModel): ChildCards {
     return state.approvedChildren;
   }
   @Selector()
@@ -211,9 +209,6 @@ export class UserState {
   static isAllowChildToApply(state: UserStateModel): boolean {
     return state.isAllowChildToApply;
   }
-
-  @Selector()
-  static blockedParents(state: UserStateModel): BlockedParent { return state.blockedParents; }
 
   @Selector()
   static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
@@ -278,11 +273,13 @@ export class UserState {
   getChildrenByWorkshopId(
     { patchState }: StateContext<UserStateModel>,
     { payload }: GetChildrenByWorkshopId
-  ): Observable<Child[]> {
+  ): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
-      tap((approvedChildren: Child[]) => {
-        return patchState({ approvedChildren: approvedChildren, isLoading: false });
+      tap((approvedChildren: ChildCards) => {
+        return patchState(approvedChildren 
+          ? { approvedChildren: approvedChildren, isLoading: false } 
+          : { approvedChildren: {totalAmount: 0, entities: []}, isLoading: false });
       })
     );
   }
@@ -1164,16 +1161,20 @@ export class UserState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
     ]);
-    console.log('parent is blocked', payload);
+    console.log('parent is unBlocked', payload);
   }
 
   @Action(GetBlockedParents)
   getBlockedParents({ patchState }: StateContext<UserStateModel>, { providerId, parentId}: GetBlockedParents): Observable<object> {
-    patchState({ isLoading: true })
     return this.blockService
       .getBlockedParents(providerId, parentId)
       .pipe(
-        tap((blockedParents: BlockedParent) => patchState({ blockedParents: blockedParents, isLoading: false })
+        tap((blockedParent: BlockedParent) => patchState({ blockedParent: blockedParent })
         ))
+  }
+
+  @Action(OnClearBlockedParents)
+  onClearBlockedParents({ patchState }: StateContext<UserStateModel>, { }: OnClearBlockedParents): void {
+    patchState({ blockedParent: null });
   }
 }

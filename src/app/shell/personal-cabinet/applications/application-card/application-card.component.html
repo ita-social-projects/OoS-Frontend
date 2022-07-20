@@ -2,10 +2,9 @@
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
       <div #name class="workshop-header">
-        <h4 class="name title" fxLayout="row" fxLayoutAlign="start">{{ application.child.lastName }} {{ application.child.firstName }} {{
-          application.child.middleName }}
+        <h4 class="name title" fxLayout="row" fxLayoutAlign="start">{{ childFullName }}
           <i [ngClass]="cildTriger.menuOpen ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'" [matMenuTriggerFor]="childInfo" #cildTriger="matMenuTrigger">info_outline</i>
-          <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false" > 
+          <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false" >
             <app-child-info-box [child]="application.child" (click)="$event.stopPropagation();"></app-child-info-box>
           </mat-menu>
         </h4>
@@ -30,20 +29,7 @@
     </div>
   </mat-card-content>
 
-  <mat-card-content class="card-block" fxLayout="row" fxLayoutAlign="start center">
-    <div class="application-status" fxLayout="row">
-      <div class="application-popup-status {{status}}">
-        <span> <i class="status-icon {{applicationIcons[status]}}"></i></span>
-        <span> {{applicationTitles[status]}}</span>
-      </div>
-      <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="true"
-        [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">info_outline</i></span>
-        <mat-menu class="status-menu"  #menu="matMenu" disabled [overlapTrigger]="false"
-          xPosition="after" class="mat-application-menu">
-          <app-status-info-card [application]="application" [status]="status"></app-status-info-card>
-        </mat-menu>
-    </div>
-  </mat-card-content>
+  <app-info-status [application]="application"></app-info-status>
 
   <mat-card-content class="card-block card-block-buttons" *ngIf="userRole === role.provider">
     <div fxLayout="column" fxLayoutAlign="start start"

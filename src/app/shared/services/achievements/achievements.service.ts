@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Achievement } from '../../models/achievement.model';
-import { Child } from '../../models/child.model';
+import { Child, ChildCards } from '../../models/child.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,8 @@ export class AchievementsService {
     );
   }
 
-  getChildrenByWorkshopId(id: string): Observable<Child[]> {
-    return this.http.get<Child[]>(
-      `/api/v1/Child/GetApprovedByWorkshopId/${id}`
-    );
+  getChildrenByWorkshopId(id: string): Observable<ChildCards> {
+    return this.http.get<ChildCards>(`/api/v1/Child/GetApprovedByWorkshopId/${id}`);
   }
 
   createAchievement(achievement: Achievement): Observable<object> {

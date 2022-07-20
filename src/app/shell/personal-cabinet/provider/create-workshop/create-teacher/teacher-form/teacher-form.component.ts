@@ -17,7 +17,10 @@ export class TeacherFormComponent {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
+    croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
+    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    croppedQuality: CropperConfigurationConstants.croppedQuality,
   }
   
   today: Date = new Date();

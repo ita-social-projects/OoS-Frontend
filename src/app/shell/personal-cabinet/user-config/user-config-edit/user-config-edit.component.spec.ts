@@ -10,6 +10,7 @@ import { User } from 'src/app/shared/models/user.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatRadioModule } from '@angular/material/radio';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -26,6 +27,7 @@ describe('UserConfigEditComponent', () => {
         BrowserAnimationsModule,
         MatDialogModule,
         RouterTestingModule,
+        MatRadioModule,
       ],
       declarations: [
         UserConfigEditComponent,
@@ -42,12 +44,14 @@ describe('UserConfigEditComponent', () => {
       lastName: '',
       firstName: '',
       middleName: '',
-      phoneNumber: ''
+      phoneNumber: '', 
+      gender: 0,
     } as User;
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       middleName: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [Validators.required]),
     });
     fixture.detectChanges();

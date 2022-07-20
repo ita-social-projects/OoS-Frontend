@@ -31,7 +31,10 @@ export class CreateInfoFormComponent implements OnInit {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
+    croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
+    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    croppedQuality: CropperConfigurationConstants.croppedQuality,
   }
 
   @Select(MetaDataState.institutions)
