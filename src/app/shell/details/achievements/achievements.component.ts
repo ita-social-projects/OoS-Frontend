@@ -20,15 +20,16 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./achievements.component.scss'],
 })
 export class AchievementsComponent implements OnInit {
+  @Select(UserState.workshops) workshops: Observable<Workshop[]>;
+  @Select(UserState.achievements)
+  achievements$: Observable<Achievement[]>;
+
   @Input() workshop: Workshop;
   readonly noResultAchievements = NoResultsTitle.noAchievements;
   achievements: Achievement[];
   showMore = false;
   provider: Provider;
-  auth: boolean;
-
-  @Select(UserState.achievements)
-  achievements$: Observable<Achievement[]>;
+  auth: boolean;  
   
   destroy$: Subject<boolean> = new Subject<boolean>();  
 
@@ -46,11 +47,11 @@ export class AchievementsComponent implements OnInit {
 
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.auth = this.store.selectSnapshot<boolean>(RegistrationState.isAuthorized);
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));   
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));   
   }  
 
   private getAchievements(): void {
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop?.id));
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }  
 
   onDelete(achievement: Achievement): void {

@@ -1,13 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Subject } from '@microsoft/signalr';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { AchievementsTitle } from '../../constants/constants';
 import { Achievement } from '../../models/achievement.model';
 import { Workshop } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { GetWorkshopsByProviderId } from '../../store/user.actions';
-import { UserState } from '../../store/user.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ActivatedRoute } from '@angular/router';
 import { Role } from '../../enum/role';
@@ -18,10 +15,10 @@ import { Role } from '../../enum/role';
   styleUrls: ['./achievement-card.component.scss'],
 })
 export class AchievementCardComponent implements OnInit {
-  @Select(UserState.workshops) workshops: Observable<Workshop[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Input() achievement: Achievement;
   @Input() workshop: Workshop;
+  @Input() workshops;
   readonly achievementsTitle = AchievementsTitle;
   showMore = false;
   auth: boolean;
@@ -40,7 +37,6 @@ export class AchievementCardComponent implements OnInit {
     this.auth = this.store.selectSnapshot<boolean>(
       RegistrationState.isAuthorized
     );
-    this.store.dispatch(new GetWorkshopsByProviderId(this.provider?.id));
     this.role = this.store.selectSnapshot<string>(RegistrationState.role);
   }
 
