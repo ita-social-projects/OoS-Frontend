@@ -2,10 +2,9 @@
   <mat-card-content class="card-block" fxLayout="column" fxLayoutAlign="start start">
     <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
       <div #name class="workshop-header">
-        <h4 class="name title" fxLayout="row" fxLayoutAlign="start">{{ application.child.lastName }} {{ application.child.firstName }} {{
-          application.child.middleName }}
+        <h4 class="name title" fxLayout="row" fxLayoutAlign="start">{{ childFullName }}
           <i [ngClass]="cildTriger.menuOpen ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'" [matMenuTriggerFor]="childInfo" #cildTriger="matMenuTrigger">info_outline</i>
-          <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false" > 
+          <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false" >
             <app-child-info-box [child]="application.child" (click)="$event.stopPropagation();"></app-child-info-box>
           </mat-menu>
         </h4>

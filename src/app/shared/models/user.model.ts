@@ -1,6 +1,12 @@
-export class User {
+export interface Person {
+  id?: string;
+  lastName: string;
+  middleName?: string;
+  firstName: string;
+}
+export class User implements Person {
   isRegistered: boolean;
-  lastName?: string;
+  lastName: string;
   middleName?: string;
   firstName?: string;
   gender?: number;

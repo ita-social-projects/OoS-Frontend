@@ -1,5 +1,6 @@
 import { ParentWithContactInfo } from './parent.model';
-export class Child {
+import { Person } from './user.model';
+export class Child implements Person {
   id: string;
   firstName: string;
   lastName: string;
