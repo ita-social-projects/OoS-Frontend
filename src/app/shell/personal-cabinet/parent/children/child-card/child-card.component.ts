@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Application } from '../../../../../shared/models/application.model';
 import { Child } from '../../../../../shared/models/child.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from '../../../../../shared/constants/constants';
@@ -10,14 +9,14 @@ import { Constants } from '../../../../../shared/constants/constants';
   styleUrls: ['./child-card.component.scss']
 })
 export class ChildCardComponent implements OnInit {
-
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  readonly constants = Constants;
+
   public childFullName: string;
   public childAge: string;
-  readonly constants: typeof Constants = Constants;
 
   @Input() child: Child;
-  @Input() applications: Array<Application>;
+
   @Output() deleteChild = new EventEmitter<Child>();
 
   ngOnInit(): void {

@@ -27,8 +27,6 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards>;
   childrenCards: ChildCards;
-
-  //TODO: get approved children applications
   
   currentPage: PaginationElement = {
     element: 1,

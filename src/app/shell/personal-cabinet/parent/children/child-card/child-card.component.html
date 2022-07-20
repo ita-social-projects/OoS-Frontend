@@ -23,17 +23,6 @@
             <mat-icon class="card_icon">calendar_today</mat-icon> {{child.dateOfBirth | date:
             constants.SHORT_DATE_FORMAT}} ({{ childAge }})
           </p>
-          <h5 class="card_text card_text_bold">
-            <mat-icon class="card_icon">apps</mat-icon>Гуртки
-          </h5>
-          <div *ngIf="applications?.length; else NoWorkshops" class="workshop-list" fxLayout="column"
-            fxLayoutAlign="space-evenly space-between">
-            <span [routerLink]="['/workshop-details', application.workshop.workshopId]"
-              *ngFor="let application of applications" [matTooltip]="application.workshop.title" showTooltipIfTruncated
-              matTooltipClass="tooltip" [matTooltipPosition]="tooltipPosition" class="item">
-              {{application.workshop.title}}
-            </span>
-          </div>
         </mat-card-content>
       </div>
     </div>
