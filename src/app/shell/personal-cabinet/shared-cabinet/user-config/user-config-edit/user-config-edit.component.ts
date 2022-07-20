@@ -60,6 +60,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
+      gender: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
     });
     this.subscribeOnDirtyForm(this.userEditFormGroup);
