@@ -1,7 +1,7 @@
 <div class="create-form" fxLayout="column" fxLayoutAlign="center center">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(isDeputy) ? 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА' : 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА'}}</h3>
+      <h3 class="wrapper-title">{{(providerRole === providerAdminRole.deputy) ? 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА' : 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА'}}</h3>
       <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. </p>
     </div>
 
@@ -92,7 +92,7 @@
           <p class="step-name">Керування доступами</p>
         </ng-template>
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step form">
-          <ng-container *ngIf="isDeputy then Deputy; else WorkshopAdmin">
+          <ng-container *ngIf="providerRole === providerAdminRole.deputy then Deputy; else WorkshopAdmin">
           </ng-container>
           <ng-template #Deputy>
             <label class="step-label">Буде надано доступ до всих гуртків</label>
@@ -117,8 +117,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/provider/administration'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+          <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
         </div>
       </mat-step>

@@ -41,8 +41,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   providerAdmins: ProviderAdminTable[] = [];
   filterFormControl = new FormControl('');
   filterValue: string;
-  btnView: string = providerAdminRoleUkr.all;
-
   tabIndex: number;
 
   constructor(
@@ -53,7 +51,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   ) {
     super(store, matDialog);
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(this.providerAdminRole).indexOf(params['role']);
+      this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
     });
   }
 
@@ -100,7 +98,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    // this.btnView = event.tab.textLabel; : TODO: fix btn
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,

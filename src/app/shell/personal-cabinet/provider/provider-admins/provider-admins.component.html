@@ -12,7 +12,7 @@
         placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
       />
     </div>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.all">
+    <ng-template [ngIf]="tabIndex == 0 && subRole === Role.None">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         Додати <mat-icon>arrow_drop_down</mat-icon>
       </button>
@@ -21,10 +21,12 @@
         <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
       </mat-menu>
     </ng-template>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy">
+
+    <ng-template [ngIf]="tabIndex == 1 && subRole === Role.None">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
-    <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin">
+
+    <ng-template [ngIf]="tabIndex == 2 || (tabIndex == 0 && subRole === Role.ProviderDeputy)">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
   </div>
