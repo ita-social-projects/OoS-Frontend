@@ -52,7 +52,7 @@ class MockShellComponent{}
 class MockFooterComponent{}
 
 @Component({
-  selector: 'app-sidenav',
+  selector: 'app-sidenav-menu',
   template: ''
 })
 class MockSidenavComponent{
