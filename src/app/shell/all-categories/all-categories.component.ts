@@ -20,8 +20,6 @@ import { PaginatorState } from 'src/app/shared/store/paginator.state';
 })
 export class AllCategoriesComponent implements OnInit, OnDestroy {
 
-  @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
   @Select(PaginatorState.directionsPerPage)
   directionsPerPage$: Observable<number>;
   @Select(AdminState.filteredDirections)
