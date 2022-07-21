@@ -27,6 +27,7 @@ export enum ModalConfirmationType {
   createProviderAdminDeputy = 'createProviderAdminDeputy',
   unBlockParent = 'unBlockParent',
   blockParent = 'blockParent',
+  reject = 'reject',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -56,6 +57,7 @@ export enum ModalConfirmationTitle {
   createProviderAdminDeputy = 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА',
   unBlockParent = 'РОЗБЛОКУВАТИ КОРИСТУВАЧА',
   blockParent = 'ЗАБЛОКУВАТИ КОРИСТУВАЧА',
+  reject = 'ВІДМОВИТИ',
 }
 
 export enum ModalConfirmationText {
@@ -78,7 +80,7 @@ export enum ModalConfirmationText {
   leaveWorkshop = 'Ви впевнені, що хочете залишити гурток',
   leavePage = 'Ви впевнені, що хочете залишити сторінку?',
   leaveRegistration = 'Ви впевнені, що хочете перервати реєстрацію? Ви зможете повернутися до неї пізніше',
-  rate = 'Поставте будь ласка оцінку цьому гуртку', 
+  rate = 'Поставте будь ласка оцінку цьому гуртку',
   createApplication = 'Ви впевнені, що хочете подати заявку у гурток',
   createAchievement = 'Ви впевнені, що хочете додати досягнення?',
   approveApplication = 'Ви впевнені, що хочете перевести заявку в статус "Зарахувати"?',
@@ -87,4 +89,10 @@ export enum ModalConfirmationText {
   createProviderAdminDeputy = 'Ви впевнені, що хочете додати заступника директора?',
   unBlockParent = 'Ви впевнені, що хочете розблокувати користувача?',
   blockParent = 'Ви впевнені, що хочете заблокувати користувача?',
+  reject = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?',
+}
+
+export enum ModalConfirmationDescription {
+  blockParent = 'Вкажіть причину блокування',
+  reject = 'Вкажіть причину відмови',
 }

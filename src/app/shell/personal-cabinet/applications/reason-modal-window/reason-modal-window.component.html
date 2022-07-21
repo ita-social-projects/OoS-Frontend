@@ -1,10 +1,10 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <h2 mat-dialog-title>{{ modalTitle }}</h2>
-  <p class="confirmation"> {{ modalDescription }}</p>
+  <p class="confirmation"> {{ modalConfirmationText }}</p>
 
   <form fxLayout="column" class="reject-form">
 
-    <label class="step-label"> Вкажіть причину відмови <span class="step-required">*</span></label>
+    <label class="step-label"> {{ modalConfirmationDescription }} <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
       <textarea matInput ng-focus="updateValue()" ng-blur="updateValue()" class="step-textarea"
         placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів" [formControl]="ReasonFormControl"

@@ -40,7 +40,6 @@ import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from '../shell/personal-cabinet/provider/create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
-import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NotificationsComponent } from './components/notifications/notifications.component';
@@ -55,7 +54,6 @@ import { ProviderInfoComponent } from './components/provider-info/provider-info.
 import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
-import { BlockModalWindowComponent } from './components/block-modal-window/block-modal-window.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
@@ -101,7 +99,6 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
-    RejectModalWindowComponent,
     ImageCarouselComponent,
     NotificationsComponent,
     NotificationsListComponent,
@@ -115,7 +112,6 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
-    BlockModalWindowComponent,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
@@ -183,7 +179,6 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
-    BlockModalWindowComponent,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
