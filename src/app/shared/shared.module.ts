@@ -46,7 +46,6 @@ import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './components/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
-import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NotificationsComponent } from './components/notifications/notifications.component';
@@ -62,7 +61,7 @@ import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.p
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
 import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
-import { BlockModalWindowComponent } from './components/block-modal-window/block-modal-window.component';
+import { BlockModalWindowComponent } from '../shell/personal-cabinet/applications/block-modal-window/block-modal-window.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
@@ -114,7 +113,6 @@ import { LoginComponent } from './components/login/login.component';
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
-    RejectModalWindowComponent,
     ImageCarouselComponent,
     NotificationsComponent,
     NotificationsListComponent,

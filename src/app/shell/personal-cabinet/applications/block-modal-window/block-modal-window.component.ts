@@ -1,9 +1,9 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ModalConfirmationText, ModalConfirmationTitle} from '../../enum/modal-confirmation';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType} from '../../../../shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-block-modal-window',
@@ -15,18 +15,31 @@ export class BlockModalWindowComponent {
   readonly validationConstants= ValidationConstants;
 
   @Input() application: Application;
+  modalTitle: string;
+  modalConfirmationText: string;
+  modalConfirmationDescription: string;
+  readonly modalConfirmationType = ModalConfirmationType;
 
   ReasonFormControl= new FormControl('', [
     Validators.required,
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
     Validators.minLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
   ]);
-  modalTitle = ModalConfirmationTitle.blockParent;
-  modalDescription = ModalConfirmationText.blockParent;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: {
+      type: string,
+      property: string
+    },
     private dialogRef: MatDialogRef<BlockModalWindowComponent>,
     ) {}
+
+  ngOnInit(): void {
+    this.modalTitle = ModalConfirmationTitle[this.data.type];
+    this.modalConfirmationText = ModalConfirmationText[this.data.type];
+    this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
+
+  }
 
   onCancel(): void {
     this.dialogRef.close();

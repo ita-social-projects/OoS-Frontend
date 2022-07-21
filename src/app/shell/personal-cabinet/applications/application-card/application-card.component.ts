@@ -19,10 +19,9 @@ import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { RejectModalWindowComponent } from 'src/app/shared/components/reject-modal-window/reject-modal-window.component';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { BlockModalWindowComponent } from 'src/app/shared/components/block-modal-window/block-modal-window.component';
+import { BlockModalWindowComponent } from 'src/app/shell/personal-cabinet/applications/block-modal-window/block-modal-window.component';
 import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -93,7 +92,8 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onReject(application: Application): void {
-    const dialogRef = this.matDialog.open(RejectModalWindowComponent, {});
+    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {
+      data: {type: ModalConfirmationType.reject }});
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         application.rejectionMessage = result;
@@ -107,7 +107,8 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onBlock(): void {
-    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {});
+    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {
+      data: {type: ModalConfirmationType.blockParent }});
     dialogRef.afterClosed().subscribe((result: string)  => {
       if(result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
