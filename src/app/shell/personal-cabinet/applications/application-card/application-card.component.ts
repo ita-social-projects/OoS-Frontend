@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { BlockModalWindowComponent } from 'src/app/shell/personal-cabinet/applications/block-modal-window/block-modal-window.component';
+import { ReasonModalWindowComponent } from 'src/app/shell/personal-cabinet/applications/reason-modal-window/reason-modal-window.component';
 import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -92,7 +92,7 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onReject(application: Application): void {
-    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {
+    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
       data: {type: ModalConfirmationType.reject }});
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -107,7 +107,7 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onBlock(): void {
-    const dialogRef = this.matDialog.open(BlockModalWindowComponent, {
+    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
       data: {type: ModalConfirmationType.blockParent }});
     dialogRef.afterClosed().subscribe((result: string)  => {
       if(result) {

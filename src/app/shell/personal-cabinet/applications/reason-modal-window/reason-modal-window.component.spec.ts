@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BlockModalWindowComponent } from './block-modal-window.component';
+import { ReasonModalWindowComponent } from './reason-modal-window.component';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,9 +8,9 @@ import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalConfirmationText, ModalConfirmationTitle } from '../../../../shared/enum/modal-confirmation';
 
-describe('BlockModalWindowComponent', () => {
-  let component: BlockModalWindowComponent;
-  let fixture: ComponentFixture<BlockModalWindowComponent>;
+describe('ReasonModalWindowComponent', () => {
+  let component: ReasonModalWindowComponent;
+  let fixture: ComponentFixture<ReasonModalWindowComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,7 +23,7 @@ describe('BlockModalWindowComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
-        BlockModalWindowComponent,
+        ReasonModalWindowComponent,
         MockValidationHintForInputComponent
       ],
       providers: [
@@ -35,7 +35,7 @@ describe('BlockModalWindowComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BlockModalWindowComponent);
+    fixture = TestBed.createComponent(ReasonModalWindowComponent);
     component = fixture.componentInstance;
     component.ReasonFormControl = new FormControl({ value: 'Reason', disabled: true }, Validators.required)
     fixture.detectChanges();

@@ -13,6 +13,7 @@ import { ApplicationCardComponent } from './applications/application-card/applic
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProviderAdminsComponent } from './provider/provider-admins/provider-admins.component';
 import { InfoStatusComponent } from '../../shared/components/info-status/info-status.component';
+import { ReasonModalWindowComponent } from './applications/reason-modal-window/reason-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { InfoStatusComponent } from '../../shared/components/info-status/info-st
     UserConfigEditComponent,
     ProviderAdminsComponent,
     InfoStatusComponent,
+    ReasonModalWindowComponent,
   ],
   imports: [
     CommonModule,

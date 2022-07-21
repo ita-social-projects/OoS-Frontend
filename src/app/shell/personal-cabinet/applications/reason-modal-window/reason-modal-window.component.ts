@@ -6,11 +6,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType} from '../../../../shared/enum/modal-confirmation';
 
 @Component({
-  selector: 'app-block-modal-window',
-  templateUrl: './block-modal-window.component.html',
-  styleUrls: ['./block-modal-window.component.scss']
+  selector: 'app-reason-modal-window',
+  templateUrl: './reason-modal-window.component.html',
+  styleUrls: ['./reason-modal-window.component.scss']
 })
-export class BlockModalWindowComponent {
+export class ReasonModalWindowComponent {
 
   readonly validationConstants= ValidationConstants;
 
@@ -31,14 +31,13 @@ export class BlockModalWindowComponent {
       type: string,
       property: string
     },
-    private dialogRef: MatDialogRef<BlockModalWindowComponent>,
+    private dialogRef: MatDialogRef<ReasonModalWindowComponent>,
     ) {}
 
   ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];
     this.modalConfirmationText = ModalConfirmationText[this.data.type];
     this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
-
   }
 
   onCancel(): void {
