@@ -19,7 +19,7 @@ export enum cardType {
 
 export enum RoleLinks {
   provider = 'заклад',
-  parent = 'дитину'
+  parent = 'дітей'
 }
 
 export enum EntityType {
