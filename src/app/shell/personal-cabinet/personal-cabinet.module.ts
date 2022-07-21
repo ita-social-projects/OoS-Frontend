@@ -9,13 +9,11 @@ import { UserConfigEditComponent } from './shared-cabinet/user-config/user-confi
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SharedCabinetModule } from './shared-cabinet/shared-cabinet.module';
 import { ReasonModalWindowComponent } from './applications/reason-modal-window/reason-modal-window.component';
-import { InfoStatusComponent } from './shared-cabinet/applications/application-card/info-status/info-status.component';
 
 @NgModule({
   declarations: [
     UserConfigComponent,
     UserConfigEditComponent,
-    InfoStatusComponent,
     ReasonModalWindowComponent,
   ],
   imports: [
