@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 import { UsersComponent } from './users.component';
 
@@ -32,6 +33,7 @@ describe('UsersComponent', () => {
         UsersComponent,
         MockUsersListComponent,
         NoResultCardComponent,
+        MockListAdminChildrenPaginatorComponent
        ]
     })
     .compileComponents();
@@ -57,3 +59,15 @@ class MockUsersListComponent {
   @Input() filterValue: string;
   @Input() displayedColumns: string[];
 }
+
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+
+class MockListAdminChildrenPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+}
+
