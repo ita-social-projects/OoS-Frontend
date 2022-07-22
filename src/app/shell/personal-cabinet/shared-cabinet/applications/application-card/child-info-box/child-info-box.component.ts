@@ -13,22 +13,20 @@ import { Util } from '../../../../../../shared/utils/utils';
   styleUrls: ['./child-info-box.component.scss']
 })
 export class ChildInfoBoxComponent implements OnInit {
+  readonly gender = Gender;
+  readonly constants: typeof Constants = Constants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
-  constructor(private childrenService: ChildrenService, private detectedDevice: DetectedDeviceService) { }
+  constructor(private detectedDevice: DetectedDeviceService) { }
 
   @Input() child: Child;
+  
   isMobile = false
   childAge: string;
   childFullName: string;
   parentFullName: string;
   parentPhoneNumber: string;
   parentEmail: string;
-
-  readonly gender = Gender;
-  readonly constants: typeof Constants = Constants;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
-
-
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.child);
