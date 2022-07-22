@@ -29,7 +29,8 @@ describe('ChildInfoBoxComponent', () => {
     fixture = TestBed.createComponent(ChildInfoBoxComponent);
     component = fixture.componentInstance;
     component.child = {
-      parent: {}
+      parent: {},
+      socialGroups: []
     } as Child;
     fixture.detectChanges();
   });
