@@ -1,11 +1,7 @@
 import { ParentWithContactInfo } from './parent.model';
-<<<<<<< Updated upstream
 import { Person } from './user.model';
-export class Child implements Person {
-=======
 import { SocialGroup } from './socialGroup.model';
-export class Child {
->>>>>>> Stashed changes
+export class Child implements Person {
   id: string;
   firstName: string;
   lastName: string;
