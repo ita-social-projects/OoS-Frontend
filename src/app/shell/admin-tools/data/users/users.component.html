@@ -40,12 +40,12 @@
         (blockAdmin)="onBlock($event)" [displayedColumns]="displayedColumns"></app-users-list>
       </div>
       <app-paginator
-      [totalEntities]="totalEntities"
-      [currentPage]="currentPage"
-      [itemsPerPage]="childrensPerPage$ | async"
-      (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)">
-    </app-paginator>
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="childrensPerPage$ | async"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
     </ng-container>
   </ng-container>
 </ng-template>

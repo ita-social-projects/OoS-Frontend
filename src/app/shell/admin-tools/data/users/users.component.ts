@@ -35,8 +35,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
 
-
-
   filterFormControl = new FormControl('');
   filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -60,8 +58,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         startWith(''),
         debounceTime(2000),
-        map((value: string)=> value.trim())
-        )
+        map((value: string)=> value.trim()))
       .subscribe((searchString:string)=> this.store.dispatch(new GetChildrenForAdmin(searchString)));
 
     this.children$

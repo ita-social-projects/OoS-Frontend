@@ -37,8 +37,6 @@ export class PaginatorState {
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
-
-
   constructor() { }
 
   @Action(SetWorkshopsPerPage)
