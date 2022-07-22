@@ -1,26 +1,28 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { Constants } from 'src/app/shared/constants/constants'
 import { Util } from 'src/app/shared/utils/utils';
 import { DATE_REGEX } from 'src/app/shared/constants/regex-constants'
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-child-form',
   templateUrl: './child-form.component.html',
   styleUrls: ['./child-form.component.scss'],
 })
-export class ChildFormComponent implements OnInit, OnChanges {
+export class ChildFormComponent {
   readonly validationConstants = ValidationConstants;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
+  public selectedSocialGroups: SocialGroup[] = [];
+
   @Input() ChildFormGroup: FormGroup;
-  @Input() validationFormControl: FormControl = new FormControl();
   @Input() index: number;
   @Input() childrenAmount: number;
   @Input() socialGroups: SocialGroup[];
-  @Input() isTouched: boolean;
 
   @Output() deleteForm = new EventEmitter();
 
@@ -28,41 +30,54 @@ export class ChildFormComponent implements OnInit, OnChanges {
   maxDate: Date = Util.getMaxBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  constructor() { }
-
-  ngOnInit(): void { }
-
-  onRemoveItem(item: string, control): void {
-    let items = this.ChildFormGroup.controls[control].value;
-    if (items.indexOf(item) >= 0) {
-      items.splice(items.indexOf(item), 1);
-      if (items.length !== 0) {
-        this.ChildFormGroup.get(control).setValue([...items]);
+  onRemoveItem(item: string): void {
+    const items = this.selectedSocialGroups;
+    if (items[item] >= 0) {
+      items.splice(items[item], 1);
+      if (items.length) {
+        this.selectedSocialGroups = [...items];
       } else {
-        this.ChildFormGroup.get(control).setValue(null);
+        this.selectedSocialGroups = [];
       }
     }
   }
 
-  checkGroupSelection(name?: string): any {
-    let isDisabled = false
-    if (this.ChildFormGroup.controls['socialGroupId'].value && this.ChildFormGroup.controls['socialGroupId'].value.length !== 0) {
-      this.ChildFormGroup.controls['socialGroupId'].value.forEach(element => {
-        if (element === 'Відсутня') {
-          this.ChildFormGroup.controls['socialGroupId'].value.splice(1)
-          isDisabled = true
-        } else if (element === name) {
-          isDisabled = true
+  checkGroupSelection(group: SocialGroup): boolean {
+    let isDisabled = false;
+    if (this.selectedSocialGroups && this.selectedSocialGroups.length) {
+      this.selectedSocialGroups.forEach((element: SocialGroup) => {
+        if (element.name === 'Відсутня') {
+          isDisabled = group.name !== 'Відсутня';
         }
       })
     }
-    return isDisabled
+    return isDisabled;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.isTouched) {
-      (<EventEmitter<any>>this.validationFormControl.statusChanges).emit();
-    }
+  onSelectChange(event: MatSelectChange): any {
+    this.selectedSocialGroups = [...event.value];
+    this.selectedSocialGroups.forEach((element, index) => {
+      if (element.name === 'Відсутня') {
+        this.selectedSocialGroups = [];
+        this.selectedSocialGroups = [...this.selectedSocialGroups, element];
+        const matSelect: MatSelect = event.source;
+        console.log(matSelect.value)
+        matSelect.writeValue([{...element}]); 
+        console.log(matSelect.value)
+      }
+    })
+    // if (this.selectedSocialGroups.values.name.includes('Відсутня')) {
+    //   this.selectedSocialGroups = [];
+    //   this.selectedSocialGroups = [...event.value];
+    // } else {
+    //   // this.selectedSocialGroups.splice(this.selectedSocialGroups.indexOf(event.value), 1);
+    // }
+    this.ChildFormGroup.get('socialGroups').setValue(this.selectedSocialGroups);
+    console.log(event);
+  }
+  
+  show(): void {
+    console.log(this.selectedSocialGroups)
   }
 
   onDelete(): void {

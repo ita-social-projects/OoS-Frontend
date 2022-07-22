@@ -1,8 +1,8 @@
 import { AdminTabsTitle } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { CompanyInformation } from '../../models/сompanyInformation.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CompanyInformation } from '../../models/сompanyInformation.model';
 
 @Injectable({
   providedIn: 'root'

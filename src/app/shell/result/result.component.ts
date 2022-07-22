@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/store/navigation.actions';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -46,8 +46,8 @@ export class ResultComponent implements OnInit, OnDestroy {
   currentPage$: Observable<number>;
   currentPage: number;
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
-  visibleFiltersSidenav: boolean;
+  isFiltersSidenavOpen$: Observable<boolean>;
+  isFiltersSidenavOpen: boolean;
 
   currentView: ViewType = ViewType.data;
   viewType = ViewType;
@@ -63,26 +63,17 @@ export class ResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.addNavPath();
-    combineLatest([
-      this.isMobileView$, 
-      this.role$, 
-      this.route.params, 
-      this.filtersSidenavOpenTrue$, 
-      this.currentPage$, 
-      this.workshopsPerPage$
-    ])
+    this.getWorkshops();
+    this.setInitialSubscribtions();
+  }
+
+  private setInitialSubscribtions(): void {
+    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.workshopsPerPage$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([
-        isMobileView, 
-        role, params, 
-        visibleFiltersSidenav, 
-        currentPage, 
-        workshopsPerPage
-      ]) => {
+      .subscribe(([isMobileView, role, params, currentPage, workshopsPerPage]) => {
         this.isMobileView = isMobileView;
         this.role = role;
         this.currentView = params.param;
-        this.visibleFiltersSidenav = visibleFiltersSidenav;
         this.currentPage = currentPage;
         this.workshopsPerPage = workshopsPerPage;
         if (!this.isMobileView) {
@@ -90,18 +81,25 @@ export class ResultComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.isFiltersSidenavOpen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
+
+    this.actions$
+      .pipe(ofActionCompleted(FilterChange))
+      .pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() =>
+        this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
+      );
+  }
+
+  private getWorkshops(): void {
+    this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
       if (event.navigationTrigger === 'popstate') {
         this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
       }
     });
-
-    this.actions$
-      .pipe(ofAction(FilterChange))
-      .pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe(() =>
-        this.store.dispatch([new SetFirstPage(), new GetFilteredWorkshops(this.currentView === this.viewType.map)])
-      );
   }
 
   private addNavPath(): void {
@@ -128,7 +126,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   filterHandler(): void {
-    this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
+    this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
   }
 
   ngOnDestroy(): void {

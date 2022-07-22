@@ -1,6 +1,7 @@
 import { Department, Direction, IClass } from "../models/category.model";
-import { CompanyInformation } from "../models/сompanyInformation.model";
+
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -33,7 +34,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';

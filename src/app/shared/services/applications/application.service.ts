@@ -1,3 +1,5 @@
+import { ApplicationStatus } from './../../enum/applications';
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
@@ -11,23 +13,30 @@ import { Store } from '@ngxs/store';
 export class ApplicationService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(parameters): HttpParams {
+  private setParams(parameters: ApplicationParameters): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
-      if (parameters.status) {
-        params = params.set('Status', parameters.status);
+      if (parameters.statuses.length) {
+        parameters.statuses.forEach((status: ApplicationStatus) => (params = params.append('Statuses', status)));
       }
 
-      if (parameters.workshopsId.length) {
-        parameters.workshopsId.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
+      if (parameters.workshops.length) {
+        parameters.workshops.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
       }
 
-      params = params.set('ShowBlocked', parameters.showBlocked);
+      if (parameters.children.length) {
+        parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
+      }
+
+      params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const size: number = parameters.size ?
+      parameters.size :
+      this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+
     const from: number = size * (+currentPage.element - 1);
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
@@ -39,7 +48,7 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id string
    */
-  getApplicationsByParentId(id: string, parameters): Observable<ApplicationCards> {
+  getApplicationsByParentId(id: string, parameters: ApplicationParameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
     return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
@@ -51,7 +60,7 @@ export class ApplicationService {
   getApplicationsByProviderId(id: string, parameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
+    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
   }
 
   /**

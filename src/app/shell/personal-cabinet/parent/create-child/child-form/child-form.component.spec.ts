@@ -49,7 +49,7 @@ describe('ChildFormComponent', () => {
       middleName: new FormControl(''),
       dateOfBirth: new FormControl(''),
       gender: new FormControl(''),
-      socialGroupId: new FormControl(''),
+      socialGroups: new FormControl(''),
       placeOfStudy: new FormControl(''),
       placeOfLiving: new FormControl(''),
       certificateOfBirth: new FormControl('')
@@ -69,9 +69,7 @@ describe('ChildFormComponent', () => {
 })
 
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
-  @Input() isTouched: boolean;
 }
