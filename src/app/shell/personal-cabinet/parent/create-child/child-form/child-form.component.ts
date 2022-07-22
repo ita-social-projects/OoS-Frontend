@@ -17,6 +17,8 @@ export class ChildFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
+  private readonly NONE_SOCIAL_GROUP_ID = 6;
+
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
@@ -52,8 +54,8 @@ export class ChildFormComponent implements OnInit {
     if (!this.socialGroupControl.value.length) {
       return false;
     } else {
-      const isNoneValueSelected = this.socialGroupControl.value.some((group: SocialGroup) => group.id === 6);
-      return option.id === 6 ? !isNoneValueSelected : isNoneValueSelected;
+      const isNoneValueSelected = this.socialGroupControl.value.some((group: SocialGroup) => group.id === this.NONE_SOCIAL_GROUP_ID);
+      return option.id === this.NONE_SOCIAL_GROUP_ID ? !isNoneValueSelected : isNoneValueSelected;
     }
   }
 
