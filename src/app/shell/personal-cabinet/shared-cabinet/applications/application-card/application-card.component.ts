@@ -21,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { ReasonModalWindowComponent } from 'src/app/shell/personal-cabinet/applications/reason-modal-window/reason-modal-window.component';
+import { ReasonModalWindowComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
 import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
