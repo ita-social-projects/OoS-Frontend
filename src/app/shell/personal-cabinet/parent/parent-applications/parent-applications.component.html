@@ -1,0 +1,9 @@
+<app-applications
+  [applicationParams]="applicationParams"
+  [declination]="ChildDeclination"
+  [dropdownEntities]="(childrenCards$ | async)?.entities"
+  [role]="role"
+  (enititiesSelect)="onEntitiesSelect($event)"
+  (getApplications)="onGetApplications()"
+  (leave)="onLeave($event)">
+</app-applications>

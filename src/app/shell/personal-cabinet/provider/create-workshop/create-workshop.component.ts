@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
+import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
@@ -15,7 +16,8 @@ import { UserWorkshopService } from 'src/app/shared/services/workshops/user-work
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
-import { CreateFormComponent } from '../../create-form/create-form.component';
+import { Util } from 'src/app/shared/utils/utils';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-workshop',
@@ -58,9 +60,26 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: PersonalCabinetTitle.provider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
-      { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true })));
+    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: personalCabinetTitle,
+            path: '/personal-cabinet/provider/administration',
+            isActive: false,
+            disable: false,
+          },
+          { 
+            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, 
+            isActive: false, 
+            disable: true 
+          }
+        )
+      )
+    );
   }
 
   setEditMode(): void {
