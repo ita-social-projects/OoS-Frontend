@@ -213,7 +213,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         this.store.dispatch(new UpdateChild(child));
       } else {
         this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-          console.log(form)
           const child: Child = new Child(form.value, parent.id);
           this.store.dispatch(new CreateChildren(child));
         });
