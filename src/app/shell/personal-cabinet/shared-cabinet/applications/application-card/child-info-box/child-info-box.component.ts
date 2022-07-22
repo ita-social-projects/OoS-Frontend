@@ -18,7 +18,6 @@ export class ChildInfoBoxComponent implements OnInit {
 
   @Input() child: Child;
   isMobile = false
-  socialGroup: SocialGroup;
   childAge: string;
   childFullName: string;
   parentFullName: string;
@@ -32,12 +31,6 @@ export class ChildInfoBoxComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.socialGroup) {
-      // this.childrenService.getSocialGroupById(this.child.socialGroups).subscribe(socialGroup => this.socialGroup = socialGroup);
-    } else {
-      this.socialGroup === null;
-    }
-
     this.childAge = Util.getChildAge(this.child);
     this.isMobile = this.detectedDevice.checkedDevice();
     this.parentFullName = Util.getFullName(this.child.parent);
