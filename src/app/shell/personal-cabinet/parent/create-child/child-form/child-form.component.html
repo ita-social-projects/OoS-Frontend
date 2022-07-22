@@ -6,7 +6,7 @@
   [ngClass]="childrenAmount > 1 ? 'step-border' : ''">
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
+    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue >
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('lastName')"
@@ -16,7 +16,7 @@
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue />
+    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue >
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('firstName')"
@@ -26,7 +26,7 @@
 
   <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
+    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue >
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('middleName')"
@@ -78,7 +78,11 @@
           </mat-chip>
         </mat-chip-list>
       </mat-select-trigger>
-      <mat-option class="dropdown-option" *ngFor="let group of socialGroups" [value]="group" [disabled]="checkDisabled(group)">
+      <mat-option
+        class="dropdown-option"
+        *ngFor="let group of socialGroups"
+        [value]="group"
+        [disabled]="checkDisabled(group)">
         {{ group.name }}
       </mat-option>
     </mat-select>
@@ -86,7 +90,7 @@
 
   <label class="step-label">Місце проживання</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue />
+    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue >
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
@@ -96,7 +100,7 @@
 
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue />
+    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue >
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
