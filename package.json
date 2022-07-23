@@ -32,7 +32,6 @@
     "@ngxs/store": "^3.7.1",
     "@types/leaflet": "1",
     "angular-auth-oidc-client": "^11.5.0",
-    "angular-read-more": "^1.0.7",
     "angular-responsive-carousel": "^2.1.2",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.7.1",

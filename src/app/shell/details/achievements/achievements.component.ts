@@ -3,15 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
+import { GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -48,23 +45,21 @@ export class AchievementsComponent implements OnInit {
   }  
 
   private getAchievements(): void {
-    if (this.workshop) {
-      this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
-    }
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }  
 
-  onDelete(achievement: Achievement): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.deleteAchievement,
-      }
-    });
+  // onDelete(achievement: Achievement): void {
+  //   const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+  //     width: Constants.MODAL_SMALL,
+  //     data: {
+  //       type: ModalConfirmationType.deleteAchievement,
+  //     }
+  //   });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result: boolean) => {
+  //     (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
+  //   });
+  // } TODO
 
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();
