@@ -10,10 +10,14 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { CreateAchievement, GetChildrenByWorkshopId, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
+import { CreateAchievement, 
+  GetChildrenByWorkshopId, 
+  GetWorkshopById, 
+  ResetProviderWorkshopDetails } 
+  from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Child } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Person } from 'src/app/shared/models/user.model';
 import { Util } from 'src/app/shared/utils/utils';
 
@@ -25,7 +29,7 @@ import { Util } from 'src/app/shared/utils/utils';
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
-  @Select(UserState.approvedChildren) approvedChildren$: Observable<Child[]>;
+  @Select(UserState.approvedChildren) approvedChildren$: Observable<ChildCards>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
@@ -33,7 +37,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievement: Achievement;
   workshopId: string;
   achievements = AchievementsTitle;
-  approvedChildren: Child[];
+  approvedChildren: ChildCards;
 
   constructor(
     private store: Store,
@@ -72,7 +76,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     .pipe(
       takeUntil(this.destroy$),
       filter((approvedChildren) => !!approvedChildren)
-    ).subscribe((approvedChildren: Child[]) => this.approvedChildren = approvedChildren);
+    ).subscribe((approvedChildren: ChildCards) => this.approvedChildren = approvedChildren);
   } 
 
   onSubmit(): void {
