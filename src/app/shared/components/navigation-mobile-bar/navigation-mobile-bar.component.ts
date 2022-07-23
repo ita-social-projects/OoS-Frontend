@@ -1,4 +1,4 @@
-import { Navigation } from './../../models/navigation.model';
+import { Navigation } from '../../models/navigation.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
