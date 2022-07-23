@@ -120,18 +120,11 @@ export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload: number) { }
 }
-export class FilterChange {
-  static readonly type = '[admin] Filter Change';
-  constructor() { }
-}
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
   constructor(public payload?: string) { }
 }
-export class FilterClear {
-  static readonly type = '[filter] Filter Clear';
-  constructor() { }
-}
+
 export class CreateClass {
   static readonly type = '[admin] create Class';
   constructor(public payload: IClass[]) { }

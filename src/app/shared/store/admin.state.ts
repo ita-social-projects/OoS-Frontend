@@ -23,8 +23,6 @@ import {
   DeleteClassById,
   DeleteDepartmentById,
   DeleteDirectionById,
-  FilterChange,
-  FilterClear,
   GetAboutPortal,
   GetAllProviders,
   GetChildren,
@@ -72,7 +70,6 @@ export interface AdminStateModel {
   department: Department;
   departments: Department[];
   selectedDirection: Direction;
-  searchQuery: string;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
@@ -88,7 +85,6 @@ export interface AdminStateModel {
     department: null,
     departments: null,
     isLoading: false,
-    searchQuery: '',
     filteredDirections: undefined,
     selectedDirection: null,
     children: null,
@@ -113,8 +109,6 @@ export class AdminState {
   @Selector() static department(state: AdminStateModel): Department { return state.department; }
 
   @Selector() static departments(state: AdminStateModel): Department [] { return state.departments; }
-
-  @Selector() static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
 
   @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
 
@@ -402,7 +396,6 @@ export class AdminState {
         tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
-
   @Action(GetFilteredDirections)
   getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections) {
     patchState({ isLoading: true });
@@ -412,12 +405,6 @@ export class AdminState {
       () => patchState({ isLoading: false, direction: null })));
   }
 
-    @Action(FilterClear)
-    filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
-    patchState({
-      searchQuery: '',
-    });
-  }
   @Action(DeleteDepartmentById)
   deleteDepartmentById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDepartmentById): Observable<object> {
     return this.categoriesService

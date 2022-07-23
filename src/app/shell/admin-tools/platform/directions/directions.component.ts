@@ -11,20 +11,19 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import {
-  DeleteDirectionById,
-  FilterClear,
-  GetFilteredDirections,
-} from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { Constants } from 'src/app/shared/constants/constants';
 import { PopNavPath } from 'src/app/shared/store/navigation.actions';
-
+import {
+  DeleteDirectionById,
+  GetFilteredDirections,
+} from 'src/app/shared/store/admin.actions';
 @Component({
   selector: 'app-directions',
   templateUrl: './directions.component.html',
   styleUrls: ['./directions.component.scss'],
 })
+
 export class DirectionsComponent implements OnInit, OnDestroy {
   readonly noDirections = NoResultsTitle.noDirections;
 
@@ -44,7 +43,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.store.dispatch([new FilterClear(), new GetFilteredDirections()]);
+    this.store.dispatch(new GetFilteredDirections());
     this.filterFormControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
