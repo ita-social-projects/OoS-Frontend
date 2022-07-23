@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReasonModalWindowComponent } from './reason-modal-window.component';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ModalConfirmationText, ModalConfirmationTitle } from '../../../../shared/enum/modal-confirmation';
+import { ReasonModalWindowComponent } from './reason-modal-window.component';
 
 describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;
