@@ -31,6 +31,9 @@ export class ApplicationService {
 
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
+    params = params.set('OrderByDateAscending', 'true');
+    params = params.set('OrderByAlphabetically', 'true');
+    params = params.set('OrderByStatus', 'true');
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = parameters.size ?
