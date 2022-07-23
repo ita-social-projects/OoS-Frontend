@@ -9,7 +9,7 @@ import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Location } from '@angular/common';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';

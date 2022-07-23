@@ -9,8 +9,8 @@
   </app-paginator>
 </ng-container>
 
+
 <ng-template #isEmptyList>
-  <div class="empty-list-wrapper">
-    <p class="text">{{noFavoriteWorkshops}}</p>
-  </div>
+  <app-no-result-card [title]="noFavoriteWorkshops"></app-no-result-card>
 </ng-template>
+

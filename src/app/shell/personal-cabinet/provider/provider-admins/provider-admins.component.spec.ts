@@ -14,6 +14,7 @@ import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProviderAdminsFilterPipe } from 'src/app/shared/pipes/provider-admins-filter.pipe';
 import { ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
+import { Role } from 'src/app/shared/enum/role';
 
 describe('ProviderAdminsComponent', () => {
   let component: ProviderAdminsComponent;
@@ -47,7 +48,7 @@ describe('ProviderAdminsComponent', () => {
     fixture = TestBed.createComponent(ProviderAdminsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.subrole = '' as string;
+    component.subRole = Role.provider;
   });
 
   it('should create', () => {
