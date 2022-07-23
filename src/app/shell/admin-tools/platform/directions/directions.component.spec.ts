@@ -34,7 +34,7 @@ describe('DirectionsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         DirectionsComponent,
-        MockListChildCardPaginatorComponent,
+        MockDirectionsPaginatorComponent,
         MockAllCategoriesCardComponent,
       ]
     })
@@ -62,7 +62,7 @@ class MockAllCategoriesCardComponent {
   selector: 'app-paginator',
   template: ''
 })
-class MockListChildCardPaginatorComponent {
+class MockDirectionsPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
 }
