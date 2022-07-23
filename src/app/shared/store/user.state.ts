@@ -1,5 +1,4 @@
 import { Constants } from 'src/app/shared/constants/constants';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -96,7 +95,7 @@ import {
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
   GetChildrenByWorkshopId,  
-  OnClearBlockedParents
+  OnClearBlockedParents,
   GetProviderAdminWorkshops,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
