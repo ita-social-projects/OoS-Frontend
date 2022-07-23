@@ -1,4 +1,21 @@
 import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import { Observable, of, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
+import { CategoriesService } from "../services/categories/categories.service";
+import { ChildCards } from "../models/child.model";
+import { ChildrenService } from '../services/children/children.service';
+import { CompanyInformation } from "../models/сompanyInformation.model";
+import { Injectable } from "@angular/core";
+import { Parent } from "../models/parent.model";
+import { ParentService } from '../services/parent/parent.service';
+import { PlatformService } from '../services/platform/platform.service';
+import { Provider } from '../models/provider.model';
+import { ProviderService } from '../services/provider/provider.service';
+import { Router } from "@angular/router";
 import {
   CreateClass,
   CreateDepartment,
@@ -40,30 +57,11 @@ import {
   OnUpdateDirectionSuccess,
   OnUpdatePlatformInfoFail,
   OnUpdatePlatformInfoSuccess,
-  SetSearchQueryValue,
   UpdateClass,
   UpdateDepartment,
   UpdateDirection,
   UpdatePlatformInfo,
 } from "./admin.actions";
-import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-
-import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
-import { CategoriesService } from "../services/categories/categories.service";
-import { ChildCards } from "../models/child.model";
-import { ChildrenService } from '../services/children/children.service';
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { Injectable } from "@angular/core";
-import { Parent } from "../models/parent.model";
-import { ParentService } from '../services/parent/parent.service';
-import { PlatformService } from '../services/platform/platform.service';
-import { Provider } from '../models/provider.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { Router } from "@angular/router";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -404,21 +402,12 @@ export class AdminState {
         tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
-  @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
-    patchState({ searchQuery: payload });
-    dispatch(new FilterChange());
-  }
-
-  @Action(FilterChange)
-  filterChange({ }: StateContext<AdminStateModel>, { }: FilterChange) { }
 
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections) {
     patchState({ isLoading: true });
-    const state: AdminStateModel = getState();
     return this.categoriesService
-      .getFilteredDirections( state)
+      .getFilteredDirections(payload)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
       () => patchState({ isLoading: false, direction: null })));
   }

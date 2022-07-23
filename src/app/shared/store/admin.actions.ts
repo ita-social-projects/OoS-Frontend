@@ -124,13 +124,9 @@ export class FilterChange {
   static readonly type = '[admin] Filter Change';
   constructor() { }
 }
-export class SetSearchQueryValue {
-  static readonly type = '[admin] Set Search Quesry Value';
-  constructor(public payload: string) { }
-}
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
-  constructor() { }
+  constructor(public payload?: string) { }
 }
 export class FilterClear {
   static readonly type = '[filter] Filter Clear';

@@ -3,15 +3,13 @@
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        [formControl]="searchValue"
-        (keyup.enter)="onSearch()" 
+        [formControl]="filterFormControl"
         matInput
         type="text"
         maxlength="200"
         class="search"
         placeholder="Введіть назву напрямку"
       />
-      <mat-icon class="icon" style="transform: rotate(90deg)" (click)="onSearch()">search</mat-icon>
     </div>
   </div>
 

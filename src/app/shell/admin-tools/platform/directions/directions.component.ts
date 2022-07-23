@@ -1,12 +1,11 @@
-import { AdminTabs } from './../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeDirections, SetDirectionsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -16,12 +15,10 @@ import {
   DeleteDirectionById,
   FilterClear,
   GetFilteredDirections,
-  SetSearchQueryValue,
 } from 'src/app/shared/store/admin.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { Constants } from 'src/app/shared/constants/constants';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 
 @Component({
   selector: 'app-directions',
@@ -29,21 +26,15 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
   styleUrls: ['./directions.component.scss'],
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
-  @Input() direction: Direction;
+  readonly noDirections = NoResultsTitle.noDirections;
 
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
-  @Select(AdminState.searchQuery)
-  searchQuery$: Observable<string>;
   @Select(PaginatorState.directionsPerPage)
   directionsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  readonly noDirections = NoResultsTitle.noDirections;
-
-  searchValue = new FormControl('', [Validators.maxLength(200)]);
-  searchedText: string;
+  filterFormControl = new FormControl('', [Validators.maxLength(200)]);
   isEditMode: true;
   currentPage: PaginationElement = {
     element: 1,
@@ -53,26 +44,18 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.store.dispatch([
-      new FilterClear(),
-      new GetFilteredDirections(),
-    ]);
-    this.searchValue.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(1000), distinctUntilChanged(), startWith(''))
-      .subscribe((val: string) => {
-        this.searchedText = val;
-        if (!val) {
-          this.store.dispatch(new SetSearchQueryValue(''));
-        }
+    this.store.dispatch([new FilterClear(), new GetFilteredDirections()]);
+    this.filterFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(),
+        startWith(''),
+        debounceTime(1000),
+        map((searchedText: string) => searchedText.trim())
+      )
+      .subscribe((searchedText: string) => {
+        this.store.dispatch(new GetFilteredDirections(searchedText));
       });
-
-    this.searchQuery$
-      .pipe(debounceTime(1000), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((text: string) => this.searchValue.setValue(text, { emitEvent: false }));
-  }
-
-  onSearch(): void {
-    this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
 
   onPageChange(page: PaginationElement): void {
