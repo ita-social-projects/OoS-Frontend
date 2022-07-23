@@ -175,7 +175,7 @@ export class GetParents {
   constructor() { }
 }
 
-export class GetChildren {
+export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
-  constructor() { }
+  constructor(public payload?: string) { }
 }
