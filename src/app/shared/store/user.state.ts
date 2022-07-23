@@ -356,13 +356,12 @@ export class UserState {
 
   @Action(GetUsersChildren)
   getUsersChildren(
-    { patchState, getState }: StateContext<UserStateModel>,
+    { patchState }: StateContext<UserStateModel>,
     {}: GetUsersChildren
   ): Observable<ChildCards> {
     patchState({ isLoading: true });
-    const state: UserStateModel = getState();
     return this.childrenService
-      .getUsersChildren(state)
+      .getUsersChildren()
       .pipe(
         tap((children: ChildCards) =>
           patchState(

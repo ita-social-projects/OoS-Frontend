@@ -10,7 +10,7 @@ import {
   FilterClear,
   GetAboutPortal,
   GetAllProviders,
-  GetChildren,
+  GetChildrenForAdmin,
   GetDepartmentById,
   GetDirectionById,
   GetFilteredDirections,
@@ -499,11 +499,11 @@ export class AdminState {
         }));
   }
 
-  @Action(GetChildren)
-  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+  @Action(GetChildrenForAdmin)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { payload }: GetChildrenForAdmin): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.childrenService
-      .getChildrenForAdmin()
+      .getChildrenForAdmin( payload )
       .pipe(
         tap((children: ChildCards) => {
           return patchState({ children: children, isLoading: false });
