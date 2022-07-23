@@ -1,7 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { PaginationElement } from "../models/paginationElement.model";
-import { OnPageChangeApplications, OnPageChangeChildrens, OnPageChangeDirections, OnPageChangeWorkshops, SetApplicationsPerPage, SetChildrensPerPage, SetDirectionsPerPage, SetFirstPage, SetWorkshopsPerPage, } from "./paginator.actions";
+import { 
+  OnPageChangeApplications, 
+  OnPageChangeChildrens, 
+  OnPageChangeDirections, 
+  OnPageChangeWorkshops, 
+  SetApplicationsPerPage, 
+  SetChildrensPerPage, 
+  SetDirectionsPerPage, 
+  SetFirstPage, 
+  SetWorkshopsPerPage, 
+  OnPageChangeAdminTable, 
+} from "./paginator.actions";
 
 export interface PaginatorStateModel {
   workshopsPerPage: number;
@@ -81,6 +92,11 @@ export class PaginatorState {
 
   @Action(OnPageChangeApplications)
   onPageChangeApplications({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeApplications): void {
+    patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeAdminTable)
+  onPageChangeAdminTable({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeAdminTable): void {
     patchState({ currentPage: payload });
   }
 }

@@ -120,22 +120,11 @@ export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload: number) { }
 }
-export class FilterChange {
-  static readonly type = '[admin] Filter Change';
-  constructor() { }
-}
-export class SetSearchQueryValue {
-  static readonly type = '[admin] Set Search Quesry Value';
-  constructor(public payload: string) { }
-}
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
-  constructor() { }
+  constructor(public payload?: string) { }
 }
-export class FilterClear {
-  static readonly type = '[filter] Filter Clear';
-  constructor() { }
-}
+
 export class CreateClass {
   static readonly type = '[admin] create Class';
   constructor(public payload: IClass[]) { }
@@ -186,7 +175,7 @@ export class GetParents {
   constructor() { }
 }
 
-export class GetChildren {
+export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
-  constructor() { }
+  constructor(public payload?: string) { }
 }
