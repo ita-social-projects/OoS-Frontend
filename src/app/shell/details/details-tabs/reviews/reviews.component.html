@@ -7,7 +7,7 @@
     <div [matTooltip]="!isApproved ? 'Ви повинні бути прийнятим до даного гуртка' : 'Ви вже оцінили цей гурток'"
       [matTooltipDisabled]="!(this.isRated || !this.isApproved)">
       <button mat-raised-button class="button" (click)="onRate()" *ngIf="role !== Role.provider"
-        [disabled]="this.isRated || !this.isApproved">
+        [disabled]="this.isRated || !this.isApproved || !isAllowedToReview">
         <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
       </button>
     </div>
