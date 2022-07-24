@@ -1,3 +1,4 @@
+import { SharedUserState } from './../shared/store/shared-user.state';
 import { AdminTabs } from './../shared/enum/enumUA/tech-admin/admin-tabs';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -35,6 +36,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showModalReg = false;
   userShortName: string = '';
 
+  @Select(SharedUserState.isLoading)
+  isLoadingShared$: Observable<boolean>;
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   @Select(UserState.isLoading)
@@ -57,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.subrole)
   subrole$: Observable<string>;
 
+  isLoadingShared: boolean;
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
   isLoadingMetaData: boolean;
@@ -77,23 +81,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     combineLatest([
       this.subrole$,
+      this.isLoadingShared$,
       this.isLoadingResultPage$,
       this.isLoadingMetaData$,
       this.isLoadingCabinet$,
       this.isLoadingAdminData$,
-      this.navigationPaths$
+      this.navigationPaths$,
     ])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(
         ([
           subrole,
+          isLoadingShared,
           isLoadingResult,
           isLoadingMeta,
           isLoadingCabinet,
           isLoadingAdminData,
           navigationPaths
-        ]) => {
+        ]: [string, boolean, boolean, boolean, boolean, boolean, Navigation[]]) => {
           this.subrole = subrole;
+          this.isLoadingShared = isLoadingShared;
           this.isLoadingResultPage = isLoadingResult;
           this.isLoadingMetaData = isLoadingMeta;
           this.isLoadingCabinet = isLoadingCabinet;
