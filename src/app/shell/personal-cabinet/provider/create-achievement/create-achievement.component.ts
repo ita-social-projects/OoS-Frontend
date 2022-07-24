@@ -1,3 +1,4 @@
+import { SharedUserState } from './../../../../shared/store/shared-user.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -10,9 +11,10 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { CreateAchievement, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
+import { CreateAchievement } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-create-achievement',
@@ -21,7 +23,7 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
+  @Select(SharedUserState.selectedWorkshop) workshop$: Observable<Workshop>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;

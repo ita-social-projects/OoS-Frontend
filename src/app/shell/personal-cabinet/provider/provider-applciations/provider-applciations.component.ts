@@ -9,10 +9,9 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { 
-  GetApplicationsByProviderId, 
+  GetApplicationsByProviderId,
   GetProviderAdminWorkshops, 
   GetWorkshopsByProviderId, 
-  UpdateApplication 
 } from 'src/app/shared/store/user.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -20,6 +19,7 @@ import { EntityType, Role } from 'src/app/shared/enum/role';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { UpdateApplication } from 'src/app/shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-provider-applciations',

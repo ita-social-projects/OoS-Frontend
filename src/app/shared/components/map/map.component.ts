@@ -1,3 +1,4 @@
+import { SharedUserState } from './../../store/shared-user.state';
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
@@ -12,7 +13,6 @@ import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { UserState } from '../../store/user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
 
@@ -23,7 +23,7 @@ import { WorkshopMarker } from '../../models/workshopMarker.model';
 })
 
 export class MapComponent implements AfterViewInit, OnDestroy {
-  @Select(UserState.selectedWorkshop)
+  @Select(SharedUserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
   public defaultCoords: Coords;
   public zoom = 11;

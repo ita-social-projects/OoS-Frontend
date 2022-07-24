@@ -6,9 +6,7 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
-import { Provider } from '../models/provider.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -54,14 +52,6 @@ import {
   UpdateUser,
   OnUpdateUserFail,
   OnUpdateUserSuccess,
-  GetWorkshopById,
-  OnGetWorkshopByIdFail,
-  GetApplicationsByProviderId,
-  GetApplicationsByParentId,
-  OnUpdateApplicationSuccess,
-  UpdateApplication,
-  OnUpdateApplicationFail,
-  GetProviderById,
   CreateRating,
   OnCreateRatingFail,
   OnCreateRatingSuccess,
@@ -81,8 +71,6 @@ import {
   BlockProviderAdminById,
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
-  OnGetProviderByIdFail,
-  ResetProviderWorkshopDetails,
   BlockParent,
   BlockParentFail,
   BlockParentSuccess,
@@ -96,6 +84,8 @@ import {
   GetStatusIsAllowToApply,
   GetProviderAdminWorkshops,
   OnClearBlockedParents,
+  GetApplicationsByParentId,
+  GetApplicationsByProviderId,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -107,13 +97,12 @@ import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { OnGetApplicationsSuccess } from './shared-user.actions';
+import { ApplicationCards } from '../models/application.model';
 
 export interface UserStateModel {
   isLoading: boolean;
   workshops: Workshop[];
-  selectedWorkshop: Workshop;
-  selectedProvider: Provider;
-  applicationCards: ApplicationCards;
   achievements: Achievement[];
   children: ChildCards;
   favoriteWorkshops: Favorite[];
@@ -128,9 +117,6 @@ export interface UserStateModel {
   defaults: {
     isLoading: false,
     workshops: null,
-    selectedWorkshop: null,
-    selectedProvider: null,
-    applicationCards: null,
     achievements: null,
     children: null,
     favoriteWorkshops: null,
@@ -155,21 +141,6 @@ export class UserState {
   @Selector()
   static workshops(state: UserStateModel): Workshop[] {
     return state.workshops;
-  }
-
-  @Selector()
-  static selectedProvider(state: UserStateModel): Provider {
-    return state.selectedProvider;
-  }
-
-  @Selector()
-  static selectedWorkshop(state: UserStateModel): Workshop {
-    return state.selectedWorkshop;
-  }
-
-  @Selector()
-  static applications(state: UserStateModel): ApplicationCards {
-    return state.applicationCards;
   }
 
   @Selector()
@@ -207,8 +178,9 @@ export class UserState {
 
   constructor(
     private userWorkshopService: UserWorkshopService,
-    private applicationService: ApplicationService,
     private childrenService: ChildrenService,
+
+    private applicationService: ApplicationService,
     private providerService: ProviderService,
     private providerAdminService: ProviderAdminService,
     private achievementsService: AchievementsService,
@@ -220,28 +192,7 @@ export class UserState {
     private location: Location
   ) {}
 
-  @Action(GetWorkshopById)
-  getWorkshopById(
-    { patchState, dispatch }: StateContext<UserStateModel>,
-    { payload }: GetWorkshopById
-  ): Observable<object> {
-    patchState({ isLoading: true });
-    return this.userWorkshopService.getWorkshopById(payload).pipe(
-      tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnGetWorkshopByIdFail(error))))
-    );
-  }
-
-  @Action(OnGetWorkshopByIdFail)
-  onGetWorkshopByIdFail(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: OnGetWorkshopByIdFail
-  ): void {
-    throwError(payload);
-    patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
-  }
-
+ 
   @Action(GetAchievementsByWorkshopId)
   getAchievementsByWorkshopId(
     { patchState }: StateContext<UserStateModel>,
@@ -253,28 +204,6 @@ export class UserState {
         return patchState({ achievements: achievements, isLoading: false });
       })
     );
-  }
-
-  @Action(GetProviderById)
-  getProviderById(
-    { patchState, dispatch }: StateContext<UserStateModel>,
-    { payload }: GetProviderById
-  ): Observable<object> {
-    patchState({ isLoading: true });
-    return this.providerService.getProviderById(payload).pipe(
-      tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnGetProviderByIdFail(error))))
-    );
-  }
-
-  @Action(OnGetProviderByIdFail)
-  onGetProviderByIdFail(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: OnGetProviderByIdFail
-  ): void {
-    throwError(payload);
-    patchState({ isLoading: false });
-    dispatch(new ShowMessageBar({ message: 'Виникла помилка', type: 'error' }));
   }
 
   @Action(GetWorkshopsByProviderId)
@@ -303,45 +232,7 @@ export class UserState {
     );
   }
 
-  @Action(GetApplicationsByParentId)
-  getApplicationsByParentId(
-    { patchState }: StateContext<UserStateModel>,
-    { id, parameters }: GetApplicationsByParentId
-  ): Observable<ApplicationCards> {
-    patchState({ isLoading: true });
-    return this.applicationService
-      .getApplicationsByParentId(id, parameters)
-      .pipe(
-        tap((applicationCards: ApplicationCards) =>
-          patchState(
-            applicationCards
-              ? { applicationCards: applicationCards, isLoading: false }
-              : { applicationCards: { totalAmount: 0, entities: [] }, isLoading: false }
-          )
-        )
-      );
-  }
-
-  @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId(
-    { patchState }: StateContext<UserStateModel>,
-    { id, parameters }: GetApplicationsByProviderId
-  ): Observable<ApplicationCards> {
-    patchState({ isLoading: true });
-    console.log(parameters);
-
-    return this.applicationService
-      .getApplicationsByProviderId(id, parameters)
-      .pipe(
-        tap((applicationCards: ApplicationCards) =>
-          patchState(
-            applicationCards
-              ? { applicationCards: applicationCards, isLoading: false }
-              : { applicationCards: { totalAmount: 0, entities: [] }, isLoading: false }
-          )
-        )
-      );
-  }
+ 
 
   @Action(GetAllProviderAdmins)
   getAllProviderAdmins(
@@ -790,33 +681,6 @@ export class UserState {
     this.router.navigate(['/personal-cabinet/config']);
   }
 
-  @Action(UpdateApplication)
-  updateApplication({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateApplication): Observable<object> {
-    return this.applicationService.updateApplication(payload).pipe(
-      tap(res => dispatch(new OnUpdateApplicationSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
-    );
-  }
-
-  @Action(OnUpdateApplicationFail)
-  onUpdateApplicationfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateApplicationFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnUpdateApplicationSuccess)
-  onUpdateApplicationSuccess(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnUpdateApplicationSuccess
-  ): void {
-    dispatch(
-      new ShowMessageBar({
-        message: payload.status === ApplicationStatus.Left ? messageStatus.left : messageStatus.approved,
-        type: 'success',
-      })
-    );
-  }
-
   @Action(GetStatusIsAllowToApply)
   getStatusIsAllowToApply(
     { patchState }: StateContext<UserStateModel>,
@@ -898,11 +762,6 @@ export class UserState {
       .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])));
   }
 
-  @Action(ResetProviderWorkshopDetails)
-  clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
-    patchState({ selectedWorkshop: null, selectedProvider: null });
-  }
-
   @Action(BlockParent)
   blockParent(
     { dispatch }: StateContext<UserStateModel>,
@@ -975,6 +834,32 @@ export class UserState {
       .pipe(
         tap((blockedParent: BlockedParent) => patchState({ blockedParent: blockedParent })
         ))
+  }
+
+  @Action(GetApplicationsByProviderId)
+  getApplicationsByProviderId(
+    { patchState, dispatch }: StateContext<UserStateModel>,
+    { id, parameters }: GetApplicationsByProviderId
+  ): Observable<ApplicationCards> {
+    patchState({ isLoading: true });
+    console.log(parameters);
+
+    return this.applicationService
+      .getApplicationsByProviderId(id, parameters)
+      .pipe(
+        tap((applicationCards: ApplicationCards) => dispatch(new OnGetApplicationsSuccess(applicationCards)))
+      );
+  }
+  @Action(GetApplicationsByParentId)
+  getApplicationsByParentId(
+    { patchState, dispatch }: StateContext<UserStateModel>,
+    { id, parameters }: GetApplicationsByParentId
+  ): Observable<ApplicationCards> {
+    patchState({ isLoading: true });
+    return this.applicationService
+      .getApplicationsByParentId(id, parameters)
+      .pipe(
+        tap((applicationCards: ApplicationCards) => dispatch(new OnGetApplicationsSuccess(applicationCards))));
   }
 
   @Action(OnClearBlockedParents)

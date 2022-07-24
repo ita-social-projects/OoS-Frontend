@@ -13,7 +13,8 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { GetProviderById, GetWorkshopById } from 'src/app/shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-workshop-details',

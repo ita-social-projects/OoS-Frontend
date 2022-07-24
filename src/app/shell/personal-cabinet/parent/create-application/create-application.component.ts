@@ -1,3 +1,4 @@
+import { SharedUserState } from './../../../../shared/store/shared-user.state';
 import { NavBarName } from './../../../../shared/enum/navigation-bar';
 import { NavigationBarService } from './../../../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -18,7 +19,6 @@ import {
   CreateApplication,
   GetAllUsersChildren,
   GetStatusIsAllowToApply,
-  GetWorkshopById,
 } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ParentWithContactInfo } from 'src/app/shared/models/parent.model';
@@ -26,6 +26,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatSelectChange } from '@angular/material/select';
+import { GetWorkshopById } from 'src/app/shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-create-application',
@@ -44,7 +45,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent) 
   parent$: Observable<ParentWithContactInfo>;
   parent: ParentWithContactInfo;
-  @Select(UserState.selectedWorkshop) 
+  @Select(SharedUserState.selectedWorkshop) 
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 

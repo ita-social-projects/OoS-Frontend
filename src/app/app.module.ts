@@ -28,6 +28,7 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NotificationsState } from './shared/store/notifications.state';
 import { PaginatorState } from './shared/store/paginator.state';
 import { FooterComponent } from './footer/footer.component';
+import { SharedUserState } from './shared/store/shared-user.state';
 
 registerLocaleData(localeUk);
 
@@ -54,6 +55,7 @@ registerLocaleData(localeUk);
       NavigationState,
       NotificationsState,
       PaginatorState,
+      SharedUserState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({

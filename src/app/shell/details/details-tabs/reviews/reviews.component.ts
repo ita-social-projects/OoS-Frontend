@@ -5,20 +5,17 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating, GetApplicationsByParentId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { CreateRating, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-reviews',
@@ -35,8 +32,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
-  @Select(UserState.applications)
-  applications$: Observable<Application[]>;
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
   rating: Rate[];
@@ -70,10 +65,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     ).subscribe((parent: Parent) => {
       this.parent = parent;
       //this.store.dispatch(new GetApplicationsByParentId(parent.id)); // TODO: check if parent has applciation
-      this.applications$.pipe(
-        filter((applications: Application[]) => !!applications?.length),
-        takeUntil(this.destroy$)
-      ).subscribe((applications: Application[]) => this.isApproved = applications.some((application: Application) => application.status === ApplicationStatus.Approved && this.workshop.id === application.workshopId));
+      // this.applications$.pipe(
+      //   filter((applications: Application[]) => !!applications?.length),
+      //   takeUntil(this.destroy$)
+      // ).subscribe((applications: Application[]) => this.isApproved = applications.some((application: Application) => application.status === ApplicationStatus.Approved && this.workshop.id === application.workshopId));
     });
   }
 

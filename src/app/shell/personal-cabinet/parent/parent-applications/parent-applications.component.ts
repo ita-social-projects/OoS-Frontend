@@ -9,9 +9,10 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetAllUsersChildren, GetApplicationsByParentId, UpdateApplication } from 'src/app/shared/store/user.actions';
+import { UpdateApplication } from 'src/app/shared/store/shared-user.actions';
+import { GetAllUsersChildren, GetApplicationsByParentId} from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 

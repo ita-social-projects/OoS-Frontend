@@ -1,3 +1,4 @@
+import { SharedUserState } from './../../shared/store/shared-user.state';
 import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -5,13 +6,12 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { AppState } from 'src/app/shared/store/app.state';
 import { EntityType, Role } from 'src/app/shared/enum/role';
+import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-details',
@@ -25,11 +25,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   isMobileScreen$: Observable<boolean>;
   isMobileScreen: boolean;
   
-  @Select(UserState.selectedWorkshop) 
+  @Select(SharedUserState.selectedWorkshop) 
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  @Select(UserState.selectedProvider) 
+  @Select(SharedUserState.selectedProvider) 
   provider$: Observable<Provider>;
   provider: Provider;
 
