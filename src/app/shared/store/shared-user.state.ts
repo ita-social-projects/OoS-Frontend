@@ -192,6 +192,6 @@ export class SharedUserState {
     { payload }: OnGetApplicationsSuccess
   ): void {
     const applicationRes = payload ? payload : { totalAmount: 0, entities: [] };
-    patchState({ applicationCards: applicationRes, isLoading: false });
+    patchState({ applicationCards: applicationRes});
   }
 }

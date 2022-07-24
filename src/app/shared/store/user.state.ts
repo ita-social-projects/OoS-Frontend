@@ -847,8 +847,10 @@ export class UserState {
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
-        tap((applicationCards: ApplicationCards) => dispatch(new OnGetApplicationsSuccess(applicationCards)))
-      );
+        tap((applicationCards: ApplicationCards) => {
+          dispatch(new OnGetApplicationsSuccess(applicationCards));
+          patchState({isLoading : false})
+        }));
   }
   @Action(GetApplicationsByParentId)
   getApplicationsByParentId(
@@ -859,7 +861,10 @@ export class UserState {
     return this.applicationService
       .getApplicationsByParentId(id, parameters)
       .pipe(
-        tap((applicationCards: ApplicationCards) => dispatch(new OnGetApplicationsSuccess(applicationCards))));
+        tap((applicationCards: ApplicationCards) => {
+          dispatch(new OnGetApplicationsSuccess(applicationCards));
+          patchState({isLoading : false})
+        }));
   }
 
   @Action(OnClearBlockedParents)
