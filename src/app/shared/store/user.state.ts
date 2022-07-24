@@ -96,6 +96,7 @@ import {
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
   OnClearBlockedParents,
+  GetStatusAllowedToReview
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -123,6 +124,7 @@ export interface UserStateModel {
   providerAdmins: ProviderAdmin[];
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
+  isAllowedToReview: boolean;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -143,6 +145,7 @@ export interface UserStateModel {
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,
+    isAllowedToReview: false
   },
 
 })
@@ -202,6 +205,11 @@ export class UserState {
   @Selector()
   static isAllowChildToApply(state: UserStateModel): boolean {
     return state.isAllowChildToApply;
+  }
+
+  @Selector()
+  static isAllowedToReview(state: UserStateModel): boolean {
+    return state.isAllowedToReview;
   }
 
   @Selector()
@@ -976,6 +984,21 @@ export class UserState {
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowChildToApply: status, isLoading: false });
+        })
+      );
+  }
+
+  @Action(GetStatusAllowedToReview)
+  getApplicationsAllowedToReview(
+    { patchState }: StateContext<UserStateModel>,
+    { parentId }: GetStatusAllowedToReview
+  ): Observable<boolean> {
+    patchState({ isLoading: true });
+    return this.applicationService
+      .getApplicationsAllowedToReview(parentId)
+      .pipe(
+        tap((status: boolean) => {
+          return patchState({ isAllowedToReview: status, isLoading: false });
         })
       );
   }

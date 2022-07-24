@@ -92,4 +92,12 @@ export class ApplicationService {
     };
     return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
   }
+
+   /**
+   * This method Check if exists an any application with approve status in workshop for parent
+   * @param id string
+   */
+  getApplicationsAllowedToReview(id: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/Application/AllowedToRevew/${id}`);
+  }
 }

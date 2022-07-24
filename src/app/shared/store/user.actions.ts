@@ -42,6 +42,10 @@ export class GetStatusIsAllowToApply {
   static readonly type = '[user] get child status By child and workshop ids';
   constructor(public childId: string, public workshopId: string) { }
 }
+export class GetStatusAllowedToReview {
+  static readonly type = '[user] get parent status By parent id';
+  constructor(public parentId: string) { }
+}
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
   constructor(public id: string, public parameters) { }
