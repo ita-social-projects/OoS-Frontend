@@ -1,3 +1,4 @@
+import { Child } from 'src/app/shared/models/child.model';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
@@ -96,6 +97,7 @@ import {
   GetStatusIsAllowToApply,
   GetProviderAdminWorkshops,
   OnClearBlockedParents,
+  GetUsersChildById,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -116,6 +118,7 @@ export interface UserStateModel {
   applicationCards: ApplicationCards;
   achievements: Achievement[];
   children: ChildCards;
+  selectedChild: Child;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
@@ -133,6 +136,7 @@ export interface UserStateModel {
     applicationCards: null,
     achievements: null,
     children: null,
+    selectedChild: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
     currentPage: {
@@ -180,6 +184,11 @@ export class UserState {
   @Selector()
   static children(state: UserStateModel): ChildCards {
     return state.children;
+  }
+
+  @Selector()
+  static selectedChild(state: UserStateModel): Child {
+    return state.selectedChild;
   }
 
   @Selector()
@@ -371,6 +380,16 @@ export class UserState {
           )
         )
       );
+  }
+  @Action(GetUsersChildById)
+  getUsersChildById(
+    { patchState }: StateContext<UserStateModel>,
+    { payload }: GetUsersChildById
+  ): Observable<Child> {
+      patchState({ isLoading: true });
+      return this.childrenService
+      .getUsersChildById( payload )
+      .pipe(tap((selectedChild: Child) => patchState({ selectedChild: selectedChild, isLoading: false })));
   }
 
   @Action(GetAllUsersChildren)

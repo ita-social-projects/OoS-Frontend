@@ -1,3 +1,4 @@
+import { GetUsersChildById } from './../../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
@@ -39,14 +40,15 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   socialGroups: SocialGroup[];
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards[]>;
-
+  @Select(UserState.selectedChild)
+  selectedChild$: Observable<Child>;
   child: Child;
+
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed: boolean = false;
 
   constructor(
-    private childrenService: ChildrenService, //TODO: move to the state action
     private fb: FormBuilder,
     private routeParams: ActivatedRoute,
     private matDialog: MatDialog,
@@ -67,7 +69,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   ngOnInit(): void {
     this.store.dispatch(new GetSocialGroup());
-
     this.determineEditMode();
     this.addNavPath();
 
@@ -108,15 +109,19 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   setEditMode(): void {
     this.isAgreed = true;
-    const childId = this.route.snapshot.paramMap.get('param');
 
-    this.childrenService
-      .getUsersChildById(childId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((child: Child) => {
-        this.child = child;
-        this.ChildrenFormArray.push(this.newForm(child)); //TODO: move to the state actions
-      });
+    const childId = this.route.snapshot.paramMap.get('param');
+    this.store.dispatch(new GetUsersChildById(childId));
+
+    this.selectedChild$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((child: Child) => !!child)
+    )
+    .subscribe((child: Child) => {
+      this.child = child
+      this.ChildrenFormArray.push(this.newForm(this.child));
+    });
   }
 
   /**
