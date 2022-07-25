@@ -3,9 +3,7 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">ДОДАТИ ДОСЯГНЕННЯ</h3>
     </div>
-
     <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true" [isCreateApplicationView]="true"></app-workshop-card>
-
     <div class="card-border" fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="AchievementFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
@@ -20,7 +18,6 @@
           [validationFormControl]="AchievementFormGroup.get('achievementTypeId')"
           [isTouched]="AchievementFormGroup.get('achievementTypeId').touched">
         </app-validation-hint>
-
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering formControlName="childrenIDs" 
@@ -43,10 +40,8 @@
         </mat-form-field>
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('childrenIDs')"
-          [isTouched]="AchievementFormGroup.get('childrenIDs').touched"
-        >
+          [isTouched]="AchievementFormGroup.get('childrenIDs').touched">
         </app-validation-hint>
-
         <label class="step-label">Тренера<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select multiple disableOptionCentering formControlName="teachers" 
@@ -75,7 +70,6 @@
           [validationFormControl]="AchievementFormGroup.get('teachers')"
           [isTouched]="AchievementFormGroup.get('teachers').touched">
         </app-validation-hint>
-
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
           <input matInput [matDatepicker]="picker" formControlName="achievementDate">
@@ -86,7 +80,6 @@
           [validationFormControl]="AchievementFormGroup.get('achievementDate')"
           [isTouched]="AchievementFormGroup.get('achievementDate').touched">
         </app-validation-hint>
-
         <div class="step-label-combined">
           <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
           <label class="step-characters-count">{{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}</label>
@@ -94,7 +87,6 @@
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
-
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('title')"
           [isTouched]="AchievementFormGroup.get('title').touched"
@@ -103,7 +95,6 @@
         </app-validation-hint>
       </form>
     </div>
-
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="['/personal-cabinet/provider/workshops']"><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
       <a><button class="btn" mat-button type="submit" (click)="onSubmit()" 
