@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateChildComponent } from './create-child.component';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule } from '@ngxs/store';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
