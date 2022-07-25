@@ -37,7 +37,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   parent$: Observable<Parent>;
   @Select(UserState.applications)
   applications$: Observable<Application[]>;
-  @Select(UserState.isAllowedToReview) isAllowedToReview$: Observable<boolean>;
+  @Select(UserState.isAllowedToReview) 
+  isAllowedToReview$: Observable<boolean>;
 
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
@@ -97,7 +98,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   private checkIfAllowedToReview(parent: Parent): void {
-    this.store.dispatch(new GetStatusAllowedToReview(parent.id));
+    this.store.dispatch(new GetStatusAllowedToReview(parent?.id));
   }
 
   onRate(): void {
