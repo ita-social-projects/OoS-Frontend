@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-teacher-form',
@@ -22,8 +23,9 @@ export class TeacherFormComponent {
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality,
   }
-  
+
   today: Date = new Date();
+  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
