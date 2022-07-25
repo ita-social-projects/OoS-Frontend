@@ -94,8 +94,9 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
-  GetProviderAdminWorkshops,
+  GetChildrenByWorkshopId,  
   OnClearBlockedParents,
+  GetProviderAdminWorkshops,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -122,6 +123,7 @@ export interface UserStateModel {
   providerAdmins: ProviderAdmin[];
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
+  approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -132,6 +134,7 @@ export interface UserStateModel {
     selectedProvider: null,
     applicationCards: null,
     achievements: null,
+    approvedChildren: null,
     children: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
@@ -182,6 +185,10 @@ export class UserState {
     return state.children;
   }
 
+  @Selector()
+  static approvedChildren(state: UserStateModel): ChildCards {
+    return state.approvedChildren;
+  }
   @Selector()
   static favoriteWorkshops(state: UserStateModel): Favorite[] {
     return state.favoriteWorkshops;
@@ -251,6 +258,21 @@ export class UserState {
     return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
       tap((achievements: Achievement[]) => {
         return patchState({ achievements: achievements, isLoading: false });
+      })
+    );
+  }
+
+  @Action(GetChildrenByWorkshopId)
+  getChildrenByWorkshopId(
+    { patchState }: StateContext<UserStateModel>,
+    { payload }: GetChildrenByWorkshopId
+  ): Observable<ChildCards> {
+    patchState({ isLoading: true });
+    return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
+      tap((approvedChildren: ChildCards) => {
+        return patchState(approvedChildren 
+          ? { approvedChildren: approvedChildren, isLoading: false } 
+          : { approvedChildren: {totalAmount: 0, entities: []}, isLoading: false });
       })
     );
   }
