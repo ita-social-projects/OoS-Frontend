@@ -17,12 +17,13 @@ import { UserState } from 'src/app/shared/store/user.state';
   styleUrls: ['./achievements.component.scss'],
 })
 export class AchievementsComponent implements OnInit {
+  readonly noResultAchievements = NoResultsTitle.noAchievements;
+
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
 
   @Input() workshop: Workshop;
 
-  readonly noResultAchievements = NoResultsTitle.noAchievements;
   achievements: Achievement[];
   provider: Provider;
   isAllowedEdit: boolean;
