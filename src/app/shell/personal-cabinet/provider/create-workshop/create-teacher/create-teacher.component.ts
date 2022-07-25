@@ -65,6 +65,7 @@ export class CreateTeacherComponent implements OnInit {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
+      gender: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
       description: new FormControl('', [
         Validators.required, 
