@@ -144,7 +144,7 @@ export interface UserStateModel {
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,
-    isAllowedToReview: true
+    isAllowedToReview: false
   },
 })
 @Injectable()
