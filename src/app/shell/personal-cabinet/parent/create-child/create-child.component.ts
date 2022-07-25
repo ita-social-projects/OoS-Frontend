@@ -150,7 +150,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
-      socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
+      socialGroups: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -169,7 +169,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.subscribeOnDirtyForm(childFormGroup);
 
     if (this.editMode) {
-      child.socialGroupId = child.socialGroupId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
       childFormGroup.patchValue(child, { emitEvent: false });
     }
 

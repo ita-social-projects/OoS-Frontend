@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InfoStatusComponent } from './applications/application-card/info-status/info-status.component';
 import { ChildInfoBoxComponent } from './applications/application-card/child-info-box/child-info-box.component';
+import { ReasonModalWindowComponent } from './applications/reason-modal-window/reason-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ChildInfoBoxComponent } from './applications/application-card/child-inf
     ApplicationsComponent,
     InfoStatusComponent,
     ChildInfoBoxComponent,
+    ReasonModalWindowComponent,
   ],
   imports: [
     MaterialModule,

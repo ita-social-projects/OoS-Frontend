@@ -1,7 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { PaginationElement } from "../models/paginationElement.model";
-import { OnPageChangeApplications, OnPageChangeChildrens, OnPageChangeDirections, OnPageChangeWorkshops, SetApplicationsPerPage, SetChildrensPerPage, SetDirectionsPerPage, SetFirstPage, SetWorkshopsPerPage, OnPageChangeAdminTable, } from "./paginator.actions";
+import { 
+  OnPageChangeApplications, 
+  OnPageChangeChildrens, 
+  OnPageChangeDirections, 
+  OnPageChangeWorkshops, 
+  SetApplicationsPerPage, 
+  SetChildrensPerPage, 
+  SetDirectionsPerPage, 
+  SetFirstPage, 
+  SetWorkshopsPerPage, 
+  OnPageChangeAdminTable, 
+} from "./paginator.actions";
 
 export interface PaginatorStateModel {
   workshopsPerPage: number;
