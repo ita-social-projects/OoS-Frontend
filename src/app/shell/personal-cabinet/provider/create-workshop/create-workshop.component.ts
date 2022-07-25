@@ -91,11 +91,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const workshopId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetWorkshopById(workshopId));
 
-  this.selectedWorkshop$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((workshop: Workshop) => !!workshop))
-    .subscribe((workshop: Workshop) => (this.workshop = workshop));
+    this.selectedWorkshop$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((workshop: Workshop) => !!workshop))
+      .subscribe((workshop: Workshop) => (this.workshop = workshop));
   }
 
 
