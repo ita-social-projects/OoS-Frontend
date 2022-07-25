@@ -5,17 +5,17 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
+import { CreateWorkshop, GetWorkshopById, UpdateWorkshop } from 'src/app/shared/store/user.actions';
+import { UserState } from 'src/app/shared/store/user.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
@@ -29,9 +29,13 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   }]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
+
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
+
+  @Select(UserState.selectedWorkshop)
+  selectedWorkshop$: Observable<Workshop>;
   workshop: Workshop;
 
   AboutFormGroup: FormGroup;
@@ -40,7 +44,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   TeacherFormArray: FormArray;
 
   constructor(
-    private userWorkshopService: UserWorkshopService,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService) {
@@ -84,9 +87,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   setEditMode(): void {
     const workshopId = this.route.snapshot.paramMap.get('param');
-    this.userWorkshopService.getWorkshopById(workshopId).pipe(
-      takeUntil(this.destroy$),
-    ).subscribe((workshop: Workshop) => this.workshop = workshop);//TODO: move to state actions
+    this.store.dispatch(new GetWorkshopById(workshopId));
+
+    this.selectedWorkshop$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((workshop: Workshop) => (this.workshop = workshop));
   }
 
 
