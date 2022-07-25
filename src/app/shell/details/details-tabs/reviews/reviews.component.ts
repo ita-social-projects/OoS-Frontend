@@ -98,7 +98,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   private checkIfAllowedToReview(parent: Parent): void {
-    this.store.dispatch(new GetStatusAllowedToReview(parent?.id));
+    this.store.dispatch(new GetStatusAllowedToReview(parent.id));
   }
 
   onRate(): void {
