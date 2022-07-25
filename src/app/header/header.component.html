@@ -96,7 +96,7 @@
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
         <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
             {{roles[user.role]}}</button></a>
-        <a [routerLink]="'./personal-cabinet/' + user.role + '/workshops'"><button mat-menu-item>Мої гуртки</button></a>
+        <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/' + user.role + '/workshops'"><button mat-menu-item>Мої гуртки</button></a>
         <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'"><button mat-menu-item>Мої заяви</button></a>
         <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
           <button mat-menu-item>Адміністрування</button></a>
