@@ -2,6 +2,11 @@
   <h3 class="title">Усі напрямки</h3>
 </div>
 <div class="card-wrapper">
-  <app-category-card class="card" *ngFor="let direction of directions$ | async " [direction]="direction">
+  <app-category-card class="card" *ngFor="let direction of (filteredDirections$ | async)?.entities " [direction]="direction">
   </app-category-card>
 </div>
+<ng-container *ngIf="(filteredDirections$ | async)">
+  <app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="directionsPerPage$ | async"
+  (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-paginator>
+</ng-container>

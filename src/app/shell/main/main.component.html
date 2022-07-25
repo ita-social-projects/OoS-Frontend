@@ -8,7 +8,7 @@
 
   <ng-container *ngIf="!(isLoadingResultPage$ | async) && !(isLoadingMetaData$ | async)">
     <ng-container *ngIf="(topDirections$ | async)?.length then topDirections; else emptyData"></ng-container>
-  </ng-container> 
+  </ng-container>
 
   <ng-template #topDirections>
     <div class="card-wrapper">
@@ -26,7 +26,7 @@
   </div>
   <ng-container *ngIf="!(isLoadingResultPage$ | async) && !(isLoadingMetaData$ | async)">
     <ng-container *ngIf="(topWorkshops$ | async)?.length then topWorkshops; else emptyData"></ng-container>
-  </ng-container> 
+  </ng-container>
   <ng-template #topWorkshops>
     <div class="card-wrapper">
       <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"

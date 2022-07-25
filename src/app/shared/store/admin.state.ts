@@ -1,4 +1,21 @@
 import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import { Observable, of, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
+import { CategoriesService } from "../services/categories/categories.service";
+import { ChildCards } from "../models/child.model";
+import { ChildrenService } from '../services/children/children.service';
+import { CompanyInformation } from "../models/сompanyInformation.model";
+import { Injectable } from "@angular/core";
+import { Parent } from "../models/parent.model";
+import { ParentService } from '../services/parent/parent.service';
+import { PlatformService } from '../services/platform/platform.service';
+import { Provider } from '../models/provider.model';
+import { ProviderService } from '../services/provider/provider.service';
+import { Router } from "@angular/router";
 import {
   CreateClass,
   CreateDepartment,
@@ -6,11 +23,9 @@ import {
   DeleteClassById,
   DeleteDepartmentById,
   DeleteDirectionById,
-  FilterChange,
-  FilterClear,
   GetAboutPortal,
   GetAllProviders,
-  GetChildren,
+  GetChildrenForAdmin,
   GetDepartmentById,
   GetDirectionById,
   GetFilteredDirections,
@@ -40,30 +55,11 @@ import {
   OnUpdateDirectionSuccess,
   OnUpdatePlatformInfoFail,
   OnUpdatePlatformInfoSuccess,
-  SetSearchQueryValue,
   UpdateClass,
   UpdateDepartment,
   UpdateDirection,
   UpdatePlatformInfo,
 } from "./admin.actions";
-import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-
-import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
-import { CategoriesService } from "../services/categories/categories.service";
-import { ChildCards } from "../models/child.model";
-import { ChildrenService } from '../services/children/children.service';
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { Injectable } from "@angular/core";
-import { Parent } from "../models/parent.model";
-import { ParentService } from '../services/parent/parent.service';
-import { PlatformService } from '../services/platform/platform.service';
-import { Provider } from '../models/provider.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { Router } from "@angular/router";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -74,7 +70,6 @@ export interface AdminStateModel {
   department: Department;
   departments: Department[];
   selectedDirection: Direction;
-  searchQuery: string;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
@@ -90,7 +85,6 @@ export interface AdminStateModel {
     department: null,
     departments: null,
     isLoading: false,
-    searchQuery: '',
     filteredDirections: undefined,
     selectedDirection: null,
     children: null,
@@ -115,8 +109,6 @@ export class AdminState {
   @Selector() static department(state: AdminStateModel): Department { return state.department; }
 
   @Selector() static departments(state: AdminStateModel): Department [] { return state.departments; }
-
-  @Selector() static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
 
   @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
 
@@ -404,31 +396,15 @@ export class AdminState {
         tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
-  @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
-    patchState({ searchQuery: payload });
-    dispatch(new FilterChange());
-  }
-
-  @Action(FilterChange)
-  filterChange({ }: StateContext<AdminStateModel>, { }: FilterChange) { }
-
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections) {
     patchState({ isLoading: true });
-    const state: AdminStateModel = getState();
     return this.categoriesService
-      .getFilteredDirections( state)
+      .getFilteredDirections(payload)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
       () => patchState({ isLoading: false, direction: null })));
   }
 
-    @Action(FilterClear)
-    filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
-    patchState({
-      searchQuery: '',
-    });
-  }
   @Action(DeleteDepartmentById)
   deleteDepartmentById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDepartmentById): Observable<object> {
     return this.categoriesService
@@ -499,11 +475,11 @@ export class AdminState {
         }));
   }
 
-  @Action(GetChildren)
-  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+  @Action(GetChildrenForAdmin)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { payload }: GetChildrenForAdmin): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.childrenService
-      .getChildrenForAdmin()
+      .getChildrenForAdmin( payload )
       .pipe(
         tap((children: ChildCards) => {
           return patchState({ children: children, isLoading: false });
