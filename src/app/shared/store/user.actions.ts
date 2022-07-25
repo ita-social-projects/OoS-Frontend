@@ -51,17 +51,18 @@ export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
   constructor(public id: string, public parameters: ApplicationParameters) { }
 }
-
 export class GetApplicationsByStatus {
   static readonly type = '[user] get Applications By Status';
   constructor(public payload: number) { }
 }
-
 export class GetUsersChildren {
   static readonly type = '[user] get users Children';
   constructor() { }
 }
-
+export class GetUsersChildById {
+  static readonly type = '[user] get users Children by Id';
+  constructor(public payload: string) { }
+}
 export class GetAllUsersChildren {
   static readonly type = '[user] get all users Children';
   constructor() { }
