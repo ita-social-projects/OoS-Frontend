@@ -3,9 +3,7 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">ДОДАТИ ДОСЯГНЕННЯ</h3>
     </div>
-
     <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true" [isCreateApplicationView]="true"></app-workshop-card>
-
     <div class="card-border" fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="AchievementFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
@@ -19,8 +17,7 @@
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('achievementTypeId')"
           [isTouched]="AchievementFormGroup.get('achievementTypeId').touched">
-        </app-validation-hint>
-        
+        </app-validation-hint>        
           <label class="step-label">Учасники<span class="step-required">*</span></label>
           <ng-container *ngIf="approvedChildren">
             <ng-container *ngIf="approvedChildren.totalAmount; else noChildren"> 
@@ -32,14 +29,14 @@
                       <mat-chip 
                         *ngFor="let child of AchievementFormGroup.get('childrenIDs').value"
                         [removable]="true" (removed)="onRemoveItem(child, 'childrenIDs')">
-                        {{child.lastName}} {{child.firstName}} {{child.middleName}}
+                        {{ getFullName(child) }}
                         <mat-icon matChipRemove>cancel</mat-icon>
                       </mat-chip>
                     </mat-chip-list>
                   </mat-select-trigger>
                   <mat-option *ngFor="let child of approvedChildren.entities"   
                     [value]="child" class="dropdown-option">
-                    {{getFullName(child)}}
+                    {{ getFullName(child) }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -49,13 +46,11 @@
               </app-validation-hint>
             </ng-container>
           </ng-container>
-
           <ng-template #noChildren>
             <span class="warning-message">
               Додавання досягнень можливе лише за наявності учасників у гуртку.
             </span>
           </ng-template>
-
         <label class="step-label">Тренера<span class="step-required">*</span></label>
         <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
           <mat-form-field appearance="none">
@@ -66,7 +61,7 @@
                   <mat-chip   
                     *ngFor="let teacher of AchievementFormGroup.controls['teachers'].value"
                     (removed)="onRemoveItem(teacher, 'teachers')">
-                    {{getFullName(teacher)}}
+                    {{ getFullName(teacher) }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
                 </mat-chip-list>
@@ -91,7 +86,6 @@
           [validationFormControl]="AchievementFormGroup.get('teachers')"
           [isTouched]="AchievementFormGroup.get('teachers').touched">
         </app-validation-hint>
-
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
           <input matInput [matDatepicker]="picker" formControlName="achievementDate">
@@ -102,7 +96,6 @@
           [validationFormControl]="AchievementFormGroup.get('achievementDate')"
           [isTouched]="AchievementFormGroup.get('achievementDate').touched">
         </app-validation-hint>
-
         <div class="step-label-combined">
           <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
           <label class="step-characters-count">
@@ -120,7 +113,6 @@
         </app-validation-hint>
       </form>
     </div>
-
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <a [routerLink]="['/personal-cabinet/workshops']">
         <button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button>
@@ -129,7 +121,6 @@
         <button class="btn" mat-button type="submit" (click)="onSubmit()" 
         [disabled]="AchievementFormGroup.invalid">ЗБЕРЕГТИ</button>
       </a>
-
     </div>
   </div>
 </div>

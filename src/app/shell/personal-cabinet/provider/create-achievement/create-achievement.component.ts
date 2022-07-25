@@ -28,8 +28,10 @@ import { Util } from 'src/app/shared/utils/utils';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
-  @Select(UserState.approvedChildren) approvedChildren$: Observable<ChildCards>;
+  @Select(UserState.selectedWorkshop) 
+  workshop$: Observable<Workshop>;
+  @Select(UserState.approvedChildren) 
+  approvedChildren$: Observable<ChildCards>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
