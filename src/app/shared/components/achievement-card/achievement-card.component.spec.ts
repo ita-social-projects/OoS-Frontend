@@ -30,6 +30,7 @@ describe('AchievementCardComponent', () => {
     component.achievement = {} as Achievement;
     component.isAllowedEdit;
     component.workshop;
+    component.achievementsTitle;
     fixture.detectChanges();
   });
 
