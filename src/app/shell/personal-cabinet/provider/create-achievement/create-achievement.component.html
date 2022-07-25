@@ -27,14 +27,14 @@
                 <mat-chip 
                   *ngFor="let child of AchievementFormGroup.controls['childrenIDs'].value"
                   [removable]="true" (removed)="onRemoveItem(child, 'childrenIDs')">
-                  {{child.lastName}} {{child.firstName}} {{child.middleName}}
+                  {{ getFullName(child) }}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
               </mat-chip-list>
             </mat-select-trigger>
             <mat-option *ngFor="let child of children$"   
               [value]="child" class="dropdown-option">
-              {{child.lastName}} {{child.firstName}} {{child.middleName}}
+              {{ getFullName(child) }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -51,7 +51,7 @@
                 <mat-chip   
                   *ngFor="let teacher of AchievementFormGroup.controls['teachers'].value"
                   (removed)="onRemoveItem(teacher, 'teachers')">
-                  {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
+                  {{ getFullName(teacher) }}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
               </mat-chip-list>
