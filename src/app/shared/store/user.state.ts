@@ -94,10 +94,10 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
-  GetChildrenByWorkshopId,  
   OnClearBlockedParents,
-  GetStatusAllowedToReview
+  GetStatusAllowedToReview,
   GetProviderAdminWorkshops,
+  GetChildrenByWorkshopId,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';

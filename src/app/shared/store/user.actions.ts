@@ -9,7 +9,6 @@ import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
-import { ParentRoutingModule } from 'src/app/shell/personal-cabinet/parent/parent-routing.module';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
