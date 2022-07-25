@@ -21,15 +21,14 @@ export class AchievementsComponent implements OnInit {
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-
+  
   @Input() workshop: Workshop;
 
+  destroy$: Subject<boolean> = new Subject<boolean>();
   achievements: Achievement[];
   provider: Provider;
   isAllowedEdit: boolean;
   
-  destroy$: Subject<boolean> = new Subject<boolean>();  
-
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {   
@@ -48,19 +47,6 @@ export class AchievementsComponent implements OnInit {
   private getAchievements(): void {
     this.store.dispatch(new GetAchievementsByWorkshopId(this.workshop.id));
   }  
-
-  // onDelete(achievement: Achievement): void {
-  //   const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-  //     width: Constants.MODAL_SMALL,
-  //     data: {
-  //       type: ModalConfirmationType.deleteAchievement,
-  //     }
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result: boolean) => {
-  //     (result) && this.store.dispatch(new DeleteAchievementById(achievement.id));
-  //   });
-  // } TODO
 
   ngOnDestroy(): void {
     this.destroy$.unsubscribe();

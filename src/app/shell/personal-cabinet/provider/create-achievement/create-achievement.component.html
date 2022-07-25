@@ -64,8 +64,43 @@
                 {{teacher.lastName}} {{teacher.firstName}} {{teacher.middleName}}
               </mat-option>
             </ng-container>
-          </mat-select>
-        </mat-form-field>
+          </ng-container>
+          <ng-template #noChildren>
+            <span class="warning-message">
+              Додавання досягнень можливе лише за наявності учасників у гуртку.
+            </span>
+          </ng-template>
+        <label class="step-label">Тренера<span class="step-required">*</span></label>
+        <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
+          <mat-form-field appearance="none">
+            <mat-select multiple disableOptionCentering formControlName="teachers" 
+              panelClass="dropdown-panel" class="step-input">
+              <mat-select-trigger>
+                <mat-chip-list #chipList>
+                  <mat-chip   
+                    *ngFor="let teacher of AchievementFormGroup.controls['teachers'].value"
+                    (removed)="onRemoveItem(teacher, 'teachers')">
+                    {{ getFullName(teacher) }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </mat-select-trigger>
+              <ng-container *ngIf="workshop">
+                <mat-option 
+                  *ngFor="let teacher of workshop.teachers" 
+                  [value]="teacher" 
+                  class="dropdown-option">
+                  {{getFullName(teacher)}}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-template #noTeachers>
+          <span class="warning-message">
+            Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.
+          </span>
+        </ng-template>
         <app-validation-hint 
           [validationFormControl]="AchievementFormGroup.get('teachers')"
           [isTouched]="AchievementFormGroup.get('teachers').touched">
@@ -82,7 +117,9 @@
         </app-validation-hint>
         <div class="step-label-combined">
           <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
-          <label class="step-characters-count">{{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}</label>
+          <label class="step-characters-count">
+            {{AchievementFormGroup.get('title').value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
+          </label>
         </div>
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
@@ -96,9 +133,13 @@
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="['/personal-cabinet/provider/workshops']"><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
-      <a><button class="btn" mat-button type="submit" (click)="onSubmit()" 
-        [disabled]="AchievementFormGroup.invalid">ЗБЕРЕГТИ</button></a>
+      <a [routerLink]="['/personal-cabinet/provider/workshops']">
+        <button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button>
+      </a>
+      <a>
+        <button class="btn" mat-button type="submit" (click)="onSubmit()" 
+        [disabled]="AchievementFormGroup.invalid">ЗБЕРЕГТИ</button>
+      </a>
     </div>
   </div>
 </div>
