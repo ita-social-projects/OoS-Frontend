@@ -110,6 +110,6 @@ export class ApplicationService {
    * @param id string
    */
   getApplicationsAllowedToReview(id: string): Observable<boolean> {
-    return this.http.get<boolean>(`/api/v1/Application/AllowedToRevew/${id}`);
+    return this.http.get<boolean>(`/api/v1/Application/AllowedToReview/${id}`);
   }
 }

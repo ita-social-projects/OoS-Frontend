@@ -17,7 +17,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating, GetApplicationsByParentId, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { CreateRating, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -35,8 +35,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
-  @Select(UserState.applications)
-  applications$: Observable<Application[]>;
   @Select(UserState.isAllowedToReview) 
   isAllowedToReview$: Observable<boolean>;
 
@@ -59,7 +57,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getParentData();
     this.getWorkshopRatingList();
-    this.checkIfAllowedToReview(this.parent)
+    this.checkIfAllowedToReview(this.parent.id)
     
     this.actions$.pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(
@@ -79,10 +77,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     ).subscribe((parent: Parent) => {
       this.parent = parent;
       //this.store.dispatch(new GetApplicationsByParentId(parent.id)); // TODO: check if parent has applciation
-      this.applications$.pipe(
-        filter((applications: Application[]) => !!applications?.length),
-        takeUntil(this.destroy$)
-      ).subscribe((applications: Application[]) => this.isApproved = applications.some((application: Application) => application.status === ApplicationStatus.Approved && this.workshop.id === application.workshopId));
     });
   }
 
@@ -97,8 +91,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private checkIfAllowedToReview(parent: Parent): void {
-    this.store.dispatch(new GetStatusAllowedToReview(parent.id));
+  private checkIfAllowedToReview(id: string): void {
+    this.store.dispatch(new GetStatusAllowedToReview(id));
   }
 
   onRate(): void {
