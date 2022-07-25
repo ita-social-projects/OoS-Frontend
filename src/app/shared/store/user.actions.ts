@@ -1,3 +1,4 @@
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Favorite } from './../models/favorite.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
@@ -13,6 +14,10 @@ import { ParentRoutingModule } from 'src/app/shell/personal-cabinet/parent/paren
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: string) { }
+}
+export class GetProviderAdminWorkshops {
+  static readonly type = '[user] get Workshops for provider admin';
+  constructor() { }
 }
 export class GetAchievementsByWorkshopId {
   static readonly type = '[user] get Achievements By Wokrshop Id';
@@ -36,7 +41,7 @@ export class OnGetProviderByIdFail {
 }
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
-  constructor(public id: string, public parameters?: string) { }
+  constructor(public id: string, public parameters: ApplicationParameters) { }
 }
 export class GetStatusIsAllowToApply {
   static readonly type = '[user] get child status By child and workshop ids';
@@ -44,7 +49,7 @@ export class GetStatusIsAllowToApply {
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
-  constructor(public id: string, public parameters) { }
+  constructor(public id: string, public parameters: ApplicationParameters) { }
 }
 
 export class GetApplicationsByStatus {
@@ -311,4 +316,8 @@ export class UnBlockParentSuccess {
 export class GetBlockedParents {
   static readonly type = '[user] get block parent';
   constructor(public providerId: string, public parentId: string) { }
+}
+export class OnClearBlockedParents {
+  static readonly type = '[user] clear blockedParents state';
+  constructor( ) { }
 }

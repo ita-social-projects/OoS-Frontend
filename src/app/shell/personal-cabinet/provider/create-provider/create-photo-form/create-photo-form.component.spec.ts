@@ -11,6 +11,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreatePhotoFormComponent', () => {
   let component: CreatePhotoFormComponent;
@@ -28,7 +29,8 @@ describe('CreatePhotoFormComponent', () => {
         MatIconModule,
         MatOptionModule,
         MatSelectModule,
-        MatGridListModule
+        MatGridListModule,
+        MatDialogModule
       ],
       declarations: [
         CreatePhotoFormComponent,
@@ -44,7 +46,8 @@ describe('CreatePhotoFormComponent', () => {
     fixture = TestBed.createComponent(CreatePhotoFormComponent);
     component = fixture.componentInstance;
     component.PhotoFormGroup = new FormGroup({
-      image: new FormControl('', Validators.required),
+      imageFiles: new FormControl(''),
+      imageIds: new FormControl(''),
       description: new FormControl('', Validators.required),
       institutionStatusId: new FormControl(''),
       institutionType: new FormControl(''),
