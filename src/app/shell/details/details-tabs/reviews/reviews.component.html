@@ -5,9 +5,9 @@
         ({{ ((rating$|async)?.length ? (rating$|async)?.length : 0) | declination : ReviewDeclination }})</p>
     </div>
     <div [matTooltip]="!isApproved ? 'Ви повинні бути прийнятим до даного гуртка' : 'Ви вже оцінили цей гурток'"
-      [matTooltipDisabled]="!(this.isRated || !this.isApproved)">
+      [matTooltipDisabled]="!(this.isRated || !isAllowedToReview)">
       <button mat-raised-button class="button" (click)="onRate()" *ngIf="role !== Role.provider"
-        [disabled]="this.isRated || !this.isApproved">
+        [disabled]="this.isRated || !isAllowedToReview">
         <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
       </button>
     </div>

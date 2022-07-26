@@ -36,9 +36,9 @@ export class ApplicationService {
     params = params.set('OrderByStatus', 'true');
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = parameters.size ?
-      parameters.size :
-      this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const size: number = parameters.size
+      ? parameters.size
+      : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
 
     const from: number = size * (+currentPage.element - 1);
     params = params.set('Size', size.toString());
@@ -103,5 +103,17 @@ export class ApplicationService {
       },
     };
     return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
+  }
+
+  /**
+   * This method Check if exists an any application with approve status in workshop for parent
+   * @param id string
+   */
+  getApplicationsAllowedToReview(parentId: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/Application/AllowedToReview`, {
+      params: {
+        parentId,
+      },
+    });
   }
 }
