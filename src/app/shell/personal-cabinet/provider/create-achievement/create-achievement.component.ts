@@ -10,9 +10,16 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { CreateAchievement, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import { CreateAchievement, 
+  GetChildrenByWorkshopId, 
+  GetWorkshopById, 
+  ResetProviderWorkshopDetails } 
+  from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { Person } from 'src/app/shared/models/user.model';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-create-achievement',
@@ -21,7 +28,10 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 })
 export class CreateAchievementComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
+  @Select(UserState.selectedWorkshop) 
+  workshop$: Observable<Workshop>;
+  @Select(UserState.approvedChildren) 
+  approvedChildren$: Observable<ChildCards>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
@@ -29,15 +39,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievement: Achievement;
   workshopId: string;
   achievements = AchievementsTitle;
-
-  children$ = [
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Тетерукова', firstName: 'Дарина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Узумакі', firstName: 'Боруто' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Rtdby', firstName: 'Малина' },
-    { id: '08d9d43c-8dd8-4777-8dfa-6e5df00e25c1', lastName: 'Малинка', firstName: 'Малина' },
-  ];
+  approvedChildren: ChildCards;
 
   constructor(
     private store: Store,
@@ -46,29 +48,45 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [ 
+        Validators.required, 
+        Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)]),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
-      teachers: new FormControl(''),
+      teachers: new FormControl('', Validators.required),
       childrenIDs: new FormControl('', Validators.required),
     });
   }
 
   ngOnInit(): void {
     this.workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
+    this.store.dispatch([
+      new GetWorkshopById(this.workshopId), 
+      new GetChildrenByWorkshopId(this.workshopId)
+    ]);
+
     this.workshop$
     .pipe(
       takeUntil(this.destroy$),
       filter((workshop) => !!workshop)
-    ).subscribe((workshop: Workshop) => this.workshop = workshop);      
+    ).subscribe((workshop: Workshop) => {
+      this.workshop = workshop;
+    });   
+    
+    this.approvedChildren$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((approvedChildren) => !!approvedChildren)
+    ).subscribe((approvedChildren: ChildCards) => this.approvedChildren = approvedChildren);
   } 
 
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: { 
-        type: ModalConfirmationType.createAchievement
+        type: ModalConfirmationType.createAchievement,
+        property: ''
       },
     });
 
@@ -85,14 +103,25 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
     });    
   }
 
-  remove(item: string, control): void {
-    const index = this.AchievementFormGroup.controls[control].value.indexOf(item);
-    if (index >= 0) {
-      this.AchievementFormGroup.controls[control].value.splice(index, 1);
-    }
+  onRemoveItem(item: string, control): void {
+    let items = this.AchievementFormGroup.controls[control].value;
+    if (items.indexOf(item) >= 0) {
+      items.splice(items.indexOf(item), 1);
+      if (items.length !== 0) {
+        this.AchievementFormGroup.get(control).setValue([...items]);
+      } else {
+        this.AchievementFormGroup.get(control).setValue(null)
+      }
+    }   
+  }
+
+  private getFullName(person: Person): string {
+    return Util.getFullName(person);
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 }

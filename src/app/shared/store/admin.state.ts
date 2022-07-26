@@ -1,67 +1,64 @@
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { MarkFormDirty, ShowMessageBar } from "./app.actions";
 import { Observable, of, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { ChildCards } from "../models/child.model";
-import { Parent } from "../models/parent.model";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { Provider } from '../models/provider.model';
-import { PlatformService } from '../services/platform/platform.service';
-import { ParentService } from '../services/parent/parent.service';
-import { ChildrenService } from '../services/children/children.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { CategoriesService } from "../services/categories/categories.service";
 import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
+import { CategoriesService } from "../services/categories/categories.service";
+import { ChildCards } from "../models/child.model";
+import { ChildrenService } from '../services/children/children.service';
+import { CompanyInformation } from "../models/сompanyInformation.model";
+import { Injectable } from "@angular/core";
+import { Parent } from "../models/parent.model";
+import { ParentService } from '../services/parent/parent.service';
+import { PlatformService } from '../services/platform/platform.service';
+import { Provider } from '../models/provider.model';
+import { ProviderService } from '../services/provider/provider.service';
+import { Router } from "@angular/router";
 import {
-  DeleteDirectionById,
-  OnDeleteDirectionFail,
-  OnDeleteDirectionSuccess,
-  CreateDirection,
-  OnCreateDirectionFail,
-  OnCreateDirectionSuccess,
-  UpdateDirection,
-  OnUpdateDirectionSuccess,
-  OnUpdateDirectionFail,
+  CreateClass,
   CreateDepartment,
-  OnCreateDepartmentFail,
-  OnCreateDepartmentSuccess,
+  CreateDirection,
+  DeleteClassById,
+  DeleteDepartmentById,
+  DeleteDirectionById,
+  GetAboutPortal,
+  GetAllProviders,
+  GetChildrenForAdmin,
+  GetDepartmentById,
   GetDirectionById,
-  SetSearchQueryValue,
   GetFilteredDirections,
-  FilterChange,
-  FilterClear,
+  GetLawsAndRegulations,
+  GetParents,
+  GetPlatformInfo,
+  GetSupportInformation,
+  OnClearCategories,
+  OnClearDepartment,
   OnCreateClassFail,
   OnCreateClassSuccess,
-  CreateClass,
-  UpdateDepartment,
-  OnUpdateDepartmentFail,
-  OnUpdateDepartmentSuccess,
-  UpdateClass,
-  OnUpdateClassFail,
-  OnUpdateClassSuccess,
-  DeleteClassById,
-  OnDeleteClassSuccess,
+  OnCreateDepartmentFail,
+  OnCreateDepartmentSuccess,
+  OnCreateDirectionFail,
+  OnCreateDirectionSuccess,
   OnDeleteClassFail,
-  OnClearCategories,
-  DeleteDepartmentById,
+  OnDeleteClassSuccess,
   OnDeleteDepartmentFail,
   OnDeleteDepartmentSuccess,
-  GetDepartmentById,
-  OnClearDepartment,
-  GetPlatformInfo,
-  GetAllProviders,
-  GetSupportInformation,
-  GetAboutPortal,
-  GetLawsAndRegulations,
-  UpdatePlatformInfo,
-  OnUpdatePlatformInfoSuccess,
+  OnDeleteDirectionFail,
+  OnDeleteDirectionSuccess,
+  OnUpdateClassFail,
+  OnUpdateClassSuccess,
+  OnUpdateDepartmentFail,
+  OnUpdateDepartmentSuccess,
+  OnUpdateDirectionFail,
+  OnUpdateDirectionSuccess,
   OnUpdatePlatformInfoFail,
-  GetParents,
-  GetChildren,
+  OnUpdatePlatformInfoSuccess,
+  UpdateClass,
+  UpdateDepartment,
+  UpdateDirection,
+  UpdatePlatformInfo,
 } from "./admin.actions";
 
 export interface AdminStateModel {
@@ -73,7 +70,6 @@ export interface AdminStateModel {
   department: Department;
   departments: Department[];
   selectedDirection: Direction;
-  searchQuery: string;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
@@ -89,7 +85,6 @@ export interface AdminStateModel {
     department: null,
     departments: null,
     isLoading: false,
-    searchQuery: '',
     filteredDirections: undefined,
     selectedDirection: null,
     children: null,
@@ -102,9 +97,9 @@ export class AdminState {
   adminStateModel: any;
 
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation { return state.aboutPortal; }
-  
+
   @Selector() static providers(state: AdminStateModel): Provider[] { return state.providers; }
-  
+
   @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation { return state.supportInformation; }
 
   @Selector() static LawsAndRegulations(state: AdminStateModel): CompanyInformation { return state.lawsAndRegulations; }
@@ -115,14 +110,12 @@ export class AdminState {
 
   @Selector() static departments(state: AdminStateModel): Department [] { return state.departments; }
 
-  @Selector() static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
-
   @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
 
   @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
 
   @Selector() static parents(state: AdminStateModel): Parent[] { return state.parents };
-  
+
   @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
 
   constructor(
@@ -138,7 +131,7 @@ export class AdminState {
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {  }: GetPlatformInfo): void {
     dispatch([
       new GetAboutPortal(),
-      new GetSupportInformation(), 
+      new GetSupportInformation(),
       new GetLawsAndRegulations()
     ]);
   }
@@ -162,7 +155,7 @@ export class AdminState {
         tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
   }
 
-  
+
 
   @Action(GetSupportInformation)
   getSupportInformation({ patchState }: StateContext<AdminStateModel>, {  }: GetSupportInformation): Observable<CompanyInformation> {
@@ -187,7 +180,7 @@ export class AdminState {
     return this.platformService
       .updatePlatformInfo(payload, type)
       .pipe(
-        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(type))),
+        tap((res) => dispatch(new OnUpdatePlatformInfoSuccess(res, type))),
         catchError((error: Error) => of(dispatch(new OnUpdatePlatformInfoFail(error))))
       );
   }
@@ -199,12 +192,12 @@ export class AdminState {
   }
 
   @Action(OnUpdatePlatformInfoSuccess)
-  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoSuccess): void {
+  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { payload, type }: OnUpdatePlatformInfoSuccess): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' })
     ]);
-    this.router.navigate([`/admin-tools/platform/${payload}`]);
+    this.router.navigate([`/admin-tools/platform`], { queryParams: { page: type }});
   }
 
   @Action(DeleteDirectionById)
@@ -403,31 +396,15 @@ export class AdminState {
         tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
-  @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
-    patchState({ searchQuery: payload });
-    dispatch(new FilterChange());
-  }
-
-  @Action(FilterChange)
-  filterChange({ }: StateContext<AdminStateModel>, { }: FilterChange) { }
-
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections) {
     patchState({ isLoading: true });
-    const state: AdminStateModel = getState();
     return this.categoriesService
-      .getFilteredDirections( state)
+      .getFilteredDirections(payload)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
       () => patchState({ isLoading: false, direction: null })));
   }
 
-    @Action(FilterClear)
-    filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
-    patchState({
-      searchQuery: '',
-    });
-  }
   @Action(DeleteDepartmentById)
   deleteDepartmentById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDepartmentById): Observable<object> {
     return this.categoriesService
@@ -474,7 +451,7 @@ export class AdminState {
     dispatch([
       new GetClasses(payload.departmentId), //TODO: fix the performance
       new ShowMessageBar({ message: 'Класс видалено!', type: 'success' })
-    ]); 
+    ]);
   }
 
   @Action(OnClearCategories)
@@ -498,11 +475,11 @@ export class AdminState {
         }));
   }
 
-  @Action(GetChildren)
-  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+  @Action(GetChildrenForAdmin)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { payload }: GetChildrenForAdmin): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.childrenService
-      .getChildrenForAdmin()
+      .getChildrenForAdmin( payload )
       .pipe(
         tap((children: ChildCards) => {
           return patchState({ children: children, isLoading: false });

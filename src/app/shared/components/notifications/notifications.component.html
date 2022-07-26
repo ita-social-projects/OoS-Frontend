@@ -3,7 +3,7 @@
     <mat-icon>notifications_none</mat-icon>
   </button>
   <span *ngIf="notificationsAmount$ | async as notificationsAmount">
-    <mat-icon [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
+    <mat-icon *ngIf="notificationsAmount.amount" [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
   </span>
   <mat-menu #menu="matMenu">
     <div class="container">
@@ -18,6 +18,6 @@
     <button mat-icon-button fxLayout="row" fxLayoutAlign="space-between" class="btn-notifications">
       <mat-icon>notifications_none</mat-icon> Сповіщення
     </button>
-    <mat-icon [matBadge]="notificationsAmount.amount" class="icon-mobile"></mat-icon>
+    <mat-icon *ngIf="notificationsAmount.amount" [matBadge]="notificationsAmount.amount" class="icon-mobile"></mat-icon>
   </div>
 </ng-template>

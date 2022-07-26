@@ -1,0 +1,36 @@
+<div *ngIf="child">
+  <mat-card class="position">
+    <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+      <div class="actions_btn" [routerLink]="['/create-child', child.id]">
+        <mat-icon>edit</mat-icon>
+      </div>
+      <div class="actions_btn" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </div>
+    </div>
+    <div class="card" fxLayout="column" fxLayoutAlign="start">
+      <div fxLayout="row" fxLayoutAlign="center" class="img-section">
+        <img class="card-image" mat-card-image src="assets/icons/child-{{child.gender}}.png" alt="child-photo">
+      </div>
+      <div class="wrap-for-details">
+        <mat-card-header>
+          <mat-card-title [matTooltip]="childFullName" showTooltipIfTruncated matTooltipClass="tooltip"
+            [matTooltipPosition]="tooltipPosition" class="card-title">{{childFullName}}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
+          <p class="card_text">
+            <mat-icon class="card_icon">calendar_today</mat-icon> {{child.dateOfBirth | date:
+            constants.SHORT_DATE_FORMAT}} ({{ childAge }})
+          </p>
+        </mat-card-content>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<ng-template #NoWorkshops>
+  <div class="workshop-list">
+    <span class="item"> Гуртків поки немає! </span>
+  </div>
+</ng-template>

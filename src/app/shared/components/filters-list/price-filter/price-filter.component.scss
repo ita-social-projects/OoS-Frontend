@@ -16,11 +16,7 @@
     color: #444444;
   }
   &-slider{
-    margin: 12px 0;
-    margin-left: 0.5rem;
     .ngx-slider{
-      margin: 0;
-      max-width: 234px;
       .ngx-slider-bar-wrapper{
         margin: 0;
         height: 0;
@@ -52,7 +48,6 @@
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 85px;
   max-height: 34px;
 }
 .input-wrapper{
@@ -75,4 +70,20 @@
 }
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0 !important;
+}
+
+.price-input:hover + .clear-price {
+  visibility: visible;
+}
+.clear-price {
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  font-size: 18px;
+  color: #adadad;
+  top: 8px;
+  left: 114px;
+}
+.clear-price:hover {
+  visibility: visible;
 }

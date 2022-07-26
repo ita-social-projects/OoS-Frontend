@@ -1,0 +1,76 @@
+<div class="dropdown">
+  <i
+    class="material-icons status-info-icon"
+    [matMenuTriggerFor]="menu"
+    #trigger="matMenuTrigger"
+    [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'"
+    >info_outline</i
+  >
+
+  <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
+    <app-status-info-card></app-status-info-card>
+  </mat-menu>
+  <app-entity-checkbox-dropdown
+    *ngIf="dropdownEntities"
+    [entities]="dropdownEntities"
+    [declination]="declination"
+    (entityCheck)="onEntitiesSelect($event)">
+  </app-entity-checkbox-dropdown>
+</div>
+
+<div class="tab-wrapper">
+  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+    <ng-container *ngIf="applicationCards">
+      <mat-tab label="Усі">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles[applicationStatus.Pending] }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
+      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
+      </ng-container>
+    </mat-tab> TODO: display when functionality is ready -->
+      <mat-tab label="{{ applicationTitles[applicationStatus.Approved] }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles[applicationStatus.Rejected] }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTitles[applicationStatus.Left] }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab *ngIf="role === Role.provider" label="{{ applicationTitles.Blocked }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</div>
+
+<app-paginator
+  *ngIf="!(isLoadingCabinet$ | async) && applicationCards"
+  [totalEntities]="applicationCards.totalAmount"
+  [currentPage]="currentPage"
+  [itemsPerPage]="applicationsPerPage$ | async"
+  (pageChange)="onPageChange($event)"
+  (itemsPerPageChange)="onItemsPerPageChange($event)">
+</app-paginator>
+
+<ng-template #Applications let-applicationCards>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="applicationCards.totalAmount; else isEmptyList">
+      <app-application-card
+        *ngFor="let application of applicationCards.entities"
+        [application]="application"
+        [userRole]="role"
+        (approved)="approve.emit($event)"
+        (rejected)="reject.emit($event)"
+        (leave)="leave.emit($event)">
+      </app-application-card>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noApplicationTitle"></app-no-result-card>
+</ng-template>

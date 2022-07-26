@@ -12,6 +12,13 @@
     border-radius: 0 0 5px 5px
   }
 
+  &-no-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 33px;
+  }
+
   &-title {
     padding-top: 25px;
     font-size: 33px;

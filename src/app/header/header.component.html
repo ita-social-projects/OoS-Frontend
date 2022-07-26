@@ -15,7 +15,7 @@
         <a [routerLink]="'./info/about'">ПРО ПОРТАЛ</a>
       </div>
       <div *ngIf="(isAuthorized$ | async) && user?.role === Role.techAdmin" class="header_about">
-        <a>НОРМАТИВНО-ПРАВОВІ АКТИ</a>
+        <a [routerLink]="'./info/rules'">НОРМАТИВНО-ПРАВОВІ АКТИ</a>
       </div>
       <div class="header_support">
         <a class="header_support_title" [routerLink]="'./info/support'">
@@ -96,9 +96,9 @@
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
         <a [routerLink]="'./personal-cabinet/' + user.role + '/info'"> <button mat-menu-item>Інформація про
             {{roles[user.role]}}</button></a>
-        <a [routerLink]="'./personal-cabinet/workshops'"><button mat-menu-item>Мої гуртки</button></a>
-        <a [routerLink]="'./personal-cabinet/applications'"><button mat-menu-item>Мої заяви</button></a>
-        <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/administration'">
+        <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/' + user.role + '/workshops'"><button mat-menu-item>Мої гуртки</button></a>
+        <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'"><button mat-menu-item>Мої заяви</button></a>
+        <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
           <button mat-menu-item>Адміністрування</button></a>
         <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"><button
             mat-menu-item>Улюблене</button></a>
@@ -106,7 +106,7 @@
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a *ngIf="subrole !== 'ProviderAdmin'" [routerLink]="'./admin-tools/platform'" [queryParams]="{page: defaultAdminTabs}"> <button mat-menu-item>Адміністрування</button></a>
+        <a [routerLink]="'./admin-tools/platform'" [queryParams]="{page: defaultAdminTabs}"> <button mat-menu-item>Адміністрування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
     </mat-menu>

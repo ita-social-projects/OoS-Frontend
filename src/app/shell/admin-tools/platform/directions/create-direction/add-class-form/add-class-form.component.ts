@@ -1,5 +1,5 @@
 import {  OnClearDepartment, OnUpdateClassSuccess } from '../../../../../../shared/store/admin.actions';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
