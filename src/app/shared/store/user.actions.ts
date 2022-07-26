@@ -21,7 +21,11 @@ export class GetProviderAdminWorkshops {
 }
 export class GetAchievementsByWorkshopId {
   static readonly type = '[user] get Achievements By Wokrshop Id';
-  constructor(public payload) { }
+  constructor(public payload: string) { }
+}
+export class GetChildrenByWorkshopId {
+  static readonly type = '[user] get Children By Wokrshop Id';
+  constructor(public payload: string) { }
 }
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
