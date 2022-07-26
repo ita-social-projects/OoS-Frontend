@@ -20,7 +20,7 @@ export class Achievement {
   }
 }
 
-export class AchievementType {
+export interface AchievementType {
   id: number;
   title: string
 }
