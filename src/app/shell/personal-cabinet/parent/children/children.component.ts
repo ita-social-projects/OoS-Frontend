@@ -8,7 +8,7 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetChildrensPerPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
@@ -27,7 +27,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards>;
   childrenCards: ChildCards;
-  
+
   currentPage: PaginationElement = {
     element: 1,
     isActive: true,
@@ -48,7 +48,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   initParentData(): void {
-    this.store.dispatch(new GetUsersChildren());
+    this.store.dispatch([new SetFirstPage(),new GetUsersChildren()]);
     this.childrenCards$
       .pipe(
         filter((childrenCards: ChildCards) => !!childrenCards),
