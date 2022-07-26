@@ -11,9 +11,7 @@ export class AchievementsService {
   constructor(private http: HttpClient) {}
 
   getAchievementsByWorkshopId(id: string): Observable<Achievement[]> {
-    return this.http.get<Achievement[]>(
-      `/api/v1/Achievement/GetByWorkshopId/${id}`
-    );
+    return this.http.get<Achievement[]>(`/api/v1/Achievement/GetByWorkshopId/${id}`);
   }
 
   getChildrenByWorkshopId(id: string): Observable<ChildCards> {

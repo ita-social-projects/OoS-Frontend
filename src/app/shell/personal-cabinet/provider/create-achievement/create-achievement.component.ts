@@ -6,8 +6,8 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
-import { Achievement } from 'src/app/shared/models/achievement.model';
-import { AchievementsTitle, Constants } from 'src/app/shared/constants/constants';
+import { Achievement, AchievementType } from 'src/app/shared/models/achievement.model';
+import { Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { CreateAchievement, 
@@ -17,9 +17,11 @@ import { CreateAchievement,
   from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { ChildCards } from 'src/app/shared/models/child.model';
 import { Person } from 'src/app/shared/models/user.model';
 import { Util } from 'src/app/shared/utils/utils';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { GetAchievementsType } from 'src/app/shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-create-achievement',
@@ -32,13 +34,14 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   workshop$: Observable<Workshop>;
   @Select(UserState.approvedChildren) 
   approvedChildren$: Observable<ChildCards>;
+  @Select(MetaDataState.achievementsTypes)
+  achievementsTypes$: Observable<AchievementType[]>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
   workshopId: string;
-  achievements = AchievementsTitle;
   approvedChildren: ChildCards;
 
   constructor(
@@ -78,6 +81,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       filter((approvedChildren) => !!approvedChildren)
     ).subscribe((approvedChildren: ChildCards) => this.approvedChildren = approvedChildren);
+    this.store.dispatch(new GetAchievementsType());
   } 
 
   onSubmit(): void {
