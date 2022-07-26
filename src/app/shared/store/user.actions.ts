@@ -1,3 +1,4 @@
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Favorite } from './../models/favorite.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
@@ -8,15 +9,22 @@ import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
-import { ParentRoutingModule } from 'src/app/shell/personal-cabinet/parent/parent-routing.module';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
   constructor(public payload: string) { }
 }
+export class GetProviderAdminWorkshops {
+  static readonly type = '[user] get Workshops for provider admin';
+  constructor() { }
+}
 export class GetAchievementsByWorkshopId {
   static readonly type = '[user] get Achievements By Wokrshop Id';
-  constructor(public payload) { }
+  constructor(public payload: string) { }
+}
+export class GetChildrenByWorkshopId {
+  static readonly type = '[user] get Children By Wokrshop Id';
+  constructor(public payload: string) { }
 }
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
@@ -36,27 +44,32 @@ export class OnGetProviderByIdFail {
 }
 export class GetApplicationsByParentId {
   static readonly type = '[user] get Applications By Parent Id';
-  constructor(public id: string, public parameters?: string) { }
+  constructor(public id: string, public parameters: ApplicationParameters) { }
 }
 export class GetStatusIsAllowToApply {
   static readonly type = '[user] get child status By child and workshop ids';
   constructor(public childId: string, public workshopId: string) { }
 }
+export class GetStatusAllowedToReview {
+  static readonly type = '[user] get parent status By parent id';
+  constructor(public parentId: string) { }
+}
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
-  constructor(public id: string, public parameters) { }
+  constructor(public id: string, public parameters: ApplicationParameters) { }
 }
-
 export class GetApplicationsByStatus {
   static readonly type = '[user] get Applications By Status';
   constructor(public payload: number) { }
 }
-
 export class GetUsersChildren {
   static readonly type = '[user] get users Children';
   constructor() { }
 }
-
+export class GetUsersChildById {
+  static readonly type = '[user] get users Children by Id';
+  constructor(public payload: string) { }
+}
 export class GetAllUsersChildren {
   static readonly type = '[user] get all users Children';
   constructor() { }
@@ -100,6 +113,18 @@ export class OnCreateChildrenSuccess {
 export class DeleteChildById {
   static readonly type = '[user] delete Children';
   constructor(public payload: string) { }
+}
+export class DeleteAchievementById {
+  static readonly type = '[user] delete Achievement';
+  constructor(public payload: string) { }
+}
+export class OnDeleteAchievementSuccess {
+  static readonly type = '[user] delete Achievement success';
+  constructor(public payload) { }
+}
+export class OnDeleteAchievementFail {
+  static readonly type = '[user] delete Achievement fail';
+  constructor(public payload: HttpErrorResponse) { }
 }
 export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';

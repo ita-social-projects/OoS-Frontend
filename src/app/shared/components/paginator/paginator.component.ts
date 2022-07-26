@@ -8,7 +8,7 @@ import { PaginationElement } from '../../models/paginationElement.model';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent implements OnInit, OnChanges {
+export class PaginatorComponent implements OnChanges {
   readonly constants: typeof PaginationConstants = PaginationConstants;
 
   @Input() currentPage: PaginationElement;
@@ -24,7 +24,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   constructor() { }
 
-  ngOnInit(): void {
+  init(): void {
     this.totalPageAmount = this.getTotalPageAmount();
     this.createPageList();
   }
@@ -34,15 +34,8 @@ export class PaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.currentPage) {
-      if (!changes.currentPage.isFirstChange()) {
-        this.createPageList();
-      }
-    }
-    if (changes?.itemsPerPage) {
-      if (!changes.itemsPerPage.isFirstChange()) {
-        this.ngOnInit();
-      }
+    if (changes) {
+      this.init();
     }
   }
 

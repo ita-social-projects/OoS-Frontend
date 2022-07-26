@@ -5,19 +5,17 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating, GetApplicationsByParentId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { CreateRating, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -35,14 +33,16 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
-  @Select(UserState.applications)
-  applications$: Observable<Application[]>;
+  @Select(UserState.isAllowedToReview) 
+  isAllowedToReview$: Observable<boolean>;
+
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
   rating: Rate[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   parent: Parent;
+  isAllowedToReview: boolean;
   isRated = false;
   isApproved = false;
 
@@ -55,12 +55,17 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getParentData();
     this.getWorkshopRatingList();
+    this.checkIfAllowedToReview(this.parent.id)
     
     this.actions$.pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
       .subscribe(() => this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id)));
+
+    this.isAllowedToReview$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((status: boolean) => (this.isAllowedToReview = status));
   }
 
   private getParentData(): void {
@@ -69,11 +74,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => {
       this.parent = parent;
-      this.store.dispatch(new GetApplicationsByParentId(parent.id));
-      this.applications$.pipe(
-        filter((applications: Application[]) => !!applications?.length),
-        takeUntil(this.destroy$)
-      ).subscribe((applications: Application[]) => this.isApproved = applications.some((application: Application) => application.status === ApplicationStatus.Approved && this.workshop.id === application.workshopId));
+      //this.store.dispatch(new GetApplicationsByParentId(parent.id)); // TODO: check if parent has applciation
     });
   }
 
@@ -88,9 +89,13 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       });
   }
 
+  private checkIfAllowedToReview(id: string): void {
+    this.store.dispatch(new GetStatusAllowedToReview(this.parent.id));
+  }
+
   onRate(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.rate,
       }

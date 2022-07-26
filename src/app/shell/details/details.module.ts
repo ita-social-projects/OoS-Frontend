@@ -15,7 +15,8 @@ import { AllProviderWorkshopsComponent } from './details-tabs/all-provider-works
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
 import { ProviderDetailsComponent } from './provider-details/provider-details.component';
-import { AchievementsComponent } from './achievements/achievements.component';
+import { AchievementsComponent } from './details-tabs/achievements/achievements.component';
+import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-card/teacher-card.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { AchievementsComponent } from './achievements/achievements.component';
     AllProviderWorkshopsComponent,
     WorkshopDetailsComponent,
     ProviderDetailsComponent,
-    AchievementsComponent],
+    AchievementsComponent,
+    TeacherCardComponent
+  ],
   imports: [
     CommonModule,
     FlexLayoutModule,

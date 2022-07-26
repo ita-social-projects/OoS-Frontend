@@ -46,7 +46,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
-        filter((value: string)=> !!value),
+        map((value: string)=> value.trim()),
         tap((value: string)=> this.filter(value))
       ).subscribe((value: string) => this.searchedText = value);
 
