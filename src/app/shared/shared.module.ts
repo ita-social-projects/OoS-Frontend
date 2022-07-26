@@ -62,6 +62,7 @@ import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dr
 import { LoginComponent } from './components/login/login.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
     InfoFormComponent,
     AchievementCardComponent,
     LoginComponent,
-    StarsComponent
+    StarsComponent,
+    ErrorPageComponent
   ],
   imports: [
     MaterialModule,

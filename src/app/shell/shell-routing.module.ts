@@ -28,6 +28,7 @@ import { IsMobileGuard } from './is-mobile.guard';
 import { RulesComponent } from './info/rules/rules.component';
 import { DetailsComponent } from './details/details.component';
 import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
+import { ErrorPageComponent } from '../shared/components/error-page/error-page.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -35,6 +36,8 @@ const routes: Routes = [
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },
+  { path: '404', component: ErrorPageComponent },
+  // { path: `**`, redirectTo: '/404' },
   {
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
