@@ -113,6 +113,18 @@ export class DeleteChildById {
   static readonly type = '[user] delete Children';
   constructor(public payload: string) { }
 }
+export class DeleteAchievementById {
+  static readonly type = '[user] delete Achievement';
+  constructor(public payload: string) { }
+}
+export class OnDeleteAchievementSuccess {
+  static readonly type = '[user] delete Achievement success';
+  constructor(public payload) { }
+}
+export class OnDeleteAchievementFail {
+  static readonly type = '[user] delete Achievement fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
 export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';
   constructor(public payload) { }
