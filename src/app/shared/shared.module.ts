@@ -59,7 +59,7 @@ import { ImageCropperModalComponent } from './components/image-cropper-modal/ima
 import { InfoFormComponent } from './components/info-form/info-form.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 import { LoginComponent } from './components/login/login.component';
-import { AchievementCardComponent } from '../shell/details/achievements/achievement-card/achievement-card.component';
+import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 
