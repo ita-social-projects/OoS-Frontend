@@ -36,8 +36,7 @@ const routes: Routes = [
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },
-  { path: '404', component: ErrorPageComponent },
-  // { path: `**`, redirectTo: '/404' },
+
   {
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
@@ -131,6 +130,7 @@ const routes: Routes = [
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]
   },
+  // { path: '**', component: ErrorPageComponent  },
 ];
 
 @NgModule({
