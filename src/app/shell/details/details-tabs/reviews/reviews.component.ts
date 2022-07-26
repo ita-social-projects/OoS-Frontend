@@ -5,12 +5,10 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -97,7 +95,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   onRate(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.rate,
       }
