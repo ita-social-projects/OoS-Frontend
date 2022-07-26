@@ -9,7 +9,6 @@ import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent } from '../models/block.model';
 import { Achievement } from '../models/achievement.model';
-import { ParentRoutingModule } from 'src/app/shell/personal-cabinet/parent/parent-routing.module';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -50,6 +49,10 @@ export class GetApplicationsByParentId {
 export class GetStatusIsAllowToApply {
   static readonly type = '[user] get child status By child and workshop ids';
   constructor(public childId: string, public workshopId: string) { }
+}
+export class GetStatusAllowedToReview {
+  static readonly type = '[user] get parent status By parent id';
+  constructor(public parentId: string) { }
 }
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
@@ -110,6 +113,18 @@ export class OnCreateChildrenSuccess {
 export class DeleteChildById {
   static readonly type = '[user] delete Children';
   constructor(public payload: string) { }
+}
+export class DeleteAchievementById {
+  static readonly type = '[user] delete Achievement';
+  constructor(public payload: string) { }
+}
+export class OnDeleteAchievementSuccess {
+  static readonly type = '[user] delete Achievement success';
+  constructor(public payload) { }
+}
+export class OnDeleteAchievementFail {
+  static readonly type = '[user] delete Achievement fail';
+  constructor(public payload: HttpErrorResponse) { }
 }
 export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';

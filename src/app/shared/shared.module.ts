@@ -57,10 +57,11 @@ import { TrimValueDirective } from './directives/trim-value.directive';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
-import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 import { LoginComponent } from './components/login/login.component';
+import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
+import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 
 @NgModule({
   declarations: [
@@ -115,8 +116,9 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
-    AchievementCardComponent,
     LoginComponent,
+    AchievementCardComponent,
+    StarsComponent
   ],
   imports: [
     MaterialModule,
@@ -181,8 +183,9 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     TrimValueDirective,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent,
-    AchievementCardComponent,
+    InfoFormComponent,   
+    AchievementCardComponent, 
+    StarsComponent
   ]
 })
 export class SharedModule { }

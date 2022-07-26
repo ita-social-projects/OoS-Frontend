@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-
+import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementCardComponent } from './achievement-card.component';
 
 describe('AchievementCardComponent', () => {
@@ -14,20 +14,23 @@ describe('AchievementCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatCardModule,
-        MatButtonModule,
         NgxsModule.forRoot([]),
+        MatIconModule,
+        MatCardModule,
         RouterTestingModule,
-        MatIconModule
+        MatDialogModule,
       ],
-      declarations: [ AchievementCardComponent ]
-    })
-    .compileComponents();
+      declarations: [AchievementCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AchievementCardComponent);
     component = fixture.componentInstance;
+    component.achievement = {} as Achievement;
+    component.isAllowedEdit;
+    component.workshop;
+    component.achievementsTitle;
     fixture.detectChanges();
   });
 

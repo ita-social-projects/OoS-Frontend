@@ -29,6 +29,7 @@ import {
   CreateProvider,
   CreateWorkshop,
   DeleteChildById,
+  DeleteAchievementById,
   DeleteWorkshopById,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
@@ -41,6 +42,8 @@ import {
   OnCreateWorkshopSuccess,
   OnDeleteChildFail,
   OnDeleteChildSuccess,
+  OnDeleteAchievementFail,
+  OnDeleteAchievementSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
   UpdateChild,
@@ -95,10 +98,11 @@ import {
   OnCreateAchievementFail,
   GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
-  GetChildrenByWorkshopId,  
   OnClearBlockedParents,
   GetUsersChildById,
+  GetStatusAllowedToReview,
   GetProviderAdminWorkshops,
+  GetChildrenByWorkshopId,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -126,6 +130,7 @@ export interface UserStateModel {
   providerAdmins: ProviderAdmin[];
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
+  isAllowedToReview: boolean;
   approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
@@ -149,6 +154,7 @@ export interface UserStateModel {
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,
+    isAllowedToReview: false
   },
 })
 @Injectable()
@@ -216,6 +222,11 @@ export class UserState {
   @Selector()
   static isAllowChildToApply(state: UserStateModel): boolean {
     return state.isAllowChildToApply;
+  }
+
+  @Selector()
+  static isAllowedToReview(state: UserStateModel): boolean {
+    return state.isAllowedToReview;
   }
 
   @Selector()
@@ -711,6 +722,32 @@ export class UserState {
     );
   }
 
+  @Action(DeleteAchievementById)
+  deleteAchievementById(
+    { dispatch }: StateContext<UserStateModel>,
+    { payload }: DeleteAchievementById
+  ): Observable<object> {
+    return this.achievementsService.deleteAchievement(payload).pipe(
+      tap((res) => dispatch(new OnDeleteAchievementSuccess(res))),
+      catchError((error: HttpErrorResponse) =>
+        of(dispatch(new OnDeleteAchievementFail(error)))
+      )
+    );
+  }
+
+  @Action(OnDeleteAchievementSuccess)
+  onDeleteAchievementSuccess(
+    { dispatch }: StateContext<UserStateModel>,
+    { payload }: OnDeleteAchievementSuccess
+  ): void {
+    console.log('Child is deleted', payload);
+    dispatch([
+      new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
+      new GetUsersChildren(),
+    ]);
+    this.router.navigate(['/details/workshop', payload.body.workshopId]);
+  }
+
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildFail): void {
     throwError(payload);
@@ -869,6 +906,21 @@ export class UserState {
         return patchState({ isAllowChildToApply: status, isLoading: false });
       })
     );
+  }
+
+  @Action(GetStatusAllowedToReview)
+  getApplicationsAllowedToReview(
+    { patchState }: StateContext<UserStateModel>,
+    { parentId }: GetStatusAllowedToReview
+  ): Observable<boolean> {
+    patchState({ isLoading: true });
+    return this.applicationService
+      .getApplicationsAllowedToReview(parentId)
+      .pipe(
+        tap((status: boolean) => {
+          return patchState({ isAllowedToReview: status, isLoading: false });
+        })
+      );
   }
 
   @Action(CreateRating)

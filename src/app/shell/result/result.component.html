@@ -27,7 +27,7 @@
     <div *ngIf="currentView === viewType.map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
       <app-workshop-map-view-list
         [role]="role"
-        [filteredWorkshops$]="isFiltersSidenavOpen$"
+        [filteredWorkshops$]="filteredWorkshops$"
         [itemsPerPage]="workshopsPerPage"
         [currentPage]="currentPage"
         (itemsPerPageChange)="onItemsPerPageChange($event)">

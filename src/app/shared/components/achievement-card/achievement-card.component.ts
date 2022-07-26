@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Achievement } from 'src/app/shared/models/achievement.model';
+import { AchievementsTitle } from '../../constants/constants';
+import { Achievement } from '../../models/achievement.model';
+import { Person } from '../../models/user.model';
+import { Workshop } from '../../models/workshop.model';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-achievement-card',
@@ -7,9 +11,20 @@ import { Achievement } from 'src/app/shared/models/achievement.model';
   styleUrls: ['./achievement-card.component.scss'],
 })
 export class AchievementCardComponent implements OnInit {
-  @Input() achievement: Achievement;
+  readonly achievementsTitle = AchievementsTitle;
 
+  @Input() achievement: Achievement;
+  @Input() workshop: Workshop;
+  @Input() isAllowedEdit: boolean;
+  
+  showMore = false;
+  
   constructor() {}
 
   ngOnInit(): void {}
+
+  private getFullName(person: Person): string {
+    return Util.getFullName(person);
+  }
+
 }
