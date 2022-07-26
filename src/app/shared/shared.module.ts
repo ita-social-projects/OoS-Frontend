@@ -61,6 +61,7 @@ import { AchievementCardComponent } from './components/achievement-card/achievem
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 import { LoginComponent } from './components/login/login.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
+import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     InfoFormComponent,
     AchievementCardComponent,
     LoginComponent,
+    StarsComponent
   ],
   imports: [
     MaterialModule,
@@ -183,6 +185,7 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     ImageCropperModalComponent,
     InfoFormComponent,
     AchievementCardComponent,
+    StarsComponent
   ]
 })
 export class SharedModule { }

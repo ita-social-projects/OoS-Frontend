@@ -17,7 +17,6 @@ import { WorkshopDetailsComponent } from './workshop-details/workshop-details.co
 import { ProviderDetailsComponent } from './provider-details/provider-details.component';
 import { AchievementsComponent } from './achievements/achievements.component';
 import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-card/teacher-card.component';
-import { StarsComponent } from './details-tabs/reviews/stars/stars.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { StarsComponent } from './details-tabs/reviews/stars/stars.component';
     WorkshopDetailsComponent,
     ProviderDetailsComponent,
     AchievementsComponent,
-    TeacherCardComponent,
-    StarsComponent
+    TeacherCardComponent
   ],
   imports: [
     CommonModule,
