@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AchievementsTitle } from '../../constants/constants';
-import { Achievement } from '../../models/achievement.model';
-import { Person } from '../../models/user.model';
-import { Workshop } from '../../models/workshop.model';
-import { Util } from '../../utils/utils';
+import { AchievementsTitle } from '../../../../shared/constants/constants';
+import { Achievement } from '../../../../shared/models/achievement.model';
+import { Person } from '../../../../shared/models/user.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-achievement-card',
