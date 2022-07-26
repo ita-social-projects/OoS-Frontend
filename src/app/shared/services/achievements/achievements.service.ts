@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Achievement } from '../../models/achievement.model';
-import { Child, ChildCards } from '../../models/child.model';
+import { Achievement, AchievementType } from '../../models/achievement.model';
+import { ChildCards } from '../../models/child.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +26,9 @@ export class AchievementsService {
 
   deleteAchievement(id: string): Observable<object> {
     return this.http.delete(`/api/v1/Achievement/Delete/${id}`);
+  }
+
+  getAchievementType(): Observable<AchievementType[]> {
+    return this.http.get<AchievementType[]>('/api/v1/AchievementType/GetAll');
   }
 }

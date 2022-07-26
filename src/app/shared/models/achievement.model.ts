@@ -18,5 +18,9 @@ export class Achievement {
     this.childrenIDs = childrenIDs,
     this.teachers = teachers;
   }
+}
 
+export class AchievementType {
+  id: number;
+  title: string
 }
