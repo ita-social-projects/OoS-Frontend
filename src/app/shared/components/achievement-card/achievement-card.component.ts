@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AchievementsTitle } from '../../constants/constants';
 import { Achievement } from '../../models/achievement.model';
+import { Person } from '../../models/user.model';
 import { Workshop } from '../../models/workshop.model';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-achievement-card',
@@ -20,5 +22,9 @@ export class AchievementCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  private getFullName(person: Person): string {
+    return Util.getFullName(person);
+  }
 
 }

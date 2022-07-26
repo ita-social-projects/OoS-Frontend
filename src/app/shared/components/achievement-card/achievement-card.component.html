@@ -12,12 +12,11 @@
               <div *ngFor="let child of achievement?.children">
                 <h4 class="card_title">Учасники</h4> 
                 <p class="card_text">
-                  {{child.firstName}} {{child.lastName}} {{child.middleName}}
+                  {{ getFullName(child) }}
                 </p>
               </div>
             </ng-container>            
             <h4 class="card_title">Опис</h4> 
-
             <mat-card-content>
               <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
                 {{(showMore) ? achievement.title : achievement.title | slice:0:150}}
@@ -27,7 +26,6 @@
               </p>  
             </mat-card-content>
         </div> 
-        
         <ng-container 
           *ngIf="isAllowedEdit">
           <div fxLayout="row" fxLayoutAlign="end" class="actions">
