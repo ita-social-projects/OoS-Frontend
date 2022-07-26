@@ -110,23 +110,7 @@ export class FilterState {
   static order(state: FilterStateModel): {} { return state.order };
 
   @Selector()
-  static filterList(state: FilterStateModel): {
-    withDisabilityOption: boolean;
-    categoryCheckBox: Direction[],
-    ageFilter: { minAge: number, maxAge: number },
-    priceFilter: {
-      minPrice: number,
-      maxPrice: number,
-      isFree: boolean,
-      isPaid: boolean
-    },
-    workingHours: {
-      workingDays: string[],
-      startTime: string,
-      endTime: string
-    },
-    order: string
-  } {
+  static filterList(state: FilterStateModel): any {
     const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, order } = state
     return {
       withDisabilityOption,

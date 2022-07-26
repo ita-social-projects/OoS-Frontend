@@ -1,12 +1,21 @@
 <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+  <!-- <div class="search shadow">
+    <mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
+      <input type="text" maxlength="200" [formControl]="searchValue" matInput placeholder="Введіть назву напрямку"
+        >
+      <mat-error></mat-error>
+      <mat-icon class="icon" style="transform: rotate(90deg)" (click)="onSearch()">search</mat-icon>
+    </mat-form-field>
+  </div> -->
+
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        [formControl]="filterFormControl"
+        [formControl]="searchValue"
+        (keyup.enter)="onSearch()" 
         matInput
         type="text"
-        maxlength="200"
         class="search"
         placeholder="Введіть назву напрямку"
       />

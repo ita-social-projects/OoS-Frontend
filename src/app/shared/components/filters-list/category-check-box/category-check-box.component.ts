@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit,OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
@@ -14,39 +14,47 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 @Component({
   selector: 'app-category-check-box',
   templateUrl: './category-check-box.component.html',
-  styleUrls: ['./category-check-box.component.scss'],
+  styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
   directions$: Observable<Direction[]>;
+
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
+  
   @Select(FilterState.directions)
   filterDirections$: Observable<Direction[]>;
 
-  @Input() stateDirections: Direction[];
   @Input()
   set categoryCheckBox(filter: Direction[]) {
     this.selectedDirections = filter;
-  }
+  };
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+
   allDirections: Direction[] = [];
   selectedDirections: Direction[] = [];
   filteredDirections: Direction[] = [];
   directionSearch = new FormControl('');
   showAll = true;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
+
     this.store.dispatch(new GetDirections());
 
-    this.directions$.pipe(takeUntil(this.destroy$)).subscribe(directions => (this.allDirections = directions));
+    this.directions$.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe(directions => this.allDirections = directions);
 
     this.directionSearch.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe(val => {
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe((val) => {
         if (val) {
           this.onDirectionFilter(val);
           this.showAll = false;
@@ -55,10 +63,6 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
           this.showAll = true;
         }
       });
-
-    if (this.stateDirections) {
-      this.selectedDirections = this.stateDirections;
-    }
   }
 
   /**
@@ -67,12 +71,7 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
    * @param event
    */
   onDirectionCheck(direction: Direction, event: MatCheckbox): void {
-    event.checked
-      ? this.selectedDirections.push(direction)
-      : this.selectedDirections.splice(
-          this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
-          1
-        );
+    (event.checked) ? this.selectedDirections.push(direction) : this.selectedDirections.splice(this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id), 1);
     this.store.dispatch(new SetDirections(this.selectedDirections));
   }
 
@@ -82,7 +81,10 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
    */
   onDirectionFilter(value: string): void {
     this.filteredDirections = this.allDirections
-      .filter(direction => direction.title.toLowerCase().startsWith(value.toLowerCase()))
+      .filter(direction => direction.title
+        .toLowerCase()
+        .startsWith(value.toLowerCase())
+      )
       .map(direction => direction);
   }
 
@@ -91,7 +93,9 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
    * @returns boolean
    */
   onSelectCheck(value: Direction): boolean {
-    const result = this.selectedDirections.some(direction => direction.title.startsWith(value.title));
+    const result = this.selectedDirections
+      .some(direction => direction.title.startsWith(value.title)
+      );
     return result;
   }
 

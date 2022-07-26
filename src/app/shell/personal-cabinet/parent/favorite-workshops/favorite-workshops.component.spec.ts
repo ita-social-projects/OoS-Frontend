@@ -5,9 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { ParentComponent } from '../parent.component';
-import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;
@@ -18,16 +15,12 @@ describe('FavoriteWorkshopsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgxsModule.forRoot([]),
-        MatDialogModule
+        NgxsModule.forRoot([])
       ],
       declarations: [
         FavoriteWorkshopsComponent,
         MockWorkshopCardComponent,
-        MockListWorkshopCardPaginatorComponent,
-        NoWorkshopsCardComponent,
-        ParentComponent, 
-        CabinetDataComponent,
+        MockListWorkshopCardPaginatorComponent
       ]
     })
       .compileComponents();
@@ -38,6 +31,7 @@ describe('FavoriteWorkshopsComponent', () => {
     spyOn(store, 'selectSnapshot').and.returnValue([] as Workshop[]);
     fixture = TestBed.createComponent(FavoriteWorkshopsComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -61,12 +55,4 @@ class MockWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
-}
-
-@Component({
-  selector: 'app-no-result-card',
-  template: ''
-})
-class NoWorkshopsCardComponent {
-  @Input() title: string;
 }

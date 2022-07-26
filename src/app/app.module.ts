@@ -27,7 +27,6 @@ import { AdminState } from './shared/store/admin.state';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NotificationsState } from './shared/store/notifications.state';
 import { PaginatorState } from './shared/store/paginator.state';
-import { FooterComponent } from './footer/footer.component';
 
 registerLocaleData(localeUk);
 
@@ -36,7 +35,6 @@ registerLocaleData(localeUk);
     HeaderComponent,
     AppComponent,
     ShellComponent,
-    FooterComponent
   ],
   imports: [
     SharedModule,

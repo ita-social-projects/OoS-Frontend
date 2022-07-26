@@ -27,10 +27,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
-    croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
-    croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio
   }
   readonly PayRateType = PayRateType;
   readonly PayRateTypeUkr = PayRateTypeUkr;

@@ -6,7 +6,6 @@ import { PaginationConstants } from '../../constants/constants';
 import { Child, ChildCards } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
-import { AdminStateModel } from '../../store/admin.state';
 import { PaginatorState } from '../../store/paginator.state';
 import { UserStateModel } from '../../store/user.state';
 @Injectable({
@@ -20,12 +19,9 @@ export class ChildrenService {
     private store: Store,
   ) { }
 
-  private setParams( searchString?:string ): HttpParams {
+  private setParams(state: UserStateModel): HttpParams {
     let params = new HttpParams();
 
-    if(searchString){
-      params = params.set('SearchString', searchString);
-    }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
     const from: number = size * (+currentPage.element - 1);
@@ -40,8 +36,8 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(): Observable<ChildCards> {
-    const options = { params: this.setParams() };
+  getUsersChildren(state: UserStateModel): Observable<ChildCards> {
+    const options = { params: this.setParams(state) };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
   }
@@ -61,10 +57,12 @@ export class ChildrenService {
     /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(searchString: string): Observable<ChildCards> {
-    const options = { params: this.setParams(searchString) };
+  getChildrenForAdmin(): Observable<ChildCards> {
+    let params = new HttpParams();
+    params = params.set('Size', '0');
+    params = params.set('From', '0');
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, options);
+    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, { params });
   }
 
 

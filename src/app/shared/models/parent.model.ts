@@ -1,5 +1,4 @@
-import { Person } from "./user.model";
-export class Parent{
+export class Parent {
   id?: string;
   userId?: number;
 
@@ -8,14 +7,15 @@ export class Parent{
     this.userId = info.userId;
   }
 }
-export class ParentWithContactInfo implements Person{
-  id: string;
+
+export class ParentWithContactInfo{
+  id?: string;
   userId?: string;
   email?: string;
   phoneNumber?: string;
-  lastName: string;
+  lastName?: string;
   middleName?: string;
-  firstName: string;
+  firstName?: string;
 
   constructor(info) {
     this.id = info.id;

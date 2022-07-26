@@ -1,4 +1,3 @@
-import { Logout } from './../../../../shared/store/registration.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -6,7 +5,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
 import { CreateProviderSteps } from 'src/app/shared/enum/provider';
 import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
@@ -17,11 +16,7 @@ import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
 import { Util } from 'src/app/shared/utils/utils';
-import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { MatDialog } from '@angular/material/dialog';
+import { CreateFormComponent } from '../../create-form/create-form.component';
 
 @Component({
   selector: 'app-create-provider',
@@ -47,8 +42,8 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   AgreementFormControl = new FormControl(false);
 
   @ViewChild('stepper') stepper: MatStepper;
-  
-  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private changeDetector : ChangeDetectorRef, private matDialog: MatDialog,) {
+
+  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private changeDetector : ChangeDetectorRef) {
     super(store, route, navigationBarService);
   }
 
@@ -62,6 +57,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
+        
   }
 
   ngAfterViewInit(): void {
@@ -170,25 +166,5 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
         this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
       }
     });
-  }
-
-  onCancel(){
-    const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
-
-    if (!isRegistered) {
-        const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-          width: Constants.MODAL_SMALL,
-          data: {
-            type: ModalConfirmationType.leaveRegistration,
-            property: '',
-          },
-        });
-    
-        dialogRef.afterClosed().subscribe((result: boolean) => {
-          if (result) {
-            this.store.dispatch(new Logout());
-          }
-        });
-    }
   }
 }

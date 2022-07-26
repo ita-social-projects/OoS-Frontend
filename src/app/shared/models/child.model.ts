@@ -1,7 +1,5 @@
 import { ParentWithContactInfo } from './parent.model';
-import { Person } from './user.model';
-import { SocialGroup } from './socialGroup.model';
-export class Child implements Person {
+export class Child {
   id: string;
   firstName: string;
   lastName: string;
@@ -9,7 +7,7 @@ export class Child implements Person {
   dateOfBirth: string;
   gender: number;
   parentId?: number;
-  socialGroups: SocialGroup[];
+  socialGroupId: number;
   placeOfStudy: string;
   parent: ParentWithContactInfo;
 
@@ -20,7 +18,7 @@ export class Child implements Person {
     this.middleName = info.middleName;
     this.dateOfBirth = info.dateOfBirth;
     this.gender = info.gender;
-    this.socialGroups = info.socialGroups;
+    this.socialGroupId = info.socialGroupId ? info.socialGroupId : null;
     this.parentId = parentId;
     this.placeOfStudy = info.placeOfStudy;
   }

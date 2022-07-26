@@ -2,37 +2,35 @@ import { UserState } from 'src/app/shared/store/user.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Role } from 'src/app/shared/enum/role';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { ParentComponent } from '../parent.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-favorite-workshops',
   templateUrl: './favorite-workshops.component.html',
   styleUrls: ['./favorite-workshops.component.scss']
 })
-export class FavoriteWorkshopsComponent extends ParentComponent implements OnInit, OnDestroy {
-  readonly Role  = Role;
+export class FavoriteWorkshopsComponent implements OnInit, OnDestroy {
+  readonly Role: typeof Role = Role;
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
-  @Select(UserState.favoriteWorkshopsCard)
-  favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
   currentPage: PaginationElement = {
     element: 1,
     isActive: true
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
-    super(store, matDialog);
-  }
+  @Select(UserState.favoriteWorkshopsCard)
+  favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  protected addNavPath(): void {
+  constructor(public store: Store) { }
+
+  ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath(
         {
@@ -41,10 +39,14 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
           disable: true,
         }
       )
-    );    
+    );       
   }
 
-  initParentData(): void { }
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
+  }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;

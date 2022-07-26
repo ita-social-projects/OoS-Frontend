@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -56,7 +56,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.getParentData();
     this.getWorkshopRatingList();
     
-    this.actions$.pipe(ofActionCompleted(OnCreateRatingSuccess))
+    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
@@ -69,7 +69,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => {
       this.parent = parent;
-      //this.store.dispatch(new GetApplicationsByParentId(parent.id)); // TODO: check if parent has applciation
+      this.store.dispatch(new GetApplicationsByParentId(parent.id));
       this.applications$.pipe(
         filter((applications: Application[]) => !!applications?.length),
         takeUntil(this.destroy$)

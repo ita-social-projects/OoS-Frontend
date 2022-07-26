@@ -1,0 +1,109 @@
+<mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
+
+  <div class="mobile-sidenav-content" *ngIf="isMobileView">
+    <div *ngIf="(isAuthorized$ | async) && user then isAuthorized; else isUnauthorized"></div>
+
+    <ng-template #isUnauthorized>
+      <div class="mobile-sidenav-header">
+        <button mat-stroked-button class="header_login" (click)="login()">
+          УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
+        </button>
+        <button mat-button (click)="changeView()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <ng-container *ngTemplateOutlet="Language">
+      </ng-container>
+    </ng-template>
+
+    <ng-template #isAuthorized>
+      <div class="mobile-sidenav-header">
+        <button mat-icon-button class="mobile-sidenav-account">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <ng-container>{{user.firstName}} {{user.lastName}}</ng-container>
+        <button mat-button (click)="changeView()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="mobile-sidenav-shell">
+        <ng-container *ngTemplateOutlet="Language">
+        </ng-container>
+
+        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async).release2">
+          <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
+            <app-notifications fxLayout="row" fxLayoutAlign="space-between center">
+            </app-notifications>
+          </a>
+        </div>
+
+        <hr class="hr-grey">
+
+        <div class="mobile-sidenav-menu">
+          <div *ngIf="(user?.role !== Role.techAdmin) then UserView; else AdminView"></div>
+          <ng-template #UserView>
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація
+              про
+              {{roles[user.role]}}</a>
+            <a [routerLink]="'./personal-cabinet/workshops'" (click)="changeView()">Мої гуртки</a>
+            <a [routerLink]="'./personal-cabinet/applications'" (click)="changeView()">Мої заяви</a>
+            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/administration'"
+              (click)="changeView()">Адміністрування</a>
+            <!-- <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a> TODO: add to teh second release-->
+            <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'"
+              (click)="changeView()">Улюблене</a>
+          </ng-template>
+          <ng-template #AdminView>
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста інформація</a>
+            <a [routerLink]="'./admin-tools/platform'" [queryParams]="{page: defaultAdminTabs}" (click)="changeView()">Адміністрування</a>
+          </ng-template>
+        </div>
+      </div>
+    </ng-template>
+    <hr class="hr-grey">
+
+    <a [routerLink]="'./info/about'" (click)="changeView()">
+      <button mat-flat-button>
+        Про Портал
+      </button>
+    </a>
+    <hr class="hr-grey">
+    <a [routerLink]="'./info/support'" (click)="changeView()">
+      <button mat-flat-button>
+        Підтримка
+      </button>
+    </a>
+    <hr class="hr-grey">
+
+    <a [routerLink]="''" (click)="changeView()">
+      <button mat-flat-button>
+        Головна
+      </button>
+    </a>
+    <hr class="hr-grey">
+
+    <ng-container *ngIf="(user?.role === Role.techAdmin)">
+      <a (click)="changeView()">
+        <button mat-flat-button>
+          Нормативно-правові акти
+        </button></a>
+      <hr class="hr-grey">
+    </ng-container>
+
+    <button *ngIf="isAuthorized$ | async" mat-flat-button (click)="logout()">Вийти</button>
+  </div>
+</mat-drawer>
+
+<ng-template #Language>
+  <div class="mobile-sidenav-language">
+    <button mat-flat-button>
+      <mat-icon class="mobile-sidenav-icon">language</mat-icon>
+      <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option"
+        disableOptionCentering panelClass="dropdownOptionMobile">
+        <mat-option [ngClass]="'lang-option-text'" value="uk"> {{Languages.uk}} </mat-option>
+      </mat-select>
+    </button>
+  </div>
+</ng-template>

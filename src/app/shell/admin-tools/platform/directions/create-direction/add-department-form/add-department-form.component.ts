@@ -14,7 +14,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { CreateDepartment, UpdateDepartment } from 'src/app/shared/store/admin.actions';
 import { GetClasses, GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({

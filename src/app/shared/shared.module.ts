@@ -8,17 +8,22 @@ import { CityFilterComponent } from './components/filters-list/city-filter/city-
 import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
+import { TeacherCardComponent } from './components/teacher-card/teacher-card.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
+import { ChildInfoBoxComponent } from './components/child-info-box/child-info-box.component';
+import { InfoBoxHostDirective } from './directives/info-box-host.directive';
 import { PriceFilterComponent } from './components/filters-list/price-filter/price-filter.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryCheckBoxComponent } from './components/filters-list/category-check-box/category-check-box.component';
+import { PersonCardComponent } from './components/person-card/person-card.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
+import { ChildCardComponent } from './components/child-card/child-card.component';
 import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pipe';
 import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
@@ -26,19 +31,22 @@ import { PlaceholderFormDirective } from './directives/placeholder-styling.direc
 import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
-import { FullSearchBarComponent } from './components/filters-list/full-search-bar/full-search-bar.component';
+import { FullSearchBarComponent } from './components/full-search-bar/full-search-bar.component';
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { StarsComponent } from './components/stars/stars.component';
+import { FooterComponent } from '../footer/footer.component';
 import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
-import { SidenavMenuComponent } from './components/sidenav-menu/sidenav-menu.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 import { NoResultCardComponent } from './components/no-result-card/no-result-card.component';
 import { MaterialModule } from './modules/material.module';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
-import { WorkingHoursFormComponent } from '../shell/personal-cabinet/provider/create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
+import { WorkingHoursFormComponent } from './components/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
 import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-filters.component';
+import { RejectModalWindowComponent } from './components/reject-modal-window/reject-modal-window.component';
 import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NotificationsComponent } from './components/notifications/notifications.component';
@@ -53,13 +61,13 @@ import { ProviderInfoComponent } from './components/provider-info/provider-info.
 import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { TrimValueDirective } from './directives/trim-value.directive';
+import { WorkingHoursFormWrapperComponent } from './components/working-hours-form-wrapper/working-hours-form-wrapper.component';
+import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
-import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
+import { AchievementCardComponent } from './components/achievement-card/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
-import { LoginComponent } from './components/login/login.component';
-import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 
 @NgModule({
   declarations: [
@@ -69,14 +77,19 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     CityFilterComponent,
     DigitOnlyDirective,
     WorkshopCardComponent,
+    TeacherCardComponent,
     CategoryCardComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective,
     WorkingHoursComponent,
     PriceFilterComponent,
     CategoryCheckBoxComponent,
+    PersonCardComponent,
+    ChildCardComponent,
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
@@ -89,14 +102,17 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
+    StarsComponent,
+    FooterComponent,
     CityConfirmationComponent,
-    SidenavMenuComponent,
+    SidenavComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
     WorkshopCardDialog,
     SidenavFiltersComponent,
+    RejectModalWindowComponent,
     ImageCarouselComponent,
     NotificationsComponent,
     NotificationsListComponent,
@@ -106,15 +122,15 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     PhoneTransformPipe,
     ProviderAdminsFilterPipe,
     DeclinationPipe,
-    ProviderInfoComponent,
+    ProviderInfoComponent,    
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
+    WorkingHoursFormWrapperComponent,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
     AchievementCardComponent,
-    LoginComponent,
   ],
   imports: [
     MaterialModule,
@@ -136,7 +152,24 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     DigitOnlyDirective,
     WorkshopCardComponent,
     MaterialModule,
+    TeacherCardComponent,
+    CategoryCardComponent,
+    CityAutocompleteComponent,
+    MinMaxDirective,
+    ImageFormControlComponent,
+    ApplicationFilterPipe,
+    ChildInfoBoxComponent,
+    InfoBoxHostDirective,
+    FormsModule,
+    CategoryCheckBoxComponent,
+    PersonCardComponent,
+    ChildCardComponent,
+    MapComponent,
+    ApplicationChildFilterPipe,
+    ConfirmationModalWindowComponent,
+    PlaceholderFormDirective,
     ValidationMessageStyling,
+    NavigationBarComponent,
     NavigationMobileBarComponent,
     EntityCheckboxDropdownComponent,
     FullSearchBarComponent,
@@ -144,8 +177,10 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
     ReactiveFormsModule,
+    StarsComponent,
+    FooterComponent,
     CityConfirmationComponent,
-    SidenavMenuComponent,
+    SidenavComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
     NoResultCardComponent,
@@ -164,10 +199,10 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
     ApplicationChildSortingPipe,
     ValidationHintComponent,
     TrimValueDirective,
+    WorkingHoursFormWrapperComponent,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent,
-    AchievementCardComponent,
+    InfoFormComponent
   ]
 })
 export class SharedModule { }

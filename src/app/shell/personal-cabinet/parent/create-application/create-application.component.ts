@@ -35,18 +35,11 @@ import { MatSelectChange } from '@angular/material/select';
 export class CreateApplicationComponent implements OnInit, OnDestroy {
   readonly CardType = cardType;
 
-  @Select(UserState.children) 
-  children$: Observable<ChildCards>;
-  @Select(UserState.isAllowChildToApply) 
-  isAllowChildToApply$: Observable<boolean>;
-  @Select(RegistrationState.user) 
-  user$: Observable<User>;
-  @Select(RegistrationState.parent) 
-  parent$: Observable<ParentWithContactInfo>;
+  @Select(UserState.children) children$: Observable<ChildCards>;
+  @Select(UserState.isAllowChildToApply) isAllowChildToApply$: Observable<boolean>;
+  @Select(RegistrationState.user) user$: Observable<User>;
+  @Select(RegistrationState.parent) parent$: Observable<ParentWithContactInfo>;
   parent: ParentWithContactInfo;
-  @Select(UserState.selectedWorkshop) 
-  workshop$: Observable<Workshop>;
-  workshop: Workshop;
 
   ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
@@ -58,6 +51,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   isParentAgreed: boolean;
   isAllowChildToApply: boolean;
 
+  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
+  workshop: Workshop;
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

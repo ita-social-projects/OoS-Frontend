@@ -1,15 +1,8 @@
-export interface Person {
-  id?: string;
-  lastName: string;
-  middleName?: string;
-  firstName: string;
-}
-export class User implements Person {
+export class User {
   isRegistered: boolean;
-  lastName: string;
+  lastName?: string;
   middleName?: string;
-  firstName: string;
-  gender?: number;
+  firstName?: string;
   id: string;
   userName?: string;
   email?: string;
@@ -20,7 +13,6 @@ export class User implements Person {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    this.gender = info.gender;
     this.phoneNumber = info.phoneNumber;
     this.id = id;
   }

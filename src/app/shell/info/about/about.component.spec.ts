@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { AboutComponent } from './about.component';
-import { NgxsModule } from '@ngxs/store';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;

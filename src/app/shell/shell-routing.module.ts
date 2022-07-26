@@ -1,4 +1,3 @@
-import { LoginComponent } from './../shared/components/login/login.component';
 import { InfoEditComponent } from './admin-tools/platform/platform-info/info-edit/info-edit.component';
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
@@ -13,8 +12,8 @@ import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateChildComponent } from './personal-cabinet/parent/create-child/create-child.component';
 import { CreateApplicationComponent } from './personal-cabinet/parent/create-application/create-application.component';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
-import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-config/user-config-edit/user-config-edit.component';
-import { CreateGuard } from './personal-cabinet/shared-cabinet/create-form/create.guard';
+import { UserConfigEditComponent } from './personal-cabinet/user-config/user-config-edit/user-config-edit.component';
+import { CreateGuard } from './personal-cabinet/create.guard';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
 import { AboutComponent } from './info/about/about.component';
 import { SupportComponent } from './info/support/support.component';
@@ -34,7 +33,6 @@ const routes: Routes = [
   { path: 'result', redirectTo: 'result/list', pathMatch: 'full' },
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
-  { path: 'login', component: LoginComponent },
   {
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },

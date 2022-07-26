@@ -18,11 +18,11 @@ export class CategoriesService {
     private store: Store,
   ) { }
 
-  private setParams(searchString: string): HttpParams {
+  private setParams(filters: AdminStateModel): HttpParams {
     let params = new HttpParams();
 
-    if (searchString) {
-      params = params.set('Name', searchString);
+    if (filters.searchQuery) {
+      params = params.set('Name', filters.searchQuery);
     }
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
@@ -35,8 +35,8 @@ export class CategoriesService {
     return params;
   }
 
-  getFilteredDirections(searchString: string): Observable<DirectionsFilter> {
-    const options = { params: this.setParams(searchString) };
+  getFilteredDirections(filters: AdminStateModel): Observable<DirectionsFilter> {
+    const options = { params: this.setParams(filters) };
     return this.http.get<DirectionsFilter>('/api/v1/Direction/GetByFilter', options);
   }
 

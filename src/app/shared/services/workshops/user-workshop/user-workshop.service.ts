@@ -7,26 +7,21 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserWorkshopService {
   isRelease2: boolean;
 
-  constructor(private http: HttpClient, private store: Store) {}
-
-  /**
-   * This method get related workshops for provider admins
-   */
-  getProviderAdmisnWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/api/v1/ProviderAdmin/ManagedWorkshops`);
-  }
+  constructor(
+    private http: HttpClient,
+    private store: Store) { }
 
   /**
    * This method get workshops by Provider id
    * @param id: string
    */
-  getWorkshopsByProviderId(id: string): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/api/v1/Workshop/GetByProviderId/${id}`);
+  getWorkshopsByProviderId(id: string): Observable<WorkshopCard[]> {
+    return this.http.get<WorkshopCard[]>(`/api/v1/Workshop/GetByProviderId/${id}`);
   }
 
   /**

@@ -1,6 +1,6 @@
 <div class="paginator" fxLayout="row wrap" fxLayoutAlign="center center">
-  <div fxLayout="row" fxLayoutAlign="center center" *ngIf="totalPageAmount; else singlePageTmpl">
-    <button mat-button *ngIf="currentPage.element !== 1" class="page arrow" (click)="onArroveClick(false)">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-button *ngIf="!(currentPage.element === 1)" class="page arrow" (click)="onArroveClick(false)">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <button mat-button *ngFor="let page of carouselPageList" class="page"
@@ -21,7 +21,3 @@
       </mat-option>
     </mat-select>
 </div>
-
-<ng-template #singlePageTmpl>
-  <button mat-button class="page-selected">1</button>
-</ng-template>

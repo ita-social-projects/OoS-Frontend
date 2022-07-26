@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
@@ -17,13 +17,14 @@ import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
+import { RegistrationState } from '../../store/registration.state';
 
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
   styleUrls: ['./provider-info.component.scss'],
 })
-export class ProviderInfoComponent implements OnInit, OnDestroy {
+export class ProviderInfoComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
@@ -41,8 +42,8 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   @Select(MetaDataState.institutionStatuses)
   institutionStatuses$: Observable<InstitutionStatus[]>;
-  institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  currentStatus: string;
 
   constructor(private store: Store) {}
 
@@ -50,13 +51,15 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetInstitutionStatus());
     this.institutionStatuses$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses))
-      .subscribe((institutionStatuses: InstitutionStatus[]) => {
-        this.institutionStatusName = institutionStatuses.find(
-          (item: InstitutionStatus) => item.id === this.provider.institutionStatusId
-        ).name;
-      });
+        filter((institutionStatuses) => !!institutionStatuses.length),
+        takeUntil(this.destroy$)
+        ).subscribe((institutionStatuses) => {
+          const provider = this.store.selectSnapshot(RegistrationState.provider);
+          this.currentStatus =
+            institutionStatuses
+              .find((item) => +item.id === provider?.institutionStatusId)
+              ?.name.toString() ?? 'Відсутній';
+        });
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -70,10 +73,5 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

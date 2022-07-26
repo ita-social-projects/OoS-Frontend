@@ -13,7 +13,7 @@ export class ImageCropperModalComponent {
   imageChangedEvent: string = '';
   croppedImage: string = '';
   imageFile: Blob;
-  invalidMinRequirements: boolean = false;
+  imageHasMinimumRequirements: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
     image: string,
@@ -36,7 +36,7 @@ export class ImageCropperModalComponent {
 
   imageLoaded(image: LoadedImage): void {
     const { height, width } = image.original.size;   
-    this.invalidMinRequirements = (height < this.data.cropperConfig.cropperMinHeight || width < this.data.cropperConfig.cropperMinWidth);
+    this.imageHasMinimumRequirements = !!(height <= this.data.cropperConfig.cropperMinHeight || width <= this.data.cropperConfig.cropperMinWidth);
   }
 
   loadImageFailed(): void {}

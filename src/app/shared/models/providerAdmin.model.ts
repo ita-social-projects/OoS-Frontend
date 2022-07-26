@@ -1,4 +1,3 @@
-import { Person } from "./user.model";
 export interface ProviderAdminTable {
   id: string,
   pib: string,
@@ -8,7 +7,8 @@ export interface ProviderAdminTable {
   status: string,
   role?: string,
 }
-export class ProviderAdmin implements Person {
+
+export class ProviderAdmin {
   id?: string;
   userId?: string;
   firstName: string;

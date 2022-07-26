@@ -6,7 +6,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
-import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
@@ -15,10 +14,8 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { UserWorkshopService } from 'src/app/shared/services/workshops/user-workshop/user-workshop.service';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateWorkshop, GetWorkshopById, UpdateWorkshop } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
-import { Util } from 'src/app/shared/utils/utils';
-import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
+import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/user.actions';
+import { CreateFormComponent } from '../../create-form/create-form.component';
 
 @Component({
   selector: 'app-create-workshop',
@@ -30,13 +27,9 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   }]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
-
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
-
-  @Select(UserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
   workshop: Workshop;
 
   AboutFormGroup: FormGroup;
@@ -65,37 +58,16 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
-    this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createNavPaths(
-          {
-            name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/administration',
-            isActive: false,
-            disable: false,
-          },
-          { 
-            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, 
-            isActive: false, 
-            disable: true 
-          }
-        )
-      )
-    );
+    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
+      { name: PersonalCabinetTitle.provider, path: '/personal-cabinet/workshops', isActive: false, disable: false },
+      { name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, isActive: false, disable: true })));
   }
 
   setEditMode(): void {
     const workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch(new GetWorkshopById(workshopId));
-
-    this.selectedWorkshop$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((workshop: Workshop) => !!workshop))
-      .subscribe((workshop: Workshop) => (this.workshop = workshop));
+    this.userWorkshopService.getWorkshopById(workshopId).pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((workshop: Workshop) => this.workshop = workshop);//TODO: move to state actions
   }
 
 

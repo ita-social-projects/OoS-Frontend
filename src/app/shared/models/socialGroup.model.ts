@@ -1,4 +1,5 @@
 export interface SocialGroup {
-  id: number;
-  name: string;
+  id: string;
+  childrenIds: string;
+  name: number;
 }

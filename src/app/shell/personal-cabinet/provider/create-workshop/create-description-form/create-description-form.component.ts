@@ -21,10 +21,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
-    croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
-    croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio
   }
 
   @Input() workshop: Workshop;

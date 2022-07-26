@@ -1,8 +1,5 @@
 <form [formGroup]="InfoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
 
-  <app-image-form-control [imgMaxAmount]="1" [cropperConfig]="cropperConfig" [label]="'Фонове зображення'"
-  formControlName="coverImage" [imageIdsFormControl]="InfoFormGroup.get('coverImageId')"></app-image-form-control>
-
   <label class="step-label">Форма власності<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="ownership"

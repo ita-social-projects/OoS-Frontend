@@ -4,8 +4,8 @@ import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { PersonalCabinetTitle } from '../enum/navigation-bar';
 import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
-import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
+import { RegistrationState } from '../store/registration.state';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -133,9 +133,9 @@ export class Util {
       updatedUsers.push({
         id: user.id,
         pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
-        email: user.parent.email || constants.NO_INFORMATION,
+        email: user.email || constants.NO_INFORMATION,
         place: user.place || constants.NO_INFORMATION,
-        phoneNumber: user.parent.phoneNumber ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}` : constants.NO_INFORMATION,
+        phoneNumber: user.phoneNumber ? `${constants.PHONE_PREFIX} ${user.phoneNumber}` : constants.NO_INFORMATION,
         role: user.parentId ? 'Діти' : 'Батьки',
         status: user.accountStatus || 'Accepted',
       });
@@ -193,11 +193,11 @@ export class Util {
     return finalMessage;
   }
 
-  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
-    return (userRole !== Role.provider) ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
-  }
-
-  public static getFullName(person: Person): string {
-    return `${person.lastName} ${person.firstName} ${person.middleName}`;
+  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {   
+    if(userRole !== Role.provider){
+      return PersonalCabinetTitle[userRole]
+    } else {
+      return PersonalCabinetTitle[subrole];
+    }
   }
 }

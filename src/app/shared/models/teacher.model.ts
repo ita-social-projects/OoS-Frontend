@@ -1,11 +1,9 @@
-import { Person } from "./user.model";
-export class Teacher implements Person {
+export class Teacher {
   id?: string;
   workshopId?: string;
   firstName: string;
   lastName: string;
   middleName: string;
-  gender: number;
   dateOfBirth?: Date | string;
   description?: string;
   coverImageId?: string[];
@@ -15,7 +13,6 @@ export class Teacher implements Person {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    this.gender = info.gender;
     this.dateOfBirth = new Date(info.dateOfBirth).toISOString();
     this.description = info.description;
     if (info.id) {

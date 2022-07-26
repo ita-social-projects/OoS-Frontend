@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { emit } from 'process';
-import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { Direction } from '../../../shared/models/category.model';
-import { SetDirections } from '../../../shared/store/filter.actions';
+import { CategoryIcons } from '../../enum/category-icons';
+import { Direction } from '../../models/category.model';
+import { SetDirections } from '../../store/filter.actions';
 
 @Component({
   selector: 'app-category-card',

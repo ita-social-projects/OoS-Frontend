@@ -5,14 +5,14 @@
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
         #input
-        [formControl]="filterFormControl"
+        [formControl]="filter"
         matInput
         type="text"
         class="search"
         placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
       />
     </div>
-    <ng-template [ngIf]="tabIndex == 0 && subRole === Role.None">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.all">
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
         Додати <mat-icon>arrow_drop_down</mat-icon>
       </button>
@@ -21,12 +21,10 @@
         <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
       </mat-menu>
     </ng-template>
-
-    <ng-template [ngIf]="tabIndex == 1 && subRole === Role.None">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.deputy && subrole !== Role.ProviderAdmin">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
-
-    <ng-template [ngIf]="tabIndex == 2 || (tabIndex == 0 && subRole === Role.ProviderDeputy)">
+    <ng-template [ngIf]="btnView == providerAdminRoleUkr.admin && subrole !== Role.ProviderAdmin">
       <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
     </ng-template>
   </div>

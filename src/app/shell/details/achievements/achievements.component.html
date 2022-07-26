@@ -1,5 +1,5 @@
 <div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
-  <app-achievement-card class="card" *ngFor="let achievement of achievements" [achievement]="achievement">
+  <app-achievement-card class="card" *ngFor="let achievement of achievements">
   </app-achievement-card>
 </div>
 <ng-template #isEmptyList>

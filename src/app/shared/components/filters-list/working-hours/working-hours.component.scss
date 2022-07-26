@@ -1,7 +1,7 @@
 @import "src/app/shared/styles/buttons.scss";
 
 .filter-text{
-  margin: 0 1rem 0 0;
+  margin: 0;
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
@@ -28,6 +28,7 @@
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
+  max-width: 85px;
   max-height: 34px;
   text-align: center;
 }
@@ -65,15 +66,9 @@
     opacity: 0.8;
   }
 }
-::ng-deep.mat-dialog-container{
-  [mat-dialog-actions] {
-    display: flex;
-    justify-content: center !important;
-  }
-}
+
 .btn{
   min-width: 150px;
-  margin: 0 0 0.5rem 0;
 }
 ::ng-deep .mat-toolbar.mat-primary{
   background-color: #3849F9 !important;
@@ -92,9 +87,17 @@
   position: absolute;
   font-size: 18px;
   color: #adadad;
-  top: 8px;
-  left: 114px;
 }
-.clear-time:hover {
+.clear-time-start {
+  top: 22px;
+  left: 99px;
+}
+.clear-time-end {
+  top: 22px;
+  left: 234px;
+}
+.clear-time-start:hover,
+.clear-time-end:hover {
   visibility: visible;
 }
+

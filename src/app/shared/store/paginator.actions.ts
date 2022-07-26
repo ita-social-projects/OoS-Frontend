@@ -40,11 +40,6 @@ export class OnPageChangeApplications {
   constructor(public payload: PaginationElement) { }
 }
 
-export class OnPageChangeAdminTable {
-  static readonly type = '[paginator] Change Page Admin Table';
-  constructor(public payload: PaginationElement) { }
-}
-
 export class SetFirstPage {
   static readonly type = '[paginator] Set First Page';
   constructor() { }

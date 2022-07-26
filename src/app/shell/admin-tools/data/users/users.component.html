@@ -4,7 +4,7 @@
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        [formControl]="filterFormControl"
+        [formControl]="filter"
         matInput
         type="text"
         class="search"
@@ -39,13 +39,6 @@
         <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
         (blockAdmin)="onBlock($event)" [displayedColumns]="displayedColumns"></app-users-list>
       </div>
-      <app-paginator
-        [totalEntities]="totalEntities"
-        [currentPage]="currentPage"
-        [itemsPerPage]="childrensPerPage$ | async"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
-      </app-paginator>
     </ng-container>
   </ng-container>
 </ng-template>

@@ -18,16 +18,16 @@
 </div>
 
 <mat-drawer-container>
-  <mat-drawer mode="side" [(opened)]="isFiltersSidenavOpen">
+  <mat-drawer mode="side" [(opened)]="visibleFiltersSidenav">
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content
-    [style.marginLeft]="isFiltersSidenavOpen ? '326px' : '0'"
+    [style.marginLeft]="visibleFiltersSidenav ? '326px' : '0'"
     [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
     <div *ngIf="currentView === viewType.map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
       <app-workshop-map-view-list
         [role]="role"
-        [filteredWorkshops$]="isFiltersSidenavOpen$"
+        [filteredWorkshops$]="filteredWorkshops$"
         [itemsPerPage]="workshopsPerPage"
         [currentPage]="currentPage"
         (itemsPerPageChange)="onItemsPerPageChange($event)">
@@ -47,9 +47,9 @@
 </mat-drawer-container>
 
 <ng-template #filterButton>
-  <button class="filters-toggle-btn" [ngClass]="isFiltersSidenavOpen ? 'visible' : 'hidden'" (click)="filterHandler()">
+  <button class="filters-toggle-btn" [ngClass]="visibleFiltersSidenav ? 'visible' : 'hidden'" (click)="filterHandler()">
     <span class="material-icons btn-icon">
-      <mat-icon *ngIf="isFiltersSidenavOpen; else hidden">filter_alt</mat-icon>
+      <mat-icon *ngIf="visibleFiltersSidenav; else hidden">filter_alt</mat-icon>
       <ng-template #hidden>
         <mat-icon>filter_alt</mat-icon>
       </ng-template>

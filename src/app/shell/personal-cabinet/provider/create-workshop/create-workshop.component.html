@@ -15,7 +15,7 @@
             (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop" [isRelease2]="isRelease2" [provider]="provider">
           </app-create-about-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
             <button class="btn" mat-raised-button matStepperNext
             [disabled]="AboutFormGroup.invalid"
@@ -33,7 +33,7 @@
           </app-create-description-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
             <button class="btn" mat-raised-button matStepperNext
               [disabled]="DescriptionFormGroup?.invalid"
@@ -49,7 +49,7 @@
           </app-create-address>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
             <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">Далі</button>
           </div>
@@ -65,7 +65,7 @@
   
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
+            <a [routerLink]="'/personal-cabinet/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
             <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
               (click)="onSubmit()">Зберегти</button>

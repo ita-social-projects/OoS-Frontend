@@ -8,7 +8,6 @@ export enum ApplicationStatus {
   Left = 'Left',
   Blocked = 'Blocked',
 }
-
 export enum ApplicationIcons {
   Pending = 'fas fa-user-clock',
   AcceptedForSelection = 'fas fa-user-plus',

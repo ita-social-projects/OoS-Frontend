@@ -1,7 +1,7 @@
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Actions, Store, ofActionCompleted } from '@ngxs/store';
+import { Actions, ofAction, Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
@@ -48,7 +48,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => (this.selectedIndex = 0));
     this.actions$
-      .pipe(ofActionCompleted(OnCreateRatingSuccess))
+      .pipe(ofAction(OnCreateRatingSuccess))
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
   }

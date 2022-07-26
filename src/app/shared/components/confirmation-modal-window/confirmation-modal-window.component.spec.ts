@@ -1,5 +1,5 @@
 import { MatIconModule } from '@angular/material/icon';
-import { StarsComponent } from '../../../shell/details/details-tabs/reviews/stars/stars.component';
+import { StarsComponent } from './../stars/stars.component';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';

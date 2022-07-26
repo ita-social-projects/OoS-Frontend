@@ -7,7 +7,7 @@ export enum Role {
   ProviderAdmin = 'ProviderAdmin',
   all = 'all',
   child = 'child',
-  None = 'None'
+  None = 'provider'
 }
 
 export enum cardType {
@@ -19,13 +19,10 @@ export enum cardType {
 
 export enum RoleLinks {
   provider = 'заклад',
-  parent = 'дітей'
+  parent = 'дитину'
 }
 
 export enum EntityType {
   provider = 'provider',
   workshop = 'workshop',
-  ProviderAdmin = 'provideradmin',
-  ProviderDeputy = 'provider',
-  None = 'provider'
 }

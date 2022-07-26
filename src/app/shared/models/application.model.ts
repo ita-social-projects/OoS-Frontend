@@ -1,5 +1,3 @@
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { EntityType } from '../enum/role';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
 import { Workshop, WorkshopCard } from './workshop.model';
@@ -38,17 +36,3 @@ export interface ApplicationCards {
   totalAmount: number;
   entities: Application[];
 }
-
-export interface ApplicationParameters {
-  property?: EntityType;
-  statuses: ApplicationStatus[];
-  showBlocked: boolean;
-  orderByDateAscending?: boolean;
-  orderByAlphabetically?: boolean;
-  orderByStatus?: boolean;
-  workshops?: string[];
-  children?: string[];
-  from?: number;
-  size?: number;
-}
-

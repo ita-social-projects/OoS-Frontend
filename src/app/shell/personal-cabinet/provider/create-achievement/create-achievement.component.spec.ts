@@ -17,7 +17,6 @@ import { CreateAchievementComponent } from './create-achievement.component';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { Achievement } from 'src/app/shared/models/achievement.model';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;
@@ -41,7 +40,7 @@ describe('CreateAchievementComponent', () => {
         MatChipsModule,
         MatIconModule
       ],
-      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockValidationHintForInputComponent],
+      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockMainNavigationBarComponent],
       providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
     }).compileComponents();
   });
@@ -77,15 +76,10 @@ class MockMainWorkshopCardComponent {
   @Input() isHorizontalView: boolean;
   @Input() isCreateApplicationView: boolean;
 }
-@Component({
-  selector: 'app-validation-hint',
-  template: ''
-})
 
-class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
-  @Input() isTouched: boolean;
-  @Input() minMaxDate: boolean;
-  @Input() maxCharachters: number;
-  @Input() minCharachters: number;
+@Component({
+  selector: 'app-navigation-bar',
+  template: '',
+})
+class MockMainNavigationBarComponent {  
 }

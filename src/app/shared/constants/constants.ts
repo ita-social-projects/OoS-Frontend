@@ -25,6 +25,7 @@ export class Constants {
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = 0;
+  static readonly INSTITUTION_STATUS_ID_ABSENT_VALUE = 0;
 
   static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
   static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
@@ -107,7 +108,7 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
 ];
 
 export class NotificationsConstants {
-  static readonly NO_MESSAGE = 'У вас немає нових сповіщень';
+  static readonly NO_MESSAGE = 'У вас немає нових повідомлень';
 }
 
 export class CropperConfigurationConstants {
@@ -118,12 +119,5 @@ export class CropperConfigurationConstants {
   static readonly cropperMaxWidth = 10000;
   static readonly cropperMinHeight = 250;
   static readonly cropperMaxHeight = 8000;
-  static readonly croppedFormat = 'jpeg';
-  static readonly croppedQuality = 90;
-  static readonly croppedGalleryImage = {
-    height: 300
-  };
-  static readonly croppedCoverImage = {
-    height: 250
-  };
+  static readonly croppedFormat = ['png', 'jpeg'];
 }
