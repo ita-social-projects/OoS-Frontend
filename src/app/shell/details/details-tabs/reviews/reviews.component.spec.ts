@@ -45,6 +45,7 @@ describe('ReviewsComponent', () => {
     fixture = TestBed.createComponent(ReviewsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
+    component.parent = {} as Parent;
     fixture.detectChanges();
   });
 
