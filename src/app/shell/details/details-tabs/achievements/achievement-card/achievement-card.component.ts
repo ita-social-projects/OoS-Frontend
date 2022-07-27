@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AchievementsTitle } from '../../../../../shared/constants/constants';
 import { Achievement } from '../../../../../shared/models/achievement.model';
 import { Person } from '../../../../../shared/models/user.model';
@@ -16,12 +16,18 @@ export class AchievementCardComponent implements OnInit {
   @Input() achievement: Achievement;
   @Input() workshop: Workshop;
   @Input() isAllowedEdit: boolean;
+
+  @Output() deleteAchievement = new EventEmitter<Achievement>();
   
   showMore = false;
   
   constructor() {}
 
   ngOnInit(): void {}
+
+  onDelete(): void {
+    this.deleteAchievement.emit(this.achievement);
+  }
 
   private getFullName(person: Person): string {
     return Util.getFullName(person);
