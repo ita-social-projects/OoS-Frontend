@@ -727,7 +727,7 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: DeleteAchievementById
   ): Observable<object> {
-    return this.achievementsService.deleteAchievement(payload).pipe(
+    return this.achievementsService.deleteAchievement(payload.id).pipe(
       tap((res) => dispatch(new OnDeleteAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) =>
         of(dispatch(new OnDeleteAchievementFail(error)))
