@@ -25,7 +25,7 @@ export interface PaginatorStateModel {
   name: 'paginator',
   defaults: {
     workshopsPerPage: 12,
-    directionsPerPage: 10,
+    directionsPerPage: 12,
     childrensPerPage: 12,
     applicationsPerPage: 8,
     currentPage: {
