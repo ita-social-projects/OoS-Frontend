@@ -727,7 +727,7 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: DeleteAchievementById
   ): Observable<object> {
-    return this.achievementsService.deleteAchievement(payload.id).pipe(
+    return this.achievementsService.deleteAchievement(payload).pipe(
       tap((res) => dispatch(new OnDeleteAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) =>
         of(dispatch(new OnDeleteAchievementFail(error)))
@@ -745,7 +745,7 @@ export class UserState {
       new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
       new GetUsersChildren(),
     ]);
-    this.router.navigate(['/details/workshop', payload.body.workshopId]);
+    this.router.navigate(['/details/workshop', payload.workshopId]);
   }
 
   @Action(OnDeleteChildFail)

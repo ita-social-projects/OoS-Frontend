@@ -116,7 +116,7 @@ export class DeleteChildById {
 }
 export class DeleteAchievementById {
   static readonly type = '[user] delete Achievement';
-  constructor(public payload: Achievement) { }
+  constructor(public payload: string) { }
 }
 export class OnDeleteAchievementSuccess {
   static readonly type = '[user] delete Achievement success';

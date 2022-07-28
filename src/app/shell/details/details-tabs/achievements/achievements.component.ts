@@ -55,13 +55,13 @@ export class AchievementsComponent implements OnInit {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.delete,
+        type: ModalConfirmationType.deleteAchievement,
         property: '',
       },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteAchievementById(achievement));
+      result && this.store.dispatch(new DeleteAchievementById(achievement.id));
     });
   }
 
