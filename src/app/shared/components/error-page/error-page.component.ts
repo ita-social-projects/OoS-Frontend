@@ -11,6 +11,6 @@ export class ErrorPageComponent {
   constructor( private router: Router) { }
 
   OnBack(): void {
-  this.router.navigate(['']);
+    this.router.navigate(['']);
   }
 }
