@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { ErrorPageComponent } from './error-page.component';
 
@@ -8,6 +9,9 @@ describe('ErrorPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        NgxsModule.forRoot([]),
+      ],
       declarations: [ ErrorPageComponent ]
     })
     .compileComponents();

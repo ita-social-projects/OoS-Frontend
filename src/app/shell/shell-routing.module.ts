@@ -130,7 +130,7 @@ const routes: Routes = [
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]
   },
-  // { path: '**', component: ErrorPageComponent  },
+  { path: '**', component: ErrorPageComponent  },
 ];
 
 @NgModule({
