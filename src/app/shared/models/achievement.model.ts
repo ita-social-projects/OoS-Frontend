@@ -1,12 +1,14 @@
+import { Child } from "./child.model";
 
 export class Achievement {
-  id?: string;
+  id: string;
   title: string;
   achievementDate: string;
   workshopId: string;
   achievementTypeId: number;
-  childrenIDs?: string[];
-  teachers?: string[];
+  childrenIDs: string[];
+  teachers: string[];
+  children: Child[];
 
   constructor(info, workshopId, childrenIDs, teachers) {
     this.title = info.title,

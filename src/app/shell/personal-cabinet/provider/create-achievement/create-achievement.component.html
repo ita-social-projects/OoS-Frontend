@@ -10,7 +10,7 @@
         <mat-form-field appearance="none">
           <mat-select formControlName="achievementTypeId" disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <mat-option *ngFor="let achievement of achievements" [value]="achievement.id">
-              {{achievement.name}}
+              {{ achievement.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -71,7 +71,7 @@
                   *ngFor="let teacher of workshop.teachers" 
                   [value]="teacher" 
                   class="dropdown-option">
-                  {{getFullName(teacher)}}
+                  {{ getFullName(teacher) }}
                 </mat-option>
               </ng-container>
             </mat-select>

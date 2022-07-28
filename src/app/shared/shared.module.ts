@@ -57,9 +57,9 @@ import { TrimValueDirective } from './directives/trim-value.directive';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
-import { AchievementCardComponent } from './components/achievement-card/achievement-card.component';
 import { EntityCheckboxDropdownComponent } from './components/entity-checkbox-dropdown/entity-checkbox-dropdown.component';
 import { LoginComponent } from './components/login/login.component';
+import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
@@ -117,10 +117,10 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
     InfoFormComponent,
-    AchievementCardComponent,
     LoginComponent,
     StarsComponent,
     ErrorPageComponent
+    AchievementCardComponent,
   ],
   imports: [
     MaterialModule,
@@ -185,8 +185,8 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     TrimValueDirective,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent,
-    AchievementCardComponent,
+    InfoFormComponent,   
+    AchievementCardComponent, 
     StarsComponent
   ]
 })

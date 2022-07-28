@@ -58,17 +58,18 @@ export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
   constructor(public id: string, public parameters: ApplicationParameters) { }
 }
-
 export class GetApplicationsByStatus {
   static readonly type = '[user] get Applications By Status';
   constructor(public payload: number) { }
 }
-
 export class GetUsersChildren {
   static readonly type = '[user] get users Children';
   constructor() { }
 }
-
+export class GetUsersChildById {
+  static readonly type = '[user] get users Children by Id';
+  constructor(public payload: string) { }
+}
 export class GetAllUsersChildren {
   static readonly type = '[user] get all users Children';
   constructor() { }
@@ -112,6 +113,18 @@ export class OnCreateChildrenSuccess {
 export class DeleteChildById {
   static readonly type = '[user] delete Children';
   constructor(public payload: string) { }
+}
+export class DeleteAchievementById {
+  static readonly type = '[user] delete Achievement';
+  constructor(public payload: string) { }
+}
+export class OnDeleteAchievementSuccess {
+  static readonly type = '[user] delete Achievement success';
+  constructor(public payload) { }
+}
+export class OnDeleteAchievementFail {
+  static readonly type = '[user] delete Achievement fail';
+  constructor(public payload: HttpErrorResponse) { }
 }
 export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';

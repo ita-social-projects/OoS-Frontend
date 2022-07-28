@@ -75,7 +75,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.role = role;
         this.currentView = params.param;
         this.currentPage = currentPage;
-        this.workshopsPerPage = workshopsPerPage;
+       this.workshopsPerPage = workshopsPerPage;
         if (!this.isMobileView) {
           this.store.dispatch(new FiltersSidenavToggle(true));
         }
@@ -94,7 +94,6 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshops(): void {
-    this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
       if (event.navigationTrigger === 'popstate') {
         this.store.dispatch(new GetFilteredWorkshops(this.currentView === this.viewType.map));
