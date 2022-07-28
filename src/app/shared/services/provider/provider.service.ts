@@ -12,12 +12,11 @@ import { MetaDataState } from '../../store/meta-data.state';
 })
 export class ProviderService {
   isRelease2: boolean;
-  constructor(private http: HttpClient,
-    private store: Store) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   /**
    * This method get Providers from the database
-   * @param 
+   * @param
    */
   getAllProviders(): Observable<Provider[]> {
     return this.http.get<Provider[]>('/api/v1/Provider/Get');
@@ -62,9 +61,7 @@ export class ProviderService {
    */
   updateProvider(provider: Provider): Observable<object> {
     this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ?
-    this.updateProviderV1(provider) :
-    this.updateProviderV2(provider);
+    return this.isRelease2 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
   }
 
   updateProviderV1(provider: Provider): Observable<object> {
