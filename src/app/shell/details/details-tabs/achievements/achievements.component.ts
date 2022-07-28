@@ -56,7 +56,7 @@ export class AchievementsComponent implements OnInit {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.delete,
-        property: achievement.title,
+        property: '',
       },
     });
 
