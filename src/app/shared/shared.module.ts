@@ -119,7 +119,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     InfoFormComponent,
     LoginComponent,
     StarsComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
     AchievementCardComponent,
   ],
   imports: [
@@ -185,8 +185,8 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     TrimValueDirective,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent,   
-    AchievementCardComponent, 
+    InfoFormComponent,
+    AchievementCardComponent,
     StarsComponent
   ]
 })
