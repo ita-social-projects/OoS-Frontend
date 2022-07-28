@@ -911,11 +911,11 @@ export class UserState {
   @Action(GetStatusAllowedToReview)
   getApplicationsAllowedToReview(
     { patchState }: StateContext<UserStateModel>,
-    { parentId }: GetStatusAllowedToReview
+    { parentId, workshopId }: GetStatusAllowedToReview
   ): Observable<boolean> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsAllowedToReview(parentId)
+      .getApplicationsAllowedToReview(parentId, workshopId)
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowedToReview: status, isLoading: false });
