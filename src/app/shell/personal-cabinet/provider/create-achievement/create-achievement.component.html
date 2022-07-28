@@ -51,7 +51,7 @@
               Додавання досягнень можливе лише за наявності учасників у гуртку.
             </span>
           </ng-template>
-        <label class="step-label">Тренера<span class="step-required">*</span></label>
+        <label class="step-label">Тренер/Викладач<span class="step-required">*</span></label>
         <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
           <mat-form-field appearance="none">
             <mat-select multiple disableOptionCentering formControlName="teachers" 
