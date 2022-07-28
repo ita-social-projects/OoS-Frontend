@@ -332,7 +332,7 @@ export class MetaDataState {
   ): Observable<AchievementType[]> {
     patchState({ isLoading: true });
     return this.achievementService
-      .getAchievementType()
+      .getAchievementsType()
       .pipe(tap((achievementsTypes: AchievementType[]) => patchState({ achievementsTypes: achievementsTypes, isLoading: false })));
   }
 
