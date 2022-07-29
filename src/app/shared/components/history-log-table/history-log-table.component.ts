@@ -4,7 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {TypeChange} from "../../enum/enumUA/tech-admin/history-log-tabs";
 import {ApplicationTitles} from "../../enum/enumUA/applications";
 import {Util} from "../../utils/utils";
-import {Provider} from "../../models/history-log.model";
+import {ProviderHistory} from "../../models/history-log.model";
 
 @Component({
   selector: 'app-history-log-table',
@@ -19,27 +19,25 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
 
   @Input() table: Array<object>;
   @Input() tableTitle: string;
-
-  displayedColumns = ['pib', 'email', 'providerTitle', 'institutionTitle', 'providerCity', 'fieldName', 'updatedDate', 'oldValue', 'newValue'];
-
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
-
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {}
+  displayedColumns = ['pib', 'email', 'providerTitle', 'institutionTitle', 'providerCity', 'fieldName', 'updatedDate', 'oldValue', 'newValue'];
+  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.table);
 
-    this.dataSource.sortingDataAccessor = (item:Provider, property) => {
-      if (property === 'pib') {
-        return `${item.user.lastName} ${item.user.firstName} ${item.user.middleName}`;
-      }
-      else if (property === 'email') {
-        return item.user.email;
-      }
-      else {
-        return item[property];
+    this.dataSource.sortingDataAccessor = (item:ProviderHistory, property) => {
+      switch(property) {
+        case 'pib': {
+          return `${item.user.lastName} ${item.user.firstName} ${item.user.middleName}`;
+        }
+        case 'email': {
+          return item.user.email;
+        }
+        default: {
+          return item[property];
+        }
       }
     };
   }

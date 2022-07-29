@@ -8,16 +8,16 @@ import {MatTabChangeEvent} from "@angular/material/tabs/tab-group";
 import {HistoryLogTabsUkr, HistoryLogTabsUkrReverse} from "../../../../shared/enum/enumUA/tech-admin/history-log-tabs";
 import {HistoryLogService} from "../../../../shared/services/history-log/history-log.service";
 import {
-  ApplicationList,
-  ProviderAdminList,
-  ProviderList
-} from "../../../../shared/models/history-log.model";
-import {
   GetApplicationHistory,
   GetProviderAdminHistory,
   GetProviderHistory
 } from "../../../../shared/store/admin.actions";
 import {NoResultsTitle} from "../../../../shared/enum/no-results";
+import {
+  ApplicationsHistory,
+  ProviderAdminsHistory,
+  ProvidersHistory
+} from "../../../../shared/models/history-log.model";
 
 @Component({
   selector: 'app-history-log',
@@ -27,24 +27,24 @@ import {NoResultsTitle} from "../../../../shared/enum/no-results";
 export class HistoryLogComponent implements OnInit {
 
   readonly historyLogTabsUkr = HistoryLogTabsUkr;
+  readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
 
   @Select(AdminState.providerHistory)
-  providersHistory$: Observable<ProviderList>;
+  providersHistory$: Observable<ProvidersHistory>;
 
   @Select(AdminState.providerAdminHistory)
-  providerAdminHistory$: Observable<ProviderAdminList>;
+  providerAdminHistory$: Observable<ProviderAdminsHistory>;
 
   @Select(AdminState.applicationHistory)
-  applicationHistory$: Observable<ApplicationList>;
+  applicationHistory$: Observable<ApplicationsHistory>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  readonly noHistory = NoResultsTitle.noHistory;
-  provider:any = [];
-  providerAdmin:any = [];
-  application:any = [];
+  provider:ProvidersHistory;
+  providerAdmin:ProviderAdminsHistory;
+  application:ApplicationsHistory;
   tableData:any = [];
   tabIndex: number;
 
@@ -56,34 +56,31 @@ export class HistoryLogComponent implements OnInit {
   ngOnInit(): void {
     this.providersHistory$.pipe(
       takeUntil(this.destroy$),
-      filter((provider: ProviderList) => !!provider)
+      filter((provider: ProvidersHistory) => !!provider)
     )
-      .subscribe((provider: ProviderList) => {
+      .subscribe((provider: ProvidersHistory) => {
       this.tableData = provider.entities;
       this.provider = this.tableData;
     })
-    this.store.dispatch(new GetProviderHistory());
 
     this.providerAdminHistory$.pipe(
       takeUntil(this.destroy$),
-      filter((providerAdmin: ProviderAdminList) => !!providerAdmin)
+      filter((providerAdmin: ProviderAdminsHistory) => !!providerAdmin)
     )
-      .subscribe((providerAdmin: ProviderAdminList) => {
+      .subscribe((providerAdmin: ProviderAdminsHistory) => {
         this.tableData = providerAdmin.entities;
         this.providerAdmin = this.tableData;
       })
-    this.store.dispatch(new GetProviderAdminHistory());
 
     this.applicationHistory$.pipe(
       takeUntil(this.destroy$),
-      filter((application: ApplicationList) => !!application)
+      filter((application: ApplicationsHistory) => !!application)
     )
-      .subscribe((application: ApplicationList) => {
+      .subscribe((application: ApplicationsHistory) => {
         this.tableData = application.entities;
         this.application = this.tableData;
       })
-    this.store.dispatch(new GetApplicationHistory());
-
+    this.store.dispatch([new GetProviderHistory(), new GetProviderAdminHistory(), new GetApplicationHistory()]);
   }
 
 
@@ -96,6 +93,6 @@ export class HistoryLogComponent implements OnInit {
 
   ngOnDestroy () {
     this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
-
 }

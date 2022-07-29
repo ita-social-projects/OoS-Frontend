@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HistoryLogTableComponent } from './history-log-table.component';
 
 describe('HistoryLogTableComponent', () => {

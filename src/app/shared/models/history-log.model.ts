@@ -1,6 +1,6 @@
 import {User} from "./user.model";
 
-export interface Provider {
+export interface ProviderHistory {
   fieldName: string,
   oldValue: string,
   newValue: string,
@@ -12,12 +12,12 @@ export interface Provider {
   providerCity: string
 }
 
-export interface ProviderList {
+export interface ProvidersHistory {
   totalAmount: number,
-  entities: Provider[],
+  entities: ProviderHistory[],
 }
 
-export interface ProviderAdmin {
+export interface ProviderAdminHistory {
   providerAdminId: string,
   providerAdminFullName: string,
   providerTitle: string,
@@ -29,12 +29,12 @@ export interface ProviderAdmin {
   institutionTitle: string
 }
 
-export interface ProviderAdminList {
+export interface ProviderAdminsHistory {
   totalAmount: number,
-  entities: ProviderAdmin[],
+  entities: ProviderAdminHistory[],
 }
 
-export interface Application {
+export interface ApplicationHistory {
   fieldName: string,
   oldValue: string,
   newValue: string,
@@ -47,7 +47,7 @@ export interface Application {
   providerTitle: string
 }
 
-export interface ApplicationList {
+export interface ApplicationsHistory {
   totalAmount: number,
-  entities: Application[],
+  entities: ApplicationHistory[],
 }

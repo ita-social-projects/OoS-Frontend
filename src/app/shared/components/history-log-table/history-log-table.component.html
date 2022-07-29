@@ -90,7 +90,11 @@
         >
           Було
         </th>
-        <td mat-cell *matCellDef="let element" [ngClass]="{'application-status': tableTitle === 'Application'}" class="{{ element.oldValue }}">{{ tableTitle === 'Application' ? applicationTitles[element?.oldValue] : element?.oldValue }}</td>
+        <td mat-cell *matCellDef="let element"
+            [ngClass]="{'application-status': tableTitle === 'Application'}"
+            class="{{ element.oldValue }}">
+          {{ tableTitle === 'Application' ? applicationTitles[element?.oldValue] : element?.oldValue }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="newValue">
@@ -101,7 +105,11 @@
         >
           Стало
         </th>
-        <td mat-cell *matCellDef="let element" [ngClass]="{'application-status': tableTitle === 'Application'}" class="{{ element.newValue }}">{{ tableTitle === 'Application' ? applicationTitles[element?.newValue] : element?.newValue }}</td>
+        <td mat-cell *matCellDef="let element"
+            [ngClass]="{'application-status': tableTitle === 'Application'}"
+            class="{{ element.newValue }}">
+          {{ tableTitle === 'Application' ? applicationTitles[element?.newValue] : element?.newValue }}
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
