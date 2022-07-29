@@ -109,10 +109,11 @@ export class ApplicationService {
    * This method Check if exists an any application with approve status in workshop for parent
    * @param id string
    */
-  getApplicationsAllowedToReview(parentId: string): Observable<boolean> {
+  getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
     return this.http.get<boolean>(`/api/v1/Application/AllowedToReview`, {
       params: {
         parentId,
+        workshopId
       },
     });
   }
