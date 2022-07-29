@@ -4,6 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {TypeChange} from "../../enum/enumUA/tech-admin/history-log-tabs";
 import {ApplicationTitles} from "../../enum/enumUA/applications";
 import {Util} from "../../utils/utils";
+import {Provider} from "../../models/history-log.model";
 
 @Component({
   selector: 'app-history-log-table',
@@ -30,7 +31,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.table);
 
-    this.dataSource.sortingDataAccessor = (item, property) => {
+    this.dataSource.sortingDataAccessor = (item:Provider, property) => {
       if (property === 'pib') {
         return item.user.lastName + item.user.firstName + item.user.middleName;
       }
