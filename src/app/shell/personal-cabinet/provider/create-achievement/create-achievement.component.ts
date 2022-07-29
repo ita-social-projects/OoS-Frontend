@@ -75,13 +75,13 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
       filter((workshop) => !!workshop)
     ).subscribe((workshop: Workshop) => {
       this.workshop = workshop;
+      this.store.dispatch(new GetAchievementsType());
     });       
     this.approvedChildren$
     .pipe(
       takeUntil(this.destroy$),
       filter((approvedChildren) => !!approvedChildren)
     ).subscribe((approvedChildren: ChildCards) => this.approvedChildren = approvedChildren);
-    this.store.dispatch(new GetAchievementsType());
   } 
 
   onSubmit(): void {
