@@ -660,7 +660,7 @@ export class UserState {
   @Action(CreateAchievement)
   createAchievement({ dispatch }: StateContext<UserStateModel>, { payload }: CreateAchievement): Observable<object> {
     return this.achievementsService.createAchievement(payload).pipe(
-      tap((res: HttpResponse<Achievement>) => dispatch(new OnCreateAchievementSuccess(res))),
+      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateAchievementFail(error))))
     );
   }
@@ -672,7 +672,7 @@ export class UserState {
   ): void {
     console.log('Achievement is created', payload);
     dispatch([new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }), new MarkFormDirty(false)]);
-    this.router.navigate(['/details/workshop/', payload.body.workshopId]);
+    this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)
@@ -745,7 +745,7 @@ export class UserState {
       new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
       new GetUsersChildren(),
     ]);
-    this.router.navigate(['/details/workshop', payload.body.workshopId]);
+    this.router.navigate(['/details/workshop', payload.workshopId]);
   }
 
   @Action(OnDeleteChildFail)

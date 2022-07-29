@@ -68,6 +68,11 @@ export class GetAllInstitutions {
   constructor() { }
 }
 
+export class GetAchievementsType {
+  static readonly type = '[meta-data] Get All Achievement Types';
+  constructor() { }
+}
+
 export class GetFieldDescriptionByInstitutionId {
   static readonly type = '[meta-data] Get Field Description By Institution Id';
   constructor(public payload: string) { }

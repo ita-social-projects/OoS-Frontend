@@ -1,42 +1,42 @@
 <mat-card class="position" *ngIf="achievement">
-    <div class="card_achievement" fxLayout="column" fxLayoutAlign="start space-between">
-      <div class="wrap-for-details" fxLayout="row" fxLayoutAlign="start space-between">
-        <img class='image' src='../../../../assets/icons/award.svg'/>
-        <div>
-          <h3 class="achievement_title" *ngIf="achievement.achievementTypeId">
-            {{achievementsTitle[achievement.achievementTypeId].name}}
-          </h3>
-            <h4 class="card_title">Дата</h4> 
-            <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
-            <ng-container *ngIf="achievement">
-              <div *ngFor="let child of achievement?.children">
-                <h4 class="card_title">Учасники</h4> 
-                <p class="card_text">
-                  {{ getFullName(child) }}
-                </p>
-              </div>
-            </ng-container>            
-            <h4 class="card_title">Опис</h4> 
-            <mat-card-content>
-              <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
-                {{(showMore) ? achievement.title : achievement.title | slice:0:150}}
-                <a *ngIf="achievement.title?.length > 70" class='more_btn' 
-                  (click)="showMore = !showMore">{{(!showMore) ? '...Більше' : '...Менше'}}
-                </a>
-              </p>  
-            </mat-card-content>
-        </div> 
-        <ng-container 
-          *ngIf="isAllowedEdit">
-          <div fxLayout="row" fxLayoutAlign="end" class="actions">
-            <div class="actions_btn" [routerLink]="['/create-achievement', achievement.id]">
-              <mat-icon class="achievement_icon">edit</mat-icon>
+  <div class="card_achievement" fxLayout="column" fxLayoutAlign="start space-between">
+    <div class="wrap-for-details" fxLayout="row" fxLayoutAlign="start space-between">
+      <img class='image' src='../../../../assets/icons/award.svg'/>
+      <div>
+        <h3 class="achievement_title" *ngIf="achievement.achievementTypeId">
+          {{achievementsTypes[achievement.achievementTypeId].title}}
+        </h3>
+          <h4 class="card_title">Дата</h4> 
+          <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
+          <ng-container *ngIf="achievement">
+            <div *ngFor="let child of achievement?.children">
+              <h4 class="card_title">Учасники</h4> 
+              <p class="card_text">
+                {{ getFullName(child) }}
+              </p>
             </div>
-            <div class="actions_btn" (click)="onDelete(achievement)">
-              <mat-icon class="achievement_icon">delete</mat-icon>
-            </div>
+          </ng-container>            
+          <h4 class="card_title">Опис</h4> 
+          <mat-card-content>
+            <p class="achievement_descr" [ngClass]="{'show-more': showMore}">
+              {{(showMore) ? achievement.title : achievement.title | slice:0:150}}
+              <a *ngIf="achievement.title?.length > 70" class='more_btn' 
+                (click)="showMore = !showMore">{{(!showMore) ? '...Більше' : '...Менше'}}
+              </a>
+            </p>  
+          </mat-card-content>
+      </div> 
+      <ng-container 
+        *ngIf="isAllowedEdit">
+        <div fxLayout="row" fxLayoutAlign="end" class="actions">
+          <div class="actions_btn" [routerLink]="['/create-achievement', achievement.id]">
+            <mat-icon class="achievement_icon">edit</mat-icon>
           </div>
-        </ng-container>
-      </div>
+          <div class="actions_btn" (click)="onDelete(achievement)">
+            <mat-icon class="achievement_icon">delete</mat-icon>
+          </div>
+        </div>
+      </ng-container>
     </div>
-  </mat-card>
+  </div>
+</mat-card>
