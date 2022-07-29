@@ -8,6 +8,7 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsersComponent } from './users/users.component';
 import { DataComponent } from './data.component';
+import { HistoryLogComponent } from './history-log/history-log.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { DataComponent } from './data.component';
     ProviderListComponent,
     UsersComponent,
     DataComponent,
+    HistoryLogComponent,
   ],
   imports: [
     CommonModule,

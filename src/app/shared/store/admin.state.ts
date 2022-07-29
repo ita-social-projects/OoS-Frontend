@@ -25,13 +25,15 @@ import {
   DeleteDirectionById,
   GetAboutPortal,
   GetAllProviders,
+  GetApplicationHistory,
   GetChildrenForAdmin,
   GetDepartmentById,
   GetDirectionById,
   GetFilteredDirections,
   GetLawsAndRegulations,
   GetParents,
-  GetPlatformInfo,
+  GetPlatformInfo, GetProviderAdminHistory,
+  GetProviderHistory,
   GetSupportInformation,
   OnClearCategories,
   OnClearDepartment,
@@ -60,6 +62,8 @@ import {
   UpdateDirection,
   UpdatePlatformInfo,
 } from "./admin.actions";
+import {ApplicationList, ProviderAdminList, ProviderList} from "../models/history-log.model";
+import {HistoryLogService} from "../services/history-log/history-log.service";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -73,7 +77,10 @@ export interface AdminStateModel {
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
-  providers: Provider[];
+  providers: Provider[];
+  providerHistory: ProviderList;
+  providerAdminHistory: ProviderAdminList;
+  applicationHistory: ApplicationList;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -90,6 +97,9 @@ export interface AdminStateModel {
     children: null,
     providers: null,
     parents: null,
+    providerHistory: null,
+    providerAdminHistory: null,
+    applicationHistory: null,
   }
 })
 @Injectable()
@@ -118,6 +128,12 @@ export class AdminState {
 
   @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
 
+  @Selector() static providerHistory(state: AdminStateModel): ProviderList { return state.providerHistory };
+
+  @Selector() static providerAdminHistory(state: AdminStateModel): ProviderAdminList { return state.providerAdminHistory };
+
+  @Selector() static applicationHistory(state: AdminStateModel): ApplicationList { return state.applicationHistory };
+
   constructor(
     private platformService: PlatformService,
     private categoriesService: CategoriesService,
@@ -125,6 +141,7 @@ export class AdminState {
     private childrenService: ChildrenService,
     private router: Router,
     private providerService: ProviderService,
+    private historyLogService: HistoryLogService,
   ) { }
 
   @Action(GetPlatformInfo)
@@ -484,5 +501,35 @@ export class AdminState {
         tap((children: ChildCards) => {
           return patchState({ children: children, isLoading: false });
         }));
+  }
+
+  @Action(GetProviderHistory)
+  GetProviderHistory({ patchState }: StateContext<AdminStateModel>): Observable<ProviderList> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getProviderHistory().pipe(
+      tap((providers: ProviderList) => {
+        return patchState({ providerHistory: providers, isLoading: false });
+      })
+    );
+  }
+
+  @Action(GetProviderAdminHistory)
+  GetProviderAdminHistory({ patchState }: StateContext<AdminStateModel>): Observable<ProviderAdminList> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getProviderAdminHistory().pipe(
+      tap((providerAdmin: ProviderAdminList) => {
+        return patchState({ providerAdminHistory: providerAdmin, isLoading: false });
+      })
+    );
+  }
+
+  @Action(GetApplicationHistory)
+  GetApplicationHistory({ patchState }: StateContext<AdminStateModel>): Observable<ApplicationList> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getApplicationHistory().pipe(
+      tap((application: ApplicationList) => {
+        return patchState({ applicationHistory: application, isLoading: false });
+      })
+    );
   }
 }
