@@ -33,7 +33,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
 
     this.dataSource.sortingDataAccessor = (item:Provider, property) => {
       if (property === 'pib') {
-        return item.user.lastName + item.user.firstName + item.user.middleName;
+        return `${item.user.lastName} ${item.user.firstName} ${item.user.middleName}`;
       }
       else if (property === 'email') {
         return item.user.email;
