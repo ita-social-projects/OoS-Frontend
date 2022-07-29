@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {TypeChange} from "../../enum/enumUA/tech-admin/history-log-tabs";
-import {ApplicationTitles} from "../../enum/enumUA/applications";
-import {Util} from "../../utils/utils";
-import {ProviderHistory} from "../../models/history-log.model";
+import {TypeChange} from "../../../../shared/enum/enumUA/tech-admin/history-log-tabs";
+import {ApplicationTitles} from "../../../../shared/enum/enumUA/applications";
+import {Util} from "../../../../shared/utils/utils";
+import {ProviderHistory} from "../../../../shared/models/history-log.model";
 
 @Component({
   selector: 'app-history-log-table',

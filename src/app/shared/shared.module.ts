@@ -62,7 +62,6 @@ import { LoginComponent } from './components/login/login.component';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
-import { HistoryLogTableComponent } from './components/history-log-table/history-log-table.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +119,6 @@ import { HistoryLogTableComponent } from './components/history-log-table/history
     LoginComponent,
     AchievementCardComponent,
     StarsComponent,
-    HistoryLogTableComponent
   ],
   imports: [
     MaterialModule,
@@ -188,7 +186,6 @@ import { HistoryLogTableComponent } from './components/history-log-table/history
         InfoFormComponent,
         AchievementCardComponent,
         StarsComponent,
-        HistoryLogTableComponent
     ]
 })
 export class SharedModule { }

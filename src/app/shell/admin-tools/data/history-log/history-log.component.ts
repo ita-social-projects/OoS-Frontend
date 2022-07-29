@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Select, Store} from "@ngxs/store";
 import {filter, takeUntil} from "rxjs/operators";
@@ -24,7 +24,7 @@ import {
   templateUrl: './history-log.component.html',
   styleUrls: ['./history-log.component.scss']
 })
-export class HistoryLogComponent implements OnInit {
+export class HistoryLogComponent implements OnInit, OnDestroy {
 
   readonly historyLogTabsUkr = HistoryLogTabsUkr;
   readonly noHistory = NoResultsTitle.noHistory;
