@@ -192,7 +192,7 @@ export class OnCreateAchievementFail {
 }
 export class OnCreateAchievementSuccess {
   static readonly type = '[user] create Achievement success';
-  constructor(public payload: HttpResponse<Achievement>) {}
+  constructor(public payload: Achievement) {}
 }
 export class CreateApplication {
   static readonly type = '[user] create Application';
