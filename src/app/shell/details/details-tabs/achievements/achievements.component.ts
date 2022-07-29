@@ -52,6 +52,7 @@ export class AchievementsComponent implements OnInit {
   }  
 
   ngOnDestroy(): void {
+    this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 }
