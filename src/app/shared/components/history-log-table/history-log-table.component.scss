@@ -1,0 +1,14 @@
+@import "src/app/shared/styles/tables.scss";
+
+.application-status {
+  font-weight: 500;
+}
+.Pending {
+  color:#FFBD00;
+}
+.Approved {
+  color:#199953;
+}
+.Rejected {
+  color: #C72A21;
+}
