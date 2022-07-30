@@ -9,8 +9,8 @@
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
           <mat-select formControlName="achievementTypeId" disableOptionCentering panelClass="dropdown-panel" class="step-input">
-            <mat-option *ngFor="let achievement of achievements" [value]="achievement.id">
-              {{ achievement.name }}
+            <mat-option *ngFor="let achievement of achievementsTypes$ | async" [value]="achievement.id">
+              {{ achievement.title }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -51,7 +51,7 @@
               Додавання досягнень можливе лише за наявності учасників у гуртку.
             </span>
           </ng-template>
-        <label class="step-label">Тренера<span class="step-required">*</span></label>
+        <label class="step-label">Тренер/Викладач<span class="step-required">*</span></label>
         <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
           <mat-form-field appearance="none">
             <mat-select multiple disableOptionCentering formControlName="teachers" 
