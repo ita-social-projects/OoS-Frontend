@@ -4,7 +4,7 @@
         <img class='image' src='../../../../assets/icons/award.svg'/>
         <div>
           <h3 class="achievement_title" *ngIf="achievement.achievementTypeId">
-            {{achievementsTypes[achievement.achievementTypeId - 1].name}}
+            {{achievementsTypes[achievement.achievementTypeId - 1].title}}
           </h3>
             <h4 class="card_title">Дата</h4> 
             <p class="card_text">{{achievement.achievementDate | date: 'shortDate'}}</p>
