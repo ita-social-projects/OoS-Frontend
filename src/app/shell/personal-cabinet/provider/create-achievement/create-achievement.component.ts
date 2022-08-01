@@ -22,6 +22,7 @@ import { Person } from 'src/app/shared/models/user.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { GetAchievementsType } from 'src/app/shared/store/meta-data.actions';
+import { UpdateAchievement } from 'src/app/shared/store/user.actions';
 
 @Component({
   selector: 'app-create-achievement',
@@ -43,6 +44,7 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
   achievement: Achievement;
   workshopId: string;
   approvedChildren: ChildCards;
+  editMode: boolean;
 
   constructor(
     private store: Store,
@@ -104,6 +106,10 @@ export class CreateAchievementComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });    
+
+    if (this.editMode) {
+      this.store.dispatch(new UpdateAchievement(this.achievement))
+    }
   }
 
   onRemoveItem(item: string, control): void {

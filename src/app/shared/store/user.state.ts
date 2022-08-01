@@ -46,6 +46,9 @@ import {
   OnDeleteAchievementSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
+  UpdateAchievement,
+  OnUpdateAchievementFail,
+  OnUpdateAchievementSuccess,
   UpdateChild,
   OnUpdateChildFail,
   OnUpdateChildSuccess,
@@ -772,6 +775,33 @@ export class UserState {
   onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(UpdateAchievement)
+  updateAchievement({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateAchievement): Observable<object> {
+    return this.achievementsService.updateAchievement(payload).pipe(
+      tap(res => dispatch(new OnUpdateAchievementSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateAchievementFail(error))))
+    );
+  }
+
+  @Action(OnUpdateAchievementFail)
+  onUpdateAchievementfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateAchievementFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateAchievementSuccess)
+  onUpdateAchievementSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateAchievementSuccess): void {
+    console.log('Achievement is updated', payload);
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: 'Досягнення успішно відредагованo',
+        type: 'success',
+      }),
+    ]);
+    this.location.back();
   }
 
   @Action(UpdateChild)

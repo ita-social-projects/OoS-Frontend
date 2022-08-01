@@ -218,6 +218,18 @@ export class OnUpdateWorkshopSuccess {
   static readonly type = '[user] update Workshop success';
   constructor(public payload) { }
 }
+export class UpdateAchievement {
+  static readonly type = '[user] update Achievement';
+  constructor(public payload: Achievement) { }
+}
+export class OnUpdateAchievementFail {
+  static readonly type = '[user] update Achievement fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+export class OnUpdateAchievementSuccess {
+  static readonly type = '[user] update Achievement success';
+  constructor(public payload) { }
+}
 export class UpdateChild {
   static readonly type = '[user] update Child';
   constructor(public payload: Child) { }
