@@ -17,8 +17,8 @@ export class GetSupportInformation {
   constructor() { }
 }
 export class GetAllProviders {
-  static readonly type = '[admin] Get all providers';
-  constructor() {}
+  static readonly type = '[admin] Get all providers';
+  constructor() {}
 }
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
@@ -177,5 +177,20 @@ export class GetParents {
 
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
+  constructor(public payload?: string) { }
+}
+
+export class GetProviderHistory {
+  static readonly type = '[admin] Get Provider History';
+  constructor(public payload?: string) { }
+}
+
+export class GetProviderAdminHistory {
+  static readonly type = '[admin] Get Provider Admin History';
+  constructor(public payload?: string) { }
+}
+
+export class GetApplicationHistory {
+  static readonly type = '[admin] Get Application History';
   constructor(public payload?: string) { }
 }

@@ -62,6 +62,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -117,9 +118,12 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
     ImageCropperModalComponent,
     InfoFormComponent,
     LoginComponent,
+    StarsComponent,
+    ErrorPageComponent,
     AchievementCardComponent,
-    StarsComponent
+    StarsComponent,
   ],
+  
   imports: [
     MaterialModule,
     CommonModule,
@@ -132,6 +136,7 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
     IvyCarouselModule,
     ImageCropperModule
   ],
+
   exports: [
     FiltersListComponent,
     AgeFilterComponent,
@@ -183,8 +188,8 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
     TrimValueDirective,
     InstitutionHierarchyComponent,
     ImageCropperModalComponent,
-    InfoFormComponent,   
-    AchievementCardComponent, 
+    InfoFormComponent,
+    AchievementCardComponent,
     StarsComponent
   ]
 })

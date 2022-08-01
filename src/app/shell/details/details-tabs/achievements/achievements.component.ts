@@ -7,9 +7,10 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Achievement } from 'src/app/shared/models/achievement.model';
+import { Achievement, AchievementType } from 'src/app/shared/models/achievement.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { GetAchievementsType } from 'src/app/shared/store/meta-data.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -24,12 +25,13 @@ export class AchievementsComponent implements OnInit {
 
   @Select(UserState.achievements)
   achievements$: Observable<Achievement[]>;
-  
+
   @Input() workshop: Workshop;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   achievements: Achievement[];
   provider: Provider;
+  achievementsTypes: AchievementType[];
   isAllowedEdit: boolean;
   
   constructor(private store: Store, private matDialog: MatDialog) {}
@@ -45,6 +47,7 @@ export class AchievementsComponent implements OnInit {
         this.achievements = achievements;
         this.isAllowedEdit = this.workshop.providerId === provider.id
       });
+    this.store.dispatch(new GetAchievementsType());
   }  
 
   private getAchievements(): void {

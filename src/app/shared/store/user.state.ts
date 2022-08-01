@@ -660,7 +660,7 @@ export class UserState {
   @Action(CreateAchievement)
   createAchievement({ dispatch }: StateContext<UserStateModel>, { payload }: CreateAchievement): Observable<object> {
     return this.achievementsService.createAchievement(payload).pipe(
-      tap((res: HttpResponse<Achievement>) => dispatch(new OnCreateAchievementSuccess(res))),
+      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateAchievementFail(error))))
     );
   }
@@ -672,7 +672,7 @@ export class UserState {
   ): void {
     console.log('Achievement is created', payload);
     dispatch([new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }), new MarkFormDirty(false)]);
-    this.router.navigate(['/details/workshop/', payload.body.workshopId]);
+    this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)
@@ -911,11 +911,11 @@ export class UserState {
   @Action(GetStatusAllowedToReview)
   getApplicationsAllowedToReview(
     { patchState }: StateContext<UserStateModel>,
-    { parentId }: GetStatusAllowedToReview
+    { parentId, workshopId }: GetStatusAllowedToReview
   ): Observable<boolean> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsAllowedToReview(parentId)
+      .getApplicationsAllowedToReview(parentId, workshopId)
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowedToReview: status, isLoading: false });
