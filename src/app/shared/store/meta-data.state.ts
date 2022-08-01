@@ -32,6 +32,7 @@ import {
   ClearRatings,
   GetFeaturesList,
   GetAllInstitutions,
+  GetAchievementsType,
   GetFieldDescriptionByInstitutionId,
   GetAllByInstitutionAndLevel,
   ResetInstitutionHierarchy,
@@ -41,7 +42,8 @@ import {
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
 import { ProviderService } from '../services/provider/provider.service';
-import { environment } from 'src/environments/environment';
+import { AchievementsService } from '../services/achievements/achievements.service';
+import { AchievementType } from '../models/achievement.model';
 export interface MetaDataStateModel {
   directions: Direction[];
   topDirections: Direction[];
@@ -50,6 +52,7 @@ export interface MetaDataStateModel {
   cities: City[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
+  achievementsTypes: AchievementType[],
   filteredDirections: Direction[];
   filteredDepartments: Department[];
   filteredClasses: IClass[];
@@ -71,6 +74,7 @@ export interface MetaDataStateModel {
     cities: null,
     socialGroups: [],
     institutionStatuses: null,
+    achievementsTypes: null,
     filteredDirections: [],
     filteredDepartments: [],
     filteredClasses: [],
@@ -113,6 +117,11 @@ export class MetaDataState {
   @Selector()
   static institutionStatuses(state: MetaDataStateModel): InstitutionStatus[] {
     return state.institutionStatuses;
+  }
+
+  @Selector()
+  static achievementsTypes(state: MetaDataStateModel): AchievementType[] {
+    return state.achievementsTypes;
   }
 
   @Selector()
@@ -177,7 +186,8 @@ export class MetaDataState {
     private cityService: CityService,
     private ratingService: RatingService,
     private featureManagementService: FeatureManagementService,
-    private institutionsService: InstitutionsService
+    private institutionsService: InstitutionsService,
+    private achievementService: AchievementsService,
   ) {}
 
   @Action(GetDirections)
@@ -314,6 +324,18 @@ export class MetaDataState {
       .getAllInstitutions()
       .pipe(tap((institutions: Institution[]) => patchState({ institutions: institutions, isLoading: false })));
   }
+
+  @Action(GetAchievementsType)
+  getAchievementType(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: GetAchievementsType
+  ): Observable<AchievementType[]> {
+    patchState({ isLoading: true });
+    return this.achievementService
+      .getAchievementsType()
+      .pipe(tap((achievementsTypes: AchievementType[]) => patchState({ achievementsTypes: achievementsTypes, isLoading: false })));
+  }
+
   @Action(GetFieldDescriptionByInstitutionId)
   GetFieldDescriptionByInstitutionId(
     { patchState }: StateContext<MetaDataStateModel>,
