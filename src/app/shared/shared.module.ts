@@ -121,7 +121,9 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     StarsComponent,
     ErrorPageComponent,
     AchievementCardComponent,
+    StarsComponent,
   ],
+  
   imports: [
     MaterialModule,
     CommonModule,
@@ -134,6 +136,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     IvyCarouselModule,
     ImageCropperModule
   ],
+
   exports: [
     FiltersListComponent,
     AgeFilterComponent,
