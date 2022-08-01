@@ -38,8 +38,10 @@
   margin-right: 1em;
 }
 .achievement_descr {
+  width: 480px;
   white-space: wrap;
-}
+  overflow-wrap: break-word;
+} 
 
 .show-more {
   overflow: visible;
