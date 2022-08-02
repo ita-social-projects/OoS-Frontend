@@ -4,7 +4,7 @@ import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Department, Direction, IClass } from '../models/category.model';
+import { Department, Direction, DirectionsFilter, IClass } from '../models/category.model';
 import { City } from '../models/city.model';
 import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
@@ -16,18 +16,11 @@ import { RatingService } from '../services/rating/rating.service';
 import { FeatureManagementService } from '../services/feature-management/feature-management.service';
 import {
   GetSocialGroup,
-  GetClasses,
-  GetDepartments,
   GetDirections,
   GetCities,
   ClearCities,
-  FilteredDirectionsList,
-  FilteredDepartmentsList,
-  FilteredClassesList,
   GetRateByEntityId,
   GetTopDirections,
-  ClearDepartments,
-  ClearClasses,
   GetInstitutionStatus,
   ClearRatings,
   GetFeaturesList,
@@ -38,6 +31,7 @@ import {
   ResetInstitutionHierarchy,
   GetInstitutionHierarchyChildrenById,
   GetInstitutionHierarchyParentsById,
+  GetFilteredDirections,
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -47,15 +41,11 @@ import { AchievementType } from '../models/achievement.model';
 export interface MetaDataStateModel {
   directions: Direction[];
   topDirections: Direction[];
-  departments: Department[];
-  classes: IClass[];
   cities: City[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
-  achievementsTypes: AchievementType[],
-  filteredDirections: Direction[];
-  filteredDepartments: Department[];
-  filteredClasses: IClass[];
+  achievementsTypes: AchievementType[];
+  filteredDirections: DirectionsFilter;
   rating: Rate[];
   isLoading: boolean;
   featuresList: FeaturesList;
@@ -69,15 +59,11 @@ export interface MetaDataStateModel {
   defaults: {
     directions: [],
     topDirections: [],
-    departments: [],
-    classes: [],
     cities: null,
     socialGroups: [],
     institutionStatuses: null,
     achievementsTypes: null,
-    filteredDirections: [],
-    filteredDepartments: [],
-    filteredClasses: [],
+    filteredDirections: null,
     rating: [],
     isLoading: false,
     featuresList: { release1: true, release2: true, release3: false },
@@ -97,16 +83,6 @@ export class MetaDataState {
   @Selector()
   static topDirections(state: MetaDataStateModel): Direction[] {
     return state.topDirections;
-  }
-
-  @Selector()
-  static departments(state: MetaDataStateModel): Department[] {
-    return state.departments;
-  }
-
-  @Selector()
-  static classes(state: MetaDataStateModel): IClass[] {
-    return state.classes;
   }
 
   @Selector()
@@ -130,18 +106,8 @@ export class MetaDataState {
   }
 
   @Selector()
-  static filteredDirections(state: MetaDataStateModel): Direction[] {
+  static filteredDirections(state: MetaDataStateModel): DirectionsFilter {
     return state.filteredDirections;
-  }
-
-  @Selector()
-  static filteredDepartments(state: MetaDataStateModel): Department[] {
-    return state.filteredDepartments;
-  }
-
-  @Selector()
-  static filteredClasses(state: MetaDataStateModel): IClass[] {
-    return state.filteredClasses;
   }
 
   @Selector()
@@ -187,7 +153,7 @@ export class MetaDataState {
     private ratingService: RatingService,
     private featureManagementService: FeatureManagementService,
     private institutionsService: InstitutionsService,
-    private achievementService: AchievementsService,
+    private achievementService: AchievementsService
   ) {}
 
   @Action(GetDirections)
@@ -204,25 +170,6 @@ export class MetaDataState {
     return this.categoriesService
       .getTopDirections()
       .pipe(tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoading: false })));
-  }
-
-  @Action(GetDepartments)
-  getDepartments(
-    { patchState }: StateContext<MetaDataStateModel>,
-    { payload }: GetDepartments
-  ): Observable<Department[]> {
-    patchState({ isLoading: true });
-    return this.categoriesService
-      .getDepartmentsByDirectionId(payload)
-      .pipe(tap((departments: Department[]) => patchState({ departments: departments, isLoading: false })));
-  }
-
-  @Action(GetClasses)
-  getClasses({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetClasses): Observable<IClass[]> {
-    patchState({ isLoading: true });
-    return this.categoriesService
-      .getClassByDepartmentId(payload)
-      .pipe(tap((classes: IClass[]) => patchState({ classes: classes, isLoading: false })));
   }
 
   @Action(GetSocialGroup)
@@ -248,16 +195,6 @@ export class MetaDataState {
       );
   }
 
-  @Action(ClearClasses)
-  clearClasses({ patchState }: StateContext<MetaDataStateModel>, {}: ClearClasses): void {
-    patchState({ classes: null });
-  }
-
-  @Action(ClearDepartments)
-  clearDepartments({ patchState }: StateContext<MetaDataStateModel>, {}: ClearDepartments): void {
-    patchState({ departments: null });
-  }
-
   @Action(GetCities)
   getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities): Observable<City[]> {
     return this.cityService
@@ -277,24 +214,6 @@ export class MetaDataState {
   @Action(ClearRatings)
   clearRatings({ patchState }: StateContext<MetaDataStateModel>, {}: ClearRatings): void {
     patchState({ rating: null });
-  }
-
-  @Action(FilteredDirectionsList)
-  filteredDirectionsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredDirectionsList): void {
-    patchState({ filteredDirections: payload });
-  }
-
-  @Action(FilteredDepartmentsList)
-  filteredDepartmentsList(
-    { patchState }: StateContext<MetaDataStateModel>,
-    { payload }: FilteredDepartmentsList
-  ): void {
-    patchState({ filteredDepartments: payload });
-  }
-
-  @Action(FilteredClassesList)
-  FilteredClassesList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredClassesList): void {
-    patchState({ filteredClasses: payload });
   }
 
   @Action(GetRateByEntityId)
@@ -333,7 +252,11 @@ export class MetaDataState {
     patchState({ isLoading: true });
     return this.achievementService
       .getAchievementsType()
-      .pipe(tap((achievementsTypes: AchievementType[]) => patchState({ achievementsTypes: achievementsTypes, isLoading: false })));
+      .pipe(
+        tap((achievementsTypes: AchievementType[]) =>
+          patchState({ achievementsTypes: achievementsTypes, isLoading: false })
+        )
+      );
   }
 
   @Action(GetFieldDescriptionByInstitutionId)
@@ -394,6 +317,25 @@ export class MetaDataState {
           patchState({ editInstituitionsHierarchy: instituitionsHierarchy, isLoading: false })
         )
       );
+  }
+
+  @Action(GetFilteredDirections)
+  getFilteredDirections(
+    { patchState, getState }: StateContext<MetaDataStateModel>,
+    { payload }: GetFilteredDirections
+  ) {
+    patchState({ isLoading: true });
+    return this.categoriesService.getFilteredDirections(payload).pipe(
+      tap(
+        (filterResult: DirectionsFilter) =>
+          patchState(
+            filterResult
+              ? { filteredDirections: filterResult, isLoading: false }
+              : { filteredDirections: undefined, isLoading: false }
+          ),
+        () => patchState({ isLoading: false, directions: null })
+      )
+    );
   }
 
   @Action(ResetInstitutionHierarchy)

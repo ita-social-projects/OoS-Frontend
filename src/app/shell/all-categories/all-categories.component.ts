@@ -2,12 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
+import { DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { GetFilteredDirections } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetDirections } from 'src/app/shared/store/meta-data.actions';
+import { GetFilteredDirections } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
@@ -22,7 +20,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
 
   @Select(PaginatorState.directionsPerPage)
   directionsPerPage$: Observable<number>;
-  @Select(AdminState.filteredDirections)
+  @Select(MetaDataState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
 
   currentPage: PaginationElement = {
@@ -56,5 +54,4 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
-
 }

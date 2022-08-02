@@ -21,7 +21,6 @@ import { SupportComponent } from './info/support/support.component';
 import { InfoComponent } from './info/info.component';
 import { AdminToolsComponent } from './admin-tools/admin-tools.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
-import { CreateDirectionComponent } from './admin-tools/platform/directions/create-direction/create-direction.component';
 import { CreateProviderAdminComponent } from './personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 import { NotificationsListComponent } from '../shared/components/notifications/notifications-list/notifications-list.component';
 import { IsMobileGuard } from './is-mobile.guard';
@@ -66,14 +65,6 @@ const routes: Routes = [
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'admin-tools/platform/directions/create/:param',
-    component: CreateDirectionComponent
-  },
-  {
-  path: 'admin-tools/platform/directions/create',
-  component: CreateDirectionComponent
-  },
-  {
     path: 'notifications',
     component: NotificationsListComponent,
     canLoad: [PersonalCabinetGuard, IsMobileGuard],
@@ -95,10 +86,6 @@ const routes: Routes = [
   },
   {
     path: 'create-achievement/:param', component: CreateAchievementComponent,
-  },
-  {
-  path: 'admin-tools/platform/create/:param', component: CreateDirectionComponent,
-  loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
   },
   {
     path: 'create-workshop', component: CreateWorkshopComponent,

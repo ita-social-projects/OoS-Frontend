@@ -20,7 +20,6 @@ import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
-import { ClearClasses, ClearDepartments } from './meta-data.actions';
 import { PaginationElement } from '../models/paginationElement.model';
 import {
   CreateApplication,
@@ -466,8 +465,6 @@ export class UserState {
     console.log('Workshop is created', payload);
     dispatch([
       new MarkFormDirty(false),
-      new ClearClasses(),
-      new ClearDepartments(),
       new ShowMessageBar({ message: message.text, type: message.type }),
     ]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);

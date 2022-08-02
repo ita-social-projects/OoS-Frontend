@@ -15,18 +15,4 @@
 
   <a routerLink="./create"><button class="btn" mat-raised-button>Додати напрямок</button></a>
 </div>
-<ng-container *ngIf="(filteredDirections$ | async); else isEmptyList" >
-<div class="card-wrapper">
-  <app-category-card class="card" *ngFor="let direction of (filteredDirections$ | async)?.entities " [direction]="direction"
-   (deleteDirection)="onDelete($event)" [isEditMode]="true">
-  </app-category-card>
-</div>
-<app-paginator  [totalEntities]="(filteredDirections$ | async).totalAmount" [currentPage]="currentPage" [itemsPerPage]="directionsPerPage$ | async"
-(pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
-</app-paginator>
-</ng-container>
 
-
-<ng-template #isEmptyList>
-  <app-no-result-card [title]="noDirections"></app-no-result-card>
-</ng-template>
