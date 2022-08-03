@@ -1,28 +1,20 @@
-<<<<<<< HEAD:src/app/shell/personal-cabinet/user-config/user-config-edit/user-config-edit.component.ts
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-=======
 import { Util } from 'src/app/shared/utils/utils';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Role } from 'src/app/shared/enum/role';
->>>>>>> d6763edc3d05e1749557d2db2a6acd98555a02a5:src/app/shell/personal-cabinet/shared-cabinet/user-config/user-config-edit/user-config-edit.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-
-import { ActivatedRoute } from '@angular/router';
-import { Constants } from 'src/app/shared/constants/constants';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable } from 'rxjs';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Role } from 'src/app/shared/enum/role';
-import { UpdateUser } from 'src/app/shared/store/user.actions';
 import { User } from 'src/app/shared/models/user.model';
-import { Util } from 'src/app/shared/utils/utils';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { UpdateUser } from 'src/app/shared/store/user.actions';
+import { Constants } from 'src/app/shared/constants/constants';
+import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -70,7 +62,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
       ]),
       gender: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      gender: new FormControl('', Validators.required),
     });
     this.subscribeOnDirtyForm(this.userEditFormGroup);
   }
@@ -87,7 +78,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
 
     this.store.dispatch(
