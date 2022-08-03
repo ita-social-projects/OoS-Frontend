@@ -18,6 +18,9 @@ import { Observable } from 'rxjs';
 export class RulesComponent {
   @Select(AdminState.LawsAndRegulations)
   platformRules$: Observable<CompanyInformation>;
+  @Select(AdminState.isLoading)
+  isLoading$: Observable<boolean>;
+
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {

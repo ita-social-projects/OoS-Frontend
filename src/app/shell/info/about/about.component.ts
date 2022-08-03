@@ -20,6 +20,9 @@ import { Observable } from 'rxjs';
 export class AboutComponent implements OnInit, OnDestroy {
 @Select(AdminState.AboutPortal)
 platformInformation$: Observable<CompanyInformation>;
+@Select(AdminState.isLoading)
+isLoading$: Observable<boolean>;
+
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {

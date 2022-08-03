@@ -1,20 +1,21 @@
-import { Util } from 'src/app/shared/utils/utils';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { Role } from 'src/app/shared/enum/role';
+import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/shared/models/user.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { UpdateUser } from 'src/app/shared/store/user.actions';
-import { Constants } from 'src/app/shared/constants/constants';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
+
 import { ActivatedRoute } from '@angular/router';
+import { Constants } from 'src/app/shared/constants/constants';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { Observable } from 'rxjs';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { Role } from 'src/app/shared/enum/role';
+import { UpdateUser } from 'src/app/shared/store/user.actions';
+import { User } from 'src/app/shared/models/user.model';
+import { Util } from 'src/app/shared/utils/utils';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -61,6 +62,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      gender: new FormControl('', Validators.required),
     });
     this.subscribeOnDirtyForm(this.userEditFormGroup);
   }

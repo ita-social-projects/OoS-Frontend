@@ -17,6 +17,8 @@ import { Observable } from 'rxjs';
 export class SupportComponent implements OnInit, OnDestroy {
   @Select(AdminState.SupportInformation)
   platformSupport$: Observable<CompanyInformation>;
+  @Select(AdminState.isLoading)
+  isLoading$: Observable<boolean>;
 
   constructor(private store: Store, public navigationBarService: NavigationBarService ) { }
 
