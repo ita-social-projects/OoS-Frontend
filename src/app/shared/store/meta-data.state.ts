@@ -2,7 +2,7 @@ import { InstitutionsService } from './../services/institutions/institutions.ser
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
 import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Department, Direction, IClass } from '../models/category.model';
 import { City } from '../models/city.model';
@@ -15,42 +15,41 @@ import { CityService } from '../services/cities/city.service';
 import { RatingService } from '../services/rating/rating.service';
 import { FeatureManagementService } from '../services/feature-management/feature-management.service';
 import {
-  GetSocialGroup,
+  ClearCities,
+  ClearClasses,
+  ClearCodeficatorSearch,
+  ClearDepartments,
+  ClearRatings,
+  FilteredClassesList,
+  FilteredDepartmentsList,
+  FilteredDirectionsList,
+  GetAchievementsType,
+  GetAllByInstitutionAndLevel,
+  GetAllInstitutions,
+  GetCities,
   GetClasses,
+  GetCodeficatorById,
+  GetCodeficatorSearch,
   GetDepartments,
   GetDirections,
-  GetCities,
-  ClearCities,
-  FilteredDirectionsList,
-  FilteredDepartmentsList,
-  FilteredClassesList,
-  GetRateByEntityId,
-  GetTopDirections,
-  ClearDepartments,
-  ClearClasses,
-  GetInstitutionStatus,
-  ClearRatings,
   GetFeaturesList,
-  GetAllInstitutions,
-  GetAchievementsType,
   GetFieldDescriptionByInstitutionId,
-  GetAllByInstitutionAndLevel,
-  ResetInstitutionHierarchy,
   GetInstitutionHierarchyChildrenById,
   GetInstitutionHierarchyParentsById,
-  GetCodeficatorSearch,
-  GetCodeficatorById,
-  ClearCodeficatorSearch,
-  GetCodeficatorCitiDistrictSearch,
-  ClearCodeficatorCitiDistrictSearch,
+  GetInstitutionStatus,
+  GetRateByEntityId,
+  GetSocialGroup,
+  GetTopDirections,
+  ResetInstitutionHierarchy
 } from './meta-data.actions';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../models/institutionStatus.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { AchievementType } from '../models/achievement.model';
-import { Codeficator, CodeficatorCityDistrict } from '../models/codeficator.model';
+import { Codeficator } from '../models/codeficator.model';
 import { CodeficatorService } from '../services/codeficator/codeficator.service';
+
 export interface MetaDataStateModel {
   directions: Direction[];
   topDirections: Direction[];
@@ -59,7 +58,7 @@ export interface MetaDataStateModel {
   cities: City[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
-  achievementsTypes: AchievementType[],
+  achievementsTypes: AchievementType[];
   filteredDirections: Direction[];
   filteredDepartments: Department[];
   filteredClasses: IClass[];
@@ -72,7 +71,6 @@ export interface MetaDataStateModel {
   editInstituitionsHierarchy: InstituitionHierarchy[];
   codeficatorSearch: Codeficator[];
   codeficator: Codeficator;
-  cityDistrictSearch: CodeficatorCityDistrict[];
 }
 @State<MetaDataStateModel>({
   name: 'metaDataState',
@@ -97,7 +95,6 @@ export interface MetaDataStateModel {
     editInstituitionsHierarchy: null,
     codeficatorSearch: [],
     codeficator: null,
-    cityDistrictSearch: [],
   },
 })
 @Injectable()
@@ -200,11 +197,6 @@ export class MetaDataState {
   @Selector()
   static codeficator(state: MetaDataStateModel): Codeficator {
     return state.codeficator;
-  }
-
-  @Selector()
-  static cityDistrictSearch(state: MetaDataStateModel): CodeficatorCityDistrict[] {
-    return state.cityDistrictSearch;
   }
 
   constructor(
@@ -463,29 +455,5 @@ export class MetaDataState {
     {}: ClearCodeficatorSearch
   ): void {
     patchState({ codeficatorSearch: [] });
-  }
-
-  @Action(GetCodeficatorCitiDistrictSearch)
-  getCodeficatorCitiDistrictSearch(
-    { patchState }: StateContext<MetaDataStateModel>,
-    { id }: GetCodeficatorCitiDistrictSearch
-  ): Observable<CodeficatorCityDistrict[]> {
-    patchState({ isLoading: true });
-    return this.codeficatorService
-      .searchCodeficatorCityDistrict(id)
-      .pipe(tap((cityDistrictSearch: CodeficatorCityDistrict[]) => {
-        patchState({
-          cityDistrictSearch: cityDistrictSearch ?? [],
-          isLoading: false
-        });
-      }));
-  }
-
-  @Action(ClearCodeficatorCitiDistrictSearch)
-  clearCodeficatorCitiDistrictSearch(
-    { patchState }: StateContext<MetaDataStateModel>,
-    {}: ClearCodeficatorSearch
-  ): void {
-    patchState({ cityDistrictSearch: [] });
   }
 }

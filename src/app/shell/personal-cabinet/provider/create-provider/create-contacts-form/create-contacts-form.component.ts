@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
 import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
@@ -9,15 +8,9 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { NO_LATIN_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
-import { Codeficator, CodeficatorCityDistrict } from 'src/app/shared/models/codeficator.model';
+import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import {
-  ClearCodeficatorSearch,
-  GetCodeficatorCitiDistrictSearch,
-  GetCodeficatorSearch
-} from 'src/app/shared/store/meta-data.actions';
-import { CodeficatorCategories } from 'src/app/shared/enum/codeficator-categories';
-import * as cloneDeep from 'lodash/cloneDeep';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'src/app/shared/store/meta-data.actions';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
@@ -46,12 +39,9 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   actualAddressFormGroup: FormGroup;
   searchFormGroup: FormGroup;
   isSameAddressControl: FormControl = new FormControl(false);
-  cityDistrictLegal: CodeficatorCityDistrict[] = [];
-  cityDistrictActual: CodeficatorCityDistrict[] = [];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Select(MetaDataState.codeficatorSearch) codeficatorSearch$: Observable<Codeficator[]>;
-  @Select(MetaDataState.cityDistrictSearch) cityDistrictSearch$: Observable<CodeficatorCityDistrict[]>;
 
   @Input() provider: Provider;
   @Output() passActualAddressFormGroup = new EventEmitter();
@@ -80,14 +70,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     return this.searchActualFormGroup.get('settlement') as FormControl;
   }
 
-  get cityDistrictLegalFormControl(): FormControl {
-    return this.searchFormGroup.get('legalAddress').get('cityDistrict') as FormControl;
-  }
-
-  get cityDistrictActualFormControl(): FormControl {
-    return this.searchActualFormGroup.get('cityDistrict') as FormControl;
-  }
-
   get codeficatorIdLegalFormControl(): FormControl {
     return this.legalAddressFormGroup.get('codeficatorId') as FormControl;
   }
@@ -112,18 +94,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     return this.actualAddressFormGroup.get('buildingNumber') as FormControl;
   }
 
-  get isAvailableCityDistrictLegal(): boolean {
-    // TODO: wait for update from back-end and update this logic
-    return this.settlementLegalFormControl.value?.category === CodeficatorCategories.City
-      || this.settlementLegalFormControl.value?.category === CodeficatorCategories.SpecialStatusCity;
-  }
-
-  get isAvailableCityDistrictActual(): boolean {
-    // TODO: wait for update from back-end and update this logic
-    return this.settlementActualFormControl.value?.category === CodeficatorCategories.City
-      || this.settlementActualFormControl.value?.category === CodeficatorCategories.SpecialStatusCity;
-  }
-
   /**
    * This method handle Angular Lifecycle hook OnInit
    */
@@ -146,15 +116,13 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
    *  searchControl FormControl
    *  settlementControl FormControl
    *  codeficatorIdControl FormControl
-   *  cityDistrictControl FormControl
    */
   onSelectSettlement(
     event: MatAutocompleteSelectedEvent,
     controls: {
       searchControl: FormControl,
       settlementControl: FormControl,
-      codeficatorIdControl: FormControl,
-      cityDistrictControl: FormControl
+      codeficatorIdControl: FormControl
     }
   ): void {
     this.store.dispatch(new ClearCodeficatorSearch());
@@ -162,46 +130,31 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     controls.settlementControl.setValue(event.option.value, { emitEvent: false, onlySelf: true });
 
     controls.codeficatorIdControl.reset();
-    controls.cityDistrictControl.reset();
     controls.codeficatorIdControl.setValue(event.option.value.id);
-
-    if (controls.settlementControl.value?.category === CodeficatorCategories.City
-      || controls.settlementControl.value?.category === CodeficatorCategories.SpecialStatusCity) {
-      controls.codeficatorIdControl.reset();
-      this.store.dispatch(new GetCodeficatorCitiDistrictSearch(event.option.value.id));
-    }
-  }
-
-  /**
-   * This method listen mat option select event and settlement control value
-   * @param event MatSelectChange
-   * @param codeficatorIdControl FormControl
-   */
-  onSelectCityDistrict(event: MatSelectChange, codeficatorIdControl: FormControl): void {
-    this.store.dispatch(new ClearCodeficatorSearch());
-    codeficatorIdControl.reset();
-    codeficatorIdControl.setValue(event.value);
   }
 
   /**
    * This method listen input FocusOut event and update search and settlement controls value
    * @param auto MatAutocomplete
-   * @param searchControl FormControl
-   * @param settlementControl FormControl
-   * @param codeficatorIdControl FormControl
+   * @param controls
+   *  searchControl FormControl
+   *  settlementControl FormControl
+   *  codeficatorIdControl FormControl
    */
   onFocusOut(
     auto: MatAutocomplete,
-    searchControl: FormControl,
-    settlementControl: FormControl,
-    codeficatorIdControl: FormControl
+    controls: {
+      searchControl: FormControl,
+      settlementControl: FormControl,
+      codeficatorIdControl: FormControl
+    }
   ): void {
     const codeficator: Codeficator = auto.options.first?.value;
-    if (!searchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
-      searchControl.setValue(null);
-      codeficatorIdControl.setValue(null);
+    if (!controls.searchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
+      controls.searchControl.setValue(null);
+      controls.codeficatorIdControl.setValue(null);
     } else {
-      searchControl.setValue(settlementControl.value?.settlement);
+      controls.searchControl.setValue(controls.settlementControl.value?.settlement);
     }
   }
 
@@ -245,12 +198,10 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.searchFormGroup = new FormGroup({
       legalAddress: new FormGroup({
         settlementSearch: new FormControl('', defaultSearchValidators),
-        cityDistrict: new FormControl('', defaultSearchValidators),
         settlement: new FormControl('')
       }),
       actualAddress: new FormGroup({
         settlementSearch: new FormControl('', defaultSearchValidators),
-        cityDistrict: new FormControl('', defaultSearchValidators),
         settlement: new FormControl('')
       })
     });
@@ -262,7 +213,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   private initListeners(): void {
     this.settlementListener();
     this.sameAddressListener();
-    this.cityDistrictListener();
   }
 
   /**
@@ -298,21 +248,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method listen cityDistrictSearch observable and fill mat selects
-   */
-  private cityDistrictListener(): void {
-    this.cityDistrictSearch$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((list: CodeficatorCityDistrict[]) => {
-        if (!this.isSameAddressControl.value && this.settlementActualFormControl.value) {
-          this.cityDistrictActual = cloneDeep(list);
-        } else {
-          this.cityDistrictLegal = cloneDeep(list);
-        }
-      });
-  }
-
-  /**
    * This method handle edit state for the formGroup
    */
   private activateEditMode(): void {
@@ -331,10 +266,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       legalCodeficatorAddress,
       { emitEvent: false, onlySelf: true }
     );
-
-    if (this.isAvailableCityDistrictLegal) {
-      this.store.dispatch(new GetCodeficatorCitiDistrictSearch(legalCodeficatorAddress.id));
-    }
 
     // Setup Actual Address form controls
     if (actualAddress) {
@@ -403,7 +334,6 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
         { control: this.buildingNumberActualFormControl, validators: defaultValidators },
         { control: this.codeficatorIdActualFormControl, validators: Validators.required },
         { control: this.settlementActualSearchFormControl, validators: defaultSearchValidators },
-        { control: this.cityDistrictActualFormControl, validators: defaultSearchValidators }
       ];
       controlsConfigList.forEach((config: { control: AbstractControl, validators: ValidatorFn | ValidatorFn[] }) => {
         this.setValidators(config.control, config.validators);

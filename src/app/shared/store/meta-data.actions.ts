@@ -136,14 +136,3 @@ export class GetCodeficatorById {
 export class ClearCodeficatorSearch {
   static readonly type = '[meta-data] Clear Codeficator state';
 }
-
-export class GetCodeficatorCitiDistrictSearch {
-  static readonly type = '[meta-data] Get Codeficator Citi District search';
-
-  constructor(public id: number) {
-  }
-}
-
-export class ClearCodeficatorCitiDistrictSearch {
-  static readonly type = '[meta-data] Clear Codeficator Citi District search';
-}

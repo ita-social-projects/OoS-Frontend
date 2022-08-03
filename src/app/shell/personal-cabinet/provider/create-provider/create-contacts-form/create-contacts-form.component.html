@@ -9,22 +9,9 @@
                                       $implicit: {
                                         searchControl: settlementLegalSearchFormControl,
                                         settlementControl: settlementLegalFormControl,
-                                        codeficatorIdControl: codeficatorIdLegalFormControl,
-                                        cityDistrictControl: cityDistrictLegalFormControl
+                                        codeficatorIdControl: codeficatorIdLegalFormControl
                                       }
                                    }"></ng-container>
-
-  <ng-container *ngIf="isAvailableCityDistrictLegal">
-    <ng-container *ngTemplateOutlet="searchCitiDistrictTmpl;
-                                     context: {
-                                        $implicit: {
-                                          searchControl: cityDistrictLegalFormControl,
-                                          codeficatorIdControl: codeficatorIdLegalFormControl,
-                                          list: cityDistrictLegal
-                                        }
-                                     }">
-    </ng-container>
-  </ng-container>
 </div>
 <div class="step address-wrapper-border">
   <ng-container *ngTemplateOutlet="addressControlsTmlp;
@@ -56,22 +43,9 @@
                                       $implicit: {
                                         searchControl: settlementActualSearchFormControl,
                                         settlementControl: settlementActualFormControl,
-                                        codeficatorIdControl: codeficatorIdActualFormControl,
-                                        cityDistrictControl: cityDistrictActualFormControl
+                                        codeficatorIdControl: codeficatorIdActualFormControl
                                       }
                                    }"></ng-container>
-
-  <ng-container *ngIf="isAvailableCityDistrictActual">
-    <ng-container *ngTemplateOutlet="searchCitiDistrictTmpl;
-                                     context: {
-                                        $implicit: {
-                                          searchControl: cityDistrictActualFormControl,
-                                          codeficatorIdControl: codeficatorIdActualFormControl,
-                                          list: cityDistrictActual
-                                        }
-                                     }">
-    </ng-container>
-  </ng-container>
 </div>
 <div class="step address-wrapper"
      [ngClass]="{'disabled-field': isSameAddressControl.value}">
@@ -101,7 +75,7 @@
              appTrimValue
              [formControl]="context.searchControl"
              [matAutocomplete]="auto"
-             (focusout)="onFocusOut(auto, context.searchControl, context.settlementControl, context.codeficatorIdControl)">
+             (focusout)="onFocusOut(auto, context)">
       <mat-autocomplete #auto="matAutocomplete"
                         disableOptionCentering
                         panelClass="dropdown-panel"
@@ -122,38 +96,10 @@
                        [maxCharachters]="ValidationConstants.INPUT_LENGTH_60"
                        [isTouched]="context.searchControl.touched">
   </app-validation-hint>
-  <p *ngIf="context.settlementControl.value">{{ context.settlementControl.value?.fullName }}</p>
-</ng-template>
-
-<!-- SEARCH CITY DISTRICT TEMPLATE-->
-<ng-template #searchCitiDistrictTmpl let-context>
-  <label class="step-label">
-    Район<span class="step-required">*</span>
-  </label>
-  <div class="custom-input-autocomplete"
-       [class.redBorder]="context.searchControl.invalid && context.searchControl.touched">
-    <mat-form-field fxLayoutAlign="start space-between"
-                    fxLayout="column"
-                    floatLabel="never"
-                    class="input-wrapper"
-                    appearance="none">
-      <mat-select [formControl]="context.searchControl"
-                  disableOptionCentering
-                  panelClass="dropdown-panel"
-                  (selectionChange)="onSelectCityDistrict($event, context.codeficatorIdControl)">
-        <mat-option *ngFor="let district of context.list"
-                    class="dropdown-option"
-                    [value]="district.id">
-          {{district.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <app-validation-hint [validationFormControl]="context.searchControl"
-                       [minCharachters]="ValidationConstants.INPUT_LENGTH_3"
-                       [maxCharachters]="ValidationConstants.INPUT_LENGTH_60"
-                       [isTouched]="context.searchControl.touched">
-  </app-validation-hint>
+  <p *ngIf="context.settlementControl.value"
+     class="additional-text">
+    {{ context.settlementControl.value?.fullName }}
+  </p>
 </ng-template>
 
 <!-- ADDRESS CONTROLS TEMPLATE-->
