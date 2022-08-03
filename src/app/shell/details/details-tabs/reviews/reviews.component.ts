@@ -57,8 +57,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getParentData();
     this.getWorkshopRatingList();
-    this.checkIfAllowedToReview(this.parent.id);
-    this.checkIfReviewed(this.parent.id);
 
     this.actions$.pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(
@@ -83,6 +81,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.parent = parent;
       //this.store.dispatch(new GetApplicationsByParentId(parent.id)); // TODO: check if parent has applciation
     });
+    this.checkIfAllowedToReview(this.parent.id);
+    this.checkIfReviewed(this.parent.id);
   }
 
   private getWorkshopRatingList(): void {
