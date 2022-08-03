@@ -11,6 +11,9 @@
       {{ day.value }}
     </div>
   </div>
+  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> Повне співпадіння </mat-checkbox>
+  </div>
   <p class="filter-text title">Години роботи</p>
 
   <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
@@ -45,9 +48,12 @@
       </div>
     </mat-form-field>
   </div>
+  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> Повне співпадіння </mat-checkbox>
+  </div>
   <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
   </ngx-mat-timepicker>
-  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> 
+  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
   </ngx-mat-timepicker>
 
   <ng-template #btnCancel>
