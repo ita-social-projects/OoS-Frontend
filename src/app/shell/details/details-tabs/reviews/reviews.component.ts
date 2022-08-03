@@ -46,7 +46,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   parent: Parent;
   isAllowedToReview: boolean;
   isReviewed: boolean;
-  isApproved = false;
 
   constructor(
     private store: Store,
@@ -68,21 +67,22 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((status: boolean) => (this.isAllowedToReview = status));
 
-    this.isReviewed$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((status: boolean) => (this.isReviewed = status));
+    this.isReviewed$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((status: boolean) => (this.isReviewed = status));
   }
 
   private getParentData(): void {
     this.parent$.pipe(
-      filter((parent: Parent) => parent !== undefined),
+      filter((parent: Parent) => !!parent),
       takeUntil(this.destroy$)
     ).subscribe((parent: Parent) => {
       this.parent = parent;
-      //this.store.dispatch(new GetApplicationsByParentId(parent.id)); // TODO: check if parent has applciation
+      this.store.dispatch([
+        new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
+        new GetReviewedApplications(this.parent.id, this.workshop.id)
+      ]);
     });
-    this.checkIfAllowedToReview(this.parent.id);
-    this.checkIfReviewed(this.parent.id);
   }
 
   private getWorkshopRatingList(): void {
@@ -93,14 +93,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       ).subscribe((rating: Rate[]) => {
         this.rating = rating;
       });
-  }
-
-  private checkIfAllowedToReview(id: string): void {
-    this.store.dispatch(new GetStatusAllowedToReview(this.parent.id, this.workshop.id));
-  }
-
-  private checkIfReviewed(id: string): void {
-    this.store.dispatch(new GetReviewedApplications(this.parent.id, this.workshop.id));
   }
 
   onRate(): void {
