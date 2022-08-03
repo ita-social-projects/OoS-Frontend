@@ -1,4 +1,4 @@
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';

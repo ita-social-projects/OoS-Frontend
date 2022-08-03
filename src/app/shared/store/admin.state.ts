@@ -1,4 +1,21 @@
 import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
+import { GetClasses, GetDepartments } from "./meta-data.actions";
+import { MarkFormDirty, ShowMessageBar } from "./app.actions";
+import { Observable, of, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
+import { CategoriesService } from "../services/categories/categories.service";
+import { ChildCards } from "../models/child.model";
+import { ChildrenService } from '../services/children/children.service';
+import { CompanyInformation } from "../models/сompanyInformation.model";
+import { Injectable } from "@angular/core";
+import { Parent } from "../models/parent.model";
+import { ParentService } from '../services/parent/parent.service';
+import { PlatformService } from '../services/platform/platform.service';
+import { Provider } from '../models/provider.model';
+import { ProviderService } from '../services/provider/provider.service';
+import { Router } from "@angular/router";
 import {
   CreateClass,
   CreateDepartment,
@@ -6,17 +23,17 @@ import {
   DeleteClassById,
   DeleteDepartmentById,
   DeleteDirectionById,
-  FilterChange,
-  FilterClear,
   GetAboutPortal,
   GetAllProviders,
-  GetChildren,
+  GetApplicationHistory,
+  GetChildrenForAdmin,
   GetDepartmentById,
   GetDirectionById,
   GetFilteredDirections,
   GetLawsAndRegulations,
   GetParents,
-  GetPlatformInfo,
+  GetPlatformInfo, GetProviderAdminHistory,
+  GetProviderHistory,
   GetSupportInformation,
   OnClearCategories,
   OnClearDepartment,
@@ -40,30 +57,13 @@ import {
   OnUpdateDirectionSuccess,
   OnUpdatePlatformInfoFail,
   OnUpdatePlatformInfoSuccess,
-  SetSearchQueryValue,
   UpdateClass,
   UpdateDepartment,
   UpdateDirection,
   UpdatePlatformInfo,
 } from "./admin.actions";
-import { Department, Direction, DirectionsFilter, IClass } from "../models/category.model";
-import { GetClasses, GetDepartments } from "./meta-data.actions";
-import { MarkFormDirty, ShowMessageBar } from "./app.actions";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-
-import { AdminTabsTitle } from "../enum/enumUA/tech-admin/admin-tabs";
-import { CategoriesService } from "../services/categories/categories.service";
-import { ChildCards } from "../models/child.model";
-import { ChildrenService } from '../services/children/children.service';
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { Injectable } from "@angular/core";
-import { Parent } from "../models/parent.model";
-import { ParentService } from '../services/parent/parent.service';
-import { PlatformService } from '../services/platform/platform.service';
-import { Provider } from '../models/provider.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { Router } from "@angular/router";
+import {ApplicationsHistory, ProviderAdminsHistory, ProvidersHistory} from "../models/history-log.model";
+import {HistoryLogService} from "../services/history-log/history-log.service";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -74,11 +74,13 @@ export interface AdminStateModel {
   department: Department;
   departments: Department[];
   selectedDirection: Direction;
-  searchQuery: string;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
-  providers: Provider[];
+  providers: Provider[];
+  providerHistory: ProvidersHistory;
+  providerAdminHistory: ProviderAdminsHistory;
+  applicationHistory: ApplicationsHistory;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -90,12 +92,14 @@ export interface AdminStateModel {
     department: null,
     departments: null,
     isLoading: false,
-    searchQuery: '',
     filteredDirections: undefined,
     selectedDirection: null,
     children: null,
     providers: null,
     parents: null,
+    providerHistory: null,
+    providerAdminHistory: null,
+    applicationHistory: null,
   }
 })
 @Injectable()
@@ -116,8 +120,6 @@ export class AdminState {
 
   @Selector() static departments(state: AdminStateModel): Department [] { return state.departments; }
 
-  @Selector() static searchQuery(state: AdminStateModel): string { return state.searchQuery; }
-
   @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter{ return state.filteredDirections; }
 
   @Selector() static isLoading(state: AdminStateModel): boolean { return state.isLoading }
@@ -126,6 +128,12 @@ export class AdminState {
 
   @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
 
+  @Selector() static providerHistory(state: AdminStateModel): ProvidersHistory { return state.providerHistory };
+
+  @Selector() static providerAdminHistory(state: AdminStateModel): ProviderAdminsHistory { return state.providerAdminHistory };
+
+  @Selector() static applicationHistory(state: AdminStateModel): ApplicationsHistory { return state.applicationHistory };
+
   constructor(
     private platformService: PlatformService,
     private categoriesService: CategoriesService,
@@ -133,6 +141,7 @@ export class AdminState {
     private childrenService: ChildrenService,
     private router: Router,
     private providerService: ProviderService,
+    private historyLogService: HistoryLogService,
   ) { }
 
   @Action(GetPlatformInfo)
@@ -404,31 +413,15 @@ export class AdminState {
         tap((department: Department) =>  patchState({ department: department, isLoading: false })));
   }
 
-  @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState, dispatch }: StateContext<AdminStateModel>, { payload }: SetSearchQueryValue) {
-    patchState({ searchQuery: payload });
-    dispatch(new FilterChange());
-  }
-
-  @Action(FilterChange)
-  filterChange({ }: StateContext<AdminStateModel>, { }: FilterChange) { }
-
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { }: GetFilteredDirections) {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections) {
     patchState({ isLoading: true });
-    const state: AdminStateModel = getState();
     return this.categoriesService
-      .getFilteredDirections( state)
+      .getFilteredDirections(payload)
       .pipe(tap((filterResult: DirectionsFilter) => patchState(filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }),
       () => patchState({ isLoading: false, direction: null })));
   }
 
-    @Action(FilterClear)
-    filterClear({ patchState }: StateContext<AdminStateModel>, { }: FilterChange) {
-    patchState({
-      searchQuery: '',
-    });
-  }
   @Action(DeleteDepartmentById)
   deleteDepartmentById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDepartmentById): Observable<object> {
     return this.categoriesService
@@ -499,14 +492,44 @@ export class AdminState {
         }));
   }
 
-  @Action(GetChildren)
-  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { }: GetChildren): Observable<ChildCards> {
+  @Action(GetChildrenForAdmin)
+  getChildrenForAdmin({ patchState }: StateContext<AdminStateModel>, { payload }: GetChildrenForAdmin): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.childrenService
-      .getChildrenForAdmin()
+      .getChildrenForAdmin( payload )
       .pipe(
         tap((children: ChildCards) => {
           return patchState({ children: children, isLoading: false });
         }));
+  }
+
+  @Action(GetProviderHistory)
+  GetProviderHistory({ patchState }: StateContext<AdminStateModel>): Observable<ProvidersHistory> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getProviderHistory().pipe(
+      tap((providers: ProvidersHistory) => {
+        return patchState({ providerHistory: providers, isLoading: false });
+      })
+    );
+  }
+
+  @Action(GetProviderAdminHistory)
+  GetProviderAdminHistory({ patchState }: StateContext<AdminStateModel>): Observable<ProviderAdminsHistory> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getProviderAdminHistory().pipe(
+      tap((providerAdmin: ProviderAdminsHistory) => {
+        return patchState({ providerAdminHistory: providerAdmin, isLoading: false });
+      })
+    );
+  }
+
+  @Action(GetApplicationHistory)
+  GetApplicationHistory({ patchState }: StateContext<AdminStateModel>): Observable<ApplicationsHistory> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getApplicationHistory().pipe(
+      tap((application: ApplicationsHistory) => {
+        return patchState({ applicationHistory: application, isLoading: false });
+      })
+    );
   }
 }

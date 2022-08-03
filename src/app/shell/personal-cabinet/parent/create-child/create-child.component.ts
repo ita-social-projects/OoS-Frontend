@@ -8,16 +8,15 @@ import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
-import { ChildrenService } from 'src/app/shared/services/children/children.service';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateChildren, UpdateChild } from 'src/app/shared/store/user.actions';
+import { CreateChildren, GetUsersChildById, UpdateChild } from 'src/app/shared/store/user.actions';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
-import { CreateFormComponent } from '../../create-form/create-form.component';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -39,14 +38,15 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   socialGroups: SocialGroup[];
   @Select(UserState.children)
   childrenCards$: Observable<ChildCards[]>;
-
+  @Select(UserState.selectedChild)
+  selectedChild$: Observable<Child>;
   child: Child;
+
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
   isAgreed: boolean = false;
 
   constructor(
-    private childrenService: ChildrenService, //TODO: move to the state action
     private fb: FormBuilder,
     private routeParams: ActivatedRoute,
     private matDialog: MatDialog,
@@ -108,15 +108,19 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   setEditMode(): void {
     this.isAgreed = true;
-    const childId = this.route.snapshot.paramMap.get('param');
 
-    this.childrenService
-      .getUsersChildById(childId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((child: Child) => {
-        this.child = child;
-        this.ChildrenFormArray.push(this.newForm(child)); //TODO: move to the state actions
-      });
+    const childId = this.route.snapshot.paramMap.get('param');
+    this.store.dispatch(new GetUsersChildById(childId));
+
+    this.selectedChild$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter((child: Child) => !!child)
+    )
+    .subscribe((child: Child) => {
+      this.child = child
+      this.ChildrenFormArray.push(this.newForm(this.child));
+    });
   }
 
   /**
@@ -145,7 +149,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       ]),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
-      socialGroupId: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
+      socialGroups: new FormControl(Constants.SOCIAL_GROUP_ID_ABSENT_VALUE),
       placeOfLiving: new FormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -164,7 +168,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.subscribeOnDirtyForm(childFormGroup);
 
     if (this.editMode) {
-      child.socialGroupId = child.socialGroupId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
       childFormGroup.patchValue(child, { emitEvent: false });
     }
 

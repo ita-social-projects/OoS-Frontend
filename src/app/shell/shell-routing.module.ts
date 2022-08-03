@@ -13,8 +13,8 @@ import { ParentGuard } from './personal-cabinet/parent/parent.guard';
 import { CreateChildComponent } from './personal-cabinet/parent/create-child/create-child.component';
 import { CreateApplicationComponent } from './personal-cabinet/parent/create-application/create-application.component';
 import { CreateProviderGuard } from './personal-cabinet/provider/create-provider/create-provider.guard';
-import { UserConfigEditComponent } from './personal-cabinet/user-config/user-config-edit/user-config-edit.component';
-import { CreateGuard } from './personal-cabinet/create.guard';
+import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-config/user-config-edit/user-config-edit.component';
+import { CreateGuard } from './personal-cabinet/shared-cabinet/create-form/create.guard';
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
 import { AboutComponent } from './info/about/about.component';
 import { SupportComponent } from './info/support/support.component';
@@ -28,6 +28,7 @@ import { IsMobileGuard } from './is-mobile.guard';
 import { RulesComponent } from './info/rules/rules.component';
 import { DetailsComponent } from './details/details.component';
 import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
+import { ErrorPageComponent } from '../shared/components/error-page/error-page.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },
+
   {
     path: 'info', component: InfoComponent, children: [
       { path: 'about', component: AboutComponent },
@@ -128,6 +130,7 @@ const routes: Routes = [
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]
   },
+  { path: '**', component: ErrorPageComponent  },
 ];
 
 @NgModule({
