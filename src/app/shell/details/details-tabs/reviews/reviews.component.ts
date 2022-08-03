@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { CreateRating, GetReviewedApplications, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
@@ -33,8 +33,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
-  @Select(UserState.isAllowedToReview) 
+  @Select(UserState.isAllowedToReview)
   isAllowedToReview$: Observable<boolean>;
+  @Select(UserState.isReviewed)
+  isReviewed$: Observable<boolean>;
 
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
@@ -43,7 +45,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   parent: Parent;
   isAllowedToReview: boolean;
-  isRated = false;
+  isReviewed: boolean;
   isApproved = false;
 
   constructor(
@@ -55,17 +57,22 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getParentData();
     this.getWorkshopRatingList();
-    this.checkIfAllowedToReview(this.parent.id)
-    
+    this.checkIfAllowedToReview(this.parent.id);
+    this.checkIfReviewed(this.parent.id);
+
     this.actions$.pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetRateByEntityId('workshop', this.workshop.id)));
+      .subscribe(() => this.store.dispatch([new GetRateByEntityId('workshop', this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
 
     this.isAllowedToReview$
     .pipe(takeUntil(this.destroy$))
     .subscribe((status: boolean) => (this.isAllowedToReview = status));
+
+    this.isReviewed$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((status: boolean) => (this.isReviewed = status));
   }
 
   private getParentData(): void {
@@ -85,12 +92,15 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       ).subscribe((rating: Rate[]) => {
         this.rating = rating;
-        this.isRated = rating?.some((rate: Rate) => rate.parentId === this.parent?.id);
       });
   }
 
   private checkIfAllowedToReview(id: string): void {
     this.store.dispatch(new GetStatusAllowedToReview(this.parent.id, this.workshop.id));
+  }
+
+  private checkIfReviewed(id: string): void {
+    this.store.dispatch(new GetReviewedApplications(this.parent.id, this.workshop.id));
   }
 
   onRate(): void {
