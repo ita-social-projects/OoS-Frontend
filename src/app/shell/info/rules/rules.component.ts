@@ -1,5 +1,5 @@
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 
 import { AdminState } from 'src/app/shared/store/admin.state';
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./rules.component.scss'],
 })
 
-export class RulesComponent {
+export class RulesComponent implements OnInit, OnDestroy  {
   @Select(AdminState.LawsAndRegulations)
   platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
@@ -29,6 +29,7 @@ export class RulesComponent {
         this.navigationBarService.createOneNavPath({ name: NavBarName.LawsAndRegulations, isActive: false, disable: true })
       )
     );
+    this.store.dispatch(new GetLawsAndRegulations());
   }
 
   ngOnDestroy(): void {
