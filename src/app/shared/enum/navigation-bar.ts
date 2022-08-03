@@ -14,6 +14,7 @@ export enum NavBarName {
   EditInstitutions = 'Редагувати заклад',
   EditInformationAbout = 'Редагування особистої інформації',
   EditDirection = 'Редагування напрямку',
+  CreateDirection = 'Додати напрямок',
   Platform = 'Портал',
   NewWorkshop = 'Новий гурток',
   EditWorkshop = 'Редагування гуртка',
@@ -28,6 +29,7 @@ export enum NavBarName {
   ProviderInfo = 'Інформація про заклад',
   Users = 'Користувачі',
   Providers = 'Заклади',
+  Directions = 'Напрямки',
 }
 export enum PersonalCabinetTitle {
   admin = 'Кабінет тех.адміна',
