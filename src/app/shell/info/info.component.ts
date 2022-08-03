@@ -1,4 +1,8 @@
+import { Select, Store } from '@ngxs/store';
+
+import { AdminState } from 'src/app/shared/store/admin.state';
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-info',
@@ -6,7 +10,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent {
+  @Select(AdminState.isLoading)
+  isLoading$: Observable<boolean>;
 
-  constructor() { }
+  constructor(private store: Store) { }
 
 }

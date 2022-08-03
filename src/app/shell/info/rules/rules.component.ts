@@ -18,18 +18,18 @@ import { Observable } from 'rxjs';
 export class RulesComponent implements OnInit, OnDestroy  {
   @Select(AdminState.LawsAndRegulations)
   platformRules$: Observable<CompanyInformation>;
-  @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
 
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
-    this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.LawsAndRegulations, isActive: false, disable: true })
-      )
-    );
-    this.store.dispatch(new GetLawsAndRegulations());
+    this.store.dispatch([
+      this.navigationBarService.createOneNavPath({
+        name: NavBarName.LawsAndRegulations,
+        isActive: false,
+        disable: true,
+      }),
+      new GetLawsAndRegulations(),
+    ]);
   }
 
   ngOnDestroy(): void {
