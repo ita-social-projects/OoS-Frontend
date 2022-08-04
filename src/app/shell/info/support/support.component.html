@@ -1,16 +1,18 @@
-<div *ngIf="(platformSupport$ | async)?.companyInformationItems.length; else noInfo">
-  <div class="support-content">
-    <div>
-      <h2 class="support-title">{{ (platformSupport$ | async).title }}</h2>
-    </div>
-    <div class="support-text">
-      <div *ngFor="let item of (platformSupport$ | async)?.companyInformationItems">
-        <p><strong>{{ item.sectionName }}</strong></p>
-        <p>{{ item.description }}</p>
+<ng-container *ngIf="!(isLoading$ | async)">
+  <div *ngIf="platformSupport?.companyInformationItems.length; else noInfo">
+    <div class="support-content">
+      <div>
+        <h2 class="support-title">{{ platformSupport.title }}</h2>
+      </div>
+      <div class="support-text">
+        <div *ngFor="let item of platformSupport?.companyInformationItems">
+          <p><strong>{{ item.sectionName }}</strong></p>
+          <p>{{ item.description }}</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<ng-template #noInfo>
-  <div class="info-no-content">Інформації поки немає</div>
-</ng-template>
+  <ng-template #noInfo>
+    <div class="info-no-content">Інформації поки немає</div>
+  </ng-template>
+</ng-container>
