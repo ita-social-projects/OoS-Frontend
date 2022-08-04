@@ -8,6 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateContactsFormComponent } from './create-contacts-form.component';
+import { NgxsModule } from '@ngxs/store';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;
@@ -23,7 +24,8 @@ describe('CreateContactsFormComponent', () => {
         MatOptionModule,
         MatInputModule,
         MatAutocompleteModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        NgxsModule.forRoot([])
       ],
       declarations: [
         CreateContactsFormComponent,
