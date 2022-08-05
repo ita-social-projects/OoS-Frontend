@@ -39,6 +39,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ministryAdmin$: Observable<MinistryAdmin>;
   ministryAdmin: MinistryAdmin;
   tabIndex: number;
+  displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   destroy$: Subject<boolean> = new Subject<boolean>();
