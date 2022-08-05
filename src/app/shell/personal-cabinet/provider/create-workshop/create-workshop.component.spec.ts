@@ -10,6 +10,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Address } from 'src/app/shared/models/address.model';
 import { FormArray, FormGroup } from '@angular/forms';
+import { Provider } from 'src/app/shared/models/provider.model';
 
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;
@@ -58,6 +59,7 @@ describe('CreateWorkshopComponent', () => {
 class MockCreateAboutFormComponent {
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
+  @Input() provider: Provider;
 }
 
 @Component({
@@ -67,6 +69,7 @@ class MockCreateAboutFormComponent {
 class MockCreateDescriptionFormComponent {
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
+  @Input() provider: Provider;
 }
 
 @Component({

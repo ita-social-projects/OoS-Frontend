@@ -1,6 +1,6 @@
-import { PlatformInfoType } from './../enum/platform';
 import { Department, Direction, IClass } from "../models/category.model";
-import { PaginationElement } from "../models/paginationElement.model";
+
+import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from "../models/сompanyInformation.model";
 
 export class GetPlatformInfo {
@@ -17,8 +17,8 @@ export class GetSupportInformation {
   constructor() { }
 }
 export class GetAllProviders {
-  static readonly type = '[admin] Get all providers';
-  constructor() {}
+  static readonly type = '[admin] Get all providers';
+  constructor() {}
 }
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
@@ -26,7 +26,7 @@ export class GetLawsAndRegulations {
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(public payload: CompanyInformation, public type: PlatformInfoType) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';
@@ -34,7 +34,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload) { }
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) { }
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
@@ -120,26 +120,11 @@ export class GetDepartmentByDirectionId {
   static readonly type = '[admin] get Department By Direction Id';
   constructor(public payload: number) { }
 }
-export class PageChange {
-  static readonly type = '[admin] Change Page';
-  constructor(public payload: PaginationElement) { }
-}
-export class FilterChange {
-  static readonly type = '[admin] Filter Change';
-  constructor() { }
-}
-export class SetSearchQueryValue {
-  static readonly type = '[admin] Set Search Quesry Value';
-  constructor(public payload: string) { }
-}
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
-  constructor() { }
+  constructor(public payload?: string) { }
 }
-export class FilterClear {
-  static readonly type = '[filter] Filter Clear';
-  constructor() { }
-}
+
 export class CreateClass {
   static readonly type = '[admin] create Class';
   constructor(public payload: IClass[]) { }
@@ -190,7 +175,22 @@ export class GetParents {
   constructor() { }
 }
 
-export class GetChildren {
+export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
-  constructor() { }
+  constructor(public payload?: string) { }
+}
+
+export class GetProviderHistory {
+  static readonly type = '[admin] Get Provider History';
+  constructor(public payload?: string) { }
+}
+
+export class GetProviderAdminHistory {
+  static readonly type = '[admin] Get Provider Admin History';
+  constructor(public payload?: string) { }
+}
+
+export class GetApplicationHistory {
+  static readonly type = '[admin] Get Application History';
+  constructor(public payload?: string) { }
 }

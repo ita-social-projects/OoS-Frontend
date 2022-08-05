@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateInfoFormComponent } from './create-info-form.component';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -10,6 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
+import { NgxsModule } from '@ngxs/store';
+import { ImageFormControlComponent } from 'src/app/shared/components/image-form-control/image-form-control.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -26,11 +29,15 @@ describe('CreateInfoFormComponent', () => {
         MatNativeDateModule,
         MatSelectModule,
         MatInputModule,
+        MatGridListModule,
+        MatIconModule,
         BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [
         CreateInfoFormComponent,
         MockValidationHintForInputComponent,
+        ImageFormControlComponent,
         KeyFilterDirective
       ]
     })
@@ -40,6 +47,23 @@ describe('CreateInfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
+    component.InfoFormGroup = new FormGroup({
+      fullTitle: new FormControl(''),
+      shortTitle: new FormControl(''),
+      edrpouIpn: new FormControl(''),
+      director: new FormControl(''),
+      directorDateOfBirth: new FormControl(''),
+      phoneNumber: new FormControl(''),
+      email: new FormControl(''),
+      website: new FormControl(''),
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      type: new FormControl(null),
+      ownership: new FormControl(null),
+      institution: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
+    });
     fixture.detectChanges();
   });
 
@@ -58,4 +82,6 @@ class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
+  @Input() isPhoneNumber: boolean;
 }

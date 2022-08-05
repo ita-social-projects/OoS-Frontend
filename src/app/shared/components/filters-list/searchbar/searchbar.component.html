@@ -1,6 +1,34 @@
-<mat-form-field floatLabel=never appearance="none" fxLayout='row' fxLayoutAlign='space-between center'>
-  <input type="text" maxlength="256" [formControl]="searchValue" matInput placeholder="Введіть назву гуртка, школи"
-    (keyup.enter)="onSearch()">
-  <mat-error *ngIf="searchValue && searchValue.errors">Пошук не може містити більше ніж 256 символів.</mat-error>
-  <mat-icon class="icon" style="transform: rotate(90deg)" (click)="onSearch()">search</mat-icon>
-</mat-form-field>
+<form class="search-bar">
+  <mat-form-field
+    appPlaceholderStyling
+    class="input-wrapper"
+    floatLabel="never"
+    appearance="none"
+    fxLayout="row"
+    fxLayoutAlign="space-between center">
+    <input
+      matInput
+      type="text"
+      class="search-input"
+      placeholder="Введіть назву гуртка, школи"
+      disableOptionCentering
+      autocomplete="off"
+      maxlength="256"
+      appTrimValue
+      [formControl]="searchValueFormControl"
+      [matAutocomplete]="autoSearch"
+      (keyup.enter)="onValueEnter()" />
+
+    <mat-autocomplete
+      #autoSearch="matAutocomplete"
+      class="search-input"
+      panelClass="dropdown-panel"
+      (optionSelected)="onValueSelect()">
+      <mat-option class="dropdown-option option" *ngFor="let result of filteredResults" [value]="result">
+        {{ result }}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="searchValueFormControl && searchValueFormControl.errors">Пошук не може містити більше ніж 256 символів.</mat-error>
+    <mat-icon class="icon" style="transform: rotate(90deg)" (click)="onValueEnter()">search</mat-icon>
+  </mat-form-field>
+</form>

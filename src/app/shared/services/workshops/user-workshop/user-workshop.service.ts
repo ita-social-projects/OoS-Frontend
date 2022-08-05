@@ -3,26 +3,30 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopCard } from '../../../models/workshop.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserWorkshopService {
   isRelease2: boolean;
 
-  constructor(
-    private http: HttpClient,
-    private store: Store) { }
+  constructor(private http: HttpClient, private store: Store) {}
+
+  /**
+   * This method get related workshops for provider admins
+   */
+  getProviderAdmisnWorkshops(): Observable<Workshop[]> {
+    return this.http.get<Workshop[]>(`/api/v1/ProviderAdmin/ManagedWorkshops`);
+  }
 
   /**
    * This method get workshops by Provider id
    * @param id: string
    */
-  getWorkshopsByProviderId(id: string): Observable<WorkshopCard[]> {
-    return this.http.get<WorkshopCard[]>(`/api/v1/Workshop/GetByProviderId/${id}`);
+  getWorkshopsByProviderId(id: string): Observable<Workshop[]> {
+    return this.http.get<Workshop[]>(`/api/v1/Workshop/GetByProviderId/${id}`);
   }
 
   /**
@@ -75,14 +79,12 @@ export class UserWorkshopService {
    */
 
   deleteWorkshop(id: string): Observable<object> {
-    return this.isRelease2
-      ? this.http.delete(`/api/v2/Workshop/Delete/${id}`)
-      : this.http.delete(`/api/v1/Workshop/Delete/${id}`);
+    return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {
     const formData = new FormData();
-    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds',];
+    const formNames = ['address', 'dateTimeRanges', 'keywords', 'imageIds', 'workshopDescriptionItems'];
     const imageFiles = ['imageFiles', 'coverImage'];
     const teachers = 'teachers';
 

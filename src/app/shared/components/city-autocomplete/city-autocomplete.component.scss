@@ -1,29 +1,29 @@
-:host ::ng-deep .mat-form-field-wrapper {
+
+@import "src/app/shared/styles/dropdown.scss";
+:host ::ng-deep .mat-form-field-wrapper,
+:host ::ng-deep .mat-form-field-infix  {
   padding: 0;
-}
-:host ::ng-deep .mat-form-field-infix {
   border: none;
 }
-.city-search{
-  position: relative;
-  min-width: min-content;
-  text-transform: capitalize;
+.input-wrapper {
+  padding: 0.5rem 0;
 }
 .city-filter {
+  font-family: 'Open Sans', sans-serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 22px;
   color: #444444;
   text-transform: capitalize;
 }
-.mat-option {
-  line-height: 20px;
-}
 .city-region {
   color: #161414;
   opacity: 0.6;
   font-size: 14px;
+  &:hover{
+    background-color: transparent;
+  }
 }
-.step-input {
-  font-family: 'Open Sans', sans-serif;
+.mat-option {
+  line-height: 20px;
 }

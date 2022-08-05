@@ -73,9 +73,9 @@ export class MainComponent implements OnInit, OnDestroy {
         filter(role => !!role),
         takeUntil(this.destroy$))
       .subscribe(role => this.getTopWorkshops(role));
-    
+
     this.isMobileScreen$
-      .pipe(takeUntil(this.destroy$))  
+      .pipe(takeUntil(this.destroy$))
       .subscribe((isMobile) => this.isMobile = isMobile);
   }
 
@@ -83,7 +83,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-  
+
   register(): void {
     this.store.dispatch(new Login(true));
   }

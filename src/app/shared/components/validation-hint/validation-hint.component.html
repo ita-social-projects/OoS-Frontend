@@ -1,11 +1,12 @@
-<small appValidationMessageStyling>
-  <ng-container *ngIf = "invalid">
-    <ng-container *ngIf = "required; then requiredInputTmpl"></ng-container>
-    <ng-container *ngIf = "invalidCharacters ; then invalidCharactersTmpl"></ng-container>
-    <ng-container *ngIf = "invalidSymbols ; then invalidSymbolsTmpl"></ng-container>
-    <ng-container *ngIf = "invalidLength; then invalidLengthTmpl"></ng-container>
-    <ng-container *ngIf = "minMaxDate && !invalidDateRange; then incorrectDateFieldTmpl"></ng-container>
-    <ng-container *ngIf = "minMaxDate && invalidDateRange; then invalidDateRangeTmpl"></ng-container>
+<small *ngIf = "invalid" appValidationMessageStyling>
+  <ng-container *ngIf = "required && !invalidDateFormat; then requiredInputTmpl"></ng-container>
+  <ng-container *ngIf = "required && invalidDateFormat; then incorrectDateFieldTmpl"></ng-container>
+  <ng-container *ngIf = "!required">
+    <ng-container *ngIf = "invalidCharacters; then invalidCharactersTmpl"></ng-container>
+    <ng-container *ngIf = "invalidSymbols; then invalidSymbolsTmpl"></ng-container>
+    <ng-container *ngIf = "invalidFieldLength; then invalidLengthTmpl"></ng-container>
+    <ng-container *ngIf = "invalidPhoneLength; then invalidPhoneTmpl"></ng-container>
+    <ng-container *ngIf = "invalidDateRange; then invalidDateRangeTmpl"></ng-container>
     <ng-container *ngIf = "invalidEmail; then invalidEmailTmpl"></ng-container>
   </ng-container>
 </small>
@@ -34,6 +35,10 @@
     Перевірте введені данні. <br> Дата народження виходить за межі допустимих. <br>
 </ng-template>
 
-<ng-template #invalidEmailTmpl >
+<ng-template #invalidEmailTmpl>
     Введіть коректний імейл. <br>
+</ng-template> 
+
+<ng-template #invalidPhoneTmpl>
+    Це поле має містити {{ minCharachters }} символів. <br>
 </ng-template> 

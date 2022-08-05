@@ -1,11 +1,40 @@
-<div *ngIf="provider" class="wrapper" [fxLayout]="(isMobileScreen$ | async) ? 'column': 'row'"
-  [fxLayout.lt-lg]="(isMobileScreen$ | async) ? 'column' : 'row wrap'" fxLayoutAlign="center space-between"
-  fxLayoutGap.gt-md="2rem">
+<div 
+  class="wrapper"
+  fxLayoutGap="0px"
+  fxLayoutGap.gt-md="2rem"
+  fxLayoutAlign="center space-between" 
+  [fxLayout]="isMobileScreen ? 'column': 'row'"
+  [fxLayout.lt-lg]="isMobileScreen? 'column' : 'row wrap'">
 
-  <app-information-page class="workshop-page-wrap" [workshop]="workshop" [providerData]="provider"
-    [role]="role$ | async">
-  </app-information-page>
-
-  <app-side-menu *ngIf="workshop" [workshop]="workshop" [role]="role$ | async">
+  <ng-container *ngIf="entity === entityType.workshop then WorkshopDetails; else ProviderDetails"></ng-container>
+  
+  <app-side-menu 
+    *ngIf="provider" 
+    [workshop]="workshop" 
+    [provider]="provider" 
+    [role]="role" 
+    [isMobileScreen]="isMobileScreen"
+    [displayActionCard]="displayActionCard">
   </app-side-menu>
 </div>
+
+<ng-template #WorkshopDetails>
+  <app-workshop-details
+    *ngIf="workshop" 
+    class="workshop-page-wrap" 
+    [workshop]="workshop" 
+    [provider]="provider"
+    [role]="role"
+    [isMobileScreen]="isMobileScreen"
+    [displayActionCard]="displayActionCard"
+  ></app-workshop-details>
+</ng-template>
+
+<ng-template #ProviderDetails>
+  <app-provider-details
+    *ngIf="provider" 
+    class="workshop-page-wrap" 
+    [provider]="provider"
+    [role]="role">
+  </app-provider-details>
+</ng-template>

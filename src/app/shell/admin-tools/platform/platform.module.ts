@@ -11,17 +11,16 @@ import { AddDepartmentFormComponent } from './directions/create-direction/add-de
 import { AddDirectionFormComponent } from './directions/create-direction/add-direction-form/add-direction-form.component';
 import { NewClassFormComponent } from './directions/create-direction/add-class-form/new-class-form/new-class-form.component';
 import { ClassesCheckBoxListComponent } from './directions/create-direction/add-class-form/classes-check-box-list/classes-check-box-list.component';
-import { InfoFormComponent } from './platform-info/info-edit/info-form/info-form.component';
 import { DirectionsComponent } from './directions/directions.component';
 import { InfoCardComponent } from './platform-info/info-card/info-card.component';
 import { RegulationsInfoComponent } from './platform-info/regulations-info.component';
 import { SupportInfoComponent } from './platform-info/support-info.component';
 import { AboutInfoComponent } from './platform-info/about-info.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
+import { MainPageInfoComponent } from './main-page-info/main-page-info.component';
 
 @NgModule({
   declarations: [
-    InfoFormComponent,
     CreateDirectionComponent,
     AddClassFormComponent,
     AddDepartmentFormComponent,
@@ -34,7 +33,8 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
     InfoEditComponent,
     PlatformComponent,
     ClassesCheckBoxListComponent,
-    NewClassFormComponent
+    NewClassFormComponent,
+    MainPageInfoComponent
   ],
   imports: [
     CommonModule,

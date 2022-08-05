@@ -3,13 +3,17 @@
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 13px;
     color: #000000;
-    background-color : white;
+    background-color: transparent;
     padding-left: 10px;
    }
 }
-
+.mat-option.mat-option-disabled {
+  background-color: #F8F8F8!important;
+  color:  rgba(0, 0, 0, 0.11);
+  opacity: 0.5;
+  cursor: default;
+}
 ::ng-deep .dropdown-panel{
   .mat-selected{
     background-color: white!important;
@@ -28,18 +32,6 @@
       background-color: #F8F8F8;
     }
   }
-  &::-webkit-scrollbar {
-    background-color: #E3E3E3;
-    width: 4px;
-    border-radius: 5px;
-  }
-
-  &::-webkit-scrollbar-thumb{
-    background-color: #888888;
-    border-radius: 5px;
-    width: 4px;
-  }
-
   box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11)!important;
   border-radius: 10px;
   position: relative;

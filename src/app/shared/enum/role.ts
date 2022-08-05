@@ -3,8 +3,11 @@ export enum Role {
   parent = 'parent',
   unauthorized = 'unauthorized',
   techAdmin = 'admin',
+  ProviderDeputy = 'ProviderDeputy',
+  ProviderAdmin = 'ProviderAdmin',
   all = 'all',
-  child = 'child'
+  child = 'child',
+  None = 'None'
 }
 
 export enum cardType {
@@ -16,10 +19,13 @@ export enum cardType {
 
 export enum RoleLinks {
   provider = 'заклад',
-  parent = 'дитину'
+  parent = 'дітей'
 }
 
 export enum EntityType {
   provider = 'provider',
   workshop = 'workshop',
+  ProviderAdmin = 'provideradmin',
+  ProviderDeputy = 'provider',
+  None = 'provider'
 }

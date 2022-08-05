@@ -1,8 +1,8 @@
 <div class="create-form" fxLayout="column" fxLayoutAlign="center center">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(isDeputy) ? 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА' : 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА'}}</h3>
-      <p class="wrapper-text">Дані для входу будуть надіслані на Емейл користувача для логування в систему. </p>
+      <h3 class="wrapper-title">{{(providerRole === providerAdminRole.deputy) ? 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА' : 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА'}}</h3>
+      <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. </p>
     </div>
 
     <mat-horizontal-stepper #stepper [linear]="!editMode">
@@ -51,17 +51,20 @@
           <mat-form-field>
             <div fxLayout='row' fxLayoutAlign='start'>
               <span class="step-text">{{ phonePrefix }}</span>
-              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
+              <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly appTrimValue ui-number-mask
               ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}">
             </div>
           </mat-form-field>
           <app-validation-hint 
-            [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')">
+            [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')"
+            [minCharachters]="validationConstants.PHONE_LENGTH"
+            [isPhoneNumber]="true">
           </app-validation-hint>
 
-          <label class="step-label"> Емейл <span class="step-required">*</span></label>
-          <mat-form-field>
-            <input matInput class="step-input" type="email" formControlName="email" appTrimValue>
+          <label class="step-label" > Електронна пошта <span class="step-required">*</span></label>
+          <mat-form-field >
+            <mat-label></mat-label>
+            <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]='mailFormPlaceholder' >
           </mat-form-field>
           <app-validation-hint 
             [validationFormControl]="ProviderAdminFormGroup.get('email')">
@@ -76,7 +79,7 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
+          <a [routerLink]="'/personal-cabinet/provider/administration'"><button mat-raised-button
               class="btn btn-cancel">Скасувати</button></a>
           <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(ProviderAdminFormGroup)"
             [disabled]="ProviderAdminFormGroup.invalid">Далі</button>
@@ -89,17 +92,21 @@
           <p class="step-name">Керування доступами</p>
         </ng-template>
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step form">
-          <ng-container *ngIf="isDeputy then Deputy; else WorkshopAdmin">
+          <ng-container *ngIf="providerRole === providerAdminRole.deputy then Deputy; else WorkshopAdmin">
           </ng-container>
           <ng-template #Deputy>
             <label class="step-label">Буде надано доступ до всих гуртків</label>
           </ng-template>
           <ng-template #WorkshopAdmin>
             <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span
-                class="step-required">*</span></label>
-            <app-workshop-checkbox-dropdown [workshops]="workshops$ | async" (workshopCheck)="onWorkshopsSelect($event)"
-              [dropdownContainerClass]="'create-admin'">
-            </app-workshop-checkbox-dropdown>
+                class="step-required">*</span>
+            </label>
+            <app-entity-checkbox-dropdown 
+              [entities]="workshops$ | async" 
+              [declination]="WorkshopDeclination"
+              [dropdownContainerClass]="'create-admin'"
+              (entityCheck)="onWorkshopsSelect($event)">
+            </app-entity-checkbox-dropdown>
           </ng-template>
         </form>
 
@@ -110,8 +117,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-          <a [routerLink]="'/personal-cabinet/administration/all'"><button mat-raised-button
-              class="btn btn-cancel">Скасувати</button></a>
+          <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
           <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
         </div>
       </mat-step>

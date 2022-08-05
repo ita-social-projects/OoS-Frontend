@@ -1,0 +1,28 @@
+.search {
+  background: white;
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 60px;
+
+  .search-city {
+    width: 280px;
+    vertical-align: bottom;
+  }
+
+  .search-bar-wrap {
+    width: 80%;
+    border-left: 1px solid #E3E3E3;
+
+    .search-bar {
+      width: 100%;
+    }
+  }
+}
+.max-height{
+  max-height: 40px;
+}
+
+.icon{
+  margin: 0 0.5rem 0 1rem;
+  color: #AAAAAA;
+}

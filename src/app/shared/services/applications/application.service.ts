@@ -1,56 +1,69 @@
+import { ApplicationStatus } from './../../enum/applications';
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application, ApplicationUpdate } from '../../models/application.model';
+import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { PaginatorState } from '../../store/paginator.state';
+import { PaginationElement } from '../../models/paginationElement.model';
+import { Store } from '@ngxs/store';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class ApplicationService {
+  constructor(private http: HttpClient, private store: Store) {}
 
-  constructor(private http: HttpClient) {
-  }
-
-  private setParams(parameters): HttpParams {
+  private setParams(parameters: ApplicationParameters): HttpParams {
     let params = new HttpParams();
 
-    if (parameters.status) {
-      params = params.set('Status', parameters.status);
-    }
+    if (parameters) {
+      if (parameters.statuses.length) {
+        parameters.statuses.forEach((status: ApplicationStatus) => (params = params.append('Statuses', status)));
+      }
 
-    if (parameters.workshopsId.length) {
-      parameters.workshopsId.forEach((workshopId: string) => params = params.append('Workshops', workshopId));
-    }
+      if (parameters.workshops.length) {
+        parameters.workshops.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
+      }
 
-    params = params.set('OrderByDateAscending', 'true'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('OrderByAlphabetically', 'false'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('OrderByStatus', 'true'); // TODO: change parameters setting according to the backend updtaes
+      if (parameters.children.length) {
+        parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
+      }
+
+      params = params.set('ShowBlocked', parameters.showBlocked.toString());
+    }
+    params = params.set('OrderByDateAscending', 'true');
+    params = params.set('OrderByAlphabetically', 'true');
+    params = params.set('OrderByStatus', 'true');
+
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = parameters.size
+      ? parameters.size
+      : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+
+    const from: number = size * (+currentPage.element - 1);
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }
-
-
 
   /**
    * This method get applications by Parent id
    * @param id string
    */
-   getApplicationsByParentId(id: string, status): Observable<Application[]> {
-    const options = { params: this.setParams({
-      status: status,
-      workshopsId: []
-    }) };
-    return this.http.get<Application[]>(`/api/v1/Application/GetByParentId/${id}`, options);
+  getApplicationsByParentId(id: string, parameters: ApplicationParameters): Observable<ApplicationCards> {
+    const options = { params: this.setParams(parameters) };
+    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
 
   /**
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByProviderId(id: string, parameters): Observable<Application[]> {
+  getApplicationsByProviderId(id: string, parameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<Application[]>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
+    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
   }
 
   /**
@@ -75,5 +88,46 @@ export class ApplicationService {
    */
   updateApplication(application: ApplicationUpdate): Observable<object> {
     return this.http.put('/api/v1/Application/Update', application);
+  }
+
+  /**
+   * This method get status if child can apply to workshop by application id and child id
+   * @param childId string
+   * @param workshopId string
+   */
+  getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
+    const options = {
+      params: {
+        childId: childId,
+        workshopId: workshopId,
+      },
+    };
+    return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
+  }
+
+  /**
+   * This method Check if exists an any application with approve status in workshop for parent
+   * @param id string
+   */
+  getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/Application/AllowedToReview`, {
+      params: {
+        parentId,
+        workshopId
+      },
+    });
+  }
+
+    /**
+   * This method Check if exists an any rewiewed application in workshop for parent.
+   * @param id string
+   */
+  getReviewedApplications(parentId: string, workshopId: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/Rating/IsReviewed`, {
+      params: {
+        parentId,
+        workshopId
+      },
+    });
   }
 }

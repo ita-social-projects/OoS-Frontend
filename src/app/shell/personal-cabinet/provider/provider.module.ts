@@ -17,6 +17,14 @@ import { CreateTeacherComponent } from './create-workshop/create-teacher/create-
 import { TeacherFormComponent } from './create-workshop/create-teacher/teacher-form/teacher-form.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { CreateProviderAdminComponent } from './create-provider-admin/create-provider-admin.component';
+import { CreateAchievementComponent } from './create-achievement/create-achievement.component';
+import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
+import { ProviderApplciationsComponent } from './provider-applciations/provider-applciations.component';
+import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
+import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form-wrapper.component';
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
@@ -30,14 +38,22 @@ import { CreateProviderAdminComponent } from './create-provider-admin/create-pro
     CreatePhotoFormComponent,
     CreateTeacherComponent,
     TeacherFormComponent,
-    CreateProviderAdminComponent
+    CreateProviderAdminComponent,
+    CreateAchievementComponent,
+    ProviderAdminsComponent,
+    ProviderApplciationsComponent,
+    ProviderWorkshopsComponent,
+    WorkingHoursFormWrapperComponent
   ],
   imports: [
     CommonModule,
     ProviderRoutingModule,
     FlexLayoutModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    SharedCabinetModule,
+    RouterModule,
+    FormsModule,
   ],
 
   providers: [

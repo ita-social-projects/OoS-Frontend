@@ -20,7 +20,8 @@ describe('AppComponent', () => {
         MockHeaderComponent,
         MockShellComponent,
         MockFooterComponent,
-        MockSidenavComponent
+        MockSidenavComponent,
+        MockSidenavFilterComponent
       ],
     }).compileComponents();
   });
@@ -53,9 +54,17 @@ class MockShellComponent{}
 class MockFooterComponent{}
 
 @Component({
-  selector: 'app-sidenav',
+  selector: 'app-sidenav-menu',
   template: ''
 })
 class MockSidenavComponent{
+  @Input() isMobileView: boolean;
+}
+
+@Component({
+  selector: 'app-sidenav-filters',
+  template: ''
+})
+class MockSidenavFilterComponent{
   @Input() isMobileView: boolean;
 }

@@ -5,7 +5,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { cardType } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
@@ -13,28 +13,40 @@ import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateApplication, GetAllUsersChildren, GetWorkshopById } from 'src/app/shared/store/user.actions';
+import {
+  CreateApplication,
+  GetAllUsersChildren,
+  GetStatusIsAllowToApply,
+  GetWorkshopById,
+} from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
-import { Parent } from 'src/app/shared/models/parent.model';
+import { ParentWithContactInfo } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
-
+import { Constants } from 'src/app/shared/constants/constants';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-create-application',
   templateUrl: './create-application.component.html',
-  styleUrls: ['./create-application.component.scss']
+  styleUrls: ['./create-application.component.scss'],
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
-
   readonly CardType = cardType;
 
-  @Select(UserState.children) children$: Observable<ChildCards>;
-  @Select(RegistrationState.user) user$: Observable<User>;
-  @Select(RegistrationState.parent) parent$: Observable<Parent>;
-  parent: Parent;
+  @Select(UserState.children) 
+  children$: Observable<ChildCards>;
+  @Select(UserState.isAllowChildToApply) 
+  isAllowChildToApply$: Observable<boolean>;
+  @Select(RegistrationState.user) 
+  user$: Observable<User>;
+  @Select(RegistrationState.parent) 
+  parent$: Observable<ParentWithContactInfo>;
+  parent: ParentWithContactInfo;
+  @Select(UserState.selectedWorkshop) 
+  workshop$: Observable<Workshop>;
+  workshop: Workshop;
 
   ContraindicationAgreementFormControl = new FormControl(false);
   ParentAgreementFormControl = new FormControl(false);
@@ -44,9 +56,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   isContraindicationAgreed: boolean;
   isAttendAgreed: boolean;
   isParentAgreed: boolean;
+  isAllowChildToApply: boolean;
 
-  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
-  workshop: Workshop;
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -56,41 +67,50 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     private store: Store,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
-    public navigationBarService: NavigationBarService) { }
+    public navigationBarService: NavigationBarService
+  ) {
+    this.workshopId = this.route.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
-
+    this.store.dispatch(new GetWorkshopById(this.workshopId));
     this.ParentAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.isParentAgreed = val);
+      .subscribe((val: boolean) => (this.isParentAgreed = val));
     this.AttendAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.isAttendAgreed = val);
+      .subscribe((val: boolean) => (this.isAttendAgreed = val));
     this.ContraindicationAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.isContraindicationAgreed = val);
-
-    this.parent$
-      .pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$))
-      .subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.store.dispatch(new GetAllUsersChildren());
-      });
-
-    this.workshopId = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetWorkshopById(this.workshopId));
-
-    this.workshop$
+      .subscribe((val: boolean) => (this.isContraindicationAgreed = val));
+    this.isAllowChildToApply$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((workshop: Workshop) => this.workshop = workshop);
+      .subscribe((status: boolean) => (this.isAllowChildToApply = status));
 
-    this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-      { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
-    )));
+    combineLatest([this.parent$, this.workshop$])
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(([parent, workshop]) => !!(parent && workshop))
+      ).subscribe(([parent, workshop]) => {
+        this.parent = parent;
+        this.workshop = workshop;
+        this.store.dispatch([
+          new GetAllUsersChildren(),
+          new AddNavPath(
+            this.navigationBarService.createNavPaths(
+              {
+                name: `Гурток "${this.workshop.title}"`,
+                path: `/details/workshop/${this.workshop.id}`,
+                isActive: false,
+                disable: false,
+              },
+              { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
+            )
+          ),
+        ]);
+      });
   }
+
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
@@ -103,11 +123,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
    */
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.createApplication,
-        property: this.workshop.title
-      }
+        property: this.workshop.title,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -116,5 +136,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateApplication(application));
       }
     });
+  }
+
+  onSelectChild(child: MatSelectChange): void {
+    this.store.dispatch(new GetStatusIsAllowToApply(child.value.id, this.workshopId));
   }
 }

@@ -1,0 +1,36 @@
+<div class="wrapper">
+    <div class="tab-wrapper">
+      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+        <mat-tab [label]="historyLogTabsUkr.Provider">
+          <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: provider, tableTitle: 'Provider'}">
+          </ng-container>
+        </mat-tab>
+        <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
+          <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: providerAdmin, tableTitle: 'ProviderAdmin'}">
+          </ng-container>
+        </mat-tab>
+        <mat-tab [label]="historyLogTabsUkr.Application">
+          <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: application, tableTitle: 'Application'}">
+          </ng-container>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <ng-template #HistoryLogTable let-table="table" let-tableTitle="tableTitle">
+      <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+        <ng-container *ngIf="table?.length else isEmptyList;">
+          <div class="table-wrapper">
+            <app-history-log-table [table]="table" [tableTitle]="tableTitle"></app-history-log-table>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #isEmptyList>
+      <div class="table-wrapper">
+        <app-no-result-card [title]="noHistory"></app-no-result-card>
+      </div>
+    </ng-template>
+  </div>
+
+

@@ -1,29 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserConfigComponent } from './user-config/user-config.component';
-import { ApplicationsComponent } from './applications/applications.component';
-import { MessagesComponent } from './messages/messages.component';
+import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
-import { WorkshopsComponent } from './workshops/workshops.component';
-import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
 
 const routes: Routes = [
   {
     path: 'config',
     component: UserConfigComponent
-  },
-  {
-    path: 'workshops',
-    component: WorkshopsComponent,
-  },
-  {
-    path: 'messages',
-    component: MessagesComponent,
-  },
-  {
-    path: 'applications/:param',
-    component: ApplicationsComponent,
   },
   {
     path: 'provider',
@@ -34,11 +18,7 @@ const routes: Routes = [
     path: 'parent',
     loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule),
     canLoad: [ParentGuard]
-  },
-  {
-    path: 'administration/:param',
-    component: ProviderAdminsComponent,
-  },
+  }
 ];
 
 @NgModule({

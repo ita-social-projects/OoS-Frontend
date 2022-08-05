@@ -1,0 +1,54 @@
+@import "src/app/shared/styles/card-wrapper.scss";
+@import "src/app/shared/styles/cards.scss";
+
+.mat-card {
+  margin: 1.3rem;
+}
+
+.wrap-for-details {
+  margin-top: 1em;
+  align-items: flex-start !important;
+  flex-direction: row;
+}
+
+.achievement_title {
+  width: 430px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.card_title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.card_achievement {
+  width: 628px;
+  min-height: 272px;
+}
+
+.achievement_icon {
+  color: #fff;
+}
+.image {
+  margin-right: 1em;
+}
+.achievement_descr {
+  width: 480px;
+  white-space: wrap;
+  overflow-wrap: break-word;
+} 
+
+.show-more {
+  overflow: visible;
+}
+.more_btn {
+  color: #3849F9;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}

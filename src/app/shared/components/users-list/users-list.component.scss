@@ -1,13 +1,5 @@
-table {
-  width: 100%;
-  mat-icon {
-    color: #888;
-  }
-}
-.material-icons {
-  font-size: 16px;
-}
-.provider-admin-status {
+@import "src/app/shared/styles/tables.scss";
+.statuses {
   font-family: 'Open Sans', sans-serif;
   font-weight: 700;
   font-size: 13px;

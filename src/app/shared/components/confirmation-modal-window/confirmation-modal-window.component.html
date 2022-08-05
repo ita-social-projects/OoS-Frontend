@@ -3,6 +3,7 @@
   <p class="confirmation"> {{ modalConfirmationText }} {{ modalConfirmationProperty && '"'+ modalConfirmationProperty +
     '"?'}}
   </p>
+
   <div *ngIf="data.type === modalConfirmationType.rate">
     <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
   </div>
