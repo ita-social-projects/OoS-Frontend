@@ -1,18 +1,43 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterEvent,
+} from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { delay, takeUntil } from 'rxjs/operators';
 import { ToggleMobileScreen } from './shared/store/app.actions';
+import { FilterState } from './shared/store/filter.state';
 import { GetFeaturesList } from './shared/store/meta-data.actions';
+import { RegistrationState } from './shared/store/registration.state';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
+export class AppComponent implements OnInit, OnDestroy {
 
-export class AppComponent implements OnInit {
-  constructor(public store: Store) { }
+  constructor(public store: Store, private router: Router) {
+    this.router.events.subscribe((e: RouterEvent) => {
+      this.navigationInterceptor(e);
+    });
+  }
+
+  @Select(RegistrationState.isLoading)
+  isLoadingUserInfo$: Observable<boolean>;
+  @Select(FilterState.isLoading)
+  isLoadingResultPage$: Observable<boolean>;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   isMobileView: boolean;
+  isLoading: boolean;
+  isLoadingData: boolean;
 
   /**
    * @param event global variable window
@@ -32,5 +57,29 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.isWindowMobile(window);
     this.store.dispatch(new GetFeaturesList());
+
+    combineLatest([this.isLoadingResultPage$, this.isLoadingUserInfo$])
+      .pipe(takeUntil(this.destroy$), delay(0))
+      .subscribe(([isLoadingResult, isLoadingUserInfo]) => {
+        this.isLoadingData = isLoadingResult || isLoadingUserInfo;
+      });
+  }
+
+  navigationInterceptor(event: RouterEvent): void {
+    if (event instanceof NavigationStart) {
+      this.isLoading = true;
+    }
+    if (
+      event instanceof NavigationEnd ||
+      event instanceof NavigationCancel ||
+      event instanceof NavigationError
+    ) {
+      this.isLoading = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

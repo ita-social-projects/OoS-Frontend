@@ -1,5 +1,5 @@
 
-<div class="app-wrapper">
+<div [ngClass]="{ 'hide-content' : isLoading || isLoadingData }" class="app-wrapper">
 
   <mat-drawer-container>
     <div fxLayout="column">
@@ -12,5 +12,10 @@
     </div> 
   </mat-drawer-container>
 
+</div>
+
+<div *ngIf="isLoading || isLoadingData" class="progress-bar">
+  <mat-progress-bar mode="indeterminate">
+  </mat-progress-bar>
 </div>
 
