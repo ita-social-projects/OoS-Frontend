@@ -1,7 +1,9 @@
+import { MinistryAdmin } from './../models/ministryAdmin.model';
 import { Department, Direction, IClass } from "../models/category.model";
 
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from "../models/сompanyInformation.model";
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -178,4 +180,22 @@ export class GetParents {
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
   constructor(public payload?: string) { }
+}
+
+export class GetMinistryAdminProfile {
+  static readonly type = '[admin] Get Ministry Admin Profile';
+  constructor() { }
+}
+
+export class CreateMinistryAdmin {
+  static readonly type = '[user] create Ministry Admin';
+  constructor(public payload: MinistryAdmin) { }
+}
+export class OnCreateMinistryAdminFail {
+  static readonly type = '[user] create Ministry Admin fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+export class OnCreateMinistryAdminSuccess {
+  static readonly type = '[user] create Ministry Admin success';
+  constructor(public payload) { }
 }

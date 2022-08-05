@@ -20,6 +20,7 @@ import {
   CreateClass,
   CreateDepartment,
   CreateDirection,
+  CreateMinistryAdmin,
   DeleteClassById,
   DeleteDepartmentById,
   DeleteDirectionById,
@@ -30,6 +31,7 @@ import {
   GetDirectionById,
   GetFilteredDirections,
   GetLawsAndRegulations,
+  GetMinistryAdminProfile,
   GetParents,
   GetPlatformInfo,
   GetSupportInformation,
@@ -41,6 +43,8 @@ import {
   OnCreateDepartmentSuccess,
   OnCreateDirectionFail,
   OnCreateDirectionSuccess,
+  OnCreateMinistryAdminFail,
+  OnCreateMinistryAdminSuccess,
   OnDeleteClassFail,
   OnDeleteClassSuccess,
   OnDeleteDepartmentFail,
@@ -60,6 +64,9 @@ import {
   UpdateDirection,
   UpdatePlatformInfo,
 } from "./admin.actions";
+import { MinistryAdmin } from "../models/ministryAdmin.model";
+import { MinistryAdminService } from "../services/ministry-admin/ministry-admin.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -74,6 +81,7 @@ export interface AdminStateModel {
   parents: Parent[];
   children: ChildCards;
   providers: Provider[];
+  ministryAdmin: MinistryAdmin;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -90,6 +98,7 @@ export interface AdminStateModel {
     children: null,
     providers: null,
     parents: null,
+    ministryAdmin: null,
   }
 })
 @Injectable()
@@ -118,6 +127,8 @@ export class AdminState {
 
   @Selector() static children(state: AdminStateModel): ChildCards { return state.children };
 
+  @Selector() static ministryAdmin(state: AdminStateModel): MinistryAdmin { return state.ministryAdmin };
+
   constructor(
     private platformService: PlatformService,
     private categoriesService: CategoriesService,
@@ -125,6 +136,7 @@ export class AdminState {
     private childrenService: ChildrenService,
     private router: Router,
     private providerService: ProviderService,
+    private ministryAdmin: MinistryAdminService,
   ) { }
 
   @Action(GetPlatformInfo)
@@ -484,5 +496,54 @@ export class AdminState {
         tap((children: ChildCards) => {
           return patchState({ children: children, isLoading: false });
         }));
+  }
+
+  @Action(GetMinistryAdminProfile)
+  getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>, {}: GetMinistryAdminProfile): Observable<MinistryAdmin>{
+    patchState({ isLoading: true });
+    return this.ministryAdmin
+    .getMinistryAdminProfile()
+    .pipe(
+      tap((ministryAdmin: MinistryAdmin) => {
+        return patchState({ ministryAdmin: ministryAdmin, isLoading: false});
+      }));
+  }
+
+  @Action(CreateMinistryAdmin)
+  createMinistryAdmin(
+    { dispatch }: StateContext<AdminState>,
+    { payload }: CreateMinistryAdmin
+  ): Observable<object> {
+    return this.ministryAdmin.createMinistryAdmin(payload).pipe(
+      tap(res => dispatch(new OnCreateMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error))))
+    );
+  }
+
+  @Action(OnCreateMinistryAdminFail)
+  onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
+    throwError(payload);
+    dispatch(
+      new ShowMessageBar({
+        message: 'На жаль виникла помилка при створенні адміністратора міністерства',
+        type: 'error',
+      })
+    );
+  }
+
+
+  @Action(OnCreateMinistryAdminSuccess)
+  onCreateMinistryAdminSuccess(
+    { dispatch }: StateContext<AdminState>,
+    { payload }: OnCreateMinistryAdminSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: 'Адміністратор міністерства успішно створено',
+        type: 'success',
+      }),
+      new MarkFormDirty(false),
+    ]);
+    this.router.navigate(['/admin-tools/data/admins']);
   }
 }

@@ -1,42 +1,43 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+import { CreateProviderAdminComponent } from 'src/app/shell/personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 
-import { AdminsComponent } from './admins.component';
+import { CreateAdminComponent } from './create-admin.component';
 
-describe('AdminsComponent', () => {
-  let component: AdminsComponent;
-  let fixture: ComponentFixture<AdminsComponent>;
+describe('CreateAdminComponent', () => {
+  let component: CreateAdminComponent;
+  let fixture: ComponentFixture<CreateAdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatTabsModule,
-        MatMenuModule,
-        MatIconModule,
+        MatStepperModule,
+        MatCheckboxModule,
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
+        RouterTestingModule,
         MatDialogModule,
+        NgxsModule.forRoot([]),
       ],
       declarations: [ 
-        AdminsComponent,
-        NoResultCardComponent
-       ]
+        CreateProviderAdminComponent
+      ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminsComponent);
+    fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
