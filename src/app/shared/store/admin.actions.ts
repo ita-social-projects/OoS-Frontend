@@ -72,102 +72,14 @@ export class OnUpdateDirectionSuccess {
   static readonly type = '[admin] update Direction success';
   constructor(public payload) { }
 }
-export class UpdateDepartment {
-  static readonly type = '[admin] update Department';
-  constructor(public payload: Department) { }
-}
-export class OnUpdateDepartmentFail {
-  static readonly type = '[admin] update Ddepartment fail';
-  constructor(public payload: Error) { }
-}
-export class OnUpdateDepartmentSuccess {
-  static readonly type = '[admin] update Department success';
-  constructor(public payload: Department) { }
-}
-export class UpdateClass {
-  static readonly type = '[admin] update Class';
-  constructor(public payload: IClass) { }
-}
-export class OnUpdateClassFail {
-  static readonly type = '[admin] update Class fail';
-  constructor(public payload: Error) { }
-}
-export class OnUpdateClassSuccess {
-  static readonly type = '[admin] update Class success';
-  constructor(public payload: IClass) { }
-}
-export class CreateDepartment {
-  static readonly type = '[admin] create Department';
-  constructor(public payload: Department) { }
-}
-export class OnCreateDepartmentFail {
-  static readonly type = '[admin] create Department fail';
-  constructor(public payload: Error) { }
-}
-export class OnCreateDepartmentSuccess {
-  static readonly type = '[admin] create Department success';
-  constructor(public payload) { }
-}
 export class GetDirectionById {
   static readonly type = '[admin] get Direction By Direction Id';
   constructor(public payload) { }
 }
-export class GetDepartmentById {
-  static readonly type = '[admin] get Department By Department Id';
-  constructor(public payload) { }
-}
-export class GetDepartmentByDirectionId {
-  static readonly type = '[admin] get Department By Direction Id';
-  constructor(public payload: number) { }
-}
+
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
   constructor(public payload?: string) { }
-}
-
-export class CreateClass {
-  static readonly type = '[admin] create Class';
-  constructor(public payload: IClass[]) { }
-}
-export class OnCreateClassFail {
-  static readonly type = '[admin] create Class fail';
-  constructor(public payload: Error) { }
-}
-export class OnCreateClassSuccess {
-  static readonly type = '[admin] create Class success';
-  constructor(public payload) { }
-}
-export class DeleteDepartmentById {
-  static readonly type = '[admin] delete department';
-  constructor(public payload: Department) { }
-}
-export class OnDeleteDepartmentFail {
-  static readonly type = '[admin] delete department fail';
-  constructor(public payload: Error) { }
-}
-export class OnDeleteDepartmentSuccess {
-  static readonly type = '[admin] delete department success';
-  constructor(public payload) { }
-}
-export class DeleteClassById {
-  static readonly type = '[admin] delete Class';
-  constructor(public payload: IClass) { }
-}
-export class OnDeleteClassFail {
-  static readonly type = '[admin] delete Class fail';
-  constructor(public payload: Error) { }
-}
-export class OnDeleteClassSuccess {
-  static readonly type = '[admin] delete Class success';
-  constructor(public payload: IClass) { }
-}
-export class OnClearCategories {
-  static readonly type = '[admin] clear department, direction, class state';
-  constructor( ) { }
-}
-export class OnClearDepartment {
-  static readonly type = '[admin] clear department state';
-  constructor( ) { }
 }
 
 export class GetParents {
