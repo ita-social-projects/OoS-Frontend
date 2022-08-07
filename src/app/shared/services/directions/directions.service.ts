@@ -55,11 +55,4 @@ export class DirectionsService {
   getDirectionById(id: number): Observable<Direction> {
     return this.http.get<Direction>(`/api/v1/Direction/GetById/${id}`);
   }
-
-  deleteDepartmentById(id: number): Observable<object> {
-    return this.http.delete(`/api/v1/Department/Delete/${id}`);
-  }
-  deleteClassById(id: number): Observable<object> {
-    return this.http.delete(`/api/v1/Class/Delete/${id}`);
-  }
 }

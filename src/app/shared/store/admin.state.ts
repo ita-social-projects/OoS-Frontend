@@ -4,7 +4,7 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
-import { DirectionsService } from '../services/categories/directions.service';
+import { DirectionsService } from '../services/directions/directions.service';
 import { ChildCards } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';

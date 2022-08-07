@@ -9,7 +9,7 @@ import { City } from '../models/city.model';
 import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
 import { FeaturesList } from '../models/featuresList.model';
-import { DirectionsService } from '../services/categories/directions.service';
+import { DirectionsService } from '../services/directions/directions.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CityService } from '../services/cities/city.service';
 import { RatingService } from '../services/rating/rating.service';
