@@ -1,11 +1,10 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Department, Direction, DirectionsFilter, IClass } from '../models/category.model';
-import { GetClasses, GetDepartments } from './meta-data.actions';
+import { Direction, DirectionsFilter } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
-import { CategoriesService } from '../services/categories/categories.service';
+import { DirectionsService } from '../services/categories/directions.service';
 import { ChildCards } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';
@@ -54,8 +53,6 @@ export interface AdminStateModel {
   lawsAndRegulations: CompanyInformation;
   isLoading: boolean;
   direction: Direction;
-  department: Department;
-  departments: Department[];
   selectedDirection: Direction;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
@@ -72,8 +69,6 @@ export interface AdminStateModel {
     supportInformation: null,
     lawsAndRegulations: null,
     direction: null,
-    department: null,
-    departments: null,
     isLoading: false,
     filteredDirections: undefined,
     selectedDirection: null,
@@ -109,14 +104,6 @@ export class AdminState {
     return state.direction;
   }
 
-  @Selector() static department(state: AdminStateModel): Department {
-    return state.department;
-  }
-
-  @Selector() static departments(state: AdminStateModel): Department[] {
-    return state.departments;
-  }
-
   @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter {
     return state.filteredDirections;
   }
@@ -147,7 +134,7 @@ export class AdminState {
 
   constructor(
     private platformService: PlatformService,
-    private categoriesService: CategoriesService,
+    private categoriesService: DirectionsService,
     private parentService: ParentService,
     private childrenService: ChildrenService,
     private router: Router,

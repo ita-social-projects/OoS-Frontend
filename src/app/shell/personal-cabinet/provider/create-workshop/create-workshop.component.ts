@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
