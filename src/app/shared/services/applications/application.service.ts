@@ -117,4 +117,17 @@ export class ApplicationService {
       },
     });
   }
+
+    /**
+   * This method Check if exists an any rewiewed application in workshop for parent.
+   * @param id string
+   */
+  getReviewedApplications(parentId: string, workshopId: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/Rating/IsReviewed`, {
+      params: {
+        parentId,
+        workshopId
+      },
+    });
+  }
 }
