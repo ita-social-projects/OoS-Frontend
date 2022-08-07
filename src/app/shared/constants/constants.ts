@@ -30,7 +30,6 @@ export class Constants {
   static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
   static readonly NO_CITY = 'Такого міста немає';
-  static readonly NO_SETTLEMENT = 'Такого населенного пункту немає';
   static readonly KIEV: City = {
     district: 'м.Київ',
     id: 14446,

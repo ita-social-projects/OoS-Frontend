@@ -102,7 +102,6 @@ import {
   GetStatusAllowedToReview,
   GetProviderAdminWorkshops,
   GetChildrenByWorkshopId,
-  GetReviewedApplications,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -131,7 +130,6 @@ export interface UserStateModel {
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
   isAllowedToReview: boolean;
-  isReviewed: boolean;
   approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
@@ -152,8 +150,7 @@ export interface UserStateModel {
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,
-    isAllowedToReview: false,
-    isReviewed: false,
+    isAllowedToReview: false
   },
 })
 @Injectable()
@@ -229,11 +226,6 @@ export class UserState {
   }
 
   @Selector()
-  static isReviewed(state: UserStateModel): boolean {
-    return state.isReviewed;
-  }
-
-  @Selector()
   static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
 
   constructor(
@@ -294,8 +286,8 @@ export class UserState {
     patchState({ isLoading: true });
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
       tap((approvedChildren: ChildCards) => {
-        return patchState(approvedChildren
-          ? { approvedChildren: approvedChildren, isLoading: false }
+        return patchState(approvedChildren 
+          ? { approvedChildren: approvedChildren, isLoading: false } 
           : { approvedChildren: {totalAmount: 0, entities: []}, isLoading: false });
       })
     );
@@ -921,21 +913,6 @@ export class UserState {
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowedToReview: status, isLoading: false });
-        })
-      );
-  }
-
-  @Action(GetReviewedApplications)
-  getReviewedApplications(
-    { patchState }: StateContext<UserStateModel>,
-    { parentId, workshopId }: GetReviewedApplications
-  ): Observable<boolean> {
-    patchState({ isLoading: true });
-    return this.applicationService
-      .getReviewedApplications(parentId, workshopId)
-      .pipe(
-        tap((status: boolean) => {
-          return patchState({ isReviewed: status, isLoading: false });
         })
       );
   }

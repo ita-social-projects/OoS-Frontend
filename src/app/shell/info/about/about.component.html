@@ -1,18 +1,20 @@
-<ng-container *ngIf="!(isLoading$ | async)">
-  <div *ngIf="(platformInformation$ | async)?.companyInformationItems.length; else noInfo">
-    <div class="info-content">
-      <div>
-        <h2 class="info-title">{{ platformInformation?.title }}</h2>
+<div *ngIf="(platformInformation$ | async)?.companyInformationItems.length; else noInfo">
+  <div class="info-content">
+    <div>
+      <h2 class="info-title">{{ (platformInformation$ | async).title }}</h2>
+    </div>
+    <div class="info-text">
+      <div *ngFor="let item of (platformInformation$ | async)?.companyInformationItems">
+        <p><strong>{{ item.sectionName }}</strong></p>
+        <p>{{ item.description }}</p>
       </div>
-      <div class="info-text">
-        <div *ngFor="let item of platformInformation?.companyInformationItems">
-          <p><strong>{{ item.sectionName }}</strong></p>
-          <p>{{ item.description }}</p>
-        </div>
-      </div>
+      <p>
+        Ваші пропозиції по покращенню роботи сервісу можна надсилати:<a href="mailto:pozashkillia@gmail.com"
+          target="_blank"><span class="info-link"> Pozashkillia@gmail.com</span></a>
+      </p>
     </div>
   </div>
-  <ng-template #noInfo>
-    <div class="info-no-content">Інформації поки немає</div>
-  </ng-template>
-</ng-container>
+</div>
+<ng-template #noInfo>
+  <div class="info-no-content">Інформації поки немає</div>
+</ng-template>

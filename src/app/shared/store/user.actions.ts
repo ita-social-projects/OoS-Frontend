@@ -54,10 +54,6 @@ export class GetStatusAllowedToReview {
   static readonly type = '[user] get parent status By parent id';
   constructor(public parentId: string, public workshopId: string) { }
 }
-export class GetReviewedApplications {
-  static readonly type = '[user] get reviewed applications By parent id';
-  constructor(public parentId: string, public workshopId: string) { }
-}
 export class GetApplicationsByProviderId {
   static readonly type = '[user] get Applications By Provider Id';
   constructor(public id: string, public parameters: ApplicationParameters) { }
