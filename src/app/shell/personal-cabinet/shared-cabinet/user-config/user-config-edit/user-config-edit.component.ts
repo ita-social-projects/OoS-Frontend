@@ -78,7 +78,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
 
     this.store.dispatch(
