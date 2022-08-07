@@ -1,4 +1,4 @@
-<div class="create-form">
+<div class="create-form" *ngIf="!(isLoading$ | async)">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАТИ' : 'ДОДАТИ' }} НАПРЯМОК</h3>
@@ -19,7 +19,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
           <button [disabled]="directionFormGroup.invalid" class="btn" (click)="onSubmit()" mat-raised-button>
-            Далі
+            Зберегти
           </button>
         </div>
       </form>

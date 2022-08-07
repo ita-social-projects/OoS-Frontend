@@ -16,6 +16,7 @@ import { PlatformService } from '../services/platform/platform.service';
 import { Provider } from '../models/provider.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { Router } from "@angular/router";
+import { Location } from '@angular/common';
 import {
   CreateClass,
   CreateDepartment,
@@ -64,6 +65,8 @@ import {
 } from "./admin.actions";
 import {ApplicationsHistory, ProviderAdminsHistory, ProvidersHistory} from "../models/history-log.model";
 import {HistoryLogService} from "../services/history-log/history-log.service";
+import { OnPageChangeDirections } from "./paginator.actions";
+import { PaginationConstants } from "../constants/constants";
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation,
@@ -142,6 +145,7 @@ export class AdminState {
     private router: Router,
     private providerService: ProviderService,
     private historyLogService: HistoryLogService,
+    private location: Location,
   ) { }
 
   @Action(GetPlatformInfo)
@@ -265,6 +269,7 @@ export class AdminState {
       new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' })
     ]);
     patchState({direction: payload});
+    this.location.back();
     console.log('Direction is created', payload);
   }
   @Action(UpdateDirection)
@@ -287,8 +292,11 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new GetDirectionById(payload.id),
-      new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' })
+      new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' }),
+      new OnPageChangeDirections(PaginationConstants.firstPage),
+      new GetFilteredDirections(),
     ]);
+    this.location.back();
     console.log('Direction is updated', payload);
   }
 

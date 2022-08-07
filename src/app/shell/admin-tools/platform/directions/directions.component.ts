@@ -12,7 +12,7 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 import {
   DeleteDirectionById,
@@ -35,10 +35,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);
   isEditMode: true;
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true,
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(private store: Store, private matDialog: MatDialog) {}
 

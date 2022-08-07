@@ -1,5 +1,5 @@
 import { Child } from 'src/app/shared/models/child.model';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -147,10 +147,7 @@ export interface UserStateModel {
     selectedChild: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
-    currentPage: {
-      element: 1,
-      isActive: true,
-    },
+    currentPage: PaginationConstants.firstPage,
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,

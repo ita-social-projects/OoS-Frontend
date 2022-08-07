@@ -1,3 +1,4 @@
+import { GetDirectionById } from './../../../../../shared/store/admin.actions';
 import { CreateDirection, UpdateDirection } from 'src/app/shared/store/admin.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -32,6 +33,8 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 export class CreateDirectionComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
   direction$: Observable<Direction>;
+  @Select(AdminState.isLoading)
+  isLoading$: Observable<boolean>;
 
   directionFormGroup: FormGroup;
 
@@ -80,14 +83,15 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   }
 
   setEditMode(): void {
+    const directionId = this.route.snapshot.paramMap.get('param');
+    this.store.dispatch(new GetDirectionById(directionId));
+
     this.direction$
       .pipe(
         takeUntil(this.destroy$),
         filter((direction: Direction) => !!direction)
       )
-      .subscribe((direction: Direction) => {
-        this.directionFormGroup.patchValue(direction, { emitEvent: false });
-      });
+      .subscribe((direction: Direction) => this.directionFormGroup.patchValue(direction, { emitEvent: false }));
   }
 
   onSubmit(): void {

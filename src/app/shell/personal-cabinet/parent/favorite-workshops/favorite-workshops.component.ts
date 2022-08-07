@@ -11,6 +11,7 @@ import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ParentComponent } from '../parent.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-favorite-workshops',
@@ -23,10 +24,7 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
 
   @Select(UserState.favoriteWorkshopsCard)
   favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
