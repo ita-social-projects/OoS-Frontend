@@ -1,8 +1,10 @@
 <div class="create-form" fxLayout="column" fxLayoutAlign="center center">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-            <h3 class="wrapper-title"> ДОДАТИ АДМІНА МІНІСТЕРСТВА</h3>
-            <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. Пароль є тимчасовим і повинен бути заміненим при першому вході </p>
+      <h3 class="wrapper-title">
+        {{(adminRole === adminsRole.ministryAdmin) ? 'ДОДАТИ АДМІНА МІНІСТЕРСТВА' : adminRole === adminsRole.regionAdmiin ? 'ДОДАТИ АДМІНА ОБЛАСТІ' : 'ДОДАТИ АДМІНА ОТГ'}}
+      </h3>
+      <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. Пароль є тимчасовим і повинен бути заміненим при першому вході </p>
     </div>
 
     <form [formGroup]="AdminFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
