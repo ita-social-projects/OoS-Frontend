@@ -9,6 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsersComponent } from './users/users.component';
 import { DataComponent } from './data.component';
 import { AdminsComponent } from './admins/admins.component';
+import { CreateAdminComponent } from './admins/create-admin/create-admin.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AdminsComponent } from './admins/admins.component';
     UsersComponent,
     DataComponent,
     AdminsComponent,
+    CreateAdminComponent
   ],
   imports: [
     CommonModule,
