@@ -35,7 +35,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('keyWordsInput') keyWordsInputElement: ElementRef;
 
-  CategoriesFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
   SectionItemsFormArray = new FormArray([]);
 
@@ -56,11 +55,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
       ]),
       keyWords: new FormControl(''),
-      categories: this.formBuilder.group({
-        directionId: new FormControl('', Validators.required),
-        departmentId: new FormControl('', Validators.required),
-        classId: new FormControl('', Validators.required),
-      }),
       institutionHierarchyId: new FormControl('', Validators.required),
       institutionId: new FormControl('', Validators.required),
       workshopDescriptionItems: this.SectionItemsFormArray,

@@ -1,4 +1,4 @@
-import { Department, Direction, IClass } from '../models/category.model';
+import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
 
 export class GetDirections {
@@ -8,17 +8,6 @@ export class GetDirections {
 export class GetTopDirections {
   static readonly type = '[meta-data] Get Top Directions';
 }
-
-export class GetDepartments {
-  static readonly type = '[meta-data] Get Departments by Direction Id';
-  constructor(public payload: number) { }
-}
-
-export class GetClasses {
-  static readonly type = '[meta-data] Get Classes by Department Id ';
-  constructor(public payload: number) { }
-}
-
 export class CityList {
   static readonly type = '[meta-data] Get list of cities';
   constructor(public payload: City[]) { }
@@ -32,14 +21,6 @@ export class GetSocialGroup {
 export class GetInstitutionStatus{
   static readonly type = '[meta-data] Get GetInstitutionStatus';
   constructor() { }
-}
-
-export class ClearClasses {
-  static readonly type = '[meta-data] clear classes state';
-}
-
-export class ClearDepartments {
-  static readonly type = '[meta-data] clear departments state';
 }
 
 export class GetCities {
@@ -58,16 +39,6 @@ export class ClearRatings {
 export class FilteredDirectionsList {
   static readonly type = '[meta-data] Get list of filtered directions';
   constructor(public payload: Direction[]) { }
-}
-
-export class FilteredDepartmentsList {
-  static readonly type = '[meta-data] Get list of filtered departments';
-  constructor(public payload: Department[]) { }
-}
-
-export class FilteredClassesList {
-  static readonly type = '[meta-data] Get list of filtered classes';
-  constructor(public payload: IClass[]) { }
 }
 
 export class GetRateByEntityId {

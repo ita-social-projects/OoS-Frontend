@@ -51,7 +51,11 @@ export class PaginationConstants {
   static readonly PAGINATION_DOTS = '...';
   static readonly PAGINATION_SHIFT_DELTA = 3;
   static readonly ITEMS_PER_PAGE_TEN = 10;
-  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332))
+  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332));
+  static readonly firstPage = {
+    element: 1,
+    isActive: true
+  };
 };
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {

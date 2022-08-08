@@ -38,8 +38,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutionFieldDesc)
   institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
-  @Select(MetaDataState.isLoading)
-  isLoading$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   hierarchyArray: HierarchyElement[] = [];
@@ -48,6 +46,8 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new GetAllInstitutions());
+
     this.editMode = !!this.instituitionIdFormControl.value;
 
     this.setInitialInstitution();
@@ -58,19 +58,20 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setInitialInstitution(): void {
-    const institutionId = this.editMode ? this.instituitionIdFormControl.value : this.provider.institution.id;
+  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
+  }
 
-    this.instituitionIdFormControl.setValue(institutionId, { emitEvent: false });
+  private setInitialInstitution(): void {
+    const institutionId = this.editMode ? this.instituitionIdFormControl.value : this.provider.institution?.id;
+    if (institutionId) {
+      this.instituitionIdFormControl.setValue(institutionId, { emitEvent: false });
+      this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value));
+    }
 
     this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
     });
-
-    this.store.dispatch([
-      new GetAllInstitutions(),
-      new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value),
-    ]);
 
     this.instituitionsHierarchy$
       .pipe(
