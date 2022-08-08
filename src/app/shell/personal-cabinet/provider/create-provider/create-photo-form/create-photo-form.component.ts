@@ -30,7 +30,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality,
-  }
+  };
 
   @Input() provider: Provider;
 
@@ -84,9 +84,12 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
     this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
     if (this.provider.providerSectionItems?.length) {
-      this.provider.providerSectionItems.forEach((item: ProviderSectionItem) =>
-        this.SectionItemsFormArray.push(this.newForm(item))
-      );
+      this.provider.providerSectionItems.forEach((item: ProviderSectionItem) => {
+        const itemFrom = this.newForm(item);
+
+        this.SectionItemsFormArray.controls.push(itemFrom);
+        this.SectionItemsFormArray['_registerControl'](itemFrom);
+      });
     } else {
       this.onAddForm();
     }
