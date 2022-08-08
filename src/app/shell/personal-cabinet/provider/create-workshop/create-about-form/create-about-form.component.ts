@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -15,12 +15,15 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
   styleUrls: ['./create-about-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   readonly workshopType = WorkshopType;
   readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix = Constants.PHONE_PREFIX;
+  readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
+  readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -46,15 +49,44 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   priceRadioBtn: FormControl = new FormControl(false);
   useProviderInfoCtrl: FormControl = new FormControl(false);
+  availableSeatsRadioBtnControl: FormControl = new FormControl(true);
 
   // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
+  }
+
+  ngOnInit(): void {
+    this.initForm();
+    this.initListeners();
+
+    this.PassAboutFormGroup.emit(this.AboutFormGroup);
+    this.workshop && this.activateEditMode();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  get availableSeatsControl(): FormControl {
+    return this.AboutFormGroup.get('availableSeats') as FormControl;
+  }
+
+  get maxAvailableSeats(): number {
+    return this.workshop?.availableSeats ?? this.UNLIMITED_SEATS;
+  }
+
+  private get availableSeats(): number {
+    return this.workshop?.availableSeats === this.UNLIMITED_SEATS ? this.MIN_SEATS : this.workshop?.availableSeats;
+  }
+
+  private initForm(): void {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -66,18 +98,18 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
-      payRate: new FormControl({value: null, disabled: true }, [Validators.required]),
+      payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
+      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required])
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
     });
-    this.onPriceCtrlInit();
-    this.useProviderInfo();
   }
 
-  ngOnInit(): void {
-    this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.workshop && this.activateEditMode();
+  private initListeners(): void {
+    this.onPriceCtrlInit();
+    this.useProviderInfo();
+    this.availableSeatsControlListener();
   }
 
   /**
@@ -89,10 +121,28 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * This method add listener to availableSeats control and
+   * makes formGroup input enable if radiobutton value is true
+   */
+  private availableSeatsControlListener(): void {
+    this.availableSeatsRadioBtnControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((noLimit: boolean) => {
+        if (noLimit) {
+          this.availableSeatsControl.disable({ emitEvent: false });
+          this.availableSeatsControl.setValue(0, { emitEvent: false });
+        } else {
+          this.availableSeatsControl.enable({ emitEvent: false });
+          this.availableSeatsControl.setValue(this.availableSeats, { emitEvent: false });
+        }
+      });
+  }
+
   private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
     this.AboutFormGroup.get('price')[action]({ emitEvent });
     this.AboutFormGroup.get('price').setValue(price, { emitEvent });
-    this.AboutFormGroup.get('payRate')[action]({emitEvent});
+    this.AboutFormGroup.get('payRate')[action]({ emitEvent });
     this.AboutFormGroup.get('payRate').setValue(price, { emitEvent });
   };
 
@@ -118,10 +168,20 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
-    if(this.workshop.price){
+    if (this.workshop.price) {
       this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, {emitEvent : false});
+      this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, { emitEvent: false });
+    }
+
+    if (this.workshop.availableSeats) {
+      if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
+        this.availableSeatsControl.reset(null, { emitEvent: false });
+      } else {
+        this.availableSeatsRadioBtnControl.setValue(false, { emitEvent: false });
+        this.availableSeatsControl.enable({ emitEvent: false });
+        this.availableSeatsControl.setValue(this.workshop.availableSeats, { emitEvent: false });
+      }
     }
   }
 
@@ -145,9 +205,4 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   //       this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
   //     );
   // }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
 }

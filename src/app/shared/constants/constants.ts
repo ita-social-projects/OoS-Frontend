@@ -11,6 +11,8 @@ export class Constants {
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
+  static readonly WORKSHOP_MIN_SEATS = 1;
+  static readonly WORKSHOP_UNLIMITED_SEATS = 4294967295;
 
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
