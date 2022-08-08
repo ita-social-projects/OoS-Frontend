@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> Повне співпадіння </mat-checkbox>
+    <mat-checkbox color="primary" [formControl]="isStrictWorkdaysControl"> Повне співпадіння </mat-checkbox>
   </div>
   <p class="filter-text title">Години роботи</p>
 
@@ -49,7 +49,7 @@
     </mat-form-field>
   </div>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> Повне співпадіння </mat-checkbox>
+    <mat-checkbox color="primary" [formControl]="isStrictHoursControl"> Повне співпадіння </mat-checkbox>
   </div>
   <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
   </ngx-mat-timepicker>

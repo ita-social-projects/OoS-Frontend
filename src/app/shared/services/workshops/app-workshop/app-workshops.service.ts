@@ -73,6 +73,11 @@ export class AppWorkshopsService {
       params = params.set('WithDisabilityOptions', 'true');
     }
 
+
+    if (filters.isStrictWorkdays) {
+      params = params.set('IsStrictWorkdays', 'true');
+    }
+
     if (filters.order) {
       params = params.set('OrderByField', filters.order);
     }
@@ -128,7 +133,7 @@ export class AppWorkshopsService {
 
     params = params.set('Limit', size.toString());
     params = params.set('City', filters.city?.name ?? Constants.KIEV.name);
-    
+
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }
 }
